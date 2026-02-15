@@ -1,198 +1,187 @@
 # Astronaut, LLC — EHI Export Documentation
 
-Collected: 2025-02-14
+Collected: 2026-02-14
 
 ## Source
 - Registered URL: https://astronautehr.com/index.php/disclosures/export-format-documentation/
-- CHPL ID: 10809
-- CHPL Product Number: 15.02.05.3099.ASTR.01.00.1.220201
-- Product: Astronaut EHR, Version 1709
-- Developer: Astronaut, LLC
+- CHPL IDs: 10809
+- Product: Astronaut (version 1709, certified 2022-02-01)
 
 ## Navigation Journal
 
-1. **HTTP probe** of the registered URL:
-   ```
-   curl -sI -L "https://astronautehr.com/index.php/disclosures/export-format-documentation/" -H 'User-Agent: Mozilla/5.0'
-   ```
-   Returned HTTP 200, `Content-Type: text/html; charset=UTF-8`. WordPress site behind Cloudflare. No redirect.
+1. Probed the registered URL with curl — returned HTTP 200, Content-Type: text/html, served via Cloudflare.
 
-2. **Fetched HTML page** and searched for downloadable files:
-   ```
-   curl -sL "https://astronautehr.com/index.php/disclosures/export-format-documentation/" -H 'User-Agent: Mozilla/5.0' -o /tmp/page.html
-   grep -oiE 'href="[^"]*\.(pdf|zip|xlsx|csv|json)[^"]*"' /tmp/page.html
-   ```
-   Found one PDF link: `https://astronautehr.com/wp-content/uploads/2025/08/Astronaut-EHR-Export-Format-Documentation.pdf`
+```bash
+curl -sI -L "https://astronautehr.com/index.php/disclosures/export-format-documentation/" -H 'User-Agent: Mozilla/5.0'
+```
 
-3. **Page structure**: The WordPress page titled "Export Format Documentation" embeds the PDF inline via an `<object>` tag (which fails to render in browsers without a PDF plugin, showing "Couldn't load plugin.") and provides a download link. No other documentation files are linked.
+2. Fetched the page HTML (47,355 bytes). It's a simple WordPress page titled "Export Format Documentation" with a single embedded PDF viewer and download link.
 
-4. **Downloaded the PDF**:
-   ```
-   curl -sL -H 'User-Agent: Mozilla/5.0' -o Astronaut-EHR-Export-Format-Documentation.pdf \
-     'https://astronautehr.com/wp-content/uploads/2025/08/Astronaut-EHR-Export-Format-Documentation.pdf'
-   ```
-   Confirmed: PDF document, version 1.4, 10 pages, 222,805 bytes. Produced by "Skia/PDF m141 Google Docs Renderer" (i.e., created in Google Docs).
+3. Found one downloadable file:
+```
+href="https://astronautehr.com/wp-content/uploads/2025/08/Astronaut-EHR-Export-Format-Documentation.pdf"
+```
+The PDF is embedded via a `<object>` tag with a PDF preview and a "Download" button.
 
-5. **Checked parent disclosures page** (`/index.php/disclosures/`) — lists all certified criteria but contains no additional EHI export documentation files beyond the same link.
+4. Downloaded the PDF:
+```bash
+curl -sL "https://astronautehr.com/wp-content/uploads/2025/08/Astronaut-EHR-Export-Format-Documentation.pdf" \
+  -H 'User-Agent: Mozilla/5.0' \
+  -o Astronaut-EHR-Export-Format-Documentation.pdf
+```
+Verified: `file` reports "PDF document, version 1.4, 10 page(s)" (pdfinfo says 10 pages), 222,805 bytes. Produced with Google Docs Renderer.
 
-6. **Took screenshot** of the export format documentation page for reference.
+5. Took a full-page screenshot of the documentation page in a browser.
+
+6. Checked the parent disclosures page (https://astronautehr.com/index.php/disclosures/) for additional EHI-specific content — it links to the export format documentation page, an APIs page, FHIR base URLs, and real-world testing docs, but no additional EHI export documentation beyond the PDF already downloaded.
+
+No other files, data dictionaries, schemas, or sample exports were found.
 
 ## What Was Found
 
-The sole artifact is a 10-page PDF titled "Export Format Documentation" (copyright 2023). It describes the EHI export mechanism for Astronaut EHR.
+The entire EHI export documentation consists of a single 10-page PDF titled "Astronaut EHR Export Format Documentation" (Copyright 2023).
 
 ### Export Format
 
-The export uses a **dual-format approach**:
+The export uses a **dual format**:
 
-1. **C-CDA (Consolidated Clinical Document Architecture) XML** — for the majority of clinical EHI data. The document describes 16 C-CDA sections that are included.
+1. **C-CDA (XML)** for the majority of clinical data — the document describes this as the primary export format.
+2. **Proprietary CSV** for "advanced demographics and remaining EHI" — data that doesn't fit into the C-CDA structure.
 
-2. **Proprietary CSV** — for "advanced demographics and remaining EHI" that doesn't fit into C-CDA. The CSV uses a simple name-value pair format: `Place of Birth, USA, Mother's Maiden Name, Annabelle, Spouse's Employer Name, Astronaut LLC, Date of Retirement, 10/31/2023…`
+### How Data Is Accessed
 
-### Access Method
+The documentation states that data is stored on a **FHIR server** where patient information is continuously uploaded and updated. To export:
+- An authorized user must be granted permission by Astronaut EHR IT staff.
+- IT staff walk the user through the extraction process.
+- Users can perform **Single Patient Export** or **Bulk Patient Export** through the FHIR server's capabilities.
 
-Data is stored on a FHIR server. Authorized users must be granted permission by Astronaut EHR's IT staff, who walk them through the extraction process. Both **Single Patient Export** and **Bulk Patient Export** are available. Access requires authorization — it is not self-service.
+This is notable: the export requires IT staff involvement rather than being a self-service function.
 
 ### C-CDA Sections Documented
 
-The PDF describes these C-CDA sections (each with a paragraph-level summary paraphrased from HL7's C-CDA documentation):
+The PDF lists 16 C-CDA sections with brief summaries of each (largely paraphrased from HL7's C-CDA documentation):
 
-| # | Section | Content |
-|---|---------|----------|
-| 1 | Allergies | Medication allergies, adverse reactions, anaphylaxis |
-| 2 | Immunizations | Current status and relevant history |
-| 3 | Medications | Current prescriptions, drug monitoring |
-| 4 | Plan of Treatment | Pending orders, interventions, encounters |
-| 5 | Goals | Patient-defined and health concern-specific goals |
-| 6 | Problem(s) | Clinical problems and diagnoses |
-| 7 | Results (Lab) | Lab, imaging, and procedure results |
-| 8 | Vitals | Blood pressure, heart rate, respiratory rate, etc. |
-| 9 | Procedures | Surgical, diagnostic, therapeutic procedures |
-| 10 | Social History | Smoking status, pregnancy, etc. |
-| 11 | Encounters | Healthcare encounters |
-| 12 | Functional Status | ADLs, IADLs, functional abilities |
-| 13 | Medical Equipment | Implantable and external medical devices |
-| 14 | Assessments | Clinician conclusions and working assumptions |
-| 15 | Advanced Demographics | Via proprietary CSV (see below) |
-| 16 | Remaining EHI | Via proprietary CSV (see below) |
+1. Allergies
+2. Immunizations
+3. Medications
+4. Plan of Treatment
+5. Goals
+6. Problems (diagnoses)
+7. Results (Lab) — including hematology, chemistry, serology, virology, toxicology, microbiology, imaging, pathology
+8. Vitals
+9. Procedures
+10. Social History
+11. Encounters
+12. Functional Status
+13. Medical Equipment
+14. Assessments
+15. Header section (demographics, author info, timestamps)
+16. "Advanced Demographics and Remaining EHI" (CSV supplement)
 
-### C-CDA Format Guide
+### CSV Supplement
 
-The PDF includes a basic XML format guide showing the hierarchical structure of C-CDA documents (header with patient demographics and author info, body sections with entries). This is generic C-CDA structure explanation, not Astronaut-specific.
+For data not fitting C-CDA, the vendor provides a proprietary CSV format. The documentation describes this as name-value pairs:
 
-### Proprietary CSV for Remaining Data
+> `Place of Birth, USA, Mother's Maiden Name, Annabelle, Spouse's Employer Name, Astronaut LLC, Date of Retirement, 10/31/2023…(etc)`
 
-The "Advanced Demographics and Remaining EHI" section (page 9) explains that data not fitting into C-CDA is bundled in CSV format using a name-value pair convention. The example given:
+Categories with no data are excluded. The documentation claims this covers "all available data."
 
-```
-Place of Birth, USA, Mother's Maiden Name, Annabelle, Spouse's Employer Name, Astronaut LLC, Date of Retirement, 10/31/2023…
-```
+### Documentation Depth
 
-The documentation states: "The way the remaining EHI data is bundled is optimized to be easy to understand while also excluding categories that have no data assigned to them. The user can rest assured that all available data will be present upon exportation."
+The PDF provides:
+- A brief XML structural overview of C-CDA (header, body sections, entry elements) with code snippets
+- A one-paragraph summary of each C-CDA section
+- A single fictional example of the CSV format
+- A reference to HL7's C-CDA documentation for syntax specifics
 
-No schema, field list, or data dictionary for the CSV portion is provided.
+It does **not** provide:
+- A data dictionary or field-level definitions
+- Schema files (XSD, JSON Schema, etc.)
+- Sample export files
+- Value set definitions
+- Mapping between Astronaut EHR's internal data model and C-CDA/CSV output
+- Specifics on which VistA FileMan files/fields are exported
 
 ## Export Coverage Assessment
 
 ### Data Domain Coverage
 
-Astronaut EHR is built on VistA, a comprehensive health information system with hundreds of FileMan data files, and targets behavioral health / psychiatry. The product research identified these key data domains:
-
-**Clearly covered by C-CDA sections:**
-- Patient demographics (C-CDA header + CSV for "advanced" demographics)
+**Clearly covered (via C-CDA):**
+- Demographics (header)
+- Problem/diagnosis lists
+- Medications
 - Allergies
-- Medications / prescriptions
-- Problems / diagnoses
-- Lab results
+- Lab results (broad scope — pathology, imaging, microbiology, etc.)
 - Vital signs
 - Immunizations
 - Procedures
-- Social history
+- Clinical notes/assessments
 - Encounters
-- Goals
-- Plan of treatment
-- Assessments
-- Medical equipment / implantable devices
+- Goals and plan of treatment
 - Functional status
+- Medical equipment / implantable devices
+- Social history
 
-**Potentially covered by "Remaining EHI" CSV (but not enumerated):**
-- Billing data (inpatient and outpatient billing lists, ICD/CPT codes)
-- Scheduling / appointments
-- Clinical notes (Touch Note™, Rocket Note™, etc.)
-- Order entry (CPOE for medications, lab, imaging)
-- Decision support interventions
-- Audit logs
-- Patient consents
-- E-prescribing records (via NewCrop/Surescripts)
-- Supervision records (Turbo Supervision™)
-- Clinical quality measure data
+**Claimed covered via CSV supplement:**
+- "Advanced demographics" — the example shows place of birth, mother's maiden name, spouse's employer, date of retirement
+- "Remaining EHI" — described as everything not in the C-CDA
 
-**Likely missing or unclear:**
-- **Psychiatric-specific assessments** — PHQ-9 scores, suicide risk assessments, substance use disorder treatment data. These are core to the product's behavioral health focus. It's unclear whether the generic "Assessments" C-CDA section captures these structured instruments or whether they're in the CSV catch-all.
-- **Clinical notes / documents** — Not mentioned as a C-CDA section. VistA-based systems have extensive clinical documentation. Where do full clinical notes go?
-- **E-prescribing records** — The product uses NewCrop (DrFirst) for e-prescribing. Whether locally-stored prescription transmission records are exported is unknown.
-- **Billing / claims data** — Astronaut added full integrated billing in 2020. No mention of billing data in the export documentation.
-- **Scheduling data** — Not mentioned.
-- **Audit logs** — Not mentioned.
-- **VistA FileMan data** — As a VistA-based system, the underlying database potentially contains data in hundreds of FileMan files. The export documentation gives no indication of how much of this data is captured.
-- **Psychotherapy notes** — Explicitly excluded per the PDF ("excluding psychotherapy notes" per 45 CFR 164.502), which is legally appropriate.
+**Apparently missing or not mentioned:**
+- **Billing data** — no mention of charges, claims, payments, billing codes, or financial records. The product research indicates Astronaut has some billing capabilities ("Rocket Note" for billing, "billers" on staff), but the export documentation is silent on billing data.
+- **Scheduling data** — appointments, visit scheduling information are not mentioned beyond encounter records.
+- **E-prescribing details** — Newcrop/Surescripts prescription transmission records are not specifically addressed. Medications are covered via C-CDA, but the integration-specific data (EPCS records, prescription transmission status) is not discussed.
+- **Clinical orders (CPOE)** — the C-CDA "Plan of Treatment" covers pending orders, but historical completed orders beyond what's captured in results/procedures/medications are not specifically addressed.
+- **Consult requests/notes** — while "Encounters" and "Assessments" may partially cover this, dedicated consult tracking isn't mentioned.
+- **Clinical Decision Support data** — drug interaction alerts, CDS triggers.
+- **Documents and images** — no mention of scanned documents, attached images, or external records incorporated into the chart.
 
-The fundamental problem is that the "Remaining EHI" CSV is described as a catch-all but **no enumeration of what it contains is provided**. The documentation says "all available data will be present" but gives no field list, no schema, and only one fictional demographic example. There is no way to verify coverage without actually running an export.
+**Ambiguous:**
+- The CSV "remaining EHI" supplement is described vaguely enough that it *could* cover many of these gaps, but without a data dictionary or field listing, it's impossible to verify. The only example given is demographic data (place of birth, maiden name, etc.), not clinical or billing data.
+- The documentation references "the designated record set defined in 45 CFR 164.502, excluding psychotherapy notes," which suggests awareness of the (b)(10) scope, but doesn't enumerate what's actually included.
 
 ### Export Format & Standards
 
-- **Primary format**: C-CDA XML — a recognized HL7 standard, well-suited for clinical data exchange
-- **Secondary format**: Proprietary CSV with name-value pairs — non-standard, ad-hoc
-- **Access**: Via FHIR server with IT-assisted authorization
-- **C-CDA version**: References "C-CDA on FHIR v2.0.0-ballot" but actual C-CDA profile constraints are not specified
-- **No FHIR resource mapping** — Despite data being stored on a FHIR server, the export itself is C-CDA + CSV, not FHIR NDJSON
+The C-CDA portion uses a recognized healthcare standard (HL7 C-CDA XML), which is appropriate for the clinical data it covers. The vendor refers users to HL7's official C-CDA documentation for syntax details rather than providing their own field-level specification.
 
-The C-CDA portion covers standard clinical data well. The CSV portion is concerning — the name-value pair format (without headers, just alternating key/value in a flat list) is unusual and potentially difficult to parse programmatically, especially for complex or nested data.
+The CSV supplement uses a non-standard, proprietary name-value pair format. The lack of a formal schema or field listing makes it difficult to assess what data is actually included. A name-value pair format without a header row or defined structure would be challenging for a third party to reliably parse and import.
 
-The format choice is reasonable for a small vendor — C-CDA is appropriate for clinical data, and CSV is a pragmatic choice for the remainder. However, the lack of any schema or field documentation for the CSV portion significantly undermines its utility.
+The export format is **not FHIR** despite data being stored on a FHIR server — they export as C-CDA + CSV, not FHIR resources. This is a reasonable approach for (b)(10), since C-CDA covers the clinical core and the CSV supplement can (in theory) capture everything else.
 
 ### Documentation Quality
 
-**Poor.** This is a 10-page document that is more of a conceptual overview than actionable technical documentation:
+The documentation is minimal and high-level:
 
-- **No data dictionary** — There is no field-level documentation for either the C-CDA sections or the CSV export. The C-CDA section descriptions are paragraph summaries paraphrased from HL7's website, not Astronaut-specific field mappings.
-- **No schema files** — No XSD, no sample C-CDA, no CSV schema
-- **No sample export files** — No examples of actual exported data
-- **No field definitions** — No column names, data types, value sets, or constraints
-- **No relationship documentation** — No description of how C-CDA and CSV files relate to each other in an export package
-- **No export instructions** — The "Accessing Data" section says IT staff will "walk an end-user through the process" but provides no actual steps
-- **Generic C-CDA explanation** — Three pages are spent explaining basic XML structure and C-CDA concepts that are standard HL7 knowledge, not Astronaut-specific
-- **No versioning or change history** — Copyright 2023, but the PDF was uploaded to the August 2025 directory, suggesting an update with no version tracking
+- **No data dictionary** — there is no field-level specification for either the C-CDA content or the CSV supplement.
+- **No schema files** — no XSD, JSON Schema, or other machine-readable artifact.
+- **No sample exports** — no example C-CDA document or example CSV file beyond the single fictional demographic snippet.
+- **No value set documentation** — coded fields are not enumerated.
+- **Reliance on external standards** — the document essentially says "our C-CDA follows HL7's C-CDA spec" and points users to HL7's website for details.
+- **Minimal CSV documentation** — a single example line of demographic name-value pairs is the entire specification for the proprietary format.
 
-A developer attempting to import this data would have **no way to build an importer** from this documentation alone. They would need to: (1) obtain an actual export, (2) reverse-engineer the C-CDA profiles used, and (3) reverse-engineer the CSV format from sample data.
+A developer attempting to build an import for this data would not have enough information from this documentation alone. They would need to work from the HL7 C-CDA specification for the XML portion and reverse-engineer the CSV format from actual export files.
+
+The documentation reads as a compliance checkbox — it establishes that the export exists and uses C-CDA, but doesn't provide the technical detail needed to actually work with the exported data.
 
 ### Structure & Completeness
 
-- **Granularity**: Section-level only (16 named C-CDA sections + vague CSV catch-all). No field-level detail.
-- **Coded fields**: Not documented. No value sets specified.
-- **Relationships**: Not documented. How the C-CDA file and CSV file(s) relate to each other is not described.
-- **Data types**: Not specified for any field.
-- **Cardinality**: Not specified.
-- **Completeness**: The document reads as a compliance checkbox rather than a genuine technical specification. The section descriptions are generic C-CDA prose, not Astronaut's implementation details.
+- **Granularity:** Section-level descriptions only. No field names, data types, cardinality, or constraints.
+- **Value sets:** Not documented.
+- **Relationships:** Not documented (the C-CDA standard implicitly defines these, but vendor-specific mappings are absent).
+- **Versioning:** The PDF is dated 2023, hosted in a 2025/08 upload path, suggesting it was re-uploaded or updated in August 2025. No version history or changelog.
 
 ### (b)(10) vs (g)(10) Assessment
 
-This is **not** a case of a vendor simply repackaging their FHIR/g(10) API as the b(10) export. Astronaut has attempted to address the broader EHI requirement by:
-1. Using C-CDA (not FHIR) as the primary export format
-2. Acknowledging that some data doesn't fit C-CDA and providing a CSV supplement
-3. Explicitly referencing the "record set defined in 45 CFR 164.502" (the designated record set)
+This vendor shows awareness of the distinction. The documentation explicitly references C-CDA (not FHIR resources) as the export format, mentions "remaining EHI" in a separate CSV supplement, and cites the designated record set definition from 45 CFR 164.502. The approach of C-CDA + proprietary CSV for everything else is conceptually sound for (b)(10) compliance.
 
-However, the execution is severely lacking. The CSV catch-all is undocumented, and the C-CDA portion only covers standard clinical data categories. For a VistA-based behavioral health system, the gap between what's described (standard C-CDA sections) and what the system likely stores (hundreds of VistA FileMan files, psychiatric-specific structured data, billing, scheduling, supervision records) is substantial.
+However, the **lack of specificity about what "remaining EHI" includes** is the key weakness. The only example of CSV data is demographic fields (place of birth, maiden name). Whether billing records, scheduling data, e-prescribing logs, and other non-clinical EHI are actually exported is unknown from this documentation. The documentation promises completeness ("all available data will be present upon exportation") but doesn't enumerate what that means.
 
 ## Access Summary
 - Final URL (after redirects): https://astronautehr.com/index.php/disclosures/export-format-documentation/
 - Status: found
-- Required browser: no (direct PDF download link in page source)
-- Navigation complexity: direct_link
+- Required browser: no (curl works fine; PDF direct-linked)
+- Navigation complexity: direct_link (single PDF download on the registered page)
 - Anti-bot issues: none (Cloudflare present but no blocking)
 
 ## Obstacles & Dead Ends
 
-- The PDF embed on the page fails to render in the browser ("Couldn't load plugin"), but the download link works fine via curl.
-- No other documentation files were found — the single PDF is the entirety of the export format documentation.
-- The disclosures parent page lists all certified criteria but links back to the same export documentation page for (b)(10).
+None. The page loaded cleanly, the PDF downloaded without issues, and no special headers or authentication were required. The simplicity of the page (one embedded PDF) meant there was nothing to navigate or expand.

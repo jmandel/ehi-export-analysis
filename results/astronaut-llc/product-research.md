@@ -5,178 +5,121 @@ Developer website: https://astronautehr.com
 
 ## Overview
 
-Astronaut, LLC is a very small, employee-owned EHR vendor based in Houston, Texas, founded in 2009 by Ignacio Valdes, MD, MS — a board-certified Psychiatrist and Clinical Informatics specialist. The company has approximately 4-5 named employees (CEO, President, two software engineers, Director of Training). Their product, Astronaut EHR, is built on top of **VistA** (the Veterans Affairs health information system) and uses a customized version of **CPRS** (Computerized Patient Record System) called **Astro-CPRS** as its clinical client.
+Astronaut, LLC is a small, privately held EHR company founded in 2009 by Dr. Ignacio Valdes, a Houston-based psychiatrist board-certified in both Psychiatry and Clinical Informatics. The company builds **Astronaut EHR**, a cloud-hosted adaptation of **VistA** — the open-source electronic health record system originally developed by the U.S. Department of Veterans Affairs. Astronaut was the first VistA-based EHR to be deployed in the cloud. The company appears to be a very small operation: the leadership page lists a CEO (Dr. Valdes), a President (Janet Blazek Valdes), two senior software engineers, and a Director of Training. The developer contact email is a Gmail address.
 
-The company serves inpatient hospitals, outpatient clinics, and Partial Hospitalization Programs (PHP) / Community Mental Health Centers (CMHC), with a strong focus on **Psychiatry and behavioral health**. The website reports approximately 34,000 patient records in the system. Astronaut operates as a cloud-hosted, multi-tenant network ("Astronaut Networks") where multiple clinics share infrastructure. The product was previously marketed as "Astronaut VistA" at astronautvista.com before rebranding to Astronaut EHR at astronautehr.com.
-
-The company achieved ONC Meaningful Use MACRA/MIPS certification on February 1, 2022, for both inpatient and outpatient settings.
+Dr. Valdes also operates Blue Bonnet Clinic, a psychiatry practice in Houston, which uses Astronaut EHR — making this both a product company and a practitioner-driven venture. The company markets itself as a low-cost alternative to proprietary EHR systems, emphasizing that implementation costs are "a small fraction" of commercial systems. Astronaut has a national footprint but appears to serve a small number of practices, primarily small ambulatory clinics and community health centers.
 
 ## Product: Astronaut
 
-CHPL ID: 10809
-CHPL Product Number: 15.02.05.3099.ASTR.01.00.1.220201
-Version: 1709
+CHPL IDs: 10809
 
 ### What It Is
 
-Astronaut is a **full-featured EHR built on top of VistA** (the open-source version of the VA's health information system), with a customized clinical client called **Astro-CPRS**. VistA is a comprehensive health information system with deep capabilities in clinical documentation, pharmacy, lab, scheduling, and more — Astronaut has adapted and extended it for the private-sector behavioral health market.
+Astronaut EHR is a cloud-based, modernized version of **VistA** (Veterans Health Information Systems and Technology Architecture) with a customized version of **CPRS** (Computerized Patient Record System) — the standard VistA GUI client — rebranded as **Astro-CPRS**. The product builds on VistA's comprehensive clinical platform while adding proprietary features and modern web technologies to the user interface.
 
-The product is cloud-hosted and browser-based ("100% browser" per the website; full virtualization announced July 2017). Prior to that, it appears a native Windows client installer was distributed (evidenced by SourceForge download links for `astronaut_clients.BETA.16.09.02.exe`). The product is described as "enterprise-grade" though it targets small to mid-size practices.
+The certified product (version 1709, certified 2022-02-01) carries a substantial set of ONC certifications — 30+ criteria spanning clinical data (a)(1)–(a)(14), care coordination (b)(1)/(b)(3), FHIR APIs (g)(10), Clinical Quality Measures (c)(1), public health (h)(1), and the EHI export requirement (b)(10). This broad certification footprint is consistent with VistA's heritage as a full-featured EHR.
 
-The certified module encompasses the entire Astronaut EHR product — there is no separate product platform. The certification covers both inpatient and outpatient settings.
+The product is browser-based ("100% of browsers, no software installation required") and cloud-delivered with automatic upgrades. It provides a CCDA Web API (version 2021.12.19) using HTTP Basic authentication for patient data exchange.
 
 ### Users & Market
 
-**Target users:** Psychiatrists, Nurse Practitioners, Physician Assistants, and their supervisors. Also used by clinical staff, billers, and office managers.
+**Target users:** Physicians, nurse practitioners, mid-level providers, and clinical staff in small-to-mid-size ambulatory practices. Dr. Valdes's own psychiatry practice (Blue Bonnet Clinic in Houston) is a reference deployment.
 
-**Clinical settings:**
-- Outpatient mental health / behavioral health clinics
-- Partial Hospitalization Programs (PHP)
-- Community Mental Health Centers (CMHC)
-- Inpatient psychiatric facilities
-- Some general outpatient clinics
+**Settings:** The product has been deployed in individual physician offices, outpatient clinics, community health centers, and Partial Hospitalization Programs (PHPs). One announced customer is MSP-Healthcare, an Arizona-based provider who joined the Astronaut network in 2016.
 
-**Named customers** (from news releases):
-- Washington County Behavioral Health (geographic area, telemedicine) — October 2016
-- NP Care (home mental health, complex mental health patients) — June 2016
-- Kinghaven Partial Hospitalization Program — June 2016
-- Daystars PHP in Stafford, TX — January 2016
-- MSP-Healthcare (Arizona, EPCS-focused) — April 2016
-- Operations in Pennsylvania, Oregon, and West Virginia mentioned — 2015
+**Market position:** This is a very small, niche vendor. No customer counts, revenue figures, or market share data were found. The company does not appear on major EHR review sites (G2, Capterra, KLAS). No third-party reviews were found. The product is positioned as a low-cost option for practices that want VistA's clinical depth without a large IT footprint.
 
-**Scale:** Very small. 34,000 patient records total is mentioned on the website. The vendor serves a niche market of behavioral health practices. No publicly available third-party review data was accessible (G2 and Capterra both returned bot-verification walls).
-
-**Testimonial user:** Jennifer Lableu, NP — praised the system for speed: "Each appointment is done when they walk out of the room." Office manager Jenny Salvador also referenced in news.
+**Go-to-market:** Direct sales. The company describes itself as a "full-service EHR vendor" offering billers, developers, and programmers — suggesting they provide implementation and support services directly rather than through channel partners.
 
 ### Modules & Functionality
 
-Being VistA-based, Astronaut inherits VistA's comprehensive architecture. The following modules and features are specifically described in vendor materials:
+Because Astronaut is built on VistA, it inherits VistA's extensive module architecture. The following capabilities are documented through a combination of Astronaut's own website, the Open Health News profile, the mandatory disclosures page, and VistA's well-known architecture:
 
-**Clinical Documentation / Charting:**
-- Clinical notes with several proprietary efficiency features:
-  - **Touch Note™** — mentioned as a charting shortcut
-  - **Rocket Note™** — "eliminates the approximately 11 step process of forwarding a clinical note for follow-up visits" (Nov 2016)
-  - **Turbo Supervision™** — workflow for supervising NPs/PAs, with "Next Patient/Previous patient advance on a clinical list" (Dec 2015, upgraded Aug 2016)
-  - **List Signaling™** — mentioned as productivity feature
-- Customizable templates, including a "full set of standard PHP/CMHC templates" (Feb 2017)
-- Patient consent gathering integrated into notes (Sept 2016)
-- Attachments to notes
+**Core VistA/CPRS capabilities (inherited):**
+- **Computerized Physician Order Entry (CPOE):** Ordering of medications, laboratory tests, radiology/imaging, diets, and procedures — confirmed by (a)(1)–(a)(3) certification
+- **Problem List:** Patient diagnoses and problem tracking — (a)(6)
+- **Medication List / Pharmacy:** Active and historical medications, drug-drug and drug-allergy interaction checking — (a)(1), (a)(4)
+- **Allergy/Adverse Reaction Tracking:** Recording and alerting on medication allergies
+- **Laboratory:** Lab test ordering and results management — national lab ordering capability noted
+- **Radiology/Imaging:** Imaging order entry and results
+- **Progress Notes / Clinical Documentation:** Via VistA's Text Integration Utilities (TIU) — hundreds of "pre-built clinically proven templates" per Astronaut's marketing
+- **Vital Signs:** Recording and tracking
+- **Consults:** Requesting, tracking, and completing specialty consultations
+- **Scheduling:** Enterprise scheduling for outpatient appointments; Admission/Discharge/Transfer (ADT) functions also noted
+- **Demographics:** Patient demographic data management — (a)(5) certification
+- **Family Health History:** Confirmed by (a)(12) certification
+- **Implantable Device List:** Confirmed by (a)(14) certification
+- **Clinical Decision Support (CDS):** Drug interaction checks and alerts — (a)(2), (a)(4)
 
-**CPOE (Computerized Provider Order Entry):**
-- Certified for medications (a)(1), lab (a)(2), and diagnostic imaging (a)(3)
-- Drug-drug, drug-allergy interaction checks (a)(4)
+**E-Prescribing:**
+- Integrated e-prescribing through **Newcrop** and the **Surescripts** network
+- **EPCS** (Electronic Prescribing of Controlled Substances) — Surescripts-certified
+- This is a third-party integration with associated monthly costs ("Monthly Newcrop and the Surescripts network charge")
 
-**Electronic Prescribing:**
-- Certified for (b)(3) e-prescribing
-- Uses **NewCrop** (DrFirst) for e-prescribing via the **Surescripts** network
-- **EPCS** (Electronic Prescribing of Controlled Substances) — highlighted since 2015, critical for psychiatry (controlled substance prescribing is core to psychiatric practice)
-- Original e-prescribing system was the "George Lilly/Newcrop/Oroville eRx system," upgraded Dec 2015 for national network support
-
-**Scheduling:**
-- Integrated, single sign-on appointment scheduling in CPRS (Feb 2017)
-- Previously used separate VistA Clinical Scheduling application
-
-**Billing:**
-- **Inpatient billing lists** in Astro-CPRS (Jan 2016) — "Easily exportable to your favorite billing software"
-- **Full integrated billing** for both inpatient and outpatient announced July 2020 ("Astronaut Integrated Billing Available")
-- ICD-10 support added October 2015
-- COVID-19 ICD/CPT codes added July 2020
-- Billing lists with accuracy checks/workflow completion (July 2016)
-
-**Patient Demographics:**
-- Certified for (a)(5) demographics
-- vCardDAV demographics support for drag-and-drop patient registration (Nov 2015)
-- Demographic import from smartphone/email
-
-**Supervision & Multi-Provider Workflows:**
-- Turbo Supervision™ — a major differentiator, optimized for psychiatrist supervision of NPs and PAs
-- "Comprehensive paperless distance supervision" for both inpatient and outpatient (Aug 2015)
-
-**Telemedicine:**
-- Telemed support added November 2015
-- Patient Skype-ID, phone number, email recorded at registration
-- Washington County Behavioral Health uses it telemedically
-
-**Decision Support:**
-- Certified for (b)(11) Decision Support Interventions
-
-**Clinical Quality Measures:**
-- Certified for (c)(1) CQM Record and Export
-- 16 CQMs certified, heavily weighted toward behavioral health:
-  - Depression screening (CMS2), antidepressant management (CMS128), substance use disorder (CMS137), dementia cognitive assessment (CMS149), PHQ-9 depression tool (CMS159), adult suicide risk assessment (CMS161), child/adolescent suicide risk assessment (CMS177)
-  - Also general measures: BMI (CMS69), tobacco use (CMS138), blood pressure (CMS165), immunizations (CMS117), high-risk medications in elderly (CMS156)
-
-**Transitions of Care:**
-- Certified for (b)(1) — C-CDA generation
-- Uses **WorldVistA Opensource CDA Documents Generator** for C-CDA output
+**Astronaut proprietary additions:**
+- **Rocket Note:** Described as "very efficient follow-up notes and billing" — suggesting integrated clinical documentation and billing code capture
+- **Turbo Supervision:** Mid-level provider supervision tools with "patient navigation capabilities" — designed for attending physicians supervising NPs/PAs
+- **Astro-CPRS:** Enhanced CPRS interface with modern web technologies, improved typography, embedded graphics, and single sign-on
 
 **Interoperability:**
-- Direct messaging via (h)(1) Direct Project
-- FHIR API via (g)(10) — SMART on FHIR
-- Custom REST API for patient lookup and C-CDA retrieval
+- CCDA generation and exchange — (b)(1), (b)(3)
+- FHIR R4 API — (g)(10) certified
+- Patient access API — (e)(3) certified for patient electronic access to health information
+- Direct messaging for transitions of care implied by (b)(1)/(b)(3)
 
-**Security & Administration:**
-- Multi-factor authentication for Astro-CPRS, Scheduling, system administration, and ePrescribing
-- Audit logging, emergency access, encryption
-- Signing PIN for documents
+**Quality Reporting:**
+- Supports 16 Clinical Quality Measures (CQMs) per the disclosures page — (c)(1) certified
+- QRDA reporting capability (the disclosures mention potential "hourly charge to assist training, preparing, and submitting QRQA to the government")
+
+**Public Health:**
+- Immunization registry transmission — (h)(1) certified
 
 ### Data & Content
 
-Based on the certified criteria, API documentation, and vendor materials, Astronaut stores:
+Based on the certified criteria, vendor materials, and VistA's known architecture, Astronaut EHR stores/manages:
 
-**Clinical Data (confirmed via API data sections and certification):**
-- Patient demographics (name, DOB, SSN, gender, race, ethnicity, language, address, phone, email, Skype ID, marital status, religious affiliation)
-- Allergies (medication allergies)
-- Problems / diagnoses (ICD-10)
-- Medications (active, historical)
-- Lab results / lab orders
+**Clinical data (well-documented):**
+- Patient demographics (name, DOB, contact, insurance, identifiers)
+- Problem/diagnosis lists
+- Medication lists (active, historical, prescribed)
+- Allergy and adverse reaction records
+- Lab orders and results
+- Radiology/imaging orders and results
 - Vital signs
-- Immunizations
-- Procedures
-- Social history (including smoking status)
-- Encounters
-- Assessments
-- Plan of treatment
-- Goals
-- Health concerns
-- Clinical documents/notes
-- Evaluations
-- Family health history (certified (a)(12))
-- Implantable device list (certified (a)(14))
-- Unique Device Identifiers
+- Progress notes and clinical documentation (via TIU templates)
+- Consult requests and notes
+- Family health history
+- Implantable device records
+- Immunization records
+- Encounter/visit data
+- Clinical orders (CPOE)
+- Drug interaction alerts and CDS data
 
-**Operational Data:**
-- Scheduling / appointments
-- Billing lists (inpatient and outpatient) with ICD/CPT codes
-- Patient consents
-- Provider orders (medications, labs, imaging)
-- Clinical quality measure data
-- Audit logs
+**Scheduling/administrative data:**
+- Appointment scheduling data
+- ADT (Admission/Discharge/Transfer) records
+- Patient-provider assignments
 
-**Prescription Data:**
-- E-prescribing records (via NewCrop/Surescripts)
-- Controlled substance prescriptions (EPCS)
+**E-prescribing data:**
+- Prescriptions sent via Newcrop/Surescripts
+- EPCS records for controlled substances
 
-**As a VistA-based system**, the underlying database (likely a MUMPS/Caché/GT.M globals-based FileMan database) potentially stores significantly more data than is surfaced through the API or the website's feature descriptions. VistA systems typically maintain extensive data in hundreds of FileMan files covering radiology, surgery, pharmacy, laboratory, scheduling, billing, and many other domains. However, it is unclear how much of VistA's full data model Astronaut actually uses vs. what is dormant from the inherited codebase.
+**Unclear/not well-documented:**
+- **Billing:** The disclosures page and "Rocket Note" feature reference billing, but it's unclear how deep billing capabilities go. VistA's original architecture included billing modules (particularly for VA fee-basis and third-party billing), but whether Astronaut implements full practice management/billing or just captures billing codes during documentation is unclear. The vendor describes itself as having "billers" on staff, suggesting some billing support.
+- **Patient portal:** The product is certified for (e)(3) — patient electronic access — but no standalone patient portal product is described on the website. It may be API-based access rather than a traditional portal.
+- **Secure messaging:** No patient messaging capability is described on the vendor website.
+- **Document imaging/scanning:** Not mentioned.
+- **Referral management:** Consults are supported via VistA, but external referral tracking is not specifically described.
+- **Audit logs and access records:** Required by (d)(1)–(d)(9) certification, so these exist but aren't marketed as a feature.
 
-**What's unclear:**
-- Whether there is a patient portal (no certification for (e)(1) View/Download/Transmit — the (e)(3) certification is for Patient Health Information Capture, suggesting some patient-facing data intake, but no full portal)
-- The depth of billing integration — the 2016 billing lists were "exportable to your favorite billing software," but full integrated billing was announced in 2020. Whether this means claim submission, ERA processing, or just charge capture is unclear
-- Whether the system stores imaging data directly or only references/orders
-- Whether lab data is from integrated lab instruments or only manually entered or received results
-
-**Additional software dependency:** NewCrop (DrFirst) is listed as required additional software, with a monthly charge for NewCrop and Surescripts network access. This means some prescription data may live in both Astronaut and the NewCrop system.
+**Key observation:** Because Astronaut is built on VistA, the underlying database (MUMPS/FileMan) has a very large data dictionary — potentially hundreds of files/tables inherited from the VA's decades of development. The EHI export scope could be very broad if they expose the full VistA data model, or quite narrow if they only export the subset they've actively configured for ambulatory use.
 
 ---
 
-## Key Observations for EHI Export Assessment
+## Research Gaps
 
-1. **VistA heritage is critical.** As a VistA-based system, the underlying data model is far richer than what the small vendor's website reveals. VistA systems have hundreds of data files. The EHI export must cover not just the API-surfaced clinical data but all data stored in the VistA database.
-
-2. **Behavioral health focus means specific data types.** Psychiatric assessments, PHQ-9 scores, suicide risk assessments, substance use disorder treatment data, supervision records, and PHP/CMHC program data are core to this product.
-
-3. **Billing integration is relatively recent** (full integration 2020). The export should cover billing/claims data if it's stored in the system.
-
-4. **Small scale.** 34,000 patient records and a handful of named customers suggest a very small deployment footprint. This may mean the export tooling is simpler/less mature.
-
-5. **NewCrop dependency.** E-prescribing data flows through a third-party system (DrFirst/NewCrop). Whether the EHI export includes prescription data that lives in NewCrop vs. only what's stored locally in VistA is a question for Phase 2.
+- No third-party reviews found (G2, Capterra, KLAS, etc.) — the product's market presence appears too small for coverage on these platforms
+- No detailed feature documentation or user manual found publicly
+- Customer count and deployment scale are unknown beyond a handful of mentions
+- The boundary between VistA's full module set and what Astronaut actually deploys/configures for customers is unclear
+- Billing depth is ambiguous — somewhere between "billing code capture in notes" and "full practice management"
