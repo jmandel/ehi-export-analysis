@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+	
+	<!-- Agility - Responsive HTML5/CSS3 Template by SevenSpark http://agility-html.sevenspark.com -->
+
+	<!-- Basic Page Needs
+  	================================================== -->
+	<meta charset="utf-8">
+	<title>Open API Documentation | EMR Direct</title>
+	<meta name="description" content="Interoperability Engine Open API Documentation">
+	
+	<!--[if lt IE 9]>
+		<script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Mobile Specific Metas
+  	================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=4">
+
+	<!-- CSS
+  	================================================== -->
+	<link rel="stylesheet" href="../stylesheets/base.css">
+	<link rel="stylesheet" href="../stylesheets/skeleton.css">
+	<link rel="stylesheet" href="../stylesheets/layout.css">
+	
+	<!-- Favicons
+	================================================== -->
+	<link rel="icon" type="image/x-icon" href="../images/interoperability.ico">
+	
+
+	<!-- Fonts
+	================================================== -->	
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+		
+	
+	<!-- Modernizr -->
+	<script type="text/javascript" src="../javascripts/modernizr.js"></script>
+	
+	<!--[if IE 7]>
+	  <link rel="stylesheet" href="../stylesheets/ie7.css">
+	<![endif]-->
+	
+</head>
+<body class="skin-blue">
+    <div class="wrap">
+
+
+	<!-- Primary Page Layout
+	================================================== -->
+
+	<!-- Header -->
+	<header id="header" class="container">
+		
+            <div id="header-inner" class="sixteen columns over">
+
+                			<div id="masthead" class="one-third column alpha">
+			<h1 id="site-title" class="remove-bottom"><a href="../index.html"><img src="../images/ielogo masthead 80x592.png" class="scale-with-grid" alt="Interoperability Engine"></a></h1>
+			</div>
+
+
+            </div>
+		
+	</header>
+	<!-- end Header -->
+
+	<!-- Main Container -->
+	<div class="container" id="main" role="main">
+		
+            <div class="sixteen columns">
+                    <header>
+                            <h1 class="page-title page-title-with-sub">Open API Documentation for Client Application Developers</h1>
+                            <h4 class="sub-page-title" >Interoperability Engine 2021</h4>
+                            <h5 class="sub-page-title" >Updated Feb 5, 2026</h5>
+                    </header>	
+                    <br/>
+            </div>
+
+            <!-- Portfolio Grid Layout -->		
+            <div class="portfolio col-1">
+
+                <!-- portfolio item -->
+                <article class="portfolio-item sixteen columns">
+																	
+<h4>1. Introduction</h4><p>
+This guide is written for third party developers, including patients, who are developing software applications for accessing Protected Health Information (PHI) based on this public API documentation which allows applications to query health data secured by a Data Holder. Data Holders wishing to publish such a public-facing API should have their Health IT vendor register as a developer integrator of EMR Direct Interoperability Engine services at  <a href="https://www.emrdirect.com/subscribe-developer">https://www.emrdirect.com/subscribe-developer</a>.<p>
+ALWAYS KEEP IN MIND THAT ONLINE DATA TRANSFER IS NOT A SUBSTITUTE FOR PERSON-TO-PERSON COMMUNICATION OF URGENT OR CRITICAL MEDICAL INFORMATION.<p>
+This documentation contains general information and important security information. General information will be marked as:
+<p class="note"><strong>Note:</strong></p>
+<p>and important security information will be marked as:</p>
+<p class="important"><strong>Important:</strong></p>
+<br>
+<h4>2. General Concepts</h4><p>
+    <strong>a. Application Access Requests</strong><p>
+    The API is a read-only RESTful HL7 FHIR® R4 API and follows the syntax described at <a href="https://hl7.org/fhir/R4/http.html">https://hl7.org/fhir/R4/http.html</a>.<p>
+All RESTful data access requests will be in the following format, in which the [base] URL will need to be obtained from the Data Holder, either directly or via directory information:
+<span class="highlight">GET [base]/[resource-specific parameters]…</span><br /><p>
+    FHIR Bulk Data Access Group export is also supported as described in the <a href="https://hl7.org/fhir/uv/bulkdata/STU1.0.1">Bulk Data Access IG.</a><p>
+<strong>b.	Connecting to the server</strong><p>
+The server is accessed by clients through an https connection.
+<p class="important"> <strong>Important:</strong> Local customer security policies must be in place to prevent unauthorized monitoring or eavesdropping of connections to the server.</p>
+<p class="important"> <strong>Important:</strong>  Only TLS 1.2 connections are accepted.  All plaintext connections will be refused.</p>
+<p class="note"> <strong>Note:</strong> Please limit your connection frequency to a value appropriate for your use case. Connection attempts which are more frequent than permitted by the bandwidth allocation for the data resource are not allowed.  </p>
+<p><strong>c. Authentication – Obtaining an Access Token</strong><p>
+Prior to making API requests, the client application must obtain an Access Token from the associated Authorization Server. The client software must support either the OAuth 2.0 authorization code grant or client credentials grant flow as detailed in <a href="https://www.rfc-editor.org/rfc/rfc6749.html">RFC 6749</a>. For authorization code flow, a client ID and client secret are required. If the client application does not have a client ID and client secret for this purpose, the client application may obtain a client ID and client secret using the dynamic client registration protocol by submitting the required client information to the registration endpoint as detailed in <a href="https://www.rfc-editor.org/rfc/rfc7591.html">RFC 7591</a>, by accessing the registration endpoint URL with a browser and completing the online form, by completing the manual registration process at the EMR Direct website, or by using <a href="https://www.udap.org/udap-dynamic-client-registration.html">UDAP Dynamic Client Registration</a>. Please see section 3(j) below for the list Client app attributes required for registration. For client credentials flow, a client ID and registered public key are required. Public keys for client credentials grant access may be registered using UDAP Dynamic Client Registration or by contacting the Data Holder directly.
+<p>
+For client applications using authorization code grants, end user authentication is performed using a username and authentication credentials provided by the Data Holder. A healthcare organization may reuse existing patient portal credentials for this purpose, in which case the authenticated username maps to a unique patient portal user on the resource holder’s side. The end user should obtain these credentials directly from the Data Holder healthcare organizations from which they wish to access data.
+<p class="note">
+<strong>Note:</strong> Usernames and authentication credentials are established and reset by the Data Holder.
+</p>
+<p>When an end user is directed to the authorization endpoint, the user will be presented with a login screen where they can enter their credentials for the healthcare organization they are accessing. If the correct credentials are supplied and the end user grants access to the client application, an authorization code will be returned to the client that the client application can use to obtain an access token through the token endpoint as described in RFC 6749. For client credentials flow, the application obtains an access token directly from the token endpoint without user interaction.
+<p>
+Each healthcare organization has a unique base URL that is used to access its Authorization Server. The required endpoint URLs are of the following form:<p>
+<table>
+    <tr>
+        <th>Endpoint</th><th>URL</th>
+    </tr><tr>
+        <td>Authorization</td>	<td>https://[baseOAuthURL]/authz</td>
+    </tr><tr>
+        <td>Token</td>	<td>https://[baseOAuthURL]/token</td>
+    </tr><tr>
+        <td>Registration</td>	<td>https://[baseOAuthURL]/register</td>
+    </tr><tr>
+        <td>Manage</td>	<td>https://[baseOAuthURL]/manage</td>
+    </tr><tr>
+        <td>Revoke</td>	<td>https://[baseOAuthURL]/revoke</td>
+    </tr>
+</table>
+<p>
+    The complete OAuth 2.0 endpoint URLs for a given FHIR endpoint are published in that Data Holder's well known SMART configuration endpoint, as per Section 8.2 of the HL7 <a href="https://hl7.org/fhir/smart-app-launch/1.0.0/conformance/index.html#using-well-known">SMART App Launch specification</a>.
+
+<p>
+    Refresh tokens: Client apps that use the authorization code flow and can securely store refresh tokens may request a refresh token by including the <code>offline_access</code> scope in the initial authorization endpoint request. Note that the end user may remove this scope during the authorization process. If a refresh token is permitted, it will be returned together with the access token as per <a href="https://www.rfc-editor.org/rfc/rfc6749.html">RFC 6749</a>, and can be exchanged for a new access token as per <a href="https://www.rfc-editor.org/rfc/rfc6749.html">RFC 6749</a>. Refresh token lifetime defaults to 90 days (but may be longer or shorter depending on the Data Holder's institutional policies). Each refresh token may be used once; a replacement refresh token will be issued when the client app uses a valid refresh token to obtain a new access token. Note that refresh tokens are not issued to Client apps that support client credentials code flow as these clients can authenticate directly to the token endpoint to obtain a new access token.
+<p>
+    PKCE support: Proof Key for Code Exchange (PKCE) as defined by <a href="https://www.rfc-editor.org/rfc/rfc7636.html">RFC 7636</a> is supported for Client apps that use the authorization code flow. The use of PKCE by such clients is optional. If used, Client apps must use only the <code>S256</code> code challenge method. Please refer to <a href="https://www.rfc-editor.org/rfc/rfc7636.html">RFC 7636</a> for details on how to use PKCE in requests to the authorization and token endpoints.
+<p>
+All requests to the API must include the access token transmitted in the Authorization header of the HTTP request as a bearer token as illustrated in <a href="https://www.rfc-editor.org/rfc/rfc6750.html">RFC 6750</a>. If the access token is missing, expired, or otherwise not valid for the requested operation, the API will return a 401 Unauthorized or 403 Forbidden response.
+<br>
+<h4>3. API Details</h4><p>
+<strong>a. Query a Specific Data Category Resource</strong><p>
+    Client software must be capable of making HTTPS RESTful requests in accordance with the FHIR specification and consuming the FHIR Resources required by the United States Core Data for Interoperability (<a href="https://www.healthit.gov/isa/us-core-data-interoperability-uscdi">USCDI</a>) or the FHIR <a href="https://hl7.org/fhir/uv/bulkdata/STU1.0.1/">Bulk Data Access specification.</a>
+<p>
+    Resources returned conform to the resource profiles for HL7 FHIR R4 defined in the HL7 FHIR US Core Implementation Guide Release 3.1.1 found at <a href="https://hl7.org/fhir/us/core/STU3.1.1">https://hl7.org/fhir/us/core/STU3.1.1</a>. All of the US Core Resource Profiles are supported <strong>except</strong> the optional US Core Medication Profile, as this API uses inline medication codes to represent medications instead of References to separate Medication resources.
+<p>
+    General specifications for FHIR resources and the associated data elements can be found at <a href="https://hl7.org/fhir/R4/resourcelist.html">https://hl7.org/fhir/R4/resourcelist.html</a> for other resource types without a US Core profile.
+<p>
+    Additional information for each required FHIR Resource or Data Element used to represent each data category can be found at the page above. For example, the Patient.name element is found at:
+    <a href="https://hl7.org/fhir/R4/patient-definitions.html#Patient.name">https://hl7.org/fhir/R4/patient-definitions.html#Patient.name</a>. The US Core FHIR IG profiles found at <a href="https://hl7.org/fhir/us/core/STU3.1.1/profiles.html">https://hl7.org/fhir/us/core/STU3.1.1/profiles.html</a> provide additional information on the meanings of elements and codes used by these profiles.
+    
+<p>Choices of data types: The US Core resource profiles permit a number of data types for certain resource elements as indicated by the [x] notation in the corresponding element names. The following table lists the data types supported for elements where a choice of data types is allowed by the US Core FHIR IG. However, please note that a particular Data Holder may not return all supported data types for a given element.
+<table>
+    <tr><th>Resource Data Element</th><th>Supported choices</th></tr>
+    <tr><td>AllergyIntolerance.onset[x]</td><td>dateTime, Age, Period, Range, string</td></tr>
+    <tr><td>CarePlan.scheduled[x]</td><td>Timing, Period, string</td></tr>
+    <tr><td>CarePlan.product[x]</td><td>CodeableConcept, Reference</td></tr>
+    <tr><td>Condition.onset[x]</td><td>dateTime, Age, Period, Range, string</td></tr>
+    <tr><td>Condition.abatement[x]</td><td>dateTime, Age, Period, Range, string</td></tr>
+    <tr><td>DiagnosticReport.effective[x]</td><td>dateTime, Period</td></tr>
+    <tr><td>Goal.start[x]</td><td>date, CodeableConcept</td></tr>
+    <tr><td>Goal.detail[x]</td><td>Quantity, Range, CodeableConcept, string, boolean, integer, Ratio</td></tr>
+    <tr><td>Goal.due[x]</td><td>date</td></tr>
+    <tr><td>Immunization.occurrence[x]</td><td>dateTime, string</td></tr>
+    <tr><td>Immunization.doseNumber[x]</td><td>positiveInt, string</td></tr>
+    <tr><td>Immunization.seriesDoses[x]</td><td>positiveInt, string</td></tr>
+    <tr><td>MedicationRequest.reported[x]</td><td>boolean, Reference</td></tr>
+    <tr><td>MedicationRequest.medication[x]</td><td>CodeableConcept</td></tr>
+    <tr><td>MedicationRequest.doseageInstruction.asNeeded[x]</td><td>boolean, CodeableConcept</td></tr>
+    <tr><td>MedicationRequest.doseageInstruction.doseAndRate.dose[x]</td><td>Range, SimpleQuantity</td></tr>
+    <tr><td>MedicationRequest.doseageInstruction.doseAndRate.rate[x]</td><td>Ratio, Range, SimpleQuantity</td></tr>
+    <tr><td>MedicationRequest.doseageInstruction.substitution.allowed[x]</td><td>boolean, CodeableConcept</td></tr>
+    <tr><td>Observation.effective[x]</td><td>dateTime, Period</td></tr>
+    <tr><td>Observation.value[x]</td><td>Quantity, CodeableConcept, string, boolean, integer, Range, Ratio, SampleData, time, dateTime, Period</td></tr>
+    <tr><td>Observation.component.value[x]</td><td>Quantity, CodeableConcept, string, boolean, integer, Range, Ratio, SampleData, time, dateTime, Period</td></tr>
+    <tr><td>Patient.deceased[x]</td><td>boolean, dateTime</td></tr>
+    <tr><td>Patient.multipleBirth[x]</td><td>boolean, integer</td></tr>
+    <tr><td>Procedure.performed[x]</td><td>dateTime, Period</td></tr>
+    <tr><td>Provenance.ocurred[x]</td><td>dateTime, Period</td></tr>
+</table>
+<p>Choices of Reference resource types: The US Core resource profiles and the inherited FHIR R4 Observation Vital Signs profile permit a number of resource types to be referenced for certain "Must Support" resource elements where a value of type Reference is allowed for the corresponding element. The following table lists the resource types supported for such elements where a choice of referenced resource types is allowed. However, please note that a particular Data Holder may not return all supported resource types for a given element.
+<p>
+<table>
+    <tr><th>Resource Data Element</th><th>Supported choices</th></tr>
+    <tr><td>CareTeam.participant.member</td><td>US Core Patient, US Core Practitioner, US Core Organization</td></tr>
+    <tr><td>DiagnosticReport.performer</td><td>US Core Practitioner, US Core Organization</td></tr>
+    <tr><td>DocumentReference.author</td><td>US Core Practitioner, US Core Organization, US Core Patient</td></tr>
+    <tr><td>MedicationRequest.reportedReference</td><td>US Core Patient, US Core Practitioner, US Core Organization</td></tr>
+    <tr><td>MedicationRequest.requester</td><td>US Core Practitioner, US Core Organization, US Core Patient</td></tr>
+    <tr><td>Observation.hasMember</td><td>FHIR R4 Observation Vital Signs</td></tr>
+    <tr><td>Provenance.agent.who</td><td>US Core Practitioner, US Core Patient, US Core Organization</td></tr>
+</table>
+<p>
+<strong>b. Patient Selection</strong>
+<p>
+To search for patients, the application should request a bundle of Patient resources matching suitable search criteria. To facilitate this, client apps may include the following optional search parameters in a request for a Patient resource:
+<p>
+<table>
+    <tr><th>Resource Data Element	</th><th>Search Parameter</th></tr>
+    <tr><td>Patient.identifier	</td><td>identifier</td></tr>
+    <tr><td>Patient.name	</td><td>name</td></tr>
+    <tr><td>Patient.gender	</td><td>gender</td></tr>
+    <tr><td>Patient.birthDate	</td><td>birthdate</td></tr>
+</table> 
+<p>
+    Please see the sections relating to search parameters in the <a href="http://hl7.org/fhir/us/core/STU3.1.1/StructureDefinition-us-core-patient.html">US Core Patient Profile</a> for details. Some Data Holders may support additional search parameters. Contact the Data Holder for more information on the supported search parameters or review the capability statement. 
+<p>
+For example, to retrieve a bundle of Patient resources to which the app is authorized, where the patient's first or last name is Smith and the patient was born on July 4, 1976, the request could be formatted as:<p>
+<span class="highlight" style="margin-left: 40px">
+https://[baseURL]/Patient?name=Smith&amp;birthdate=1976-07-04</span>
+<br>
+<p>
+The API will return a bundle of all patients (possibly zero) matching the search criteria. Only patients for which the app has been authorized access will be included in the results. Each patient returned in the search results is assigned a unique patient ID that can be found in the Patient.id element of the corresponding Patient resource. This patient ID can be included in subsequent requests to retrieve additional resources for that specific patient. 
+<p>
+<strong>c. Query for a Specific Data Category</strong>
+<p>
+The Patient resource can be retrieved by specifying a specific patient ID or by performing a search as discussed in section 3(b). The remaining resource types listed in Section 3(a) can be accessed for a specific patient as a Bundle of resources by performing a search by resource type or by patient compartment and specifying the patient ID in the request. For example, to retrieve a bundle of Immunization resources containing all available immunization history for Patient 1234, the request could be formatted as:<p>
+<span class="highlight" style="margin-left: 40px">
+https://[baseURL]/Immunization?patient=1234</span>
+<br>
+<p>
+The following search terms can be used to isolate results for a single USCDI data class in cases where two or more data classes are represented by a single FHIR resource type:
+<p>
+<table>
+    <tr><th>USCDI Data Class</th><th>Search Parameter</th></tr>
+    <tr><td>Health Concerns</td><td>category=http://hl7.org/fhir/us/core/CodeSystem/condition-category|health-concern</td></tr>
+    <tr><td>Problems</td><td>category=http://terminology.hl7.org/CodeSystem/condition-category|problem-list-item</td></tr>
+    <tr><td>Smoking Status</td><td>code=http://loinc.org|72166-2</td></tr>
+    <tr><td>Vital Signs</td><td>category=http://terminology.hl7.org/CodeSystem/observation-category|vital-signs</td></tr>
+    <tr><td>Laboratory Tests &amp; Laboratory Values/Results</td><td>category=http://terminology.hl7.org/CodeSystem/observation-category|laboratory</td></tr>
+</table>
+<p>
+For example, to retrieve the Smoking Status for Patient 1234, the request could be formatted as:<p>
+<span class="highlight" style="margin-left: 40px">
+https://[baseURL]/Patient/1234/Observation?code=http://loinc.org|72166-2</span>
+<br />
+<p>
+Each search request will return a bundle of zero or more results meeting the search criteria.
+<p>
+<strong>d. Query for All Data as a CCDA document</strong>
+<p>
+    CCDA documents can be accessed within DocumentReference resources using the $docref operation as described in the US Core FHIR IG at: <a href="https://hl7.org/fhir/us/core/STU3.1.1/OperationDefinition-docref.html">https://hl7.org/fhir/us/core/STU3.1.1/OperationDefinition-docref.html</a>. CCDAs are categorized as “Summary of Episode” Notes with LOINC code 34133-9. For example, to request a CCDA document covering all dates for patient 1234, the query could be formatted as:<p>
+<span class="highlight" style="margin-left: 40px">
+https://[baseURL]/DocumentReference/$docref?patient=1234</span>
+<br />
+<p>
+The Base64 encoded CCDA XML data can be found in the DocumentReference.content.attachment.data element of the returned DocumentReference resource within the returned Bundle, if any.
+<p>
+<strong>e. Query for a Subset of Data using Search Parameters</strong>
+<p>
+    The USCDI data classes or CCDA documents returned by the API may be filtered by supplying one or more optional search parameters, as detailed in the search parameter sections of the <a href="http://hl7.org/fhir/us/core/STU3.1.1/profiles.html">US Core Profiles</a> for the corresponding resource type. The following table lists the supported search parameters for this purpose:
+<p>
+<table>
+    <tr><th>Resource Data Element	</th><th>Search Parameter</th></tr>
+    <tr><td>CarePlan.category	</td><td>category</td></tr>
+    <tr><td>CareTeam.status	</td><td>status</td></tr>
+    <tr><td>DiagnosticReport.code	</td><td>code</td></tr>
+    <tr><td>DiagnosticReport.category	</td><td>category</td></tr>
+    <tr><td>DiagnosticReport.effective	</td><td>date</td></tr>
+    <tr><td>DocumentReference.type	</td><td>type</td></tr>
+    <tr><td>DocumentReference.category	</td><td>category</td></tr>
+    <tr><td>DocumentReference.date	</td><td>date</td></tr>
+    <tr><td>Condition.category	</td><td>category</td></tr>
+    <tr><td>MedicationStatement.status	</td><td>status</td></tr>
+    <tr><td>MedicationRequest.intent	</td><td>intent</td></tr>
+    <tr><td>Observation.code	</td><td>code</td></tr>
+    <tr><td>Observation.category </td><td>category</td></tr>
+    <tr><td>Observation.effective	</td><td>date</td></tr>
+    <tr><td>Patient.identifier	</td><td>identifier</td></tr>
+    <tr><td>Patient.name	</td><td>name</td></tr>
+    <tr><td>Patient.gender	</td><td>gender</td></tr>
+    <tr><td>Patient.birthDate	</td><td>birthdate</td></tr>
+    <tr><td>Condition.category	</td><td>category</td></tr>
+    <tr><td>Procedure.performed	</td><td>date</td></tr>
+</table>
+<p>
+Some Data Holders may support additional search parameters. Contact the Data Holder for more information on the supported search parameters or review the capability statement.
+<p>
+<strong>f. Error Handling</strong>
+<p>
+If the access token used in the request is invalid, expired, or the user has not been authorized to access the requested Resource, the API will return a 401 Unauthorized or 403 Forbidden HTTP response.
+<p>
+If the request cannot be processed for other reasons (temporarily unavailable, unsupported resource type, system error, etc.), the API will return a 400 Bad Request HTTP response containing an OperationOutcome Resource with additional information regarding the issue contained in the OperationOutcome.issue element.
+<p>
+Handling of OAuth-related errors is detailed in <a href="https://www.rfc-editor.org/rfc/rfc6749.html">RFC 6749</a>.
+<p>
+Handling of dynamic client registration errors is detailed in <a href="https://www.rfc-editor.org/rfc/rfc7591.html">RFC 7591</a>.
+<p>
+<strong>g. Supported clinical scopes</strong>
+<p>
+Apps identify the types of clinical data they would like to access by specifying one or more clinical OAuth scopes in their registration and authorization requests. Clinical scopes follow the format defined in the SMART App Launch Framework 1.0.0. Please see <a href="https://www.hl7.org/fhir/smart-app-launch/1.0.0/scopes-and-launch-context/index.html#scopes-for-requesting-clinical-data">https://www.hl7.org/fhir/smart-app-launch/1.0.0/scopes-and-launch-context/index.html#scopes-for-requesting-clinical-data</a> for additional details. Only read scopes are supported. Write scopes will be rejected. Applications may request patient-level, user-level, or system-level scopes for the following resource types:
+<table>
+    <tr><th>Resource</th></tr>
+    <tr><td>AllergyIntolerance</td></tr>
+    <tr><td>CarePlan</td></tr>
+    <tr><td>CareTeam</td></tr>
+    <tr><td>Condition</td></tr>
+    <tr><td>Device</td></tr>
+    <tr><td>DiagnosticReport</td></tr>
+    <tr><td>DocumentReference</td></tr>
+    <tr><td>Encounter</td></tr>
+    <tr><td>Goal</td></tr>
+    <tr><td>Group</td></tr>
+    <tr><td>Immunization</td></tr>
+    <tr><td>Location</td></tr>
+    <tr><td>MedicationRequest</td></tr>
+    <tr><td>Observation</td></tr>
+    <tr><td>Organization</td></tr>
+    <tr><td>Patient</td></tr>
+    <tr><td>Practitioner</td></tr>
+    <tr><td>PractitionerRole</td></tr>
+    <tr><td>Procedure</td></tr>
+    <tr><td>Provenance</td></tr>
+</table>
+<p>
+    Some Data Holders may support additional resource types and clinical scopes. Contact the Data Holder for more information on the supported scopes or review the endpoint's capability statement to identify other resource types supported by that endpoint.
+<p>
+    Applications may also request "wildcard" scopes, e.g.: <code>user/*.read</code>
+<p>
+<strong>h. OpenID Connect</strong>
+<p>
+For client apps that need to authenticate the end user using OpenID Connect, the server supports the required OpenID Connect functionality as specified in the SMART App Launch Framework version 1.0.0. Please refer to the following link for details: <a href="https://www.hl7.org/fhir/smart-app-launch/1.0.0/scopes-and-launch-context/index.html#scopes-for-requesting-identity-data">https://www.hl7.org/fhir/smart-app-launch/1.0.0/scopes-and-launch-context/index.html#scopes-for-requesting-identity-data</a>
+<p>
+<strong>i. Other Security Considerations</strong>
+<p>
+    Revoking access to patient data: End users can sign in to the management endpoint listed above to terminate access that the user has previously granted to a client application. Client applications may request revocation of tokens by making a request to the Data Holder's revocation endpoint as described in <a href="https://datatracker.ietf.org/doc/html/rfc7009">RFC 7009</a>.
+<p>
+<strong>j. Attributes required for registration</strong>
+<p>
+To register a client for authorization code flow, the following information is required:
+<table>
+    <tr>
+        <td>Developer Name</td>
+        <td>the name of the entity that created the app</td>
+    </tr><tr>
+        <td>Developer Representative</td>
+        <td>the name of the person completing this registration</td>
+    </tr><tr>
+        <td>Client App Name</td>
+        <td>the human-readable name of the app</td>
+    </tr><tr>
+        <td>Redirect URI</td>
+        <td>the app's redirection URI (https only)</td>
+    </tr><tr>
+        <td>Client App URI (optional)</td>
+        <td>a web page about the client app (http or https)</td>
+    </tr><tr>
+        <td>Logo URI (optional)</td>
+        <td>a URI to retrieve an image file with the app's logo (https only)</td>
+    </tr><tr>
+        <td>Terms of Service URI (optional)</td>
+        <td>a web page to view the app's terms of service (http or https)</td>
+    </tr><tr>
+        <td>Privacy Policy URI (optional)</td>
+        <td>a web page to view the app's privacy policy (http or https)</td>
+    </tr><tr>
+        <td>Contact email</td>
+        <td>an email address where the app developer may be contacted (use mailto: scheme)</td>
+    </tr>
+</table>
+Additionally, the client app developer will select the applicable characteristics of their application from the following:
+<p>
+<ul>
+    <li>The client application is a confidential client capable of storing a client secret.</li>
+    <li>The client application is a native application capable of securing a refresh token.</li>
+</ul>
+<p>
+    Please see Section 2.1 of <a href="https://tools.ietf.org/html/rfc6749#section-2.1">RFC 6749</a> for the definitions of 'confidential' and 'native application' as used above.
+    <br><br>
+<h4>4. Frequently Asked Questions</h4>
+<p>
+<strong>a. How do I access production API resources with my client application?</strong>
+<p>
+Please obtain FHIR endpoint information from a specific healthcare provider organization or trusted endpoint directory when you are ready to begin allowing client end users to access PHI with production credentials. Register your app using this documentation and the additional referenced specifications and website and test the app to ensure production readiness.
+<p>
+<strong>b. How is business-to-business API access enabled?</strong>
+<p>
+Data Holders’ policies for professional access to their FHIR APIs vary. If your app requires privileged access to FHIR data outside of a Carequality, TEFCA, or other network agreement, you may request a UDAP certificate for trusted dynamic registration and JWT-based authentication when registering your app for client credentials flow, if supported by the Data Holder.
+<p>
+<strong>c. How do end users and applications authenticate to the API?</strong>
+<p>
+The API is designed to support existing patient portal credentials via the OAuth 2.0 Authorization Framework as per <a href="https://www.rfc-editor.org/rfc/rfc6749.html">RFC 6749</a>. The OAuth server also supports dynamic client registration as per <a href="https://www.rfc-editor.org/rfc/rfc7591.html">RFC 7591</a>, UDAP Trusted Dynamic Client Registration, and clients that registered using the EMR Direct website, as discussed above in section 2(c).
+<p>
+<strong>d. What data is available through the API?</strong>
+<p>
+The API will return all properly-formatted data provided by a connected data source system in response to a submitted query. Healthcare organizations may have their own policies and/or safety best practices that will dictate what data can be sent and when data is considered complete and/or ready to be sent. Please contact a healthcare organization directly for questions related to their specific policies.
+<p>
+<strong>e. What additional options are offered?</strong>
+<p>
+    Interoperability Engine 2021 supports
+    the SMART App Launch Framework (both standalone launch and EHR launch as per
+    <a href="https://hl7.org/fhir/smart-app-launch/1.0.0">https://hl7.org/fhir/smart-app-launch/1.0.0</a>),
+    SMART clinical scopes (patient, user, and system scopes),
+    Open ID Connect (<a href="https://openid.net/specs/openid-connect-core-1_0.html">https://openid.net/specs/openid-connect-core-1_0.html</a>), 
+    OAuth 2.0 client credentials flow, OAuth 2.0 refresh tokens, OAuth 2.0 revocation, 
+    the Unified Data Access Profiles (<a href="https://www.udap.org">UDAP&trade;</a>), FAST Security and Identity models, UMA (HEART profile),
+and more. Please contact the Data Holder directly
+    to determine which additional options have been enabled by the Data Holder for a particular endpoint.
+</p>
+<p>
+    Terms of Use: <a href="https://www.interopengine.com/open-api-terms">https://www.interopengine.com/open-api-terms</a>; inquire directly with integrators and Data Holders using Interoperability Engine for any additional terms and conditions that may apply.
+<p>
+Trademark Notice: Interoperability Engine and the Interoperability Engine gears logo are trademarks of
+EMR Direct. HL7 and FHIR are registered trademarks of Health Level Seven International. UDAP is a trademark of UDAP.org and is used with permission.
+
+
+<p>Copyright Notice: &copy; 2026 EMR Direct. All rights reserved.<p>
+<p>
+
+<p>
+<p>
+																
+										
+            </article>
+            <!-- end .portfolio-item -->
+
+        </div>		
+        <!-- end .portfolio -->
+					
+    </div>
+    <!-- end #main.container -->
+
+    	<!-- footer -->
+	<footer id="colophon">
+            <div class="footer-upper container">
+
+                <div class="one-third column">
+                </div>
+
+                <div class="one-third column">
+
+
+                </div>
+                <div>
+                    <div class="one-third column">						
+                        <P><P><A HREF="https://www.emrdirect.com/terms.html">Website Terms Of Use</A>
+                            <BR><A HREF="https://www.emrdirect.com/privacy.html">Privacy Policy</A>
+
+                    </div>	
+
+                </div>
+
+
+            </div>
+            <div id="footer-base">
+                <div class="container">
+                    <div class="eight columns">
+                        
+                        &copy; 2026 EMR Direct 
+                    </div>
+                    <div class="eight columns far-edge">
+
+                    </div>
+                </div>
+            </div>
+	</footer>
+	<!-- end footer -->
+
+
+
+	
+</div>
+<!-- end .wrap -->
+
+
+<!-- JS
+================================================== -->
+
+<!-- jQuery 1.6.2 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+
+<!-- Tabs -->
+<script src="../javascripts/tabs.js"></script>
+
+<!-- Agility JS -->
+<script src="../javascripts/agility.js"></script>
+
+<!--[if (gte IE 6)&(lte IE 8)]>
+  <script type="text/javascript" src="../javascripts/fix-ie.js"></script>
+<![endif]-->
+
+<!-- end Scripts -->
+
+
+<!-- End Document
+================================================== -->
+
+<!-- Agility - Responsive HTML5/CSS3 Template by SevenSpark http://agility-html.sevenspark.com -->
+
+</body>
+
+
+
+</html>
