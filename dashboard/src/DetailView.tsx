@@ -3,8 +3,6 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import type { Vendor } from "./types";
 
-type MdView = "analysis" | "research" | "report";
-
 export function DetailView({
   vendor,
   onBack,
@@ -12,20 +10,14 @@ export function DetailView({
   vendor: Vendor | null;
   onBack: () => void;
 }) {
-  const [mdContent, setMdContent] = useState<string>("");
-  const [activeView, setActiveView] = useState<MdView>("analysis");
+  const [analysisContent, setAnalysisContent] = useState<string>("");
 
   useEffect(() => {
     if (!vendor) return;
-    const paths: Record<MdView, string> = {
-      analysis: `data/analyses/${vendor.slug}.md`,
-      research: `data/research/${vendor.slug}.md`,
-      report: `data/reports/${vendor.slug}.md`,
-    };
-    fetch(paths[activeView])
-      .then((r) => (r.ok ? r.text() : "*No content available.*"))
-      .then(setMdContent);
-  }, [vendor?.slug, activeView]);
+    fetch(`data/analyses/${vendor.slug}.md`)
+      .then((r) => (r.ok ? r.text() : "*No analysis available.*"))
+      .then(setAnalysisContent);
+  }, [vendor?.slug]);
 
   if (!vendor) {
     return (
@@ -43,6 +35,8 @@ export function DetailView({
   if (vendor.holistic_score > 4) scoreColor = "#f1c40f";
   if (vendor.holistic_score > 6) scoreColor = "#2ecc71";
   if (vendor.holistic_score > 8) scoreColor = "#27ae60";
+
+  const baseUrl = `${window.location.origin}${window.location.pathname}`;
 
   return (
     <div className="detail">
@@ -76,30 +70,21 @@ export function DetailView({
             🏥 CHPL #{id}
           </a>
         ))}
-      </nav>
-
-      <nav className="view-tabs">
-        <button
-          className={activeView === "analysis" ? "active" : ""}
-          onClick={() => setActiveView("analysis")}
-        >
-          📝 Analysis
-        </button>
         {vendor.has_research && (
-          <button
-            className={activeView === "research" ? "active" : ""}
-            onClick={() => setActiveView("research")}
+          <a
+            href={`${baseUrl}md.html?src=data/research/${vendor.slug}.md`}
+            target="_blank"
           >
             📋 Product Research
-          </button>
+          </a>
         )}
         {vendor.has_report && (
-          <button
-            className={activeView === "report" ? "active" : ""}
-            onClick={() => setActiveView("report")}
+          <a
+            href={`${baseUrl}md.html?src=data/reports/${vendor.slug}.md`}
+            target="_blank"
           >
             📊 Download/Retrieval Report
-          </button>
+          </a>
         )}
       </nav>
 
@@ -145,7 +130,7 @@ export function DetailView({
 
       <article className="analysis-content">
         <ReactMarkdown remarkPlugins={[remarkGfm]}>
-          {mdContent}
+          {analysisContent}
         </ReactMarkdown>
       </article>
     </div>

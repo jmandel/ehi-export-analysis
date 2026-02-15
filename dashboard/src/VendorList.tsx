@@ -45,8 +45,9 @@ export function VendorList({
           <a
             key={v.slug}
             className="vendor-card"
-            href={`#${v.slug}`}
+            href={`${window.location.origin}${window.location.pathname}#${v.slug}`}
             target="_blank"
+            rel="noopener"
           >
             {scoreBadge(v.holistic_score)}
             <div className="vendor-info">
