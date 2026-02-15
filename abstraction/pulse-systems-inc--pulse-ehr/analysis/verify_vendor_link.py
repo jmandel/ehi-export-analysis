@@ -1,0 +1,23 @@
+"""Verify that Pulse Systems' EHI export documentation link points to HL7.org, not vendor docs."""
+import json
+
+result = {
+    "vendor_url": "https://pulseinc.com/terms-conditions-certification-costs-and-limitations/",
+    "ehi_export_link_text": "View Electronic Health Information Export Documentation",
+    "ehi_export_link_target": "https://www.hl7.org/fhir/us/core/uscdi.html",
+    "link_target_is_vendor_documentation": False,
+    "link_target_description": "HL7 FHIR US Core USCDI page — an external standards reference describing USCDI versions, NOT vendor-specific EHI export documentation",
+    "verified_by": [
+        "web_fetch of pulseinc.com page confirmed link href",
+        "web_fetch of hl7.org target confirmed it's the USCDI standards page",
+        "Screenshot (screenshot-certification-page-full.png) shows the link",
+        "Screenshot (screenshot-ehi-export-link-target.png) shows HL7 target page"
+    ],
+    "vendor_ehi_statement": "Pulse EHR is certified to data export criteria and can create a set of export summaries in real time. Though the user can create a set of export summaries in real time, this type of mass export is recommended as best practice to be scheduled during off-peak hours to reduce performance stress on the system.",
+    "chs_document_note": "A separate EHI export document exists at chs.net for Pulse v16.1 (CHPL 10360), but that is a DIFFERENT product by CHS/CereCore for internal hospital use, not the Pulse Systems Inc. v8.02 product"
+}
+
+with open("vendor_link_verification.json", "w") as f:
+    json.dump(result, f, indent=2)
+
+print(json.dumps(result, indent=2))
