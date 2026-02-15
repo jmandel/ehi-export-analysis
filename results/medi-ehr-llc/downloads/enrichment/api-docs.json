@@ -1,0 +1,368 @@
+{
+  "title": "Medi-EMR - v2.1",
+  "version": "2.1",
+  "description": "MediEHR Patient Access API - proprietary REST API for patient data retrieval in C-CDA 2.1 format",
+  "serverUrl": "https://proda.mediemr.net/patient/v1",
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/mediehrlogintest.php",
+      "summary": "Test Login",
+      "contentType": "multipart/form-data",
+      "parameters": [
+        {
+          "name": "OFFICE",
+          "type": "integer",
+          "required": true,
+          "description": "The Office number"
+        },
+        {
+          "name": "ACCESS_TOKEN",
+          "type": "string",
+          "required": true,
+          "description": "This will be given by MediEHR Support the first time and can be\n                                                retrived using the mediehrrotatetokens.php"
+        },
+        {
+          "name": "USERNAME",
+          "type": "string",
+          "required": true,
+          "description": "The username in the office"
+        }
+      ],
+      "responseSections": [],
+      "responseFormat": "Success/Error status"
+    },
+    {
+      "method": "POST",
+      "path": "/mediehrgetpatient.php",
+      "summary": "Get the Patients Unique Id by patient details",
+      "contentType": "multipart/form-data",
+      "parameters": [
+        {
+          "name": "OFFICE",
+          "type": "integer",
+          "required": true,
+          "description": "The Office number"
+        },
+        {
+          "name": "ACCESS_TOKEN",
+          "type": "string",
+          "required": true,
+          "description": "This will be given by MediEHR Support the first time and can be\n                                                retrived using the mediehrrotatetokens.php"
+        },
+        {
+          "name": "USERNAME",
+          "type": "string",
+          "required": true,
+          "description": "The username in the office"
+        },
+        {
+          "name": "PATIENT_FIRSTNAME",
+          "type": "string",
+          "required": false,
+          "description": "First Name of the patient"
+        },
+        {
+          "name": "PATIENT_LASTNAME",
+          "type": "string",
+          "required": false,
+          "description": "Last Name of the patient"
+        },
+        {
+          "name": "PATIENT_MIDDLENAME",
+          "type": "string",
+          "required": false,
+          "description": "Middle Name of the patient"
+        },
+        {
+          "name": "PATIENT_SSN",
+          "type": "string",
+          "required": false,
+          "description": "Social Security Number of the patient without hypens(only digits)"
+        },
+        {
+          "name": "PATIENT_BIRTHDATE_MMDDYYYY",
+          "type": "string",
+          "required": false,
+          "description": "The Birth Date of the patient in MMDDYYYY format. For example, if the\n                                                patient is born on 15 January 1970 then the value would be 01151970"
+        },
+        {
+          "name": "PATIENT_EMAIL",
+          "type": "string",
+          "required": false,
+          "description": "The email id of the patient"
+        },
+        {
+          "name": "PATIENT_MOBILE",
+          "type": "string",
+          "required": false,
+          "description": "The username in the office number"
+        },
+        {
+          "name": "PATIENT_MOTHERSMAIDENNAME",
+          "type": "string",
+          "required": false,
+          "description": "The username in the office number"
+        }
+      ],
+      "responseSections": [],
+      "responseFormat": "unknown"
+    },
+    {
+      "method": "POST",
+      "path": "/mediehrrotatetokens.php",
+      "summary": "Get fresh Access token and Refresh token",
+      "contentType": "multipart/form-data",
+      "parameters": [
+        {
+          "name": "OFFICE",
+          "type": "integer",
+          "required": true,
+          "description": "The Office number"
+        },
+        {
+          "name": "REFRESH_TOKEN",
+          "type": "string",
+          "required": true,
+          "description": "This will be given by MediEHR Support the first time and can be\n                                                retrived using the mediehrrotatetokens.php"
+        },
+        {
+          "name": "USERNAME",
+          "type": "string",
+          "required": true,
+          "description": "The username in the office"
+        }
+      ],
+      "responseSections": [],
+      "responseFormat": "unknown"
+    },
+    {
+      "method": "POST",
+      "path": "/mediehrgetpatientdata.php",
+      "summary": "Get the patient data in CCDA 2.1 format by MRN",
+      "contentType": "multipart/form-data",
+      "parameters": [
+        {
+          "name": "OFFICE",
+          "type": "integer",
+          "required": true,
+          "description": "The Office number"
+        },
+        {
+          "name": "ACCESS_TOKEN",
+          "type": "string",
+          "required": true,
+          "description": "This will be given by MediEHR Support the first time and can be\n                                              retrived using the mediehrrotatetokens.php"
+        },
+        {
+          "name": "USERNAME",
+          "type": "string",
+          "required": true,
+          "description": "The username in the office"
+        },
+        {
+          "name": "USERNAME",
+          "type": "string",
+          "required": true,
+          "description": "The username in the office"
+        },
+        {
+          "name": "PATIENT_MRN",
+          "type": "string",
+          "required": true,
+          "description": "The MRN of the patient"
+        },
+        {
+          "name": "START_DATE_MMDDYYYY",
+          "type": "string",
+          "required": true,
+          "description": "The Start Date in MMDDYYYY format. For example, if the start date is 15 January 1970 then the value would be 01151970"
+        },
+        {
+          "name": "END_DATE_MMDDYYYY",
+          "type": "string",
+          "required": true,
+          "description": "The End Date in MMDDYYYY format. For example, if the end date is 15 January 1970 then the value would be 01151970"
+        },
+        {
+          "name": "ALL_DATA_CATEGORIES",
+          "type": "string",
+          "required": false,
+          "description": "S or H. If S all the components will be included. If H then all the components will have NullFlavour/excluded. Irrespective of the individual components"
+        },
+        {
+          "name": "PAT_ALLERGY",
+          "type": "string",
+          "required": false,
+          "description": "S or H. If S the Allergies component will be included. If H then the Allergies component will have NullFlavour/excluded. If ALL_DATA_CATEGORIES is set to S, then this will be ignored. If ALL_DATA_CATEGORIES is set to S, then this will be ignored"
+        },
+        {
+          "name": "PAT_MEDS",
+          "type": "string",
+          "required": false,
+          "description": "S or H. If S the Medications component will be included. If H then the Medications component will have NullFlavour/excluded. If ALL_DATA_CATEGORIES is set to S, then this will be ignored"
+        },
+        {
+          "name": "PAT_PROBLEM",
+          "type": "string",
+          "required": false,
+          "description": "S or H. If S the Problems component will be included. If H then the Problems component will have NullFlavour/excluded. If ALL_DATA_CATEGORIES is set to S, then this will be ignored"
+        },
+        {
+          "name": "PAT_ENCOUNTER",
+          "type": "string",
+          "required": false,
+          "description": "S or H. If S the Encounters component will be included. If H then the Encounters component will have NullFlavour/excluded. If ALL_DATA_CATEGORIES is set to S, then this will be ignored"
+        },
+        {
+          "name": "PAT_IMMUNIZATION",
+          "type": "string",
+          "required": false,
+          "description": "S or H. If S the Immunizations component will be included. If H then the Immunizations component will have NullFlavour/excluded. If ALL_DATA_CATEGORIES is set to S, then this will be ignored"
+        },
+        {
+          "name": "PAT_VITALS",
+          "type": "string",
+          "required": false,
+          "description": "S or H. If S the Vitals component will be included. If H then the Vitals component will have NullFlavour/excluded. If ALL_DATA_CATEGORIES is set to S, then this will be ignored"
+        },
+        {
+          "name": "PAT_SOCHX",
+          "type": "string",
+          "required": false,
+          "description": "S or H. If S the Social History component will be included. If H then the Social History component will have NullFlavour/excluded. If ALL_DATA_CATEGORIES is set to S, then this will be ignored"
+        },
+        {
+          "name": "PAT_PROCEDURES",
+          "type": "string",
+          "required": false,
+          "description": "S or H. If S the Procedures component will be included. If H then the Procedures component will have NullFlavour/excluded. If ALL_DATA_CATEGORIES is set to S, then this will be ignored"
+        },
+        {
+          "name": "PAT_LABS",
+          "type": "string",
+          "required": false,
+          "description": "S or H. If S the Labs component will be included. If H then the Labs component will have NullFlavour/excluded. If ALL_DATA_CATEGORIES is set to S, then this will be ignored"
+        },
+        {
+          "name": "PAT_IMPLANTABLEDEVICES",
+          "type": "string",
+          "required": false,
+          "description": "S or H. If S the Implantable Devices component will be included. If H then the Implantable Devices component will have NullFlavour/excluded. If ALL_DATA_CATEGORIES is set to S, then this will be ignored"
+        },
+        {
+          "name": "PAT_GOALS",
+          "type": "string",
+          "required": false,
+          "description": "S or H. If S the Goals component will be included. If H then the Goals component will have NullFlavour/excluded. If ALL_DATA_CATEGORIES is set to S, then this will be ignored"
+        },
+        {
+          "name": "PAT_FUNCTIONALSTATUS",
+          "type": "string",
+          "required": false,
+          "description": "S or H. If S the Functional Status component will be included. If H then the Functional Status component will have NullFlavour/excluded. If ALL_DATA_CATEGORIES is set to S, then this will be ignored"
+        },
+        {
+          "name": "PAT_COGNITIVESTATUS",
+          "type": "string",
+          "required": false,
+          "description": "S or H. If S the Cognitive Status component will be included. If H then the Cognitive Status component will have NullFlavour/excluded. If ALL_DATA_CATEGORIES is set to S, then this will be ignored"
+        },
+        {
+          "name": "PAT_REFERRAL",
+          "type": "string",
+          "required": false,
+          "description": "S or H. If S the Referrals component will be included. If H then the Referrals component will have NullFlavour/excluded. If ALL_DATA_CATEGORIES is set to S, then this will be ignored"
+        },
+        {
+          "name": "PAT_ASSESSMENT",
+          "type": "string",
+          "required": false,
+          "description": "S or H. If S the Assessment component will be included. If H then the Assessment component will have NullFlavour/excluded. If ALL_DATA_CATEGORIES is set to S, then this will be ignored"
+        },
+        {
+          "name": "PAT_CARETEAM",
+          "type": "string",
+          "required": false,
+          "description": "S or H. If S the Care team section will be included. If H then the Care team section will have NullFlavour/excluded. If ALL_DATA_CATEGORIES is set to S, then this will be ignored"
+        },
+        {
+          "name": "PAT_HEALTH_CONCERNS",
+          "type": "string",
+          "required": false,
+          "description": "S or H. If S the Health concerns component will be included. If H then the Health concerns component will have NullFlavour/excluded. If ALL_DATA_CATEGORIES is set to S, then this will be ignored"
+        },
+        {
+          "name": "PAT_PLANOFTREAT",
+          "type": "string",
+          "required": false,
+          "description": "S or H. If S the Plan of treatment component will be included. If H then the Plan of treatment component will have NullFlavour/excluded. If ALL_DATA_CATEGORIES is set to S, then this will be ignored"
+        },
+        {
+          "name": "PAT_DI_REPORT",
+          "type": "string",
+          "required": false,
+          "description": "S or H. If S the Diagnostic and imaging report component will be included. If H then the Diagnostic and imaging report component will have NullFlavour/excluded. If ALL_DATA_CATEGORIES is set to S, then this will be ignored"
+        }
+      ],
+      "responseSections": [
+        "Allergies",
+        "Medications",
+        "Problems",
+        "Encounters",
+        "Immunizations",
+        "Vitals",
+        "Social History",
+        "Procedures",
+        "Labs",
+        "Implantable Devices",
+        "Goals",
+        "Functional Status",
+        "Cognitive Status",
+        "Referrals",
+        "Assessment",
+        "Care Team",
+        "Health Concerns",
+        "Plan of Treatment",
+        "Diagnostic and Imaging Reports"
+      ],
+      "responseFormat": "C-CDA 2.1 XML"
+    }
+  ],
+  "errorCodes": [
+    {
+      "code": "10",
+      "text": "Internal Error occured"
+    },
+    {
+      "code": "20",
+      "text": "Username or email not correct for the given office"
+    },
+    {
+      "code": "30",
+      "text": "Error Invalid Login - Access and Refresh tokens Removed"
+    },
+    {
+      "code": "40",
+      "text": "Either the FirstName or LastName or MRN or SSN required"
+    },
+    {
+      "code": "50",
+      "text": "No patients found with the given details"
+    },
+    {
+      "code": "60",
+      "text": "More than one patients found with the given information please include some more details to narrow down the search"
+    },
+    {
+      "code": "70",
+      "text": "Start date is required"
+    },
+    {
+      "code": "90",
+      "text": "Patient MRN is required"
+    }
+  ],
+  "extractedFrom": "API_Document.html",
+  "extractionDate": "2026-02-15"
+}
