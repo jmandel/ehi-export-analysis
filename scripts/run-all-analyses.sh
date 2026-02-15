@@ -10,8 +10,7 @@
 #
 # Options:
 #   -j, --jobs N      Parallel jobs (default: 1)
-#   --skip-done       Skip products that already have analysis.md
-#   --force           Remove existing output before re-running
+#   --force           Remove existing output and re-run (default: skip done)
 #   --dry-run         Print commands without executing
 #   --backend <b>     LLM backend (default: copilot)
 #   --model <m>       Model override
@@ -21,7 +20,6 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 JOBS=1
-SKIP_DONE=false
 FORCE=false
 DRY_RUN=false
 BACKEND_ARG=""
@@ -31,7 +29,6 @@ FILTER=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
     -j|--jobs)     JOBS="$2"; shift 2 ;;
-    --skip-done)   SKIP_DONE=true; shift ;;
     --force)       FORCE=true; shift ;;
     --dry-run)     DRY_RUN=true; shift ;;
     --backend)     BACKEND_ARG="--backend $2"; shift 2 ;;
@@ -78,15 +75,14 @@ for results_dir in "$ROOT_DIR"/results/*/; do
     total=$((total + 1))
 
     if [[ -f "$output_dir/analysis.md" ]]; then
-      if [[ "$SKIP_DONE" == true ]]; then
-        skipped=$((skipped + 1))
-        continue
-      fi
       if [[ "$FORCE" == true ]]; then
         forced=$((forced + 1))
         if [[ "$DRY_RUN" == false ]]; then
           rm -rf "$output_dir"
         fi
+      else
+        skipped=$((skipped + 1))
+        continue
       fi
     fi
 
