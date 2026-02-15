@@ -20,7 +20,7 @@ export function VendorList({
   scoreRange: [number, number];
   onClearFilter: () => void;
 }) {
-  const sorted = [...vendors].sort((a, b) => a.holistic_score - b.holistic_score);
+  const sorted = [...vendors].sort((a, b) => b.holistic_score - a.holistic_score);
 
   return (
     <section className="vendor-list">

@@ -51,7 +51,7 @@ export function Histogram({
         <span>median {median.toFixed(1)}</span>
       </div>
       <div className="bars">
-        {Array.from({ length: NUM_BINS }, (_, i) => i + 1).map((bin) => (
+        {Array.from({ length: NUM_BINS }, (_, i) => NUM_BINS - i).map((bin) => (
           <div
             key={bin}
             className={`bar-col ${selectedScore === bin ? "selected" : ""}`}
