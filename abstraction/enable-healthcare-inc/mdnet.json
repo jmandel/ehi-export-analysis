@@ -1,0 +1,1239 @@
+{
+  "meta": {
+    "schemaVersion": "2026-02-15.v8",
+    "assessedAt": "2026-02-15",
+    "assessor": "codex-gpt-5",
+    "status": "draft"
+  },
+  "scope": {
+    "vendorName": "Enable Healthcare Inc",
+    "productFamily": "MDnet",
+    "_includedProducts": {
+      "sources": "results/enable-healthcare-inc/chpl-metadata.json; results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The collected primary export guide repeatedly names MDNET v10.0 as the system providing the documented export mechanisms, and CHPL metadata in this folder ties Enable Healthcare certification to MDnet.",
+      "alternatives": "A broader multi-product scope was rejected because no primary artifact in this folder documents a shared export model for non-MDnet product lines.",
+      "uncertainty": "Enable also markets adjacent services, but no direct evidence here shows they use a distinct certified export model needing a separate family record.",
+      "confidence": "high (4/5)",
+      "decision": "Scope is limited to MDnet product family evidence in this result set."
+    },
+    "includedProducts": [
+      "MDnet v10.0 (Enable Healthcare certified EHR context represented by the collected EHI export guide)"
+    ],
+    "_excludedProducts": {
+      "sources": "results/enable-healthcare-inc/product-research.md; results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+      "sourceQuality": "secondary + primary_descriptive",
+      "reasoning": "Research notes mention AI and RCM branding layers, while the primary export PDF describes one MDnet-centered export program. No primary artifact demonstrates separate export payload models for those adjacent offerings.",
+      "alternatives": "Including ariaone/Lumina/revQ as in-scope export families was rejected due lack of direct model-boundary artifacts in downloads/.",
+      "uncertainty": "If future artifacts show separate data models and export paths for these offerings, they should be abstracted separately.",
+      "confidence": "moderate (3/5)",
+      "decision": "Excluded adjacent offerings without direct shared-model export evidence."
+    },
+    "excludedProducts": [
+      "ariaone companion tooling without direct export-model artifacts in this evidence set",
+      "Standalone service branding (for example revQ/Lumina) lacking primary b(10) export artifacts in downloads/"
+    ],
+    "_versionsInScope": {
+      "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/chpl-metadata.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The export guide explicitly scopes statements to MDNet v10.0, and no version-split export documentation is present to justify additional version groups.",
+      "alternatives": "Grouping all historical/future MDnet versions was rejected because continuity beyond v10.0 is not directly evidenced in collected artifacts.",
+      "uncertainty": "Version continuity could be expanded if release-specific export docs are collected.",
+      "confidence": "high (4/5)",
+      "decision": "versionsInScope anchored to MDnet v10.0 era evidence."
+    },
+    "versionsInScope": [
+      "MDnet v10.0 (per export guide)"
+    ],
+    "scopeNotes": "This record covers only MDnet export mechanisms documented in the primary PDF and FHIR capability statement under results/enable-healthcare-inc/downloads."
+  },
+  "exportPaths": [
+    {
+      "_mechanism": {
+        "sources": "results/enable-healthcare-inc/downloads/fhir-capability-statement.json; results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "CapabilityStatement exposes system/group/patient Bulk Data operations plus read/search interactions, so this path is an API-based bulk-capable export path.",
+        "alternatives": "api_single_patient_export was rejected because bulk operations are explicitly declared; vendor_assisted_bulk_export was rejected because this API is documented as directly consumable through the FHIR portal.",
+        "uncertainty": "Operational prerequisites (tenant enablement, scopes, app approval timing) are not fully specified in primary artifacts.",
+        "confidence": "high (4/5)",
+        "decision": "mechanism = api_bulk_export"
+      },
+      "mechanism": "api_bulk_export",
+      "_container": {
+        "sources": "results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "This path is API-first with search/read and bulk export operations, so payload delivery is best classified as streaming API behavior rather than packaged files in provided evidence.",
+        "alternatives": "single_file and multi_file_bundle were rejected because no bundled file artifact is provided for this API path in downloads/.",
+        "uncertainty": "Bulk-job output file packaging specifics are not directly shown in collected artifacts.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "container = streaming_api"
+      },
+      "container": "streaming_api",
+      "_formats": {
+        "sources": "results/enable-healthcare-inc/downloads/fhir-capability-statement.json; results/enable-healthcare-inc/downloads/fhir-api-documentation-page.png",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The path is explicit FHIR R4 API capability, so FHIR JSON is directly evidenced as the exchange representation for API resources.",
+        "alternatives": "ndjson was not asserted directly from artifacts, and xml/ccda/csv were rejected for this specific API path.",
+        "uncertainty": "Bulk output encoding details are inferred from declared FHIR bulk operation support but not shown as sample files.",
+        "confidence": "moderate (3/5)",
+        "decision": "formats = [fhir_r4_json]"
+      },
+      "formats": [
+        "fhir_r4_json"
+      ],
+      "_standardProfile": {
+        "sources": "results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The capability statement instantiates the US Core server capability statement and declares US Core resource profiles across supported resources.",
+        "alternatives": "fhir_other was rejected because US Core instantiation is explicit; none_vendor_native and ccda_r21 do not match this path.",
+        "uncertainty": "Specific per-resource profile conformance depth is not validated through sample payloads.",
+        "confidence": "high (4/5)",
+        "decision": "standardProfile = fhir_us_core"
+      },
+      "standardProfile": "fhir_us_core",
+      "_selfService": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-portal-landing.png",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The export guide points authorized users and implementers to a public portal with registration and documentation, indicating customer-run API usage rather than mandatory vendor-ticket extraction.",
+        "alternatives": "no was rejected because no statement requires vendor-operated execution for normal API access; unknown was rejected because direct portal evidence exists.",
+        "uncertainty": "Client onboarding may still require administrative approvals that add setup friction.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "selfService = yes"
+      },
+      "selfService": "yes",
+      "_operationalBurden": {
+        "sources": "results/enable-healthcare-inc/downloads/fhir-api-documentation-page.png; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "API use requires registration/configuration and authorization setup, which is workable but non-trivial for production migration.",
+        "alternatives": "Scores 0-2 were rejected because this is not immediate/trivial; scores 4-5 were rejected because the path is publicly documented and technically standard.",
+        "uncertainty": "Real tenant provisioning and throttling constraints are not documented in the downloaded artifacts.",
+        "confidence": "moderate (3/5)",
+        "decision": "operationalBurden = 3"
+      },
+      "operationalBurden": 3,
+      "notes": "CapabilityStatement also supports read/search for single-patient retrieval; this row is classified as bulk-capable because export operations are explicit."
+    },
+    {
+      "_mechanism": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The guide describes an integrated CCDA Export Tracker used by authorized practice users for one-time or scheduled full/partial/incremental exports, including bulk mode.",
+        "alternatives": "ui_single_patient_export was rejected because the same described workflow explicitly includes bulk export; api_* and vendor_assisted_bulk_export do not fit the in-product tracker description.",
+        "uncertainty": "Exact UI workflow steps and resulting file package details are not shown as screenshots or samples.",
+        "confidence": "high (4/5)",
+        "decision": "mechanism = ui_bulk_export"
+      },
+      "mechanism": "ui_bulk_export",
+      "_container": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_descriptive",
+        "reasoning": "Bulk CCDA generation is described as producing full-set and incremental chart exports across many patients, which is most consistent with a multi-file export bundle pattern.",
+        "alternatives": "single_file was rejected because bulk full-set output implies multiple patient documents; database_dump/streaming_api are not described for this path.",
+        "uncertainty": "No sample archive or manifest was provided to verify exact packaging.",
+        "confidence": "moderate (3/5)",
+        "decision": "container = multi_file_bundle"
+      },
+      "container": "multi_file_bundle",
+      "_formats": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The guide explicitly labels this path as CCDA R2.1 export.",
+        "alternatives": "xml alone was rejected because the path is specifically C-CDA, and csv/json/fhir are described as separate methods.",
+        "uncertainty": "No sample C-CDA instance was included for direct template inspection.",
+        "confidence": "high (4/5)",
+        "decision": "formats = [ccda]"
+      },
+      "formats": [
+        "ccda"
+      ],
+      "_standardProfile": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The document repeatedly states CCDA R2.1 for this path and lists included clinical sections.",
+        "alternatives": "none_vendor_native and fhir_* were rejected because this path is explicitly CCDA.",
+        "uncertainty": "Template-level constraint conformance cannot be verified without sample payloads.",
+        "confidence": "high (4/5)",
+        "decision": "standardProfile = ccda_r21"
+      },
+      "standardProfile": "ccda_r21",
+      "_selfService": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The guide states authorized practice users can use the integrated tracker directly, indicating customer-run execution in-product.",
+        "alternatives": "no was rejected because required vendor-operated extraction is not stated for this tracker path; unknown was rejected because user-run wording is explicit.",
+        "uncertainty": "Role/permission provisioning steps are not detailed.",
+        "confidence": "high (4/5)",
+        "decision": "selfService = yes"
+      },
+      "selfService": "yes",
+      "_operationalBurden": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_descriptive",
+        "reasoning": "Scheduling options, full-vs-incremental modes, and segment choices imply moderate operational setup and governance effort.",
+        "alternatives": "Lower scores (0-2) were rejected because this is more than a one-click download; higher scores (4-5) were rejected because direct in-product workflow is documented.",
+        "uncertainty": "Actual UI complexity and throughput are unknown without running the workflow.",
+        "confidence": "moderate (3/5)",
+        "decision": "operationalBurden = 3"
+      },
+      "operationalBurden": 3,
+      "notes": "This same tracker also supports single-patient output; classification here prioritizes the explicit bulk-capable workflow."
+    },
+    {
+      "_mechanism": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The guide states authorized users can request detailed CSV export for a specific patient or all patients; this is a user-initiated in-product bulk-capable export.",
+        "alternatives": "api_* was rejected because this section is not described as API endpoint usage; vendor_assisted_bulk_export was rejected because required vendor operation is not stated for this standard CSV method.",
+        "uncertainty": "Exact trigger UI and delivery channel are not shown in downloads/.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "mechanism = ui_bulk_export"
+      },
+      "mechanism": "ui_bulk_export",
+      "_container": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_descriptive",
+        "reasoning": "A full data-set CSV export across all patients is most plausibly emitted as multiple CSV files rather than one monolithic file, and no contrary packaging artifact is available.",
+        "alternatives": "single_file was rejected as less likely for broad multi-domain all-patient extracts; database_dump/streaming_api are not documented for this method.",
+        "uncertainty": "No sample export package or file manifest is available to confirm exact packaging.",
+        "confidence": "moderate (3/5)",
+        "decision": "container = multi_file_bundle"
+      },
+      "container": "multi_file_bundle",
+      "_formats": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The method is explicitly defined as machine-readable CSV full dataset export.",
+        "alternatives": "json/xml/ccda/fhir were rejected because this method explicitly names CSV.",
+        "uncertainty": "Delimiter/encoding and per-file schema are not provided in downloaded artifacts.",
+        "confidence": "high (4/5)",
+        "decision": "formats = [csv]"
+      },
+      "formats": [
+        "csv"
+      ],
+      "_standardProfile": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "CSV here is described as MDnet detailed data export with no declared external semantic profile, so it is vendor-native representation.",
+        "alternatives": "fhir_* and ccda_r21 were rejected because those are separate export methods in the same guide.",
+        "uncertainty": "Without the referenced dictionary artifact, field-level model semantics remain unclear.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "standardProfile = none_vendor_native"
+      },
+      "standardProfile": "none_vendor_native",
+      "_selfService": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The method text says authorized users can request the export, indicating customer-side execution capability.",
+        "alternatives": "no was rejected because required vendor operation is not explicitly stated for this method; unknown was rejected because authorized-user request language is direct.",
+        "uncertainty": "Some deployments may still require administrative setup not visible in public artifacts.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "selfService = yes"
+      },
+      "selfService": "yes",
+      "_operationalBurden": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Although CSV is practical for migration, the referenced dictionary location is not present in collected artifacts, so implementers face high semantic friction.",
+        "alternatives": "Scores 0-3 were rejected because missing field-level reference materially raises integration burden; score 5 was rejected because the core CSV mechanism is at least described and user-requestable.",
+        "uncertainty": "Burden could drop quickly if a current dictionary/spec is provided.",
+        "confidence": "moderate (3/5)",
+        "decision": "operationalBurden = 4"
+      },
+      "operationalBurden": 4,
+      "notes": "This is the strongest claimed full-EHI path (health + activity + financial), but field-level structure is not directly evidenced in downloaded artifacts."
+    },
+    {
+      "_mechanism": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The optional announce-and-deliver bridge describes Enable-hosted/configured exchange channels (VPN/SFTP/web service) for full-set and incremental transmission, indicating vendor-assisted bulk exchange.",
+        "alternatives": "ui_* and api_* were rejected because this section centers on coordinated interface setup and queue delivery rather than self-run ad hoc export by customer staff.",
+        "uncertainty": "Customer-operable variants may exist after setup, but initial operation is clearly integration-service oriented.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "mechanism = vendor_assisted_bulk_export"
+      },
+      "mechanism": "vendor_assisted_bulk_export",
+      "_container": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "This service mixes queued files and web-service retrieval behaviors across multiple transport types, so container behavior is hybrid.",
+        "alternatives": "single_file, multi_file_bundle, database_dump, and streaming_api alone were rejected because no single container pattern captures all described modes.",
+        "uncertainty": "Exact per-transport packaging conventions are not provided.",
+        "confidence": "moderate (3/5)",
+        "decision": "container = hybrid"
+      },
+      "container": "hybrid",
+      "_formats": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The guide explicitly lists CCDA R2.1, HL7 v2/v3, EDI 837P/835, and JSON document exchange in this operational channel set. JSON and CCDA map directly to enum values; HL7/EDI are represented as other.",
+        "alternatives": "A single-format call was rejected because this path is explicitly multi-format by design.",
+        "uncertainty": "No sample payload set is present to quantify relative mix per deployment.",
+        "confidence": "high (4/5)",
+        "decision": "formats = [ccda, json, other]"
+      },
+      "formats": [
+        "ccda",
+        "json",
+        "other"
+      ],
+      "_standardProfile": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "This path combines a declared external standard (CCDA R2.1) with non-CCDA transport payloads (HL7/EDI/custom JSON), so profile behavior is mixed.",
+        "alternatives": "ccda_r21 alone was rejected because the same service includes other non-CCDA payloads.",
+        "uncertainty": "Exact semantic profile used for each non-CCDA stream is not fully specified.",
+        "confidence": "moderate (3/5)",
+        "decision": "standardProfile = mixed"
+      },
+      "standardProfile": "mixed",
+      "_selfService": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The optional bridge is framed as Enable-supported implementation service with setup/configuration responsibilities, so it is not a purely self-run path.",
+        "alternatives": "yes was rejected because required coordinated vendor setup is explicit; unknown was rejected because the service description clearly indicates vendor-operated components.",
+        "uncertainty": "After initial implementation, customers may automate portions independently.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "selfService = no"
+      },
+      "selfService": "no",
+      "_operationalBurden": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "VPN/SFTP/web-service bridge setup, queue integrity handling, ACK/NACK workflow, and multi-format integration create a heavily constrained operational path.",
+        "alternatives": "Lower scores were rejected because this path requires substantial implementation coordination and operational management.",
+        "uncertainty": "Burden varies by chosen transport, but remains high across listed options.",
+        "confidence": "high (4/5)",
+        "decision": "operationalBurden = 5"
+      },
+      "operationalBurden": 5,
+      "notes": "This is described as an optional add-on integration service and should not be confused with simpler in-product export routes."
+    }
+  ],
+  "documentation": {
+    "_hasDataDictionary": {
+      "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+      "sourceQuality": "primary_descriptive",
+      "reasoning": "The guide claims a dictionary/docs location for CSV structure, but no dictionary artifact is present in collected primary downloads, so existence is not directly verifiable from this corpus.",
+      "alternatives": "yes was rejected because no actual dictionary file with table/field definitions is included; no was rejected because the guide explicitly claims one exists.",
+      "uncertainty": "Direct access to the referenced docs endpoint would resolve this field immediately.",
+      "confidence": "moderate (3/5)",
+      "decision": "hasDataDictionary = unknown"
+    },
+    "hasDataDictionary": "unknown",
+    "_hasMachineReadableSchema": {
+      "sources": "results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "A machine-readable FHIR CapabilityStatement JSON is present and documents supported resources/interactions for the API export path.",
+      "alternatives": "no was rejected because this JSON artifact is directly machine-consumable export-interface documentation.",
+      "uncertainty": "This does not provide schema-level detail for CSV or other non-FHIR paths.",
+      "confidence": "high (4/5)",
+      "decision": "hasMachineReadableSchema = yes"
+    },
+    "hasMachineReadableSchema": "yes",
+    "_describesFieldNames": {
+      "sources": "results/enable-healthcare-inc/downloads/fhir-capability-statement.json; results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The capability statement names resource search parameters and the guide names CCDA segment sets, providing explicit field/element naming at least for key paths.",
+      "alternatives": "no was rejected because direct named parameters/sections are present.",
+      "uncertainty": "CSV column names are not directly available in downloads/.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "describesFieldNames = yes"
+    },
+    "describesFieldNames": "yes",
+    "_describesFieldTypes": {
+      "sources": "results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "FHIR search parameters include explicit data types (for example string, date, reference, token), which is direct type documentation for that path.",
+      "alternatives": "no was rejected because type declarations are explicit in the machine-readable capability artifact.",
+      "uncertainty": "Type detail outside the FHIR path (especially CSV columns) remains undocumented in collected files.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "describesFieldTypes = yes"
+    },
+    "describesFieldTypes": "yes",
+    "_describesFieldSemantics": {
+      "sources": "results/enable-healthcare-inc/downloads/fhir-capability-statement.json; results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Search parameter documentation and export-method descriptions provide meaningful semantic intent for many elements (for example patient, category, status, period, referral, claim feeds).",
+      "alternatives": "no was rejected because semantic descriptions are directly present, though incomplete.",
+      "uncertainty": "Semantics for full CSV and non-FHIR feed fields are still thin without accompanying dictionaries.",
+      "confidence": "moderate (3/5)",
+      "decision": "describesFieldSemantics = yes"
+    },
+    "describesFieldSemantics": "yes",
+    "_describesValueSets": {
+      "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Collected artifacts do not provide explicit enumerated value sets or bound code lists for exported fields.",
+      "alternatives": "yes was rejected because no explicit value-domain tables or code-system bindings are documented in these artifacts.",
+      "uncertainty": "Sample payloads or dedicated implementation guides might include value-set bindings not present here.",
+      "rule": "Use yes only with explicit enumerations or code-binding lists.",
+      "confidence": "high (4/5)",
+      "decision": "describesValueSets = no"
+    },
+    "describesValueSets": "no",
+    "_describesRelationships": {
+      "sources": "results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The capability statement explicitly documents inter-resource linkage patterns (for example Provenance target reverse include and patient reference-based retrieval), which is direct relationship evidence for the API model slice.",
+      "alternatives": "no was rejected because explicit cross-resource references are documented; unknown was rejected because relationship statements are concrete in this artifact.",
+      "uncertainty": "This does not provide a full cross-format relationship map across CSV/EDI/HL7 pathways.",
+      "confidence": "moderate (3/5)",
+      "decision": "describesRelationships = yes"
+    },
+    "describesRelationships": "yes",
+    "_describesKeysConstraints": {
+      "sources": "results/enable-healthcare-inc/downloads/fhir-capability-statement.json; results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No explicit PK/FK cardinality/requiredness constraint catalog is provided in collected artifacts.",
+      "alternatives": "yes was rejected because endpoint/search documentation is not equivalent to explicit keys-and-constraints documentation.",
+      "uncertainty": "Underlying implementation guides may define constraints but are not included in downloads/.",
+      "confidence": "high (4/5)",
+      "decision": "describesKeysConstraints = no"
+    },
+    "describesKeysConstraints": "no",
+    "_hasSampleData": {
+      "sources": "results/enable-healthcare-inc/files.json; results/enable-healthcare-inc/downloads/fhir-capability-statement.json; results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No sample export rows, sample FHIR bundles, sample CCDA files, or sample CSV files are present in the collected artifacts.",
+      "alternatives": "yes was rejected because capability metadata and descriptive PDFs are not sample payload data.",
+      "uncertainty": "If example payload files are added, this call should be updated.",
+      "confidence": "high (5/5)",
+      "decision": "hasSampleData = no"
+    },
+    "hasSampleData": "no",
+    "_sampleRepresentativeness": {
+      "sources": "results/enable-healthcare-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Because no sample payload artifacts are included, representativeness is none by definition.",
+      "alternatives": "Any score above 0 was rejected due absence of sample export content.",
+      "uncertainty": "Representative score depends on future sample payload collection.",
+      "confidence": "high (5/5)",
+      "decision": "sampleRepresentativeness = 0"
+    },
+    "sampleRepresentativeness": 0,
+    "_docsCurrentness": {
+      "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The primary PDF was created in late 2023 and capability metadata date is older; documentation is usable but appears mostly stale rather than actively maintained.",
+      "alternatives": "Scores 0-1 were rejected because concrete docs are present; scores 3-5 were rejected because dated artifacts and missing companion docs suggest limited currency.",
+      "uncertainty": "Live portal updates could exist beyond what is captured in downloaded artifacts.",
+      "confidence": "moderate (3/5)",
+      "decision": "docsCurrentness = 2"
+    },
+    "docsCurrentness": 2,
+    "_maturity": {
+      "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json; results/enable-healthcare-inc/downloads/fhir-api-documentation-page.png",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Documentation provides broad method coverage and one machine-readable API artifact, but lacks sample payloads, full field dictionaries in-hand, and cross-format mapping detail.",
+      "alternatives": "minimal was rejected because there is meaningful export-method documentation; good/strong/excellent were rejected due major implementation ambiguities and missing schema-level depth for key paths.",
+      "uncertainty": "Maturity could rise if the CSV dictionary/spec and sample files become accessible.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "maturity = basic"
+    },
+    "maturity": "basic",
+    "notes": "Coverage breadth is documented better than structural depth. Strongest technical artifact is the FHIR capability statement; weakest point is absent in-hand CSV field-level documentation."
+  },
+  "fidelityRisk": {
+    "_representationType": {
+      "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Most concretely documented structures are external-standard projections (FHIR US Core, CCDA R2.1, HL7, EDI) rather than direct exposure of a unified native relational/object model.",
+      "alternatives": "native_model_like and native_plus_projection were rejected because no direct native schema/table model is available in artifacts; unclear was rejected because projection evidence is explicit.",
+      "uncertainty": "A complete CSV dictionary and samples could shift the call toward native_plus_projection.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "representationType = external_standard_projection"
+    },
+    "representationType": "external_standard_projection",
+    "_mappingTarget": {
+      "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The documented export ecosystem includes explicit FHIR and CCDA projection targets, while CSV is described as native-style extraction, yielding mixed target behavior at product level.",
+      "alternatives": "fhir alone and ccda alone were rejected because both are present; none was rejected due explicit external mappings.",
+      "uncertainty": "Relative dependency on each target in customer practice is not quantified in current artifacts.",
+      "confidence": "moderate (3/5)",
+      "decision": "mappingTarget = mixed"
+    },
+    "mappingTarget": "mixed",
+    "_projectionLossRisk": {
+      "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "High-level claims of broad coverage exist, but absence of in-hand detailed CSV structure and sample payloads creates substantial risk that important internal workflow semantics are not fully reconstructible.",
+      "alternatives": "Lower scores (0-2) were rejected due significant documentation gaps; score 5 was rejected because multiple export channels likely capture substantial clinical/billing core data.",
+      "uncertainty": "Direct CSV dictionary and real sample exports could materially reduce this risk.",
+      "confidence": "moderate (3/5)",
+      "decision": "projectionLossRisk = 4"
+    },
+    "projectionLossRisk": 4,
+    "_conflationRisk": {
+      "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+      "sourceQuality": "primary_descriptive",
+      "reasoning": "CCDA-centric incremental exports and mixed-format feeds can collapse distinct operational states into summary sections, creating moderate concept conflation risk.",
+      "alternatives": "Scores 0-1 were rejected because summary standards inherently aggregate; scores 4-5 were rejected because there is at least one claimed native CSV path that may preserve granularity.",
+      "uncertainty": "Without sample payloads, actual concept granularity cannot be directly measured.",
+      "confidence": "moderate (3/5)",
+      "decision": "conflationRisk = 3"
+    },
+    "conflationRisk": 3,
+    "_reconstructionDifficulty": {
+      "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Reconstructing a complete patient-plus-financial longitudinal model requires combining multiple formats (FHIR, CCDA, CSV, HL7, EDI, JSON) with no provided crosswalk, which is high effort.",
+      "alternatives": "Scores 0-2 were rejected because multi-format join burden is substantial; score 5 was rejected because standards-based components still provide usable anchors.",
+      "uncertainty": "Difficulty may vary significantly if one dominant full-fidelity CSV package is available in practice.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "reconstructionDifficulty = 4"
+    },
+    "reconstructionDifficulty": 4,
+    "_keyLossPatterns": {
+      "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Repeated patterns include cross-format fragmentation, incremental-only segment updates, and limited explicit key/crosswalk documentation.",
+      "alternatives": "No-loss interpretation was rejected because artifacts do not provide a single explicit end-to-end key model across formats.",
+      "uncertainty": "Actual export packages might include hidden linkage columns not documented here.",
+      "confidence": "moderate (3/5)",
+      "decision": "keyLossPatterns reflect evidence-backed semantic and linkage risks."
+    },
+    "keyLossPatterns": [
+      "Clinical and financial data are split across different standards and transport channels without an in-hand unified entity crosswalk.",
+      "Incremental CCDA workflow can send changed sections with many other sections null-flavored, requiring state reconstruction across time.",
+      "FHIR capability documents API surface but not direct mapping back to CSV/EDI identifiers used in other paths.",
+      "No explicit PK/FK/constraint documentation is provided for the claimed full CSV path in collected artifacts."
+    ],
+    "_likelyOmittedAreas": {
+      "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Some patient-facing domains expected in broad EHR workflows are not explicitly represented in retrieved structural artifacts, indicating likely underrepresentation or unclear coverage.",
+      "alternatives": "Declaring no omissions was rejected because several domains are not directly documented as exportable in the available artifacts.",
+      "uncertainty": "These areas may exist in tenant-specific CSV exports, but cannot be confirmed without the missing structural details.",
+      "confidence": "moderate (3/5)",
+      "decision": "likelyOmittedAreas focuses on high-impact domains with weak direct evidence."
+    },
+    "likelyOmittedAreas": [
+      "Patient portal message threads and communication context are not explicitly documented as export content.",
+      "Consent/advance-directive artifacts are not explicitly listed in the guide or capability resources.",
+      "Telehealth operational encounter metadata is not explicitly distinguished from general encounter exports.",
+      "Full billing lifecycle details beyond EDI claims/remittance transactions are not structurally documented in-hand."
+    ]
+  },
+  "domainCoverage": [
+    {
+      "domain": "demographics",
+      "_coverage": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Demographic updates are explicitly covered in HL7 ADT, and Patient resource support is explicit in the FHIR capability statement.",
+        "alternatives": "present_but_not_comprehensive was rejected because multiple export paths directly cover core demographics; not_clearly_present is contradicted by direct evidence.",
+        "uncertainty": "Depth of demographic attributes in CSV is not directly observable in-hand.",
+        "confidence": "high (4/5)"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "This call is supported by explicit named mechanisms and resources.",
+        "alternatives": "Lower confidence was rejected because evidence is direct and repeated.",
+        "uncertainty": "Attribute-level completeness remains untested without sample payloads.",
+        "confidence": "high (4/5)"
+      },
+      "confidence": 4,
+      "notes": "Demographics are directly named in ADT and represented in FHIR Patient path."
+    },
+    {
+      "domain": "encounters",
+      "_coverage": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Encounters are listed in CCDA sections and FHIR Encounter resource support is explicit.",
+        "alternatives": "present_but_not_comprehensive was rejected because encounter appears in multiple paths with incremental logic detail.",
+        "uncertainty": "Completeness of non-billable encounter variants is unknown.",
+        "confidence": "high (4/5)"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The guide includes encounter-level examples in the incremental use case.",
+        "alternatives": "Lower confidence was rejected due explicit section listing and scenario narrative.",
+        "uncertainty": "Detailed encounter subfields are not enumerated.",
+        "confidence": "high (4/5)"
+      },
+      "confidence": 4,
+      "notes": "Incremental CCDA scenario specifically shows encounter updates being exported."
+    },
+    {
+      "domain": "problems_conditions",
+      "_coverage": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Problems section is explicitly included in CCDA and Condition resource is listed in FHIR capability.",
+        "alternatives": "present_but_not_comprehensive was rejected because both summary and API paths name this domain directly.",
+        "uncertainty": "Problem lifecycle detail in CSV path remains unverified.",
+        "confidence": "high (4/5)"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Direct section-level inclusion and incremental examples support confidence.",
+        "alternatives": "Lower confidence rejected due repeated direct mentions.",
+        "uncertainty": "Granularity details are still not sample-validated.",
+        "confidence": "high (4/5)"
+      },
+      "confidence": 4,
+      "notes": "Problem and condition data appear in both CCDA and FHIR paths."
+    },
+    {
+      "domain": "medications",
+      "_coverage": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Medications section is explicit in CCDA and MedicationRequest/MedicationDispense are in FHIR support list.",
+        "alternatives": "present_but_not_comprehensive was rejected because both prescribing and medication list representations are directly signaled.",
+        "uncertainty": "End-to-end e-prescribing transaction status history beyond medication records is not clearly documented.",
+        "confidence": "high (4/5)"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Use-case narrative explicitly discusses new prescription entries in incremental output.",
+        "alternatives": "Lower confidence rejected due direct use-case evidence.",
+        "uncertainty": "Not all pharmacy-response semantics are shown.",
+        "confidence": "high (4/5)"
+      },
+      "confidence": 4,
+      "notes": "Medication domain is explicitly present across both standards-based paths."
+    },
+    {
+      "domain": "allergies",
+      "_coverage": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Allergy section is explicit in CCDA and AllergyIntolerance resource is supported in FHIR.",
+        "alternatives": "present_but_not_comprehensive was rejected because active/inactive allergy transitions are explicitly discussed in the incremental example.",
+        "uncertainty": "Allergy metadata detail breadth is not directly enumerated field by field.",
+        "confidence": "high (4/5)"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The use case includes explicit allergy additions and status changes in exported incrementals.",
+        "alternatives": "Lower confidence rejected due detailed narrative evidence.",
+        "uncertainty": "Payload-level coding detail remains unobserved.",
+        "confidence": "high (4/5)"
+      },
+      "confidence": 4,
+      "notes": "Incremental example demonstrates allergy lifecycle handling, not just static presence."
+    },
+    {
+      "domain": "immunizations",
+      "_coverage": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Immunizations are listed as CCDA section and FHIR Immunization resource support is explicit.",
+        "alternatives": "present_but_not_comprehensive was rejected because domain is directly represented across multiple export methods.",
+        "uncertainty": "Registry-reporting context fields are not described in detail.",
+        "confidence": "high (4/5)"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The scenario explicitly cites influenza vaccine incremental export behavior.",
+        "alternatives": "Lower confidence rejected due concrete scenario evidence.",
+        "uncertainty": "No sample file verifies full coding completeness.",
+        "confidence": "high (4/5)"
+      },
+      "confidence": 4,
+      "notes": "Immunization domain is directly called out and behaviorally illustrated."
+    },
+    {
+      "domain": "vitals",
+      "_coverage": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Vitals is explicitly named among the always-sent CCDA segment set.",
+        "alternatives": "present_but_not_comprehensive was rejected because the guide positions the CCDA section list as required segment coverage for that path.",
+        "uncertainty": "Scope of specific vital-sign elements is not detailed in collected artifacts.",
+        "confidence": "moderate-high (4/5)"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Direct section listing provides solid evidence though not field-level detail.",
+        "alternatives": "Lower confidence rejected because direct inclusion is explicit.",
+        "uncertainty": "Sample payload absence limits validation depth.",
+        "confidence": "moderate-high (4/5)"
+      },
+      "confidence": 4,
+      "notes": "Vitals appear as explicit CCDA segment; finer structure is unobserved."
+    },
+    {
+      "domain": "laboratory",
+      "_coverage": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Lab results are explicitly listed in CCDA sections and supported by FHIR Observation/Specimen resources plus incremental lab example in the guide.",
+        "alternatives": "present_but_not_comprehensive was rejected because direct domain evidence appears in multiple paths.",
+        "uncertainty": "Reference ranges and nuanced lab interpretation fields are not verified through sample payloads.",
+        "confidence": "high (4/5)"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The use-case includes specific HBA1C result transmission behavior.",
+        "alternatives": "Lower confidence rejected due direct workflow example.",
+        "uncertainty": "No sample file to inspect abnormal flag handling.",
+        "confidence": "high (4/5)"
+      },
+      "confidence": 4,
+      "notes": "Laboratory domain has both section-level and scenario-level evidence."
+    },
+    {
+      "domain": "diagnostic_reports",
+      "_coverage": {
+        "sources": "results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "FHIR DiagnosticReport is explicitly supported, indicating direct diagnostic report export capability on API path.",
+        "alternatives": "not_clearly_present was rejected due explicit resource support; plausibly_comprehensive was not chosen because non-FHIR structural detail is limited.",
+        "uncertainty": "Cross-format coverage for all diagnostic report variants is not demonstrated.",
+        "confidence": "moderate (3/5)"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is moderate because the evidence is direct but limited to capability-level declarations.",
+        "alternatives": "Higher confidence rejected due lack of sample payload validation.",
+        "uncertainty": "Actual report document richness remains uncertain.",
+        "confidence": "moderate (3/5)"
+      },
+      "confidence": 3,
+      "notes": "Explicit in FHIR API; broader export-path depth is not fully evidenced."
+    },
+    {
+      "domain": "procedures",
+      "_coverage": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Procedures appear in CCDA section list and Procedure resource appears in FHIR support list.",
+        "alternatives": "present_but_not_comprehensive was rejected because procedure appears across at least two major export modalities.",
+        "uncertainty": "Procedure coding detail is not directly shown in sample outputs.",
+        "confidence": "high (4/5)"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Direct section listing plus incremental mention supports high confidence.",
+        "alternatives": "Lower confidence rejected due multiple direct mentions.",
+        "uncertainty": "Granularity by procedure status remains unknown.",
+        "confidence": "high (4/5)"
+      },
+      "confidence": 4,
+      "notes": "Procedure evidence appears in both CCDA and FHIR path documentation."
+    },
+    {
+      "domain": "clinical_notes",
+      "_coverage": {
+        "sources": "results/enable-healthcare-inc/downloads/fhir-capability-statement.json; results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "DocumentReference support is present, but capability documentation states summary CCD document focus; this indicates note/document presence but unclear breadth of full specialty note corpus.",
+        "alternatives": "plausibly_comprehensive was rejected because retrieved artifacts do not directly show broad note-type export coverage.",
+        "uncertainty": "CSV/document export could include richer note sets not evidenced in downloaded artifacts.",
+        "confidence": "moderate (3/5)"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is moderate due direct but constrained note-related evidence.",
+        "alternatives": "Higher confidence rejected due absence of concrete note payload examples.",
+        "uncertainty": "Coverage could expand with sample document exports.",
+        "confidence": "moderate (3/5)"
+      },
+      "confidence": 3,
+      "notes": "Evidence supports summary-document presence but not full note-type comprehensiveness."
+    },
+    {
+      "domain": "care_plans_goals",
+      "_coverage": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Care plan and goal are explicitly listed in CCDA sections and mirrored in FHIR CarePlan and Goal resources.",
+        "alternatives": "present_but_not_comprehensive was rejected because direct dual-path evidence is strong.",
+        "uncertainty": "Plan-goal linkage depth and status history are not observable without sample payloads.",
+        "confidence": "high (4/5)"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Both artifacts directly name this domain.",
+        "alternatives": "Lower confidence rejected due repeated explicit evidence.",
+        "uncertainty": "Semantic richness is still not sample-validated.",
+        "confidence": "high (4/5)"
+      },
+      "confidence": 4,
+      "notes": "Strong explicit representation across CCDA and FHIR paths."
+    },
+    {
+      "domain": "orders_referrals",
+      "_coverage": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Referrals are listed in CCDA sections and ServiceRequest is supported in FHIR; incremental scenario includes referral generation.",
+        "alternatives": "present_but_not_comprehensive was rejected because both orders/referrals signals are explicit and repeated.",
+        "uncertainty": "Depth of order lifecycle states is not shown in sample payloads.",
+        "confidence": "high (4/5)"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Use-case narrative contains direct referral increment example.",
+        "alternatives": "Lower confidence rejected due scenario-level evidence.",
+        "uncertainty": "Order status granularity remains uncertain.",
+        "confidence": "high (4/5)"
+      },
+      "confidence": 4,
+      "notes": "Referral/order elements are directly documented with incremental behavior context."
+    },
+    {
+      "domain": "documents_attachments",
+      "_coverage": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The guide explicitly describes JSON exchange for scanned documents/faxes/custom reports, and FHIR DocumentReference/Binary resources are supported.",
+        "alternatives": "present_but_not_comprehensive was rejected because direct dedicated mechanism exists for this domain.",
+        "uncertainty": "Folder taxonomy and attachment metadata completeness are not described in detail.",
+        "confidence": "high (4/5)"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Dedicated JSON mechanism is directly stated for document exchange.",
+        "alternatives": "Lower confidence rejected due explicit domain-specific mechanism.",
+        "uncertainty": "Binary payload conventions are not sample-validated in this corpus.",
+        "confidence": "high (4/5)"
+      },
+      "confidence": 4,
+      "notes": "Strong domain signal due explicit scanned-document exchange mechanism."
+    },
+    {
+      "domain": "insurance",
+      "_coverage": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Payer information updates are explicit in ADT description and FHIR Coverage resource is supported, indicating clear insurance-domain presence.",
+        "alternatives": "present_but_not_comprehensive was rejected because both interface and API evidence are direct.",
+        "uncertainty": "Policy-history and coordination-of-benefits depth is not directly documented.",
+        "confidence": "moderate-high (4/5)"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Two independent mechanisms indicate insurance coverage is exportable.",
+        "alternatives": "Lower confidence rejected due direct cross-artifact support.",
+        "uncertainty": "Detailed insurance financial attribution may sit in EDI/CSV not directly visible.",
+        "confidence": "moderate-high (4/5)"
+      },
+      "confidence": 4,
+      "notes": "Insurance domain appears through both payer updates and FHIR Coverage support."
+    },
+    {
+      "domain": "claims_billing",
+      "_coverage": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The scope statement explicitly includes financial data, claim, and adjudication datasets; EDI 837P/835 claim feeds are explicitly documented.",
+        "alternatives": "present_but_not_comprehensive was rejected because claims exports are directly addressed as dedicated mechanism plus full-data CSV claim.",
+        "uncertainty": "Field-level billing schema and linkage to clinical events are not directly available.",
+        "confidence": "high (4/5)"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Direct billing language and explicit EDI mechanism provide strong evidence.",
+        "alternatives": "Lower confidence rejected due explicit financial scope statement.",
+        "uncertainty": "Granularity beyond EDI transaction constructs remains uncertain.",
+        "confidence": "high (4/5)"
+      },
+      "confidence": 4,
+      "notes": "Claims/billing has explicit first-class treatment in the export guide."
+    },
+    {
+      "domain": "payments",
+      "_coverage": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "EDI 835 remittance feed and adjudication mention indicate payment-domain data presence.",
+        "alternatives": "plausibly_comprehensive was rejected because in-hand artifacts do not detail full payment posting lifecycle beyond remittance references; not_clearly_present is contradicted by EDI/financial statements.",
+        "uncertainty": "Patient payment and adjustment detail coverage is not fully documented.",
+        "confidence": "moderate-high (4/5)"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Remittance/adjudication language is direct but narrow in structure detail.",
+        "alternatives": "Higher confidence rejected due missing field-level payment schema.",
+        "uncertainty": "Comprehensiveness across payment subtypes remains unclear.",
+        "confidence": "moderate (3/5)"
+      },
+      "confidence": 3,
+      "notes": "Payment evidence exists primarily via remittance/adjudication pathways."
+    },
+    {
+      "domain": "scheduling",
+      "_coverage": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "HL7 SIU path explicitly covers appointment creation/edits/cancellations/check-in.",
+        "alternatives": "present_but_not_comprehensive was rejected because dedicated scheduling feed is explicitly documented.",
+        "uncertainty": "Advanced scheduling metadata breadth is not detailed.",
+        "confidence": "high (4/5)"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Explicit dedicated SIU section yields strong confidence of scheduling presence.",
+        "alternatives": "Lower confidence rejected due direct named feed for this domain.",
+        "uncertainty": "No sample SIU payload in corpus.",
+        "confidence": "high (4/5)"
+      },
+      "confidence": 4,
+      "notes": "Scheduling is explicitly represented through HL7 SIU transaction exports."
+    },
+    {
+      "domain": "consents_directives",
+      "_coverage": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No explicit consent or advance-directive export mechanism/resource is identified in collected artifacts.",
+        "alternatives": "present_but_not_comprehensive was rejected because any consent presence would be speculative from generic document channels.",
+        "uncertainty": "This domain could be embedded in CSV or documents, but not directly evidenced.",
+        "confidence": "moderate (3/5)"
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is moderate because the call is based on absence from explicit lists.",
+        "alternatives": "Higher confidence rejected due absence-based inference.",
+        "uncertainty": "Hidden schema/docs could change this call.",
+        "confidence": "moderate (3/5)"
+      },
+      "confidence": 3,
+      "notes": "No direct artifact explicitly names consent/directive structures in export outputs."
+    },
+    {
+      "domain": "patient_communications",
+      "_coverage": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Collected export artifacts do not explicitly describe portal messaging or communication-thread exports as a distinct domain.",
+        "alternatives": "present_but_not_comprehensive was rejected because evidence would be speculative through generic document channels only.",
+        "uncertainty": "Communications could appear in proprietary CSV exports that are not structurally documented in-hand.",
+        "confidence": "moderate (3/5)"
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "This is an absence inference from explicit method descriptions.",
+        "alternatives": "Higher confidence rejected because no sample CSV/doc payload is available.",
+        "uncertainty": "A detailed dictionary could show communication tables/messages.",
+        "confidence": "moderate (3/5)"
+      },
+      "confidence": 3,
+      "notes": "Patient communication export support is not explicitly documented in the primary artifacts."
+    },
+    {
+      "domain": "audit_provenance",
+      "_coverage": {
+        "sources": "results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "FHIR Provenance resource support indicates at least some provenance data availability, but no explicit audit-log export detail is provided.",
+        "alternatives": "plausibly_comprehensive was rejected because comprehensive audit export is not documented; not_clearly_present was rejected due explicit Provenance support.",
+        "uncertainty": "This domain is generally outside EHI completeness scope, and available evidence does not show full security audit-log exports.",
+        "confidence": "moderate (3/5)"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Explicit resource support gives moderate confidence for limited provenance presence.",
+        "alternatives": "Higher confidence rejected due lack of explicit audit-log payload evidence.",
+        "uncertainty": "Could vary significantly by tenant and endpoint authorization.",
+        "confidence": "moderate (3/5)"
+      },
+      "confidence": 3,
+      "notes": "Audit/provenance is included for canonical coverage reporting, but comprehensive audit logs are not required for EHI completeness judgments."
+    }
+  ],
+  "quantitativeProfile": {
+    "artifactCounts": {
+      "totalArtifactsReviewed": {
+        "status": "measured",
+        "value": 7,
+        "method": "exact",
+        "notes": "Count includes 4 primary download artifacts plus 3 contextual result artifacts used in this abstraction (files.json and two prior summaries)."
+      },
+      "exportArtifactsDocumented": {
+        "status": "measured",
+        "value": 4,
+        "method": "exact",
+        "notes": "Direct export-structure artifacts counted: EHI export guide PDF, FHIR capability statement JSON, FHIR portal landing screenshot, FHIR API documentation screenshot."
+      },
+      "sampleDataArtifacts": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No sample export payload files were present in downloads/."
+      },
+      "dictionaryOrSchemaArtifacts": {
+        "status": "measured",
+        "value": 2,
+        "method": "exact",
+        "notes": "Counted the EHI export guide PDF and FHIR capability statement as structural specification artifacts."
+      },
+      "machineReadableSchemaArtifacts": {
+        "status": "measured",
+        "value": 1,
+        "method": "exact",
+        "notes": "FHIR capability statement JSON is machine-readable interface documentation."
+      }
+    },
+    "modelEntityCounts": {
+      "documentedEntities": {
+        "status": "measured",
+        "value": 27,
+        "method": "exact",
+        "notes": "Boundary: counted the 27 explicitly listed FHIR resource types in CapabilityStatement; CCDA section names excluded here to avoid cross-standard duplicate-entity ambiguity."
+      },
+      "observedEntities": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No sample export payload instances were available to observe actual entity rows/resources."
+      },
+      "exportDistinctUnits": {
+        "status": "not_observable",
+        "notes": "A practical full export unit count cannot be derived because packaging manifests are absent and multiple mechanisms are described without sample outputs."
+      }
+    },
+    "fieldCounts": {
+      "documentedFields": {
+        "status": "not_observable",
+        "notes": "No in-hand field dictionary for CSV or cross-format combined model; capability parameters are insufficient to represent full exported field count."
+      },
+      "observedFields": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No sample data artifacts means no directly observed payload fields."
+      },
+      "fieldsWithTypeInfo": {
+        "status": "not_observable",
+        "notes": "FHIR search parameter types exist, but do not represent complete field-type coverage for the export corpus."
+      },
+      "fieldsWithSemanticDescription": {
+        "status": "not_observable",
+        "notes": "Semantic description exists for subsets (for example API parameters) but not enough for defensible full-field counting."
+      },
+      "codedFields": {
+        "status": "not_observable",
+        "notes": "No explicit comprehensive value-binding inventory is available."
+      }
+    },
+    "relationshipCounts": {
+      "documentedRelationships": {
+        "status": "not_observable",
+        "notes": "Some relationship hints exist (for example Provenance target), but no full relationship catalog across formats is present for countable coverage."
+      },
+      "documentedPrimaryKeys": {
+        "status": "not_observable",
+        "notes": "No explicit key inventory artifacts were provided in downloads/."
+      },
+      "documentedForeignKeys": {
+        "status": "not_observable",
+        "notes": "No explicit FK mapping artifacts were provided in downloads/."
+      },
+      "documentedConstraints": {
+        "status": "not_observable",
+        "notes": "Requiredness/uniqueness/cardinality constraints are not comprehensively documented for this export corpus."
+      }
+    },
+    "valueSetCounts": {
+      "documentedValueSets": {
+        "status": "not_observable",
+        "notes": "Explicit value set catalogs are not included in primary artifacts."
+      },
+      "valueSetsWithCodeSystem": {
+        "status": "not_observable",
+        "notes": "No complete binding inventory with named code systems is present in collected artifacts."
+      },
+      "fieldsBoundToValueSets": {
+        "status": "not_observable",
+        "notes": "Field-to-valueset bindings are not comprehensively documented in this corpus."
+      },
+      "localCustomValueSets": {
+        "status": "not_observable",
+        "notes": "No explicit custom local value-set catalog was found in downloads/."
+      }
+    },
+    "notes": "Quantitative counts prioritize directly countable artifacts and avoid fabricated precision where cross-format structural evidence is incomplete."
+  },
+  "accessConstraints": {
+    "_docsPubliclyAccessible": {
+      "sources": "results/enable-healthcare-inc/files.json; results/enable-healthcare-inc/downloads/fhir-portal-landing.png; results/enable-healthcare-inc/downloads/fhir-api-documentation-page.png",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Primary artifacts were collected from publicly reachable URLs without authenticated session captures in this corpus.",
+      "alternatives": "no was rejected because retrievable public artifacts are present.",
+      "uncertainty": "Some deeper implementation material may still require authenticated access.",
+      "confidence": "high (4/5)",
+      "decision": "docsPubliclyAccessible = yes"
+    },
+    "docsPubliclyAccessible": "yes",
+    "_roleRestricted": {
+      "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-api-documentation-page.png",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The guide repeatedly says authorized users are required for in-product exports, and API doc text indicates vendor/EHR admin registration control for clients.",
+      "alternatives": "no was rejected because role gating is explicitly described.",
+      "uncertainty": "Exact permission matrices per tenant are not visible.",
+      "confidence": "high (4/5)",
+      "decision": "roleRestricted = yes"
+    },
+    "roleRestricted": "yes",
+    "_vendorInvolvementNeeded": {
+      "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Standard CSV and CCDA tracker exports are described as runnable by authorized practice users, so vendor operation is not required for standard paths.",
+      "alternatives": "yes was rejected because vendor-operated dependency is framed as optional add-on service, not baseline export requirement; unknown was rejected due direct authorized-user language.",
+      "uncertainty": "Individual customer contracts could impose extra dependency not visible in public docs.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "vendorInvolvementNeeded = no"
+    },
+    "vendorInvolvementNeeded": "no",
+    "_potentialFeesForStandardExport": {
+      "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+      "sourceQuality": "primary_descriptive",
+      "reasoning": "The document labels one exchange bridge as an add-on service, but does not clearly state fee policy for baseline standard export methods.",
+      "alternatives": "yes was rejected because explicit standard-export fee language is absent; no was rejected because add-on commercialization suggests potential cost layers.",
+      "uncertainty": "Contract/pricing documentation would be required for a definitive fee call.",
+      "confidence": "moderate (3/5)",
+      "decision": "potentialFeesForStandardExport = unknown"
+    },
+    "potentialFeesForStandardExport": "unknown",
+    "_practicalAccessibilityScore": {
+      "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-api-documentation-page.png; results/enable-healthcare-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Docs are public and standard paths are user-runnable, but role gating, multi-format complexity, and missing in-hand CSV structural detail create moderate practical friction.",
+      "alternatives": "Scores 0-2 were rejected due clear non-trivial setup/integration burden; scores 4-5 were rejected because baseline mechanisms are at least documented and accessible.",
+      "uncertainty": "True accessibility may vary by tenant permissions and support responsiveness.",
+      "confidence": "moderate (3/5)",
+      "decision": "practicalAccessibilityScore = 3"
+    },
+    "practicalAccessibilityScore": 3,
+    "notes": "Accessibility is mixed: public-facing docs and portal exist, but role controls and incomplete in-hand structural artifacts increase practical onboarding effort."
+  },
+  "overall": {
+    "_posture": {
+      "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json; results/enable-healthcare-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "MDnet export posture is usable but partial: breadth claims are strong (clinical + financial, multiple mechanisms), but practical migration semantics are materially limited by missing in-hand detailed CSV structure and no sample payloads.",
+      "alternatives": "high_fidelity_export was rejected due unresolved structural gaps; projection_limited was considered but not chosen because a native-style CSV full dataset path is explicitly claimed; insufficiently_documented was rejected because there is still meaningful concrete evidence.",
+      "uncertainty": "If full CSV dictionary and representative samples are produced, posture could move toward high_fidelity_export.",
+      "confidence": "moderate (3/5)",
+      "decision": "posture = usable_but_partial"
+    },
+    "posture": "usable_but_partial",
+    "_completenessScore": {
+      "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Evidence supports broad clinical and financial domain coverage claims, but some patient-facing domains (for example communications/consents) are not clearly documented and structural verification is incomplete.",
+      "alternatives": "Scores 4-5 were rejected due unresolved domain uncertainty and lack of sample evidence; scores 1-2 were rejected because substantial coverage is explicitly documented.",
+      "uncertainty": "Completeness could be revised upward or downward with direct CSV/schema and payload inspection.",
+      "confidence": "moderate (3/5)",
+      "decision": "completenessScore = 3"
+    },
+    "completenessScore": 3,
+    "_technicalUsabilityScore": {
+      "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json; results/enable-healthcare-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Technical usability is difficult but feasible: standards paths are available, yet migration requires reconciling multiple formats with limited key/field-level crosswalk documentation.",
+      "alternatives": "Scores 4-5 were rejected due missing sample data and structural gaps; score 1 was rejected because usable standards interfaces do exist.",
+      "uncertainty": "Usability could improve significantly with detailed dictionaries and sample bundles.",
+      "confidence": "moderate (3/5)",
+      "decision": "technicalUsabilityScore = 2"
+    },
+    "technicalUsabilityScore": 2,
+    "_confidence": {
+      "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json; results/enable-healthcare-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Confidence is moderate because core mechanism evidence is direct, but key structural assertions (especially full CSV detail) cannot be fully validated from collected artifacts.",
+      "alternatives": "Higher confidence (4-5) was rejected due missing payload and dictionary artifacts; lower confidence (1-2) was rejected because substantial direct evidence exists.",
+      "uncertainty": "Direct capture of dictionary/sample exports is the main confidence multiplier.",
+      "confidence": "moderate (3/5)",
+      "decision": "confidence = 3"
+    },
+    "confidence": 3,
+    "_strongestSignal": {
+      "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The strongest positive signal is explicit scope language that includes both health data and financial/claims/adjudication data, paired with multiple export mechanisms.",
+      "alternatives": "FHIR support alone was rejected as strongest signal because it would not capture the explicit financial-data scope commitment.",
+      "uncertainty": "Strength depends on implementation fidelity of the claimed CSV and EDI paths.",
+      "confidence": "high (4/5)",
+      "decision": "Strongest signal emphasizes explicit financial + clinical scope commitment."
+    },
+    "strongestSignal": "Primary export guide explicitly scopes exports to both clinical record data and financial claim/adjudication datasets, not only USCDI-style summaries.",
+    "_biggestRisk": {
+      "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The highest-impact risk is missing in-hand field-level documentation and sample payloads for the claimed full CSV dataset, which blocks confident semantic reconstruction.",
+      "alternatives": "Multi-format complexity was considered but ranked second because it is manageable if schema/crosswalk artifacts are available.",
+      "uncertainty": "If detailed dictionary/sample files are provided, this risk drops sharply.",
+      "confidence": "high (4/5)",
+      "decision": "Biggest risk is unverifiable full-dataset structural detail."
+    },
+    "biggestRisk": "No directly available field-level CSV dictionary/sample payloads in this evidence set, limiting verification of full-fidelity EHI semantics across domains.",
+    "_summary": {
+      "sources": "results/enable-healthcare-inc/downloads/EHI_DATA_EXPort_GUIDE.pdf; results/enable-healthcare-inc/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Summary reflects broad documented mechanism coverage with moderate confidence penalties from missing structural depth artifacts.",
+      "alternatives": "A strongly positive summary was rejected due unresolved documentation gaps; a strongly negative summary was rejected because substantial export capability evidence is explicit.",
+      "uncertainty": "Real-world export fidelity remains contingent on currently unavailable structural artifacts.",
+      "confidence": "moderate (3/5)",
+      "decision": "Summary balances explicit breadth against verifiability limits."
+    },
+    "summary": "MDnet shows broad, standards-heavy export coverage with explicit clinical and financial scope, but practical migration confidence is constrained by missing in-hand detailed CSV structure and sample export payloads."
+  },
+  "holisticNarrative": {
+    "summary": "The evidence set for MDnet is unusual in that the headline scope statement is stronger than the technical depth actually delivered in-hand. The primary guide explicitly includes both health and financial/claims/adjudication data and documents several export channels, which is a meaningful positive signal for EHI completeness intent. It also documents operational concepts such as full-set initialization and incremental updates, including examples of how allergy, medication, referral, and lab-result changes are queued into incremental C-CDA output.\n\nAt the same time, migration-grade confidence remains limited because the artifact corpus lacks concrete sample payloads and lacks direct field-level documentation for the claimed full CSV dataset. The FHIR capability statement is machine-readable and useful, but it only describes one projection slice. The overall implementation posture therefore looks usable but operationally expensive: a data recipient would need to combine multiple standards and transport formats while inferring cross-format linkage behavior that is not fully spelled out in the retrieved sources.\n\nApplying the EHI boundary strictly, missing audit-log depth is not a decisive completeness gap, while unclear patient-communication and consent/directive coverage remains a real uncertainty because those are patient-decision-relevant domains when used by the product. The net assessment is that MDnet likely exports substantial EHI breadth, but with non-trivial reconstruction risk until detailed, directly consumable structural artifacts are available.",
+    "standoutObservations": [
+      "surprising: The guide explicitly includes financial claim/adjudication data in export scope, which many vendors under-document.",
+      "risky: No in-hand sample payloads or field-level CSV dictionary were available in this evidence corpus.",
+      "impressive: CapabilityStatement declares US Core instantiation and Bulk Data operations, indicating a meaningful standards API surface.",
+      "unclear: Cross-format linkage strategy (FHIR/CCDA/CSV/EDI/HL7/JSON) is not documented as a unified key model."
+    ]
+  },
+  "notableFacts": [
+    "Primary guide documents eight export methods, including FHIR, C-CDA, CSV, HL7 ADT/SIU/DFT, JSON document exchange, and EDI claim/remittance feeds.",
+    "Scope statement explicitly includes both health record data and financial claim/adjudication-related datasets.",
+    "FHIR capability statement lists 27 supported resources and instantiates both US Core server and Bulk Data capability statements.",
+    "CCDA workflow description includes full-set initialization plus incremental update logic with null-flavor behavior for unchanged sections.",
+    "Dedicated JSON mechanism is described for scanned documents/faxes/custom reports with base64 content handling.",
+    "No sample export payload files are present in the collected artifacts, limiting direct schema and semantic validation."
+  ]
+}

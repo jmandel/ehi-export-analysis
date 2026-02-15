@@ -1,0 +1,1107 @@
+{
+  "meta": {
+    "schemaVersion": "2026-02-15.v8",
+    "assessedAt": "2026-02-15",
+    "assessor": "codex-gpt-5",
+    "status": "draft"
+  },
+  "scope": {
+    "vendorName": "Health Care 2000, Inc.",
+    "productFamily": "MDVita",
+    "_includedProducts": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf; results/health-care-2000-inc/product-research.md; results/health-care-2000-inc/ehi-export-report.md; results/health-care-2000-inc/files.json",
+      "sourceQuality": "primary_direct + secondary",
+      "reasoning": "The primary export guide is explicitly titled for MDVita version 27 and describes one integrated export model spanning clinical and financial data files. Supporting research describes MDVita as a single integrated EHR/practice-management suite.",
+      "alternatives": "Splitting into separate families inside this evidence set was rejected because no separate export specification artifact is present for another product line with a distinct schema.",
+      "uncertainty": "If future primary artifacts show a materially distinct data model for a separately branded line, scope should be split then.",
+      "confidence": "high (4/5)",
+      "decision": "Included scope is MDVita product family represented by the v27 EHI export guide."
+    },
+    "includedProducts": [
+      "MDVita (version 27 export model documented in guide v1.2)"
+    ],
+    "_excludedProducts": {
+      "sources": "results/health-care-2000-inc/product-research.md; results/health-care-2000-inc/ehi-export-report.md; results/health-care-2000-inc/files.json",
+      "sourceQuality": "secondary",
+      "reasoning": "Supporting research references MDVita Analytics as an add-on reporting module, but no primary b(10) export artifact in this folder documents a separate export payload model for it.",
+      "alternatives": "Treating MDVita Analytics as a separate in-scope product family was rejected due missing primary export-schema evidence under downloads/.",
+      "uncertainty": "If a dedicated export spec for analytics datasets is later collected, it should be assessed in a separate record.",
+      "confidence": "moderate (3/5)",
+      "decision": "Excluded non-primary or separately branded modules lacking direct export-model artifacts here."
+    },
+    "excludedProducts": [
+      "MDVita Analytics (no separate primary export-format artifact in this evidence set)"
+    ],
+    "_versionsInScope": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The PDF explicitly states MDVita version 27 and guide version 1.2; no other versioned export guides are present in downloads/ for this vendor.",
+      "alternatives": "Grouping additional historical or newer versions was rejected because continuity beyond version 27 is not directly evidenced by primary artifacts in this folder.",
+      "uncertainty": "Version scope could be expanded when additional version-specific export guides are collected.",
+      "confidence": "high (4/5)",
+      "decision": "versionsInScope anchored to MDVita version 27 evidence."
+    },
+    "versionsInScope": [
+      "MDVita version 27 (guide version 1.2 dated 2023-09-19)"
+    ],
+    "scopeNotes": "This abstraction is limited to the single publicly posted MDVita EHI export specification and does not assume separate product-family schemas beyond that artifact."
+  },
+  "exportPaths": [
+    {
+      "_mechanism": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The guide says to use the in-application MDVita User Guide to schedule an EHI export and then describes generated export files, indicating an in-product user-driven bulk workflow rather than API or mandatory vendor ticket extraction.",
+        "alternatives": "api_bulk_export and api_single_patient_export were rejected because no endpoint protocol is described in the artifact; vendor_assisted_bulk_export was rejected because required vendor operation is not stated for this standard path.",
+        "uncertainty": "The public PDF does not show UI screenshots or exact permissions needed to execute scheduling.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "mechanism = ui_bulk_export"
+      },
+      "mechanism": "ui_bulk_export",
+      "_container": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Output includes multiple parquet files plus reference CSV files and externally downloadable document/note files, which is neither one single file nor a pure streaming API. This is a mixed packaging style.",
+        "alternatives": "single_file and database_dump were rejected because the guide explicitly lists many named files and reference lists; streaming_api was rejected because delivery is file-oriented.",
+        "uncertainty": "The exact archive/folder wrapping around these files is not explicitly illustrated.",
+        "confidence": "high (4/5)",
+        "decision": "container = hybrid"
+      },
+      "container": "hybrid",
+      "_formats": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The guide explicitly defines parquet for raw data, PDF for SOAP notes, CSV for URL reference files, and original uploaded document formats (for example pdf/xml/html/csv/doc/jpg).",
+        "alternatives": "json/xml-only/fhir_r4_json/ccda were rejected because the path is documented as vendor-native multi-format export and not a single healthcare-standard payload.",
+        "uncertainty": "Actual deployed document extension mix depends on tenant data contents.",
+        "confidence": "high (4/5)",
+        "decision": "formats include CSV and PDF plus other non-enumerated/raw formats (parquet and original document binaries)."
+      },
+      "formats": [
+        "csv",
+        "pdf",
+        "other"
+      ],
+      "_standardProfile": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The export is organized as vendor-named data files and internal identifiers with no declaration that payloads conform to FHIR or C-CDA profile structures.",
+        "alternatives": "fhir_us_core, fhir_other, and ccda_r21 were rejected because no such profile declaration appears in this export-format guide.",
+        "uncertainty": "The vendor may offer other interoperability paths, but this assessed path is the documented EHI export format.",
+        "confidence": "high (4/5)",
+        "decision": "standardProfile = none_vendor_native"
+      },
+      "standardProfile": "none_vendor_native",
+      "_selfService": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The guide instructs users to schedule export through the MDVita user guide inside the application, which supports customer-organization execution without explicit required vendor-run extraction language.",
+        "alternatives": "no was rejected because required vendor operation is not stated; unknown was rejected because user-run scheduling is explicitly referenced.",
+        "uncertainty": "The artifact does not enumerate the exact role required to run scheduling.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "selfService = yes"
+      },
+      "selfService": "yes",
+      "_operationalBurden": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The path is feasible but involves scheduling, multi-format extraction, and follow-on download of URL-referenced documents within a 14-day window, which creates moderate operational overhead.",
+        "alternatives": "Scores 0-2 were rejected because this is not immediate one-click extraction; scores 4-5 were rejected because the workflow is documented and does not show hard vendor gating.",
+        "uncertainty": "Actual runtime volume, throttling, and retry behavior are not documented.",
+        "confidence": "moderate (3/5)",
+        "decision": "operationalBurden = 3"
+      },
+      "operationalBurden": 3,
+      "notes": "Documents and SOAP notes are delivered by reference URLs that expire after 14 days; this introduces time-sensitive retrieval requirements after export scheduling."
+    }
+  ],
+  "documentation": {
+    "_hasDataDictionary": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Sections 3 through 26 provide per-file column name, data type, and description tables, which constitutes a vendor-supplied data dictionary for the export payload.",
+      "alternatives": "no was rejected because explicit field dictionaries are present across all documented files.",
+      "uncertainty": "Dictionary completeness is bounded by what this specific guide covers for version 27.",
+      "confidence": "high (4/5)",
+      "decision": "hasDataDictionary = yes"
+    },
+    "hasDataDictionary": "yes",
+    "_hasMachineReadableSchema": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The collected artifact is a PDF specification; no OpenAPI/JSON Schema/XSD/DDL artifact is provided in downloads/ as a separate machine-consumable schema source.",
+      "alternatives": "yes was rejected because parseable PDF tables are not the same as a vendor-supplied machine-readable schema artifact.",
+      "uncertainty": "Actual exported parquet files would embed schema, but those files are not included in the collected artifact set.",
+      "confidence": "high (4/5)",
+      "decision": "hasMachineReadableSchema = no"
+    },
+    "hasMachineReadableSchema": "no",
+    "_describesFieldNames": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Each data-file section lists explicit column names in a dedicated column.",
+      "alternatives": "no/unknown were rejected because field names are directly enumerated.",
+      "uncertainty": "None material for this call.",
+      "confidence": "high (5/5)",
+      "decision": "describesFieldNames = yes"
+    },
+    "describesFieldNames": "yes",
+    "_describesFieldTypes": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The tables include a Data Type column with Numeric/String/DateTime/Boolean/Date types for nearly all fields; one field (PaymentReference) appears without an explicit type due formatting.",
+      "alternatives": "no was rejected because type information is broadly explicit; unknown was rejected because coverage is clear despite one minor omission.",
+      "uncertainty": "A tiny number of fields may have typographical omissions in the PDF layout.",
+      "confidence": "high (4/5)",
+      "decision": "describesFieldTypes = yes"
+    },
+    "describesFieldTypes": "yes",
+    "_describesFieldSemantics": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Each column has a description and many include operational meaning (for example status interpretation, cross-file references, and usage notes).",
+      "alternatives": "no/unknown were rejected because semantic descriptions are extensive across sections.",
+      "uncertainty": "Semantic depth varies by field; some are brief labels.",
+      "confidence": "high (4/5)",
+      "decision": "describesFieldSemantics = yes"
+    },
+    "describesFieldSemantics": "yes",
+    "_describesValueSets": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Multiple fields explicitly include possible values and code meanings (for example claim type, referral urgency, status flags, billing frequency, action codes).",
+      "alternatives": "no was rejected because explicit enumerations are present in many sections; unknown was rejected because value-set evidence is direct.",
+      "uncertainty": "Not every coded field has exhaustive vocabulary documentation.",
+      "confidence": "high (4/5)",
+      "decision": "describesValueSets = yes"
+    },
+    "describesValueSets": "yes",
+    "_describesRelationships": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Many fields explicitly reference other files (for example See Patients data file, See ProviderPCPs data file), and the guide explains MemberID/PatientID key linkage behavior.",
+      "alternatives": "no was rejected because cross-entity references are explicitly documented; unknown was rejected because join guidance appears repeatedly.",
+      "uncertainty": "The guide does not provide a full ER diagram or cardinality matrix.",
+      "confidence": "high (4/5)",
+      "decision": "describesRelationships = yes"
+    },
+    "describesRelationships": "yes",
+    "_describesKeysConstraints": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Many tables declare unique identifiers (for example Unique identifier for the patient/claim/referral), providing explicit key-like uniqueness statements and repeated foreign-key references.",
+      "alternatives": "no was rejected because key semantics are explicitly stated in field descriptions; unknown was rejected because this evidence is direct even without formal DDL.",
+      "uncertainty": "Requiredness/cardinality constraints are mostly not formalized, so key/constraint documentation is partial rather than full relational specification.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "describesKeysConstraints = yes"
+    },
+    "describesKeysConstraints": "yes",
+    "_hasSampleData": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The guide includes concrete CSV reference-file examples with sample FileName and FileDownloadURL rows, which are sample payload snippets rather than schema-only prose.",
+      "alternatives": "no was rejected because explicit example rows are shown in the document.",
+      "uncertainty": "Samples are narrow and do not include representative parquet row examples.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "hasSampleData = yes"
+    },
+    "hasSampleData": "yes",
+    "_sampleRepresentativeness": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Sample data is limited to a short reference CSV illustration and file naming examples, without broad multi-domain record examples across documented tables.",
+      "alternatives": "Score 0 was rejected because at least a real sample snippet exists; scores 2-5 were rejected because representative breadth across domains is absent.",
+      "uncertainty": "Representativeness would increase materially with anonymized parquet samples.",
+      "confidence": "high (4/5)",
+      "decision": "sampleRepresentativeness = 1"
+    },
+    "sampleRepresentativeness": 1,
+    "_docsCurrentness": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf; results/health-care-2000-inc/product-research.md; results/health-care-2000-inc/ehi-export-report.md; results/health-care-2000-inc/files.json",
+      "sourceQuality": "primary_direct + secondary",
+      "reasoning": "The guide is versioned (v1.2) and dated 2023-09-19 for MDVita v27; supporting collection metadata confirms active availability as of 2026-02-14.",
+      "alternatives": "Scores 1-2 were rejected because the artifact is not obsolete-only; scores 4-5 were rejected because no active changelog cadence or multiple recent revisions are shown.",
+      "uncertainty": "No public release history is provided to verify maintenance frequency beyond this document.",
+      "confidence": "moderate (3/5)",
+      "decision": "docsCurrentness = 3"
+    },
+    "docsCurrentness": 3,
+    "_maturity": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Documentation is broad at field level and relationship hints are explicit, but machine-readable schema artifacts, rich samples, and full operational runbook details are missing.",
+      "alternatives": "strong/excellent were rejected due missing machine-readable schema and limited sample payloads; basic/minimal were rejected because the field catalog is extensive and concrete.",
+      "uncertainty": "Maturity could upgrade if the in-product user guide and sample exports are provided.",
+      "confidence": "high (4/5)",
+      "decision": "maturity = good"
+    },
+    "maturity": "good",
+    "notes": "The PDF is unusually detailed for a public b(10) format guide (24 data files with field dictionaries), but implementers still lack public sample parquet datasets and a separate machine-readable schema package."
+  },
+  "fidelityRisk": {
+    "_representationType": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The export exposes many operational entities across clinical, scheduling, insurance, claims, payments, and communications with internal IDs reused across files, consistent with a native system model view rather than a thin summary.",
+      "alternatives": "external_standard_projection was rejected because no FHIR/C-CDA resource projection structure is used; native_plus_projection was considered but rejected as primary structure remains detailed native entities.",
+      "uncertainty": "Some domains (for example clinical notes and documents) are represented by referenced binaries, which adds projection behavior at document content level.",
+      "confidence": "high (4/5)",
+      "decision": "representationType = native_model_like"
+    },
+    "representationType": "native_model_like",
+    "_mappingTarget": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No explicit mapping target model is declared; file and column definitions are vendor-native and internally named.",
+      "alternatives": "fhir, ccda, and flat_tables were rejected because this guide does not describe transformation to those target models for this export path.",
+      "uncertainty": "None material for this classification.",
+      "confidence": "high (4/5)",
+      "decision": "mappingTarget = none"
+    },
+    "mappingTarget": "none",
+    "_projectionLossRisk": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Risk is bounded but non-zero: main structured data is rich, yet clinical notes are exported as PDFs and documents are provided by external references, which can reduce discrete semantic fidelity or be missed operationally.",
+      "alternatives": "Scores 0-1 were rejected because document/note indirection creates real loss risk; scores 3-5 were rejected because core structured domains are still broadly represented.",
+      "uncertainty": "True loss magnitude depends on whether downstream extraction captures referenced binaries within expiry windows.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "projectionLossRisk = 2"
+    },
+    "projectionLossRisk": 2,
+    "_conflationRisk": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Most concepts are separated into domain-specific files, but some broad fields and denormalized claim procedure columns suggest occasional concept blending.",
+      "alternatives": "Score 0-1 was rejected because denormalized claim structures can collapse context; scores 3-5 were rejected because the model remains mostly entity-separated.",
+      "uncertainty": "Conflation risk could be measured more precisely with real row samples and edge-case encounters.",
+      "confidence": "moderate (3/5)",
+      "decision": "conflationRisk = 2"
+    },
+    "conflationRisk": 2,
+    "_reconstructionDifficulty": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Reconstruction is feasible but requires moderate effort: many cross-file joins, mixed MemberID/PatientID naming, denormalized claim procedure fields, and separate retrieval of referenced document binaries.",
+      "alternatives": "Scores 0-2 were rejected because non-trivial inferred joins and operational retrieval are required; scores 4-5 were rejected because key links are still documented and consistent enough for migration engineering.",
+      "uncertainty": "Difficulty may vary based on tenant data volume and export completeness in practice.",
+      "confidence": "moderate (3/5)",
+      "decision": "reconstructionDifficulty = 3"
+    },
+    "reconstructionDifficulty": 3,
+    "_keyLossPatterns": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The same recurring patterns are explicitly documented and can cause loss if mishandled during migration.",
+      "alternatives": "Leaving this list empty was rejected because concrete risk patterns are visible in the export design.",
+      "uncertainty": "Operational prevalence depends on each practice dataset.",
+      "confidence": "high (4/5)",
+      "decision": "Listed concrete evidence-backed key-loss patterns."
+    },
+    "keyLossPatterns": [
+      "SOAP clinical notes are exported as PDF files referenced from index tables rather than discrete structured note elements.",
+      "Documents are fetched via time-limited URL reference CSV files (14-day availability), creating retrieval-window loss risk.",
+      "MemberID and PatientID are documented as interchangeable identifiers, increasing risk of join errors if mapping logic is naive.",
+      "Claim procedure details appear in repeated Proc_* columns within claims rows, which can blur line-item modeling without careful normalization."
+    ],
+    "_likelyOmittedAreas": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf; results/health-care-2000-inc/product-research.md; results/health-care-2000-inc/ehi-export-report.md; results/health-care-2000-inc/files.json",
+      "sourceQuality": "primary_direct + secondary",
+      "reasoning": "Compared with broad product capability descriptions, several patient-facing domains are not clearly represented in this specific export guide.",
+      "alternatives": "An empty omission list was rejected because care plans/consents are not clearly documented; a larger omission list was rejected where evidence is too weak.",
+      "uncertainty": "Some items may exist in optional modules or separate exports not included in this artifact set.",
+      "confidence": "moderate (3/5)",
+      "decision": "Likely omitted/underrepresented areas listed as bounded hypotheses."
+    },
+    "likelyOmittedAreas": [
+      "Structured care plans/goals data (not clearly present as a dedicated file/domain).",
+      "Consents and advance directives data (not clearly present as dedicated fields/files).",
+      "Patient portal or external-message interactions beyond internal user emails."
+    ]
+  },
+  "domainCoverage": [
+    {
+      "domain": "demographics",
+      "_coverage": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The Patients section includes broad person-level demographic fields used for treatment and billing context.",
+        "alternatives": "present_but_not_comprehensive was rejected because breadth is high for ambulatory demographics in this export.",
+        "uncertainty": "Some niche demographic fields might still be product-specific and unlisted.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects the specificity and directness of evidence for demographics in the PDF field tables and file list.",
+        "alternatives": "A higher confidence score was rejected where the call depends on absence inference or potential module boundaries not fully visible in the public artifact.",
+        "uncertainty": "Confidence could increase with a real export sample and in-product guide clarifying optional modules.",
+        "confidence": "high (4/5)",
+        "decision": "confidence = 5"
+      },
+      "confidence": 5,
+      "notes": "Patients file includes core demographic identifiers, contacts, race/ethnicity, language, death fields, and employer/contact details."
+    },
+    {
+      "domain": "encounters",
+      "_coverage": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Encounter context appears in multiple linked files (CareEventID/EncID) with clinical and billing ties.",
+        "alternatives": "present_but_not_comprehensive was rejected because evidence shows multi-file encounter representation, not isolated traces.",
+        "uncertainty": "Full inpatient-style encounter nuance is not expected in this ambulatory-focused product.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects the specificity and directness of evidence for encounters in the PDF field tables and file list.",
+        "alternatives": "A higher confidence score was rejected where the call depends on absence inference or potential module boundaries not fully visible in the public artifact.",
+        "uncertainty": "Confidence could increase with a real export sample and in-product guide clarifying optional modules.",
+        "confidence": "high (4/5)",
+        "decision": "confidence = 4"
+      },
+      "confidence": 4,
+      "notes": "Claims, SOAPNotesIndex, Vitals, Orders, and Appointments provide encounter-linked identifiers and service dates."
+    },
+    {
+      "domain": "problems_conditions",
+      "_coverage": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Diagnoses/problem data is directly represented with status and coding context.",
+        "alternatives": "present_but_not_comprehensive was rejected because core longitudinal problem attributes are present.",
+        "uncertainty": "Condition history granularity beyond listed fields is unknown.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects the specificity and directness of evidence for problems_conditions in the PDF field tables and file list.",
+        "alternatives": "A higher confidence score was rejected where the call depends on absence inference or potential module boundaries not fully visible in the public artifact.",
+        "uncertainty": "Confidence could increase with a real export sample and in-product guide clarifying optional modules.",
+        "confidence": "high (4/5)",
+        "decision": "confidence = 4"
+      },
+      "confidence": 4,
+      "notes": "ProblemList includes diagnosis codes, status, date fields, and standard qualifier references."
+    },
+    {
+      "domain": "medications",
+      "_coverage": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Medication representation includes clinically meaningful prescription and usage attributes.",
+        "alternatives": "present_but_not_comprehensive was rejected because medication details are extensive for ambulatory context.",
+        "uncertainty": "Medication administration record specifics are not separately documented.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects the specificity and directness of evidence for medications in the PDF field tables and file list.",
+        "alternatives": "A higher confidence score was rejected where the call depends on absence inference or potential module boundaries not fully visible in the public artifact.",
+        "uncertainty": "Confidence could increase with a real export sample and in-product guide clarifying optional modules.",
+        "confidence": "high (4/5)",
+        "decision": "confidence = 4"
+      },
+      "confidence": 4,
+      "notes": "MedicationList includes brand/generic names, dosage, SIG, route/frequency, NDC, and date spans."
+    },
+    {
+      "domain": "allergies",
+      "_coverage": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Allergy/adverse-reaction core attributes are directly represented.",
+        "alternatives": "present_but_not_comprehensive was rejected because status and coding fields support broad utility.",
+        "uncertainty": "Reaction severity/details are not explicitly listed.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects the specificity and directness of evidence for allergies in the PDF field tables and file list.",
+        "alternatives": "A higher confidence score was rejected where the call depends on absence inference or potential module boundaries not fully visible in the public artifact.",
+        "uncertainty": "Confidence could increase with a real export sample and in-product guide clarifying optional modules.",
+        "confidence": "high (4/5)",
+        "decision": "confidence = 4"
+      },
+      "confidence": 4,
+      "notes": "Allergies file includes allergy name/class, status, onset, and code fields (NDC/SNOMED/UNII)."
+    },
+    {
+      "domain": "immunizations",
+      "_coverage": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The immunization domain has dedicated structured records with coding and administration metadata.",
+        "alternatives": "present_but_not_comprehensive was rejected because dedicated breadth is clear.",
+        "uncertainty": "Registry transmission metadata depth is unclear.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects the specificity and directness of evidence for immunizations in the PDF field tables and file list.",
+        "alternatives": "A higher confidence score was rejected where the call depends on absence inference or potential module boundaries not fully visible in the public artifact.",
+        "uncertainty": "Confidence could increase with a real export sample and in-product guide clarifying optional modules.",
+        "confidence": "high (4/5)",
+        "decision": "confidence = 4"
+      },
+      "confidence": 4,
+      "notes": "Immunizations file includes CVX code, administered date, lot/manufacturer, amount, and refusal details."
+    },
+    {
+      "domain": "vitals",
+      "_coverage": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Vitals are explicitly exported in structured longitudinal rows linked to care events.",
+        "alternatives": "present_but_not_comprehensive was rejected because the core vitals pattern is directly present.",
+        "uncertainty": "Full panel of all possible measurement types cannot be confirmed without sample rows.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects the specificity and directness of evidence for vitals in the PDF field tables and file list.",
+        "alternatives": "A higher confidence score was rejected where the call depends on absence inference or potential module boundaries not fully visible in the public artifact.",
+        "uncertainty": "Confidence could increase with a real export sample and in-product guide clarifying optional modules.",
+        "confidence": "high (4/5)",
+        "decision": "confidence = 4"
+      },
+      "confidence": 4,
+      "notes": "Vitals file includes visit linkage, measurement name, units, and values."
+    },
+    {
+      "domain": "laboratory",
+      "_coverage": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Dedicated LabResults structure plus order linkage indicates broad lab-domain export coverage.",
+        "alternatives": "present_but_not_comprehensive was rejected because multiple key result semantics are documented.",
+        "uncertainty": "Some microbiology or panel hierarchy details may be flattened.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects the specificity and directness of evidence for laboratory in the PDF field tables and file list.",
+        "alternatives": "A higher confidence score was rejected where the call depends on absence inference or potential module boundaries not fully visible in the public artifact.",
+        "uncertainty": "Confidence could increase with a real export sample and in-product guide clarifying optional modules.",
+        "confidence": "high (4/5)",
+        "decision": "confidence = 4"
+      },
+      "confidence": 4,
+      "notes": "LabResults contains observation dates, status, test descriptors, result values, units, ranges, and notes."
+    },
+    {
+      "domain": "diagnostic_reports",
+      "_coverage": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "There is meaningful report-like content in labs, but broader diagnostic-report categories are not clearly exposed as dedicated structures.",
+        "alternatives": "not_clearly_present was rejected because lab report semantics are explicit; plausibly_comprehensive was rejected due missing explicit non-lab diagnostic report structures.",
+        "uncertainty": "Could move higher if imaging/other report files are shown in additional artifacts.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects the specificity and directness of evidence for diagnostic_reports in the PDF field tables and file list.",
+        "alternatives": "A higher confidence score was rejected where the call depends on absence inference or potential module boundaries not fully visible in the public artifact.",
+        "uncertainty": "Confidence could increase with a real export sample and in-product guide clarifying optional modules.",
+        "confidence": "moderate (3/5)",
+        "decision": "confidence = 3"
+      },
+      "confidence": 3,
+      "notes": "Lab result reporting elements are present, but no explicit separate imaging/diagnostic report entity is documented."
+    },
+    {
+      "domain": "procedures",
+      "_coverage": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Procedures are represented both as clinical history and billing-linked records.",
+        "alternatives": "present_but_not_comprehensive was rejected because procedure detail appears across multiple files.",
+        "uncertainty": "Operative narrative details may sit in attached documents rather than structured fields.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects the specificity and directness of evidence for procedures in the PDF field tables and file list.",
+        "alternatives": "A higher confidence score was rejected where the call depends on absence inference or potential module boundaries not fully visible in the public artifact.",
+        "uncertainty": "Confidence could increase with a real export sample and in-product guide clarifying optional modules.",
+        "confidence": "high (4/5)",
+        "decision": "confidence = 4"
+      },
+      "confidence": 4,
+      "notes": "ProcedureList and procedure-level claim/referral fields provide CPT/procedure date and charge context."
+    },
+    {
+      "domain": "clinical_notes",
+      "_coverage": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Clinical-note presence is clear and significant, but representation is partly document-style rather than fully structured note model export.",
+        "alternatives": "not_clearly_present was rejected because SOAP notes are explicit; plausibly_comprehensive was rejected because only SOAP-note pathway is clearly documented.",
+        "uncertainty": "Other note subtypes may exist but are not separately enumerated in this guide.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects the specificity and directness of evidence for clinical_notes in the PDF field tables and file list.",
+        "alternatives": "A higher confidence score was rejected where the call depends on absence inference or potential module boundaries not fully visible in the public artifact.",
+        "uncertainty": "Confidence could increase with a real export sample and in-product guide clarifying optional modules.",
+        "confidence": "high (4/5)",
+        "decision": "confidence = 4"
+      },
+      "confidence": 4,
+      "notes": "SOAPNotesIndex plus exported SOAP PDFs clearly cover narrative notes, but structured sub-elements are not exposed as discrete columns."
+    },
+    {
+      "domain": "care_plans_goals",
+      "_coverage": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "From this artifact alone, care-plan/goal structures are not clearly identifiable as a domain export.",
+        "alternatives": "present_but_not_comprehensive was rejected because evidence is insufficiently specific; plausibly_comprehensive was not supportable.",
+        "uncertainty": "May exist in note text or optional modules not visible in this public artifact.",
+        "confidence": "low-moderate (2/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects the specificity and directness of evidence for care_plans_goals in the PDF field tables and file list.",
+        "alternatives": "A higher confidence score was rejected where the call depends on absence inference or potential module boundaries not fully visible in the public artifact.",
+        "uncertainty": "Confidence could increase with a real export sample and in-product guide clarifying optional modules.",
+        "confidence": "low-moderate (2/5)",
+        "decision": "confidence = 2"
+      },
+      "confidence": 2,
+      "notes": "No dedicated care-plan/goals file or explicit care-plan fields are documented in the export-format tables."
+    },
+    {
+      "domain": "orders_referrals",
+      "_coverage": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Order/referral data is directly represented with broad workflow and authorization details.",
+        "alternatives": "present_but_not_comprehensive was rejected because both general orders and referrals are explicitly covered in depth.",
+        "uncertainty": "Some external fulfillment lifecycle events may remain outside documented fields.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects the specificity and directness of evidence for orders_referrals in the PDF field tables and file list.",
+        "alternatives": "A higher confidence score was rejected where the call depends on absence inference or potential module boundaries not fully visible in the public artifact.",
+        "uncertainty": "Confidence could increase with a real export sample and in-product guide clarifying optional modules.",
+        "confidence": "high (4/5)",
+        "decision": "confidence = 4"
+      },
+      "confidence": 4,
+      "notes": "Dedicated Orders and Referrals files include identifiers, service dates, provider links, statuses, and related coded fields."
+    },
+    {
+      "domain": "documents_attachments",
+      "_coverage": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "There is explicit metadata, linkage, signature, and annotation support around attached documents.",
+        "alternatives": "present_but_not_comprehensive was rejected because both document content retrieval and metadata structures are documented.",
+        "uncertainty": "Completeness depends on successful pull of referenced files before URL expiry.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects the specificity and directness of evidence for documents_attachments in the PDF field tables and file list.",
+        "alternatives": "A higher confidence score was rejected where the call depends on absence inference or potential module boundaries not fully visible in the public artifact.",
+        "uncertainty": "Confidence could increase with a real export sample and in-product guide clarifying optional modules.",
+        "confidence": "high (4/5)",
+        "decision": "confidence = 4"
+      },
+      "confidence": 4,
+      "notes": "DocumentsIndex, DocumentAnnotations, and DocumentSignatures plus original document exports by reference indicate substantial document-domain coverage."
+    },
+    {
+      "domain": "insurance",
+      "_coverage": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Insurance coverage representation appears broad for plan membership and benefit context.",
+        "alternatives": "present_but_not_comprehensive was rejected because plan enrollment and benefit attributes are well detailed.",
+        "uncertainty": "Plan authorization edge cases may still be mediated via referrals/claims fields.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects the specificity and directness of evidence for insurance in the PDF field tables and file list.",
+        "alternatives": "A higher confidence score was rejected where the call depends on absence inference or potential module boundaries not fully visible in the public artifact.",
+        "uncertainty": "Confidence could increase with a real export sample and in-product guide clarifying optional modules.",
+        "confidence": "high (4/5)",
+        "decision": "confidence = 4"
+      },
+      "confidence": 4,
+      "notes": "PatientPlans includes enrollment identifiers, insurer, effective/term dates, and benefit/copay fields."
+    },
+    {
+      "domain": "claims_billing",
+      "_coverage": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Claims/billing breadth is one of the strongest domains in this export with many coded and monetary fields.",
+        "alternatives": "present_but_not_comprehensive was rejected because documentation indicates deep claim and charge structures.",
+        "uncertainty": "Some denial workflow artifacts may be embedded in comments rather than normalized tables.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects the specificity and directness of evidence for claims_billing in the PDF field tables and file list.",
+        "alternatives": "A higher confidence score was rejected where the call depends on absence inference or potential module boundaries not fully visible in the public artifact.",
+        "uncertainty": "Confidence could increase with a real export sample and in-product guide clarifying optional modules.",
+        "confidence": "high (4/5)",
+        "decision": "confidence = 4"
+      },
+      "confidence": 4,
+      "notes": "Claims, MemberCharges, and ClaimsInsurancePayments include extensive billing lifecycle and claim-line financial detail."
+    },
+    {
+      "domain": "payments",
+      "_coverage": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Both payer-side and patient-side payment streams are explicitly represented.",
+        "alternatives": "present_but_not_comprehensive was rejected because payment-domain coverage spans key subdomains.",
+        "uncertainty": "Reconciliation/audit trail depth is unclear.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects the specificity and directness of evidence for payments in the PDF field tables and file list.",
+        "alternatives": "A higher confidence score was rejected where the call depends on absence inference or potential module boundaries not fully visible in the public artifact.",
+        "uncertainty": "Confidence could increase with a real export sample and in-product guide clarifying optional modules.",
+        "confidence": "high (4/5)",
+        "decision": "confidence = 4"
+      },
+      "confidence": 4,
+      "notes": "ClaimsInsurancePayments and MemberPayments provide payer and patient payment details, methods, references, and reversal dates."
+    },
+    {
+      "domain": "scheduling",
+      "_coverage": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Scheduling records are clearly present at appointment level, though broader operational scheduling configuration is not clearly exported.",
+        "alternatives": "not_clearly_present was rejected because appointment data is explicit; plausibly_comprehensive was rejected due missing template/capacity artifacts.",
+        "uncertainty": "Could move to comprehensive with additional scheduler-config exports.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects the specificity and directness of evidence for scheduling in the PDF field tables and file list.",
+        "alternatives": "A higher confidence score was rejected where the call depends on absence inference or potential module boundaries not fully visible in the public artifact.",
+        "uncertainty": "Confidence could increase with a real export sample and in-product guide clarifying optional modules.",
+        "confidence": "high (4/5)",
+        "decision": "confidence = 4"
+      },
+      "confidence": 4,
+      "notes": "Appointments includes date/time, status, location, reason, and transportation details, but no explicit scheduling template/configuration entities are documented."
+    },
+    {
+      "domain": "consents_directives",
+      "_coverage": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Evidence does not clearly establish this domain as a structured export component.",
+        "alternatives": "present_but_not_comprehensive was rejected because only indirect hints (for example release codes in claims/referrals) do not establish a full consent/directive domain export.",
+        "uncertainty": "Consent data could exist in uploaded documents but is not explicitly labeled as a structured domain.",
+        "confidence": "low-moderate (2/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects the specificity and directness of evidence for consents_directives in the PDF field tables and file list.",
+        "alternatives": "A higher confidence score was rejected where the call depends on absence inference or potential module boundaries not fully visible in the public artifact.",
+        "uncertainty": "Confidence could increase with a real export sample and in-product guide clarifying optional modules.",
+        "confidence": "low-moderate (2/5)",
+        "decision": "confidence = 2"
+      },
+      "confidence": 2,
+      "notes": "No dedicated consent or advance-directive files/fields are explicitly documented in the provided export tables."
+    },
+    {
+      "domain": "patient_communications",
+      "_coverage": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Patient-linked communication data is present through internal messaging threads.",
+        "alternatives": "not_clearly_present was rejected because the Emails dataset is explicit; plausibly_comprehensive was rejected because external/patient-portal communication channels are not clearly represented.",
+        "uncertainty": "Scope may exclude communications managed in third-party portal systems.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects the specificity and directness of evidence for patient_communications in the PDF field tables and file list.",
+        "alternatives": "A higher confidence score was rejected where the call depends on absence inference or potential module boundaries not fully visible in the public artifact.",
+        "uncertainty": "Confidence could increase with a real export sample and in-product guide clarifying optional modules.",
+        "confidence": "high (4/5)",
+        "decision": "confidence = 4"
+      },
+      "confidence": 4,
+      "notes": "Emails file captures internal MDVita user communications tied to patient IDs and thread metadata."
+    },
+    {
+      "domain": "audit_provenance",
+      "_coverage": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Some provenance signals are present, but not a full audit-log model.",
+        "alternatives": "not_clearly_present was rejected because document signature events are explicit; plausibly_comprehensive was rejected because generalized audit logging is not shown.",
+        "uncertainty": "This domain is operationally informative but largely outside EHI completeness requirements.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects the specificity and directness of evidence for audit_provenance in the PDF field tables and file list.",
+        "alternatives": "A higher confidence score was rejected where the call depends on absence inference or potential module boundaries not fully visible in the public artifact.",
+        "uncertainty": "Confidence could increase with a real export sample and in-product guide clarifying optional modules.",
+        "confidence": "moderate (3/5)",
+        "decision": "confidence = 3"
+      },
+      "confidence": 3,
+      "notes": "DocumentSignatures provides signature-event provenance for reviewed documents, but broad system access/audit trails are not documented here."
+    }
+  ],
+  "quantitativeProfile": {
+    "artifactCounts": {
+      "totalArtifactsReviewed": {
+        "status": "measured",
+        "value": 4,
+        "method": "exact",
+        "notes": "Reviewed: primary PDF plus product-research.md, ehi-export-report.md, and files.json for scope/context checks."
+      },
+      "exportArtifactsDocumented": {
+        "status": "measured",
+        "value": 1,
+        "method": "exact",
+        "notes": "Primary export-structure artifact is the MDVita EHI Data Format PDF."
+      },
+      "sampleDataArtifacts": {
+        "status": "measured",
+        "value": 1,
+        "method": "exact",
+        "notes": "The primary PDF contains sample reference CSV rows (FileName, FileDownloadURL)."
+      },
+      "dictionaryOrSchemaArtifacts": {
+        "status": "measured",
+        "value": 1,
+        "method": "exact",
+        "notes": "The PDF functions as a field-level dictionary across 24 data files."
+      },
+      "machineReadableSchemaArtifacts": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No standalone OpenAPI/JSON Schema/XSD/DDL artifact was provided in the collected files."
+      }
+    },
+    "modelEntityCounts": {
+      "documentedEntities": {
+        "status": "measured",
+        "value": 26,
+        "method": "derived",
+        "notes": "24 named raw-data files with field dictionaries plus 2 named reference CSV file types for document/note retrieval."
+      },
+      "observedEntities": {
+        "status": "measured",
+        "value": 2,
+        "method": "exact",
+        "notes": "Only the two reference CSV structures are directly shown with sample rows in the PDF."
+      },
+      "exportDistinctUnits": {
+        "status": "measured",
+        "value": 28,
+        "method": "derived",
+        "notes": "Counted as 24 parquet file units + 2 reference CSV units + SOAP-note PDF collection + uploaded-document collection."
+      }
+    },
+    "fieldCounts": {
+      "documentedFields": {
+        "status": "measured",
+        "value": 451,
+        "method": "exact",
+        "notes": "Counted from sections 3-26 table rows in the primary PDF (including PaymentReference)."
+      },
+      "observedFields": {
+        "status": "measured",
+        "value": 2,
+        "method": "exact",
+        "notes": "Sample data rows expose two concrete columns in the reference CSV example: FileName and FileDownloadURL."
+      },
+      "fieldsWithTypeInfo": {
+        "status": "measured",
+        "value": 450,
+        "method": "exact",
+        "notes": "All documented fields except PaymentReference show explicit Data Type values in the PDF tables."
+      },
+      "fieldsWithSemanticDescription": {
+        "status": "measured",
+        "value": 451,
+        "method": "exact",
+        "notes": "All counted field rows include at least a brief business description text."
+      },
+      "codedFields": {
+        "status": "measured",
+        "value": 25,
+        "method": "derived",
+        "notes": "Fields with explicit Possible values/Possible codes/Possible records enumerations in descriptions."
+      }
+    },
+    "relationshipCounts": {
+      "documentedRelationships": {
+        "status": "measured",
+        "value": 34,
+        "method": "derived",
+        "notes": "Counted explicit cross-file references such as See Patients data file / See ProviderPCPs data file and similar join statements."
+      },
+      "documentedPrimaryKeys": {
+        "status": "measured",
+        "value": 32,
+        "method": "derived",
+        "notes": "Counted fields explicitly described as unique identifier / patient unique identifier / claim unique identifier / unique instance identifier."
+      },
+      "documentedForeignKeys": {
+        "status": "measured",
+        "value": 34,
+        "method": "derived",
+        "notes": "Mirrors explicit cross-file reference count where fields point to identifiers in other data files."
+      },
+      "documentedConstraints": {
+        "status": "measured",
+        "value": 32,
+        "method": "derived",
+        "notes": "Uniqueness constraints are explicitly implied by repeated Unique identifier descriptions; requiredness/cardinality constraints are mostly not documented."
+      }
+    },
+    "valueSetCounts": {
+      "documentedValueSets": {
+        "status": "measured",
+        "value": 25,
+        "method": "derived",
+        "notes": "Distinct fields with explicit value enumerations in the PDF descriptions."
+      },
+      "valueSetsWithCodeSystem": {
+        "status": "measured",
+        "value": 1,
+        "method": "exact",
+        "notes": "ICDCodeStandard explicitly enumerates ICD10/ICD9/SNOMED as named coding systems/versions."
+      },
+      "fieldsBoundToValueSets": {
+        "status": "measured",
+        "value": 25,
+        "method": "derived",
+        "notes": "Same counted set of fields with explicit enumerated values/bindings."
+      },
+      "localCustomValueSets": {
+        "status": "measured",
+        "value": 24,
+        "method": "derived",
+        "notes": "Enumerated value sets not explicitly tied to named external code systems in their own value-list definition."
+      }
+    },
+    "notes": "Quantitative counts were derived directly from the primary PDF tables and explicit list statements. Because raw parquet samples were not provided, observed-entity/observed-field counts are intentionally conservative and limited to explicit sample snippets."
+  },
+  "accessConstraints": {
+    "_docsPubliclyAccessible": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf; results/health-care-2000-inc/product-research.md; results/health-care-2000-inc/ehi-export-report.md; results/health-care-2000-inc/files.json",
+      "sourceQuality": "primary_direct + secondary",
+      "reasoning": "The export-format PDF is publicly downloadable at the vendor URL without authentication or anti-bot gating in collected evidence.",
+      "alternatives": "no was rejected because direct anonymous access is documented and reproducible.",
+      "uncertainty": "Public accessibility could change over time if the URL is later restricted.",
+      "confidence": "high (4/5)",
+      "decision": "docsPubliclyAccessible = yes"
+    },
+    "docsPubliclyAccessible": "yes",
+    "_roleRestricted": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_descriptive",
+      "reasoning": "The PDF references in-application export scheduling but does not enumerate required roles/permissions.",
+      "alternatives": "yes was rejected because specific permission constraints are not explicitly documented; no was rejected because production EHR exports are usually permissioned and silence is insufficient for no.",
+      "uncertainty": "In-product user guide or admin documentation could resolve this.",
+      "confidence": "moderate (3/5)",
+      "decision": "roleRestricted = unknown"
+    },
+    "roleRestricted": "unknown",
+    "_vendorInvolvementNeeded": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_descriptive",
+      "reasoning": "The guide directs customer users to schedule the export through the application user guide, with no explicit requirement for vendor-operated extraction as the standard mechanism.",
+      "alternatives": "yes was rejected because required vendor intervention is not stated; unknown was considered but rejected due explicit in-product scheduling language.",
+      "uncertainty": "Some organizations may still involve support for large exports, but that is not presented as required in this artifact.",
+      "confidence": "moderate (3/5)",
+      "decision": "vendorInvolvementNeeded = no"
+    },
+    "vendorInvolvementNeeded": "no",
+    "_potentialFeesForStandardExport": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf; results/health-care-2000-inc/product-research.md; results/health-care-2000-inc/ehi-export-report.md; results/health-care-2000-inc/files.json",
+      "sourceQuality": "primary_direct + secondary",
+      "reasoning": "No explicit fee language for the standard EHI export path appears in the collected export-format artifact set.",
+      "alternatives": "yes and no were both rejected because explicit pricing/fee statements are absent in this evidence packet.",
+      "uncertainty": "Contract terms or non-public implementation agreements could include fees.",
+      "confidence": "low-moderate (2/5)",
+      "decision": "potentialFeesForStandardExport = unknown"
+    },
+    "potentialFeesForStandardExport": "unknown",
+    "_practicalAccessibilityScore": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Access friction is moderate: docs are public, but actual export execution requires in-app access and subsequent retrieval of referenced files within a 14-day expiry window.",
+      "alternatives": "Scores 0-2 were rejected because operational timing and mixed file retrieval add non-trivial friction; scores 4-5 were rejected because there is no explicit vendor-only gate for the standard path.",
+      "uncertainty": "Actual friction depends on tenant permissions and export volume.",
+      "confidence": "moderate (3/5)",
+      "decision": "practicalAccessibilityScore = 3"
+    },
+    "practicalAccessibilityScore": 3,
+    "notes": "Public documentation accessibility is strong, but operational execution details remain partly inside the application user guide and document retrieval links expire after 14 days."
+  },
+  "overall": {
+    "_posture": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf; results/health-care-2000-inc/product-research.md; results/health-care-2000-inc/ehi-export-report.md; results/health-care-2000-inc/files.json",
+      "sourceQuality": "primary_direct + secondary",
+      "reasoning": "The export is broadly usable and data-rich across clinical plus billing domains, but some patient-facing domains are not clearly documented and document/note content is partly indirect (PDF/reference URLs).",
+      "alternatives": "high_fidelity_export was rejected due bounded gaps/indirection; projection_limited was rejected because this is not an external-standard projection with major collapse; insufficiently_documented was rejected because documentation is substantial.",
+      "uncertainty": "Overall posture could improve with full sample export bundles and confirmed care-plan/consent coverage.",
+      "confidence": "high (4/5)",
+      "decision": "posture = usable_but_partial"
+    },
+    "posture": "usable_but_partial",
+    "_completenessScore": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Most core EHI clinical and billing domains are clearly represented, including claims, insurance, payments, medications, allergies, labs, notes, referrals, and documents.",
+      "alternatives": "Score 5 was rejected because care plans/consents are not clearly represented; score 3 was rejected because breadth across covered domains is high rather than merely moderate.",
+      "uncertainty": "Completeness depends on whether unlisted domains exist in separate exports or optional modules.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "completenessScore = 4"
+    },
+    "completenessScore": 4,
+    "_technicalUsabilityScore": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Parquet plus detailed field dictionaries and explicit join references make migration technically feasible, but mixed-format packaging and referenced binary retrieval add complexity.",
+      "alternatives": "Score 5 was rejected because import is not near turnkey due mixed retrieval and missing public runbook/schema artifact; score 3 was rejected because structural detail is still strong and practical.",
+      "uncertainty": "Usability would be higher with real sample exports and full operational instructions.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "technicalUsabilityScore = 4"
+    },
+    "technicalUsabilityScore": 4,
+    "_confidence": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf; results/health-care-2000-inc/product-research.md; results/health-care-2000-inc/ehi-export-report.md; results/health-care-2000-inc/files.json",
+      "sourceQuality": "primary_direct + secondary",
+      "reasoning": "Confidence is high because the primary artifact is detailed and directly about export structure, though some calls still rely on absence inference for unlisted domains.",
+      "alternatives": "Score 5 was rejected due remaining uncertainty around optional modules and operational execution constraints.",
+      "uncertainty": "Confidence would increase with production sample exports and role/permission documentation.",
+      "confidence": "high (4/5)",
+      "decision": "confidence = 4"
+    },
+    "confidence": 4,
+    "_strongestSignal": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The single strongest positive signal is explicit field-level coverage across 24 data files spanning both clinical and financial record domains, not just USCDI summary slices.",
+      "alternatives": "Other positives (public accessibility, coded values) were secondary to the breadth/depth of the core data-file catalog.",
+      "uncertainty": "Signal strength is based on documentation; execution evidence from a full sample export would further validate it.",
+      "confidence": "high (4/5)",
+      "decision": "Selected the breadth of documented native-model entities as strongest signal."
+    },
+    "strongestSignal": "The export guide documents 24 native-model data files with 451 fields across demographics, clinical workflows, claims, insurance, and payment records.",
+    "_biggestRisk": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The highest-impact risk is operational/semantic loss from document and note content being exported by referenced binaries (including 14-day URLs) rather than fully structured elements in the core tables.",
+      "alternatives": "Potential role/fee uncertainty is important but generally lower impact than losing referenced clinical documents during migration.",
+      "uncertainty": "Impact severity depends on extraction discipline and whether retrieval windows are missed.",
+      "confidence": "high (4/5)",
+      "decision": "Biggest risk centered on time-limited referenced-document retrieval and unstructured note content."
+    },
+    "biggestRisk": "SOAP notes and uploaded documents require separate referenced-file retrieval (time-limited URLs), creating practical risk of missing or semantically shallow migration of narrative content.",
+    "_summary": {
+      "sources": "results/health-care-2000-inc/downloads/MDVita_EHR_EHI_DataFormat.pdf; results/health-care-2000-inc/product-research.md; results/health-care-2000-inc/ehi-export-report.md; results/health-care-2000-inc/files.json",
+      "sourceQuality": "primary_direct + secondary",
+      "reasoning": "The summary aligns with section-level calls: broad native export coverage with moderate operational complexity and bounded domain uncertainty.",
+      "alternatives": "A stronger summary claiming near-complete import readiness was rejected due missing sample bundles and some domain ambiguities.",
+      "uncertainty": "Could shift with additional primary artifacts (sample exports, role docs, module-specific guides).",
+      "confidence": "high (4/5)",
+      "decision": "Summary emphasizes usable breadth plus bounded but real risks."
+    },
+    "summary": "MDVita’s documented b(10) export is a high-breadth native-model extract (parquet core plus referenced documents/notes) that appears strong for clinical + billing migration, but it remains partially constrained by mixed-format retrieval complexity and a few unclear patient-facing domains (notably care plans/consents)."
+  },
+  "holisticNarrative": {
+    "summary": "This evidence set is anchored by a single but unusually detailed primary artifact: a 28-page MDVita export-format guide that documents 24 data files at column level. The export clearly goes beyond a narrow USCDI projection by including claims, insurance, payer payments, patient payments, charges, referrals, appointments, and internal communications alongside traditional clinical domains. That breadth is a strong indicator that the path is intended as a practical designated-record-set extraction rather than a minimal interoperability summary.\n\nThe most material implementation caveat is packaging: structured core data is parquet, but SOAP notes and uploaded documents are not fully in-table content and require separate reference-file download workflows with 14-day URL availability. That does not invalidate export completeness for EHI categories, but it increases migration fragility and can reduce semantic richness when note/document content stays unstructured.\n\nOverall, the profile is technically usable and comparatively mature for a small vendor, with the main residual risks centered on operational retrieval discipline and a handful of domains not explicitly surfaced as structured files (for example care plans and consents).",
+    "standoutObservations": [
+      "The export includes strong financial/billing depth (claims, payer payments, patient charges, patient payments), not just clinical summaries.",
+      "Field-level documentation breadth is high (451 fields) for a publicly available b(10) guide.",
+      "Document and SOAP-note retrieval via expiring URLs is a practical migration risk if automation is weak."
+    ]
+  },
+  "notableFacts": [
+    "Primary artifact documents 24 raw-data files with field-level dictionaries for MDVita version 27.",
+    "Raw structured export format is Apache Parquet, with CSV reference files and PDF/original-format document outputs.",
+    "The guide explicitly states MemberID and PatientID are used interchangeably for the same patient account identifier.",
+    "SOAP notes and uploaded documents are delivered through reference URLs with a 14-day download window.",
+    "Claims and payment-related files provide substantial billing lifecycle detail (claims, payer payments, member charges, member payments)."
+  ]
+}

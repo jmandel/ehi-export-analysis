@@ -1,0 +1,1302 @@
+{
+  "meta": {
+    "schemaVersion": "2026-02-15.v8",
+    "assessedAt": "2026-02-15",
+    "assessor": "codex-gpt-5",
+    "status": "draft"
+  },
+  "scope": {
+    "vendorName": "ezCaretech Co., Ltd.",
+    "productFamily": "BESTCare",
+    "_includedProducts": {
+      "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json; results/ezcaretech-co-ltd/downloads/BESTCare2.0B_Certified_Health_IT_v3.0.pdf; results/ezcaretech-co-ltd/chpl-metadata.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "CHPL metadata identifies product_name BESTCare version 2.0B (CHPL 9665), and the b.10 PDF plus linked portal artifacts all describe export behavior for this same certified product family.",
+      "alternatives": "Splitting into separate product records for the API portal was rejected because the portal link is embedded directly in the b.10 BESTCare export PDF.",
+      "uncertainty": "Behavioral deployments may have local configuration differences, but no separate export model artifact was provided.",
+      "confidence": "high (4/5)",
+      "decision": "Include BESTCare 2.0B and its linked ezFHIRStation export/API materials as one family record."
+    },
+    "includedProducts": [
+      "BESTCare 2.0B (CHPL 9665)"
+    ],
+    "_excludedProducts": {
+      "sources": "results/ezcaretech-co-ltd/product-research.md; results/ezcaretech-co-ltd/chpl-metadata.json; results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf",
+      "sourceQuality": "primary_descriptive + secondary",
+      "reasoning": "The research summary mentions BESTCare Cloud and a behavioral specialization, but no distinct b.10 artifact set or separate data model documentation was provided for those as standalone products.",
+      "alternatives": "Including BESTCare Cloud or unrelated ezCaretech offerings in this record was rejected to avoid over-aggregation beyond evidenced export artifacts.",
+      "uncertainty": "If future artifacts show a separate export model for cloud or behavioral variants, they should be split into distinct records.",
+      "confidence": "moderate (3/5)",
+      "decision": "Exclude product lines without direct export-model evidence in this evidence package."
+    },
+    "excludedProducts": [
+      "BESTCare Cloud (no separate export artifact set in this package)",
+      "Non-BESTCare ezCaretech offerings"
+    ],
+    "_versionsInScope": {
+      "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json; results/ezcaretech-co-ltd/downloads/BESTCare2.0B_Certified_Health_IT_v3.0.pdf; results/ezcaretech-co-ltd/chpl-metadata.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The export evidence spans certification-era BESTCare 2.0B with a b.10 PDF authored 2023-09-30, FHIR portal pages last updated 2023-03-03, and certified-criteria PDF updated 2025-06-22; no model break artifacts are shown.",
+      "alternatives": "Creating multiple version records was rejected because no distinct schema snapshots or versioned export payload definitions were provided.",
+      "uncertainty": "Undocumented implementation changes could exist between releases.",
+      "confidence": "moderate (3/5)",
+      "decision": "Group available evidence as one continuity track for BESTCare 2.0B export behavior."
+    },
+    "versionsInScope": [
+      "BESTCare 2.0B export artifacts (2018 certification, 2022-2025 documentation timestamps)"
+    ],
+    "scopeNotes": "This abstraction is intentionally limited to BESTCare. It includes both native b.10 CSV/Oracle DMP statements and the linked FHIR API/Bulk Data docs because they are explicitly connected in the primary export PDF."
+  },
+  "exportPaths": [
+    {
+      "_mechanism": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The b.10 PDF explicitly labels \"Single Patient Export\" and says a user can export EHI for a single patient at any time without developer assistance.",
+        "alternatives": "api_single_patient_export was rejected for this path because this section is framed as a file-format export description, not endpoint calls.",
+        "uncertainty": "The exact UI steps are not documented.",
+        "confidence": "high (4/5)",
+        "decision": "mechanism=ui_single_patient_export"
+      },
+      "mechanism": "ui_single_patient_export",
+      "_container": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "This path names both CSV and Oracle DMP outputs, which imply materially different packaging styles (delimited text files versus binary dump).",
+        "alternatives": "single_file and multi_file_bundle were each plausible alone, but rejected because evidence indicates two materially different output container behaviors in one path description.",
+        "uncertainty": "The exact number of files for CSV export is not stated.",
+        "confidence": "moderate (3/5)",
+        "decision": "container=hybrid"
+      },
+      "container": "hybrid",
+      "_formats": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The PDF explicitly defines CSV and Oracle DMP as standardized file formats for EHI export.",
+        "alternatives": "Using only csv was rejected because Oracle DMP is explicitly listed. Using unknown was rejected because format names are directly provided.",
+        "uncertainty": "Oracle DMP is represented as DataFormat=other because no dedicated enum member exists.",
+        "confidence": "high (5/5)",
+        "decision": "formats=[csv, other]"
+      },
+      "formats": [
+        "csv",
+        "other"
+      ],
+      "_standardProfile": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The native export section describes generic file formats and Oracle dump storage, without declaring a FHIR or C-CDA profile for this path.",
+        "alternatives": "fhir_us_core and ccda_r21 were rejected because this path section does not specify those representations.",
+        "uncertainty": "Downstream CSV content schema is not documented.",
+        "confidence": "high (4/5)",
+        "decision": "standardProfile=none_vendor_native"
+      },
+      "standardProfile": "none_vendor_native",
+      "_selfService": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The phrase \"without developer assistance\" is direct evidence that customer-side users can run this single-patient export path.",
+        "alternatives": "unknown was rejected because the document explicitly addresses assistance requirements.",
+        "uncertainty": "Role permission prerequisites are not detailed.",
+        "confidence": "high (4/5)",
+        "decision": "selfService=yes"
+      },
+      "selfService": "yes",
+      "_operationalBurden": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Execution appears available, but operational burden is moderate because CSV/DMP payload structure is undocumented and Oracle DMP requires specialized tooling to interpret.",
+        "alternatives": "Lower burden (1-2) was rejected due missing schema guidance. Higher burden (4-5) was rejected because self-service capability is explicitly stated.",
+        "uncertainty": "Internal customer SOPs could reduce burden but are not public.",
+        "confidence": "moderate (3/5)",
+        "decision": "operationalBurden=3"
+      },
+      "operationalBurden": 3,
+      "notes": "Native single-patient export exists by statement, but interpretation burden is elevated because no table/field dictionary is provided for CSV or Oracle DMP outputs."
+    },
+    {
+      "_mechanism": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The PDF has a distinct \"Multi-Patient Export\" section and states BESTCare can export all data for a patient population.",
+        "alternatives": "vendor_assisted_bulk_export was rejected because the document describes product capability without requiring vendor-operated extraction.",
+        "uncertainty": "Mechanism details (menu path, job controls) are not shown.",
+        "confidence": "high (4/5)",
+        "decision": "mechanism=ui_bulk_export"
+      },
+      "mechanism": "ui_bulk_export",
+      "_container": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Bulk path cites both CSV and Oracle DMP, indicating mixed container behavior in one export path family.",
+        "alternatives": "database_dump alone was rejected because CSV is also listed; multi_file_bundle alone was rejected because Oracle DMP is binary dump style.",
+        "uncertainty": "No package examples are included.",
+        "confidence": "moderate (3/5)",
+        "decision": "container=hybrid"
+      },
+      "container": "hybrid",
+      "_formats": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "CSV and Oracle DMP are explicitly identified for the export formats.",
+        "alternatives": "unknown was rejected because both format labels are directly stated.",
+        "uncertainty": "No sample files are available to inspect delimiters, file naming, or table mapping.",
+        "confidence": "high (5/5)",
+        "decision": "formats=[csv, other]"
+      },
+      "formats": [
+        "csv",
+        "other"
+      ],
+      "_standardProfile": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No standards profile is declared for the CSV/DMP bulk path.",
+        "alternatives": "FHIR/C-CDA profile options were rejected because this section does not claim those models.",
+        "uncertainty": "Schema details for native exports are absent.",
+        "confidence": "high (4/5)",
+        "decision": "standardProfile=none_vendor_native"
+      },
+      "standardProfile": "none_vendor_native",
+      "_selfService": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The same document frames single export as no developer assistance and presents multi-patient export as product capability, supporting a customer-run interpretation.",
+        "alternatives": "unknown was considered because multi-patient language is less explicit than single-patient wording, but rejected due overall self-service framing.",
+        "uncertainty": "Could still be permission-gated by role in production.",
+        "confidence": "moderate (3/5)",
+        "decision": "selfService=yes"
+      },
+      "selfService": "yes",
+      "_operationalBurden": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Bulk native export likely has high friction due scale and because no dictionary/schema is provided for interpreting CSV/DMP outputs.",
+        "alternatives": "Score 3 was rejected because bulk volume plus undocumented structure raises additional burden. Score 5 was rejected because the capability is still documented as available.",
+        "uncertainty": "Internal automation could lower real burden.",
+        "confidence": "moderate (3/5)",
+        "decision": "operationalBurden=4"
+      },
+      "operationalBurden": 4,
+      "notes": "The claim of \"all data for a patient population\" is strong, but practical reuse is constrained by absent structural documentation."
+    },
+    {
+      "_mechanism": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The b.10 PDF links to an API documentation portal, and the base URLs page plus Single Patient API guide document direct per-patient FHIR read/search operations.",
+        "alternatives": "ui_single_patient_export was rejected for this path because explicit HTTP endpoint usage is documented.",
+        "uncertainty": "Portal docs do not state whether this is the primary operational b.10 workflow or a linked g(10) pathway.",
+        "confidence": "high (4/5)",
+        "decision": "mechanism=api_single_patient_export"
+      },
+      "mechanism": "api_single_patient_export",
+      "_container": {
+        "sources": "results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Single-patient API is documented as RESTful resource requests/responses, fitting streaming API behavior.",
+        "alternatives": "single_file and multi_file_bundle were rejected because the path is endpoint-driven request/response, not a packaged dump artifact.",
+        "uncertainty": "Large result pagination behavior is not fully detailed in sampled excerpts.",
+        "confidence": "high (4/5)",
+        "decision": "container=streaming_api"
+      },
+      "container": "streaming_api",
+      "_formats": {
+        "sources": "results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Single-patient guide examples use JSON payloads, while capability statement declares both XML and JSON media types, so multiple formats are supported.",
+        "alternatives": "Using only fhir_r4_json was rejected because capability statement advertises XML formats too. Using unknown was rejected due explicit format declarations.",
+        "uncertainty": "Operational default content negotiation preference is not specified.",
+        "confidence": "high (4/5)",
+        "decision": "formats=[fhir_r4_json, xml]"
+      },
+      "formats": [
+        "fhir_r4_json",
+        "xml"
+      ],
+      "_standardProfile": {
+        "sources": "results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The guide is organized around named US Core profiles (for example US Core AllergyIntolerance, DocumentReference, Vital Signs), and capability statement name is \"ezfhirstation-us-core-usa-aurora\".",
+        "alternatives": "fhir_other was rejected because US Core alignment is explicit in page headings and profile links.",
+        "uncertainty": "Exact US Core version consistency across all resources is not exhaustively verified here.",
+        "confidence": "high (4/5)",
+        "decision": "standardProfile=fhir_us_core"
+      },
+      "standardProfile": "fhir_us_core",
+      "_selfService": {
+        "sources": "results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Public docs provide authorization/token endpoints and concrete API calls, supporting customer-executed API access without stated vendor-operated extraction.",
+        "alternatives": "unknown was rejected because execution mechanics are directly documented.",
+        "uncertainty": "Access may require app registration and tenant approval.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "selfService=yes"
+      },
+      "selfService": "yes",
+      "_operationalBurden": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Operational burden is manageable: endpoint documentation is detailed, but OAuth setup and profile-level mapping still require implementation work.",
+        "alternatives": "Score 1 was rejected due authentication and standards integration complexity. Score 4 was rejected because docs include many concrete request/response examples.",
+        "uncertainty": "Burden varies by integration maturity and tooling.",
+        "confidence": "moderate (3/5)",
+        "decision": "operationalBurden=2"
+      },
+      "operationalBurden": 2,
+      "notes": "FHIR single-patient path is substantially better documented than native CSV/DMP exports."
+    },
+    {
+      "_mechanism": {
+        "sources": "results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/base-urls.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Multi Patient API guide documents FHIR Bulk Data kick-off endpoints `/Patient/$export`, `/Group/[id]/$export`, and `/$export` for population export.",
+        "alternatives": "ui_bulk_export was rejected for this path because mechanism is explicitly API-based asynchronous export.",
+        "uncertainty": "Operational deployment constraints (rate limits, file retention windows) are not fully specified.",
+        "confidence": "high (4/5)",
+        "decision": "mechanism=api_bulk_export"
+      },
+      "mechanism": "api_bulk_export",
+      "_container": {
+        "sources": "results/ezcaretech-co-ltd/downloads/multi-patient-api.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The workflow is API-driven async polling plus generated output files (one or more per resource type), combining API orchestration and file retrieval.",
+        "alternatives": "streaming_api alone was rejected because output is explicit downloadable files; multi_file_bundle alone was rejected because process is API lifecycle-driven.",
+        "uncertainty": "Actual file grouping strategy per run is not fully constrained in docs.",
+        "confidence": "moderate (3/5)",
+        "decision": "container=hybrid"
+      },
+      "container": "hybrid",
+      "_formats": {
+        "sources": "results/ezcaretech-co-ltd/downloads/multi-patient-api.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The output file request/response examples specify `application/fhir+ndjson` and `.ndjson` output files.",
+        "alternatives": "json was rejected because bulk output is specifically NDJSON file output.",
+        "uncertainty": "Alternative output formats beyond NDJSON are not demonstrated in samples.",
+        "confidence": "high (5/5)",
+        "decision": "formats=[ndjson]"
+      },
+      "formats": [
+        "ndjson"
+      ],
+      "_standardProfile": {
+        "sources": "results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Bulk API is tied to the same US Core-aligned FHIR server stack referenced by capability statement and single-patient guide.",
+        "alternatives": "fhir_other was rejected because US Core branding/profile references are explicit in linked docs.",
+        "uncertainty": "Bulk export may include some non-US-Core supporting resources, but primary representation remains US Core FHIR.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "standardProfile=fhir_us_core"
+      },
+      "standardProfile": "fhir_us_core",
+      "_selfService": {
+        "sources": "results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The guide provides direct endpoint usage and bearer-token examples for initiating, polling, and downloading bulk exports, indicating customer-run operation.",
+        "alternatives": "unknown was rejected because concrete execution flow is provided.",
+        "uncertainty": "Client credential provisioning processes are not described in these artifacts.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "selfService=yes"
+      },
+      "selfService": "yes",
+      "_operationalBurden": {
+        "sources": "results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/base-urls.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Bulk API requires async orchestration (kick-off, status polling, file download) and token-based auth, producing moderate friction.",
+        "alternatives": "Score 2 was rejected because async lifecycle and file management add complexity. Score 4 was rejected because docs are concrete and standards-based.",
+        "uncertainty": "Real-world burden depends on data volume and operational quotas.",
+        "confidence": "moderate (3/5)",
+        "decision": "operationalBurden=3"
+      },
+      "operationalBurden": 3,
+      "notes": "Bulk endpoint documentation is clear, but this pathway is still a standards projection and may not carry full native BESTCare data breadth."
+    }
+  ],
+  "documentation": {
+    "_hasDataDictionary": {
+      "sources": "results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "FHIR API guides include extensive field-level request/response tables and profile requirements that function as a structured data reference, even though native CSV/DMP dictionary detail is absent.",
+      "alternatives": "no was rejected because data-structure documentation does exist for the API export paths. A stronger yes (for all paths) was rejected because native CSV/DMP lacks a corresponding dictionary.",
+      "uncertainty": "Coverage asymmetry remains between FHIR docs and native file exports.",
+      "confidence": "moderate (3/5)",
+      "decision": "hasDataDictionary=yes (for API paths, not native CSV/DMP)"
+    },
+    "hasDataDictionary": "yes",
+    "_hasMachineReadableSchema": {
+      "sources": "results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "A machine-readable FHIR CapabilityStatement JSON artifact is present and parseable.",
+      "alternatives": "no was rejected because this artifact satisfies machine-consumable schema/metadata evidence.",
+      "uncertainty": "CapabilityStatement is not a full native relational schema for CSV/DMP exports.",
+      "confidence": "high (4/5)",
+      "decision": "hasMachineReadableSchema=yes"
+    },
+    "hasMachineReadableSchema": "yes",
+    "_describesFieldNames": {
+      "sources": "results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Request/response tables and profile sections explicitly list parameter and element names.",
+      "alternatives": "no was rejected due direct tabular listings.",
+      "uncertainty": "Native CSV/DMP column names are still undocumented.",
+      "confidence": "high (4/5)",
+      "decision": "describesFieldNames=yes"
+    },
+    "describesFieldNames": "yes",
+    "_describesFieldTypes": {
+      "sources": "results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "API tables include explicit Type columns (for example token, String, FHIR instant, FHIR resource types).",
+      "alternatives": "no was rejected because type declarations are directly shown.",
+      "uncertainty": "Type documentation is strongest for API paths, not native file outputs.",
+      "confidence": "high (4/5)",
+      "decision": "describesFieldTypes=yes"
+    },
+    "describesFieldTypes": "yes",
+    "_describesFieldSemantics": {
+      "sources": "results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Field/parameter descriptions and profile narratives explain clinical meaning and usage semantics.",
+      "alternatives": "no was rejected because semantic prose is present throughout API guides.",
+      "uncertainty": "Semantic mapping for native CSV/DMP exports remains unknown.",
+      "confidence": "high (4/5)",
+      "decision": "describesFieldSemantics=yes"
+    },
+    "describesFieldSemantics": "yes",
+    "_describesValueSets": {
+      "sources": "results/ezcaretech-co-ltd/downloads/single-patient-api.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "US Core profile sections include vocabulary/value-set links and code system examples (e.g., terminology.hl7.org and LOINC links).",
+      "alternatives": "no was rejected because explicit value set and terminology binding references are present.",
+      "uncertainty": "Coverage of value sets for native CSV/DMP representation is not documented.",
+      "confidence": "high (4/5)",
+      "decision": "describesValueSets=yes"
+    },
+    "describesValueSets": "yes",
+    "_describesRelationships": {
+      "sources": "results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "FHIR resource examples and profile guidance explicitly show inter-resource references (patient, encounter, observation links).",
+      "alternatives": "no was rejected because explicit reference relationships are directly represented in examples and profile descriptions.",
+      "uncertainty": "Equivalent relational mapping is not disclosed for native CSV/DMP.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "describesRelationships=yes"
+    },
+    "describesRelationships": "yes",
+    "_describesKeysConstraints": {
+      "sources": "results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "API docs show required parameters, optionality flags, and mandatory profile elements (\"must have\"), which constitutes explicit constraints documentation for API paths.",
+      "alternatives": "no was rejected because constraints are explicit in tables and profile requirements. A stronger call for full-key coverage was rejected because native CSV/DMP keys are undocumented.",
+      "uncertainty": "No PK/FK map is supplied for native file export structures.",
+      "confidence": "moderate (3/5)",
+      "decision": "describesKeysConstraints=yes (API scope)"
+    },
+    "describesKeysConstraints": "yes",
+    "_hasSampleData": {
+      "sources": "results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Both guides include concrete HTTP responses with example JSON/NDJSON payload content.",
+      "alternatives": "no was rejected due explicit example payloads in documentation.",
+      "uncertainty": "Native CSV/DMP sample files are absent.",
+      "confidence": "high (5/5)",
+      "decision": "hasSampleData=yes"
+    },
+    "hasSampleData": "yes",
+    "_sampleRepresentativeness": {
+      "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Sample payloads span many core clinical resource types and bulk workflow responses, but do not represent billing/native-table breadth expected from full designated-record-set exports.",
+      "alternatives": "Score 4-5 was rejected because financial/insurance/native exports are not represented. Score 1-2 was rejected because samples are more than toy snippets.",
+      "uncertainty": "Unknown whether internal test data omitted additional domains.",
+      "confidence": "moderate (3/5)",
+      "decision": "sampleRepresentativeness=3"
+    },
+    "sampleRepresentativeness": 3,
+    "_docsCurrentness": {
+      "sources": "results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/BESTCare2.0B_Certified_Health_IT_v3.0.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Artifacts show updates in 2023 (b.10 and API guides) and 2025 (certified criteria PDF), indicating some maintenance but not rapid continuous versioning.",
+      "alternatives": "Score 4-5 was rejected due multi-year gaps and lack of explicit version changelog for export model. Score 1-2 was rejected because updates are not clearly stale.",
+      "uncertainty": "Public docs may lag private implementation.",
+      "confidence": "moderate (3/5)",
+      "decision": "docsCurrentness=3"
+    },
+    "docsCurrentness": 3,
+    "_maturity": {
+      "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Documentation is strong for FHIR API mechanics and profiles but weak for the native CSV/Oracle DMP pathway, leaving major ambiguity for full-fidelity migration.",
+      "alternatives": "strong/excellent was rejected due missing native schema and table dictionary. basic was rejected because API docs are detailed and machine-readable metadata exists.",
+      "uncertainty": "If native export dictionary is published, maturity could increase materially.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "maturity=good"
+    },
+    "maturity": "good",
+    "notes": "Documentation quality is bifurcated: detailed US Core FHIR docs (single + bulk) versus near-minimal native CSV/Oracle DMP documentation. This is the central interpretability constraint."
+  },
+  "fidelityRisk": {
+    "_representationType": {
+      "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Evidence shows mixed representation posture: native-looking CSV/DMP exports are claimed, while the linked API pathways are explicit US Core FHIR projection outputs.",
+      "alternatives": "native_model_like was rejected because major documented paths are standards-projected FHIR. external_standard_projection was rejected because native CSV/DMP export is also explicitly documented.",
+      "uncertainty": "Without native sample files, relative dominance of native vs projected pathways is unclear.",
+      "confidence": "moderate (3/5)",
+      "decision": "representationType=native_plus_projection"
+    },
+    "representationType": "native_plus_projection",
+    "_mappingTarget": {
+      "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "API docs explicitly target US Core FHIR, while native CSV/DMP path has no declared external mapping target, yielding mixed target posture.",
+      "alternatives": "fhir alone was rejected because a non-FHIR native path is also documented. none was rejected because explicit FHIR mapping evidence exists.",
+      "uncertainty": "Native CSV extracts may still be derived projections, but no mapping documentation is provided.",
+      "confidence": "moderate (3/5)",
+      "decision": "mappingTarget=mixed"
+    },
+    "mappingTarget": "mixed",
+    "_projectionLossRisk": {
+      "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "High loss risk is indicated because the best-documented pathways are US Core-constrained FHIR resources, while native full-data path lacks transparent schema/detail needed to verify full designated-record-set breadth.",
+      "alternatives": "Score 2-3 was rejected due clear under-documentation of native export and known US Core scope limitations for billing/specialty data.",
+      "uncertainty": "If native CSV/DMP is truly comprehensive and well-structured internally, realized loss risk could be lower.",
+      "confidence": "moderate (3/5)",
+      "decision": "projectionLossRisk=4"
+    },
+    "projectionLossRisk": 4,
+    "_conflationRisk": {
+      "sources": "results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "US Core projection can collapse richer native workflow distinctions into generalized resources (e.g., various order/workflow nuances represented in broad Observation/DiagnosticReport/Procedure patterns).",
+      "alternatives": "Low conflation (0-1) was rejected because projection inherently normalizes data. Very high conflation (5) was rejected because many clinically important distinctions remain represented.",
+      "uncertainty": "Actual conflation extent depends on vendor-specific mapping details not disclosed.",
+      "confidence": "moderate (3/5)",
+      "decision": "conflationRisk=3"
+    },
+    "conflationRisk": 3,
+    "_reconstructionDifficulty": {
+      "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Reconstruction is difficult because native export structure is undocumented and FHIR path is only a partial projection for full EHI needs (especially financial/admin domains).",
+      "alternatives": "Score 2-3 was rejected because significant inference would be required for full migration; score 5 was rejected because standards-based API docs still provide usable clinical structure.",
+      "uncertainty": "Availability of private implementation guides could lower difficulty.",
+      "confidence": "moderate (3/5)",
+      "decision": "reconstructionDifficulty=4"
+    },
+    "reconstructionDifficulty": 4,
+    "_keyLossPatterns": {
+      "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Repeated patterns indicate semantic/key loss risk across documentation and path split.",
+      "alternatives": "No-loss pattern conclusion was rejected because native CSV/DMP key relationships are undocumented and projected FHIR paths are known to be scoped.",
+      "uncertainty": "Direct native sample dumps could confirm or refute several patterns.",
+      "confidence": "moderate (3/5)",
+      "decision": "List captures concrete, repeated loss patterns rather than speculative edge cases."
+    },
+    "keyLossPatterns": [
+      "Native CSV/Oracle DMP export is declared without published table-level schema, key map, or relationship guide.",
+      "US Core FHIR projection prioritizes standardized clinical resources and does not directly expose many native operational/billing structures.",
+      "Bulk NDJSON output is split into per-resource files, requiring reference reconstruction across files and request lifecycle metadata.",
+      "Documented pathways mix native and projected models without a canonical crosswalk between them."
+    ],
+    "_likelyOmittedAreas": {
+      "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Given explicit US Core resource scope and absent native dictionary, several designated-record-set areas are likely underrepresented or unverifiable.",
+      "alternatives": "Assuming no omissions was rejected because financial and non-US-Core domains are not directly evidenced in structured docs.",
+      "uncertainty": "Native CSV/DMP may include these areas, but documentation does not permit verification.",
+      "confidence": "moderate (3/5)",
+      "decision": "List focuses on high-impact designated-record-set areas with weak export evidence."
+    },
+    "likelyOmittedAreas": [
+      "Insurance enrollment/payer detail structures",
+      "Claims and patient-specific billing line-item records",
+      "Payment and account-balance detail tied to individuals",
+      "Non-medication order/referral workflows",
+      "Behavioral-health-specific structured assessments/forms",
+      "Native medication administration and dispensing workflow details",
+      "Detailed scheduling/queue state beyond encounter records",
+      "Comprehensive native relationship keys needed for lossless re-import"
+    ]
+  },
+  "domainCoverage": [
+    {
+      "domain": "demographics",
+      "_coverage": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Patient profile and examples are thoroughly documented in US Core API materials, supporting broad demographic coverage evidence.",
+        "alternatives": "present_but_not_comprehensive was considered but rejected because demographics are a core US Core target with direct profile documentation and examples.",
+        "uncertainty": "Native CSV/DMP demographic mapping is not shown.",
+        "rule": "Coverage calls follow direct export evidence, not product marketing breadth.",
+        "confidence": "high (4/5)",
+        "decision": "coverage=plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is high because demographic data presence is directly evidenced by Patient resource support and profile-specific documentation.",
+        "alternatives": "Higher confidence was rejected where calls rely on omission inference; lower confidence was rejected where direct profile evidence exists.",
+        "uncertainty": "Confidence can change with native CSV/DMP schema disclosure or sample full exports.",
+        "confidence": "high (4/5)",
+        "decision": "confidence=4"
+      },
+      "confidence": 4,
+      "notes": "Demographic coverage is strongly evidenced in FHIR paths; native file-path detail remains undocumented."
+    },
+    {
+      "domain": "encounters",
+      "_coverage": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Encounter resource/profile support is documented, but full scheduling/bed-management style context is not demonstrated in export docs.",
+        "alternatives": "plausibly_comprehensive was rejected because encounter-adjacent operational depth is not shown.",
+        "uncertainty": "Native export might include richer encounter detail than documented.",
+        "rule": "Coverage calls follow direct export evidence, not product marketing breadth.",
+        "confidence": "high (4/5)",
+        "decision": "coverage=present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Direct Encounter profile documentation supports presence with good confidence.",
+        "alternatives": "Higher confidence was rejected where calls rely on omission inference; lower confidence was rejected where direct profile evidence exists.",
+        "uncertainty": "Confidence can change with native CSV/DMP schema disclosure or sample full exports.",
+        "confidence": "high (4/5)",
+        "decision": "confidence=4"
+      },
+      "confidence": 4,
+      "notes": "Encounter data is present in FHIR API, with uncertain completeness for full inpatient workflow context."
+    },
+    {
+      "domain": "problems_conditions",
+      "_coverage": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Condition profile support is explicit and central in both single-patient and bulk examples.",
+        "alternatives": "present_but_not_comprehensive was considered but rejected because condition/problem representation is core and repeatedly evidenced.",
+        "uncertainty": "Problem-list workflow metadata beyond FHIR profile is not described.",
+        "rule": "Coverage calls follow direct export evidence, not product marketing breadth.",
+        "confidence": "high (4/5)",
+        "decision": "coverage=plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Direct profile and sample payload evidence support high confidence for presence.",
+        "alternatives": "Higher confidence was rejected where calls rely on omission inference; lower confidence was rejected where direct profile evidence exists.",
+        "uncertainty": "Confidence can change with native CSV/DMP schema disclosure or sample full exports.",
+        "confidence": "high (4/5)",
+        "decision": "confidence=4"
+      },
+      "confidence": 4,
+      "notes": "Condition/problem data appears robustly represented in US Core pathways."
+    },
+    {
+      "domain": "medications",
+      "_coverage": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Medication and MedicationRequest resources are documented, but administration/dispense workflow completeness is not demonstrated.",
+        "alternatives": "plausibly_comprehensive was rejected because medication-administration and dispensing details are not explicitly covered.",
+        "uncertainty": "Native CSV/DMP could include additional pharmacy workflow detail.",
+        "rule": "Coverage calls follow direct export evidence, not product marketing breadth.",
+        "confidence": "high (4/5)",
+        "decision": "coverage=present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is high for presence but lower for completeness due known medication-workflow breadth in enterprise EHRs.",
+        "alternatives": "Higher confidence was rejected where calls rely on omission inference; lower confidence was rejected where direct profile evidence exists.",
+        "uncertainty": "Confidence can change with native CSV/DMP schema disclosure or sample full exports.",
+        "confidence": "high (4/5)",
+        "decision": "confidence=4"
+      },
+      "confidence": 4,
+      "notes": "Medication order/prescription data is present; full medication lifecycle coverage is uncertain."
+    },
+    {
+      "domain": "allergies",
+      "_coverage": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "US Core AllergyIntolerance profile has detailed must-have/must-support guidance and sample payloads.",
+        "alternatives": "present_but_not_comprehensive was rejected because allergy domain evidence is direct and detailed.",
+        "uncertainty": "Edge-case local coding could vary by deployment.",
+        "rule": "Coverage calls follow direct export evidence, not product marketing breadth.",
+        "confidence": "high (4/5)",
+        "decision": "coverage=plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Strong direct profile evidence supports high-confidence coverage call.",
+        "alternatives": "Higher confidence was rejected where calls rely on omission inference; lower confidence was rejected where direct profile evidence exists.",
+        "uncertainty": "Confidence can change with native CSV/DMP schema disclosure or sample full exports.",
+        "confidence": "high (4/5)",
+        "decision": "confidence=4"
+      },
+      "confidence": 4,
+      "notes": "Allergy/adverse reaction domain is strongly represented in the documented FHIR path."
+    },
+    {
+      "domain": "immunizations",
+      "_coverage": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Immunization resource support is documented, but completeness across all immunization-related administrative nuances is not shown.",
+        "alternatives": "plausibly_comprehensive was rejected because only standards-profile evidence is available, not full native export verification.",
+        "uncertainty": "Native exports may include broader immunization data than API docs reveal.",
+        "rule": "Coverage calls follow direct export evidence, not product marketing breadth.",
+        "confidence": "high (4/5)",
+        "decision": "coverage=present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Direct resource support gives high confidence for presence.",
+        "alternatives": "Higher confidence was rejected where calls rely on omission inference; lower confidence was rejected where direct profile evidence exists.",
+        "uncertainty": "Confidence can change with native CSV/DMP schema disclosure or sample full exports.",
+        "confidence": "high (4/5)",
+        "decision": "confidence=4"
+      },
+      "confidence": 4,
+      "notes": "Immunization data is present in FHIR exports; full-fidelity scope is unclear."
+    },
+    {
+      "domain": "vitals",
+      "_coverage": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Multiple US Core vital-sign Observation profiles are documented, indicating meaningful coverage.",
+        "alternatives": "plausibly_comprehensive was rejected because only standardized vital subsets are shown.",
+        "uncertainty": "Custom observation/vitals extensions may exist outside documented profiles.",
+        "rule": "Coverage calls follow direct export evidence, not product marketing breadth.",
+        "confidence": "high (4/5)",
+        "decision": "coverage=present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Profile-level detail provides high confidence that vitals are present.",
+        "alternatives": "Higher confidence was rejected where calls rely on omission inference; lower confidence was rejected where direct profile evidence exists.",
+        "uncertainty": "Confidence can change with native CSV/DMP schema disclosure or sample full exports.",
+        "confidence": "high (4/5)",
+        "decision": "confidence=4"
+      },
+      "confidence": 4,
+      "notes": "Vital signs are clearly represented via Observation profiles, with unknown native extensions."
+    },
+    {
+      "domain": "laboratory",
+      "_coverage": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "DiagnosticReport (lab) and associated Observation references are documented, establishing lab presence.",
+        "alternatives": "plausibly_comprehensive was rejected because lab workflow breadth (orders, panels, internal states) is not fully shown.",
+        "uncertainty": "Native exports may provide additional lab structures not visible in API docs.",
+        "rule": "Coverage calls follow direct export evidence, not product marketing breadth.",
+        "confidence": "high (4/5)",
+        "decision": "coverage=present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Good confidence from explicit lab profile documentation and sample references.",
+        "alternatives": "Higher confidence was rejected where calls rely on omission inference; lower confidence was rejected where direct profile evidence exists.",
+        "uncertainty": "Confidence can change with native CSV/DMP schema disclosure or sample full exports.",
+        "confidence": "high (4/5)",
+        "decision": "confidence=4"
+      },
+      "confidence": 4,
+      "notes": "Lab results are present through FHIR lab report/observation resources."
+    },
+    {
+      "domain": "diagnostic_reports",
+      "_coverage": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "DiagnosticReport profiles for laboratory and report/note exchange are documented.",
+        "alternatives": "plausibly_comprehensive was rejected because full imaging/diagnostic workflow context is not clearly evidenced.",
+        "uncertainty": "Coverage for non-US-Core diagnostic artifacts is uncertain.",
+        "rule": "Coverage calls follow direct export evidence, not product marketing breadth.",
+        "confidence": "high (4/5)",
+        "decision": "coverage=present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Direct profile evidence supports confident presence.",
+        "alternatives": "Higher confidence was rejected where calls rely on omission inference; lower confidence was rejected where direct profile evidence exists.",
+        "uncertainty": "Confidence can change with native CSV/DMP schema disclosure or sample full exports.",
+        "confidence": "high (4/5)",
+        "decision": "confidence=4"
+      },
+      "confidence": 4,
+      "notes": "Diagnostic report coverage is clear in FHIR profiles but not proven comprehensive across all modalities."
+    },
+    {
+      "domain": "procedures",
+      "_coverage": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Procedure profile support is explicitly listed in single-patient API docs.",
+        "alternatives": "plausibly_comprehensive was rejected because native procedural workflow detail is not verified in export artifacts.",
+        "uncertainty": "Extent of procedure coding granularity in native export remains unknown.",
+        "rule": "Coverage calls follow direct export evidence, not product marketing breadth.",
+        "confidence": "high (4/5)",
+        "decision": "coverage=present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Presence is directly evidenced; completeness remains uncertain.",
+        "alternatives": "Higher confidence was rejected where calls rely on omission inference; lower confidence was rejected where direct profile evidence exists.",
+        "uncertainty": "Confidence can change with native CSV/DMP schema disclosure or sample full exports.",
+        "confidence": "high (4/5)",
+        "decision": "confidence=4"
+      },
+      "confidence": 4,
+      "notes": "Procedure data is represented in FHIR APIs with uncertain breadth relative to full system."
+    },
+    {
+      "domain": "clinical_notes",
+      "_coverage": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "DocumentReference and DiagnosticReport note-exchange profile documentation explicitly addresses clinical notes.",
+        "alternatives": "plausibly_comprehensive was rejected because note-type breadth and attachment fidelity are not fully evidenced across all specialties.",
+        "uncertainty": "Native export might include note categories not shown in profile examples.",
+        "rule": "Coverage calls follow direct export evidence, not product marketing breadth.",
+        "confidence": "high (4/5)",
+        "decision": "coverage=present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "High confidence in presence due direct note-oriented profile text.",
+        "alternatives": "Higher confidence was rejected where calls rely on omission inference; lower confidence was rejected where direct profile evidence exists.",
+        "uncertainty": "Confidence can change with native CSV/DMP schema disclosure or sample full exports.",
+        "confidence": "high (4/5)",
+        "decision": "confidence=4"
+      },
+      "confidence": 4,
+      "notes": "Clinical notes are present via DocumentReference/DiagnosticReport pathways but full specialty breadth is unverified."
+    },
+    {
+      "domain": "care_plans_goals",
+      "_coverage": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "CarePlan, CareTeam, and Goal profiles are documented in single-patient API guide and capability statement resources.",
+        "alternatives": "plausibly_comprehensive was rejected because workflow-level care-management detail beyond US Core is not shown.",
+        "uncertainty": "Native plans/goals structures may be richer.",
+        "rule": "Coverage calls follow direct export evidence, not product marketing breadth.",
+        "confidence": "high (4/5)",
+        "decision": "coverage=present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Resource/profile evidence supports high confidence for presence.",
+        "alternatives": "Higher confidence was rejected where calls rely on omission inference; lower confidence was rejected where direct profile evidence exists.",
+        "uncertainty": "Confidence can change with native CSV/DMP schema disclosure or sample full exports.",
+        "confidence": "high (4/5)",
+        "decision": "confidence=4"
+      },
+      "confidence": 4,
+      "notes": "Care planning content is represented in standards path with uncertain native depth."
+    },
+    {
+      "domain": "orders_referrals",
+      "_coverage": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "MedicationRequest supports part of order domain, but no explicit ServiceRequest/referral resource evidence was found in supported resource list.",
+        "alternatives": "not_clearly_present was rejected because order-related content is at least partially represented. plausibly_comprehensive was rejected because referral breadth is not demonstrated.",
+        "uncertainty": "Native CSV/DMP may contain broader order/referral entities.",
+        "rule": "Coverage calls follow direct export evidence, not product marketing breadth.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage=present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is moderate due partial evidence and domain breadth beyond medication orders.",
+        "alternatives": "Higher confidence was rejected where calls rely on omission inference; lower confidence was rejected where direct profile evidence exists.",
+        "uncertainty": "Confidence can change with native CSV/DMP schema disclosure or sample full exports.",
+        "confidence": "moderate (3/5)",
+        "decision": "confidence=3"
+      },
+      "confidence": 3,
+      "notes": "Order/referral domain appears partial, centered on medication requests."
+    },
+    {
+      "domain": "documents_attachments",
+      "_coverage": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "DocumentReference profile includes retrieval URL/inline base64 content patterns, indicating document/attachment handling.",
+        "alternatives": "plausibly_comprehensive was rejected because all attachment classes and native binaries are not evidenced.",
+        "uncertainty": "Native export may include richer binary/document structures.",
+        "rule": "Coverage calls follow direct export evidence, not product marketing breadth.",
+        "confidence": "high (4/5)",
+        "decision": "coverage=present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Direct DocumentReference evidence supports high-confidence presence.",
+        "alternatives": "Higher confidence was rejected where calls rely on omission inference; lower confidence was rejected where direct profile evidence exists.",
+        "uncertainty": "Confidence can change with native CSV/DMP schema disclosure or sample full exports.",
+        "confidence": "high (4/5)",
+        "decision": "confidence=4"
+      },
+      "confidence": 4,
+      "notes": "Document/attachment domain is present but completeness across all file types is not proven."
+    },
+    {
+      "domain": "insurance",
+      "_coverage": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Supported resource list and profile guides do not clearly evidence Coverage or payer enrollment structures.",
+        "alternatives": "present_but_not_comprehensive was rejected because no direct insurance-specific artifact was observed.",
+        "uncertainty": "Native CSV/DMP may include insurance data, but no dictionary confirms this.",
+        "rule": "Coverage calls follow direct export evidence, not product marketing breadth.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage=not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is moderate because this is an absence-in-evidence call against documented resource lists.",
+        "alternatives": "Higher confidence was rejected where calls rely on omission inference; lower confidence was rejected where direct profile evidence exists.",
+        "uncertainty": "Confidence can change with native CSV/DMP schema disclosure or sample full exports.",
+        "confidence": "moderate (3/5)",
+        "decision": "confidence=3"
+      },
+      "confidence": 3,
+      "notes": "Insurance is a key EHI domain, but not clearly represented in documented export artifacts."
+    },
+    {
+      "domain": "claims_billing",
+      "_coverage": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No claim or billing resources/tables are documented in the reviewed API artifacts, and native CSV/DMP lacks schema detail.",
+        "alternatives": "present_but_not_comprehensive was rejected because there is no direct billing export structure evidence.",
+        "uncertainty": "The phrase \"all data for a patient population\" may include billing, but remains unverified.",
+        "rule": "Coverage calls follow direct export evidence, not product marketing breadth.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage=not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Moderate confidence due lack of direct billing artifacts and reliance on omission inference.",
+        "alternatives": "Higher confidence was rejected where calls rely on omission inference; lower confidence was rejected where direct profile evidence exists.",
+        "uncertainty": "Confidence can change with native CSV/DMP schema disclosure or sample full exports.",
+        "confidence": "moderate (3/5)",
+        "decision": "confidence=3"
+      },
+      "confidence": 3,
+      "notes": "Claims/billing completeness cannot be substantiated from available documentation."
+    },
+    {
+      "domain": "payments",
+      "_coverage": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Payment-specific data structures are not evidenced in the documented FHIR resources or native schema materials.",
+        "alternatives": "present_but_not_comprehensive was rejected due missing direct payment-domain documentation.",
+        "uncertainty": "Native dump could include payments, but there is no field/table map to validate.",
+        "rule": "Coverage calls follow direct export evidence, not product marketing breadth.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage=not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Moderate confidence due absence-based inference.",
+        "alternatives": "Higher confidence was rejected where calls rely on omission inference; lower confidence was rejected where direct profile evidence exists.",
+        "uncertainty": "Confidence can change with native CSV/DMP schema disclosure or sample full exports.",
+        "confidence": "moderate (3/5)",
+        "decision": "confidence=3"
+      },
+      "confidence": 3,
+      "notes": "Patient payment domain is not clearly documented in export evidence."
+    },
+    {
+      "domain": "scheduling",
+      "_coverage": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No Appointment/Schedule resource support was observed in capability resource list or profile headings.",
+        "alternatives": "present_but_not_comprehensive was rejected because only encounter presence is evidenced, which is not equivalent to scheduling domain coverage.",
+        "uncertainty": "Native exports may contain schedule data, but not documented.",
+        "rule": "Coverage calls follow direct export evidence, not product marketing breadth.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage=not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Moderate confidence based on explicit supported-resource inventory review.",
+        "alternatives": "Higher confidence was rejected where calls rely on omission inference; lower confidence was rejected where direct profile evidence exists.",
+        "uncertainty": "Confidence can change with native CSV/DMP schema disclosure or sample full exports.",
+        "confidence": "moderate (3/5)",
+        "decision": "confidence=3"
+      },
+      "confidence": 3,
+      "notes": "Scheduling is not clearly represented in documented export paths."
+    },
+    {
+      "domain": "consents_directives",
+      "_coverage": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No explicit consent/directive resources or profile sections were identified in reviewed artifacts.",
+        "alternatives": "present_but_not_comprehensive was rejected because no direct evidence was found.",
+        "uncertainty": "Native exports may include consents, but this cannot be validated from provided docs.",
+        "rule": "Coverage calls follow direct export evidence, not product marketing breadth.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage=not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Moderate confidence from absence in explicit profile/resource lists.",
+        "alternatives": "Higher confidence was rejected where calls rely on omission inference; lower confidence was rejected where direct profile evidence exists.",
+        "uncertainty": "Confidence can change with native CSV/DMP schema disclosure or sample full exports.",
+        "confidence": "moderate (3/5)",
+        "decision": "confidence=3"
+      },
+      "confidence": 3,
+      "notes": "Consent/directive export coverage is not clearly documented."
+    },
+    {
+      "domain": "patient_communications",
+      "_coverage": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No patient-message/communication-specific resource or table documentation appears in provided export artifacts.",
+        "alternatives": "present_but_not_comprehensive was rejected because communication structures were not directly evidenced.",
+        "uncertainty": "Could exist in native exports without public schema disclosure.",
+        "rule": "Coverage calls follow direct export evidence, not product marketing breadth.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage=not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Moderate confidence due omission-based assessment.",
+        "alternatives": "Higher confidence was rejected where calls rely on omission inference; lower confidence was rejected where direct profile evidence exists.",
+        "uncertainty": "Confidence can change with native CSV/DMP schema disclosure or sample full exports.",
+        "confidence": "moderate (3/5)",
+        "decision": "confidence=3"
+      },
+      "confidence": 3,
+      "notes": "Patient communications are not clearly present in documented export materials."
+    },
+    {
+      "domain": "audit_provenance",
+      "_coverage": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Provenance resource is explicitly supported and referenced in both capability statement and bulk API associated-data options.",
+        "alternatives": "not_clearly_present was rejected because Provenance evidence is direct. plausibly_comprehensive was rejected because audit/access logs are not documented and are outside EHI carve-in scope anyway.",
+        "uncertainty": "Extent of provenance population in production exports is unknown.",
+        "rule": "Coverage calls follow direct export evidence, not product marketing breadth.",
+        "confidence": "high (4/5)",
+        "decision": "coverage=present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "High confidence for presence of provenance resources; broader audit domain should not be conflated with non-EHI security logs.",
+        "alternatives": "Higher confidence was rejected where calls rely on omission inference; lower confidence was rejected where direct profile evidence exists.",
+        "uncertainty": "Confidence can change with native CSV/DMP schema disclosure or sample full exports.",
+        "confidence": "high (4/5)",
+        "decision": "confidence=4"
+      },
+      "confidence": 4,
+      "notes": "Provenance appears present, while non-EHI audit logs remain outside expected EHI scope."
+    }
+  ],
+  "quantitativeProfile": {
+    "artifactCounts": {
+      "totalArtifactsReviewed": {
+        "status": "measured",
+        "value": 9,
+        "method": "exact",
+        "notes": "Count includes directly reviewed artifacts: 5 primary export docs (b.10 PDF, base-urls HTML, single API HTML, multi API HTML, capability statement JSON), certified criteria PDF, CHPL metadata JSON, plus two prior summary markdowns for context."
+      },
+      "exportArtifactsDocumented": {
+        "status": "measured",
+        "value": 5,
+        "method": "exact",
+        "notes": "Artifacts directly describing export structure/content: b.10_EHI_Export.pdf, base-urls.html, single-patient-api.html, multi-patient-api.html, fhir-capability-statement.json."
+      },
+      "sampleDataArtifacts": {
+        "status": "measured",
+        "value": 2,
+        "method": "exact",
+        "notes": "Sample payload examples are present in single-patient-api.html and multi-patient-api.html."
+      },
+      "dictionaryOrSchemaArtifacts": {
+        "status": "measured",
+        "value": 3,
+        "method": "exact",
+        "notes": "single-patient-api.html and multi-patient-api.html provide tabular schema-style docs; capability statement provides formal capability metadata."
+      },
+      "machineReadableSchemaArtifacts": {
+        "status": "measured",
+        "value": 1,
+        "method": "exact",
+        "notes": "fhir-capability-statement.json."
+      }
+    },
+    "modelEntityCounts": {
+      "documentedEntities": {
+        "status": "measured",
+        "value": 26,
+        "method": "exact",
+        "notes": "Count from `.rest[0].resource[].type` in fhir-capability-statement.json."
+      },
+      "observedEntities": {
+        "status": "measured",
+        "value": 21,
+        "method": "exact",
+        "notes": "Distinct `resourceType` values observed directly in published example payload snippets across single/multi API HTML files."
+      },
+      "exportDistinctUnits": {
+        "status": "not_observable",
+        "notes": "Native CSV and Oracle DMP unit counts are undocumented; bulk NDJSON may generate one or more files per resource type depending on request parameters."
+      }
+    },
+    "fieldCounts": {
+      "documentedFields": {
+        "status": "not_observable",
+        "notes": "Field-level totals across all profile tables were not reliably enumerable from available artifacts without full structured extraction pipeline."
+      },
+      "observedFields": {
+        "status": "not_observable",
+        "notes": "Observed payload snippets are partial and not representative for full field-counting."
+      },
+      "fieldsWithTypeInfo": {
+        "status": "not_observable",
+        "notes": "Types are documented in many places, but total count was not robustly measured."
+      },
+      "fieldsWithSemanticDescription": {
+        "status": "not_observable",
+        "notes": "Semantics are present in profile prose/tables, but aggregate field-count metric was not directly measured."
+      },
+      "codedFields": {
+        "status": "not_observable",
+        "notes": "Many coded fields are shown, but precise count was not extracted."
+      }
+    },
+    "relationshipCounts": {
+      "documentedRelationships": {
+        "status": "not_observable",
+        "notes": "FHIR references are visible, but no complete counted relationship inventory was produced."
+      },
+      "documentedPrimaryKeys": {
+        "status": "not_observable",
+        "notes": "Resource `id` semantics exist, but a reliable counted key inventory across entities was not extracted."
+      },
+      "documentedForeignKeys": {
+        "status": "not_observable",
+        "notes": "Reference links exist in profiles/payloads, but no full counted map was extracted."
+      },
+      "documentedConstraints": {
+        "status": "not_observable",
+        "notes": "Constraint examples exist (must-have/optional flags), but aggregate counting was not performed."
+      }
+    },
+    "valueSetCounts": {
+      "documentedValueSets": {
+        "status": "not_observable",
+        "notes": "Value-set links are present, but total distinct value set count was not robustly extracted."
+      },
+      "valueSetsWithCodeSystem": {
+        "status": "not_observable",
+        "notes": "Code-system URLs are visible in examples, but comprehensive counting was not performed."
+      },
+      "fieldsBoundToValueSets": {
+        "status": "not_observable",
+        "notes": "Bindings exist throughout profiles, but aggregate field-binding count was not measured."
+      },
+      "localCustomValueSets": {
+        "status": "not_observable",
+        "notes": "No reliable inventory of vendor-local value sets was found."
+      }
+    },
+    "notes": "Counts intentionally prioritize defensible exact values from directly parseable artifacts. Screenshots were excluded from structural counting, and no native CSV/DMP sample files were available for direct field/entity enumeration."
+  },
+  "accessConstraints": {
+    "_docsPubliclyAccessible": {
+      "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Primary export PDF and linked portal docs are publicly reachable artifacts without login to view documentation pages.",
+      "alternatives": "unknown/no were rejected because direct artifact retrieval succeeded in the evidence package.",
+      "uncertainty": "Runtime API execution still requires token-based authorization.",
+      "confidence": "high (4/5)",
+      "decision": "docsPubliclyAccessible=yes"
+    },
+    "docsPubliclyAccessible": "yes",
+    "_roleRestricted": {
+      "sources": "results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Documentation includes authorization/token endpoints and bearer-token requirements in request examples, indicating role/permission-gated execution in practice.",
+      "alternatives": "unknown was rejected because access control evidence is explicit in API workflow docs.",
+      "uncertainty": "Native UI export permission model is not explicitly documented.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "roleRestricted=yes"
+    },
+    "roleRestricted": "yes",
+    "_vendorInvolvementNeeded": {
+      "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Single-patient export explicitly says without developer assistance, and API docs provide self-executable endpoints, supporting no required vendor-operated extraction for standard paths.",
+      "alternatives": "unknown was considered for multi-patient native path but rejected given combined self-service signals.",
+      "uncertainty": "Some organizations may still operationally request vendor help even if not required by design.",
+      "confidence": "moderate (3/5)",
+      "decision": "vendorInvolvementNeeded=no"
+    },
+    "vendorInvolvementNeeded": "no",
+    "_potentialFeesForStandardExport": {
+      "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No fee language appears in the directly reviewed primary export/API artifacts.",
+      "alternatives": "no was rejected because absence of fee text here does not prove no fees in contracts or disclosures.",
+      "uncertainty": "Fee terms may appear in separate mandatory disclosure or commercial agreements not parsed here.",
+      "confidence": "moderate (3/5)",
+      "decision": "potentialFeesForStandardExport=unknown"
+    },
+    "potentialFeesForStandardExport": "unknown",
+    "_practicalAccessibilityScore": {
+      "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Practical accessibility is moderate: documentation is public and API paths are concrete, but auth gating plus undocumented native CSV/DMP schema introduces real operational friction.",
+      "alternatives": "Score 1-2 was rejected because implementation prerequisites are non-trivial. Score 4-5 was rejected because pathways are publicly documented and technically executable.",
+      "uncertainty": "Tenant-specific onboarding and credentials policy can materially affect effort.",
+      "confidence": "moderate (3/5)",
+      "decision": "practicalAccessibilityScore=3"
+    },
+    "practicalAccessibilityScore": 3,
+    "notes": "Access posture is mixed: public technical docs with explicit OAuth-style controls, but incomplete native export documentation limits practical portability."
+  },
+  "overall": {
+    "_posture": {
+      "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "BESTCare exposes usable export paths (native and FHIR), but evidence shows material completeness/interpretability gaps for designated-record-set breadth due undocumented native structure and standards-projection limits.",
+      "alternatives": "high_fidelity_export was rejected because full native content cannot be verified. projection_limited was rejected as sole posture because native non-projection path is also documented.",
+      "uncertainty": "Native CSV/DMP could be highly complete, but current documentation does not substantiate it.",
+      "confidence": "moderate (3/5)",
+      "decision": "posture=usable_but_partial"
+    },
+    "posture": "usable_but_partial",
+    "_completenessScore": {
+      "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Completeness is moderate: there is an explicit claim of population-level \"all data\" native export, but without schema proof; documented FHIR paths clearly cover many core clinical domains but not key billing/financial domains.",
+      "alternatives": "Score 4-5 was rejected due unverifiable native scope and clear domain gaps in documented API resources. Score 1-2 was rejected because multiple meaningful clinical export paths are clearly present.",
+      "uncertainty": "Direct native sample dumps could shift this score up or down significantly.",
+      "confidence": "moderate (3/5)",
+      "decision": "completenessScore=3"
+    },
+    "completenessScore": 3,
+    "_technicalUsabilityScore": {
+      "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Technical usability is difficult overall: FHIR APIs are workable, but native CSV/DMP path lacks import-critical schema guidance and key mappings.",
+      "alternatives": "Score 3-4 was rejected because full-fidelity migration would require substantial inference; score 1 was rejected because standards APIs are still materially usable.",
+      "uncertainty": "Internal customer implementation docs could improve usability materially.",
+      "confidence": "moderate (3/5)",
+      "decision": "technicalUsabilityScore=2"
+    },
+    "technicalUsabilityScore": 2,
+    "_confidence": {
+      "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Confidence is moderate due strong direct evidence for mechanisms/formats but high uncertainty about native export content breadth and structural semantics.",
+      "alternatives": "High confidence (4-5) was rejected due unresolved native-model ambiguity.",
+      "uncertainty": "Native CSV/DMP sample plus dictionary would materially increase confidence.",
+      "confidence": "moderate (3/5)",
+      "decision": "confidence=3"
+    },
+    "confidence": 3,
+    "_strongestSignal": {
+      "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/multi-patient-api.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The strongest positive signal is coexistence of explicit native single/multi export declarations and concrete FHIR bulk export endpoint documentation with NDJSON output.",
+      "alternatives": "Using certification listing as strongest signal was rejected because it is less operationally specific than direct export workflow evidence.",
+      "uncertainty": "Signal strength does not by itself prove full semantic completeness.",
+      "confidence": "high (4/5)",
+      "decision": "Strongest signal selected for direct operational evidence value."
+    },
+    "strongestSignal": "Primary docs explicitly declare both single-patient and population export plus a concrete FHIR bulk export workflow (`/Patient/$export`, `/$export`) with NDJSON output.",
+    "_biggestRisk": {
+      "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Largest risk is inability to verify full designated-record-set fidelity because native CSV/Oracle DMP exports are undocumented at schema/field relationship level.",
+      "alternatives": "Auth complexity was rejected as biggest risk because it is solvable; missing structural semantics directly threaten migration correctness.",
+      "uncertainty": "Risk could decline sharply if native dictionary and samples are released.",
+      "confidence": "high (4/5)",
+      "decision": "Biggest risk prioritized by impact on correctness and completeness verification."
+    },
+    "biggestRisk": "No published schema/data dictionary for native CSV/Oracle DMP export prevents reliable verification of billing/financial and specialty EHI completeness and key integrity.",
+    "_summary": {
+      "sources": "results/ezcaretech-co-ltd/downloads/b.10_EHI_Export.pdf; results/ezcaretech-co-ltd/downloads/base-urls.html; results/ezcaretech-co-ltd/downloads/single-patient-api.html; results/ezcaretech-co-ltd/downloads/multi-patient-api.html; results/ezcaretech-co-ltd/downloads/fhir-capability-statement.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Summary integrates the mixed-path evidence: export capability is real and partially usable, but full-fidelity interpretation is constrained by native documentation gaps and US Core projection scope boundaries.",
+      "alternatives": "A purely positive or purely negative summary was rejected because evidence is mixed rather than one-sided.",
+      "uncertainty": "Native artifact disclosure remains the key determinant of future reassessment.",
+      "confidence": "moderate (3/5)",
+      "decision": "Summary selected to align with posture/completeness/usability scores."
+    },
+    "summary": "BESTCare presents multiple export paths: native CSV/Oracle DMP (claimed single and multi-patient) and well-documented US Core FHIR APIs including bulk NDJSON export. Clinical US Core domains are clearly represented, but designated-record-set completeness beyond that (especially insurance, claims/billing, payments, and specialty native workflows) cannot be verified because native export schema details are not published."
+  },
+  "holisticNarrative": {
+    "summary": "The evidence package for BESTCare is unusual because it combines two very different documentation postures. On one hand, the native b.10 artifact is extremely concise: it names CSV and Oracle DMP and asserts single/patient-population export capabilities, but it does not publish the table inventory, field dictionary, relationship map, or sample files needed for dependable migration engineering. On the other hand, the linked API portal is richly documented for US Core FHIR and bulk export operations, with concrete endpoint patterns, request parameters, and example payloads.\n\nFor EHI assessment under designated-record-set logic, this creates a practical asymmetry. The standards path is technically implementable and clinically meaningful, but likely not sufficient alone for full designated-record-set extraction in a large hospital system where billing and other patient-decision records matter. The native path may in fact cover these areas, but the current artifacts do not allow that claim to be validated. As a result, the right posture is neither \"no export\" nor \"high fidelity\"; it is usable but partially evidenced, with the largest uncertainty concentrated in native export semantics rather than endpoint availability.",
+    "standoutObservations": [
+      "Native export claims are broad (including population-wide data) but structurally opaque.",
+      "FHIR documentation quality is materially better than native export documentation.",
+      "The b.10 PDF directly links to API portal docs, suggesting operational overlap between b.10 and g(10) paths."
+    ]
+  },
+  "notableFacts": [
+    "The b.10 PDF explicitly states single-patient export can be run \"without developer assistance.\"",
+    "The same PDF claims multi-patient export can export \"all the data for a patient population.\"",
+    "Native file formats named in b.10 documentation are CSV and Oracle DMP.",
+    "The linked Multi Patient API guide documents `/Patient/$export`, `/Group/[id]/$export`, and `/$export` with `application/fhir+ndjson` output.",
+    "CapabilityStatement advertises 26 supported FHIR resource types on an R4 server named `ezfhirstation-us-core-usa-aurora`."
+  ]
+}

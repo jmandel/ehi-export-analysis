@@ -1,0 +1,1256 @@
+{
+  "meta": {
+    "schemaVersion": "2026-02-15.v5",
+    "assessedAt": "2026-02-15",
+    "assessor": "reviewer_f",
+    "status": "final"
+  },
+  "scope": {
+    "vendorName": "Practice Fusion",
+    "productFamily": "Practice Fusion EHR",
+    "_includedProducts": {
+      "sources": "results/practice-fusion/product-research.md; results/practice-fusion/ehi-export-report.md; results/practice-fusion/downloads/ehi-export-documentation-main.html; results/practice-fusion/downloads/v9-index.html",
+      "sourceQuality": "primary_descriptive, primary_direct",
+      "reasoning": "The evidence set consistently names Practice Fusion EHR v3.7 and the v9 EHI export documentation as one export surface with one shared TSV dictionary. The v9 index describes a single EHI export model across 85 TSV entities, so this record keeps one product family boundary around Practice Fusion EHR export behavior.",
+      "alternatives": "Splitting by every commercial package was rejected because the export docs do not show distinct schemas per package. Expanding to all Veradigm products was rejected because artifacts are product-specific to Practice Fusion EHR.",
+      "uncertainty": "Commercial packaging may differ operationally, but no artifact here shows a schema break.",
+      "confidence": "high (4/5)",
+      "decision": "Included products are the Practice Fusion EHR line that uses the documented v9 TSV export model."
+    },
+    "includedProducts": [
+      "Practice Fusion EHR v3.7",
+      "Practice Fusion EHR EHI export documentation v9"
+    ],
+    "_excludedProducts": {
+      "sources": "results/practice-fusion/product-research.md; results/practice-fusion/sources.json; results/practice-fusion/downloads/ehi-export-documentation-main.html",
+      "sourceQuality": "primary_descriptive",
+      "reasoning": "Research artifacts identify external or adjacent products (FollowMyHealth portal, Updox, MedAllies, and standalone ePrescribe packaging) that are not evidenced in the Practice Fusion EHR v9 TSV dictionary. Managed billing service downstream processing is also described as external to core EHR data capture.",
+      "alternatives": "Including FollowMyHealth or managed billing system data was rejected because no export artifact here documents their schemas in this path.",
+      "uncertainty": "Some cross-product data may sync back into EHR records, but boundaries are not explicitly documented in the export pages.",
+      "confidence": "high (4/5)",
+      "decision": "Excluded adjacent Veradigm/partner products and external billing lifecycle systems to avoid over-aggregation."
+    },
+    "excludedProducts": [
+      "Veradigm FollowMyHealth portal",
+      "Updox integrations",
+      "MedAllies exchange services",
+      "Standalone ePrescribe packaging when used outside full EHR",
+      "External clearinghouse and managed billing operations data"
+    ],
+    "_versionsInScope": {
+      "sources": "results/practice-fusion/downloads/ehi-export-documentation-main.html; results/practice-fusion/downloads/v9-index.html; results/practice-fusion/ehi-export-report.md",
+      "sourceQuality": "primary_direct, primary_descriptive",
+      "reasoning": "Main documentation page lists v1-v9, and the analyzed artifacts are the current v9 set with full page captures and extracted dictionary. Because only v9 pages were fully ingested for this abstraction, the version scope is constrained to v9 behavior.",
+      "alternatives": "Grouping all v1-v9 as equivalent was rejected because only high-level change notes were captured for older versions.",
+      "uncertainty": "Earlier versions likely share a similar model but were not fully re-parsed in this run.",
+      "confidence": "high (4/5)",
+      "decision": "Versions in scope are limited to v9 artifacts (published Jan 12, 2026) to keep evidence direct."
+    },
+    "versionsInScope": [
+      "EHI Export Documentation v9 (published 2026-01-12)"
+    ],
+    "scopeNotes": "Assessment is intentionally anchored to the v9 export corpus under results/practice-fusion/downloads. Product research confirms broader ecosystem context, but schema-level calls rely on the v9 TSV documentation set."
+  },
+  "exportPaths": [
+    {
+      "_mechanism": {
+        "sources": "results/practice-fusion/downloads/v9-index.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The v9 index explicitly states manual export for a single patient or entire population. This row captures the single-patient branch of that explicit workflow.",
+        "alternatives": "API path was rejected for this row because the cited text describes manual export. Vendor-assisted path was rejected because no required support ticket workflow is stated.",
+        "uncertainty": "The exact UI click path is not documented in these pages.",
+        "confidence": "high (4/5)",
+        "decision": "Mechanism is ui_single_patient_export based on direct wording about manual single-patient export."
+      },
+      "mechanism": "ui_single_patient_export",
+      "_container": {
+        "sources": "results/practice-fusion/downloads/v9-index.html; results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The index and dictionary document one TSV per entity (85 files), implying exports are delivered as multiple files rather than one monolithic payload.",
+        "alternatives": "single_file and database_dump were rejected because entity-per-file TSV structure is explicit.",
+        "uncertainty": "Packaging wrapper (zip/folder) is not explicitly documented.",
+        "confidence": "high (4/5)",
+        "decision": "Container is multi_file_bundle because the export is defined as many TSV entity files."
+      },
+      "container": "multi_file_bundle",
+      "_formats": {
+        "sources": "results/practice-fusion/downloads/v9-index.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The v9 page repeatedly describes tab-separated values and names each artifact with .tsv extension.",
+        "alternatives": "csv, json, and xml were rejected because no such output is declared for this path.",
+        "uncertainty": "Character encoding is not explicitly specified.",
+        "confidence": "high (5/5)",
+        "decision": "Format set is [tsv]."
+      },
+      "formats": [
+        "tsv"
+      ],
+      "_standardProfile": {
+        "sources": "results/practice-fusion/downloads/v9-index.html; results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Export is documented as vendor-specific relational TSV tables with internal GUID linkage, not as FHIR or C-CDA payloads.",
+        "alternatives": "fhir_other and ccda_r21 were rejected because this path does not emit those structures.",
+        "uncertainty": "Some fields reference external code systems, but that does not convert the container into a standard profile.",
+        "confidence": "high (4/5)",
+        "decision": "Standard profile is none_vendor_native."
+      },
+      "standardProfile": "none_vendor_native",
+      "_selfService": {
+        "sources": "results/practice-fusion/downloads/v9-index.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The index states that health systems can perform manual export for a single patient, which is direct evidence of customer-executable export.",
+        "alternatives": "unknown was rejected due explicit positive wording. no was rejected because no required vendor operation is stated.",
+        "uncertainty": "Role permissions are not specified.",
+        "confidence": "high (4/5)",
+        "decision": "selfService is yes."
+      },
+      "selfService": "yes",
+      "_operationalBurden": {
+        "sources": "results/practice-fusion/downloads/v9-index.html; results/practice-fusion/ehi-export-report.md",
+        "sourceQuality": "primary_direct, primary_descriptive",
+        "reasoning": "Single-patient manual export is self-run and uses simple tabular files, but requires handling many related TSV entities and inferred joins.",
+        "alternatives": "1 was rejected because cross-table reconstruction is non-trivial. 3 was rejected because there is no evidence of heavy gating for the single-patient path.",
+        "uncertainty": "Operational UI steps and permission model are not fully documented.",
+        "confidence": "medium-high (4/5)",
+        "decision": "Operational burden is 2 (manageable friction)."
+      },
+      "operationalBurden": 2,
+      "notes": "Single-patient path is explicitly documented, but public docs focus on data structure, not click-by-click execution steps."
+    },
+    {
+      "_mechanism": {
+        "sources": "results/practice-fusion/downloads/v9-index.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The same v9 statement explicitly includes entire patient population export; this row captures that bulk branch.",
+        "alternatives": "vendor_assisted_bulk_export was rejected because no support-mediated requirement is documented.",
+        "uncertainty": "Maximum volume limits and runtime expectations are not published.",
+        "confidence": "high (4/5)",
+        "decision": "Mechanism is ui_bulk_export."
+      },
+      "mechanism": "ui_bulk_export",
+      "_container": {
+        "sources": "results/practice-fusion/downloads/v9-index.html; results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Bulk export is described in the same table-per-entity TSV model; therefore output remains multi-file.",
+        "alternatives": "single_file and database_dump were rejected for the same reasons as the single-patient path.",
+        "uncertainty": "The bundle transport detail is not explicit.",
+        "confidence": "high (4/5)",
+        "decision": "Container is multi_file_bundle."
+      },
+      "container": "multi_file_bundle",
+      "_formats": {
+        "sources": "results/practice-fusion/downloads/v9-index.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Bulk path uses tab-separated value output per documentation and file naming.",
+        "alternatives": "mixed was rejected because no second format is declared in this manual path.",
+        "uncertainty": "None material for format classification.",
+        "confidence": "high (5/5)",
+        "decision": "Format set is [tsv]."
+      },
+      "formats": [
+        "tsv"
+      ],
+      "_standardProfile": {
+        "sources": "results/practice-fusion/downloads/v9-index.html; results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Entity tables and internal GUID model indicate native vendor representation rather than standard profile mapping.",
+        "alternatives": "fhir_us_core and mixed were rejected because this specific path is not documented as FHIR/C-CDA output.",
+        "uncertainty": "Parallel API capabilities exist in product context but are not this path.",
+        "confidence": "high (4/5)",
+        "decision": "Standard profile is none_vendor_native."
+      },
+      "standardProfile": "none_vendor_native",
+      "_selfService": {
+        "sources": "results/practice-fusion/downloads/v9-index.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The wording says health systems can manually export entire patient population, which is explicit positive evidence for customer-run operation.",
+        "alternatives": "unknown rejected due direct statement. no rejected due lack of required vendor-service evidence.",
+        "uncertainty": "Permission boundaries remain undocumented.",
+        "confidence": "high (4/5)",
+        "decision": "selfService is yes."
+      },
+      "selfService": "yes",
+      "_operationalBurden": {
+        "sources": "results/practice-fusion/downloads/v9-index.html; results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/ehi-export-report.md",
+        "sourceQuality": "primary_direct, primary_descriptive",
+        "reasoning": "Bulk extraction is self-service but operationally heavier than single-patient because it spans 85 tables and larger data volumes with inferred relationships.",
+        "alternatives": "2 was rejected because whole-practice volume increases practical overhead. 4 was rejected because no evidence of hard vendor gating.",
+        "uncertainty": "No published benchmarks for export size or run-time.",
+        "confidence": "medium-high (4/5)",
+        "decision": "Operational burden is 3 (moderate friction)."
+      },
+      "operationalBurden": 3,
+      "notes": "Bulk and single-patient paths share format/model but differ in scope and expected operational load."
+    }
+  ],
+  "documentation": {
+    "_hasDataDictionary": {
+      "sources": "results/practice-fusion/downloads/v9-index.html; results/practice-fusion/downloads/v9-pages/index.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The v9 corpus provides per-table pages listing every field with description and data type across 85 TSV entities.",
+      "alternatives": "unknown rejected because dictionary pages are directly present.",
+      "uncertainty": "None material for existence.",
+      "confidence": "high (5/5)",
+      "decision": "hasDataDictionary is yes."
+    },
+    "hasDataDictionary": "yes",
+    "_hasMachineReadableSchema": {
+      "sources": "results/practice-fusion/downloads/v9-index.html; results/practice-fusion/downloads/v9-pages/*.html; results/practice-fusion/downloads/v9-data-dictionary.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Vendor-published artifacts are HTML pages; the JSON dictionary in this workspace is an analyst extraction, not a vendor-provided schema artifact like OpenAPI/XSD/JSON Schema.",
+      "alternatives": "yes was rejected by rubric because parseable HTML alone is not machine schema publication.",
+      "uncertainty": "A private customer portal could host machine schema artifacts not included in current evidence.",
+      "confidence": "high (4/5)",
+      "decision": "hasMachineReadableSchema is no."
+    },
+    "hasMachineReadableSchema": "no",
+    "_describesFieldNames": {
+      "sources": "results/practice-fusion/downloads/v9-pages/patient-demographics.html; results/practice-fusion/downloads/v9-pages/patient-superbills.html; results/practice-fusion/downloads/v9-data-dictionary.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Each table page includes explicit field names and the extracted dictionary preserves these names for all entities.",
+      "alternatives": "unknown rejected because field-name listings are explicit.",
+      "uncertainty": "None material.",
+      "confidence": "high (5/5)",
+      "decision": "describesFieldNames is yes."
+    },
+    "describesFieldNames": "yes",
+    "_describesFieldTypes": {
+      "sources": "results/practice-fusion/downloads/v9-pages/patient-demographics.html; results/practice-fusion/downloads/v9-pages/patient-superbills.html; results/practice-fusion/downloads/v9-data-dictionary.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Documentation tables include typed columns (Guid, String, DateTime, Decimal, nullable variants), so data types are directly stated.",
+      "alternatives": "unknown rejected due explicit type column.",
+      "uncertainty": "No max lengths or precision constraints are given.",
+      "confidence": "high (5/5)",
+      "decision": "describesFieldTypes is yes."
+    },
+    "describesFieldTypes": "yes",
+    "_describesFieldSemantics": {
+      "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/downloads/v9-pages/patient-encounters.html; results/practice-fusion/downloads/v9-pages/patient-lab-results.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Field descriptions provide business meaning (for example SOAP note components, lab status semantics, and message body meaning), so semantics are documented at field level.",
+      "alternatives": "unknown rejected because descriptions are present for all listed fields.",
+      "uncertainty": "Some descriptions are concise and may leave edge-case semantics ambiguous.",
+      "confidence": "high (4/5)",
+      "decision": "describesFieldSemantics is yes."
+    },
+    "describesFieldSemantics": "yes",
+    "_describesValueSets": {
+      "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/ehi-export-report.md",
+      "sourceQuality": "primary_direct, primary_descriptive",
+      "reasoning": "Many coded/string fields are described conceptually (for example BillingStatus, Status, EventCategory), but comprehensive allowed-value enumerations are not provided as formal lists.",
+      "alternatives": "yes rejected because rubric requires explicit enumerations or code bindings, not occasional prose examples.",
+      "uncertainty": "Some individual fields include examples that might be partial value hints.",
+      "confidence": "high (4/5)",
+      "decision": "describesValueSets is no."
+    },
+    "describesValueSets": "no",
+    "_describesRelationships": {
+      "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/ehi-export-report.md",
+      "sourceQuality": "primary_direct, primary_descriptive",
+      "reasoning": "Relationship clues exist via shared GUID names and occasional narrative references, but there is no explicit FK map or ERD declaring full cross-entity relationships.",
+      "alternatives": "yes rejected under hard rule requiring explicit relationship documentation.",
+      "uncertainty": "Some relationship intent is inferable from field names and descriptions.",
+      "confidence": "high (4/5)",
+      "decision": "describesRelationships is no."
+    },
+    "describesRelationships": "no",
+    "_describesKeysConstraints": {
+      "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/ehi-export-report.md",
+      "sourceQuality": "primary_direct, primary_descriptive",
+      "reasoning": "ID fields are present, but documentation does not formally declare PK/FK constraints, requiredness rules beyond nullable markers, uniqueness, or cardinality.",
+      "alternatives": "yes rejected because identifiers alone do not satisfy explicit constraints documentation.",
+      "uncertainty": "Backend constraints may exist internally but are not published here.",
+      "confidence": "high (4/5)",
+      "decision": "describesKeysConstraints is no."
+    },
+    "describesKeysConstraints": "no",
+    "_hasSampleData": {
+      "sources": "results/practice-fusion/ehi-export-report.md; results/practice-fusion/downloads/",
+      "sourceQuality": "primary_descriptive, primary_direct",
+      "reasoning": "Artifacts provide documentation pages and screenshots, but no actual exported TSV sample rows or bundles are included in the evidence set.",
+      "alternatives": "yes rejected because schema docs are not sample payloads.",
+      "uncertainty": "Customers may be able to generate samples in-product, but not present here.",
+      "confidence": "high (5/5)",
+      "decision": "hasSampleData is no."
+    },
+    "hasSampleData": "no",
+    "_sampleRepresentativeness": {
+      "sources": "results/practice-fusion/downloads/; results/practice-fusion/ehi-export-report.md",
+      "sourceQuality": "primary_direct, primary_descriptive",
+      "reasoning": "No sample export records are available, so representativeness cannot be demonstrated.",
+      "alternatives": "1 rejected because even toy row samples are absent.",
+      "uncertainty": "None; absence is explicit in collected artifacts.",
+      "confidence": "high (5/5)",
+      "decision": "sampleRepresentativeness is 0."
+    },
+    "sampleRepresentativeness": 0,
+    "_docsCurrentness": {
+      "sources": "results/practice-fusion/downloads/ehi-export-documentation-main.html; results/practice-fusion/downloads/v9-index.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Main page lists regular version releases through Jan 12, 2026, and v9 index metadata indicates recent publication, showing active maintenance.",
+      "alternatives": "4 rejected because cadence and recency signals support highest maintenance tier.",
+      "uncertainty": "No explicit changelog depth beyond version pages.",
+      "confidence": "high (4/5)",
+      "decision": "docsCurrentness is 5."
+    },
+    "docsCurrentness": 5,
+    "_maturity": {
+      "sources": "results/practice-fusion/downloads/v9-index.html; results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/ehi-export-report.md",
+      "sourceQuality": "primary_direct, primary_descriptive",
+      "reasoning": "Documentation is broad and field-granular across 85 tables, but missing explicit relationships, constraints, value sets, and sample data leaves meaningful implementation gaps.",
+      "alternatives": "strong rejected because many migration-critical semantic questions still require inference. basic rejected because breadth and specificity are substantial.",
+      "uncertainty": "Internal or customer-only docs could improve maturity beyond what is publicly visible.",
+      "confidence": "high (4/5)",
+      "decision": "maturity is good."
+    },
+    "maturity": "good",
+    "notes": "Public docs are unusually broad for a b10 export, but they are still dictionary-centric rather than import-ready: no sample payloads, formal FK map, or enumerated value sets."
+  },
+  "fidelityRisk": {
+    "_representationType": {
+      "sources": "results/practice-fusion/downloads/v9-index.html; results/practice-fusion/downloads/v9-data-dictionary.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The export exposes many operational entities (encounters, lab orders/results, superbills, referrals, messages) linked by internal GUIDs across 85 tables, which is characteristic of a native model-like export rather than a compressed summary projection.",
+      "alternatives": "native_plus_projection rejected because projection signals are limited and native signals dominate. external_standard_projection rejected because output is TSV entity model, not FHIR/C-CDA structure.",
+      "uncertainty": "Some internal workflows may still be omitted, especially downstream billing services.",
+      "confidence": "high (4/5)",
+      "decision": "representationType is native_model_like."
+    },
+    "representationType": "native_model_like",
+    "_mappingTarget": {
+      "sources": "results/practice-fusion/downloads/v9-index.html; results/practice-fusion/downloads/v9-data-dictionary.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No explicit mapping target is documented for this path; artifacts read as direct vendor-native tables.",
+      "alternatives": "fhir and ccda rejected because this export path is not emitted in those standards. flat_tables rejected because there is no explicit projection process documented.",
+      "uncertainty": "ETL transforms may occur internally before export, but no explicit target model is described.",
+      "confidence": "high (4/5)",
+      "decision": "mappingTarget is none."
+    },
+    "mappingTarget": "none",
+    "_projectionLossRisk": {
+      "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/ehi-export-report.md; results/practice-fusion/product-research.md",
+      "sourceQuality": "primary_direct, primary_descriptive",
+      "reasoning": "Coverage is broad and native-like, reducing major projection-loss concerns. Remaining loss risk comes from unclear document binary packaging, external portal boundaries, and downstream claims/payment lifecycle outside core tables.",
+      "alternatives": "1 rejected because meaningful boundary gaps remain. 3 rejected because core EHR domains are extensively represented.",
+      "uncertainty": "Exact extent of externally handled billing records per customer configuration is unclear.",
+      "confidence": "medium-high (4/5)",
+      "decision": "projectionLossRisk is 2."
+    },
+    "projectionLossRisk": 2,
+    "_conflationRisk": {
+      "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Concepts are largely separated into dedicated entities (for example separate tables for encounters, procedures, prescriptions, lab orders, and lab observations). This lowers concept conflation risk.",
+      "alternatives": "0 rejected because some generic string status fields can still blur states. 2 rejected because table-level separation is strong.",
+      "uncertainty": "Without value sets, some state semantics may still collapse during import.",
+      "confidence": "high (4/5)",
+      "decision": "conflationRisk is 1."
+    },
+    "conflationRisk": 1,
+    "_reconstructionDifficulty": {
+      "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/ehi-export-report.md",
+      "sourceQuality": "primary_direct, primary_descriptive",
+      "reasoning": "Reconstruction is feasible due consistent GUID link fields and broad table coverage, but moderate effort is required because FK constraints, cardinality, and value-set definitions are not explicitly published and no sample data is provided.",
+      "alternatives": "2 rejected because missing relationship/value-set formalization creates notable modeling effort. 4 rejected because table breadth and descriptive metadata still make reconstruction practical.",
+      "uncertainty": "Importer effort depends on whether receiving system needs strict semantic parity versus approximate continuity.",
+      "confidence": "high (4/5)",
+      "decision": "reconstructionDifficulty is 3."
+    },
+    "reconstructionDifficulty": 3,
+    "_keyLossPatterns": {
+      "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/ehi-export-report.md",
+      "sourceQuality": "primary_direct, primary_descriptive",
+      "reasoning": "Repeated risk patterns are explicit in docs: many status/code fields without enumerations, relationship inference via GUID name matching instead of FK map, and file reference GUIDs without clearly documented binary export packaging.",
+      "alternatives": "No key-loss patterns rejected because multiple consistent gaps are documented.",
+      "uncertainty": "Some missing semantics may exist in private implementation guides.",
+      "confidence": "high (4/5)",
+      "decision": "Listed three recurring patterns most likely to cause semantic or key loss in migration."
+    },
+    "keyLossPatterns": [
+      "Many coded/status fields are typed as String with descriptions but no complete allowed-value enumerations.",
+      "Cross-entity joins rely on inferred GUID naming conventions because explicit FK/cardinality documentation is absent.",
+      "DocumentStorageGuid-style references imply linked binary payloads, but packaging and retrieval semantics are not clearly documented in the public export pages."
+    ],
+    "_likelyOmittedAreas": {
+      "sources": "results/practice-fusion/product-research.md; results/practice-fusion/ehi-export-report.md; results/practice-fusion/downloads/v9-data-dictionary.json",
+      "sourceQuality": "primary_descriptive, primary_direct",
+      "reasoning": "Evidence suggests strong EHR-core coverage but weaker visibility into downstream RCM/payment lifecycle, dedicated audit access logs, and external portal-specific records that may live outside core Practice Fusion export tables.",
+      "alternatives": "Empty omitted list rejected because multiple boundary caveats are documented.",
+      "uncertainty": "Degree of omission can vary by customer workflow configuration and connected services.",
+      "confidence": "medium-high (4/5)",
+      "decision": "Likely omitted areas are the highest-impact cross-boundary domains."
+    },
+    "likelyOmittedAreas": [
+      "Downstream claims submission/adjudication/remittance/payment posting records beyond superbill layer",
+      "Dedicated access audit logs (who viewed what and when)",
+      "Portal-native FollowMyHealth workflow artifacts not persisted in Practice Fusion EHR tables",
+      "Potential binary document payload transfer details when only metadata/file GUID references are documented"
+    ]
+  },
+  "domainCoverage": [
+    {
+      "_domain": {
+        "sources": "results/practice-fusion/downloads/v9-index.html; results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The demographics domain maps directly to patient identity, race/ethnicity, SOGI, tribal affiliation, occupation, contacts, and communication preference tables listed in v9.",
+        "alternatives": "Mapping these tables to a non-demographic domain was rejected because field semantics are explicitly demographic/identity oriented.",
+        "uncertainty": "None material for domain mapping.",
+        "confidence": "high (5/5)",
+        "decision": "Domain assignment demographics is correct."
+      },
+      "domain": "demographics",
+      "_coverage": {
+        "sources": "results/practice-fusion/downloads/v9-index.html; results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Demographics include rich identity slices: patient-demographics plus race, ethnicity, gender identity/sexual orientation, tribal affiliation, contacts, and communication settings.",
+        "alternatives": "present_but_not_comprehensive rejected because major demographic slices are explicitly represented.",
+        "uncertainty": "No clear high-impact demographic gap is evidenced in this dataset.",
+        "confidence": "high (5/5)",
+        "decision": "Coverage is plausibly_comprehensive."
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Direct table and field evidence is abundant and unambiguous for this domain.",
+        "alternatives": "4 rejected because evidence strength supports maximum confidence.",
+        "uncertainty": "Minimal.",
+        "confidence": "high (5/5)",
+        "decision": "Confidence score is 5."
+      },
+      "confidence": 5,
+      "notes": "Includes SOGI and tribal affiliation fields, which exceed baseline demographic slices."
+    },
+    {
+      "_domain": {
+        "sources": "results/practice-fusion/downloads/v9-index.html; results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Encounter-specific tables include patient-encounters and related event, diagnosis, medication, observation, procedure, and addendum entities.",
+        "alternatives": "Assigning to only notes or procedures was rejected because these tables anchor full encounter lifecycle context.",
+        "uncertainty": "None material for mapping.",
+        "confidence": "high (5/5)",
+        "decision": "Domain assignment encounters is correct."
+      },
+      "domain": "encounters",
+      "_coverage": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Encounter header and linked sub-entities are broad, including SOAP/SIMPLE content, event timelines, diagnoses, procedures, observations, medications, and addendums.",
+        "alternatives": "present_but_not_comprehensive rejected because core encounter slices are all explicitly represented.",
+        "uncertainty": "No explicit encounter-level omission signal in artifacts.",
+        "confidence": "high (5/5)",
+        "decision": "Coverage is plausibly_comprehensive."
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Multiple dedicated encounter tables provide strong direct evidence.",
+        "alternatives": "4 rejected because breadth and specificity are very strong.",
+        "uncertainty": "Minimal.",
+        "confidence": "high (5/5)",
+        "decision": "Confidence score is 5."
+      },
+      "confidence": 5,
+      "notes": "Encounter model appears operational rather than summary-only."
+    },
+    {
+      "_domain": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Problem/condition representation is evident in patient-diagnoses and patient-conditions tables with acuity, code equivalents, active dates, and comments.",
+        "alternatives": "Mapping solely to encounters rejected because dedicated longitudinal diagnosis entities exist.",
+        "uncertainty": "None material.",
+        "confidence": "high (5/5)",
+        "decision": "Domain assignment problems_conditions is correct."
+      },
+      "domain": "problems_conditions",
+      "_coverage": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Condition/problem slices include identifiers, diagnosis naming, code equivalents, acuity, temporal status, and comments.",
+        "alternatives": "present_but_not_comprehensive rejected because key ambulatory problem-list attributes are present.",
+        "uncertainty": "Formal value-set bindings for acuity/status are not enumerated.",
+        "confidence": "high (4/5)",
+        "decision": "Coverage is plausibly_comprehensive."
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Evidence is direct but some semantics remain value-set-light.",
+        "alternatives": "5 rejected due that residual semantic ambiguity.",
+        "uncertainty": "Moderate semantic coding uncertainty.",
+        "confidence": "high (4/5)",
+        "decision": "Confidence score is 4."
+      },
+      "confidence": 4,
+      "notes": "Diagnosis code equivalence fields support cross-code-system interpretation even without explicit allowed-value lists."
+    },
+    {
+      "_domain": {
+        "sources": "results/practice-fusion/downloads/v9-index.html; results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Medication domain has dedicated entities for current meds, med history, prescriptions, transactions, pharmacies, preferred pharmacy, and consent.",
+        "alternatives": "Assigning only to orders_referrals rejected because medication treatment state is broader than order mechanics.",
+        "uncertainty": "None material for mapping.",
+        "confidence": "high (5/5)",
+        "decision": "Domain assignment medications is correct."
+      },
+      "domain": "medications",
+      "_coverage": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Coverage spans medication list, sig/dose details, prescribing metadata, refill context, and transaction history.",
+        "alternatives": "present_but_not_comprehensive rejected because major ambulatory medication slices are represented.",
+        "uncertainty": "Complete external pharmacy fulfillment lifecycle may still involve external systems.",
+        "confidence": "high (5/5)",
+        "decision": "Coverage is plausibly_comprehensive."
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Rich multi-table medication evidence supports high certainty.",
+        "alternatives": "4 rejected because breadth is strong and explicit.",
+        "uncertainty": "Low.",
+        "confidence": "high (5/5)",
+        "decision": "Confidence score is 5."
+      },
+      "confidence": 5,
+      "notes": "Includes controlled-substance and transaction fields, indicating detailed e-prescribing traceability."
+    },
+    {
+      "_domain": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Allergy representation is explicit through patient-allergy and patient-allergy-reactions with severity, onset, reactions, and coding fields.",
+        "alternatives": "Mapping to only problems_conditions rejected because dedicated allergy tables exist.",
+        "uncertainty": "None material.",
+        "confidence": "high (5/5)",
+        "decision": "Domain assignment allergies is correct."
+      },
+      "domain": "allergies",
+      "_coverage": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Allergy entities include allergen category, substance, severity, active state, dates, and reaction linkage.",
+        "alternatives": "present_but_not_comprehensive rejected because key allergy slices are clearly present.",
+        "uncertainty": "Value-set completeness for severity/onset categories is not explicit.",
+        "confidence": "high (5/5)",
+        "decision": "Coverage is plausibly_comprehensive."
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Direct dedicated tables with rich fields provide strong confidence.",
+        "alternatives": "4 rejected because domain evidence is robust.",
+        "uncertainty": "Low.",
+        "confidence": "high (5/5)",
+        "decision": "Confidence score is 5."
+      },
+      "confidence": 5,
+      "notes": "Reaction detail is separated into its own table, reducing loss risk for symptom context."
+    },
+    {
+      "_domain": {
+        "sources": "results/practice-fusion/downloads/v9-index.html; results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Immunization domain maps to patient-immunizations plus registry and transmission history entities and VIS edition reference.",
+        "alternatives": "Mapping only to medications rejected because vaccine-specific entities are explicit.",
+        "uncertainty": "None material.",
+        "confidence": "high (5/5)",
+        "decision": "Domain assignment immunizations is correct."
+      },
+      "domain": "immunizations",
+      "_coverage": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Coverage includes administration context, source, lot/manufacturer, reaction/rejection info, and transmission/registry artifacts.",
+        "alternatives": "present_but_not_comprehensive rejected because core immunization workflow slices appear broad.",
+        "uncertainty": "Enumerated code definitions are still limited.",
+        "confidence": "high (5/5)",
+        "decision": "Coverage is plausibly_comprehensive."
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Multiple specialized tables and rich fields support strong confidence.",
+        "alternatives": "4 rejected because evidence is broad and direct.",
+        "uncertainty": "Low.",
+        "confidence": "high (5/5)",
+        "decision": "Confidence score is 5."
+      },
+      "confidence": 5,
+      "notes": "Registry and transmission tables indicate beyond-minimal immunization export coverage."
+    },
+    {
+      "_domain": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Vitals are represented through encounter events and observations with codes, values, units, and timestamps.",
+        "alternatives": "Mapping to encounters only rejected because vital-sign-specific fields (for example VitalSignCode) indicate dedicated vital content.",
+        "uncertainty": "No separate vitals table defines canonical vital subset boundaries.",
+        "confidence": "medium-high (4/5)",
+        "decision": "Domain assignment vitals is supported but indirectly table-scoped."
+      },
+      "domain": "vitals",
+      "_coverage": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Vital measurements are clearly present, but they are embedded in broader event/observation entities rather than a dedicated vitals-centric model with explicit completeness guarantees.",
+        "alternatives": "plausibly_comprehensive rejected due domain boundary ambiguity. not_clearly_present rejected because vital fields are explicit.",
+        "uncertainty": "Potential gaps in less common vital types cannot be assessed without sample data.",
+        "confidence": "medium-high (4/5)",
+        "decision": "Coverage is present_but_not_comprehensive."
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Presence is clear, but breadth inference is indirect.",
+        "alternatives": "5 rejected because inference remains about full vital breadth.",
+        "uncertainty": "Moderate.",
+        "confidence": "medium-high (4/5)",
+        "decision": "Confidence score is 4."
+      },
+      "confidence": 4,
+      "notes": "VitalSignCode and observation unit/value fields support meaningful vital extraction."
+    },
+    {
+      "_domain": {
+        "sources": "results/practice-fusion/downloads/v9-index.html; results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Laboratory domain is directly represented by a large cluster of order, result, specimen, note, and document tables.",
+        "alternatives": "Assigning these tables to generic diagnostic_reports only rejected because lab workflow entities are explicit.",
+        "uncertainty": "None material for mapping.",
+        "confidence": "high (5/5)",
+        "decision": "Domain assignment laboratory is correct."
+      },
+      "domain": "laboratory",
+      "_coverage": {
+        "sources": "results/practice-fusion/downloads/v9-index.html; results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Lab coverage includes order headers/items, diagnoses, specimens, answers, result observations, notes, and linked documents, indicating broad workflow representation.",
+        "alternatives": "present_but_not_comprehensive rejected because major lab slices are explicitly represented.",
+        "uncertainty": "Binary document payload transfer details remain somewhat unclear.",
+        "confidence": "high (5/5)",
+        "decision": "Coverage is plausibly_comprehensive."
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Large dedicated lab entity set gives very strong evidence.",
+        "alternatives": "4 rejected because evidence volume is extensive.",
+        "uncertainty": "Low.",
+        "confidence": "high (5/5)",
+        "decision": "Confidence score is 5."
+      },
+      "confidence": 5,
+      "notes": "Lab is one of the deepest represented domains in the v9 model."
+    },
+    {
+      "_domain": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/ehi-export-report.md",
+        "sourceQuality": "primary_direct, primary_descriptive",
+        "reasoning": "Diagnostic report-like content appears through lab results, result notes, result documents, and observation interpretations.",
+        "alternatives": "not_clearly_present rejected because report-level lab artifacts are explicit.",
+        "uncertainty": "Non-lab imaging narrative report coverage is less explicit.",
+        "confidence": "medium-high (4/5)",
+        "decision": "Domain assignment diagnostic_reports is reasonable but partly inferred from lab-report structures."
+      },
+      "domain": "diagnostic_reports",
+      "_coverage": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Report-level slices exist for laboratory diagnostics, but comprehensive cross-modality diagnostic reporting (for example standalone imaging report entities) is not clearly documented.",
+        "alternatives": "plausibly_comprehensive rejected due modality ambiguity. not_clearly_present rejected due clear lab report structures.",
+        "uncertainty": "Imaging results may be partially represented under lab types, but breadth is uncertain.",
+        "confidence": "medium (3/5)",
+        "decision": "Coverage is present_but_not_comprehensive."
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/product-research.md",
+        "sourceQuality": "primary_direct, primary_descriptive",
+        "reasoning": "Core report evidence is indirect outside lab-specific entities.",
+        "alternatives": "4 rejected because cross-modality evidence is incomplete.",
+        "uncertainty": "Moderate.",
+        "confidence": "medium (3/5)",
+        "decision": "Confidence score is 3."
+      },
+      "confidence": 3,
+      "notes": "Strong for lab reports; broader diagnostic reporting is less explicit in public tables."
+    },
+    {
+      "_domain": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Procedures are represented in patient-encounter-procedures and superbill procedure tables with coding, status, and modifiers.",
+        "alternatives": "Mapping only to claims_billing rejected because clinical procedure documentation exists apart from billing modifiers.",
+        "uncertainty": "None material for domain assignment.",
+        "confidence": "high (5/5)",
+        "decision": "Domain assignment procedures is correct."
+      },
+      "domain": "procedures",
+      "_coverage": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Coverage includes ordered/performed states, procedure codes/systems, notes, and billing-linked procedure slices.",
+        "alternatives": "present_but_not_comprehensive rejected because core ambulatory procedure slices are represented.",
+        "uncertainty": "Procedure value-set constraints are not formally enumerated.",
+        "confidence": "high (4/5)",
+        "decision": "Coverage is plausibly_comprehensive."
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Multiple direct procedure entities support strong confidence.",
+        "alternatives": "5 rejected because some semantic constraints are undocumented.",
+        "uncertainty": "Low-moderate.",
+        "confidence": "high (4/5)",
+        "decision": "Confidence score is 4."
+      },
+      "confidence": 4,
+      "notes": "Procedure evidence spans both clinical and billing-related representations."
+    },
+    {
+      "_domain": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Clinical note content appears in patient-encounters SOAP fields, encounter addendums, and pinned notes with note text.",
+        "alternatives": "not_clearly_present rejected because multiple explicit narrative text fields exist.",
+        "uncertainty": "Template-driven note constructs and revision lineage are not fully explicit.",
+        "confidence": "high (4/5)",
+        "decision": "Domain assignment clinical_notes is correct."
+      },
+      "domain": "clinical_notes",
+      "_coverage": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/ehi-export-report.md",
+        "sourceQuality": "primary_direct, primary_descriptive",
+        "reasoning": "Narrative note bodies are present, but documentation does not clearly prove complete note lineage/versioning across all note modalities.",
+        "alternatives": "plausibly_comprehensive rejected due uncertain completeness of all note types. not_clearly_present rejected because core narrative fields are explicit.",
+        "uncertainty": "Breadth of specialty-specific note variants without samples is uncertain.",
+        "confidence": "medium-high (4/5)",
+        "decision": "Coverage is present_but_not_comprehensive."
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Presence evidence is strong; completeness evidence is moderate.",
+        "alternatives": "5 rejected due unresolved completeness caveat.",
+        "uncertainty": "Moderate.",
+        "confidence": "medium-high (4/5)",
+        "decision": "Confidence score is 4."
+      },
+      "confidence": 4,
+      "notes": "Encounter Subjective/Objective/Assessment/Plan fields materially improve note fidelity versus metadata-only exports."
+    },
+    {
+      "_domain": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Care planning signals map to patient-goals and patient-health-concerns with activity status and dates.",
+        "alternatives": "Mapping only to problems rejected because goal-specific entity exists.",
+        "uncertainty": "No dedicated longitudinal care-plan object is documented.",
+        "confidence": "high (4/5)",
+        "decision": "Domain assignment care_plans_goals is supported."
+      },
+      "domain": "care_plans_goals",
+      "_coverage": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Goals and concerns are clearly present, but full multi-stage care plan structures and progress workflows are not explicitly modeled in separate entities.",
+        "alternatives": "plausibly_comprehensive rejected due likely longitudinal planning gaps. not_clearly_present rejected because goal/concern data is explicit.",
+        "uncertainty": "Some care-plan behavior may be embedded in encounter notes or worksheets.",
+        "confidence": "medium-high (4/5)",
+        "decision": "Coverage is present_but_not_comprehensive."
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Clear presence, moderate uncertainty on breadth.",
+        "alternatives": "5 rejected because comprehensive plan lifecycle evidence is limited.",
+        "uncertainty": "Moderate.",
+        "confidence": "medium-high (4/5)",
+        "decision": "Confidence score is 4."
+      },
+      "confidence": 4,
+      "notes": "Goal coding fields (CodeSystem/Code/CodeDescription) support structured goal representation."
+    },
+    {
+      "_domain": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/downloads/v9-index.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Orders and referrals are represented by lab order entity family and patient-referrals with referral recipients.",
+        "alternatives": "not_clearly_present rejected because dedicated order and referral tables are explicit.",
+        "uncertainty": "Non-lab order classes are less explicit in standalone tables.",
+        "confidence": "high (4/5)",
+        "decision": "Domain assignment orders_referrals is correct."
+      },
+      "domain": "orders_referrals",
+      "_coverage": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/product-research.md",
+        "sourceQuality": "primary_direct, primary_descriptive",
+        "reasoning": "Lab orders and referral workflows are substantial, but complete breadth across all order modalities is not proven from table names alone.",
+        "alternatives": "plausibly_comprehensive rejected due modality uncertainty. not_clearly_present rejected due clear order/referral entities.",
+        "uncertainty": "Imaging/procedure ordering may be partly embedded in encounter events/procedures.",
+        "confidence": "medium-high (4/5)",
+        "decision": "Coverage is present_but_not_comprehensive."
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Evidence is clear for presence with moderate breadth uncertainty.",
+        "alternatives": "5 rejected because complete modality coverage is uncertain.",
+        "uncertainty": "Moderate.",
+        "confidence": "medium-high (4/5)",
+        "decision": "Confidence score is 4."
+      },
+      "confidence": 4,
+      "notes": "Referral recipient table improves reconstructability of outbound referral context."
+    },
+    {
+      "_domain": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Documents/attachments domain maps to patient-documents, encounter-documents, lab-order/result-documents, and message-attachments.",
+        "alternatives": "not_clearly_present rejected because multiple document metadata tables are explicit.",
+        "uncertainty": "Whether document binaries are included in standard export packaging is not explicit.",
+        "confidence": "high (4/5)",
+        "decision": "Domain assignment documents_attachments is correct."
+      },
+      "domain": "documents_attachments",
+      "_coverage": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/ehi-export-report.md",
+        "sourceQuality": "primary_direct, primary_descriptive",
+        "reasoning": "Metadata coverage is broad and includes file identifiers, names, mime/file type hints, and related context; however explicit evidence of binary payload inclusion is incomplete.",
+        "alternatives": "plausibly_comprehensive rejected due binary packaging uncertainty. not_clearly_present rejected due extensive metadata presence.",
+        "uncertainty": "High-impact uncertainty remains on content payload transfer mechanics.",
+        "confidence": "medium-high (4/5)",
+        "decision": "Coverage is present_but_not_comprehensive."
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Presence is strong, completeness for payload delivery is uncertain.",
+        "alternatives": "5 rejected due unresolved payload uncertainty.",
+        "uncertainty": "Moderate.",
+        "confidence": "medium-high (4/5)",
+        "decision": "Confidence score is 4."
+      },
+      "confidence": 4,
+      "notes": "DocumentStorageGuid fields are high-signal, but public docs do not fully specify binary transfer packaging."
+    },
+    {
+      "_domain": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Insurance domain is directly represented by patient-insurances, insurance eligibilities, guarantor, and superbill-insurance linkage.",
+        "alternatives": "Mapping to claims_billing only rejected because coverage/eligibility/subscriber slices are separate insurance constructs.",
+        "uncertainty": "None material.",
+        "confidence": "high (5/5)",
+        "decision": "Domain assignment insurance is correct."
+      },
+      "domain": "insurance",
+      "_coverage": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Insurance details include relationship, member/group IDs, coverage period, payer and subscriber demographics, and eligibility verification details.",
+        "alternatives": "present_but_not_comprehensive rejected because major insurance record slices appear broad for ambulatory EHR context.",
+        "uncertainty": "No explicit insurer response payload schema beyond listed fields.",
+        "confidence": "high (5/5)",
+        "decision": "Coverage is plausibly_comprehensive."
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Large detailed insurance tables give strong direct evidence.",
+        "alternatives": "4 rejected due strength and breadth of evidence.",
+        "uncertainty": "Low.",
+        "confidence": "high (5/5)",
+        "decision": "Confidence score is 5."
+      },
+      "confidence": 5,
+      "notes": "Insurance coverage and subscriber detail are richer than many summary exports."
+    },
+    {
+      "_domain": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/product-research.md",
+        "sourceQuality": "primary_direct, primary_descriptive",
+        "reasoning": "Claims/billing handoff is represented through superbills plus related diagnosis/procedure/modifier/events tables.",
+        "alternatives": "not_clearly_present rejected because billing header and event entities are explicit.",
+        "uncertainty": "Downstream claim adjudication/remittance domains appear external in product context.",
+        "confidence": "high (4/5)",
+        "decision": "Domain assignment claims_billing is supported."
+      },
+      "domain": "claims_billing",
+      "_coverage": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/product-research.md; results/practice-fusion/ehi-export-report.md",
+        "sourceQuality": "primary_direct, primary_descriptive",
+        "reasoning": "Superbill and billing header content is substantial, but explicit full claims lifecycle records (submission, adjudication, remittance) are not clearly represented in the documented table set.",
+        "alternatives": "plausibly_comprehensive rejected due lifecycle gap. not_clearly_present rejected because clear billing capture entities exist.",
+        "uncertainty": "Some lifecycle events may be encoded indirectly in superbill-events.",
+        "confidence": "medium-high (4/5)",
+        "decision": "Coverage is present_but_not_comprehensive."
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/product-research.md",
+        "sourceQuality": "primary_direct, primary_descriptive",
+        "reasoning": "Strong evidence for billing capture, moderate uncertainty for downstream claims lifecycle.",
+        "alternatives": "5 rejected due cross-system boundary uncertainty.",
+        "uncertainty": "Moderate.",
+        "confidence": "medium-high (4/5)",
+        "decision": "Confidence score is 4."
+      },
+      "confidence": 4,
+      "notes": "This export is strong at superbill-level billing context but weaker for full RCM downstream stages."
+    },
+    {
+      "_domain": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/product-research.md",
+        "sourceQuality": "primary_direct, primary_descriptive",
+        "reasoning": "The reviewed table inventory does not include a dedicated payment posting/remittance entity family.",
+        "alternatives": "Mapping to claims_billing rejected because payment lifecycle is a distinct domain with different evidence requirements.",
+        "uncertainty": "Limited payment-related fields may exist embedded in other tables but do not establish meaningful payment domain coverage.",
+        "confidence": "high (4/5)",
+        "decision": "Domain assignment payments is appropriate and cautious."
+      },
+      "domain": "payments",
+      "_coverage": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/ehi-export-report.md",
+        "sourceQuality": "primary_direct, primary_descriptive",
+        "reasoning": "No clear payment posting/reconciliation artifacts are documented; references are mostly preference or external billing context.",
+        "alternatives": "present_but_not_comprehensive rejected because meaningful payment tables are not evident.",
+        "uncertainty": "Some payment data may be handled externally and therefore absent by design for core EHR export.",
+        "confidence": "high (4/5)",
+        "decision": "Coverage is not_clearly_present."
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Absence inference is strong because table inventory is explicit and broad, yet not absolute for all customer integrations.",
+        "alternatives": "5 rejected because external systems may hold related payment records.",
+        "uncertainty": "Moderate boundary uncertainty.",
+        "confidence": "high (4/5)",
+        "decision": "Confidence score is 4."
+      },
+      "confidence": 4,
+      "notes": "Evidence supports payment lifecycle being outside the documented core export surface."
+    },
+    {
+      "_domain": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Scheduling maps to patient-appointments with timing, status, no-show reasons, provider/facility linkage, and encounter linkage.",
+        "alternatives": "Mapping to encounters rejected because appointment planning state is distinct.",
+        "uncertainty": "No dedicated scheduler resource tables for provider templates are shown.",
+        "confidence": "high (4/5)",
+        "decision": "Domain assignment scheduling is correct."
+      },
+      "domain": "scheduling",
+      "_coverage": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/product-research.md",
+        "sourceQuality": "primary_direct, primary_descriptive",
+        "reasoning": "Appointment records are clearly present and meaningful, but complete scheduling ecosystem breadth (template rules, availability logic) is not documented in this patient-focused export.",
+        "alternatives": "plausibly_comprehensive rejected due likely operational scheduling slices outside patient-record export. not_clearly_present rejected due explicit appointments table.",
+        "uncertainty": "Extent of patient self-scheduling metadata retention is unclear.",
+        "confidence": "medium-high (4/5)",
+        "decision": "Coverage is present_but_not_comprehensive."
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Presence is direct; completeness of broader scheduling mechanics is less explicit.",
+        "alternatives": "5 rejected due that broader uncertainty.",
+        "uncertainty": "Moderate.",
+        "confidence": "medium-high (4/5)",
+        "decision": "Confidence score is 4."
+      },
+      "confidence": 4,
+      "notes": "Appointment status and no-show reasons support practical continuity of scheduling history."
+    },
+    {
+      "_domain": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Consent/directive signals appear in patient-advance-directives and patient-medication-history-consent, with patient-restrictions providing additional control metadata.",
+        "alternatives": "not_clearly_present rejected because directive and consent entities are explicit.",
+        "uncertainty": "Granularity of consent revocation/change lifecycle is limited.",
+        "confidence": "high (4/5)",
+        "decision": "Domain assignment consents_directives is supported."
+      },
+      "domain": "consents_directives",
+      "_coverage": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Advance directives and a medication history consent record are present, but broader consent taxonomies and longitudinal consent event tracking are not clearly evidenced.",
+        "alternatives": "plausibly_comprehensive rejected due narrow consent table set.",
+        "uncertainty": "Some consent states may be represented in note text rather than structured fields.",
+        "confidence": "medium-high (4/5)",
+        "decision": "Coverage is present_but_not_comprehensive."
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Presence is clear but breadth uncertain.",
+        "alternatives": "5 rejected because comprehensive consent lifecycle evidence is limited.",
+        "uncertainty": "Moderate.",
+        "confidence": "medium-high (4/5)",
+        "decision": "Confidence score is 4."
+      },
+      "confidence": 4,
+      "notes": "Structured consent evidence is present but narrow compared to domains like labs or meds."
+    },
+    {
+      "_domain": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/downloads/v9-index.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Patient communications are directly represented via message thread/message/recipient/attachment entities and communication setting preferences.",
+        "alternatives": "Mapping to documents rejected because messaging has distinct conversational structures.",
+        "uncertainty": "External portal-only communication channels may not fully map here.",
+        "confidence": "high (5/5)",
+        "decision": "Domain assignment patient_communications is correct."
+      },
+      "domain": "patient_communications",
+      "_coverage": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Core communication slices are present: sender/recipient roles, subject/body, urgency, chart-inclusion flag, and attachment metadata.",
+        "alternatives": "present_but_not_comprehensive rejected because in-product messaging model appears broadly represented.",
+        "uncertainty": "Non-EHR communication channels are outside this model.",
+        "confidence": "high (5/5)",
+        "decision": "Coverage is plausibly_comprehensive."
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Dedicated communication tables provide strong direct evidence.",
+        "alternatives": "4 rejected because evidence is very explicit.",
+        "uncertainty": "Low.",
+        "confidence": "high (5/5)",
+        "decision": "Confidence score is 5."
+      },
+      "confidence": 5,
+      "notes": "Message body export materially improves continuity versus metadata-only inbox exports."
+    },
+    {
+      "_domain": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; wiggum/prompts/ehi-scope-reference.md",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Audit/provenance in this rubric expects dedicated access/change event logs. The export contains many LastModified and Provenance fields but no explicit standalone audit log entity.",
+        "alternatives": "Assigning high coverage rejected because timestamp columns alone do not equal full audit-provenance log structures.",
+        "uncertainty": "Some audit data may exist outside standard EHI export scope.",
+        "confidence": "high (5/5)",
+        "decision": "Domain assignment audit_provenance is correctly treated as weakly evidenced."
+      },
+      "domain": "audit_provenance",
+      "_coverage": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/ehi-export-report.md",
+        "sourceQuality": "primary_direct, primary_descriptive",
+        "reasoning": "No dedicated audit/access tables are documented. Provenance columns provide limited change metadata but not full access audit trail.",
+        "alternatives": "present_but_not_comprehensive rejected because domain-level dedicated evidence is insufficient.",
+        "uncertainty": "If separate audit exports exist outside this public doc set, this call could change.",
+        "confidence": "high (4/5)",
+        "decision": "Coverage is not_clearly_present."
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/practice-fusion/downloads/v9-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The broad explicit table list makes absence of dedicated audit entities a strong signal.",
+        "alternatives": "5 rejected because there remains possibility of separate non-public audit artifacts.",
+        "uncertainty": "Moderate boundary uncertainty.",
+        "confidence": "high (4/5)",
+        "decision": "Confidence score is 4."
+      },
+      "confidence": 4,
+      "notes": "Provenance timestamps exist broadly but do not constitute full access audit event export."
+    }
+  ],
+  "domainCoverageSummary": {
+    "plausiblyComprehensive": [
+      "demographics",
+      "encounters",
+      "problems_conditions",
+      "medications",
+      "allergies",
+      "immunizations",
+      "laboratory",
+      "procedures",
+      "insurance",
+      "patient_communications"
+    ],
+    "presentButNotComprehensive": [
+      "vitals",
+      "diagnostic_reports",
+      "clinical_notes",
+      "care_plans_goals",
+      "orders_referrals",
+      "documents_attachments",
+      "claims_billing",
+      "scheduling",
+      "consents_directives"
+    ],
+    "notClearlyPresent": [
+      "payments",
+      "audit_provenance"
+    ]
+  },
+  "accessConstraints": {
+    "_docsPubliclyAccessible": {
+      "sources": "results/practice-fusion/downloads/ehi-export-documentation-main.html; results/practice-fusion/ehi-export-report.md",
+      "sourceQuality": "primary_direct, primary_descriptive",
+      "reasoning": "All core export documentation pages were fetched anonymously via curl and stored without auth steps, indicating public accessibility.",
+      "alternatives": "unknown rejected because direct access success is documented.",
+      "uncertainty": "None material for documentation access.",
+      "confidence": "high (5/5)",
+      "decision": "docsPubliclyAccessible is yes."
+    },
+    "docsPubliclyAccessible": "yes",
+    "_roleRestricted": {
+      "sources": "results/practice-fusion/downloads/v9-index.html; results/practice-fusion/ehi-export-report.md",
+      "sourceQuality": "primary_direct, primary_descriptive",
+      "reasoning": "Documentation does not explicitly state which user roles can trigger exports in-product.",
+      "alternatives": "yes and no rejected due lack of direct role/permission evidence.",
+      "uncertainty": "Likely admin restriction exists in practice, but not documented in evidence set.",
+      "confidence": "medium (3/5)",
+      "decision": "roleRestricted is unknown."
+    },
+    "roleRestricted": "unknown",
+    "_vendorInvolvementNeeded": {
+      "sources": "results/practice-fusion/downloads/v9-index.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The v9 page states manual export can be performed by health systems for single patient or full population, with no stated mandatory vendor-operated extraction.",
+      "alternatives": "unknown rejected due explicit self-run wording. yes rejected because no required vendor ticket path is documented.",
+      "uncertainty": "Edge cases for very large exports may still involve support, but not presented as required standard path.",
+      "confidence": "high (4/5)",
+      "decision": "vendorInvolvementNeeded is no."
+    },
+    "vendorInvolvementNeeded": "no",
+    "_potentialFeesForStandardExport": {
+      "sources": "results/practice-fusion/downloads/ehi-export-documentation-main.html; results/practice-fusion/product-research.md",
+      "sourceQuality": "primary_direct, primary_descriptive",
+      "reasoning": "Main page links to mandatory cost/API fee documents, but the collected evidence does not include their detailed contents for standard export fee determination.",
+      "alternatives": "yes rejected because explicit standard export fee evidence is not directly shown. no rejected because linked fee documents indicate possible charges in broader contexts.",
+      "uncertainty": "Fee policy may vary by contract tier and API versus manual pathways.",
+      "confidence": "medium (3/5)",
+      "decision": "potentialFeesForStandardExport is unknown."
+    },
+    "potentialFeesForStandardExport": "unknown",
+    "_practicalAccessibilityScore": {
+      "sources": "results/practice-fusion/downloads/v9-index.html; results/practice-fusion/ehi-export-report.md; results/practice-fusion/downloads/ehi-export-documentation-main.html",
+      "sourceQuality": "primary_direct, primary_descriptive",
+      "reasoning": "Accessibility is improved by public docs and self-service wording, but practical use still has moderate friction from unclear in-product permissions, no step-by-step runbook, and multi-table reconstruction complexity.",
+      "alternatives": "1 rejected because operational details are incomplete. 3 rejected because no heavy vendor gating is evidenced.",
+      "uncertainty": "Real-world friction depends on customer role setup and data volume.",
+      "confidence": "medium-high (4/5)",
+      "decision": "practicalAccessibilityScore is 2."
+    },
+    "practicalAccessibilityScore": 2,
+    "notes": "Documentation access is easy; execution/access-control specifics are less transparent."
+  },
+  "overall": {
+    "_posture": {
+      "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/ehi-export-report.md; results/practice-fusion/product-research.md",
+      "sourceQuality": "primary_direct, primary_descriptive",
+      "reasoning": "Evidence supports a highly usable native TSV export with broad EHR domain coverage, but meaningful gaps remain around payment lifecycle, formal relationship/value-set docs, and some boundary areas. This matches usable but partial rather than near-perfect fidelity.",
+      "alternatives": "high_fidelity_export rejected because documentation and selected domains still have material caveats. projection_limited rejected because dominant path is native table export, not standards projection.",
+      "uncertainty": "Could improve if additional private implementation docs provide missing semantics.",
+      "confidence": "high (4/5)",
+      "decision": "posture is usable_but_partial."
+    },
+    "posture": "usable_but_partial",
+    "_completenessScore": {
+      "sources": "results/practice-fusion/downloads/v9-index.html; results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/product-research.md",
+      "sourceQuality": "primary_direct, primary_descriptive",
+      "reasoning": "Most core clinical and patient-facing billing handoff domains are represented across 85 tables, with bounded omissions concentrated in payments/downstream RCM and certain boundary systems.",
+      "alternatives": "5 rejected due clear gaps in payment lifecycle and documentation boundaries. 3 rejected because breadth is stronger than moderate completeness.",
+      "uncertainty": "Exact share of billing lifecycle in external systems varies by deployment.",
+      "confidence": "high (4/5)",
+      "decision": "completenessScore is 4."
+    },
+    "completenessScore": 4,
+    "_technicalUsabilityScore": {
+      "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/ehi-export-report.md",
+      "sourceQuality": "primary_direct, primary_descriptive",
+      "reasoning": "TSV format with stable GUIDs and field definitions is technically usable for migration. Usability is tempered by absent sample payloads, no formal FK map, and sparse value-set constraints.",
+      "alternatives": "4 rejected because assumptions/inference are still needed. 2 rejected because format and dictionary breadth make ingestion tractable.",
+      "uncertainty": "Importer burden depends on target model strictness and transformation tooling.",
+      "confidence": "high (4/5)",
+      "decision": "technicalUsabilityScore is 3."
+    },
+    "technicalUsabilityScore": 3,
+    "_confidence": {
+      "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/downloads/v9-index.html; results/practice-fusion/ehi-export-report.md",
+      "sourceQuality": "primary_direct, primary_descriptive",
+      "reasoning": "Confidence is high because core structure and coverage calls are based on direct artifacts. It is not maximal because some decisions rely on boundary inference where explicit docs are absent.",
+      "alternatives": "5 rejected due unresolved uncertainty around payment/binary/audit boundaries.",
+      "uncertainty": "Moderate in cross-system boundary domains.",
+      "confidence": "high (4/5)",
+      "decision": "overall confidence score is 4."
+    },
+    "confidence": 4,
+    "_strongestSignal": {
+      "sources": "results/practice-fusion/downloads/v9-index.html; results/practice-fusion/downloads/v9-data-dictionary.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The single strongest positive signal is breadth plus structure: 85 documented TSV entities and 1,165 typed fields linked by internal GUIDs across major clinical and administrative workflows.",
+      "alternatives": "Using version cadence alone as strongest signal rejected because breadth/structure is more directly migration-relevant.",
+      "uncertainty": "None material about this signal itself.",
+      "confidence": "high (5/5)",
+      "decision": "Strongest signal selected as broad native table coverage with linkage-friendly identifiers."
+    },
+    "strongestSignal": "The v9 export exposes 85 typed TSV entities (1,165 fields) spanning core EHR workflows with reusable GUID keys, indicating strong native-model coverage.",
+    "_biggestRisk": {
+      "sources": "results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/ehi-export-report.md; results/practice-fusion/product-research.md",
+      "sourceQuality": "primary_direct, primary_descriptive",
+      "reasoning": "Highest-impact risk is semantic reconstruction overhead from missing explicit relationship/value-set constraints, combined with unclear boundary handling for downstream payments and binary document transport.",
+      "alternatives": "Choosing format risk as biggest was rejected because TSV itself is straightforward; semantics and boundary omissions are more consequential.",
+      "uncertainty": "Risk decreases if private implementation guides and sample exports are available to implementers.",
+      "confidence": "high (4/5)",
+      "decision": "Biggest risk selected as semantic and boundary ambiguity, not raw file accessibility."
+    },
+    "biggestRisk": "Migration teams must infer relationships/value semantics and handle boundary gaps (especially payment lifecycle and document payload mechanics) because those constraints are not fully explicit in public docs.",
+    "_summary": {
+      "sources": "results/practice-fusion/downloads/v9-index.html; results/practice-fusion/downloads/v9-data-dictionary.json; results/practice-fusion/ehi-export-report.md",
+      "sourceQuality": "primary_direct, primary_descriptive",
+      "reasoning": "Summary aligns with section-level judgments: strong native TSV breadth, practical usability with assumptions, and bounded but real domain/documentation gaps.",
+      "alternatives": "A fully positive summary rejected due documented gaps. A weak-documentation summary rejected because evidence corpus is actually substantial.",
+      "uncertainty": "Boundary uncertainty remains where external systems may hold downstream data.",
+      "confidence": "high (4/5)",
+      "decision": "Summary emphasizes high structural coverage but non-trivial implementation caveats."
+    },
+    "summary": "Practice Fusion EHR v9 provides a broad, native-style multi-TSV export that is materially useful for migration, but it is not import-ready without additional inference around relationships, coded values, and boundary domains such as payments and some document payload handling."
+  },
+  "holisticNarrative": {
+    "summary": "This is one of the stronger publicly documented b10-style exports in this evidence corpus because it exposes a wide relational surface instead of a narrow standards-only projection. The table inventory is broad across encounters, medications, labs, messaging, referrals, insurance, and billing handoff, and the repeated GUID linkage pattern is a practical advantage for reconstruction.\n\nThe main weaknesses are not absence of data categories in the core EHR, but lack of import-grade semantic scaffolding: no formal FK map, no robust value-set publication for many status/code fields, and no sample payloads to confirm real-world nullability and edge cases. Those gaps move the posture from high-fidelity to usable-but-partial.\n\nThe highest boundary risk is around records that plausibly live outside core EHR capture (downstream payment lifecycle and some external portal or billing-service operations). If an implementation needs full financial lifecycle continuity, this export likely needs supplementation from adjacent systems.",
+    "standoutObservations": [
+      "Surprising: encounter records include SOAP narrative fields directly, reducing note-loss risk compared with metadata-only exports.",
+      "Impressive: laboratory coverage is deep, with explicit order/result/specimen/observation/note/document slices.",
+      "Risky: no explicit PK/FK map or value-set catalog despite otherwise broad field documentation.",
+      "Unclear: DocumentStorageGuid references imply binary payload linkage, but public docs do not fully specify transfer packaging."
+    ]
+  },
+  "notableFacts": [
+    "The v9 data dictionary contains 85 TSV entities and 1,165 documented fields.",
+    "The v9 index explicitly states manual export supports both single-patient and entire-practice population scope.",
+    "Encounter exports include narrative SOAP components (Subjective, Objective, Assessment, Plan) plus addendums.",
+    "Billing coverage is strong at superbill and insurance layers but does not clearly document full downstream payment/adjudication lifecycle tables.",
+    "No vendor-published machine-readable schema artifact (for example OpenAPI/XSD/JSON Schema) is present in the collected public docs.",
+    "Public documentation shows an active release cadence from v1 (2023-11-27) through v9 (2026-01-12)."
+  ]
+}

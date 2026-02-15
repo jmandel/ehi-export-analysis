@@ -1,0 +1,787 @@
+{
+  "meta": {
+    "schemaVersion": "2026-02-15.v1",
+    "assessedAt": "2026-02-15",
+    "assessor": "reviewer_b",
+    "status": "draft"
+  },
+  "scope": {
+    "vendorName": "Practice Fusion",
+    "productFamily": "Practice Fusion EHR",
+    "includedProducts": [
+      "Practice Fusion EHR"
+    ],
+    "excludedProducts": [],
+    "versionsInScope": [
+      "unknown"
+    ],
+    "scopeRationale": "Exports are documented through Practice Fusion’s dedicated EHI artifact with shared table-level schema and workflow for this product line."
+  },
+  "sources": [
+    {
+      "sourceId": "SRC-PF-001",
+      "title": "Practice Fusion EHI index page",
+      "kind": "vendor_ehi_doc",
+      "location": "results/practice-fusion/downloads/v9-index.html",
+      "applicableProductFamilies": [
+        "Practice Fusion EHR"
+      ],
+      "reportedLastUpdated": null,
+      "stability": "sporadically_updated",
+      "stabilityNotes": "Site content is structured and includes versioned path /v9, but the extract does not show current revision metadata.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "No raw patient rows in this file."
+    },
+    {
+      "sourceId": "SRC-PF-002",
+      "title": "Practice Fusion data dictionary JSON",
+      "kind": "vendor_data_dictionary",
+      "location": "results/practice-fusion/downloads/v9-data-dictionary.json",
+      "applicableProductFamilies": [
+        "Practice Fusion EHR"
+      ],
+      "reportedLastUpdated": null,
+      "stability": "unknown",
+      "stabilityNotes": "Machine-readable definitions file is detailed and versioned as v9 filenames.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "Dictionary only, no patient-level examples."
+    },
+    {
+      "sourceId": "SRC-PF-003",
+      "title": "Practice Fusion export documentation page",
+      "kind": "vendor_ehi_doc",
+      "location": "results/practice-fusion/downloads/ehi-export-documentation-main.html",
+      "applicableProductFamilies": [
+        "Practice Fusion EHR"
+      ],
+      "reportedLastUpdated": null,
+      "stability": "unknown",
+      "stabilityNotes": "Landing export documentation for EHI process, but primary structured artifacts are in index/dictionary files.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "No sample export rows were collected here."
+    },
+    {
+      "sourceId": "SRC-PF-004",
+      "title": "Practice Fusion product research",
+      "kind": "vendor_product_doc",
+      "location": "results/practice-fusion/product-research.md",
+      "applicableProductFamilies": [
+        "Practice Fusion EHR"
+      ],
+      "reportedLastUpdated": null,
+      "stability": "unknown",
+      "stabilityNotes": "Background summary for product context.",
+      "includesSampleData": "unknown",
+      "sampleCoverage": "unknown",
+      "sampleCoverageNotes": "No sample payload."
+    }
+  ],
+  "assessmentFlow": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-001",
+            "locator": "v9-index.html lines 499-513",
+            "quote": "manual export of health data for a single patient or entire patient population ... computable, tab-separated value",
+            "relevance": "Confirms manual scope and file format."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "stage": "discover_sources",
+      "method": "Collected the main index plus data dictionary and supporting report pages for v9 EHI export."
+      ,
+      "observations": [
+        "Primary export mechanism is file-based and described with downloadable table dictionaries."
+      ],
+      "impactOnAssessment": "Set high confidence on surface and encoding expectations."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-002",
+            "locator": "v9-data-dictionary.json titles and fields",
+            "quote": null,
+            "relevance": "Direct machine-readable definition for each exported TSV table."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "The dictionary does not provide a module-to-domain guarantee for every specialized feature."
+        ]
+      },
+      "stage": "inspect_export_surface",
+      "method": "Inspected table inventory, domains, and field-level metadata to infer breadth and fidelity.",
+      "observations": [
+        "Found broad domain list including demographics, encounters, billing, labs, meds, messages, referrals, etc."
+      ],
+      "impactOnAssessment": "Supports a near-native table projection posture rather than thin external schema projection."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-001",
+            "locator": "v9-index.html lines 513-516",
+            "quote": "TSV is a computable delimiter-separated format",
+            "relevance": "Demonstrates machine-parseable export for downstream ingestion."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No sample payload means we rely on dictionary-only confirmation for some claims."
+        ]
+      },
+      "stage": "compare_model_vs_export",
+      "method": "Mapped dictionary coverage to expected EHI areas in product research context.",
+      "observations": [
+        "No explicit custom projection layer was documented in available artifacts."
+      ],
+      "impactOnAssessment": "Reinforces native-like model reflection with moderate domain confidence."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-001",
+            "locator": "v9-index.html lines 513-615",
+            "quote": null,
+            "relevance": "Evidence-backed list of core EHI table families."
+          }
+        ],
+        "strength": 3,
+        "gaps": [
+          "No downloadable row-level dataset was available for final sample representativeness scoring."
+        ]
+      },
+      "stage": "score_and_classify",
+      "method": "Scored export completeness, accessibility, and fidelity across the domain set.",
+      "observations": [
+        "Coverage is broad and consistent with high-score table export workflows."
+      ],
+      "impactOnAssessment": "Classification remains native-like high fidelity with some domain caveats."
+    }
+  ],
+  "exportSurface": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-PF-001",
+          "locator": "v9-index.html line 499",
+          "quote": "single patient or entire patient population ... computable, tab-separated value",
+          "relevance": "Defines container and serialization model."
+        },
+        {
+          "sourceId": "SRC-PF-002",
+          "locator": "v9-data-dictionary.json",
+          "quote": null,
+          "relevance": "Confirms machine-readable dictionary support for each table."
+        }
+      ],
+      "strength": 5,
+      "gaps": [
+        "No bundled schema for binary/embedded document objects was captured.",
+        "No explicit API endpoint for export was shown as primary path."
+      ]
+    },
+    "container": "multi_file_bundle",
+    "serialization": "csv",
+    "machineReadableSchema": "yes",
+    "includesDataDictionary": "yes",
+    "dictionaryDepth": "semantic",
+    "documentsValueSets": "unknown",
+    "documentsKeys": "field_plus_types",
+    "documentsRelationships": "field_plus_types",
+    "documentsConstraints": "unknown",
+    "accessibilityTier": "self_service",
+    "accessibilityNotes": "Manual export action is part of EHR workflow and appears user-driven without required developer support."
+  },
+  "mappingRisk": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-PF-002",
+          "locator": "dictionary entries with domain-specific fields and patient-scoped IDs",
+          "quote": null,
+          "relevance": "File-level schema appears native, not US Core-only transformed projections."
+        }
+      ],
+      "strength": 4,
+      "gaps": [
+        "No explicit mapping statement from internal model objects to export tables was provided."
+      ]
+    },
+    "representation": "transparent_model_reflection",
+    "mappingTarget": "none",
+    "projectionLossRiskScore": 2,
+    "conflationRiskScore": 1,
+    "reconstitutionEffortScore": 2,
+    "lossOrConflationExamples": [
+      "Potential missing documentation for custom workflows not represented in the v9 table list."
+    ],
+    "suspectedOmissions": [
+      "No confirmed coverage proof for niche specialty modules not listed in dictionary titles."
+    ]
+  },
+  "domainAssessments": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-002",
+            "locator": "v9-data-dictionary.json title patient-demographics.tsv",
+            "quote": null,
+            "relevance": "Direct evidence of demographic data table."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "demographics",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 5,
+      "rationale": "Direct table and descriptors for demographics are present.",
+      "caveats": []
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-002",
+            "locator": "v9-data-dictionary.json title patient-encounters.tsv",
+            "quote": null,
+            "relevance": "Core encounter and visit metadata are represented."
+          }
+        ],
+        "strength": 5,
+        "gaps": [
+          "Not all encounter state transitions are visible from table names alone."
+        ]
+      },
+      "domain": "encounters",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 4,
+      "rationale": "Encounter-level table exists and is described alongside related notes and events.",
+      "caveats": [
+        "Could be partial for enterprise admission/transfer/discharge details across settings."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-002",
+            "locator": "v9-data-dictionary.json title patient-conditions.tsv",
+            "quote": null,
+            "relevance": "Problems/conditions table exists."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "problems_conditions",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 5,
+      "rationale": "There is explicit condition/problem table coverage.",
+      "caveats": []
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-002",
+            "locator": "v9-data-dictionary.json title patient-medications.tsv",
+            "quote": null,
+            "relevance": "Medication list table is present."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "medications",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 5,
+      "rationale": "Medication export table includes core fields and provenance values.",
+      "caveats": []
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-002",
+            "locator": "v9-data-dictionary.json title patient-allergy.tsv",
+            "quote": null,
+            "relevance": "Allergy record table exists."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "allergies",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 5,
+      "rationale": "Allergy is explicitly exported as dedicated tables.",
+      "caveats": []
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-002",
+            "locator": "v9-data-dictionary.json title patient-immunizations.tsv",
+            "quote": null,
+            "relevance": "Immunization table exists with dose/date-like fields."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "immunizations",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 5,
+      "rationale": "Immunization domain is explicitly documented.",
+      "caveats": []
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-002",
+            "locator": "v9-data-dictionary.json title patient-lab-results.tsv",
+            "quote": null,
+            "relevance": "Lab result tables present with supporting specimen and note tables."
+          }
+        ],
+        "strength": 5,
+        "gaps": [
+          "No direct attachment for external image/report binaries in this source set."
+        ]
+      },
+      "domain": "laboratory",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 4,
+      "rationale": "Lab results and related observation metadata are represented.",
+      "caveats": [
+        "Could be partial for non-structured result payloads."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-002",
+            "locator": "v9-data-dictionary.json title patient-procedures.tsv",
+            "quote": null,
+            "relevance": "Procedural records are represented."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "procedures",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 4,
+      "rationale": "Procedure and superbill-procedure-related tables indicate moderate-to-strong coverage.",
+      "caveats": [
+        "Bundled procedure bundles and modifiers suggest need for additional context joins."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-002",
+            "locator": "v9-data-dictionary.json title patient-encounter-addendums.tsv",
+            "quote": null,
+            "relevance": "Encounter addendum/note artifacts appear."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "Signed note rendering and attachment rendering semantics not shown."
+        ]
+      },
+      "domain": "clinical_notes",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 4,
+      "rationale": "Notes-related files exist but full narrative rendering semantics are not visible in metadata only."
+      ,
+      "caveats": [
+        "Potential conflation with encounter structure."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-002",
+            "locator": "v9-data-dictionary.json title patient-messages.tsv and patient-message-attachments.tsv",
+            "quote": null,
+            "relevance": "Messages and attachments are explicitly represented."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "patient_communications",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 4,
+      "rationale": "Communication and attachment files suggest messaging support, with likely partial workflow metadata."
+      ,
+      "caveats": [
+        "Read states/thread history metadata not explicit."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-002",
+            "locator": "v9-data-dictionary.json titles patient-superbills.tsv/superbill-*.tsv",
+            "quote": null,
+            "relevance": "Billing-specific superbill tables and insurance-linked records present."
+          }
+        ],
+        "strength": 5,
+        "gaps": [
+          "Payment/adjudication lifecycle may be outside visible dictionary.",
+          "No sample rows for validation"
+        ]
+      },
+      "domain": "claims_billing",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 4,
+      "rationale": "Claims/billing dictionaries are substantial but not enough to prove complete accounts-receivable breadth.",
+      "caveats": [
+        "Insurance/denial details could be split across non-exported modules."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-002",
+            "locator": "v9-data-dictionary.json title patient-appointments.tsv",
+            "quote": null,
+            "relevance": "Appointment table exists with provider/location/date fields."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "scheduling",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 5,
+      "rationale": "Scheduling table and fields directly imply EHR scheduling coverage.",
+      "caveats": [
+        "Operational slot-level rules may be represented outside this dictionary."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-002",
+            "locator": "v9-data-dictionary.json title patient-referrals.tsv",
+            "quote": null,
+            "relevance": "Referral recipient and referral tables exist."
+          }
+        ],
+        "strength": 5,
+        "gaps": [
+          "Downstream referral outcome workflows not fully evidenced."
+        ]
+      },
+      "domain": "orders_referrals",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 4,
+      "rationale": "Referral/recipient tables indicate order/referral flow exists in exported model.",
+      "caveats": [
+        "Not all statuses/outcome details are confirmed by sample rows."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-002",
+            "locator": "v9-data-dictionary.json title patient-insurance*.tsv",
+            "quote": null,
+            "relevance": "Insurance entities and eligibilities present."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "Insurance policy history not directly evidenced in detail."
+        ]
+      },
+      "domain": "insurance",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 4,
+      "rationale": "Insurance-related tables support core demographic/billing linkage.",
+      "caveats": [
+        "Some payer-specific fields may be provider-local extensions."
+      ]
+    }
+  ],
+  "domainCoverageSummary": {
+    "comprehensive": [
+      "demographics",
+      "encounters",
+      "problems_conditions",
+      "medications",
+      "allergies",
+      "immunizations",
+      "laboratory",
+      "scheduling"
+    ],
+    "partial": [
+      "procedures",
+      "clinical_notes",
+      "patient_communications",
+      "orders_referrals",
+      "documents_attachments",
+      "insurance",
+      "claims_billing"
+    ],
+    "implied": [
+      "diagnostic_reports",
+      "care_plans_goals",
+      "consents_directives"
+    ],
+    "notEvidenced": [
+      "vitals",
+      "payments",
+      "audit_provenance",
+      "audit_provenance"
+    ],
+    "conflicting": []
+  },
+  "dimensionScores": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-002",
+            "locator": "v9-data-dictionary.json",
+            "quote": null,
+            "relevance": "Large number of table definitions indicates broad scope.",
+            "source": ""
+          }
+        ],
+        "strength": 5,
+        "gaps": [
+          "No direct evidence for completeness of every module in this domain set."
+        ]
+      },
+      "dimension": "scope_completeness",
+      "score": 4,
+      "rationale": "Breadth is broad with many EHI-related tables and operational domains.",
+      "uncertaintyNotes": "Could dip if core specialty modules are outside table list."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-001",
+            "locator": "v9-index.html line 501",
+            "quote": "TSV is computable",
+            "relevance": "Machine-readable export surface confirmed."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "dimension": "format_openness",
+      "score": 5,
+      "rationale": "Delimited text tables are highly portable and inspectable.",
+      "uncertaintyNotes": "Schema includes many rows, but some downstream encodings may still need normalization."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-002",
+            "locator": "v9-data-dictionary.json field_name/field_count",
+            "quote": null,
+            "relevance": "Tables include types and descriptions."
+          }
+        ],
+        "strength": 5,
+        "gaps": [
+          "No explicit relation graphs for foreign keys in this extract."
+        ]
+      },
+      "dimension": "dictionary_quality",
+      "score": 5,
+      "rationale": "Field-level definitions are detailed across a large set of tables.",
+      "uncertaintyNotes": "Relational integrity metadata may require additional companion files."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-001",
+            "locator": "v9-index.html lines 499-503",
+            "quote": "manual export ... single patient or entire patient population",
+            "relevance": "Export can be initiated from EHR UI context by authorized users."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No observed automation for fully self-service recurrent exports."
+        ]
+      },
+      "dimension": "accessibility",
+      "score": 4,
+      "rationale": "User-driven export is documented and does not appear to require developer intervention.",
+      "uncertaintyNotes": "Operational friction may depend on practice setup."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-002",
+            "locator": "v9-data-dictionary.json table set",
+            "quote": null,
+            "relevance": "High table fidelity suggests close model reflection."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No direct statement declaring model mapping method."
+        ]
+      },
+      "dimension": "model_fidelity",
+      "score": 4,
+      "rationale": "Evidence leans toward native export tables rather than external-only profiles.",
+      "uncertaintyNotes": "Specialty modules may be projected loosely."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-002",
+            "locator": "v9-data-dictionary.json complete table inventory",
+            "quote": null,
+            "relevance": "No obvious standard-only truncation in dictionary naming."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No explicit proof custom fields are never dropped."
+        ]
+      },
+      "dimension": "projection_loss_risk",
+      "score": 1,
+      "rationale": "Low projection risk given native table export posture.",
+      "uncertaintyNotes": "Could increase for unlisted custom modules."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-002",
+            "locator": "v9-data-dictionary.json",
+            "quote": null,
+            "relevance": "Field-level definitions preserve many distinct concepts."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "Some high-level fields may still aggregate values."
+        ]
+      },
+      "dimension": "conflation_risk",
+      "score": 1,
+      "rationale": "Low sign of concept collapse at export layer."
+      ,
+      "uncertaintyNotes": "No payload-level proof for a few domains."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-002",
+            "locator": "v9-data-dictionary.json with explicit field semantics",
+            "quote": null,
+            "relevance": "Rich field semantics reduce heavy downstream reconstruction."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "dimension": "reconstitution_effort",
+      "score": 2,
+      "rationale": "Structured fields and standard IDs imply manageable transform cost.",
+      "uncertaintyNotes": "Complex attachment/thread joins still require domain logic."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-004",
+            "locator": "product-research/ehi-export-report context",
+            "quote": null,
+            "relevance": "Confirms no row-level sample in this run."
+          }
+        ],
+        "strength": 2,
+        "gaps": [
+          "No sample rows available for direct representativeness judgement."
+        ]
+      },
+      "dimension": "sample_data_representativeness",
+      "score": 1,
+      "rationale": "Dictionary-only evidence produces low representativeness confidence.",
+      "uncertaintyNotes": "Strong structure exists, but no empirical row-level sample to validate joins."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PF-001",
+            "locator": "v9-index.html /v9 path",
+            "quote": null,
+            "relevance": "Artifacts are versioned and structured."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No explicit publish date in extracted lines."
+        ]
+      },
+      "dimension": "documentation_stability",
+      "score": 4,
+      "rationale": "Stable structured docs likely maintained across versions.",
+      "uncertaintyNotes": "Could drift if navigation changes without updated snapshots."
+    }
+  ],
+  "synthesis": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-PF-001",
+          "locator": "manual export + TSV definition statements",
+          "quote": "manual export ... single patient or entire patient population ... computable, tab-separated value",
+          "relevance": "Primary signal of export scope and shape."
+        }
+      ],
+      "strength": 5,
+      "gaps": [
+        "No sample extract constrains confidence on payload completeness."
+      ]
+    },
+    "classification": "native_like_high_fidelity",
+    "confidence": "medium",
+    "keySignal": "Large native-style TSV dictionary with documented single/population exports and substantial domain tables.",
+    "operationalImplication": "Recipients should receive mostly EHR-native columnar output, but should run targeted validation against specialty and referral workflows before cutover.",
+    "reproducibilityRisk": "Moderate: another assessor without sample rows may produce slightly different coverage assumptions in niche domains."
+  }
+}

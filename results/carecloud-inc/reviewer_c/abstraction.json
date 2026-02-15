@@ -1,0 +1,609 @@
+{
+  "meta": {
+    "schemaVersion": "2026-02-15.v1",
+    "assessedAt": "2026-02-15",
+    "assessor": "reviewer_c",
+    "status": "final"
+  },
+  "scope": {
+    "vendorName": "CareCloud, Inc.",
+    "productFamily": "CareCloud PRIME / talkEHR",
+    "includedProducts": [
+      "CareCloud PRIME",
+      "talkEHR"
+    ],
+    "excludedProducts": [],
+    "versionsInScope": [
+      "V2.0",
+      "2025-09-12 doc version"
+    ],
+    "scopeRationale": "Only explicit EHI documentation is the carecloud prime PDF, which defines a CCDA + PDF non-clinical + undocumented FHIR Bulk mention. Scope therefore centers on that mixed artifact set."
+  },
+  "sources": [
+    {
+      "sourceId": "SRC-001",
+      "title": "CareCloud EHI export PDF",
+      "kind": "vendor_ehi_doc",
+      "location": "results/carecloud-inc/downloads/certification_b10_ehi_export_documentation.pdf",
+      "applicableProductFamilies": [
+        "CareCloud PRIME / talkEHR"
+      ],
+      "reportedLastUpdated": "2024-09-12",
+      "stability": "sporadically_updated",
+      "stabilityNotes": "Single PDF artifact with version label but minimal changelog.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "No example export files shipped with report."
+    },
+    {
+      "sourceId": "SRC-002",
+      "title": "CareCloud Prime landing page screenshot",
+      "kind": "vendor_product_doc",
+      "location": "results/carecloud-inc/downloads/screenshot-cc-prime-page-top.png",
+      "applicableProductFamilies": [
+        "CareCloud PRIME / talkEHR"
+      ],
+      "reportedLastUpdated": null,
+      "stability": "unknown",
+      "stabilityNotes": "Screenshot validates that EHI PDF is buried in marketing page footer.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "UI artifact only."
+    },
+    {
+      "sourceId": "SRC-003",
+      "title": "EHI link location screenshot",
+      "kind": "vendor_product_doc",
+      "location": "results/carecloud-inc/downloads/screenshot-footer-ehi-link.png",
+      "applicableProductFamilies": [
+        "CareCloud PRIME / talkEHR"
+      ],
+      "reportedLastUpdated": null,
+      "stability": "unknown",
+      "stabilityNotes": "Supports link discovery context and evidence of documentation location.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "No data artifact."
+    },
+    {
+      "sourceId": "SRC-004",
+      "title": "EHI research narrative",
+      "kind": "vendor_ehi_doc",
+      "location": "results/carecloud-inc/ehi-export-report.md",
+      "applicableProductFamilies": [
+        "CareCloud PRIME / talkEHR"
+      ],
+      "reportedLastUpdated": "2026-02-14",
+      "stability": "sporadically_updated",
+      "stabilityNotes": "Captured summary with screenshots and structure-level mapping, no additional artifacts found.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "No exports linked in this source.",
+    }
+  ],
+  "assessmentFlow": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "screenshot-top + footer",
+            "quote": "EHI PDF is linked from a marketing landing page under a Real World Testing heading.",
+            "relevance": "Confirms evidence source and discoverability context."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "stage": "discover_sources",
+      "method": "Located PDF through registered URL and captured the actual marketing context and static evidence links.",
+      "observations": [
+        "No additional public API documentation was found for the same registered URL."
+      ],
+      "impactOnAssessment": "Reduced confidence from governance and navigation perspective, not from data model alone."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "CCDA sections",
+            "quote": "Clinical sections are described with XPATH and code-system mappings in dictionary tables.",
+            "relevance": "Shows substantial documentation for clinical portion."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "stage": "understand_product_model",
+      "method": "Parsed clinical CCDA dictionary and non-clinical section list to infer intended domain surface.",
+      "observations": [
+        "Clinical model is reasonably mature, while non-clinical is intentionally undocumented."
+      ],
+      "impactOnAssessment": "Became a mixed-confidence hybrid export model."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "Page 11 non-clinical export bullets",
+            "quote": "Insurance, appointments, billing claim data, provider-patient messages, and documents are exported in PDF format only.",
+            "relevance": "Identifies major interoperability constraint."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "stage": "inspect_export_surface",
+      "method": "Classified each documented export pathway by format and structuredness from PDF tables and narrative."
+,
+      "observations": [
+        "Only partial standardization exists, and non-clinical data is non-computable as delivered."
+      ],
+      "impactOnAssessment": "Pulled operational conformance score down despite decent clinical dictionary detail."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "FHIR bulk mention",
+            "quote": "FHIR Bulk Data EHI Export is acknowledged as a one-sentence note with no details.",
+            "relevance": "No usable evidence for standards-based full-export path."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No endpoint, resource list, or profile provided."
+        ]
+      },
+      "stage": "compare_model_vs_export",
+      "method": "Compared clinical dictionary completeness against undocumented FHIR reference and PDF-only non-clinical exports.",
+      "observations": [
+        "Potentially full EHI claim is not supported by documented non-clinical formats."
+      ],
+      "impactOnAssessment": "Supports hybrid projection classification with high manual effort for non-clinical data."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-004",
+            "locator": "overall report findings",
+            "quote": "Clinical coverage is reasonable; computability and completeness for non-clinical workflows are weak.",
+            "relevance": "Confirms final rubric direction."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "stage": "score_and_classify",
+      "method": "Set final scores favoring hybrid projection and moderate confidence with explicit missing-data and workflow risks.",
+      "observations": [
+        "No sample files precludes deeper mapping validation."
+      ],
+      "impactOnAssessment": "Final classification: hybrid projection with substantial non-clinical limitations."
+    }
+  ],
+  "exportSurface": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-001",
+          "locator": "Clinical + nonclinical sections",
+          "quote": "CCDA XML is used for clinical data; non-clinical exports are in PDF; FHIR is only named without details.",
+          "relevance": "Defines mixed container and serialization model."
+        }
+      ],
+      "strength": 5,
+      "gaps": [
+        "No evidence on links between CCDA XML files and PDFs for one coherent recipient dataset."
+      ]
+    },
+    "container": "hybrid",
+    "serialization": "mixed",
+    "machineReadableSchema": "yes",
+    "includesDataDictionary": "yes",
+    "dictionaryDepth": "semantic",
+    "documentsValueSets": "partial",
+    "documentsKeys": "partial",
+    "documentsRelationships": "partial",
+    "documentsConstraints": "unknown",
+    "accessibilityTier": "self_service",
+    "accessibilityNotes": "Report says exports can be run via UI with no developer dependency and any time access for admins."
+  },
+  "mappingRisk": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-001",
+          "locator": "mixed-format section split",
+          "quote": "Clinical export is C-CDA XML while non-clinical is PDF, with undocumented FHIR mention.",
+          "relevance": "Clear evidence of partial projection strategy."
+        }
+      ],
+      "strength": 4,
+      "gaps": [
+        "No schema for non-clinical PDF and no usable FHIR endpoint details."
+      ]
+    },
+    "representation": "hybrid_projection",
+    "mappingTarget": "custom_partner_spec",
+    "projectionLossRiskScore": 4,
+    "conflationRiskScore": 4,
+    "reconstitutionEffortScore": 5,
+    "lossOrConflationExamples": [
+      "PDF-only billing and appointments lose structured semantics for downstream migration systems.",
+      "Potential duplication or orphaning due undocumented linkage across CCDA and PDF outputs."
+    ],
+    "suspectedOmissions": [
+      "Detailed non-clinical field maps for billing and insurance",
+      "Operationally usable FHIR export interface details"
+    ]
+  },
+  "domainAssessments": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "C-CDA dictionary",
+            "quote": "Demographics, conditions, allergies, labs, vitals, procedures, medications, encounters, immunizations documented in clinical sections.",
+            "relevance": "Explicit clinical section coverage."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "demographics",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 5,
+      "rationale": "Core demographics are detailed via mapped CCDA section and XPATH references.",
+      "caveats": []
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "Diagnoses/problems section",
+            "quote": "Problems and diagnosis mapping is explicitly called out with SNOMED/ICD10 references.",
+            "relevance": "Strong explicit problem-domain evidence."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "problems_conditions",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 5,
+      "rationale": "Problem/care continuity data has explicit field and coding context.",
+      "caveats": []
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "medication section",
+            "quote": "Medications are covered with RxNorm/NDC and instruction fields via CCDA section dictionary.",
+            "relevance": "Clinical medication completeness is relatively strong."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "medications",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 5,
+      "rationale": "Medication field structure is explicitly declared.",
+      "caveats": [
+        "E-prescribing workflow history may remain partially represented."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "laboratory section",
+            "quote": "Laboratory tests/results appear with LOINC codes and interpretation fields.",
+            "relevance": "Clinical lab evidence is explicitly present."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "laboratory",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 4,
+      "rationale": "Solid clinical test-level representation in CCDA dictionary."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "vitals section",
+            "quote": "Vitals are represented via observations with standard code systems.",
+            "relevance": "Clinical measurement coverage is present."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "domain": "vitals",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 4,
+      "rationale": "Vascular and observational data are present in clinical dictionary."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "page 11 non-clinical list",
+            "quote": "Insurance and billing are listed as PDF exports with no structural field definitions.",
+            "relevance": "Domain present but low computable quality."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "domain": "insurance",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 2,
+      "rationale": "Presence is confirmed but no dictionary/schema-level detail exists in public evidence.",
+      "caveats": [
+        "Recipient systems cannot rely on these PDFs for automated ingestion."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "appointments + messages in PDF list",
+            "quote": "Appointments and provider-to-patient messages are mentioned as PDF outputs only.",
+            "relevance": "Administrative workflow data is exported but not machine-friendly."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "domain": "scheduling",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 2,
+      "rationale": "Domain is covered by format only, not by schema depth.",
+      "caveats": [
+        "No record-level field definitions or identifiers were provided."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "claims data bullet",
+            "quote": "Billing data is represented as CPT/ICD/modifier in one-sentence coverage note.",
+            "relevance": "Billing domain appears non-computable."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "domain": "claims_billing",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 2,
+      "rationale": "Billing is present but with no export shape or fields. ",
+      "caveats": [
+        "Not suitable for machine extraction without custom OCR."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "care plans / goals",
+            "quote": "Care plan and goals are documented in clinical CCDA sections.",
+            "relevance": "Demonstrates meaningful care-plan coverage."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "care_plans_goals",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 4,
+      "rationale": "Care plan data exists in clinical section dictionary, with moderate implementation clarity.",
+      "caveats": [
+        "Detailed value structure for all goal state transitions is not explicit."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "documents bullet",
+            "quote": "Signed notes, lab/radiology/scanned documents are exported in PDF with no field-level schema.",
+            "relevance": "Document attachment coverage is broad but not machine-computable."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "domain": "documents_attachments",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 2,
+      "rationale": "Existence is strong but interoperability is weak due PDF-only representation.",
+      "caveats": [
+        "No explicit linkage keys or machine-consumable metadata in provided docs."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "patient message bullet",
+            "quote": "Messages are listed as a PDF export type only.",
+            "relevance": "Communication coverage is present only at document level."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "domain": "patient_communications",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 2,
+      "rationale": "Exists in principle but unstructured, limiting reliable downstream ingestion.",
+      "caveats": [
+        "No schema for message headers, threads, or attachments."
+      ]
+    }
+  ],
+  "domainCoverageSummary": {
+    "comprehensive": [
+      "demographics",
+      "problems_conditions",
+      "medications",
+      "laboratory",
+      "vitals"
+    ],
+    "partial": [
+      "encounters",
+      "care_plans_goals",
+      "documents_attachments",
+      "insurance",
+      "claims_billing",
+      "scheduling",
+      "patient_communications"
+    ],
+    "implied": [
+      "consents_directives"
+    ],
+    "notEvidenced": [
+      "audit_provenance",
+      "payments"
+    ],
+    "conflicting": []
+  },
+  "dimensionScores": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "clinical section vs PDF section",
+            "quote": "Clinical coverage is strong but administrative and billing exports are non-computable.",
+            "relevance": "Scope is uneven across clinical and operational modules."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "dimension": "scope_completeness",
+      "score": 3,
+      "rationale": "Core clinical domains are broad; PM/financial/admin areas are represented only partly.",
+      "uncertaintyNotes": "Could improve with PDF schema and additional appendices."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "CCDA + PDF mix",
+            "quote": "One export uses structured XML and another uses PDF with no computable dictionary."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "dimension": "format_openness",
+      "score": 3,
+      "rationale": "CCDA is stable/standard; PDF outputs are not suitable for automated ingestion.",
+      "uncertaintyNotes": "Overall openness limited by non-clinical payload shape ambiguity."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "CCDA clinical dictionary",
+            "quote": "Clinical dictionary includes XPATH, OIDs, and code-system names in multiple sections.",
+            "relevance": "Strong field documentation for structured part."
+          }
+        ],
+        "strength": 5,
+        "gaps": [
+          "PDF portions have no schema-level definition."
+        ]
+      },
+      "dimension": "dictionary_quality",
+      "score": 3,
+      "rationale": "Hybrid quality: high for clinical CCDA, low for non-clinical sections.",
+      "uncertaintyNotes": "A single dictionary for PDF exports would materially improve this score."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "process notes",
+            "quote": "UI screenshots show self-service selection and export triggers.",
+            "relevance": "Accessibility is operationally better than documented APIs in practice."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "dimension": "accessibility",
+      "score": 4,
+      "rationale": "Self-service UI path is described and consistent with no developer onboarding requirement.",
+      "uncertaintyNotes": "Institutional roles/permissions can still gate actual use."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "mixed transport",
+            "quote": "Some data remains in PDF or undocumented FHIR mention, which is not direct internal-to-standards reflection."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "dimension": "model_fidelity",
+      "score": 3,
+      "rationale": "Clinical model fidelity is moderate-high, while non-clinical fidelity is limited by non-machine formats.",
+      "uncertaintyNotes": "FHIR details could significantly change this if fully documented."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "PDF nonclinical sections",
+            "quote": "Data semantics are lost or hidden when compressed into PDF views.",
+            "relevance": "Projection risk due format collapse.",
+            "strength": 5
+          }
+        ],
+        "gaps": []
+      },
+      "dimension": "projection_loss_risk",
+      "score": 4,
+      "rationale": "Projection risk is mainly due non-computable administrative export formats.",
+      "uncertaintyNotes": "CCDA side is lower-risk; overall remains elevated due PDFs."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "clinical vs non-clinical boundary",
+            "quote": "Two formats can collapse domain distinctions unless explicitly linked, and some workflows are only mentioned.

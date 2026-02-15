@@ -1,0 +1,654 @@
+{
+  "meta": {
+    "schemaVersion": "2026-02-15.v1",
+    "assessedAt": "2026-02-15",
+    "assessor": "reviewer_b",
+    "status": "draft"
+  },
+  "scope": {
+    "vendorName": "CareCloud",
+    "productFamily": "CareCloud PRIME / talkEHR",
+    "includedProducts": [
+      "CareCloud PRIME",
+      "talkEHR"
+    ],
+    "excludedProducts": [],
+    "versionsInScope": [
+      "2.0"
+    ],
+    "scopeRationale": "This abstraction covers the documented CareCloud EHI export path that references PRIME/talkEHR workflow and PDF/CCDA export artifacts."
+  },
+  "sources": [
+    {
+      "sourceId": "SRC-CC-001",
+      "title": "CareCloud certification EHI export documentation",
+      "kind": "vendor_ehi_doc",
+      "location": "results/carecloud-inc/downloads/certification_b10_ehi_export_documentation.pdf",
+      "applicableProductFamilies": [
+        "CareCloud PRIME / talkEHR"
+      ],
+      "reportedLastUpdated": null,
+      "stability": "unknown",
+      "stabilityNotes": "PDF states V2.0 documentation, but no explicit update cadence captured in text output.",
+      "includesSampleData": "unknown",
+      "sampleCoverage": "unknown",
+      "sampleCoverageNotes": "No explicit representative export payload files were provided in this run."
+    },
+    {
+      "sourceId": "SRC-CC-002",
+      "title": "CareCloud product research",
+      "kind": "vendor_product_doc",
+      "location": "results/carecloud-inc/product-research.md",
+      "applicableProductFamilies": [
+        "CareCloud PRIME / talkEHR"
+      ],
+      "reportedLastUpdated": null,
+      "stability": "unknown",
+      "stabilityNotes": "Vendor/market context only, no export payload."
+      ,
+      "includesSampleData": "unknown",
+      "sampleCoverage": "unknown",
+      "sampleCoverageNotes": "No sample export rows present."
+    },
+    {
+      "sourceId": "SRC-CC-003",
+      "title": "CareCloud EHI export report",
+      "kind": "vendor_ehi_doc",
+      "location": "results/carecloud-inc/ehi-export-report.md",
+      "applicableProductFamilies": [
+        "CareCloud PRIME / talkEHR"
+      ],
+      "reportedLastUpdated": null,
+      "stability": "unknown",
+      "stabilityNotes": "Research-level report summarizing what was extracted from export documentation.",
+      "includesSampleData": "unknown",
+      "sampleCoverage": "unknown",
+      "sampleCoverageNotes": "No row-level sample included."
+    }
+  ],
+  "assessmentFlow": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-CC-001",
+            "locator": "certification_b10_ehi_export_documentation.pdf lines 0-80",
+            "quote": "C-CDA (XML) for clinical single-patient and bulk export",
+            "relevance": "Defines the core standardized format and export modes."
+          }
+        ],
+        "strength": 5,
+        "gaps": [
+          "No explicit list of internal modules represented beyond described categories."
+        ]
+      },
+      "stage": "discover_sources",
+      "method": "Reviewed the CareCloud EHI certification PDF and supporting reports.",
+      "observations": [
+        "Exports are documented as C-CDA XML and PDF, with a brief mention of FHIR bulk data path."
+      ],
+      "impactOnAssessment": "Set emphasis on document-oriented standardized export rather than native table export."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-CC-001",
+            "locator": "C-CDA and PDF domain bullets",
+            "quote": "demographic and insurance, appointments, messages, billing, and documents exported as PDF",
+            "relevance": "Defines which EHI-facing product modules are explicitly called out."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No sample CCD/ZIP payload files were available in collected artifacts."
+        ]
+      },
+      "stage": "inspect_export_surface",
+      "method": "Mapped category list and format declarations to EHI domain coverage rubric.",
+      "observations": [
+        "Coverage appears broad but format is primarily clinical document-oriented, not a rich native table bundle."
+      ],
+      "impactOnAssessment": "Lowered dictionary and completeness scores for machine-readable schema quality."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-CC-001",
+            "locator": "note on bulk patient population ZIP",
+            "quote": null,
+            "relevance": "Confirms population export packaging exists.
+"
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "FHIR details insufficient for detailed endpoint-level validation."
+        ]
+      },
+      "stage": "compare_model_vs_export",
+      "method": "Compared documented domains to likely EHI definition, highlighting possible C-CDA projection constraints.",
+      "observations": [
+        "Some billing and communication flows are represented as PDFs, which can require secondary parsing."
+      ],
+      "impactOnAssessment": "Supports external projection and reconstruction burden posture."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-CC-001",
+            "locator": "C-CDA and PDF mentions",
+            "quote": null,
+            "relevance": "Final basis for classification and score tradeoffs."
+          }
+        ],
+        "strength": 3,
+        "gaps": [
+          "No evidence on whether all specialty/custom forms are represented in C-CDA sections."
+        ]
+      },
+      "stage": "score_and_classify",
+      "method": "Scored all dimensions with a bias toward standardized projection risk and lower dictionary richness.",
+      "observations": [
+        "Final class favors external-projection-dominant export behavior."
+      ],
+      "impactOnAssessment": "No high-confidence native reconstruction recommendation without additional sample validation."
+    }
+  ],
+  "exportSurface": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-CC-001",
+          "locator": "V2.0 PDF statements",
+          "quote": "single-patient EHI export in C-CDA XML; population export in ZIP",
+          "relevance": "Export packaging and primary serialization are explicitly documented."
+        }
+      ],
+      "strength": 5,
+      "gaps": [
+        "No data dictionary or schema detail files in available artifacts."
+      ]
+    },
+    "container": "multi_file_bundle",
+    "serialization": "mixed",
+    "machineReadableSchema": "unknown",
+    "includesDataDictionary": "no",
+    "dictionaryDepth": "none",
+    "documentsValueSets": "unknown",
+    "documentsKeys": "unknown",
+    "documentsRelationships": "unknown",
+    "documentsConstraints": "unknown",
+    "accessibilityTier": "self_service",
+    "accessibilityNotes": "PDF indicates practitioner/admin users can create exports without developer intervention."
+  },
+  "mappingRisk": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-CC-001",
+          "locator": "carecloud PDF export section",
+          "quote": "C-CDA and PDF for major categories",
+          "relevance": "Standardized formats imply external projection from internal model."
+        }
+      ],
+      "strength": 4,
+      "gaps": [
+        "No mapping narrative between internal data tables and generated C-CDA/PDF payloads."
+      ]
+    },
+    "representation": "mapped_to_external_standard",
+    "mappingTarget": "ccda",
+    "projectionLossRiskScore": 4,
+    "conflationRiskScore": 3,
+    "reconstitutionEffortScore": 4,
+    "lossOrConflationExamples": [
+      "PDF exports for key categories may flatten or omit implementation-specific fields.",
+      "FHIR mention exists but no usable payload details to show equivalence."
+    ],
+    "suspectedOmissions": [
+      "Specialty clinical modules not explicitly listed in exposed sections.",
+      "Potentially incomplete capture of free-form attachment and custom workflows."
+    ]
+  },
+  "domainAssessments": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-CC-001",
+            "locator": "section listing demographic/insurance",
+            "quote": null,
+            "relevance": "Explicitly listed as exported domains."
+          }
+        ],
+        "strength": 5,
+        "gaps": [
+          "No depth-by-field validation.",
+          "No sample data.",
+        ]
+      },
+      "domain": "demographics",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 4,
+      "rationale": "Documented as explicit category in export behavior.",
+      "caveats": [
+        "Category breadth within demographics not fully enumerated."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-CC-001",
+            "locator": "section listing billing data",
+            "quote": null,
+            "relevance": "Billing and claims context explicitly referenced."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No claim lifecycle details."
+        ]
+      },
+      "domain": "claims_billing",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 4,
+      "rationale": "Billing data is explicitly named but delivered in PDF format, not structured table exports.",
+      "caveats": [
+        "Potential parsing loss for downstream accounting rules."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-CC-001",
+            "locator": "section listing appointments",
+            "quote": null,
+            "relevance": "Appointments are part of documented export set."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "Scheduling rule metadata depth not evidenced."
+        ]
+      },
+      "domain": "scheduling",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 4,
+      "rationale": "Scheduled-care categories are included in documentation."
+      ,
+      "caveats": [
+        "No direct evidence for recurrence/cancellation edge states beyond category-level mention."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-CC-001",
+            "locator": "section listing patient messages",
+            "quote": null,
+            "relevance": "Patient messaging listed as part of export."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "domain": "patient_communications",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 4,
+      "rationale": "Communication category appears in exported output list.",
+      "caveats": [
+        "Thread metadata and consent details are not visible from this extract."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-CC-001",
+            "locator": "section listing documents and uploaded documents",
+            "quote": null,
+            "relevance": "Document category explicitly called out."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "Binary attachments are mentioned but not separately enumerated in detail."
+        ]
+      },
+      "domain": "documents_attachments",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 4,
+      "rationale": "Document artifacts are part of the stated output modes.",
+      "caveats": [
+        "PDF wrapping may reduce semantic machine-readability."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-CC-001",
+            "locator": "bulk ZIP export statement",
+            "quote": null,
+            "relevance": "Population export packaging is documented, but per-domain depth unclear."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "domain": "insurance",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 4,
+      "rationale": "Insurance is grouped with demographics and documented as export target.",
+      "caveats": [
+        "Policy metadata and payer-specific fields are not evidenced at field level."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-CC-001",
+            "locator": "FHIR Bulk Data mention",
+            "quote": null,
+            "relevance": "FHIR bulk data exists in documentation but details were not captured."
+          }
+        ],
+        "strength": 1,
+        "gaps": [
+          "No endpoint, resource list, or sample for usable validation."
+        ]
+      },
+      "domain": "clinical_notes",
+      "coverageLevel": "implied_only",
+      "decisionSupportScore": 1,
+      "rationale": "Notes may be included through document sections, but explicit support evidence is limited.",
+      "caveats": [
+        "Could be embedded in CCD sections without clear note-level extraction guarantee."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-CC-001",
+            "locator": "explicit list does not include payments, consents, diagnostics",
+            "quote": null,
+            "relevance": "No visible evidence for these domains in current extract."
+          }
+        ],
+        "strength": 2,
+        "gaps": [
+          "Could be present in C-CDA narrative but not enumerated."
+        ]
+      },
+      "domain": "payments",
+      "coverageLevel": "not_evidenced",
+      "decisionSupportScore": 2,
+      "rationale": "Payments are not explicitly listed in captured domains.",
+      "caveats": [
+        "May be partially represented within billing PDFs."
+      ]
+    }
+  ],
+  "domainCoverageSummary": {
+    "comprehensive": [
+      "demographics",
+      "claims_billing",
+      "scheduling",
+      "patient_communications",
+      "documents_attachments"
+    ],
+    "partial": [
+      "insurance"
+    ],
+    "implied": [
+      "clinical_notes",
+      "problems_conditions",
+      "medications",
+      "allergies",
+      "immunizations",
+      "laboratory"
+    ],
+    "notEvidenced": [
+      "payments",
+      "vitals",
+      "consents_directives",
+      "audit_provenance",
+      "diagnostic_reports",
+      "procedures"
+    ],
+    "conflicting": []
+  },
+  "dimensionScores": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-CC-001",
+            "locator": "bulk ZIP and C-CDA/PDF domain list",
+            "quote": null,
+            "relevance": "Shows coverage breadth in categories rather than module-by-module detail."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No explicit evidence of coverage for all designated record classes."
+        ]
+      },
+      "dimension": "scope_completeness",
+      "score": 2,
+      "rationale": "Multiple core categories present, but coverage depth and consistency are not verifiable from this evidence.",
+      "uncertaintyNotes": "Could improve if additional payload manifests are reviewed."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-CC-001",
+            "locator": "serialization statement",
+            "quote": "C-CDA XML and PDF",
+            "relevance": "Defines open machine formats but with mixed readability." 
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "PDF readability depends on extractors and may not preserve all structures."
+        ]
+      },
+      "dimension": "format_openness",
+      "score": 3,
+      "rationale": "XML is open and machine-friendly; PDF is less consistent for extraction.",
+      "uncertaintyNotes": "Score could vary by downstream parser quality."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-CC-001",
+            "locator": "no dictionary files beyond narrative",
+            "quote": null,
+            "relevance": "No separate schema or data dictionary artifact was provided."
+          }
+        ],
+        "strength": 3,
+        "gaps": [
+          "No per-field dictionary or constraints published in collected materials."
+        ]
+      },
+      "dimension": "dictionary_quality",
+      "score": 1,
+      "rationale": "Low score due lack of explicit machine-readable dictionary and limited field-level metadata.",
+      "uncertaintyNotes": "Score improves only with a published schema package."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-CC-001",
+            "locator": "practitioner/admin workflow in narrative",
+            "quote": null,
+            "relevance": "Indicates non-developer users can trigger export.",
+          }
+        ],
+        "strength": 3,
+        "gaps": [
+          "No explicit SLA/queue timing for large populations in structured form."
+        ]
+      },
+      "dimension": "accessibility",
+      "score": 4,
+      "rationale": "Export described as user-initiated for practitioner/admin roles.",
+      "uncertaintyNotes": "Bulk operations may still be operationally slower and queue-based."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-CC-001",
+            "locator": "C-CDA / PDF export references",
+            "quote": null,
+            "relevance": "Standardization layer implies transformation from internal schema."
+          }
+        ],
+        "strength": 5,
+        "gaps": [
+          "No local schema mapping details provided."
+        ]
+      },
+      "dimension": "model_fidelity",
+      "score": 2,
+      "rationale": "Projected standards reduce native fidelity and can mask custom fields.",
+      "uncertaintyNotes": "Higher fidelity depends on unpublished internal-to-CCDA profiles."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-CC-001",
+            "locator": "C-CDA standard mapping",
+            "quote": null,
+            "relevance": "Standardized sections may omit non-modeled custom data."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No profile comparison was available."
+        ]
+      },
+      "dimension": "projection_loss_risk",
+      "score": 4,
+      "rationale": "Risk moderate-to-high for specialty fields converted into broad CCD structures.",
+      "uncertaintyNotes": "Could be lower if implementation preserves full custom extension set."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-CC-001",
+            "locator": "PDF-export path",
+            "quote": null,
+            "relevance": "PDF export can flatten multiple data domains into narrative documents."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No explicit field-level provenance for merged statements."
+        ]
+      },
+      "dimension": "conflation_risk",
+      "score": 3,
+      "rationale": "Conflation risk is elevated in PDF/C-CDA contexts when internal distinctions are normalized."
+      ,
+      "uncertaintyNotes": "Could be reduced if structured sectioning is strict and complete."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-CC-001",
+            "locator": "C-CDA/PDF output model",
+            "quote": null,
+            "relevance": "Reconstruction may require transformation and extraction tooling."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No sample docs for parsing complexity estimation."
+        ]
+      },
+      "dimension": "reconstitution_effort",
+      "score": 4,
+      "rationale": "Additional parsing effort is likely where PDFs are present.",
+      "uncertaintyNotes": "Pure XML C-CDA may be easier than PDF-heavy subsets."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-CC-003",
+            "locator": "ehi-export-report context",
+            "quote": null,
+            "relevance": "No sample data available in collected set."
+          }
+        ],
+        "strength": 2,
+        "gaps": [
+          "No payload sample for representativeness scoring."
+        ]
+      },
+      "dimension": "sample_data_representativeness",
+      "score": 1,
+      "rationale": "No row-level sample makes representativeness score low.",
+      "uncertaintyNotes": "Add sample export bundle to improve confidence."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-CC-001",
+            "locator": "PDF header and version reference",
+            "quote": "V2.0",
+            "relevance": "Shows documented version marker."
+          }
+        ],
+        "strength": 3,
+        "gaps": [
+          "No robust last-updated timeline in extract."
+        ]
+      },
+      "dimension": "documentation_stability",
+      "score": 3,
+      "rationale": "Versioned document exists, but updates or changes are not transparent from gathered source."
+      ,
+      "uncertaintyNotes": "Re-check current public documentation before compliance decisions."
+    }
+  ],
+  "synthesis": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-CC-001",
+          "locator": "C-CDA/XML and PDF statements",
+          "quote": "C-CDA XML and PDF outputs",
+          "relevance": "Primary architecture signal and downstream processing implication."
+        }
+      ],
+      "strength": 4,
+      "gaps": [
+        "No sample artifacts available to validate conversion completeness."
+      ]
+    },
+    "classification": "external_projection_dominant",
+    "confidence": "medium",
+    "keySignal": "Standardized C-CDA/PDF output is comprehensive in names but not proven field-complete across all EHI modules.",
+    "operationalImplication": "Useful for downstream systems that already parse CCD/CCDA/PDF, but high normalization effort is likely for custom analyses.",
+    "reproducibilityRisk": "Another reviewer may mark higher/lower scope depending on access to raw ZIP/CCD payloads for verification."
+  }
+}

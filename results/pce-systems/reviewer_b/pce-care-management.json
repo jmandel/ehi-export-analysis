@@ -1,0 +1,781 @@
+{
+  "meta": {
+    "schemaVersion": "2026-02-15.v1",
+    "assessedAt": "2026-02-15",
+    "assessor": "reviewer_b",
+    "status": "draft"
+  },
+  "scope": {
+    "vendorName": "PCE Systems",
+    "productFamily": "PCE Care Management",
+    "includedProducts": [
+      "PCE Care Management"
+    ],
+    "excludedProducts": [],
+    "versionsInScope": [
+      "unknown"
+    ],
+    "scopeRationale": "Abstractor scope is limited to the documented PCE Care Management EHI export path (b10 ZIP exports and g10/PIX API artifacts) as a single product family." 
+  },
+  "sources": [
+    {
+      "sourceId": "SRC-PCE-001",
+      "title": "PCE b10 EHI documentation PDF",
+      "kind": "vendor_ehi_doc",
+      "location": "results/pce-systems/downloads/b10_documentation.pdf",
+      "applicableProductFamilies": [
+        "PCE Care Management"
+      ],
+      "reportedLastUpdated": null,
+      "stability": "sporadically_updated",
+      "stabilityNotes": "Single PDF snapshot with explicit structure for export metadata and NDJSON patient resources.",
+      "includesSampleData": "unknown",
+      "sampleCoverage": "unknown",
+      "sampleCoverageNotes": "Primary evidence is process and format documentation."
+    },
+    {
+      "sourceId": "SRC-PCE-002",
+      "title": "PCE PIX 9.4 API documentation",
+      "kind": "vendor_api_doc",
+      "location": "results/pce-systems/downloads/PIX_9_4_API_Documentation.pdf",
+      "applicableProductFamilies": [
+        "PCE Care Management"
+      ],
+      "reportedLastUpdated": null,
+      "stability": "unknown",
+      "stabilityNotes": "Versioned as 9.4 API documentation with SMART/FHIR details.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "No data extracts included in this artifact."
+    },
+    {
+      "sourceId": "SRC-PCE-003",
+      "title": "PCE g10 API info page",
+      "kind": "vendor_api_doc",
+      "location": "results/pce-systems/downloads/g10APIInfo.html",
+      "applicableProductFamilies": [
+        "PCE Care Management"
+      ],
+      "reportedLastUpdated": null,
+      "stability": "unknown",
+      "stabilityNotes": "Link directory for API entrypoints complements API documentation.",
+      "includesSampleData": "unknown",
+      "sampleCoverage": "unknown",
+      "sampleCoverageNotes": "Navigation/index-style source only."
+    },
+    {
+      "sourceId": "SRC-PCE-004",
+      "title": "PCE capability statement",
+      "kind": "vendor_api_doc",
+      "location": "results/pce-systems/downloads/capability-statement.json",
+      "applicableProductFamilies": [
+        "PCE Care Management"
+      ],
+      "reportedLastUpdated": null,
+      "stability": "unknown",
+      "stabilityNotes": "Capability metadata likely auto-generated and can drift with endpoint deployment.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "Machine-readable endpoint metadata only."
+    },
+    {
+      "sourceId": "SRC-PCE-005",
+      "title": "PCE product research",
+      "kind": "vendor_product_doc",
+      "location": "results/pce-systems/product-research.md",
+      "applicableProductFamilies": [
+        "PCE Care Management"
+      ],
+      "reportedLastUpdated": null,
+      "stability": "unknown",
+      "stabilityNotes": "Background context for expected data domains."
+      ,
+      "includesSampleData": "unknown",
+      "sampleCoverage": "unknown",
+      "sampleCoverageNotes": "No sample payload."
+    }
+  ],
+  "assessmentFlow": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-001",
+            "locator": "b10_documentation.pdf lines 28-40",
+            "quote": "metadata.json, documentation.json and patient subfolders",
+            "relevance": "Shows intended export bundle schema shape."
+          }
+        ],
+        "strength": 5,
+        "gaps": [
+          "No standalone sample zip provided in this run."
+        ]
+      },
+      "stage": "discover_sources",
+      "method": "Collected EHI export pdf, API documentation, API index, and capability statement for cross-checking export vs API overlap.",
+      "observations": [
+        "Sources indicate both file export and FHIR API surfaces."
+      ],
+      "impactOnAssessment": "Required dual-mode interpretation in mapping and accessibility scoring."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-001",
+            "locator": "b10_documentation.pdf lines 75-77",
+            "quote": "One Newline-Delimited JSON (NDJSON) file for each applicable resource",
+            "relevance": "Confirms NDJSON export mechanics for patient resources."
+          },
+          {
+            "sourceId": "SRC-PCE-002",
+            "locator": "PIX_9_4_API_Documentation.pdf resource section",
+            "quote": "FHIR v4.0.1 JSON API with SMART on FHIR OAuth",
+            "relevance": "Confirms concurrent FHIR API implementation."
+          }
+        ],
+        "strength": 5,
+        "gaps": [
+          "No sample files to validate payload-level fidelity against documented schemas."
+        ]
+      },
+      "stage": "inspect_export_surface",
+      "method": "Examined both the bundle export structure and API resource coverage list.",
+      "observations": [
+        "Primary evidence indicates NDJSON resource dump plus REST-style API endpoints."
+      ],
+      "impactOnAssessment": "Likely mixed projection path and moderate mapping complexity."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-001",
+            "locator": "b10_documentation.pdf lines 82-90 and files subdirectory note",
+            "quote": "Files folder may contain non-computable binary artifacts",
+            "relevance": "Some data may remain outside machine-readable core export files."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "Binary artifact contents and scope were not sampled."
+        ]
+      },
+      "stage": "compare_model_vs_export",
+      "method": "Compared native bundle documentation against FHIR API capabilities and identified possible external-standard projection zones.",
+      "observations": [
+        "FHIR resources are present in API layer and are likely standardized resource projections for some areas."
+      ],
+      "impactOnAssessment": "Raised reconstitution and projection-loss risk versus native-only exports."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-004",
+            "locator": "FHIR endpoints for Patient/Encounter/Condition/Procedure/Observation",
+            "quote": null,
+            "relevance": "Supports scoring against standard clinical dimensions."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No direct evidence for complete specialty custom domains."
+        ]
+      },
+      "stage": "score_and_classify",
+      "method": "Set domain-level scores around documented clinical resources and noted unsupported domain uncertainty.",
+      "observations": [
+        "Export is coherent but not fully auditable against every domain without additional extraction artifacts."
+      ],
+      "impactOnAssessment": "Final classification set to hybrid due mixed artifact model."
+    }
+  ],
+  "exportSurface": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-PCE-001",
+          "locator": "b10_documentation.pdf lines 28-40,75-77",
+          "quote": "meta.json, documentation.json, patient subfolders; NDJSON per resource",
+          "relevance": "Defines bundle-based export packaging and serialization."
+        },
+        {
+          "sourceId": "SRC-PCE-002",
+          "locator": "PIX_9_4_API_Documentation.pdf API pages",
+          "quote": "SMART on FHIR",
+          "relevance": "Indicates API pull pathway exists alongside bundled export."
+        }
+      ],
+      "strength": 5,
+      "gaps": [
+        "Single artifact for sample payloads was unavailable."
+      ]
+    },
+    "container": "hybrid",
+    "serialization": "ndjson",
+    "machineReadableSchema": "yes",
+    "includesDataDictionary": "yes",
+    "dictionaryDepth": "semantic",
+    "documentsValueSets": "unknown",
+    "documentsKeys": "field_plus_types",
+    "documentsRelationships": "semantic",
+    "documentsConstraints": "unknown",
+    "accessibilityTier": "assisted_standard",
+    "accessibilityNotes": "FHIR APIs require authenticated access flow; export bundles reference patient submissions, suggesting non-trivial integration but not exclusively heavy/blocked."
+  },
+  "mappingRisk": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-PCE-002",
+          "locator": "PIX_9_4_API_Documentation.pdf resource list (Condition, Coverage, Encounter, Procedure, Observation, Patient)",
+          "quote": null,
+          "relevance": "Shows explicit FHIR resource projection layer in API surface."
+        },
+        {
+          "sourceId": "SRC-PCE-001",
+          "locator": "b10_documentation.pdf lines 75-77",
+          "quote": "NDJSON resources with documentation.json definitions",
+          "relevance": "Could either mirror internal structure or project to documented resource schema."
+        }
+      ],
+      "strength": 4,
+      "gaps": [
+        "No independent comparison between b10 and full internal schema."
+      ]
+    },
+    "representation": "hybrid_projection",
+    "mappingTarget": "fhir",
+    "projectionLossRiskScore": 3,
+    "conflationRiskScore": 3,
+    "reconstitutionEffortScore": 3,
+    "lossOrConflationExamples": [
+      "Potential loss or simplification where custom fields are not represented in FHIR-centric definitions.",
+      "Binary files in Files subdirectory are explicitly outside NDJSON core model."
+    ],
+    "suspectedOmissions": [
+      "Domains with no evident file/API representation may still exist in workflow systems.",
+      "Billing adjudication nuance beyond Coverage fields appears underspecified."
+    ]
+  },
+  "domainAssessments": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-002",
+            "locator": "Resource Operation list: Patient",
+            "quote": null,
+            "relevance": "Core patient records available."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "demographics",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 5,
+      "rationale": "Patient resource is standard and present in API and export framing.",
+      "caveats": []
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-002",
+            "locator": "Resource Operation list: Encounter",
+            "quote": null,
+            "relevance": "Encounter exports are supported by API and likely included in NDJSON bundles."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "encounters",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 4,
+      "rationale": "Encounter resource is core FHIR export component.",
+      "caveats": [
+        "Complete encounter event metadata depth is not fully confirmed via sample payloads."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-002",
+            "locator": "Resource Operation list: Condition",
+            "quote": null,
+            "relevance": "Diagnoses/conditions explicitly listed."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "problems_conditions",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 5,
+      "rationale": "Conditions are directly represented as a first-class resource.",
+      "caveats": []
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-002",
+            "locator": "Resource Operation list: Medication",
+            "quote": null,
+            "relevance": "Medication resource listed in API paths"
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "domain": "medications",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 3,
+      "rationale": "Medication support appears in API, but depth in b10 export artifacts is not fully evidenced.",
+      "caveats": [
+        "Prescription workflow details could be partial outside sample payloads."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-001",
+            "locator": "b10_documentation.pdf lines 28-40",
+            "quote": "documentation.json resource definitions",
+            "relevance": "Resource definitions are part of export metadata."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No sample resource file observed to test full set."
+        ]
+      },
+      "domain": "laboratory",
+      "coverageLevel": "implied_only",
+      "decisionSupportScore": 3,
+      "rationale": "Documentation mentions observational/lab-like resources but no direct dedicated evidence for complete laboratory domain in this run.",
+      "caveats": [
+        "Could be included in Observation-based resources.",
+        "Lab-specific attachments may remain in files/ folder."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-002",
+            "locator": "Resource list includes Observation and DocumentReference",
+            "quote": null,
+            "relevance": "Observation and document support exists in API model."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "Diagnostic report container may be partial depending on implementation."
+        ]
+      },
+      "domain": "diagnostic_reports",
+      "coverageLevel": "implied_only",
+      "decisionSupportScore": 2,
+      "rationale": "Potential coverage via Observation/DocumentReference, but no dedicated report resource confirmed in extracted lines.",
+      "caveats": [
+        "Unclear if all report payload types are returned in b10 bundle.",
+        "No sample NDJSON confirmed."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-002",
+            "locator": "Resource list: Procedure",
+            "quote": null,
+            "relevance": "Procedure resource supported by API.",
+            "source": ""
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "procedures",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 4,
+      "rationale": "Procedures are enumerated but complete procedure coding/event context not empirically validated with sample output.",
+      "caveats": [
+        "Depth of procedure linkage to encounters may be inferred from IDs."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-004",
+            "locator": "Capabilities include Coverage resource",
+            "quote": null,
+            "relevance": "Coverage resource exists, giving insurance linkage path."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "Payment tables and adjudication workflow not observed."
+        ]
+      },
+      "domain": "insurance",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 3,
+      "rationale": "Insurance-related data model is at least partially represented by Coverage.",
+      "caveats": [
+        "Claims, denials, and remittance specifics were not clearly evidenced."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-002",
+            "locator": "Resource path for Coverage and bulk export",
+            "quote": null,
+            "relevance": "Claims-like data likely linked through Coverage path."
+          }
+        ],
+        "strength": 3,
+        "gaps": [
+          "No specific claim resource in documented API list in this extraction."
+        ]
+      },
+      "domain": "claims_billing",
+      "coverageLevel": "implied_only",
+      "decisionSupportScore": 2,
+      "rationale": "Claims lifecycle detail is not explicit, though related insurance resources are present.",
+      "caveats": [
+        "Claims line-item and payment status may be underrepresented."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-001",
+            "locator": "b10_documentation.pdf line indicating Files folder with binaries",
+            "quote": null,
+            "relevance": "Attached/non-computable files may remain outside NDJSON export.",
+          }
+        ],
+        "strength": 3,
+        "gaps": [
+          "No document-attachment table-level evidence provided in source output."
+        ]
+      },
+      "domain": "documents_attachments",
+      "coverageLevel": "implied_only",
+      "decisionSupportScore": 2,
+      "rationale": "Presence of Files folder implies attachment capability, but structure details are incomplete.",
+      "caveats": [
+        "Document binary handling not fully specified."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-001",
+            "locator": "b10_documentation.pdf",
+            "quote": null,
+            "relevance": "No explicit patient communication resource names surfaced in the extracted lines."
+          }
+        ],
+        "strength": 2,
+        "gaps": []
+      },
+      "domain": "patient_communications",
+      "coverageLevel": "not_evidenced",
+      "decisionSupportScore": 1,
+      "rationale": "Messaging/table evidence not identified in current source extracts.",
+      "caveats": [
+        "Communication may exist but not captured in reviewed docs."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-002",
+            "locator": "bulk export docs and patient population endpoints",
+            "quote": null,
+            "relevance": "Bulk export operations available for all patient population.",
+            "source": ""
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "Scheduling metadata not explicit in extracted API examples."
+        ]
+      },
+      "domain": "scheduling",
+      "coverageLevel": "conflicting_signals",
+      "decisionSupportScore": 1,
+      "rationale": "Population export is clear, but scheduling tables are not explicitly shown.",
+      "caveats": [
+        "Could be represented as part of encounter fields and not standalone."
+      ]
+    }
+  ],
+  "domainCoverageSummary": {
+    "comprehensive": [
+      "demographics",
+      "encounters",
+      "problems_conditions"
+    ],
+    "partial": [
+      "medications",
+      "procedures",
+      "insurance",
+      "laboratory",
+      "diagnostic_reports",
+      "documents_attachments",
+      "claims_billing"
+    ],
+    "implied": [
+      "clinical_notes",
+      "orders_referrals",
+      "care_plans_goals",
+      "immunizations",
+      "vitals"
+    ],
+    "notEvidenced": [
+      "patient_communications",
+      "payments",
+      "scheduling"
+    ],
+    "conflicting": [
+      "scheduling"
+    ]
+  },
+  "dimensionScores": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-002",
+            "locator": "resource list and bulk endpoints",
+            "quote": null,
+            "relevance": "Core resource families are present in API and export docs."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "Missing sample payloads constrain certainty for full EHI slice."
+        ]
+      },
+      "dimension": "scope_completeness",
+      "score": 3,
+      "rationale": "Broad but not obviously complete against all designated-record-set classes.",
+      "uncertaintyNotes": "Could be higher or lower depending on actual b10 bundle implementation details."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-001",
+            "locator": "NDJSON resource file statement",
+            "quote": null,
+            "relevance": "Core file-based payload is NDJSON." 
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "dimension": "format_openness",
+      "score": 5,
+      "rationale": "NDJSON and JSON APIs are highly consumable for systems integration.",
+      "uncertaintyNotes": "Non-computable files in Files folder are an acknowledged outlier."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-002",
+            "locator": "API resource definitions",
+            "quote": null,
+            "relevance": "Strong machine-readable API metadata exists."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "Constraint and value-set semantics are partial in extracted snippets."
+        ]
+      },
+      "dimension": "dictionary_quality",
+      "score": 4,
+      "rationale": "Resource definitions and capability docs provide good reference quality.",
+      "uncertaintyNotes": "Full profile constraints need deeper inspection."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-002",
+            "locator": "OAuth flows + bulk endpoints",
+            "quote": null,
+            "relevance": "Authentication path implies setup overhead."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No explicit operational time-to-export for API bulk vs bundle creation."
+        ]
+      },
+      "dimension": "accessibility",
+      "score": 2,
+      "rationale": "API auth and endpoint complexity raises burden above plain self-service zip download."
+      ,
+      "uncertaintyNotes": "Could be easier for organizations already integrated with their API stack."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-001",
+            "locator": "documentation.json + metadata.json references",
+            "quote": null,
+            "relevance": "Structured definitions can map close to resource model."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "Cannot independently verify every internal field roundtrip."
+        ]
+      },
+      "dimension": "model_fidelity",
+      "score": 3,
+      "rationale": "Hybrid signals between native export metadata and FHIR API standardization reduce confidence of perfect fidelity.",
+      "uncertaintyNotes": "Potentially better than pure FHIR-only but still unclear for custom modules."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-004",
+            "locator": "Resource list excludes many workflow tables",
+            "quote": null,
+            "relevance": "Possible projection to resource set rather than raw internal schema."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No list mapping internal fields to resource constraints."
+        ]
+      },
+      "dimension": "projection_loss_risk",
+      "score": 3,
+      "rationale": "Medium risk due likely standardization layer and potential omission of custom extensions.",
+      "uncertaintyNotes": "Could increase if Files content is material and not downloadable reliably."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-002",
+            "locator": "SMART OAuth and FHIR endpoints",
+            "quote": null,
+            "relevance": "Standardized resources reduce some conflation risk but can collapse vendor-specific semantics."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No full extension analysis on custom extensions."
+        ]
+      },
+      "dimension": "conflation_risk",
+      "score": 3,
+      "rationale": "Moderate risk because FHIR abstractions can collapse concept boundaries used internally.",
+      "uncertaintyNotes": "May be low if custom extensions are represented in extension fields and preserved."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-001",
+            "locator": "documentation.json",
+            "quote": null,
+            "relevance": "Resource definitions can simplify reconstitution but not guaranteed complete."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No payload examples for difficult relationship reassembly."
+        ]
+      },
+      "dimension": "reconstitution_effort",
+      "score": 3,
+      "rationale": "Moderate effort due mixed native/FHIR surface and file-folder extras.",
+      "uncertaintyNotes": "Could be lower for teams with prior FHIR tooling."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-001",
+            "locator": "export and capability docs",
+            "quote": null,
+            "relevance": "No exported sample available to test representativeness."
+          }
+        ],
+        "strength": 2,
+        "gaps": [
+          "No concrete sample row distribution across domains."
+        ]
+      },
+      "dimension": "sample_data_representativeness",
+      "score": 1,
+      "rationale": "No sample data snapshot limits representativeness evaluation.",
+      "uncertaintyNotes": "Add sample NDJSON extracts to improve this score."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-PCE-002",
+            "locator": "API docs + capability statement metadata",
+            "quote": null,
+            "relevance": "Technical documentation exists and is structured."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No explicit timestamp validation in extracted artifacts."
+        ]
+      },
+      "dimension": "documentation_stability",
+      "score": 3,
+      "rationale": "Standardized docs and API definitions suggest moderate stability, but runtime state may vary by endpoint version.",
+      "uncertaintyNotes": "Revisit after endpoint metadata change windows."
+    }
+  ],
+  "synthesis": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-PCE-001",
+          "locator": "bundle + API overlap",
+          "quote": "patient subdirectories with NDJSON files and documentation.json; SMART on FHIR API",
+          "relevance": "Central signal for mixed export architecture."
+        }
+      ],
+      "strength": 4,
+      "gaps": [
+        "No sample payload to prove consistency across all clinical modules."
+      ]
+    },
+    "classification": "hybrid_projection",
+    "confidence": "medium",
+    "keySignal": "PCE shows structured NDJSON bundles plus SMART FHIR API surfaces, indicating partial native mapping overlaid with standardized projection.",
+    "operationalImplication": "Integrators should expect to reconcile both patient zip bundles and API semantics, with special handling for binaries and unverified custom fields.",
+    "reproducibilityRisk": "Moderate: another assessor may differ on omitted domains without sample payloads."
+  }
+}

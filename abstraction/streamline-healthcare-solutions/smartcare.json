@@ -1,0 +1,1009 @@
+{
+  "meta": {
+    "schemaVersion": "2026-02-15.v9",
+    "assessedAt": "2026-02-15",
+    "assessor": "codex-gpt-5",
+    "status": "draft"
+  },
+  "scope": {
+    "vendorName": "Streamline Healthcare Solutions",
+    "productFamily": "SmartCare",
+    "_includedProducts": {
+      "sources": "results/streamline-healthcare-solutions/chpl-metadata.json (products[0]: product_name SmartCare, version R6, certification_date 2022-09-15); results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "CHPL metadata identifies one in-scope certified product (SmartCare, version R6), and the export page repeatedly names the SmartCare EHI export process.",
+      "alternatives": "Including additional product families was rejected because no additional certified product line is identified in the in-scope artifacts.",
+      "uncertainty": "If future artifacts show materially different export models by module/edition, scope may need splitting.",
+      "confidence": "high (5/5)",
+      "decision": "includedProducts focuses on SmartCare R6 product family only."
+    },
+    "includedProducts": [
+      "SmartCare (CHPL product 15.04.04.2855.Smar.R6.01.1.220915; version R6)"
+    ],
+    "_excludedProducts": {
+      "sources": "results/streamline-healthcare-solutions/chpl-metadata.json (products[0]: product_name SmartCare, version R6, certification_date 2022-09-15)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The CHPL metadata in this results folder lists only SmartCare for this certification context; no separate product family appears in primary artifacts.",
+      "alternatives": "Listing excluded sibling products was rejected because no direct evidence identifies additional products sharing this export endpoint.",
+      "uncertainty": "Corporate marketing may include additional offerings, but they are not evidenced here as separate b(10) export models.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "No evidence-backed excluded products in this record."
+    },
+    "excludedProducts": [],
+    "_versionsInScope": {
+      "sources": "results/streamline-healthcare-solutions/chpl-metadata.json (products[0]: product_name SmartCare, version R6, certification_date 2022-09-15); results/streamline-healthcare-solutions/downloads/ehi-export-page-wp-api.json (content.rendered; modified=2023-12-05T16:52:34; link slug electronic-health-information-export)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The explicit product version in CHPL metadata is R6, while the EHI export page metadata shows publication in 2023 and modification in 2023, consistent with R6-era documentation and no documented model break.",
+      "alternatives": "Including unknown prior/future versions was rejected because no version continuity artifact beyond R6 is provided in this evidence set.",
+      "uncertainty": "Version-specific export deltas cannot be assessed without release notes or versioned export guides.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "versionsInScope = R6-era documented export behavior."
+    },
+    "versionsInScope": [
+      "R6 (certification date 2022-09-15; export page modified 2023-12-05)"
+    ],
+    "scopeNotes": "Single-product-family abstraction constrained to SmartCare only, based on CHPL metadata and SmartCare-named export-page text in this folder."
+  },
+  "exportPaths": [
+    {
+      "_mechanism": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_descriptive",
+        "reasoning": "The page states export is available for a single patient without developer assistance and is performed by permissioned SmartCare users, which best fits an in-product/manual single-patient workflow.",
+        "alternatives": "api_single_patient_export was rejected because no endpoint/spec is provided; vendor_assisted_bulk_export was rejected because the text says without developer assistance.",
+        "uncertainty": "The exact UI sequence is not public because setup instructions are in customer help desk documentation.",
+        "confidence": "moderate (3/5)",
+        "decision": "mechanism = ui_single_patient_export"
+      },
+      "mechanism": "ui_single_patient_export",
+      "_container": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_descriptive",
+        "reasoning": "The page says output files are CCDAs/XML patient summary documents but does not specify single-file packaging behavior for one-patient runs.",
+        "alternatives": "single_file was rejected because packaging is not explicitly documented; multi_file_bundle and database_dump were rejected for lack of evidence.",
+        "uncertainty": "A sample single-patient export file would resolve container classification.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "container = unknown"
+      },
+      "container": "unknown",
+      "_formats": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections); results/streamline-healthcare-solutions/downloads/ehi-export-page-wp-api.json (content.rendered; modified=2023-12-05T16:52:34; link slug electronic-health-information-export)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The Terms and Conditions text explicitly says files are CCDAs or patient summary documents that are XML-based exports, so ccda is directly documented as the export format.",
+        "alternatives": "xml-only was rejected because the page explicitly labels the files as CCDA patient summaries; mixed was rejected because no second export format is described on this page.",
+        "uncertainty": "No sample output is provided to confirm exact MIME or extension conventions.",
+        "confidence": "high (5/5)",
+        "decision": "formats = [ccda]"
+      },
+      "formats": [
+        "ccda"
+      ],
+      "_standardProfile": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The page links to HL7 C-CDA 2.2 structure definitions, confirming a CCDA-oriented projection, but the enum only includes ccda_r21 and no explicit R2.1 claim is made in the artifact.",
+        "alternatives": "ccda_r21 was rejected because the artifact references C-CDA 2.2 pages rather than explicitly claiming R2.1 conformance; none_vendor_native was rejected because CCDA is explicitly named.",
+        "uncertainty": "A conformance statement naming version/profile for produced documents could change this call.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "standardProfile = unknown"
+      },
+      "standardProfile": "unknown",
+      "_selfService": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The page states export can run without developer assistance and is available to system administrators/permissioned SmartCare users, indicating customer-run self-service capability for health-system users.",
+        "alternatives": "no was rejected because required vendor-operated extraction is not stated; unknown was rejected because explicit no-developer-assistance wording is provided.",
+        "uncertainty": "Operational details are behind customer help documentation, so exact prerequisites are not public.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "selfService = yes"
+      },
+      "selfService": "yes",
+      "_operationalBurden": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_descriptive",
+        "reasoning": "Operational burden appears manageable but not trivial: role restrictions apply and setup details are not publicly documented, yet workflow is described as available at any time without developer assistance.",
+        "alternatives": "0-1 were rejected due role gating and undocumented setup detail; 4-5 were rejected because no mandatory vendor operation is stated.",
+        "uncertainty": "Actual burden could vary materially by organization permissions and internal setup practices.",
+        "confidence": "moderate (3/5)",
+        "decision": "operationalBurden = 2"
+      },
+      "operationalBurden": 2,
+      "notes": "Single-patient path is explicitly claimed but no sample output file or step-by-step public instructions are provided."
+    },
+    {
+      "_mechanism": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_descriptive",
+        "reasoning": "The page explicitly states population export is available without developer assistance and limited to permissioned users, supporting a customer-run UI/manual bulk workflow classification.",
+        "alternatives": "api_bulk_export was rejected because no API workflow is documented; vendor_assisted_bulk_export was rejected due explicit no-developer-assistance language.",
+        "uncertainty": "No public artifact shows exact bulk execution screens or job controls.",
+        "confidence": "moderate (3/5)",
+        "decision": "mechanism = ui_bulk_export"
+      },
+      "mechanism": "ui_bulk_export",
+      "_container": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_descriptive",
+        "reasoning": "Population export is described, but packaging/bundling details (single archive, per-patient files, etc.) are not specified.",
+        "alternatives": "multi_file_bundle was rejected as plausible but unconfirmed; database_dump/streaming_api were rejected because no evidence supports those containers.",
+        "uncertainty": "Customer help documentation or a sample bulk export package is required for confident container labeling.",
+        "confidence": "high (4/5)",
+        "decision": "container = unknown"
+      },
+      "container": "unknown",
+      "_formats": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections); results/streamline-healthcare-solutions/downloads/ehi-export-page-wp-api.json (content.rendered; modified=2023-12-05T16:52:34; link slug electronic-health-information-export)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The export output is described as CCDA XML patient summary documents; no alternate bulk-only format is documented.",
+        "alternatives": "mixed was rejected because no second format is named; xml-only was rejected because output is explicitly framed as CCDA patient summaries.",
+        "uncertainty": "Bulk packaging may embed metadata/manifests not documented in the public page.",
+        "confidence": "high (5/5)",
+        "decision": "formats = [ccda]"
+      },
+      "formats": [
+        "ccda"
+      ],
+      "_standardProfile": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "CCDA is explicit and linked to HL7 C-CDA 2.2 pages, but no explicit R2.1 declaration is present.",
+        "alternatives": "ccda_r21 was rejected due no explicit R2.1 claim; none_vendor_native was rejected because output is explicitly CCDA.",
+        "uncertainty": "Versioned conformance statement for generated bulk files is absent.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "standardProfile = unknown"
+      },
+      "standardProfile": "unknown",
+      "_selfService": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Population export is described as available at any time without developer assistance for permissioned users, supporting customer self-service.",
+        "alternatives": "no was rejected because required vendor operation is not stated; unknown was rejected because explicit customer-run wording is present.",
+        "uncertainty": "Specific organizational prerequisites are not publicly documented.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "selfService = yes"
+      },
+      "selfService": "yes",
+      "_operationalBurden": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections); results/streamline-healthcare-solutions/files.json (exact downloaded artifact inventory: 4 files under downloads/)",
+        "sourceQuality": "primary_descriptive",
+        "reasoning": "Bulk capability is claimed, but missing public runbook, unknown packaging, and permission gating imply moderate practical friction above single-patient use.",
+        "alternatives": "0-2 were rejected because key implementation details are withheld from public docs; 4-5 were rejected because the feature is explicitly presented as customer-run at any time.",
+        "uncertainty": "Real-world burden depends on hidden help desk instructions and bulk volume controls.",
+        "confidence": "moderate (3/5)",
+        "decision": "operationalBurden = 3"
+      },
+      "operationalBurden": 3,
+      "notes": "Population export is explicitly claimed but no public artifact shows actual bundle structure, scale limits, or sample outputs."
+    }
+  ],
+  "documentation": {
+    "_hasDataDictionary": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The page lists section names only; it does not provide table/field definitions that meet data-dictionary depth.",
+      "alternatives": "yes was rejected because section labels alone are not a field-level dictionary.",
+      "uncertainty": "Customer-only documentation might include a dictionary, but it is not present in collected artifacts.",
+      "confidence": "high (5/5)",
+      "decision": "hasDataDictionary = no"
+    },
+    "hasDataDictionary": "no",
+    "_hasMachineReadableSchema": {
+      "sources": "results/streamline-healthcare-solutions/files.json (exact downloaded artifact inventory: 4 files under downloads/); results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No OpenAPI/JSON Schema/XSD/DDL artifact is present in downloads; only HTML/JSON page representations are provided.",
+      "alternatives": "yes was rejected because parseable webpage content is not a vendor-supplied machine-readable schema artifact for the export payload.",
+      "uncertainty": "If vendor publishes CCDA implementation guides or schemas separately, this call could change.",
+      "confidence": "high (5/5)",
+      "rule": "Machine-readable schema requires explicit machine-consumable schema artifacts.",
+      "decision": "hasMachineReadableSchema = no"
+    },
+    "hasMachineReadableSchema": "no",
+    "_describesFieldNames": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The documentation names C-CDA sections, not concrete exported fields/elements for SmartCare payloads.",
+      "alternatives": "yes was rejected because section headings do not satisfy field-name documentation.",
+      "uncertainty": "Field-level names may be inferable from external HL7 specs, but SmartCare-specific field mapping is undocumented.",
+      "confidence": "high (5/5)",
+      "decision": "describesFieldNames = no"
+    },
+    "describesFieldNames": "no",
+    "_describesFieldTypes": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No data-type declarations are provided for exported elements; only high-level section names and format statements appear.",
+      "alternatives": "yes was rejected because XML/CCDA format mention is container/profile-level, not field type documentation.",
+      "uncertainty": "Type details could exist in non-public help artifacts.",
+      "confidence": "high (5/5)",
+      "decision": "describesFieldTypes = no"
+    },
+    "describesFieldTypes": "no",
+    "_describesFieldSemantics": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+      "sourceQuality": "primary_descriptive",
+      "reasoning": "Semantic meaning is only provided at section title level (for example Medications, Problems); business meaning of specific exported elements is not documented.",
+      "alternatives": "yes was rejected because no field-level business semantics are described; unknown was rejected because evidence clearly shows semantics are too thin for a positive call.",
+      "uncertainty": "SmartCare-specific semantic mapping could exist behind customer-authenticated docs.",
+      "confidence": "high (4/5)",
+      "decision": "describesFieldSemantics = no"
+    },
+    "describesFieldSemantics": "no",
+    "_describesValueSets": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No enumerations, value-set lists, or code-system binding tables are provided in the collected artifacts.",
+      "alternatives": "yes was rejected because links to external C-CDA definitions are not SmartCare-specific documented value-set bindings.",
+      "uncertainty": "Value-set bindings might appear in hidden implementation docs or in actual sample exports.",
+      "confidence": "high (5/5)",
+      "rule": "Yes requires explicit enumerations or code-binding lists.",
+      "decision": "describesValueSets = no"
+    },
+    "describesValueSets": "no",
+    "_describesRelationships": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections); results/streamline-healthcare-solutions/downloads/ehi-export-page-wp-api.json (content.rendered; modified=2023-12-05T16:52:34; link slug electronic-health-information-export)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No explicit inter-entity relationship map, FK map, ERD, or cardinality statements are documented.",
+      "alternatives": "yes was rejected because inferred structure from C-CDA standard links is not explicit SmartCare relationship documentation.",
+      "uncertainty": "Relationship semantics might be inferable from actual exported XML instances, which are absent.",
+      "confidence": "high (5/5)",
+      "rule": "Inferred joins are insufficient without explicit mapping statements.",
+      "decision": "describesRelationships = no"
+    },
+    "describesRelationships": "no",
+    "_describesKeysConstraints": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No keys/constraints documentation is provided (no PK/FK declarations, requiredness matrix, or constraint rules).",
+      "alternatives": "yes was rejected because no explicit key/constraint semantics are documented.",
+      "uncertainty": "Sample exports could expose identifiers, but current docs do not explicitly document key behavior.",
+      "confidence": "high (5/5)",
+      "rule": "A lone identifier mention is insufficient for keys/constraints yes-call.",
+      "decision": "describesKeysConstraints = no"
+    },
+    "describesKeysConstraints": "no",
+    "_hasSampleData": {
+      "sources": "results/streamline-healthcare-solutions/files.json (exact downloaded artifact inventory: 4 files under downloads/)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The downloaded artifact list contains only page HTML, page JSON metadata/content, and screenshots; no sample CCDA export files are present.",
+      "alternatives": "yes was rejected because no sample payload rows/files were collected.",
+      "uncertainty": "Customer-only help resources may contain examples not present in this evidence set.",
+      "confidence": "high (5/5)",
+      "decision": "hasSampleData = no"
+    },
+    "hasSampleData": "no",
+    "_sampleRepresentativeness": {
+      "sources": "results/streamline-healthcare-solutions/files.json (exact downloaded artifact inventory: 4 files under downloads/)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No sample export payloads were provided, so representativeness is none.",
+      "alternatives": "Scores 1-5 were rejected because there are zero sample data artifacts.",
+      "uncertainty": "Any real sample files would immediately increase this score.",
+      "confidence": "high (5/5)",
+      "decision": "sampleRepresentativeness = 0"
+    },
+    "sampleRepresentativeness": 0,
+    "_docsCurrentness": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page-wp-api.json (content.rendered; modified=2023-12-05T16:52:34; link slug electronic-health-information-export)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The page was last modified on 2023-12-05; relative to assessment date 2026-02-15, documentation appears maintained historically but not recently updated.",
+      "alternatives": "1 was rejected because metadata confirms at least one explicit update; 3-5 were rejected because no recent or actively versioned updates are shown.",
+      "uncertainty": "Update cadence outside this single page is unknown.",
+      "confidence": "high (4/5)",
+      "decision": "docsCurrentness = 2"
+    },
+    "docsCurrentness": 2,
+    "_maturity": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections); results/streamline-healthcare-solutions/files.json (exact downloaded artifact inventory: 4 files under downloads/); results/streamline-healthcare-solutions/downloads/ehi-export-page-wp-api.json (content.rendered; modified=2023-12-05T16:52:34; link slug electronic-health-information-export)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Documentation is a short single page with section list and workflow claims but no field map, sample data, schema artifacts, or implementation detail, which fits minimal maturity.",
+      "alternatives": "basic was rejected because major implementation blockers remain across almost all structural dimensions; insufficiently documented rollup was not used because at least format and section-level scope are explicit.",
+      "uncertainty": "Maturity could improve if customer-help materials include concrete schemas and samples.",
+      "confidence": "high (4/5)",
+      "decision": "maturity = minimal"
+    },
+    "maturity": "minimal",
+    "notes": "Public documentation gives a clear high-level claim (single and population CCDA export) but lacks payload examples and structural detail needed for robust migration planning."
+  },
+  "fidelityRisk": {
+    "_representationType": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections); results/streamline-healthcare-solutions/downloads/ehi-export-page-wp-api.json (content.rendered; modified=2023-12-05T16:52:34; link slug electronic-health-information-export)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The documented output is a standards-based CCDA patient summary projection, not a documented native SmartCare entity model.",
+      "alternatives": "native_model_like and native_plus_projection were rejected because no native entity/table model is exposed; unclear was rejected because CCDA projection is explicit.",
+      "uncertainty": "Could include vendor extensions in actual files, but no samples are available.",
+      "confidence": "high (4/5)",
+      "decision": "representationType = external_standard_projection"
+    },
+    "representationType": "external_standard_projection",
+    "_modelExposureLevel": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Evidence is section-level summary projection only (17 named C-CDA sections) with no operational entities, keys, or relationships documented.",
+      "alternatives": "partial_entity_model and broad_entity_model were rejected because no entity-level internal model is exposed; operational_model_like was rejected for the same reason.",
+      "uncertainty": "Actual exported XML might contain richer nested structures than the documentation reveals.",
+      "confidence": "high (4/5)",
+      "decision": "modelExposureLevel = summary_projection"
+    },
+    "modelExposureLevel": "summary_projection",
+    "_mappingTarget": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The page directly states files are C-CDA patient summary XML and provides section links to HL7 C-CDA structure definitions, which is explicit mapping to C-CDA.",
+      "alternatives": "none was rejected because a target standard is explicitly named; fhir was rejected because this page does not describe FHIR output.",
+      "uncertainty": "No documentation on local extensions or additional transforms within CCDA payloads.",
+      "confidence": "high (5/5)",
+      "decision": "mappingTarget = ccda"
+    },
+    "mappingTarget": "ccda",
+    "_projectionLossRisk": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections); results/streamline-healthcare-solutions/product-research.md (secondary context on SmartCare behavioral-health scope and billing/case-management capabilities); results/streamline-healthcare-solutions/ehi-export-report.md (secondary synthesis; used only where primary artifacts are silent)",
+      "sourceQuality": "primary_direct,secondary",
+      "reasoning": "Risk is high because only a CCDA patient-summary slice is documented while designated-record-set EHI includes clinical plus billing/payment decision records; no claims/payment export structures are documented.",
+      "alternatives": "2-3 were rejected because financial DRS domains are not evidenced; 5 was rejected because absence is inferred from documentation limits rather than contradictory sample exports.",
+      "uncertainty": "Definitive loss quantification requires actual full-population export samples and customer help documentation.",
+      "confidence": "moderate-high (4/5)",
+      "rule": "EHI completeness must be judged against DRS clinical + billing records, not only summary exchange sections.",
+      "decision": "projectionLossRisk = 4"
+    },
+    "projectionLossRisk": 4,
+    "_conflationRisk": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+      "sourceQuality": "primary_descriptive",
+      "reasoning": "Section-level CCDA documentation without field-level mapping raises moderate-high risk that distinct internal concepts are collapsed into summary narratives/section buckets.",
+      "alternatives": "2 or lower were rejected because no element-level mapping transparency is provided; 5 was rejected because direct examples of conflation are not available.",
+      "uncertainty": "Conflation risk could be lower or higher once real CCDA samples are inspected.",
+      "confidence": "moderate (3/5)",
+      "decision": "conflationRisk = 4"
+    },
+    "conflationRisk": 4,
+    "_reconstructionDifficulty": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections); results/streamline-healthcare-solutions/files.json (exact downloaded artifact inventory: 4 files under downloads/)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Reconstructing a full importable domain model is difficult because only section labels and format claims are documented; there are no sample files, key mappings, or relationship docs.",
+      "alternatives": "2-3 were rejected because documentation gaps force major assumptions; 5 was rejected because at least standard CCDA framing gives some baseline interoperability.",
+      "uncertainty": "Difficulty may decrease if hidden customer docs include detailed templates and examples.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "reconstructionDifficulty = 4"
+    },
+    "reconstructionDifficulty": 4,
+    "_keyLossPatterns": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections); results/streamline-healthcare-solutions/files.json (exact downloaded artifact inventory: 4 files under downloads/)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The recurring pattern is section-level projection with no documented SmartCare-native identifiers or relationship mappings, increasing risk of semantic and key loss.",
+      "alternatives": "An empty list was rejected because multiple explicit loss patterns are documented by omission of keys, relationships, and field detail.",
+      "uncertainty": "Pattern severity cannot be validated without concrete exported payload samples.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "Three key loss patterns are listed."
+    },
+    "keyLossPatterns": [
+      "Documentation is limited to 17 C-CDA section labels with no SmartCare-native field crosswalk.",
+      "No explicit primary/foreign key or relationship semantics are documented for exported content.",
+      "No sample output files are provided to verify preservation of internal identifiers and workflow-level objects."
+    ],
+    "_likelyOmittedAreas": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections); results/streamline-healthcare-solutions/product-research.md (secondary context on SmartCare behavioral-health scope and billing/case-management capabilities); results/streamline-healthcare-solutions/ehi-export-report.md (secondary synthesis; used only where primary artifacts are silent)",
+      "sourceQuality": "primary_direct,secondary",
+      "reasoning": "Compared with designated-record-set expectations and the section list, likely underrepresented/omitted areas include claims and payment records plus specialty documentation not explicitly represented by named CCDA sections.",
+      "alternatives": "Assuming no omissions was rejected because billing/payment structures are not documented; claiming certainty of every omitted area was rejected because no sample payloads are available.",
+      "uncertainty": "This list may shrink or expand after reviewing real single-patient and population export files.",
+      "confidence": "moderate (3/5)",
+      "decision": "likelyOmittedAreas emphasizes DRS-significant gaps over operational non-EHI data."
+    },
+    "likelyOmittedAreas": [
+      "Patient-specific claims and billing transaction detail (charges, adjudication, remittance-level content).",
+      "Patient payment history and payment-ledger records.",
+      "Behavioral-health specialty note/assessment content not explicitly mapped in listed sections.",
+      "Discrete exported attachments/documents beyond the generated C-CDA summary files."
+    ]
+  },
+  "domainCoverage": [
+    {
+      "domain": "demographics",
+      "_coverage": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections); results/streamline-healthcare-solutions/downloads/ehi-export-page-wp-api.json (content.rendered; modified=2023-12-05T16:52:34; link slug electronic-health-information-export)",
+        "sourceQuality": "primary_descriptive",
+        "reasoning": "The export is documented as a C-CDA patient summary XML file. C-CDA documents normally carry patient header demographics, but this page does not enumerate demographic fields explicitly.",
+        "alternatives": "plausibly_comprehensive was rejected because no field-level demographic inventory is provided; not_clearly_present was rejected because C-CDA patient summary framing implies demographic presence.",
+        "uncertainty": "A sample CCDA file is needed to verify demographic field breadth and completeness.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 3,
+      "notes": "Demographics are inferred from C-CDA document structure, not directly listed field-by-field by the vendor page."
+    },
+    {
+      "domain": "encounters",
+      "_coverage": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The Data Included list explicitly names \"Encounters Section (entries optional)\", confirming encounter data can appear in exports.",
+        "alternatives": "not_clearly_present was rejected because the section is explicitly listed; plausibly_comprehensive was rejected because entries are optional and no cardinality/field detail is provided.",
+        "uncertainty": "Unknown whether encounter export includes full encounter history or a bounded summary window.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Encounter section is present but explicitly optional."
+    },
+    {
+      "domain": "problems_conditions",
+      "_coverage": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The list explicitly includes \"Problem Section (entries required)\", so condition/problem data is clearly represented.",
+        "alternatives": "not_clearly_present was rejected because required problem section is explicit; plausibly_comprehensive was rejected because no details show full longitudinal condition modeling.",
+        "uncertainty": "No sample payload to verify coding depth and inactive/problem-history handling.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Problem section is required in the documented section set."
+    },
+    {
+      "domain": "medications",
+      "_coverage": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The Data Included list explicitly includes \"Medications Section (entries required)\", so medication data is clearly in scope for the documented CCDA export.",
+        "alternatives": "not_clearly_present was rejected because required medication section is explicit; plausibly_comprehensive was rejected because no medication field-level completeness evidence is provided.",
+        "uncertainty": "No evidence on medication-administration detail or discontinued-medication depth in actual files.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Medication section is required but structurally undocumented beyond section label."
+    },
+    {
+      "domain": "allergies",
+      "_coverage": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The section list explicitly includes \"Allergies and Intolerances Section (entries required)\", confirming presence of allergy/intolerance data.",
+        "alternatives": "not_clearly_present was rejected because the required section is explicit; plausibly_comprehensive was rejected because no field/value-set details are provided.",
+        "uncertainty": "Unknown whether reaction severity, status, and verification metadata are consistently present.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Allergy/intolerance domain is clearly listed but depth is unverified."
+    },
+    {
+      "domain": "immunizations",
+      "_coverage": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The list names \"Immunizations Section (entries required)\", indicating immunization information is included in the CCDA export.",
+        "alternatives": "not_clearly_present was rejected because immunization section is explicit and required; plausibly_comprehensive was rejected because the documentation provides no field-level completeness details.",
+        "uncertainty": "No sample export to confirm completeness of vaccine history and status fields.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Immunization domain has direct section-level evidence only."
+    },
+    {
+      "domain": "vitals",
+      "_coverage": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The page lists \"Vital Signs Section (entries required)\", so vital-sign information is clearly present in the documented export profile.",
+        "alternatives": "not_clearly_present was rejected due explicit required section listing; plausibly_comprehensive was rejected because measurement detail/granularity is not documented.",
+        "uncertainty": "Unknown whether vitals include full longitudinal series versus summary snapshots.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Vitals are present at section level with no row-level sample evidence."
+    },
+    {
+      "domain": "laboratory",
+      "_coverage": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The list includes \"Results Section (entries required)\", which is the section most directly associated with laboratory result content in C-CDA.",
+        "alternatives": "not_clearly_present was rejected because a required results section is explicit; plausibly_comprehensive was rejected because no test-level field inventory is documented.",
+        "uncertainty": "The page does not distinguish lab results from other result categories or show code-system bindings.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Lab representation is inferred from the required Results section label."
+    },
+    {
+      "domain": "diagnostic_reports",
+      "_coverage": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_descriptive",
+        "reasoning": "No dedicated \"Diagnostic Reports\" section is listed; only a general required Results section is listed, which may include some diagnostic findings but is not explicitly documented as comprehensive diagnostic report export.",
+        "alternatives": "present_but_not_comprehensive was rejected because diagnostic report presence is only implied, not directly stated; plausibly_comprehensive was rejected because there is no imaging/pathology report mapping detail.",
+        "uncertainty": "A sample CCDA file could show whether diagnostic report narratives and imaging impressions are included.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "confidence": 3,
+      "notes": "Diagnostic-report coverage is ambiguous from section-only documentation."
+    },
+    {
+      "domain": "procedures",
+      "_coverage": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The Data Included list explicitly includes \"Procedures Section (entries required)\", so procedural data is clearly represented in the documented export.",
+        "alternatives": "not_clearly_present was rejected due explicit required section listing; plausibly_comprehensive was rejected because no detail on procedure coding depth or historical completeness is provided.",
+        "uncertainty": "Unknown whether procedure export includes full provenance and performer details.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Procedure section is clearly listed but no sample payload validates depth."
+    },
+    {
+      "domain": "clinical_notes",
+      "_coverage": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections); results/streamline-healthcare-solutions/product-research.md (secondary context on SmartCare behavioral-health scope and billing/case-management capabilities)",
+        "sourceQuality": "primary_descriptive,secondary",
+        "reasoning": "The published section list does not explicitly include progress notes, consult notes, discharge summaries, or other note-type sections. While C-CDA sections can contain narrative text, the SmartCare page does not directly document broad note export coverage.",
+        "alternatives": "present_but_not_comprehensive was rejected because note presence is not explicitly named; plausibly_comprehensive was rejected because no note-type inventory or examples are supplied.",
+        "uncertainty": "A real export file could demonstrate whether narrative clinical notes are embedded in sections like Encounters or Plan of Treatment.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "confidence": 3,
+      "notes": "No explicit clinical-note section list is provided on the export page."
+    },
+    {
+      "domain": "care_plans_goals",
+      "_coverage": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The list includes \"Plan of Treatment Section\", which directly indicates some care-plan/goal-related content in the C-CDA export.",
+        "alternatives": "not_clearly_present was rejected because Plan of Treatment is explicitly listed; plausibly_comprehensive was rejected because there is no detailed goal/objective/intervention field mapping.",
+        "uncertainty": "Unknown how fully longitudinal care plan revisions are represented.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Care-plan signal is explicit via Plan of Treatment section."
+    },
+    {
+      "domain": "orders_referrals",
+      "_coverage": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_descriptive",
+        "reasoning": "No explicit Orders or Referrals section is listed. Some order/referral information may be summarized in Plan of Treatment, but that mapping is not explicitly described.",
+        "alternatives": "not_clearly_present was rejected because Plan of Treatment could contain order content; plausibly_comprehensive was rejected due missing explicit order/referral section and no examples.",
+        "uncertainty": "A sample export is needed to verify whether referrals and order details are materially represented.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 3,
+      "notes": "Orders/referrals are inferred indirectly from Plan of Treatment rather than explicit section labels."
+    },
+    {
+      "domain": "documents_attachments",
+      "_coverage": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections); results/streamline-healthcare-solutions/downloads/ehi-export-page-wp-api.json (content.rendered; modified=2023-12-05T16:52:34; link slug electronic-health-information-export)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The page documents CCDA patient summary files only and does not describe export of attached source documents, scans, or binary artifacts as discrete outputs.",
+        "alternatives": "present_but_not_comprehensive was rejected because no direct attachment-export evidence is present; plausibly_comprehensive was rejected because packaging details for attachments are absent.",
+        "uncertainty": "Help desk documentation (not public in this dataset) could describe attachment handling.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "confidence": 4,
+      "notes": "No documented attachment/file export mechanism beyond C-CDA documents."
+    },
+    {
+      "domain": "insurance",
+      "_coverage": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The Data Included list explicitly includes \"Payers Section\", providing direct evidence of insurance/payer data presence.",
+        "alternatives": "not_clearly_present was rejected due explicit Payers section; plausibly_comprehensive was rejected because no member-plan field inventory is documented.",
+        "uncertainty": "Unknown whether policy history, subscriber details, and coverage periods are complete.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Insurance is evidenced by Payers section, but depth is unspecified."
+    },
+    {
+      "domain": "claims_billing",
+      "_coverage": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No claims, charge, adjudication, or billing-ledger section is listed in the documented CCDA section inventory; the documented output is a patient summary format.",
+        "alternatives": "present_but_not_comprehensive was rejected because there is no direct billing section evidence; plausibly_comprehensive was rejected because C-CDA section list does not document billing record exports.",
+        "uncertainty": "Only non-public customer help documentation or sample exports could prove billing-record inclusion.",
+        "confidence": "high (4/5)",
+        "rule": "Billing records are part of designated record set EHI; absence of direct billing export evidence is a material gap signal.",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "confidence": 4,
+      "notes": "Claims/billing remain a primary designated-record-set uncertainty and likely gap in this documented path."
+    },
+    {
+      "domain": "payments",
+      "_coverage": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The export page does not list payment transaction sections or payment-ledger outputs. Payers section does not itself establish payment export.",
+        "alternatives": "present_but_not_comprehensive was rejected because payment artifacts are not explicitly documented; plausibly_comprehensive was rejected due no payment-specific export evidence.",
+        "uncertainty": "Payment representation could exist in non-public documentation but is not evidenced in primary public artifacts.",
+        "confidence": "high (4/5)",
+        "rule": "Patient-specific payment records are part of DRS-linked financial EHI when used for payment decisions.",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "confidence": 4,
+      "notes": "No direct evidence of patient payment history export."
+    },
+    {
+      "domain": "scheduling",
+      "_coverage": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No scheduling section or appointment export structure is listed in the CCDA section inventory.",
+        "alternatives": "present_but_not_comprehensive was rejected due lack of direct appointment/scheduling section evidence; plausibly_comprehensive was rejected because no schedule data fields are documented.",
+        "uncertainty": "Scheduling data might be partially reflected through encounters, but this is not directly documented.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "confidence": 4,
+      "notes": "Scheduling/appointment export is not explicitly documented on the EHI page."
+    },
+    {
+      "domain": "consents_directives",
+      "_coverage": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The section list explicitly includes \"Advance Directives Section (entries optional)\", showing at least partial directives/consent-related representation.",
+        "alternatives": "not_clearly_present was rejected due explicit directives section listing; plausibly_comprehensive was rejected because entries are optional and broader consent artifact coverage is not documented.",
+        "uncertainty": "No evidence on non-directive consent forms or signatures as exported structured data.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Advance directives are explicitly listed but optional."
+    },
+    {
+      "domain": "patient_communications",
+      "_coverage": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No patient messaging or communication transcript section is documented in the CCDA section list.",
+        "alternatives": "present_but_not_comprehensive was rejected because no communication-specific section is listed; plausibly_comprehensive was rejected due absence of any communication export structure.",
+        "uncertainty": "Patient communication data could exist in separate exports not documented in public artifacts.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "confidence": 4,
+      "notes": "No documented patient-message export path in the public EHI page artifacts."
+    },
+    {
+      "domain": "audit_provenance",
+      "_coverage": {
+        "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The export page does not document audit-log/provenance exports. This absence is not treated as an EHI completeness failure because audit logs are generally outside designated-record-set EHI scope.",
+        "alternatives": "present_but_not_comprehensive was rejected because no provenance section is listed; plausibly_comprehensive was rejected because no audit export structure is described.",
+        "uncertainty": "Separate security/audit tooling may exist but is out of scope for core EHI completeness judgment.",
+        "confidence": "high (4/5)",
+        "rule": "Audit/access logs are generally operational/security artifacts and are not core DRS EHI.",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "confidence": 4,
+      "notes": "Treated as non-core for EHI completeness under designated-record-set framing."
+    }
+  ],
+  "quantitativeProfile": {
+    "artifactCounts": {
+      "totalArtifactsReviewed": {
+        "status": "measured",
+        "value": 8,
+        "method": "exact",
+        "notes": "Count includes 4 primary downloaded artifacts plus 4 contextual artifacts reviewed in this run: chpl-metadata.json, files.json, product-research.md, and ehi-export-report.md."
+      },
+      "exportArtifactsDocumented": {
+        "status": "measured",
+        "value": 2,
+        "method": "exact",
+        "notes": "Two artifacts directly describe export structure/content: ehi-export-page.html and ehi-export-page-wp-api.json."
+      },
+      "sampleDataArtifacts": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No sample export payload files were present in downloads/."
+      },
+      "dictionaryOrSchemaArtifacts": {
+        "status": "measured",
+        "value": 1,
+        "method": "exact",
+        "notes": "One high-level export-spec artifact (the EHI export page) lists C-CDA sections but not field-level schema."
+      },
+      "machineReadableSchemaArtifacts": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No OpenAPI/JSON Schema/XSD/DDL or other machine-readable schema artifact was present in the evidence set."
+      }
+    },
+    "modelEntityCounts": {
+      "documentedEntities": {
+        "status": "measured",
+        "value": 17,
+        "method": "exact",
+        "notes": "Count equals the 17 explicitly listed C-CDA sections under Data Included."
+      },
+      "observedEntities": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No sample export payload files were available for direct observation."
+      },
+      "exportDistinctUnits": {
+        "status": "not_observable",
+        "notes": "Packaging for practical export runs (single file vs bundle composition) is not documented in available artifacts."
+      }
+    },
+    "fieldCounts": {
+      "documentedFields": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No field/element names are documented; only section names are provided."
+      },
+      "observedFields": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No sample payload files were provided for field-level observation."
+      },
+      "fieldsWithTypeInfo": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No field-level type declarations are documented."
+      },
+      "fieldsWithSemanticDescription": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "Section labels exist, but no field-level semantic descriptions are documented."
+      },
+      "codedFields": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No explicit coded field/value-set bindings are documented in the SmartCare export page artifacts."
+      }
+    },
+    "relationshipCounts": {
+      "documentedRelationships": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No explicit inter-entity relationship definitions are documented."
+      },
+      "documentedPrimaryKeys": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No primary key declarations are documented."
+      },
+      "documentedForeignKeys": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No foreign key/cross-entity reference map is documented."
+      },
+      "documentedConstraints": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No requiredness/cardinality/check/uniqueness constraints are documented."
+      }
+    },
+    "valueSetCounts": {
+      "documentedValueSets": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No explicit value-set catalogs are documented in collected artifacts."
+      },
+      "valueSetsWithCodeSystem": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No field-level value sets with named code systems/versions are documented."
+      },
+      "fieldsBoundToValueSets": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No explicit field-to-value-set bindings are documented."
+      },
+      "localCustomValueSets": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No SmartCare-local/custom value-set definitions are documented in the artifacts."
+      }
+    },
+    "projectionSignals": {
+      "entitiesWithOnlyIdPlusOnePayloadField": {
+        "status": "not_applicable",
+        "notes": "Evidence is section-level CCDA documentation rather than table schemas, so this tabular flattening signal is not applicable."
+      },
+      "domainsWithoutDocumentedJoinKey": {
+        "status": "measured",
+        "value": 21,
+        "method": "derived",
+        "notes": "No documented join keys are provided for any of the 21 standard assessed domains."
+      }
+    },
+    "notes": "Quantitative counts intentionally separate what is explicitly documented from what is directly observed in real payloads. Since no sample export files were provided, observed-structure measures remain zero or not observable."
+  },
+  "accessConstraints": {
+    "_docsPubliclyAccessible": {
+      "sources": "results/streamline-healthcare-solutions/files.json (exact downloaded artifact inventory: 4 files under downloads/); results/streamline-healthcare-solutions/downloads/ehi-export-page-wp-api.json (content.rendered; modified=2023-12-05T16:52:34; link slug electronic-health-information-export)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The EHI export page and WP API endpoint are publicly reachable artifacts in this dataset without authentication.",
+      "alternatives": "no was rejected because the collected artifacts were fetched directly without login walls.",
+      "uncertainty": "Only setup/runbook details (not the top-level page) appear to require customer help desk access.",
+      "confidence": "high (5/5)",
+      "decision": "docsPubliclyAccessible = yes"
+    },
+    "docsPubliclyAccessible": "yes",
+    "_roleRestricted": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The page explicitly states functionality is limited to system administrators and SmartCare users according to customer roles/permissions.",
+      "alternatives": "no was rejected because role restrictions are directly stated; unknown was rejected because wording is explicit.",
+      "uncertainty": "Exact RBAC granularity is not documented publicly.",
+      "confidence": "high (5/5)",
+      "decision": "roleRestricted = yes"
+    },
+    "roleRestricted": "yes",
+    "_vendorInvolvementNeeded": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+      "sourceQuality": "primary_descriptive",
+      "reasoning": "The page says exports are available at any time without developer assistance and setup instructions are available to customers, supporting a call that routine export does not require vendor-operated extraction.",
+      "alternatives": "yes was rejected because mandatory vendor-run workflow is not stated; unknown was rejected because explicit no-developer-assistance language provides direct evidence.",
+      "uncertainty": "Some organizations may still seek vendor support in practice, but that is not stated as required.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "vendorInvolvementNeeded = no"
+    },
+    "vendorInvolvementNeeded": "no",
+    "_potentialFeesForStandardExport": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Terms text explicitly states there is no additional cost for Streamline customers to access this functionality.",
+      "alternatives": "yes was rejected because direct text says no additional cost; unknown was rejected because fee statement is explicit.",
+      "uncertainty": "Statement does not address indirect internal labor costs or optional consulting services.",
+      "confidence": "high (5/5)",
+      "decision": "potentialFeesForStandardExport = no"
+    },
+    "potentialFeesForStandardExport": "no",
+    "_practicalAccessibilityScore": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections); results/streamline-healthcare-solutions/files.json (exact downloaded artifact inventory: 4 files under downloads/)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Practical accessibility is moderate-low friction: feature is documented as self-service and no-fee, but role restrictions apply and actionable setup detail is in customer-only help docs.",
+      "alternatives": "0-1 were rejected because role and documentation gatekeeping create friction; 4-5 were rejected because no required vendor extraction or fee barriers are stated.",
+      "uncertainty": "True friction depends on customer role provisioning and hidden setup instructions.",
+      "confidence": "moderate (3/5)",
+      "decision": "practicalAccessibilityScore = 2"
+    },
+    "practicalAccessibilityScore": 2,
+    "notes": "Public page provides policy-level statements, but operational runbook details are not publicly visible, which adds uncertainty to real-world execution effort."
+  },
+  "overall": {
+    "_posture": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections); results/streamline-healthcare-solutions/chpl-metadata.json (products[0]: product_name SmartCare, version R6, certification_date 2022-09-15); results/streamline-healthcare-solutions/product-research.md (secondary context on SmartCare behavioral-health scope and billing/case-management capabilities); results/streamline-healthcare-solutions/ehi-export-report.md (secondary synthesis; used only where primary artifacts are silent)",
+      "sourceQuality": "primary_direct,secondary",
+      "reasoning": "The documented path is a standards-based CCDA patient-summary projection with clear section-level coverage but limited structural detail and weak evidence for DRS financial domains, fitting a projection-limited posture.",
+      "alternatives": "usable_but_partial was rejected because projection constraints dominate and sample/model evidence is absent; insufficiently_documented was rejected because core mechanism/format/sections are explicitly documented.",
+      "uncertainty": "Posture may improve if hidden customer docs and sample exports demonstrate broader DRS coverage.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "posture = projection_limited"
+    },
+    "posture": "projection_limited",
+    "_completenessScore": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections); results/streamline-healthcare-solutions/ehi-export-report.md (secondary synthesis; used only where primary artifacts are silent)",
+      "sourceQuality": "primary_direct,secondary",
+      "reasoning": "Clinical summary domains are present, but designated-record-set completeness remains materially incomplete due absent explicit claims/payment structures and missing evidence for several patient-record domains.",
+      "alternatives": "3-4 were rejected because major DRS categories remain unproven; 1 was rejected because substantial core clinical sections are explicitly included.",
+      "uncertainty": "Exact completeness cannot be measured without real export payloads and customer setup materials.",
+      "confidence": "moderate (3/5)",
+      "decision": "completenessScore = 2"
+    },
+    "completenessScore": 2,
+    "_technicalUsabilityScore": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections); results/streamline-healthcare-solutions/files.json (exact downloaded artifact inventory: 4 files under downloads/)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Technical usability is limited: CCDA is interoperable, but lack of examples, keys, value sets, and packaging details forces significant assumptions for migration/import workflows.",
+      "alternatives": "3-4 were rejected due severe documentation gaps; 1 was rejected because at least a standards format and section inventory are provided.",
+      "uncertainty": "Usability could be higher if customer-only docs include robust implementation guidance and sample files.",
+      "confidence": "moderate (3/5)",
+      "decision": "technicalUsabilityScore = 2"
+    },
+    "technicalUsabilityScore": 2,
+    "_confidence": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections); results/streamline-healthcare-solutions/downloads/ehi-export-page-wp-api.json (content.rendered; modified=2023-12-05T16:52:34; link slug electronic-health-information-export); results/streamline-healthcare-solutions/files.json (exact downloaded artifact inventory: 4 files under downloads/)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Confidence is moderate because core claims are directly evidenced in primary artifacts, but many judgments depend on absence inference due no sample exports or field-level schema.",
+      "alternatives": "4-5 were rejected because of substantial missing structural evidence; 1-2 were rejected because core export claims and section inventory are explicit and consistent.",
+      "uncertainty": "Confidence would increase with sample payloads and implementation documentation.",
+      "confidence": "moderate (3/5)",
+      "decision": "overall confidence = 3"
+    },
+    "confidence": 3,
+    "_strongestSignal": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The strongest positive signal is explicit documentation of export availability for both single-patient and population workflows plus a concrete 17-section C-CDA content list.",
+      "alternatives": "Using no strongest signal was rejected because format and section inventory are clearly documented.",
+      "uncertainty": "Signal strength is limited to high-level declarations without sample payload corroboration.",
+      "confidence": "high (4/5)",
+      "decision": "Strongest signal selected for directness and specificity in primary artifacts."
+    },
+    "strongestSignal": "The public SmartCare page explicitly documents single-patient and population export availability and lists 17 named C-CDA sections in XML-based output.",
+    "_biggestRisk": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections); results/streamline-healthcare-solutions/ehi-export-report.md (secondary synthesis; used only where primary artifacts are silent)",
+      "sourceQuality": "primary_direct,secondary",
+      "reasoning": "Highest-impact risk is that the documented export is a patient-summary CCDA projection with no explicit evidence of full designated-record-set financial and specialty-content coverage, while the page still frames it as all EHI export.",
+      "alternatives": "Choosing documentation freshness as top risk was rejected because fidelity/completeness uncertainty has larger downstream migration impact.",
+      "uncertainty": "Risk level could change with actual population export samples and field-level crosswalk documentation.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "biggestRisk emphasizes DRS completeness uncertainty over operational concerns."
+    },
+    "biggestRisk": "The documented output is a CCDA patient-summary projection with no direct evidence of full designated-record-set billing/payment and specialty patient-record coverage.",
+    "_summary": {
+      "sources": "results/streamline-healthcare-solutions/downloads/ehi-export-page.html:1057-1165 (SmartCare export bullets, CCDA/XML statement, and 17 listed sections); results/streamline-healthcare-solutions/downloads/ehi-export-page-wp-api.json (content.rendered; modified=2023-12-05T16:52:34; link slug electronic-health-information-export); results/streamline-healthcare-solutions/files.json (exact downloaded artifact inventory: 4 files under downloads/)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Summary reflects explicit strengths (clear high-level CCDA export claims) and explicit gaps (no sample files, no field/schema detail, no documented billing/payment structures).",
+      "alternatives": "A stronger positive summary was rejected because evidence quality is thin; a more negative summary was rejected because core export capability and section list are explicit.",
+      "uncertainty": "Overall conclusion remains sensitive to hidden customer documentation and unobserved payloads.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "Summary balances documented capability with major evidence gaps."
+    },
+    "summary": "SmartCare publicly documents self-service single and population CCDA/XML exports with a clear 17-section clinical summary scope, but the evidence remains structurally thin for migration use and leaves material designated-record-set completeness risk, especially for financial and specialty record domains."
+  },
+  "holisticNarrative": {
+    "summary": "The SmartCare evidence set is unusually concise: one public export page, one WP API representation of that same page, and screenshots. That page gives clear policy-level statements: single-patient and population exports are available, role-restricted, no additional fee, and output is CCDA/XML. It also names 17 C-CDA sections, which provides a concrete but narrow structural anchor.\n\nFrom a data-migration perspective, the main limitation is not whether export exists, but that almost all practical implementation detail is missing from public artifacts. There are no sample files, no field-level mappings, no value-set bindings, no relationship/key documentation, and no package manifest details. Under designated-record-set framing, this leaves meaningful uncertainty around billing/payment and specialty behavioral-health data completeness, even though clinical summary coverage is clearly signaled.",
+    "standoutObservations": [
+      "Clear declaration of both single-patient and population export availability without developer assistance.",
+      "Export format is explicitly constrained to CCDA/XML patient-summary documents.",
+      "Documentation depth is section-level only; no sample payloads or machine-readable schemas are provided.",
+      "Claims/payment completeness remains a high-impact uncertainty under DRS-based EHI scope."
+    ]
+  },
+  "notableFacts": [
+    "The SmartCare EHI page explicitly states export is available for both a single patient and a population without developer assistance.",
+    "The page states export is limited to system administrators and permissioned SmartCare users.",
+    "The documented output is \"CCDAs or patient summary documents\" in XML-based format.",
+    "The Data Included section lists 17 named C-CDA sections, including required sections for allergies, medications, problems, procedures, results, immunizations, and vital signs.",
+    "The page explicitly says there is no additional cost for Streamline customers to access this functionality.",
+    "No sample export files, field-level dictionaries, or machine-readable schema artifacts are present in the collected downloads."
+  ]
+}

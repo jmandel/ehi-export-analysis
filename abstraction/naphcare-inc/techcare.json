@@ -1,0 +1,1017 @@
+{
+  "meta": {
+    "schemaVersion": "2026-02-15.v9",
+    "assessedAt": "2026-02-15",
+    "assessor": "codex-gpt-5",
+    "status": "draft"
+  },
+  "scope": {
+    "vendorName": "NaphCare, Inc.",
+    "productFamily": "TechCare®",
+    "_includedProducts": {
+      "sources": "results/naphcare-inc/chpl-metadata.json; results/naphcare-inc/product-research.md; results/naphcare-inc/files.json",
+      "sourceQuality": "primary_direct + secondary",
+      "reasoning": "CHPL metadata lists one certified product in this evidence set: TechCare® Version 5.0. The EHI export URL and page branding both point to the TechCare 5.0 product family, and no separate product-specific export model is provided under results/naphcare-inc.",
+      "alternatives": "Splitting into multiple product families was rejected because no primary artifact in downloads/ documents a different b(10) export model.",
+      "uncertainty": "If future artifacts show a separate data model for another NaphCare product line, the scope should be split.",
+      "confidence": "high (4/5)",
+      "decision": "includedProducts is limited to the certified TechCare family represented by this export page."
+    },
+    "includedProducts": [
+      "TechCare® Version 5.0"
+    ],
+    "_excludedProducts": {
+      "sources": "results/naphcare-inc/chpl-metadata.json; results/naphcare-inc/product-research.md; results/naphcare-inc/files.json",
+      "sourceQuality": "primary_direct + secondary",
+      "reasoning": "Product research describes broader NaphCare service offerings (pharmacy, telehealth, analytics, operations), but the collected b(10) evidence set only includes TechCare export documentation and dictionary images.",
+      "alternatives": "Including non-TechCare service lines in this record was rejected because there is no corresponding export artifact set under results/naphcare-inc/downloads for those lines.",
+      "uncertainty": "If separate export docs are collected for other product lines, they should be abstracted in separate records.",
+      "confidence": "high (4/5)",
+      "decision": "excludedProducts prevents accidental over-aggregation of non-TechCare offerings."
+    },
+    "excludedProducts": [
+      "NaphCare service-only offerings not documented with their own b(10) export artifacts in this collection",
+      "Any non-TechCare product lines without direct export evidence under results/naphcare-inc/downloads"
+    ],
+    "_versionsInScope": {
+      "sources": "results/naphcare-inc/chpl-metadata.json; results/naphcare-inc/product-research.md; results/naphcare-inc/files.json; results/naphcare-inc/downloads/ehi-export-page.html (Current as of 11/28/2023)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The CHPL metadata ties the export URL to TechCare® Version 5.0, and the export page itself states it is current as of 2023-11-28. No separate versioned export guides are present.",
+      "alternatives": "Grouping multiple major versions was rejected because the artifact set does not provide continuity evidence across different TechCare major versions.",
+      "uncertainty": "Version scope can expand if additional version-specific export artifacts are collected.",
+      "confidence": "high (4/5)",
+      "decision": "versionsInScope follows the explicit certified version evidence."
+    },
+    "versionsInScope": [
+      "Version 5.0 (export page marked current as of 2023-11-28)"
+    ],
+    "scopeNotes": "Single-record scope intentionally constrained to TechCare® family export artifacts in results/naphcare-inc."
+  },
+  "exportPaths": [
+    {
+      "_mechanism": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (single patient can be exported any time without Developer assistance); results/naphcare-inc/downloads/screenshot-ehi-export-page-top.png; results/naphcare-inc/downloads/screenshot-ehi-export-full-page.png",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The page explicitly states single-patient EHI export is user-initiated in-product and can be run without developer assistance, which matches a UI single-patient workflow.",
+        "alternatives": "api_single_patient_export was rejected because no API endpoint is presented in the b(10) page; vendor_assisted_bulk_export was rejected for this path because the text describes direct user execution.",
+        "uncertainty": "The exact click path is not documented, but mechanism classification is explicit.",
+        "confidence": "high (5/5)",
+        "decision": "mechanism = ui_single_patient_export"
+      },
+      "mechanism": "ui_single_patient_export",
+      "_container": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (three file types; all CSV categories output; per-patient C-CDA + PDF material)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "A single-patient export produces multiple output files: multiple CSV category files, one patient C-CDA document, and PDF-converted images/scans. That is a multi-file package behavior rather than a single file.",
+        "alternatives": "single_file was rejected because documentation says all dictionary categories are CSV files and also includes C-CDA and PDF outputs. streaming_api and database_dump are not described.",
+        "uncertainty": "The exact wrapper (zip vs folder vs sequential downloads) is not named.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "container = multi_file_bundle"
+      },
+      "container": "multi_file_bundle",
+      "_formats": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (Documentation, Format Types and Processes; C-CDA section; PDF section)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The page explicitly names three output formats for EHI export: CSV, C-CDA, and PDF.",
+        "alternatives": "Any single-format choice (csv-only, ccda-only, pdf-only) was rejected because the documentation explicitly describes combined use of all three.",
+        "uncertainty": "No sample export package is present to confirm exact filename extensions beyond the declared formats.",
+        "confidence": "high (5/5)",
+        "decision": "formats = [csv, ccda, pdf]"
+      },
+      "formats": [
+        "csv",
+        "ccda",
+        "pdf"
+      ],
+      "_standardProfile": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (CSV dictionary + C-CDA document usage)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "This path combines vendor-native CSV extracts with C-CDA content for selected domains, so standards posture is mixed rather than purely native or purely C-CDA.",
+        "alternatives": "none_vendor_native was rejected because the path explicitly includes C-CDA; ccda_r21 alone was rejected because substantial output remains CSV/PDF.",
+        "uncertainty": "The page does not specify C-CDA template version details.",
+        "confidence": "moderate (3/5)",
+        "decision": "standardProfile = mixed"
+      },
+      "standardProfile": "mixed",
+      "_selfService": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (single patient can be exported at any time without Developer assistance; administrative rights statement)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Single-patient export is explicitly user-run without developer assistance, with role-based permission limits, so it qualifies as customer self-service for this field.",
+        "alternatives": "no was rejected because the documentation explicitly removes required developer involvement for this path. unknown was rejected because direct self-service language exists.",
+        "uncertainty": "Evidence does not enumerate tenant-level permission setup process, only runtime behavior.",
+        "confidence": "high (5/5)",
+        "rule": "Self-service evaluates whether customer organization staff can execute the export path without required vendor operation.",
+        "decision": "selfService = yes"
+      },
+      "selfService": "yes",
+      "_operationalBurden": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (minutes or seconds completion; admin-rights restriction); results/naphcare-inc/downloads/image001.png",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The path is fast (minutes/seconds) but role-restricted to administrative users; this indicates manageable friction rather than trivial immediate access for any user.",
+        "alternatives": "Scores 0-1 were rejected due access gating. Scores 3-5 were rejected because the page describes quick completion and no developer dependence.",
+        "uncertainty": "Operational burden could vary by local governance and patient data volume.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "operationalBurden = 2"
+      },
+      "operationalBurden": 2,
+      "notes": "Single-patient export is directly described as admin-run and near-immediate, with mixed-format outputs (CSV + C-CDA + PDF)."
+    },
+    {
+      "_mechanism": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (all EHI for all patients via side-loaded export engine); results/naphcare-inc/downloads/screenshot-ehi-export-page-top.png; results/naphcare-inc/downloads/screenshot-ehi-export-full-page.png",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The all-patients workflow is described as an in-product bulk export using a side-loaded export engine, which maps to a UI bulk export path.",
+        "alternatives": "vendor_assisted_bulk_export was rejected because no vendor ticket or required external operation is described. api_bulk_export was rejected because no API path is documented on the b(10) page.",
+        "uncertainty": "The trigger controls for the side-loaded engine are not shown explicitly.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "mechanism = ui_bulk_export"
+      },
+      "mechanism": "ui_bulk_export",
+      "_container": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (all patients outputs same file types; all categories output as CSV plus C-CDA/PDF statements)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Bulk export yields the same multi-format artifact set as single-patient export, which implies a multi-file bundle/container behavior for population output.",
+        "alternatives": "single_file was rejected because many category CSVs plus C-CDA/PDF cannot be represented as one file in this description. database_dump and streaming_api are not evidenced.",
+        "uncertainty": "Exact partitioning strategy for full-roster output (by patient, by table chunk, by time windows) is not documented.",
+        "confidence": "moderate (3/5)",
+        "decision": "container = multi_file_bundle"
+      },
+      "container": "multi_file_bundle",
+      "_formats": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (same three file types apply to all-patients export)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The all-patients path explicitly reuses the same three output formats: CSV, C-CDA, and PDF.",
+        "alternatives": "A narrower format list was rejected because the text says all-patients output uses the same data file types as single-patient export.",
+        "uncertainty": "No sample all-patients package is available to validate exact file naming conventions.",
+        "confidence": "high (4/5)",
+        "decision": "formats = [csv, ccda, pdf]"
+      },
+      "formats": [
+        "csv",
+        "ccda",
+        "pdf"
+      ],
+      "_standardProfile": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (all-patient output uses CSV + C-CDA + PDF combination)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Because this path includes both vendor-native CSV and C-CDA-derived domains, profile classification is mixed.",
+        "alternatives": "none_vendor_native and ccda_r21 alone were rejected because neither individually describes the combined output model.",
+        "uncertainty": "C-CDA version details are not specified, limiting precision.",
+        "confidence": "moderate (3/5)",
+        "decision": "standardProfile = mixed"
+      },
+      "standardProfile": "mixed",
+      "_selfService": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (all-patients side-loaded export engine description)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The documentation confirms the bulk mechanism exists but does not explicitly state whether customer staff independently initiates and retrieves every bulk run without additional operational dependency.",
+        "alternatives": "yes was rejected because self-service language is explicit only for single-patient export. no was rejected because there is no explicit vendor-required operation statement.",
+        "uncertainty": "A direct workflow screenshot or runbook for full-roster execution could resolve this.",
+        "confidence": "moderate (3/5)",
+        "rule": "Use unknown when docs are insufficient to distinguish yes vs no.",
+        "decision": "selfService = unknown"
+      },
+      "selfService": "unknown",
+      "_operationalBurden": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (side-loaded export engine that continuously produces all-patient files; admin-rights statement earlier in page)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Population export via side-loaded engine implies more coordination and runtime overhead than single-patient export, while still being a standard documented pathway.",
+        "alternatives": "Scores 0-2 were rejected because bulk, continuous file production is operationally heavier. Scores 4-5 were rejected because no explicit vendor ticketing or hard gate is documented.",
+        "uncertainty": "Actual burden may vary substantially by roster size and export cadence.",
+        "confidence": "moderate (3/5)",
+        "decision": "operationalBurden = 3"
+      },
+      "operationalBurden": 3,
+      "notes": "Bulk path is explicitly documented but not accompanied by sample output package or operational screenshots beyond narrative text."
+    }
+  ],
+  "documentation": {
+    "_hasDataDictionary": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html (Data Dictionary section); results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The export page includes a dedicated data dictionary section with 12 table screenshots showing field-level schema columns.",
+      "alternatives": "no was rejected because the dictionary is directly present in the artifact set; unknown was rejected because table headings and schema columns are visible.",
+      "uncertainty": "Dictionary is image-based rather than easily machine-consumable.",
+      "confidence": "high (5/5)",
+      "decision": "hasDataDictionary = yes"
+    },
+    "hasDataDictionary": "yes",
+    "_hasMachineReadableSchema": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html; results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No OpenAPI, JSON Schema, XSD, SQL DDL, or equivalent machine-readable schema artifact is provided; dictionary content is embedded in screenshots.",
+      "alternatives": "yes was rejected because image tables are not machine-readable schemas by rubric definition.",
+      "uncertainty": "Could change if vendor publishes schema files alongside this page.",
+      "confidence": "high (5/5)",
+      "rule": "Do not mark yes solely because HTML/images are parseable.",
+      "decision": "hasMachineReadableSchema = no"
+    },
+    "hasMachineReadableSchema": "no",
+    "_describesFieldNames": {
+      "sources": "results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Each dictionary screenshot includes a Name column listing field names for the documented tables.",
+      "alternatives": "no was rejected because field names are explicitly visible across all table screenshots.",
+      "uncertainty": "OCR quality varies, but raw images clearly present named fields.",
+      "confidence": "high (4/5)",
+      "decision": "describesFieldNames = yes"
+    },
+    "describesFieldNames": "yes",
+    "_describesFieldTypes": {
+      "sources": "results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Each table includes a Data type column (e.g., nvarchar, datetime, int, float, date), providing explicit type declarations for documented fields.",
+      "alternatives": "no was rejected because typed column values are repeatedly shown in the dictionary screenshots.",
+      "uncertainty": "Some OCR artifacts affect exact token spelling, but source images preserve type intent.",
+      "confidence": "high (4/5)",
+      "decision": "describesFieldTypes = yes"
+    },
+    "describesFieldTypes": "yes",
+    "_describesFieldSemantics": {
+      "sources": "results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Description/Attributes columns provide business/clinical meaning (for example custody status semantics, allergy class, vaccine manufacturer references, appointment reason).",
+      "alternatives": "no was rejected because content goes beyond names/types and explains meaning and usage for many fields.",
+      "uncertainty": "Semantic detail is stronger for CSV tables than for C-CDA-only domains.",
+      "confidence": "high (4/5)",
+      "decision": "describesFieldSemantics = yes"
+    },
+    "describesFieldSemantics": "yes",
+    "_describesValueSets": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html (active/not active, C-CDA domain list); results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg (examples: Gender values, Was Given yes/no, ICD-10/CVX/SNOMED references, lookup-table references)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The documentation includes explicit allowed values in multiple places (e.g., ACTIVE/NOT ACTIVE, Yes/No, M/F) and coded bindings/references (ICD-10, SNOMED concept naming, CVX/MVX, lookup tables).",
+      "alternatives": "no was rejected because explicit enumeration and code-binding evidence is present in the dictionary descriptions.",
+      "uncertainty": "Many referenced lookup tables are named but not fully enumerated.",
+      "confidence": "moderate-high (4/5)",
+      "rule": "Use yes with explicit enumerations or code bindings; this criterion is met even though coverage is uneven.",
+      "decision": "describesValueSets = yes"
+    },
+    "describesValueSets": "yes",
+    "_describesRelationships": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html (INMATES.ID foundational link; one-to-one and one-to-many statement); results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg (References: dbo.* lookups in field descriptions)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The assumptions section explicitly states INMATES.ID is the foundational link across other tables with one-to-one and one-to-many relationships, and table descriptions repeatedly reference related lookup tables.",
+      "alternatives": "no was rejected because the page contains direct relationship statements, not only inferred joins.",
+      "uncertainty": "There is no full ERD or complete FK matrix, so relationship detail is partial.",
+      "confidence": "moderate-high (4/5)",
+      "rule": "Explicit relationship statements are sufficient for yes even without a full ERD.",
+      "decision": "describesRelationships = yes"
+    },
+    "describesRelationships": "yes",
+    "_describesKeysConstraints": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html (INMATES.ID unique/primary key statement; one-to-one/one-to-many); results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg (Unique Key + NULLABLE columns per table)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Key and constraint semantics are documented beyond a lone ID claim: unique/primary key declaration, relationship cardinality statement, and per-field nullability flags in each table image.",
+      "alternatives": "no was rejected because the dictionary includes systematic nullability and unique-key context across entities.",
+      "uncertainty": "Composite keys and formal database constraint syntax are not provided.",
+      "confidence": "moderate-high (4/5)",
+      "rule": "Rubric permits yes when key/constraint behavior is explicitly documented beyond a single uniqueness statement.",
+      "decision": "describesKeysConstraints = yes"
+    },
+    "describesKeysConstraints": "yes",
+    "_hasSampleData": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html; results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg; results/naphcare-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Artifacts provide process narrative and schema-style dictionary screenshots, but no sample CSV rows, no sample C-CDA payload, and no sample PDF export package from real patient data.",
+      "alternatives": "yes was rejected because dictionary schema snapshots are not sample export payload data.",
+      "uncertainty": "Would change immediately if any example export bundle is added under downloads/.",
+      "confidence": "high (5/5)",
+      "decision": "hasSampleData = no"
+    },
+    "hasSampleData": "no",
+    "_sampleRepresentativeness": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html; results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg; results/naphcare-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "With no sample export payload artifacts, representativeness is none.",
+      "alternatives": "Scores above 0 were rejected because no sample patient-level files are present.",
+      "uncertainty": "Could increase if realistic sample bundles are published.",
+      "confidence": "high (5/5)",
+      "decision": "sampleRepresentativeness = 0"
+    },
+    "sampleRepresentativeness": 0,
+    "_docsCurrentness": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html (Current as of 11/28/2023)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The only explicit freshness marker is 2023-11-28. Relative to 2026-02 assessment date, documentation is not current and has no visible revision history.",
+      "alternatives": "Scores 4-5 were rejected because no recent updates or active versioning are shown. Score 0 was rejected because a concrete date is provided.",
+      "uncertainty": "Currentness could improve with a visible changelog or newer dated revision.",
+      "confidence": "high (4/5)",
+      "decision": "docsCurrentness = 2"
+    },
+    "docsCurrentness": 2,
+    "_maturity": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html; results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Documentation is strong enough to expose many CSV tables with names/types/nullability and relationship hints, but it lacks machine-readable schema and sample payloads, and C-CDA/PDF sections are high-level.",
+      "alternatives": "basic was rejected because field-level dictionary depth is broader than minimal. strong/excellent were rejected due missing schemas, missing samples, and limited C-CDA structural detail.",
+      "uncertainty": "Maturity would rise with sample exports, lookup-table enumerations, and machine-readable specs.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "maturity = good"
+    },
+    "maturity": "good",
+    "notes": "Dictionary depth is meaningful for CSV domains, but non-CSV domains remain under-specified for implementation-grade migration work."
+  },
+  "fidelityRisk": {
+    "_representationType": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html (all dictionary categories as CSV + C-CDA-exclusive list + PDF attachments); results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The export exposes substantial native table structure (12 CSV entities) while routing several clinical domains through C-CDA and document/image content through PDF, indicating a mixed native-plus-projection posture.",
+      "alternatives": "native_model_like was rejected because major domains are projected via C-CDA/PDF rather than fully table-exposed. external_standard_projection was rejected because CSV native tables remain central.",
+      "uncertainty": "Without real sample packages, exact balance of native vs projected content remains partly inferential.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "representationType = native_plus_projection"
+    },
+    "representationType": "native_plus_projection",
+    "_modelExposureLevel": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html; results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Entity-level exposure is clear for 12 CSV domains, but many clinically important areas (vitals, plan of care, mental/functional status, assessments, documents) are represented via C-CDA/PDF rather than broad relational entities.",
+      "alternatives": "summary_projection was rejected because CSV tables are not just one-column rollups. broad_entity_model/operational_model_like were rejected because coverage outside those 12 tables is less structurally explicit.",
+      "uncertainty": "Could move upward if additional table entities or detailed C-CDA mappings are provided.",
+      "confidence": "moderate (3/5)",
+      "decision": "modelExposureLevel = partial_entity_model"
+    },
+    "modelExposureLevel": "partial_entity_model",
+    "_mappingTarget": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html (CSV + C-CDA + PDF strategy declaration)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The export explicitly mixes vendor-native CSV representation with C-CDA for selected domains; mapping target is therefore mixed.",
+      "alternatives": "none was rejected because C-CDA is explicit. ccda alone was rejected because many domains are exported as CSV. fhir/flat_tables are not claimed as mapping targets.",
+      "uncertainty": "C-CDA template profile details are missing.",
+      "confidence": "high (4/5)",
+      "decision": "mappingTarget = mixed"
+    },
+    "mappingTarget": "mixed",
+    "_projectionLossRisk": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html; results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg; results/naphcare-inc/chpl-metadata.json; results/naphcare-inc/product-research.md; results/naphcare-inc/files.json",
+      "sourceQuality": "primary_direct + secondary",
+      "reasoning": "Core clinical/order domains are represented, but several EHI-relevant areas expected from broader product context (insurance/claims/payments and potentially richer encounter documentation) are not explicitly represented in dictionary tables or C-CDA list.",
+      "alternatives": "Scores 0-2 were rejected because documented omissions/under-specification are material. Scores 4-5 were rejected because substantial clinical content is still exported through CSV/C-CDA/PDF.",
+      "uncertainty": "Risk could decrease with sample exports showing those domains in C-CDA/PDF payloads.",
+      "confidence": "moderate (3/5)",
+      "decision": "projectionLossRisk = 3"
+    },
+    "projectionLossRisk": 3,
+    "_conflationRisk": {
+      "sources": "results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg; results/naphcare-inc/downloads/ehi-export-page.html (C-CDA-exclusive domain list)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Conflation risk is moderate because multiple nuanced clinical concepts are bundled under broad C-CDA section labels (Assessments, Mental Status, Functional Status) without field-level mapping detail.",
+      "alternatives": "Low scores (0-1) were rejected because mapping granularity is not documented. High scores (4-5) were rejected because CSV tables themselves are fairly discrete and typed.",
+      "uncertainty": "Could be revised with section-level C-CDA templates or examples.",
+      "confidence": "moderate (3/5)",
+      "decision": "conflationRisk = 3"
+    },
+    "conflationRisk": 3,
+    "_reconstructionDifficulty": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html; results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Reconstruction is feasible for CSV domains due field/type/nullable details, but cross-format assembly with C-CDA and PDF plus missing sample payloads creates moderate integration effort and assumptions.",
+      "alternatives": "Scores 0-2 were rejected because non-CSV domains require additional parsing/mapping work. Scores 4-5 were rejected because dictionary detail for CSV tables is still substantive.",
+      "uncertainty": "Difficulty would drop with sample bundles and machine-readable schemas.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "reconstructionDifficulty = 3"
+    },
+    "reconstructionDifficulty": 3,
+    "_keyLossPatterns": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html; results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Evidence repeatedly shows native key structure for CSV tables but weaker key visibility in C-CDA/PDF segments, producing recurring key-loss risk patterns.",
+      "alternatives": "No key-loss pattern list was rejected because cross-format structure asymmetry is explicit in the source artifacts.",
+      "uncertainty": "Pattern severity could be refined with sample exports.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "keyLossPatterns captures repeated structural asymmetries across formats."
+    },
+    "keyLossPatterns": [
+      "C-CDA-only domains are listed by topic but not mapped field-by-field to CSV keys, making cross-format joins less explicit.",
+      "PDF-converted scanned records rely on file naming for patient identification rather than structured relational links.",
+      "Lookup-table references are named (dbo.*) but lookup value catalogs are not exported in the visible dictionary artifacts.",
+      "Some medication/order semantics depend on free-text comment fields, increasing interpretation variance."
+    ],
+    "_likelyOmittedAreas": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html; results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg; results/naphcare-inc/chpl-metadata.json; results/naphcare-inc/product-research.md; results/naphcare-inc/files.json",
+      "sourceQuality": "primary_direct + secondary",
+      "reasoning": "Insurance, claims/billing, and payment domains are not explicitly listed in dictionary tables or C-CDA-exclusive categories despite broader product claims that could imply financial workflows.",
+      "alternatives": "An empty omissions list was rejected because explicit table/section evidence for these EHI-relevant domains is absent.",
+      "uncertainty": "If those domains are actually embedded in C-CDA/PDF payloads, this call should be revised with direct samples.",
+      "confidence": "moderate (3/5)",
+      "decision": "likelyOmittedAreas focuses on high-impact EHI domains absent from explicit export documentation."
+    },
+    "likelyOmittedAreas": [
+      "Insurance/enrollment detail is not explicitly represented in the documented CSV tables or C-CDA section list.",
+      "Claims and billing records are not explicitly represented in the documented export categories.",
+      "Payments/posting detail is not explicitly represented in the documented export categories.",
+      "Structured consent/directive artifacts are not explicitly represented in the documented export categories."
+    ]
+  },
+  "domainCoverage": [
+    {
+      "domain": "demographics",
+      "_coverage": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (Data Dictionary Demographics heading + INMATES.ID statement); results/naphcare-inc/downloads/image003.jpg",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Demographics are directly documented with a dedicated table and multiple patient identity fields (ID, booking number/date, custody status, names, DOB, gender, housing, SSN), indicating broad domain presence.",
+        "alternatives": "present_but_not_comprehensive was rejected because the dedicated demographics table is detailed and central. not_clearly_present was rejected due explicit table evidence.",
+        "uncertainty": "Coverage breadth beyond listed columns (for example additional address/phone fields) is not shown.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "confidence": 4,
+      "notes": "Demographics table is explicit and detailed in dictionary screenshots."
+    },
+    {
+      "domain": "encounters",
+      "_coverage": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (PDF section: entire encounter history documentation); results/naphcare-inc/downloads/image018.png",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The PDF section states each patient’s entire encounter history documentation is included, but encounter data is not exposed as a clearly structured CSV entity.",
+        "alternatives": "plausibly_comprehensive was rejected because encounter structure is largely narrative/document-oriented here. not_clearly_present was rejected because encounter-history inclusion is explicitly stated.",
+        "uncertainty": "Extent of discrete encounter metadata in export files is unclear without samples.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 3,
+      "notes": "Encounter history is explicitly claimed, but structural granularity is not well specified."
+    },
+    {
+      "domain": "problems_conditions",
+      "_coverage": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (Problem List heading); results/naphcare-inc/downloads/image009.jpg",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Problem List is a named dictionary table with coded fields (ICD-10) and lifecycle dates, supporting broad coverage of problems/conditions.",
+        "alternatives": "present_but_not_comprehensive was rejected because the table appears purpose-built for this domain. not_clearly_present was rejected due direct table evidence.",
+        "uncertainty": "Longitudinal problem provenance beyond listed fields is uncertain.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "confidence": 4,
+      "notes": "Problem List table includes identifiers, coded problem field, and resolved metadata."
+    },
+    {
+      "domain": "medications",
+      "_coverage": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (Medications heading + C-CDA Medication Administrations); results/naphcare-inc/downloads/image005.jpg",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Medication coverage includes a detailed Medications CSV table plus C-CDA Medication Administrations, covering both order and administration perspectives.",
+        "alternatives": "present_but_not_comprehensive was rejected because both order-level and administration-level channels are documented. not_clearly_present was rejected by explicit table/list evidence.",
+        "uncertainty": "Dispense and pharmacy fulfillment details are not separately enumerated in the dictionary.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "confidence": 4,
+      "notes": "CSV medication order fields are extensive; administrations are listed in C-CDA section."
+    },
+    {
+      "domain": "allergies",
+      "_coverage": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (Allergies heading); results/naphcare-inc/downloads/image007.jpg",
+        "sourceQuality": "primary_direct",
+        "reasoning": "A dedicated Allergies table is documented with type/class, onset/stop dates, reaction description, and coding references, indicating meaningful domain breadth.",
+        "alternatives": "present_but_not_comprehensive was rejected because table depth is substantial. not_clearly_present was rejected by explicit table presence.",
+        "uncertainty": "Severity/criticality attributes are not clearly visible in documented columns.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "confidence": 4,
+      "notes": "Allergy domain is clearly represented as structured CSV fields."
+    },
+    {
+      "domain": "immunizations",
+      "_coverage": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (Immunizations heading); results/naphcare-inc/downloads/image020.jpg",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Immunizations has a dedicated detailed table (CVX/MVX references, lot/expiration, VIS tracking, refusal reasons), which indicates broad domain representation.",
+        "alternatives": "present_but_not_comprehensive was rejected because the immunization table includes many clinically relevant attributes. not_clearly_present was rejected due direct table evidence.",
+        "uncertainty": "External registry linkage metadata is not clearly documented.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "confidence": 4,
+      "notes": "Immunizations is one of the most detailed dictionary tables."
+    },
+    {
+      "domain": "vitals",
+      "_coverage": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (C-CDA list includes Vitals Signs)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Vital signs are explicitly listed as C-CDA-only content, so the domain is present but structurally less transparent than CSV domains.",
+        "alternatives": "plausibly_comprehensive was rejected because no table-level field inventory is shown for vitals. not_clearly_present was rejected because the C-CDA list names the domain directly.",
+        "uncertainty": "Without sample C-CDA files, completeness of vital-sign detail cannot be verified.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 3,
+      "notes": "Vitals are present via C-CDA section, not dictionary table columns."
+    },
+    {
+      "domain": "laboratory",
+      "_coverage": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (Lab Orders heading + C-CDA Diagnostic Results); results/naphcare-inc/downloads/image015.png",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Laboratory domain appears through Lab Orders CSV and Diagnostic Results in C-CDA, demonstrating meaningful but split representation across formats.",
+        "alternatives": "plausibly_comprehensive was rejected because result-level structure is only named in C-CDA without detailed mapping. not_clearly_present was rejected due explicit Lab Orders and Diagnostic Results references.",
+        "uncertainty": "Result component granularity and reference ranges are unknown from available artifacts.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Orders are explicit CSV; result payload detail depends on unseen C-CDA instances."
+    },
+    {
+      "domain": "diagnostic_reports",
+      "_coverage": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (C-CDA list includes Diagnostic Results)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Diagnostic Results are explicitly listed in the C-CDA-only section, indicating domain presence through standardized document output.",
+        "alternatives": "plausibly_comprehensive was rejected because no report-type inventory or section-level mapping is given. not_clearly_present was rejected because Diagnostic Results are explicitly named.",
+        "uncertainty": "Imaging narrative/report payload breadth is not evidenced in detail.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 3,
+      "notes": "Diagnostic reporting is present via C-CDA mention only."
+    },
+    {
+      "domain": "procedures",
+      "_coverage": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (no explicit Procedures section; order sections only)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No explicit Procedures table or C-CDA procedure section is named in the documentation; documented order tables do not prove performed procedure capture.",
+        "alternatives": "present_but_not_comprehensive was rejected because evidence is indirect. plausibly_comprehensive was rejected due absence of direct procedure-domain artifacts.",
+        "uncertainty": "Procedure detail might exist inside C-CDA documents but is not explicitly stated.",
+        "confidence": "moderate-low (2/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "confidence": 2,
+      "notes": "Order tables alone are insufficient proof of procedure-record coverage."
+    },
+    {
+      "domain": "clinical_notes",
+      "_coverage": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (PDF scanned records + encounter history; C-CDA Assessments/Mental Status/Social History)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Clinical narrative appears through PDF-exported scanned records/encounter documentation and C-CDA assessment-related sections, but not as a clearly enumerated notes table.",
+        "alternatives": "plausibly_comprehensive was rejected because note-type breadth is not explicitly cataloged. not_clearly_present was rejected because encounter documentation and scanned progress-note references are explicit.",
+        "uncertainty": "The proportion of structured vs scanned note content is unknown.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 3,
+      "notes": "Narrative note content is represented primarily through C-CDA/PDF pathways."
+    },
+    {
+      "domain": "care_plans_goals",
+      "_coverage": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (C-CDA list includes Treatment Plans (Plan of Care))",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Treatment Plans (Plan of Care) are explicitly listed under C-CDA content, showing direct domain presence.",
+        "alternatives": "plausibly_comprehensive was rejected because no plan/goal field inventory is shown. not_clearly_present was rejected due explicit Plan of Care listing.",
+        "uncertainty": "Goal-level metadata completeness cannot be judged without sample C-CDA.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 3,
+      "notes": "Care plan information is present but only described at section-name level."
+    },
+    {
+      "domain": "orders_referrals",
+      "_coverage": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (Diet Orders, Lab Orders, Treatment Orders, Specialty Consult Orders, Admission Orders); results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Multiple order/referral-oriented tables are explicitly documented (Diet, Lab, Treatment, Specialty Consult, Admission), giving broad coverage of this domain family.",
+        "alternatives": "present_but_not_comprehensive was rejected because several distinct order/referral workflows are directly represented. not_clearly_present was rejected by the explicit table set.",
+        "uncertainty": "Exact status lifecycle semantics across all order types are not fully harmonized in docs.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "confidence": 4,
+      "notes": "Orders/referrals are one of the strongest structured parts of the export."
+    },
+    {
+      "domain": "documents_attachments",
+      "_coverage": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (PDF - Images and Scanned Paper Records section)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The PDF section explicitly states images and scanned paper records are exported for each patient, supporting broad document/attachment presence.",
+        "alternatives": "present_but_not_comprehensive was rejected because the section asserts inclusion of any/all images and scanned records. not_clearly_present was rejected due direct statement.",
+        "uncertainty": "Document metadata depth and indexing fields are not specified.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "confidence": 4,
+      "notes": "Attachment payload is present as PDF-converted document/image artifacts."
+    },
+    {
+      "domain": "insurance",
+      "_coverage": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (no insurance table/section); results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No insurance/enrollment table or C-CDA section is explicitly documented in the export artifacts.",
+        "alternatives": "present_but_not_comprehensive and plausibly_comprehensive were rejected because there is no direct insurance-domain artifact in the dictionary or C-CDA list.",
+        "uncertainty": "Insurance content could exist in unseen payloads but is not evidenced by current documentation.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "confidence": 4,
+      "notes": "Absence call is documentation-based; no explicit insurance export unit is shown."
+    },
+    {
+      "domain": "claims_billing",
+      "_coverage": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (no claims/billing table/section); results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Claims/billing records are not explicitly represented in the table list or C-CDA-only domain list.",
+        "alternatives": "present_but_not_comprehensive and plausibly_comprehensive were rejected due lack of direct claims/billing export evidence.",
+        "uncertainty": "This could change if financial tables exist in uncollected artifacts or hidden payloads.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "confidence": 4,
+      "notes": "Potential EHI gap if product stores patient billing data not represented here."
+    },
+    {
+      "domain": "payments",
+      "_coverage": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (no payments table/section); results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No payment transaction/posting data is explicitly identified in dictionary tables or C-CDA section.",
+        "alternatives": "present_but_not_comprehensive and plausibly_comprehensive were rejected due absent direct payment-domain evidence.",
+        "uncertainty": "Could be embedded in unseen files, but no explicit documentation supports that.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "confidence": 4,
+      "notes": "Payments are not explicitly documented in the export domain inventory."
+    },
+    {
+      "domain": "scheduling",
+      "_coverage": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (Appointments heading); results/naphcare-inc/downloads/image012.png",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Appointments table provides scheduling signals (scheduled/completed dates, type, status, reason, created/completed by), establishing meaningful domain presence.",
+        "alternatives": "plausibly_comprehensive was rejected because only one scheduling-oriented table is explicitly shown. not_clearly_present was rejected because the appointments table is direct evidence.",
+        "uncertainty": "Resource/provider schedule structures beyond appointments are not documented.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Patient appointment scheduling is present; broader scheduling context is unclear."
+    },
+    {
+      "domain": "consents_directives",
+      "_coverage": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (no consent/directive section)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No explicit consent or advance-directive export table/section is identified in the provided artifacts.",
+        "alternatives": "present_but_not_comprehensive and plausibly_comprehensive were rejected because evidence for this domain is absent in named categories.",
+        "uncertainty": "Could exist in C-CDA sections not enumerated here, but this is not demonstrated.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "confidence": 3,
+      "notes": "Documentation does not explicitly represent consent/directive records."
+    },
+    {
+      "domain": "patient_communications",
+      "_coverage": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (Flags table is alerts; no patient messaging export section); results/naphcare-inc/downloads/image011.jpg",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The documented Flags table appears to be internal patient alerting metadata, not clearly patient-originated communication threads/messages.",
+        "alternatives": "present_but_not_comprehensive was rejected because explicit patient communication export evidence is lacking. plausibly_comprehensive was rejected for the same reason.",
+        "uncertainty": "If patient portal messaging is exported elsewhere, it is not documented in current artifacts.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "confidence": 3,
+      "notes": "Do not equate internal alert flags with full patient communication history without explicit evidence."
+    },
+    {
+      "domain": "audit_provenance",
+      "_coverage": {
+        "sources": "results/naphcare-inc/downloads/ehi-export-page.html (no audit/access log table); EHI scope rule in task prompt",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No audit/access-log export category is documented, and audit logs are out-of-scope for EHI completeness under the designated-record-set rule provided in the task prompt.",
+        "alternatives": "present_but_not_comprehensive and plausibly_comprehensive were rejected because no audit-log export artifact is shown and this category is not required EHI in this rubric context.",
+        "uncertainty": "If provenance relevant to clinical decision records is separately exported, it is not explicitly described here.",
+        "confidence": "high (5/5)",
+        "rule": "Audit logs are not EHI for this assessment unless they are part of designated-record-set decision records.",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "confidence": 5,
+      "notes": "Not treated as missing EHI per scope rule; absence does not reduce designated-record-set completeness."
+    }
+  ],
+  "quantitativeProfile": {
+    "artifactCounts": {
+      "totalArtifactsReviewed": {
+        "status": "measured",
+        "value": 20,
+        "method": "exact",
+        "notes": "Reviewed 16 files in results/naphcare-inc/downloads plus 4 context artifacts (chpl-metadata.json, product-research.md, ehi-export-report.md, files.json)."
+      },
+      "exportArtifactsDocumented": {
+        "status": "measured",
+        "value": 13,
+        "method": "exact",
+        "notes": "Primary export-structure artifacts: ehi-export-page.html + 12 data-dictionary table screenshots."
+      },
+      "sampleDataArtifacts": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No sample CSV/C-CDA/PDF patient payload bundles were provided."
+      },
+      "dictionaryOrSchemaArtifacts": {
+        "status": "measured",
+        "value": 13,
+        "method": "exact",
+        "notes": "One narrative/spec page plus 12 dictionary images."
+      },
+      "machineReadableSchemaArtifacts": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No machine-readable schema files (OpenAPI/XSD/JSON schema/DDL) were found."
+      }
+    },
+    "modelEntityCounts": {
+      "documentedEntities": {
+        "status": "measured",
+        "value": 12,
+        "method": "exact",
+        "notes": "Dictionary sections: Demographics, Medications, Allergies, Problem List, Flags, Appointments, Diet Orders, Lab Orders, Treatment Orders, Specialty Consult Orders, Admission Orders, Immunizations."
+      },
+      "observedEntities": {
+        "status": "not_observable",
+        "notes": "No sample export payload files were available to count observed entities in actual output."
+      },
+      "exportDistinctUnits": {
+        "status": "measured",
+        "value": 14,
+        "method": "derived",
+        "notes": "Derived unit classes from docs: 12 CSV category outputs + per-patient C-CDA + PDF document/image output class."
+      }
+    },
+    "fieldCounts": {
+      "documentedFields": {
+        "status": "measured",
+        "value": 163,
+        "method": "estimated",
+        "notes": "Estimated by counting field rows across 12 dictionary screenshots after OCR-assisted transcription; minor OCR ambiguity remains in a few rows."
+      },
+      "observedFields": {
+        "status": "not_observable",
+        "notes": "No sample payload artifacts to directly count observed output fields."
+      },
+      "fieldsWithTypeInfo": {
+        "status": "measured",
+        "value": 163,
+        "method": "estimated",
+        "notes": "Dictionary tables include a Data type column for essentially every documented row; estimated to match documented field count."
+      },
+      "fieldsWithSemanticDescription": {
+        "status": "measured",
+        "value": 163,
+        "method": "estimated",
+        "notes": "Description/Attributes column is populated for documented rows; count estimated to align with documented field rows."
+      },
+      "codedFields": {
+        "status": "measured",
+        "value": 33,
+        "method": "estimated",
+        "notes": "Estimated coded/enumerated fields based on explicit value constraints and code/lookup bindings (ICD-10, SNOMED, CVX/MVX, status and yes/no fields, referenced lookup tables)."
+      }
+    },
+    "relationshipCounts": {
+      "documentedRelationships": {
+        "status": "measured",
+        "value": 24,
+        "method": "estimated",
+        "notes": "Estimated from explicit INMATES.ID hub statement plus repeated lookup-table reference relationships documented across order/clinical tables."
+      },
+      "documentedPrimaryKeys": {
+        "status": "measured",
+        "value": 12,
+        "method": "estimated",
+        "notes": "Each table includes a Unique Key column; INMATES.ID is explicitly declared unique/primary in assumptions."
+      },
+      "documentedForeignKeys": {
+        "status": "measured",
+        "value": 16,
+        "method": "estimated",
+        "notes": "Estimated count of explicit cross-table references to dbo.* lookup/user/code tables in field descriptions."
+      },
+      "documentedConstraints": {
+        "status": "measured",
+        "value": 163,
+        "method": "estimated",
+        "notes": "Per-field NULLABLE flags are provided throughout dictionary tables; count approximates documented field total."
+      }
+    },
+    "valueSetCounts": {
+      "documentedValueSets": {
+        "status": "measured",
+        "value": 15,
+        "method": "estimated",
+        "notes": "Estimated from named lookup/code sets and explicit enumerations visible in descriptions (including status, yes/no, and referenced dbo.* lookups)."
+      },
+      "valueSetsWithCodeSystem": {
+        "status": "measured",
+        "value": 5,
+        "method": "estimated",
+        "notes": "Named standards/coding systems explicitly visible include ICD-10, SNOMED, CVX, MVX, and NDC/GPI medication coding references."
+      },
+      "fieldsBoundToValueSets": {
+        "status": "measured",
+        "value": 18,
+        "method": "estimated",
+        "notes": "Estimated number of fields explicitly tied to lookup tables or constrained code/value sets."
+      },
+      "localCustomValueSets": {
+        "status": "measured",
+        "value": 10,
+        "method": "estimated",
+        "notes": "Estimated vendor-local value sets based on referenced dbo.* lookup tables (for example appointment type, off-site specialty, admission management type)."
+      }
+    },
+    "projectionSignals": {
+      "entitiesWithOnlyIdPlusOnePayloadField": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "Documented CSV tables generally expose multiple typed fields rather than one payload blob alongside ID."
+      },
+      "domainsWithoutDocumentedJoinKey": {
+        "status": "measured",
+        "value": 9,
+        "method": "estimated",
+        "notes": "Estimated count of canonical domains lacking explicit cross-entity join-key documentation in the artifacts (primarily C-CDA/PDF-only or non-documented domains)."
+      }
+    },
+    "notes": "Quantitative counts are anchored to visible dictionary artifacts; fields/relationships/value-set metrics using OCR-assisted row counting are intentionally marked estimated where screenshot quality limits exactness."
+  },
+  "accessConstraints": {
+    "_docsPubliclyAccessible": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html; results/naphcare-inc/downloads/screenshot-ehi-export-page-top.png; results/naphcare-inc/downloads/screenshot-ehi-export-full-page.png; results/naphcare-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The EHI export documentation page and linked content images are publicly reachable in this evidence set without an authentication barrier.",
+      "alternatives": "no was rejected because artifacts were collected directly via public URL. unknown was rejected because accessibility is directly demonstrated.",
+      "uncertainty": "Runtime product export execution permissions are separate from doc accessibility.",
+      "confidence": "high (5/5)",
+      "decision": "docsPubliclyAccessible = yes"
+    },
+    "docsPubliclyAccessible": "yes",
+    "_roleRestricted": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html (only specific users with administrative rights can create export file)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The page explicitly states only users with administrative rights can create export files, which is a direct role restriction.",
+      "alternatives": "no and unknown were rejected because the restriction statement is explicit.",
+      "uncertainty": "Specific role names/permission granularity are not provided.",
+      "confidence": "high (5/5)",
+      "decision": "roleRestricted = yes"
+    },
+    "roleRestricted": "yes",
+    "_vendorInvolvementNeeded": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html (single patient export without Developer assistance; all-patient side-loaded engine narrative)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The documented standard path includes explicit no-developer-assistance single-patient export, and there is no statement requiring vendor-operated extraction for routine use.",
+      "alternatives": "yes was rejected because no required vendor ticketing/process is documented. unknown was considered but rejected because explicit no-developer-assistance wording exists for a standard path.",
+      "uncertainty": "Bulk-path operational dependency remains less explicit than single-patient path.",
+      "confidence": "moderate (3/5)",
+      "rule": "Use no only when evidence indicates standard export can be executed without required vendor operation.",
+      "decision": "vendorInvolvementNeeded = no"
+    },
+    "vendorInvolvementNeeded": "no",
+    "_potentialFeesForStandardExport": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html; results/naphcare-inc/chpl-metadata.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No pricing or fee language for the standard export workflow appears in the collected artifacts.",
+      "alternatives": "yes was rejected because no fee statement is documented. no was rejected because absence of fee text is not direct proof of no fees.",
+      "uncertainty": "Could be clarified by contract terms or mandatory disclosure details outside collected export artifacts.",
+      "confidence": "moderate (3/5)",
+      "decision": "potentialFeesForStandardExport = unknown"
+    },
+    "potentialFeesForStandardExport": "unknown",
+    "_practicalAccessibilityScore": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html; results/naphcare-inc/downloads/screenshot-ehi-export-page-top.png; results/naphcare-inc/downloads/screenshot-ehi-export-full-page.png",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Practical accessibility is moderate-low friction: docs are public and single-patient export is fast/self-service for authorized admins, but role restrictions and bulk-path ambiguity add some operational overhead.",
+      "alternatives": "Scores 0-1 were rejected due admin gate. Scores 3-5 were rejected because no explicit vendor ticketing or severe access barrier is documented.",
+      "uncertainty": "Score could increase if bulk operations are heavily gated in real deployments.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "practicalAccessibilityScore = 2"
+    },
+    "practicalAccessibilityScore": 2,
+    "notes": "Public documentation lowers discovery friction, but operational use is restricted to administrative roles and bulk-run mechanics are less explicit than single-patient workflow."
+  },
+  "overall": {
+    "_posture": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html; results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg; results/naphcare-inc/chpl-metadata.json; results/naphcare-inc/product-research.md; results/naphcare-inc/files.json",
+      "sourceQuality": "primary_direct + secondary",
+      "reasoning": "TechCare export is usable and meaningfully structured for many clinical/order domains, but remains partial for full designated-record-set completeness due missing explicit financial domains and cross-format structural gaps.",
+      "alternatives": "high_fidelity_export was rejected because important EHI-relevant domains are not explicitly represented. projection_limited was rejected because substantial native CSV structure exists.",
+      "uncertainty": "Posture may improve with direct evidence of insurance/claims/payments and richer C-CDA mapping detail.",
+      "confidence": "high (4/5)",
+      "decision": "posture = usable_but_partial"
+    },
+    "posture": "usable_but_partial",
+    "_completenessScore": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html; results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg; results/naphcare-inc/chpl-metadata.json; results/naphcare-inc/product-research.md; results/naphcare-inc/files.json",
+      "sourceQuality": "primary_direct + secondary",
+      "reasoning": "Coverage is moderate relative to apparent product scope: many core clinical domains are present, but several designated-record-set financial/administrative patient-decision domains are not explicitly documented in export categories.",
+      "alternatives": "Scores 4-5 were rejected due explicit domain omissions/ambiguity. Scores 1-2 were rejected because a broad set of clinical/order tables is documented.",
+      "uncertainty": "Could rise with evidence that financial domains are present in unseen C-CDA/PDF payloads.",
+      "confidence": "moderate (3/5)",
+      "decision": "completenessScore = 3"
+    },
+    "completenessScore": 3,
+    "_technicalUsabilityScore": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html; results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Technical usability is moderate: CSV dictionary detail supports mapping work, but missing machine-readable schema, no sample payloads, and mixed-format reconstruction needs limit near-import readiness.",
+      "alternatives": "Scores 4-5 were rejected because implementation still requires significant assumptions and parsing across CSV/C-CDA/PDF. Scores 0-2 were rejected because table-level documentation is substantial.",
+      "uncertainty": "Usability would improve with representative export bundles and formal schemas.",
+      "confidence": "high (4/5)",
+      "decision": "technicalUsabilityScore = 3"
+    },
+    "technicalUsabilityScore": 3,
+    "_confidence": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html; results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg; results/naphcare-inc/downloads/screenshot-ehi-export-page-top.png; results/naphcare-inc/downloads/screenshot-ehi-export-full-page.png; results/naphcare-inc/chpl-metadata.json; results/naphcare-inc/product-research.md; results/naphcare-inc/files.json",
+      "sourceQuality": "primary_direct + secondary",
+      "reasoning": "Confidence is high-moderate because core workflow/format/table evidence is direct and specific, while uncertainty mainly concentrates in un-sampled C-CDA/PDF and potentially omitted financial domains.",
+      "alternatives": "Lower confidence scores were rejected due strong primary evidence for major calls. Maximum confidence was rejected because no sample payload files are available.",
+      "uncertainty": "Confidence could increase with direct export samples.",
+      "confidence": "high (4/5)",
+      "decision": "confidence = 4"
+    },
+    "confidence": 4,
+    "_strongestSignal": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html (Data Dictionary + INMATES.ID assumptions); results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The strongest positive signal is the explicit 12-table dictionary with field names, types, nullability, and patient-linking assumptions, which provides tangible structure beyond a generic compliance statement.",
+      "alternatives": "Alternative strongest signals (for example public accessibility alone) were rejected because they are less informative for migration fidelity.",
+      "uncertainty": "Signal strength would further increase with machine-readable schema or sample payloads.",
+      "confidence": "high (4/5)",
+      "decision": "Selected strongestSignal emphasizes structural documentation quality."
+    },
+    "strongestSignal": "TechCare publishes a concrete 12-table CSV data dictionary with typed fields, nullability, and explicit INMATES.ID linkage assumptions, not just generic export claims.",
+    "_biggestRisk": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html; results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg; results/naphcare-inc/chpl-metadata.json; results/naphcare-inc/product-research.md; results/naphcare-inc/files.json",
+      "sourceQuality": "primary_direct + secondary",
+      "reasoning": "The highest-impact risk is designated-record-set incompleteness/ambiguity outside documented CSV tables, especially insurance/claims/payments and less-structured C-CDA/PDF-only domains without sample payload evidence.",
+      "alternatives": "Other risks (for example UI friction) were rejected as lower impact on migration fidelity.",
+      "uncertainty": "Risk may reduce if vendor demonstrates those domains in actual exports.",
+      "confidence": "high (4/5)",
+      "decision": "Selected biggestRisk prioritizes potential EHI omission impact."
+    },
+    "biggestRisk": "Financial EHI and some narrative domains are not explicitly enumerated in export categories, and lack of sample payloads makes cross-format completeness hard to verify.",
+    "_summary": {
+      "sources": "results/naphcare-inc/downloads/ehi-export-page.html; results/naphcare-inc/downloads/image003.jpg; results/naphcare-inc/downloads/image005.jpg; results/naphcare-inc/downloads/image007.jpg; results/naphcare-inc/downloads/image009.jpg; results/naphcare-inc/downloads/image011.jpg; results/naphcare-inc/downloads/image012.png; results/naphcare-inc/downloads/image014.jpg; results/naphcare-inc/downloads/image015.png; results/naphcare-inc/downloads/image016.png; results/naphcare-inc/downloads/image017.png; results/naphcare-inc/downloads/image018.png; results/naphcare-inc/downloads/image020.jpg; results/naphcare-inc/chpl-metadata.json; results/naphcare-inc/product-research.md; results/naphcare-inc/files.json",
+      "sourceQuality": "primary_direct + secondary",
+      "reasoning": "Summary aligns with evidence: TechCare export is real and structurally useful, but mixed-format coverage and absent explicit financial-domain documentation keep the assessment in partial territory.",
+      "alternatives": "A more optimistic summary was rejected due unresolved domain gaps; a more pessimistic summary was rejected because dictionary depth is materially stronger than minimal docs.",
+      "uncertainty": "Future sample bundles could materially shift this summary upward.",
+      "confidence": "high (4/5)",
+      "decision": "summary text matches posture, completeness, and usability scores."
+    },
+    "summary": "TechCare’s documented export is substantial for clinical/order data (CSV tables plus C-CDA/PDF support), but remains only moderately complete for full designated-record-set portability because several patient-financial and other domains are not explicitly evidenced in the current artifact set."
+  },
+  "holisticNarrative": {
+    "summary": "The TechCare export documentation is more concrete than many b(10) pages because it discloses a recognizable data dictionary with typed columns and nullability across 12 CSV domains. The assumptions section is also unusually explicit in describing INMATES.ID as the demographic key linking other tables, which materially helps migration planning.\n\nAt the same time, the architecture is intentionally hybrid: CSV for many operational tables, C-CDA for several clinically important categories, and PDF for images/scanned records. That design is practical for interoperability but introduces reconstruction risk because non-CSV portions are described only at section-title level without sample payloads or machine-readable schema.\n\nUnder designated-record-set EHI scope, the major unresolved question is not audit/system data, but whether patient financial records (insurance/claims/payments) and other decision-relevant domains are actually present in outputs despite not being explicitly documented. The result is a usable but partial posture: implementable with effort, but still dependent on assumptions and follow-up validation using real export files.",
+    "standoutObservations": [
+      "The dictionary is image-based but still includes strong field/type/nullability detail for CSV tables.",
+      "INMATES.ID relationship language is explicit and useful for join strategy planning.",
+      "C-CDA and PDF sections are semantically broad but structurally thin in the absence of sample payloads.",
+      "No explicit insurance/claims/payments export categories are documented despite potential product-level relevance."
+    ]
+  },
+  "notableFacts": [
+    "The export documentation explicitly supports both single-patient and all-patients workflows and states single-patient export can run without developer assistance.",
+    "TechCare declares a three-format export strategy: CSV, C-CDA, and PDF.",
+    "The data dictionary documents 12 named CSV table categories with field names, SQL-like data types, descriptions, and nullability.",
+    "The assumptions section declares INMATES.ID as the demographic table primary key and foundational link across other tables.",
+    "C-CDA-only listed domains include Medication Administrations, Vital Signs, Diagnostic Results, Treatment Plans, Social History, Assessments, Functional Status, and Mental Status.",
+    "Images and scanned paper records are documented as PDF outputs for encounter-history continuity."
+  ]
+}

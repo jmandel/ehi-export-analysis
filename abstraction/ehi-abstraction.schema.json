@@ -1,0 +1,414 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/ehi-abstraction.schema.json",
+  "title": "EHI Abstraction Record v2",
+  "description": "Evidence-first EHI export abstraction. See ehi-abstraction-target.ts for full documentation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "meta",
+    "vendorName",
+    "productName",
+    "chplIds",
+    "productContext",
+    "artifacts",
+    "exportModel",
+    "domainCoverage",
+    "documentationQuality",
+    "access",
+    "overall",
+    "notableFacts"
+  ],
+  "$defs": {
+    "IsoDate": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "Score0to5": {
+      "type": "integer",
+      "enum": [0, 1, 2, 3, 4, 5]
+    },
+    "YesPartialNo": {
+      "type": "string",
+      "enum": ["yes", "partial", "no"]
+    },
+    "YesNo": {
+      "type": "string",
+      "enum": ["yes", "no"]
+    },
+    "YesNoUnknown": {
+      "type": "string",
+      "enum": ["yes", "no", "unknown"]
+    },
+    "ExportFormat": {
+      "type": "string",
+      "enum": [
+        "csv", "tsv", "json", "ndjson", "xml", "ccda",
+        "fhir_r4_json", "fhir_r4_ndjson", "pdf", "cbor",
+        "sql_dump", "parquet", "mixed", "other", "unknown"
+      ]
+    },
+    "ExportMechanism": {
+      "type": "string",
+      "enum": [
+        "ui_single_patient",
+        "ui_bulk",
+        "api_single_patient",
+        "api_bulk",
+        "vendor_assisted",
+        "other",
+        "unknown"
+      ]
+    },
+    "ModelCharacter": {
+      "type": "string",
+      "enum": ["native_database", "standard_projection", "hybrid", "unclear"]
+    },
+    "EhiDomain": {
+      "type": "string",
+      "enum": [
+        "demographics",
+        "encounters",
+        "problems_conditions",
+        "medications",
+        "allergies",
+        "immunizations",
+        "vitals",
+        "laboratory",
+        "diagnostic_reports",
+        "procedures",
+        "clinical_notes",
+        "care_plans_goals",
+        "orders_referrals",
+        "documents_attachments",
+        "insurance",
+        "claims_billing",
+        "payments",
+        "consents_directives",
+        "patient_communications",
+        "other"
+      ]
+    },
+    "CoverageLevel": {
+      "type": "string",
+      "enum": ["plausibly_comprehensive", "present_but_limited", "not_clearly_present"]
+    },
+    "ExportPosture": {
+      "type": "string",
+      "enum": [
+        "comprehensive_native",
+        "partial_native",
+        "standard_projection",
+        "minimal_or_unclear"
+      ]
+    },
+    "ReviewedArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "kind", "format", "summary", "size"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Path relative to results/<slug>/"
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Artifact kind: data_dictionary, schema, sample_data, user_guide, screenshot, api_doc, export_spec, other"
+        },
+        "format": {
+          "type": "string",
+          "minLength": 1,
+          "description": "File format: pdf, html, json, csv, xlsx, xml, xsd, openapi, zip, png, txt, other"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 20,
+          "description": "Specific description of what was found. Cite tables, fields, sections, page numbers."
+        },
+        "size": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Size/scope: page count, entity count, field count, file count, etc."
+        }
+      }
+    },
+    "ExportEntity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "fieldCount", "fieldsWithDescriptions", "note"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Table/resource/entity name as it appears in documentation"
+        },
+        "fieldCount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of fields/columns/elements documented"
+        },
+        "fieldsWithDescriptions": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Fields with meaningful semantic descriptions (not just name+type)"
+        },
+        "note": {
+          "type": "string",
+          "description": "What this entity represents and notable observations"
+        }
+      }
+    },
+    "DocQualityItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["answer", "detail"],
+      "properties": {
+        "answer": { "$ref": "#/$defs/YesPartialNo" },
+        "detail": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Cite specific evidence for this assessment"
+        }
+      }
+    },
+    "DocQualityItemYesNo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["answer", "detail"],
+      "properties": {
+        "answer": { "$ref": "#/$defs/YesNo" },
+        "detail": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Cite specific evidence for this assessment"
+        }
+      }
+    },
+    "DomainCoverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["domain", "coverage", "exportEvidence", "gapAnalysis"],
+      "properties": {
+        "domain": { "$ref": "#/$defs/EhiDomain" },
+        "otherLabel": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Required when domain is 'other'"
+        },
+        "coverage": {
+          "$ref": "#/$defs/CoverageLevel",
+          "description": "Must be based on domain-specific export evidence, not global claims like 'all EHI'"
+        },
+        "exportEvidence": {
+          "type": "string",
+          "minLength": 10,
+          "description": "What specific entities/tables/fields/sections in the EXPORT DOCUMENTATION support this coverage call?"
+        },
+        "gapAnalysis": {
+          "type": "string",
+          "description": "What does the PRODUCT store in this domain vs what the export covers? Connect product capabilities to export gaps."
+        }
+      }
+    }
+  },
+  "properties": {
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "assessedAt", "assessor"],
+      "properties": {
+        "schemaVersion": { "const": "2.0.0" },
+        "assessedAt": { "$ref": "#/$defs/IsoDate" },
+        "assessor": { "type": "string", "minLength": 1 }
+      }
+    },
+    "vendorName": { "type": "string", "minLength": 1 },
+    "productName": { "type": "string", "minLength": 1 },
+    "chplIds": {
+      "type": "array",
+      "items": { "type": "integer" },
+      "minItems": 1
+    },
+    "productContext": {
+      "type": "string",
+      "minLength": 50,
+      "description": "What does this product do? What data domains does it imply? This is the baseline for completeness assessment."
+    },
+    "artifacts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ReviewedArtifact" },
+      "minItems": 1,
+      "description": "Every artifact reviewed. This is the evidence base."
+    },
+    "exportModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "formats",
+        "mechanism",
+        "selfService",
+        "totalEntities",
+        "totalFields",
+        "entities",
+        "modelCharacter",
+        "description"
+      ],
+      "properties": {
+        "formats": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ExportFormat" },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "mechanism": { "$ref": "#/$defs/ExportMechanism" },
+        "selfService": { "$ref": "#/$defs/YesNoUnknown" },
+        "totalEntities": {
+          "oneOf": [
+            { "type": "integer", "minimum": 0 },
+            { "type": "null" }
+          ],
+          "description": "Total distinct entities/tables/resources documented, or null if not determinable"
+        },
+        "totalFields": {
+          "oneOf": [
+            { "type": "integer", "minimum": 0 },
+            { "type": "null" }
+          ],
+          "description": "Total fields/columns across all entities, or null if not determinable"
+        },
+        "entities": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ExportEntity" },
+          "description": "Entities in the export. List all if feasible (<100)."
+        },
+        "modelCharacter": {
+          "$ref": "#/$defs/ModelCharacter",
+          "description": "Native database model vs projection into external standard"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 20,
+          "description": "Free-text description citing specific artifacts and sections"
+        }
+      }
+    },
+    "domainCoverage": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/DomainCoverage" },
+      "minItems": 1,
+      "description": "One row per domain where the product plausibly stores data. Omit inapplicable domains."
+    },
+    "documentationQuality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fieldNamesDocumented",
+        "fieldTypesDocumented",
+        "fieldSemanticsDocumented",
+        "relationshipsDocumented",
+        "valueSetsDocumented",
+        "sampleDataExists",
+        "importReadiness",
+        "importReadinessRationale"
+      ],
+      "properties": {
+        "fieldNamesDocumented": { "$ref": "#/$defs/DocQualityItem" },
+        "fieldTypesDocumented": { "$ref": "#/$defs/DocQualityItem" },
+        "fieldSemanticsDocumented": {
+          "$ref": "#/$defs/DocQualityItem",
+          "description": "Field meanings beyond just name+type. Be precise about coverage percentages."
+        },
+        "relationshipsDocumented": {
+          "$ref": "#/$defs/DocQualityItem",
+          "description": "Explicit FK references, ERDs, join instructions. Not just similar field names."
+        },
+        "valueSetsDocumented": {
+          "$ref": "#/$defs/DocQualityItem",
+          "description": "Explicit value enumerations, not just 'status field exists'."
+        },
+        "sampleDataExists": { "$ref": "#/$defs/DocQualityItemYesNo" },
+        "importReadiness": {
+          "$ref": "#/$defs/Score0to5",
+          "description": "0=no docs, 1=names only, 2=names+types, 3=reasonable, 4=good, 5=thorough"
+        },
+        "importReadinessRationale": {
+          "type": "string",
+          "minLength": 20,
+          "description": "Rationale citing specific strengths and gaps"
+        }
+      }
+    },
+    "access": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "docsPublic",
+        "vendorInvolvementRequired",
+        "feesApply",
+        "notes"
+      ],
+      "properties": {
+        "docsPublic": { "type": "boolean" },
+        "vendorInvolvementRequired": { "$ref": "#/$defs/YesNoUnknown" },
+        "feesApply": { "$ref": "#/$defs/YesNoUnknown" },
+        "notes": { "type": "string" }
+      }
+    },
+    "overall": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "posture",
+        "completeness",
+        "completenessRationale",
+        "postureRationale",
+        "strongestSignal",
+        "biggestConcern",
+        "narrative"
+      ],
+      "properties": {
+        "posture": { "$ref": "#/$defs/ExportPosture" },
+        "completeness": {
+          "$ref": "#/$defs/Score0to5",
+          "description": "0=cannot assess, 1=small fraction, 2=significant gaps, 3=moderate, 4=broad, 5=essentially everything"
+        },
+        "completenessRationale": {
+          "type": "string",
+          "minLength": 50,
+          "description": "Must reference product capabilities, export coverage, and specific gaps"
+        },
+        "postureRationale": {
+          "type": "string",
+          "minLength": 20,
+          "description": "Why this posture fits better than adjacent alternatives"
+        },
+        "strongestSignal": {
+          "type": "string",
+          "minLength": 10,
+          "description": "Most important positive finding with artifact citation"
+        },
+        "biggestConcern": {
+          "type": "string",
+          "minLength": 10,
+          "description": "Most important gap or risk with artifact citation"
+        },
+        "narrative": {
+          "type": "string",
+          "minLength": 100,
+          "description": "Multi-paragraph summary for compliance evaluators and data migration planners"
+        }
+      }
+    },
+    "notableFacts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 10
+      },
+      "minItems": 1,
+      "description": "Short, concrete, evidence-backed high-signal facts"
+    }
+  }
+}

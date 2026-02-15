@@ -1,0 +1,604 @@
+{
+  "meta": {
+    "schemaVersion": "2026-02-15.v1",
+    "assessedAt": "2026-02-15",
+    "assessor": "reviewer_c",
+    "status": "final"
+  },
+  "scope": {
+    "vendorName": "PCE Systems",
+    "productFamily": "PCE Care Management",
+    "includedProducts": ["PCE Care Management"],
+    "excludedProducts": [],
+    "versionsInScope": ["9.4"],
+    "scopeRationale": "Scoped to the public b10 documentation and related g(10) API/public metadata for the same release line."
+  },
+  "sources": [
+    {
+      "sourceId": "SRC-001",
+      "title": "PCE summary evidence",
+      "kind": "vendor_ehi_doc",
+      "location": "results/pce-systems/ehi-export-report.md",
+      "applicableProductFamilies": ["PCE Care Management"],
+      "reportedLastUpdated": "2025-07-14",
+      "stability": "sporadically_updated",
+      "stabilityNotes": "Primary evidence includes both b10 PDF and API docs.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "No sample b10 export payload collected."
+    },
+    {
+      "sourceId": "SRC-002",
+      "title": "b10_documentation.pdf",
+      "kind": "vendor_ehi_doc",
+      "location": "results/pce-systems/downloads/b10_documentation.pdf",
+      "applicableProductFamilies": ["PCE Care Management"],
+      "reportedLastUpdated": "2023-11-20",
+      "stability": "sporadically_updated",
+      "stabilityNotes": "Static format document focused on container and schema strategy.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "Format and conventions only, no export sample."
+    },
+    {
+      "sourceId": "SRC-003",
+      "title": "PIX 9.4 API documentation",
+      "kind": "vendor_api_doc",
+      "location": "results/pce-systems/downloads/PIX_9_4_API_Documentation.pdf",
+      "applicableProductFamilies": ["PCE Care Management"],
+      "reportedLastUpdated": "2025-01-06",
+      "stability": "actively_maintained",
+      "stabilityNotes": "Most complete public resource enumeration for this release family.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "API docs only, no payload sample."
+    },
+    {
+      "sourceId": "SRC-004",
+      "title": "Capability statement",
+      "kind": "certification_listing",
+      "location": "results/pce-systems/downloads/capability-statement.json",
+      "applicableProductFamilies": ["PCE Care Management"],
+      "reportedLastUpdated": "2025-01-06",
+      "stability": "actively_maintained",
+      "stabilityNotes": "Machine-readable endpoint declaration available.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "No payload examples."
+    },
+    {
+      "sourceId": "SRC-005",
+      "title": "g10APIInfo landing page",
+      "kind": "vendor_product_doc",
+      "location": "results/pce-systems/downloads/g10APIInfo.html",
+      "applicableProductFamilies": ["PCE Care Management"],
+      "reportedLastUpdated": "2023-11-20",
+      "stability": "sporadically_updated",
+      "stabilityNotes": "Static HTML linking b10 and g10 sources.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "No sample archive or export file list.
+      "
+      ,
+      "stabilityNotes": "The same static link set is used for this review."
+    }
+  ],
+  "assessmentFlow": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-005",
+            "locator": "landing links",
+            "quote": null,
+            "relevance": "b10 and g10 documentation are separated at source level."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "stage": "discover_sources",
+      "method": "Captured all linked sources from official page and downloaded both PDF and json artifacts.",
+      "observations": ["There is a clear separation between native b10 and g10 API materials."],
+      "impactOnAssessment": "Validated this as a true dual-path system." 
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "container format",
+            "quote": null,
+            "relevance": "b10 container details are explicit and consistent."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "stage": "understand_product_model",
+      "method": "Mapped b10 container components to expected export lifecycle and internal resource patterns.",
+      "observations": ["Format supports internal schema-first design."],
+      "impactOnAssessment": "Model plausibility is high before coverage validation."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "documentation.json mention",
+            "quote": null,
+            "relevance": "The resource schema is embedded in the export artifact, not public."
+          }
+        ],
+        "strength": 5,
+        "gaps": ["No local sample export was captured."]
+      },
+      "stage": "inspect_export_surface",
+      "method": "Confirmed the documented contract requires download/execution to reveal concrete resource list.",
+      "observations": ["Public verifiability is limited."],
+      "impactOnAssessment": "Introduced high documentation opacity cost."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-003",
+            "locator": "API resource coverage",
+            "quote": null,
+            "relevance": "API resource list supports only indirect model evidence for b10 scope."
+          }
+        ],
+        "strength": 4,
+        "gaps": ["No one-to-one proof from b10 artifact."
+        ]
+      },
+      "stage": "compare_model_vs_export",
+      "method": "Used API and landing documentation to infer potential but not prove full b10 resource coverage.",
+      "observations": ["Separation is clear; mapping completeness remains partly unobservable."],
+      "impactOnAssessment": "Supportability remains good, transparency is constrained."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-004",
+            "locator": "capability fields",
+            "quote": null,
+            "relevance": "Machine-readable API declaration is robust but not a substitute for b10 dictionary payload."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "stage": "score_and_classify",
+      "method": "Scored native design positively and documentation completeness negatively.",
+      "observations": ["Final class is native-like partial."],
+      "impactOnAssessment": "Need an export sample to lift several uncertainty scores."
+    }
+  ],
+  "exportSurface": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-002",
+          "locator": "b10 structure",
+          "quote": null,
+          "relevance": "Password-protected ZIP with meta, dictionary.json, and per-patient NDJSON files.",
+          "strength": 5
+        }
+      ],
+      "strength": 5,
+      "gaps": ["No sample download bundle in evidence corpus."]
+    },
+    "container": "multi_file_bundle",
+    "serialization": "ndjson",
+    "machineReadableSchema": "yes",
+    "includesDataDictionary": "no",
+    "dictionaryDepth": "unknown",
+    "documentsValueSets": "unknown",
+    "documentsKeys": "yes",
+    "documentsRelationships": "yes",
+    "documentsConstraints": "unknown",
+    "accessibilityTier": "assisted_standard",
+    "accessibilityNotes": "Export method exists but no public request/runbook details are included in artifacts."
+  },
+  "mappingRisk": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-002",
+          "locator": "self-describing schema",
+          "quote": null,
+          "relevance": "schema.json in archive should preserve native fields."
+        }
+      ],
+      "strength": 4,
+      "gaps": ["Cannot validate without downloaded export artifact."]
+    },
+    "representation": "transparent_model_reflection",
+    "mappingTarget": "custom_partner_spec",
+    "projectionLossRiskScore": 2,
+    "conflationRiskScore": 2,
+    "reconstitutionEffortScore": 4,
+    "lossOrConflationExamples": [
+      "Behavioral health treatment-plan fields may be hidden if not in public schema."
+    ],
+    "suspectedOmissions": [
+      "Detailed scheduling and intake/discharge structures."
+    ]
+  },
+  "domainAssessments": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "patient directories",
+            "quote": null,
+            "relevance": "Core encounter data expected in per-patient export folders."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "domain": "encounters",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 4,
+      "rationale": "Likely present but not publicly enumerated in advance.",
+      "caveats": ["No sample prevents subtype verification."]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "scope note",
+            "quote": null,
+            "relevance": "Coverage and claims likely align with internal export model."
+          }
+        ],
+        "strength": 3,
+        "gaps": []
+      },
+      "domain": "claims_billing",
+      "coverageLevel": "implied_only",
+      "decisionSupportScore": 3,
+      "rationale": "Claim-like modules are present in API docs and expected in native model, but not directly evidenced for b10.",
+      "caveats": ["Not verifiable via public b10 dictionary."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-003",
+            "locator": "care plan and goal resources",
+            "quote": null,
+            "relevance": "Care-plan concepts appear in API evidence."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "domain": "care_plans_goals",
+      "coverageLevel": "implied_only",
+      "decisionSupportScore": 3,
+      "rationale": "Behavioral-health treatment plans are plausible in this product line.",
+      "caveats": ["No direct b10 proof available."]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "files directory",
+            "quote": null,
+            "relevance": "File-backed documents are part of export structure.
+"
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "documents_attachments",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 4,
+      "rationale": "Non-computable assets are explicitly handled via files subfolder.",
+      "caveats": ["Metadata depth is constrained without sample."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "demographics mention",
+            "quote": null,
+            "relevance": "Core patient demographics are foundational and expected in all b10 output.
+"
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "domain": "demographics",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 4,
+      "rationale": "No direct evidence in sample but model design implies inclusion.",
+      "caveats": ["Demographics should be confirmed with export output."]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-003",
+            "locator": "Messages in API list",
+            "quote": null,
+            "relevance": "Message-like data appears in API scope but is not clearly tied to b10."
+          }
+        ],
+        "strength": 3,
+        "gaps": []
+      },
+      "domain": "patient_communications",
+      "coverageLevel": "implied_only",
+      "decisionSupportScore": 2,
+      "rationale": "Could be present; public evidence is not definitive.",
+      "caveats": ["No direct b10 communication export documentation."]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "g10/b10 split",
+            "quote": null,
+            "relevance": "No explicit scheduling-specific mention in b10 docs.
+"
+          }
+        ],
+        "strength": 3,
+        "gaps": []
+      },
+      "domain": "scheduling",
+      "coverageLevel": "not_evidenced",
+      "decisionSupportScore": 1,
+      "rationale": "Scheduling appears outside visible b10 proof.",
+      "caveats": ["Could exist in nonpublic internal structures."]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "audit note",
+            "quote": null,
+            "relevance": "No audit log evidence in downloadable b10 docs."
+          }
+        ],
+        "strength": 2,
+        "gaps": []
+      },
+      "domain": "audit_provenance",
+      "coverageLevel": "not_evidenced",
+      "decisionSupportScore": 2,
+      "rationale": "Audit records may exist, but no explicit mention in b10 export documentation.",
+      "caveats": ["Could be represented through hidden metadata."
+      ]
+    }
+  ],
+  "domainCoverageSummary": {
+    "comprehensive": ["encounters", "documents_attachments"],
+    "partial": ["demographics", "claims_billing", "care_plans_goals", "patient_communications"],
+    "implied": ["problems_conditions", "medications", "laboratory"],
+    "notEvidenced": ["scheduling", "audit_provenance"],
+    "conflicting": []
+  },
+  "dimensionScores": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "format spec",
+            "quote": null,
+            "relevance": "Structured format is well specified publicly."
+          }
+        ],
+        "strength": 5,
+        "gaps": ["No sample export file present."]
+      },
+      "dimension": "scope_completeness",
+      "score": 3,
+      "rationale": "Architecture suggests broad internal coverage but evidence is incomplete.",
+      "uncertaintyNotes": "Export sample needed to reduce uncertainty."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "ndjson structure",
+            "quote": null,
+            "relevance": "Container is explicit and parseable."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "dimension": "format_openness",
+      "score": 3,
+      "rationale": "Good parser design, weak pre-flight transparency.",
+      "uncertaintyNotes": "Public access lacks sample for reproducible parsing tests."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "no public dictionary.json",
+            "quote": null,
+            "relevance": "Dictionary is self-contained but only in zip."
+          }
+        ],
+        "strength": 5,
+        "gaps": ["No accessible dictionary prior to export."]
+      },
+      "dimension": "dictionary_quality",
+      "score": 2,
+      "rationale": "Conceptually strong if exported, currently not reviewable.",
+      "uncertaintyNotes": "Score could improve significantly with one export artifact."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "operational access notes",
+            "quote": null,
+            "relevance": "General access exists; operational runbook is unclear.",
+            "strength": 3
+          }
+        ],
+        "gaps": []
+      },
+      "dimension": "accessibility",
+      "score": 2,
+      "rationale": "Evidence of mechanism exists but lacks practical steps.",
+      "uncertaintyNotes": "Could be easier in real tenant than artifacts show."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "self-describing b10 architecture",
+            "quote": null,
+            "relevance": "Native b10 design lowers transformation risk if executed.",
+            "strength": 4
+          }
+        ],
+        "gaps": []
+      },
+      "dimension": "model_fidelity",
+      "score": 3,
+      "rationale": "Likely high but unverifiable from public artifacts.",
+      "uncertaintyNotes": "Requires actual export for full score confidence."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-005",
+            "locator": "no b10 public resource mapping",
+            "quote": null,
+            "relevance": "No resource map before export means hidden risk remains.",
+            "strength": 4
+          }
+        ],
+        "gaps": []
+      },
+      "dimension": "projection_loss_risk",
+      "score": 2,
+      "rationale": "Architecture appears native; mapping-loss is mostly from potential hidden filtering.",
+      "uncertaintyNotes": "Risk stays elevated until sample is reviewed."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "relationship fields",
+            "quote": null,
+            "relevance": "Relationship intent exists but needs export inspection."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "dimension": "conflation_risk",
+      "score": 2,
+      "rationale": "Conflation likely low in design.",
+      "uncertaintyNotes": "Could increase if b10 export implementation applies hidden transforms."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "no sample data",
+            "quote": null,
+            "relevance": "One sample export would reduce integration interpretation load."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "dimension": "reconstitution_effort",
+      "score": 4,
+      "rationale": "Moderate to high due need to request export before mapping."
+      ,"uncertaintyNotes": "Effort decreases after one validated export retrieval."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "no sample files",
+            "quote": null,
+            "relevance": "No sample data lowers representativeness confidence."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "dimension": "sample_data_representativeness",
+      "score": 0,
+      "rationale": "No sample data in public artifact set.",
+      "uncertaintyNotes": "Sampling is required for robust scoring."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-004",
+            "locator": "capability timestamp",
+            "quote": null,
+            "relevance": "API metadata has dates; b10 docs are static and sparse.",
+            "strength": 3
+          }
+        ],
+        "gaps": []
+      },
+      "dimension": "documentation_stability",
+      "score": 2,
+      "rationale": "Mixed stability signals between API and b10 artifacts.",
+      "uncertaintyNotes": "Needs periodic archive evidence."
+    }
+  ],
+  "synthesis": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-002",
+          "locator": "container-first contract",
+          "quote": null,
+          "relevance": "Native format and b10/g10 separation are clearly documented."
+        },
+        {
+          "sourceId": "SRC-001",
+          "locator": "no sample",
+          "quote": null,
+          "relevance": "Coverage uncertainty remains from missing export sample."
+        }
+      ],
+      "strength": 5,
+      "gaps": []
+    },
+    "classification": "native_like_partial",
+    "confidence": "medium",
+    "keySignal": "Good architecture signal, low public proof for complete field coverage.",
+    "operationalImplication": "Request and archive an export to verify domain completeness before accepting b10 migration assumptions.",
+    "reproducibilityRisk": "High until one native export bundle is provided for review."
+  }
+}

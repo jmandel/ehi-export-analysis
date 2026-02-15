@@ -1,0 +1,636 @@
+{
+  "meta": {
+    "schemaVersion": "2026-02-15.v1",
+    "assessedAt": "2026-02-15",
+    "assessor": "reviewer_c",
+    "status": "final"
+  },
+  "scope": {
+    "vendorName": "iSALUS Healthcare",
+    "productFamily": "OfficeEMR",
+    "includedProducts": ["OfficeEMR"],
+    "excludedProducts": [],
+    "versionsInScope": ["21 (2021)", "Oct 2023 schema artifacts"],
+    "scopeRationale": "OfficeEMR is the certified ambulatory EHR line. Evidence covers native b(10)-style JSON export and ancillary PM-style records listed in schema and sample files."
+  },
+  "sources": [
+    {
+      "sourceId": "SRC-001",
+      "title": "iSALUS EHI export synthesis report",
+      "kind": "vendor_ehi_doc",
+      "location": "results/isalus-healthcare/ehi-export-report.md",
+      "applicableProductFamilies": ["OfficeEMR"],
+      "reportedLastUpdated": "2025-12-19",
+      "stability": "sporadically_updated",
+      "stabilityNotes": "Primary synthesized notes from captured artifacts; no separate version file for docs.",
+      "includesSampleData": "unknown",
+      "sampleCoverage": "unknown",
+      "sampleCoverageNotes": "Narrative-only source."
+    },
+    {
+      "sourceId": "SRC-002",
+      "title": "officeemr-b10-schema-v1-oct2023.zip",
+      "kind": "vendor_data_dictionary",
+      "location": "results/isalus-healthcare/downloads/officeemr-b10-schema-v1-oct2023.zip",
+      "applicableProductFamilies": ["OfficeEMR"],
+      "reportedLastUpdated": "2023-10-17",
+      "stability": "actively_maintained",
+      "stabilityNotes": "Structured archive with 80 schema files and date stamp.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "Schema-only bundle."
+    },
+    {
+      "sourceId": "SRC-003",
+      "title": "iSalus_EHI_ExportDataElements_published_version1_Oct2023.xlsx",
+      "kind": "vendor_data_dictionary",
+      "location": "results/isalus-healthcare/downloads/isalus-ehi-export-data-elements-version1-oct2023.zip",
+      "applicableProductFamilies": ["OfficeEMR"],
+      "reportedLastUpdated": "2023-10-17",
+      "stability": "actively_maintained",
+      "stabilityNotes": "Linked dictionary artifact from the same schema family.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "Field names and descriptions only."
+    },
+    {
+      "sourceId": "SRC-004",
+      "title": "Single-patient sample export",
+      "kind": "sample_export_file",
+      "location": "results/isalus-healthcare/downloads/export-311322-voct2023.zip",
+      "applicableProductFamilies": ["OfficeEMR"],
+      "reportedLastUpdated": "2023-10-31",
+      "stability": "sporadically_updated",
+      "stabilityNotes": "One historic sample export in local corpus.",
+      "includesSampleData": "yes",
+      "sampleCoverage": "partial_realistic",
+      "sampleCoverageNotes": "Single patient with 58 files; representative of schema shape, not domain completeness."
+    },
+    {
+      "sourceId": "SRC-005",
+      "title": "Rendered export page PDF",
+      "kind": "vendor_product_doc",
+      "location": "results/isalus-healthcare/downloads/ehi-export-page.pdf",
+      "applicableProductFamilies": ["OfficeEMR"],
+      "reportedLastUpdated": "2025-12-19",
+      "stability": "sporadically_updated",
+      "stabilityNotes": "Static rendered copy of the same documented export page.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "No export rows included."
+    }
+  ],
+  "assessmentFlow": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "report summary",
+            "quote": null,
+            "relevance": "Confirms the assessment covers schema archive, dictionary, and sample export artifacts."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "stage": "discover_sources",
+      "method": "Collected all publicly linked artifacts and validated downloads exist locally.",
+      "observations": ["Native output claims are discoverable across schema, dictionary, and sample files."],
+      "impactOnAssessment": "Established a full evidence corpus for schema-first review."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "zip manifest",
+            "quote": null,
+            "relevance": "The archive exposes per-entity schema files with types and names."
+          }
+        ],
+        "strength": 4,
+        "gaps": ["Some schema entries have sparse descriptions."]
+      },
+      "stage": "understand_product_model",
+      "method": "Mapped schema inventory against clinical and PM data categories.",
+      "observations": ["Entity count is high enough to support broad care and admin surface."],
+      "impactOnAssessment": "Set a broad model expectation before validating sample payload."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-004",
+            "locator": "archive file list",
+            "quote": null,
+            "relevance": "Per-patient JSON files and structured foldering are confirmed."
+          }
+        ],
+        "strength": 5,
+        "gaps": ["No all-patient sample in local corpus."]
+      },
+      "stage": "inspect_export_surface",
+      "method": "Reviewed sample file names and payload presence across entities.",
+      "observations": ["Evidence shows clear machine-readable multi-file export format."],
+      "impactOnAssessment": "Confirms implementation is native-style, not API wrapped."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-003",
+            "locator": "dictionary fields",
+            "quote": null,
+            "relevance": "Schema and sample jointly imply near-native representation with limited external mapping evidence."
+          }
+        ],
+        "strength": 4,
+        "gaps": ["No detailed value-set or relation graph in sample snapshot."]
+      },
+      {
+        "evidence": {
+          "items": [
+            {
+              "sourceId": "SRC-001",
+              "locator": "scope rationale",
+              "quote": null,
+              "relevance": "No sample payload for all-patient export."
+            }
+          ],
+          "strength": 4,
+          "gaps": []
+        },
+        "stage": "compare_model_vs_export",
+        "method": "Checked whether schema breadth was reflected in sample file classes.",
+        "observations": ["Core classes align; edge modules remain unverified."],
+        "impactOnAssessment": "Retains high-fidelity class while lowering certainty for complete breadth."
+      },
+      {
+        "evidence": {
+          "items": [
+            {
+              "sourceId": "SRC-004",
+              "locator": "no API-only evidence",
+              "quote": null,
+              "relevance": "Evidence is table-first export, not repackaged API response."
+            }
+          ],
+          "strength": 5,
+          "gaps": ["Need all-patient sample for complete representativeness."]
+        },
+        "stage": "score_and_classify",
+        "method": "Applied schema, surface, and mapping-risk rubric.",
+        "observations": ["Classification remains native-like high fidelity."],
+        "impactOnAssessment": "Finalized with high confidence and medium representativeness uncertainty."
+      }
+  ],
+  "exportSurface": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-002",
+          "locator": "artifact format",
+          "quote": null,
+          "relevance": "Schema + sample confirm JSON multi-file design."
+        }
+      ],
+      "strength": 5,
+      "gaps": ["No all-patient sample."
+      ]
+    },
+    "container": "multi_file_bundle",
+    "serialization": "json",
+    "machineReadableSchema": "yes",
+    "includesDataDictionary": "yes",
+    "dictionaryDepth": "semantic",
+    "documentsValueSets": "unknown",
+    "documentsKeys": "partial",
+    "documentsRelationships": "partial",
+    "documentsConstraints": "partial",
+    "accessibilityTier": "assisted_standard",
+    "accessibilityNotes": "Single patient export is supported; all-patient export appears to require support workflow."
+  },
+  "mappingRisk": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-004",
+          "locator": "json entity export",
+          "quote": null,
+          "relevance": "Entity-per-file structure suggests direct data-model reflection."
+        }
+      ],
+      "strength": 4,
+      "gaps": ["Sample does not prove rare entity coverage."]
+    },
+    "representation": "transparent_model_reflection",
+    "mappingTarget": "custom_partner_spec",
+    "projectionLossRiskScore": 2,
+    "conflationRiskScore": 2,
+    "reconstitutionEffortScore": 3,
+    "lossOrConflationExamples": [
+      "Sparse semantic notes reduce confidence for some non-core tables.",
+      "Single-patient sample may omit sparse workflow modules."
+    ],
+    "suspectedOmissions": [
+      "Advanced PM workflow details with low-frequency forms."
+    ]
+  },
+  "domainAssessments": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-004",
+            "locator": "payload files",
+            "quote": null,
+            "relevance": "Demographics-related JSON payload evidence is present."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "demographics",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 5,
+      "rationale": "Core demographics are central and evidenced by sample payload and dictionary schema.",
+      "caveats": []
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-004",
+            "locator": "sample file set",
+            "quote": null,
+            "relevance": "Encounter-like files are present in the sample archive."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No full population export to test encounter edge cases."
+        ]
+      },
+      "domain": "encounters",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 4,
+      "rationale": "Encounter structures are clearly represented, but full subtype completeness is unverified.",
+      "caveats": []
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-004",
+            "locator": "sample medication file",
+            "quote": null,
+            "relevance": "Medication-related files are included in the sample export."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "domain": "medications",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 4,
+      "rationale": "Medication payload appears as dedicated entity files with mapping in schema."
+      ,
+      "caveats": []
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "claims entities",
+            "quote": null,
+            "relevance": "Claims and payments-like entities are present in schema and sample."
+          }
+        ],
+        "strength": 3,
+        "gaps": []
+      },
+      "domain": "claims_billing",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 3,
+      "rationale": "Claims/patient charges are present but are not fully validated via broad sample.",
+      "caveats": ["No all-patient sample."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-004",
+            "locator": "patient notes and report files",
+            "quote": null,
+            "relevance": "Clinical notes and documents are present in sample archive."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "domain": "clinical_notes",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 4,
+      "rationale": "Notes are represented as separate export entities.",
+      "caveats": ["Not all note categories shown in one sample."]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "dictionary naming",
+            "quote": null,
+            "relevance": "Insurance-like fields are described in schema metadata."
+          }
+        ],
+        "strength": 3,
+        "gaps": [
+          "No dedicated evidence that all payer workflow artifacts are included for each patient."
+        ]
+      },
+      "domain": "insurance",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 3,
+      "rationale": "Insurance data is likely represented in schema and sample but not universally verifiable.",
+      "caveats": []
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "files/ directory",
+            "quote": null,
+            "relevance": "Attachment support is described by file structure and references."
+          }
+        ],
+        "strength": 3,
+        "gaps": []
+      },
+      "domain": "documents_attachments",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 3,
+      "rationale": "Attachment-oriented exports are supported, but key-level semantics remain partial.",
+      "caveats": ["Binary metadata is sparse in source corpus."]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "no audit domain statement",
+            "quote": null,
+            "relevance": "No explicit audit trail export evidence was found."
+          }
+        ],
+        "strength": 3,
+        "gaps": []
+      },
+      "domain": "audit_provenance",
+      "coverageLevel": "not_evidenced",
+      "decisionSupportScore": 2,
+      "rationale": "Audit semantics are not explicitly documented.",
+      "caveats": ["Could be captured in private internal tables."]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "diagnostic and observation records",
+            "quote": null,
+            "relevance": "Clinical measurement domain is implied from schema breadth."
+          }
+        ],
+        "strength": 3,
+        "gaps": []
+      },
+      "domain": "problems_conditions",
+      "coverageLevel": "implied_only",
+      "decisionSupportScore": 3,
+      "rationale": "Problem-like entities are expected in a PM-capable EHR, but not all named in sample files.",
+      "caveats": ["No explicit sample row for every problem subtype."]
+    }
+  ],
+  "domainCoverageSummary": {
+    "comprehensive": ["demographics", "medications", "clinical_notes"],
+    "partial": ["encounters", "claims_billing", "insurance", "documents_attachments", "problems_conditions"],
+    "implied": ["allergies", "vitals", "laboratory", "diagnostic_reports"],
+    "notEvidenced": ["audit_provenance"],
+    "conflicting": []
+  },
+  "dimensionScores": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-004",
+            "locator": "multi-entity sample",
+            "quote": null,
+            "relevance": "Representative sample contains mixed clinical and financial entities."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "dimension": "scope_completeness",
+      "score": 4,
+      "rationale": "Breadth appears broad versus EHR+PM scope.",
+      "uncertaintyNotes": "Confidence drops without all-patient sample."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "zip structure",
+            "quote": null,
+            "relevance": "JSON multi-file output is machine-readable and explicit."
+          }
+        ],
+        "strength": 5,
+        "gaps": ["No publicly visible all-patient sample."]
+      },
+      "dimension": "format_openness",
+      "score": 4,
+      "rationale": "Strong openness in export format and schema packaging.",
+      "uncertaintyNotes": "None for structure; moderate for completeness."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-003",
+            "locator": "dictionary package",
+            "quote": null,
+            "relevance": "Schema package and XLSX provide data dictionary.
+"
+          }
+        ],
+        "strength": 4,
+        "gaps": ["Some entities are sparsely described."]
+      },
+      "dimension": "dictionary_quality",
+      "score": 3,
+      "rationale": "Useful field-level source exists with moderate narrative depth.",
+      "uncertaintyNotes": "Could improve with stronger semantic annotations."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "all-patient export note",
+            "quote": null,
+            "relevance": "Operational evidence points to assisted all-patient flow."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "dimension": "accessibility",
+      "score": 3,
+      "rationale": "Single patient path is straightforward; population export appears workflow-assisted.",
+      "uncertaintyNotes": "Access burden depends on tenant procedures."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "schema design",
+            "quote": null,
+            "relevance": "The schema-first export indicates limited intermediary projection."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "dimension": "model_fidelity",
+      "score": 4,
+      "rationale": "Design is aligned with native representation.",
+      "uncertaintyNotes": "Only broad sample constrains certainty."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "resource naming",
+            "quote": null,
+            "relevance": "No explicit external standard remap is described."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "dimension": "projection_loss_risk",
+      "score": 2,
+      "rationale": "Low projection-loss signal from native entity structure.",
+      "uncertaintyNotes": "Could increase if export filters are proprietary."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "relationship fields",
+            "quote": null,
+            "relevance": "Some key-like fields are present but not fully constrained."
+          }
+        ],
+        "strength": 3,
+        "gaps": []
+      },
+      "dimension": "conflation_risk",
+      "score": 2,
+      "rationale": "Likely limited conflation with explicit per-entity files.",
+      "uncertaintyNotes": "Relationship integrity requires schema inspection per run."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-004",
+            "locator": "sample-only evidence",
+            "quote": null,
+            "relevance": "Reconstruction effort rises because full field semantics are only partly visible."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "dimension": "reconstitution_effort",
+      "score": 3,
+      "rationale": "Feasible with documentation, but requires export-run schema interpretation.",
+      "uncertaintyNotes": "Effort drops quickly after one full export sample is obtained."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-004",
+            "locator": "sample-only",
+            "quote": null,
+            "relevance": "Representativeness is limited by one sample patient only."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "dimension": "sample_data_representativeness",
+      "score": 2,
+      "rationale": "Single patient sample is better than none but not broad enough."
+      ,
+      "uncertaintyNotes": "All-patient request would materially improve confidence."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "pdf timestamp",
+            "quote": null,
+            "relevance": "Artifacts are periodic but not strongly change-logged.",
+            "strength": 3
+          }
+        ],
+        "gaps": []
+      },
+      "dimension": "documentation_stability",
+      "score": 3,
+      "rationale": "Stable enough for review, but change tracking is thin.",
+      "uncertaintyNotes": "A changelog or version history would increase confidence."
+    }
+  ],
+  "synthesis": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-002",
+          "locator": "native b10 architecture",
+          "quote": null,
+          "relevance": "Core signal of native export approach."
+        },
+        {
+          "sourceId": "SRC-004",
+          "locator": "single-patient sample",
+          "quote": null,
+          "relevance": "Direct output shape validated."
+        }
+      ],
+      "strength": 5,
+      "gaps": ["Lack of all-patient sample."]
+    },
+    "classification": "native_like_high_fidelity",
+    "confidence": "medium",
+    "keySignal": "Strong native structure with explicit schema and per-entity JSON payloads.",
+    "operationalImplication": "Implementers should request full-population export early and retain schema artifacts for stable mapping."
+    ,
+    "reproducibilityRisk": "Moderate because full representativeness cannot be validated from one sample alone."
+  }
+}

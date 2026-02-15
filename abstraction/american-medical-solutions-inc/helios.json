@@ -1,0 +1,1105 @@
+{
+  "meta": {
+    "schemaVersion": "2026-02-15.v8",
+    "assessedAt": "2026-02-15",
+    "assessor": "codex-gpt-5",
+    "status": "draft"
+  },
+  "scope": {
+    "vendorName": "American Medical Solutions, Inc.",
+    "productFamily": "Helios",
+    "_includedProducts": {
+      "sources": "results/american-medical-solutions-inc/chpl-metadata.json; results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/downloads/services-page-top.png; results/american-medical-solutions-inc/downloads/services-page-certified-ehr-section.png; results/american-medical-solutions-inc/product-research.md",
+      "sourceQuality": "primary_direct",
+      "reasoning": "CHPL metadata identifies one certified product family name, Helios version 2.0. The primary PDF is titled as Helios EMR export documentation and describes one unified export workflow/model.",
+      "alternatives": "Splitting into separate in-scope products was rejected because no distinct HeliosMD vs HeliosND export artifacts were found in downloads/.",
+      "uncertainty": "Secondary sources mention HeliosMD/HeliosND branding, but no separate b(10) export schema is available to prove a model split.",
+      "confidence": "high (4/5)",
+      "decision": "Included products are constrained to the Helios family represented by the single certified export document."
+    },
+    "includedProducts": [
+      "Helios v2.0 (CHPL product 15.02.05.1086.AMEM.01.01.1.220217)",
+      "Helios-branded deployment represented by the single 170.315(b)(10) PDF export model"
+    ],
+    "_excludedProducts": {
+      "sources": "results/american-medical-solutions-inc/chpl-metadata.json; results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/downloads/services-page-top.png; results/american-medical-solutions-inc/downloads/services-page-certified-ehr-section.png; results/american-medical-solutions-inc/product-research.md",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Primary evidence under this vendor folder does not provide separate export models for non-Helios services (record retrieval/scanning/ROI) or any other certified product family.",
+      "alternatives": "Including all AMS service lines was rejected because they are not shown as this product-family export model artifacts.",
+      "uncertainty": "If AMS later publishes distinct export docs for other product lines, they should be abstracted separately.",
+      "confidence": "high (4/5)",
+      "decision": "Excluded non-Helios offerings to avoid over-aggregation."
+    },
+    "excludedProducts": [
+      "AMS service lines without Helios patient-record export artifacts (for example ROI/retrieval/scanning operations)",
+      "Any hypothetical non-Helios EHR products not evidenced in this result set"
+    ],
+    "_versionsInScope": {
+      "sources": "results/american-medical-solutions-inc/chpl-metadata.json; results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "CHPL metadata names Helios version 2.0; the export document itself is one schema set (revision table through version 1.0) with no evidence of multiple product-model breaks.",
+      "alternatives": "Grouping unknown newer major versions was rejected because no separate versioned export artifact appears in the collected evidence.",
+      "uncertainty": "Customer-specific builds may exist outside public artifacts.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "Scope versions align to Helios 2.0 line represented by this single public b(10) schema PDF."
+    },
+    "versionsInScope": [
+      "Helios 2.0 certification line (active as listed in CHPL metadata)",
+      "Export documentation revision 1.0 approved 2022-06-29 (PDF created 2023-12-13)"
+    ],
+    "scopeNotes": "This record is intentionally a single product family abstraction for Helios only. Calls are grounded in downloads/ primary artifacts and minimally supported by CHPL metadata and existing research notes."
+  },
+  "exportPaths": [
+    {
+      "_mechanism": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The PDF says Helios can export a patient's EHI from the Encounter Summary toolbar, with user category selection before files are generated.",
+        "alternatives": "ui_bulk_export and API mechanisms were rejected because the text is explicitly patient-scoped and toolbar-triggered. vendor_assisted_bulk_export was rejected because no required vendor-ticket workflow is stated.",
+        "uncertainty": "The document does not describe a population-level path, so this classification applies only to the described path.",
+        "confidence": "high (5/5)",
+        "decision": "mechanism = ui_single_patient_export"
+      },
+      "mechanism": "ui_single_patient_export",
+      "_container": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The export process states each selected section produces an independent CSV file and the system then generates and downloads a .zip file.",
+        "alternatives": "single_file was rejected because multiple section files are explicit. database_dump and streaming_api are not described.",
+        "uncertainty": "Internal folder naming within the zip is not described.",
+        "confidence": "high (5/5)",
+        "decision": "container = multi_file_bundle"
+      },
+      "container": "multi_file_bundle",
+      "_formats": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The document repeatedly specifies CSV (comma separated value) files as export outputs.",
+        "alternatives": "fhir_r4_json, ccda, and xml were rejected because this path explicitly emits CSV files. mixed was rejected because no second payload format is documented for this path.",
+        "uncertainty": "Attachment binary files are not documented for this path.",
+        "confidence": "high (5/5)",
+        "decision": "formats = [csv]"
+      },
+      "formats": [
+        "csv"
+      ],
+      "_standardProfile": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The export schema is vendor-defined CSV sections and does not declare FHIR or C-CDA payload conformance.",
+        "alternatives": "fhir_us_core, fhir_other, and ccda_r21 were rejected because the path is documented as CSV section tables, not FHIR/C-CDA resources.",
+        "uncertainty": "Sections mirror common USCDI classes, but no explicit profile declaration is provided.",
+        "rule": "Choose FHIR/C-CDA only if the path explicitly emits that profile.",
+        "confidence": "high (4/5)",
+        "decision": "standardProfile = none_vendor_native"
+      },
+      "standardProfile": "none_vendor_native",
+      "_selfService": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The document describes in-product user-triggered export with permissions controlled by system administrators, indicating customer-organization users can run it.",
+        "alternatives": "no was rejected because required vendor operation is not stated. unknown was rejected because run path is directly described.",
+        "uncertainty": "Specific role names are not documented.",
+        "confidence": "high (4/5)",
+        "decision": "selfService = yes"
+      },
+      "selfService": "yes",
+      "_operationalBurden": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/downloads/services-page-certified-ehr-section.png",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Burden appears manageable: role-gated UI action with category selection and automatic zip download. Friction exists because exports are patient-by-patient and permission-gated.",
+        "alternatives": "Lower scores (0-1) were rejected due role gating and manual per-patient execution. Higher scores (4-5) were rejected because the path is still directly runnable in-product without stated vendor ticketing.",
+        "uncertainty": "No timing/performance limits or throttles are documented.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "operationalBurden = 2"
+      },
+      "operationalBurden": 2,
+      "notes": "Single documented path is patient-level CSV bundle from Encounter Summary. No public evidence of a distinct bulk export path in reviewed artifacts."
+    }
+  ],
+  "documentation": {
+    "_hasDataDictionary": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Section 2 lists per-section schema tables with explicit columns, data types, and notes, functioning as a dictionary for the exported CSV files.",
+      "alternatives": "no was rejected because concrete schema tables are directly present for 15 sections.",
+      "uncertainty": "Dictionary is narrow and export-specific; it is not a full internal model dictionary.",
+      "confidence": "high (5/5)",
+      "decision": "hasDataDictionary = yes"
+    },
+    "hasDataDictionary": "yes",
+    "_hasMachineReadableSchema": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The available schema is a human-readable PDF table; no OpenAPI/JSON Schema/XSD/DDL artifact is provided in the downloaded files list.",
+      "alternatives": "yes was rejected because parseable PDF text is not the same as a vendor-provided machine-readable schema artifact.",
+      "uncertainty": "A customer portal could host machine-readable specs not in this corpus.",
+      "confidence": "high (4/5)",
+      "decision": "hasMachineReadableSchema = no"
+    },
+    "hasMachineReadableSchema": "no",
+    "_describesFieldNames": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Every section table explicitly names columns (for example ChartNumber, Substance, Medications, ConsultationNote).",
+      "alternatives": "no was rejected because named column lists are explicit throughout sections 2.1-2.15.",
+      "uncertainty": "None material for this presence call.",
+      "confidence": "high (5/5)",
+      "decision": "describesFieldNames = yes"
+    },
+    "describesFieldNames": "yes",
+    "_describesFieldTypes": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The PDF provides a DataType column for each field (long, varchar, numeric, decimal, DateTime).",
+      "alternatives": "no was rejected because explicit types are present for all documented columns.",
+      "uncertainty": "Type precision is coarse (for example varchar length and nullability not provided).",
+      "confidence": "high (5/5)",
+      "decision": "describesFieldTypes = yes"
+    },
+    "describesFieldTypes": "yes",
+    "_describesFieldSemantics": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Semantics are partially documented via Notes (for example Id unique identifier, ChartNumber unique patient identifier), but most fields rely on name-only interpretation.",
+      "alternatives": "no was rejected because some explicit semantic notes exist. A stronger call was rejected because semantic coverage is sparse.",
+      "uncertainty": "Without sample rows, field-level meaning for free-text columns remains ambiguous.",
+      "confidence": "moderate (3/5)",
+      "decision": "describesFieldSemantics = yes"
+    },
+    "describesFieldSemantics": "yes",
+    "_describesValueSets": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No explicit allowed-value enumerations or code-system binding tables are included for fields such as BirthSex, Severity, or Status.",
+      "alternatives": "yes was rejected because field names alone do not document value sets.",
+      "uncertainty": "In-product picklists may exist but are not published in this export doc.",
+      "rule": "Use yes only with explicit enumerations or code-binding lists.",
+      "confidence": "high (4/5)",
+      "decision": "describesValueSets = no"
+    },
+    "describesValueSets": "no",
+    "_describesRelationships": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The PDF lists independent section schemas but does not provide relationship maps, join keys, FK declarations, or ERD statements.",
+      "alternatives": "yes was rejected because similar Id fields across sections are not explicit relationship documentation.",
+      "uncertainty": "Relationships may exist in product internals but are undocumented in this artifact.",
+      "rule": "Use yes only with explicit FK map/ERD/relationship statements.",
+      "confidence": "high (5/5)",
+      "decision": "describesRelationships = no"
+    },
+    "describesRelationships": "no",
+    "_describesKeysConstraints": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Each section defines Id as a unique identifier for each record, which is explicit uniqueness/key-constraint documentation even though PK/FK maps are absent.",
+      "alternatives": "no was rejected because uniqueness is explicitly stated. A stronger interpretation of full key map was rejected because no FK or requiredness matrix is present.",
+      "uncertainty": "Whether Id is globally unique or only per-section is not specified.",
+      "rule": "yes requires explicit PK/FK/requiredness/uniqueness/cardinality evidence; this call is based on explicit uniqueness statements.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "describesKeysConstraints = yes"
+    },
+    "describesKeysConstraints": "yes",
+    "_hasSampleData": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No sample CSV payload files or sample rows are included in downloads/; only documentation artifacts are present.",
+      "alternatives": "yes was rejected because schema tables are not sample data.",
+      "uncertainty": "Customer-only support channels may provide samples not in this corpus.",
+      "confidence": "high (5/5)",
+      "decision": "hasSampleData = no"
+    },
+    "hasSampleData": "no",
+    "_sampleRepresentativeness": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No sample payload artifacts were observed, so representativeness is none.",
+      "alternatives": "Scores above 0 were rejected because there are no sample export rows/files to evaluate.",
+      "uncertainty": "Could change if even one realistic export sample is provided.",
+      "confidence": "high (5/5)",
+      "decision": "sampleRepresentativeness = 0"
+    },
+    "sampleRepresentativeness": 0,
+    "_docsCurrentness": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Revision table shows approval date 2022-06-29; PDF metadata shows creation 2023-12-13. As of 2026-02-15, this appears mostly stale but still coherent.",
+      "alternatives": "Scores 3-5 were rejected because no recent revision history is provided. Score 1 was rejected because the documentation remains structured and usable.",
+      "uncertainty": "Unpublished revisions may exist outside this publicly posted file.",
+      "confidence": "moderate (3/5)",
+      "decision": "docsCurrentness = 2"
+    },
+    "docsCurrentness": 2,
+    "_maturity": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Documentation is better than minimal because field names/types are fully listed for 15 sections, but major implementation blockers remain (no relationships, value sets, machine schema, or samples).",
+      "alternatives": "good/strong were rejected due missing implementation-critical details. minimal was rejected because there is still a concrete section-by-section schema.",
+      "uncertainty": "Maturity would rise materially with sample exports and relationship/key maps.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "maturity = basic"
+    },
+    "maturity": "basic",
+    "notes": "Strengths: explicit CSV section list with field names and data types. Gaps: no machine-readable schema, no value sets, no cross-table relationships, and no sample payloads."
+  },
+  "fidelityRisk": {
+    "_representationType": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json; results/american-medical-solutions-inc/downloads/services-page-top.png",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The export exposes a narrow set of section-level CSV projections with many single-varchar domain columns (for example Medications, Procedures, Problems), indicating projected slices rather than a rich underlying operational model dump.",
+      "alternatives": "native_model_like was rejected because relationship structure and workflow entities are largely absent. external_standard_projection was considered but rejected because output is not explicitly FHIR/C-CDA.",
+      "uncertainty": "Without real payload examples, the degree of internal detail retained inside text columns is uncertain.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "representationType = native_plus_projection"
+    },
+    "representationType": "native_plus_projection",
+    "_mappingTarget": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No explicit target mapping (FHIR, C-CDA, flat-table transform specification) is declared; only vendor-defined CSV sections are described.",
+      "alternatives": "fhir and ccda were rejected due absence of profile statements. flat_tables was rejected because docs do not explicitly describe a transformation model target.",
+      "uncertainty": "Section naming resembles USCDI classes, but explicit mapping documentation is absent.",
+      "rule": "Prefer none unless explicit mapping target evidence exists.",
+      "confidence": "high (4/5)",
+      "decision": "mappingTarget = none"
+    },
+    "mappingTarget": "none",
+    "_projectionLossRisk": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json; results/american-medical-solutions-inc/product-research.md",
+      "sourceQuality": "primary_descriptive",
+      "reasoning": "Loss risk is high: many domains are represented by single text fields and several capabilities implied by certification criteria (for example a(12), a(14), a(15)) are not directly represented as dedicated export sections.",
+      "alternatives": "Moderate risk (2-3) was rejected because omission signals are repeated across multiple criteria/domain expectations. Maximum risk 5 was rejected because core clinical sections are at least present.",
+      "uncertainty": "Some omitted concepts might be embedded in generic text columns, which cannot be verified without sample data.",
+      "confidence": "moderate (3/5)",
+      "decision": "projectionLossRisk = 4"
+    },
+    "projectionLossRisk": 4,
+    "_conflationRisk": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Distinct clinical concepts are likely conflated because several sections collapse content into one varchar column (for example Medications, Procedures, Problems, Goals, Health Concerns).",
+      "alternatives": "Lower risk (1-2) was rejected due repeated single-field compression pattern. Maximum risk 5 was rejected because some domains still have multiple structured columns (demographics, vitals, notes).",
+      "uncertainty": "Actual serialization style inside these varchar fields is unknown without example rows.",
+      "confidence": "high (4/5)",
+      "decision": "conflationRisk = 4"
+    },
+    "conflationRisk": 4,
+    "_reconstructionDifficulty": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Reconstruction effort is high because cross-entity relationships and foreign keys are undocumented, and no sample bundle demonstrates practical linking behavior.",
+      "alternatives": "Lower scores (1-2) were rejected because importer logic would require substantial assumptions. Score 5 was rejected because there is still typed field structure and explicit section boundaries.",
+      "uncertainty": "Difficulty could drop if hidden stable cross-file identifiers are present in real data.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "reconstructionDifficulty = 4"
+    },
+    "reconstructionDifficulty": 4,
+    "_keyLossPatterns": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The schema repeatedly uses local Id fields and broad text blobs, which is a recurring pattern for key and semantic loss during migration.",
+      "alternatives": "No-loss interpretation was rejected because explicit relationship metadata is absent.",
+      "uncertainty": "Observed payload samples could reveal hidden reusable identifiers not documented here.",
+      "confidence": "high (4/5)",
+      "decision": "keyLossPatterns capture repeated structural loss mechanisms."
+    },
+    "keyLossPatterns": [
+      "Multiple domains reduced to Id + single varchar payload columns, obscuring element-level structure.",
+      "No documented foreign keys or encounter-level linking fields across section CSV files.",
+      "No value-set bindings for coded fields (for example BirthSex/Severity/Status), increasing semantic drift risk.",
+      "No sample rows to show delimiter/encoding conventions for multi-valued text content."
+    ],
+    "_likelyOmittedAreas": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json; results/american-medical-solutions-inc/product-research.md; results/american-medical-solutions-inc/downloads/services-page-top.png",
+      "sourceQuality": "primary_descriptive",
+      "reasoning": "Given explicit section list, several patient-decision/billing related areas likely stored by the product are underrepresented or absent from this export path.",
+      "alternatives": "Assuming complete EHI coverage was rejected because documented section set is narrow and criteria/features imply additional patient-record content.",
+      "uncertainty": "Some areas may be partially embedded in free-text columns but are not explicitly represented.",
+      "confidence": "moderate (3/5)",
+      "decision": "likelyOmittedAreas lists high-impact gaps relative to product capability signals."
+    },
+    "likelyOmittedAreas": [
+      "Encounter-level context and explicit visit identifiers/timestamps linking clinical events.",
+      "Orders and referrals as discrete records (the PDF includes results-oriented sections but no orders/referrals section).",
+      "Insurance, claims, billing charges, and payment records expected in an integrated practice management setting.",
+      "Documents/attachments and scanned artifacts as discrete exported files/metadata.",
+      "Family history, implantable devices, and patient education details implied by certified criteria but not named as sections.",
+      "Patient communication records beyond generic note text fields."
+    ]
+  },
+  "domainCoverage": [
+    {
+      "domain": "demographics",
+      "_coverage": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Section 2.1 Patient Demographics includes 17 fields spanning identifiers, name components, DOB, race, ethnicity, birth sex, language, address, phone, and email.",
+        "alternatives": "present_but_not_comprehensive was rejected because this domain has multiple explicit section fields rather than a trace mention; not_clearly_present is inconsistent with explicit section listings.",
+        "uncertainty": "Only schema-level documentation is available; sample exports could confirm actual row-level breadth and change this call.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is high because the section names and field lists are explicit in the PDF and do not require heavy inference.",
+        "alternatives": "Lower confidence was rejected because evidence for direct presence/absence is explicit in the primary artifact.",
+        "uncertainty": "A real export sample with populated rows and file inventory would reduce uncertainty on breadth.",
+        "confidence": "high (4/5)",
+        "decision": "domain confidence = 4/5"
+      },
+      "confidence": 4,
+      "notes": "Demographics appears one of the most detailed sections, though no value sets are documented for coded demographics."
+    },
+    {
+      "domain": "encounters",
+      "_coverage": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No dedicated encounter section is documented; the export trigger occurs from Encounter Summary but schema tables do not expose encounter entities/keys.",
+        "alternatives": "present_but_not_comprehensive was rejected because no direct section or field naming shows meaningful domain payload; plausibly_comprehensive is not supportable from the PDF.",
+        "uncertainty": "Only schema-level documentation is available; sample exports could confirm actual row-level breadth and change this call.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is moderate because presence is explicit, but comprehensiveness still depends on inference from field sparsity.",
+        "alternatives": "Higher confidence was rejected because no sample payloads confirm how much real data populates the documented columns.",
+        "uncertainty": "A real export sample with populated rows and file inventory would reduce uncertainty on breadth.",
+        "confidence": "moderate (3/5)",
+        "decision": "domain confidence = 3/5"
+      },
+      "confidence": 3,
+      "notes": "Encounter context may be implicit in text fields but is not clearly represented as a discrete domain export."
+    },
+    {
+      "domain": "problems_conditions",
+      "_coverage": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Sections 2.14 Health Concerns and 2.15 Problems exist, but each is only Id plus one varchar column.",
+        "alternatives": "plausibly_comprehensive was rejected because the export usually compresses this domain to one or a few text fields; not_clearly_present was rejected because at least one named section directly covers the domain.",
+        "uncertainty": "Only schema-level documentation is available; sample exports could confirm actual row-level breadth and change this call.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is high because the section names and field lists are explicit in the PDF and do not require heavy inference.",
+        "alternatives": "Lower confidence was rejected because evidence for direct presence/absence is explicit in the primary artifact.",
+        "uncertainty": "A real export sample with populated rows and file inventory would reduce uncertainty on breadth.",
+        "confidence": "high (4/5)",
+        "decision": "domain confidence = 4/5"
+      },
+      "confidence": 4,
+      "notes": "Presence is clear; granularity for coding/status/onset/resolution is not documented."
+    },
+    {
+      "domain": "medications",
+      "_coverage": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Section 2.10 Medications is present but consists of Id + Medications varchar only.",
+        "alternatives": "plausibly_comprehensive was rejected because the export usually compresses this domain to one or a few text fields; not_clearly_present was rejected because at least one named section directly covers the domain.",
+        "uncertainty": "Only schema-level documentation is available; sample exports could confirm actual row-level breadth and change this call.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is high because the section names and field lists are explicit in the PDF and do not require heavy inference.",
+        "alternatives": "Lower confidence was rejected because evidence for direct presence/absence is explicit in the primary artifact.",
+        "uncertainty": "A real export sample with populated rows and file inventory would reduce uncertainty on breadth.",
+        "confidence": "high (4/5)",
+        "decision": "domain confidence = 4/5"
+      },
+      "confidence": 4,
+      "notes": "Medication detail (dose, route, timing, status, prescriber) is not explicitly broken out."
+    },
+    {
+      "domain": "allergies",
+      "_coverage": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Section 2.2 Allergies has explicit fields (Substance, Reaction, Severity, Status, Non-Medication), indicating clear presence but limited coding detail.",
+        "alternatives": "plausibly_comprehensive was rejected because the export usually compresses this domain to one or a few text fields; not_clearly_present was rejected because at least one named section directly covers the domain.",
+        "uncertainty": "Only schema-level documentation is available; sample exports could confirm actual row-level breadth and change this call.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is high because the section names and field lists are explicit in the PDF and do not require heavy inference.",
+        "alternatives": "Lower confidence was rejected because evidence for direct presence/absence is explicit in the primary artifact.",
+        "uncertainty": "A real export sample with populated rows and file inventory would reduce uncertainty on breadth.",
+        "confidence": "high (4/5)",
+        "decision": "domain confidence = 4/5"
+      },
+      "confidence": 4,
+      "notes": "Structured columns exist, but value-set bindings and timestamps are not documented."
+    },
+    {
+      "domain": "immunizations",
+      "_coverage": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Section 2.5 Immunizations exists but only as Id + Immunizations varchar.",
+        "alternatives": "plausibly_comprehensive was rejected because the export usually compresses this domain to one or a few text fields; not_clearly_present was rejected because at least one named section directly covers the domain.",
+        "uncertainty": "Only schema-level documentation is available; sample exports could confirm actual row-level breadth and change this call.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is high because the section names and field lists are explicit in the PDF and do not require heavy inference.",
+        "alternatives": "Lower confidence was rejected because evidence for direct presence/absence is explicit in the primary artifact.",
+        "uncertainty": "A real export sample with populated rows and file inventory would reduce uncertainty on breadth.",
+        "confidence": "high (4/5)",
+        "decision": "domain confidence = 4/5"
+      },
+      "confidence": 4,
+      "notes": "No explicit fields for CVX code, dates, lot, manufacturer, or status."
+    },
+    {
+      "domain": "vitals",
+      "_coverage": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Section 2.3 Vitals includes many measurements (BP, HR, RR, temperature, height, weight, oxygen, percentiles, head circumference percentile).",
+        "alternatives": "present_but_not_comprehensive was rejected because this domain has multiple explicit section fields rather than a trace mention; not_clearly_present is inconsistent with explicit section listings.",
+        "uncertainty": "Only schema-level documentation is available; sample exports could confirm actual row-level breadth and change this call.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is high because the section names and field lists are explicit in the PDF and do not require heavy inference.",
+        "alternatives": "Lower confidence was rejected because evidence for direct presence/absence is explicit in the primary artifact.",
+        "uncertainty": "A real export sample with populated rows and file inventory would reduce uncertainty on breadth.",
+        "confidence": "high (4/5)",
+        "decision": "domain confidence = 4/5"
+      },
+      "confidence": 4,
+      "notes": "Vitals is one of the more granularly represented domains in this export."
+    },
+    {
+      "domain": "laboratory",
+      "_coverage": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Section 2.8 Laboratory includes Tests and Values/Results but lacks richer order/result metadata fields.",
+        "alternatives": "plausibly_comprehensive was rejected because the export usually compresses this domain to one or a few text fields; not_clearly_present was rejected because at least one named section directly covers the domain.",
+        "uncertainty": "Only schema-level documentation is available; sample exports could confirm actual row-level breadth and change this call.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is high because the section names and field lists are explicit in the PDF and do not require heavy inference.",
+        "alternatives": "Lower confidence was rejected because evidence for direct presence/absence is explicit in the primary artifact.",
+        "uncertainty": "A real export sample with populated rows and file inventory would reduce uncertainty on breadth.",
+        "confidence": "high (4/5)",
+        "decision": "domain confidence = 4/5"
+      },
+      "confidence": 4,
+      "notes": "Lab result presence is clear; comprehensive lab domain structure is not documented."
+    },
+    {
+      "domain": "diagnostic_reports",
+      "_coverage": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Clinical Notes section includes ImagingNarrative, Laboratory Report Narrative, and Pathology Report Narrative, indicating report narrative presence.",
+        "alternatives": "plausibly_comprehensive was rejected because the export usually compresses this domain to one or a few text fields; not_clearly_present was rejected because at least one named section directly covers the domain.",
+        "uncertainty": "Only schema-level documentation is available; sample exports could confirm actual row-level breadth and change this call.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is moderate because presence is explicit, but comprehensiveness still depends on inference from field sparsity.",
+        "alternatives": "Higher confidence was rejected because no sample payloads confirm how much real data populates the documented columns.",
+        "uncertainty": "A real export sample with populated rows and file inventory would reduce uncertainty on breadth.",
+        "confidence": "moderate (3/5)",
+        "decision": "domain confidence = 3/5"
+      },
+      "confidence": 3,
+      "notes": "Narratives are present, but report-level identifiers/coding/linkages are not explicit."
+    },
+    {
+      "domain": "procedures",
+      "_coverage": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Section 2.6 Procedures exists but is compressed to Id + Procedures varchar.",
+        "alternatives": "plausibly_comprehensive was rejected because the export usually compresses this domain to one or a few text fields; not_clearly_present was rejected because at least one named section directly covers the domain.",
+        "uncertainty": "Only schema-level documentation is available; sample exports could confirm actual row-level breadth and change this call.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is high because the section names and field lists are explicit in the PDF and do not require heavy inference.",
+        "alternatives": "Lower confidence was rejected because evidence for direct presence/absence is explicit in the primary artifact.",
+        "uncertainty": "A real export sample with populated rows and file inventory would reduce uncertainty on breadth.",
+        "confidence": "high (4/5)",
+        "decision": "domain confidence = 4/5"
+      },
+      "confidence": 4,
+      "notes": "No explicit procedure code/date/performer/status fields are listed."
+    },
+    {
+      "domain": "clinical_notes",
+      "_coverage": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Section 2.12 Clinical Notes includes multiple note categories (consultation, discharge summary, H&P, procedure, progress, and narratives).",
+        "alternatives": "plausibly_comprehensive was rejected because the export usually compresses this domain to one or a few text fields; not_clearly_present was rejected because at least one named section directly covers the domain.",
+        "uncertainty": "Only schema-level documentation is available; sample exports could confirm actual row-level breadth and change this call.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is high because the section names and field lists are explicit in the PDF and do not require heavy inference.",
+        "alternatives": "Lower confidence was rejected because evidence for direct presence/absence is explicit in the primary artifact.",
+        "uncertainty": "A real export sample with populated rows and file inventory would reduce uncertainty on breadth.",
+        "confidence": "high (4/5)",
+        "decision": "domain confidence = 4/5"
+      },
+      "confidence": 4,
+      "notes": "Note type breadth exists, but authorship/versioning/encounter linkage are not clearly modeled."
+    },
+    {
+      "domain": "care_plans_goals",
+      "_coverage": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Sections 2.7 Assessment and Plan of Treatment and 2.13 Goals are present but both are highly collapsed text fields.",
+        "alternatives": "plausibly_comprehensive was rejected because the export usually compresses this domain to one or a few text fields; not_clearly_present was rejected because at least one named section directly covers the domain.",
+        "uncertainty": "Only schema-level documentation is available; sample exports could confirm actual row-level breadth and change this call.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is high because the section names and field lists are explicit in the PDF and do not require heavy inference.",
+        "alternatives": "Lower confidence was rejected because evidence for direct presence/absence is explicit in the primary artifact.",
+        "uncertainty": "A real export sample with populated rows and file inventory would reduce uncertainty on breadth.",
+        "confidence": "high (4/5)",
+        "decision": "domain confidence = 4/5"
+      },
+      "confidence": 4,
+      "notes": "Care plan domain is present with limited structure."
+    },
+    {
+      "domain": "orders_referrals",
+      "_coverage": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No export section explicitly names orders or referrals; laboratory section appears result-oriented.",
+        "alternatives": "present_but_not_comprehensive was rejected because no direct section or field naming shows meaningful domain payload; plausibly_comprehensive is not supportable from the PDF.",
+        "uncertainty": "Only schema-level documentation is available; sample exports could confirm actual row-level breadth and change this call.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is moderate because presence is explicit, but comprehensiveness still depends on inference from field sparsity.",
+        "alternatives": "Higher confidence was rejected because no sample payloads confirm how much real data populates the documented columns.",
+        "uncertainty": "A real export sample with populated rows and file inventory would reduce uncertainty on breadth.",
+        "confidence": "moderate (3/5)",
+        "decision": "domain confidence = 3/5"
+      },
+      "confidence": 3,
+      "notes": "Order/referral data may exist in product workflows but is not clearly documented in this export schema."
+    },
+    {
+      "domain": "documents_attachments",
+      "_coverage": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The documented output is section CSV files inside a zip; no attachment/document file export section or binary/document metadata schema is listed.",
+        "alternatives": "present_but_not_comprehensive was rejected because no direct section or field naming shows meaningful domain payload; plausibly_comprehensive is not supportable from the PDF.",
+        "uncertainty": "Only schema-level documentation is available; sample exports could confirm actual row-level breadth and change this call.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is moderate because presence is explicit, but comprehensiveness still depends on inference from field sparsity.",
+        "alternatives": "Higher confidence was rejected because no sample payloads confirm how much real data populates the documented columns.",
+        "uncertainty": "A real export sample with populated rows and file inventory would reduce uncertainty on breadth.",
+        "confidence": "moderate (3/5)",
+        "decision": "domain confidence = 3/5"
+      },
+      "confidence": 3,
+      "notes": "No explicit document/attachment table is present in sections 2.1-2.15."
+    },
+    {
+      "domain": "insurance",
+      "_coverage": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No insurance enrollment/payer/member fields are documented in any section of the PDF.",
+        "alternatives": "present_but_not_comprehensive was rejected because no direct section or field naming shows meaningful domain payload; plausibly_comprehensive is not supportable from the PDF.",
+        "uncertainty": "Only schema-level documentation is available; sample exports could confirm actual row-level breadth and change this call.",
+        "confidence": "low-moderate (2/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is lower because this call relies mostly on absence inference and cross-system capability assumptions.",
+        "alternatives": "Higher confidence was rejected because direct evidence for this specific domain is weak.",
+        "uncertainty": "A real export sample with populated rows and file inventory would reduce uncertainty on breadth.",
+        "confidence": "low-moderate (2/5)",
+        "decision": "domain confidence = 2/5"
+      },
+      "confidence": 2,
+      "notes": "Absence inference only; product-level practice management signals suggest this may still be stored internally."
+    },
+    {
+      "domain": "claims_billing",
+      "_coverage": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No claims, charge, billing, or adjudication section appears in the 15 documented export sections.",
+        "alternatives": "present_but_not_comprehensive was rejected because no direct section or field naming shows meaningful domain payload; plausibly_comprehensive is not supportable from the PDF.",
+        "uncertainty": "Only schema-level documentation is available; sample exports could confirm actual row-level breadth and change this call.",
+        "confidence": "low-moderate (2/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is lower because this call relies mostly on absence inference and cross-system capability assumptions.",
+        "alternatives": "Higher confidence was rejected because direct evidence for this specific domain is weak.",
+        "uncertainty": "A real export sample with populated rows and file inventory would reduce uncertainty on breadth.",
+        "confidence": "low-moderate (2/5)",
+        "decision": "domain confidence = 2/5"
+      },
+      "confidence": 2,
+      "notes": "This is a key EHI risk area because billing/claims data can affect amounts owed and therefore designated-record-set scope."
+    },
+    {
+      "domain": "payments",
+      "_coverage": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No payment transaction fields or payment section is documented in the export schema.",
+        "alternatives": "present_but_not_comprehensive was rejected because no direct section or field naming shows meaningful domain payload; plausibly_comprehensive is not supportable from the PDF.",
+        "uncertainty": "Only schema-level documentation is available; sample exports could confirm actual row-level breadth and change this call.",
+        "confidence": "low-moderate (2/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is lower because this call relies mostly on absence inference and cross-system capability assumptions.",
+        "alternatives": "Higher confidence was rejected because direct evidence for this specific domain is weak.",
+        "uncertainty": "A real export sample with populated rows and file inventory would reduce uncertainty on breadth.",
+        "confidence": "low-moderate (2/5)",
+        "decision": "domain confidence = 2/5"
+      },
+      "confidence": 2,
+      "notes": "Payment records are not clearly present in this documented path."
+    },
+    {
+      "domain": "scheduling",
+      "_coverage": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No appointment/scheduling section is documented in sections 2.1-2.15.",
+        "alternatives": "present_but_not_comprehensive was rejected because no direct section or field naming shows meaningful domain payload; plausibly_comprehensive is not supportable from the PDF.",
+        "uncertainty": "Only schema-level documentation is available; sample exports could confirm actual row-level breadth and change this call.",
+        "confidence": "low-moderate (2/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is lower because this call relies mostly on absence inference and cross-system capability assumptions.",
+        "alternatives": "Higher confidence was rejected because direct evidence for this specific domain is weak.",
+        "uncertainty": "A real export sample with populated rows and file inventory would reduce uncertainty on breadth.",
+        "confidence": "low-moderate (2/5)",
+        "decision": "domain confidence = 2/5"
+      },
+      "confidence": 2,
+      "notes": "Scheduling may or may not be part of designated record set depending use; this path does not clearly include it."
+    },
+    {
+      "domain": "consents_directives",
+      "_coverage": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No consent or advance directive section/fields are explicitly listed in the exported schema tables.",
+        "alternatives": "present_but_not_comprehensive was rejected because no direct section or field naming shows meaningful domain payload; plausibly_comprehensive is not supportable from the PDF.",
+        "uncertainty": "Only schema-level documentation is available; sample exports could confirm actual row-level breadth and change this call.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is moderate because presence is explicit, but comprehensiveness still depends on inference from field sparsity.",
+        "alternatives": "Higher confidence was rejected because no sample payloads confirm how much real data populates the documented columns.",
+        "uncertainty": "A real export sample with populated rows and file inventory would reduce uncertainty on breadth.",
+        "confidence": "moderate (3/5)",
+        "decision": "domain confidence = 3/5"
+      },
+      "confidence": 3,
+      "notes": "Could be embedded in notes, but not clearly represented as a domain."
+    },
+    {
+      "domain": "patient_communications",
+      "_coverage": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No dedicated patient message/communication export section is documented despite site text referencing communications capabilities.",
+        "alternatives": "present_but_not_comprehensive was rejected because no direct section or field naming shows meaningful domain payload; plausibly_comprehensive is not supportable from the PDF.",
+        "uncertainty": "Only schema-level documentation is available; sample exports could confirm actual row-level breadth and change this call.",
+        "confidence": "low-moderate (2/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is lower because this call relies mostly on absence inference and cross-system capability assumptions.",
+        "alternatives": "Higher confidence was rejected because direct evidence for this specific domain is weak.",
+        "uncertainty": "A real export sample with populated rows and file inventory would reduce uncertainty on breadth.",
+        "confidence": "low-moderate (2/5)",
+        "decision": "domain confidence = 2/5"
+      },
+      "confidence": 2,
+      "notes": "Communication content may exist in notes but is not clearly exported as a distinct domain."
+    },
+    {
+      "domain": "audit_provenance",
+      "_coverage": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Section 2.9 Provenance includes AuthorTimeStamp and AuthorOrganization, which provides limited provenance metadata but not full audit log export.",
+        "alternatives": "plausibly_comprehensive was rejected because the export usually compresses this domain to one or a few text fields; not_clearly_present was rejected because at least one named section directly covers the domain.",
+        "uncertainty": "Only schema-level documentation is available; sample exports could confirm actual row-level breadth and change this call.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is high because the section names and field lists are explicit in the PDF and do not require heavy inference.",
+        "alternatives": "Lower confidence was rejected because evidence for direct presence/absence is explicit in the primary artifact.",
+        "uncertainty": "A real export sample with populated rows and file inventory would reduce uncertainty on breadth.",
+        "confidence": "high (4/5)",
+        "decision": "domain confidence = 4/5"
+      },
+      "confidence": 4,
+      "notes": "Audit logs are not required EHI under the legal scope test, so this row should not drive completeness penalties."
+    }
+  ],
+  "quantitativeProfile": {
+    "artifactCounts": {
+      "totalArtifactsReviewed": {
+        "status": "measured",
+        "value": 8,
+        "method": "exact",
+        "notes": "Reviewed artifacts: one primary PDF, two primary screenshots, and five supporting files (files.json, chpl-metadata.json, product-research.md, ehi-export-report.md, sources.json)."
+      },
+      "exportArtifactsDocumented": {
+        "status": "measured",
+        "value": 1,
+        "method": "exact",
+        "notes": "Only the 170.315(b)(10) PDF directly documents export payload structure/content."
+      },
+      "sampleDataArtifacts": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No sample CSV files or sample row payloads were included in downloads/."
+      },
+      "dictionaryOrSchemaArtifacts": {
+        "status": "measured",
+        "value": 1,
+        "method": "exact",
+        "notes": "Single PDF dictionary/spec artifact with section schemas."
+      },
+      "machineReadableSchemaArtifacts": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No OpenAPI, JSON Schema, XSD, SQL DDL, or equivalent artifact found."
+      }
+    },
+    "modelEntityCounts": {
+      "documentedEntities": {
+        "status": "measured",
+        "value": 15,
+        "method": "exact",
+        "notes": "Count of documented export sections 2.1 through 2.15."
+      },
+      "observedEntities": {
+        "status": "not_observable",
+        "notes": "No sample export payload files were available to observe realized entities."
+      },
+      "exportDistinctUnits": {
+        "status": "measured",
+        "value": 15,
+        "method": "derived",
+        "notes": "PDF states each selected section generates an independent CSV file; selecting all documented categories implies 15 CSV units in one zip bundle."
+      }
+    },
+    "fieldCounts": {
+      "documentedFields": {
+        "status": "measured",
+        "value": 71,
+        "method": "exact",
+        "notes": "Counted datatype-bearing rows across all section schemas in the PDF (long/varchar/numeric/decimal/DateTime lines)."
+      },
+      "observedFields": {
+        "status": "not_observable",
+        "notes": "No sample CSV rows/files were provided for direct field observation."
+      },
+      "fieldsWithTypeInfo": {
+        "status": "measured",
+        "value": 71,
+        "method": "exact",
+        "notes": "Every documented field row includes a DataType value in the PDF tables."
+      },
+      "fieldsWithSemanticDescription": {
+        "status": "measured",
+        "value": 16,
+        "method": "exact",
+        "notes": "Explicit Notes cells: Id uniqueness note in each of 15 sections plus ChartNumber semantic note in demographics; most other fields have blank notes."
+      },
+      "codedFields": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No fields are explicitly documented with enumerated or code-bound value domains in the provided schema."
+      }
+    },
+    "relationshipCounts": {
+      "documentedRelationships": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No explicit inter-section relationship statements, joins, or FK mappings are documented."
+      },
+      "documentedPrimaryKeys": {
+        "status": "measured",
+        "value": 15,
+        "method": "exact",
+        "notes": "Each section defines Id as unique identifier for each record."
+      },
+      "documentedForeignKeys": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No foreign key fields are explicitly identified as cross-section references."
+      },
+      "documentedConstraints": {
+        "status": "measured",
+        "value": 15,
+        "method": "derived",
+        "notes": "Derived from 15 explicit uniqueness statements on section Id fields; no additional constraints documented."
+      }
+    },
+    "valueSetCounts": {
+      "documentedValueSets": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No standalone value-set or enumeration tables are provided."
+      },
+      "valueSetsWithCodeSystem": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No value sets with named code systems (SNOMED/LOINC/RxNorm/etc.) are documented."
+      },
+      "fieldsBoundToValueSets": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No explicit field-to-valueset bindings are documented."
+      },
+      "localCustomValueSets": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No vendor-local custom value-set documentation observed."
+      }
+    },
+    "notes": "Counts are bounded to reviewed artifacts in this vendor folder. Structured count calls prefer explicit observables from the PDF over inference from marketing prose."
+  },
+  "accessConstraints": {
+    "_docsPubliclyAccessible": {
+      "sources": "results/american-medical-solutions-inc/files.json; results/american-medical-solutions-inc/downloads/services-page-certified-ehr-section.png; results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "files.json records successful direct retrieval from a public services page, and the screenshot text shows Export Documentation under public Certified EHR links.",
+      "alternatives": "no was rejected because no auth barrier evidence appears in the retrieval artifacts.",
+      "uncertainty": "Future access controls could change, but none were present at collection time.",
+      "confidence": "high (5/5)",
+      "decision": "docsPubliclyAccessible = yes"
+    },
+    "docsPubliclyAccessible": "yes",
+    "_roleRestricted": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The overview explicitly states system administrators must provide permissions for users needing export access.",
+      "alternatives": "no was rejected due explicit role/permission statement. unknown was rejected because the requirement is directly documented.",
+      "uncertainty": "Specific permission granularity is not described.",
+      "confidence": "high (5/5)",
+      "decision": "roleRestricted = yes"
+    },
+    "roleRestricted": "yes",
+    "_vendorInvolvementNeeded": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Workflow is documented as user-triggered in-product export after permissions are granted, with no stated requirement for vendor-operated extraction.",
+      "alternatives": "yes was rejected because required vendor action is not documented. unknown was rejected because execution path is explicitly customer-user initiated.",
+      "uncertainty": "Exceptional support scenarios could exist but are not described as required for standard path.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "vendorInvolvementNeeded = no"
+    },
+    "vendorInvolvementNeeded": "no",
+    "_potentialFeesForStandardExport": {
+      "sources": "results/american-medical-solutions-inc/downloads/services-page-certified-ehr-section.png; results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The evidence includes a link title for Transparency & Cost Disclosure but does not provide the fee details in downloaded artifacts; standard export fee status is therefore not directly observable.",
+      "alternatives": "yes and no were both rejected because neither explicit fee nor explicit no-fee statement is in the reviewed files.",
+      "uncertainty": "Reviewing the transparency/cost disclosure document would resolve this call.",
+      "confidence": "moderate (3/5)",
+      "decision": "potentialFeesForStandardExport = unknown"
+    },
+    "potentialFeesForStandardExport": "unknown",
+    "_practicalAccessibilityScore": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/downloads/services-page-certified-ehr-section.png; results/american-medical-solutions-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Accessibility appears moderate-low friction: public docs, in-product self-run mechanism, but permission gating and patient-by-patient workflow add operational friction.",
+      "alternatives": "Lower scores (0-1) were rejected because access is not universally open to all roles and may require repeated manual runs. Higher scores (4-5) were rejected because there is no explicit vendor-ticket barrier.",
+      "uncertainty": "Unpublished org-level policies could increase friction in practice.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "practicalAccessibilityScore = 2"
+    },
+    "practicalAccessibilityScore": 2,
+    "notes": "Public discoverability is strong, but operationally the standard path is permission-gated and oriented to single-patient execution."
+  },
+  "overall": {
+    "_posture": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json; results/american-medical-solutions-inc/product-research.md",
+      "sourceQuality": "primary_descriptive",
+      "reasoning": "The export is usable but appears materially narrowed to projected clinical sections with high risk of omitted designated-record-set areas (especially billing/claims/payment and other patient-decision data).",
+      "alternatives": "high_fidelity_export was rejected due sparse relational structure and likely domain omissions. insufficiently_documented was rejected because the PDF gives concrete schema tables. usable_but_partial was considered, but projection limitations are central and repeated.",
+      "uncertainty": "Confidence on omitted non-clinical EHI would increase with direct product data model evidence beyond certification/features.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "posture = projection_limited"
+    },
+    "posture": "projection_limited",
+    "_completenessScore": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json; results/american-medical-solutions-inc/product-research.md",
+      "sourceQuality": "primary_descriptive",
+      "reasoning": "Core clinical categories are present, but breadth is limited and several likely designated-record-set domains are not clearly present, indicating material incompleteness.",
+      "alternatives": "Scores 4-5 were rejected because evidence does not support near-complete patient-record export. Score 1 was rejected because multiple major clinical domains are still documented.",
+      "uncertainty": "True completeness could change with sample exports showing richer embedded detail.",
+      "confidence": "moderate (3/5)",
+      "decision": "completenessScore = 2"
+    },
+    "completenessScore": 2,
+    "_technicalUsabilityScore": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "CSV output with typed columns is workable, but lack of relationship documentation, sparse semantics, and no samples makes reliable migration difficult.",
+      "alternatives": "Higher scores (4-5) were rejected due missing implementation details. Score 1 was rejected because output is at least structured and documented at section level.",
+      "uncertainty": "Usability may improve if downstream teams have internal mapping knowledge or hidden companion docs.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "technicalUsabilityScore = 2"
+    },
+    "technicalUsabilityScore": 2,
+    "_confidence": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/downloads/services-page-top.png; results/american-medical-solutions-inc/downloads/services-page-certified-ehr-section.png; results/american-medical-solutions-inc/files.json; results/american-medical-solutions-inc/chpl-metadata.json; results/american-medical-solutions-inc/product-research.md; results/american-medical-solutions-inc/ehi-export-report.md; results/american-medical-solutions-inc/sources.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Confidence is moderate-high because export mechanics and schema structure are explicit, but completeness judgments for non-listed domains rely partly on absence inference and secondary capability signals.",
+      "alternatives": "Higher confidence was rejected due missing payload samples and incomplete direct evidence of full internal data model.",
+      "uncertainty": "Confidence would improve with actual exported files and product-side data inventory artifacts.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "overall confidence = 4/5"
+    },
+    "confidence": 4,
+    "_strongestSignal": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The strongest positive signal is explicit, end-to-end path documentation: permissioned user trigger, per-section CSV generation, zip packaging, and field-level schema across 15 sections.",
+      "alternatives": "Other positives (public accessibility, screenshots) are weaker because they do not describe payload structure as directly.",
+      "uncertainty": "No sample payloads to validate runtime conformance to documentation.",
+      "confidence": "high (5/5)",
+      "decision": "strongestSignal selected for directness and specificity."
+    },
+    "strongestSignal": "Primary PDF provides explicit export workflow plus section-by-section CSV schemas with typed columns across 15 clinical domains.",
+    "_biggestRisk": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/chpl-metadata.json; results/american-medical-solutions-inc/product-research.md",
+      "sourceQuality": "primary_descriptive",
+      "reasoning": "Highest-impact risk is that projected, compressed section outputs may omit or flatten designated-record-set data used for treatment or amount-owed decisions (especially billing/claims/payment and linked encounter context).",
+      "alternatives": "Documentation staleness was considered but is lower impact than potential data omission/conflation.",
+      "uncertainty": "Requires direct full-product data inventory or real export samples to confirm magnitude.",
+      "confidence": "moderate (3/5)",
+      "decision": "biggestRisk focuses on EHI completeness and semantic loss risk."
+    },
+    "biggestRisk": "Material designated-record-set data may be omitted or conflated by the section-level projection model, limiting reliable migration and legal EHI completeness.",
+    "_summary": {
+      "sources": "results/american-medical-solutions-inc/downloads/170.315b10-EHI-Export-Documentation.pdf; results/american-medical-solutions-inc/downloads/services-page-top.png; results/american-medical-solutions-inc/downloads/services-page-certified-ehr-section.png; results/american-medical-solutions-inc/chpl-metadata.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Summary reflects explicit evidence: publicly posted Helios b(10) PDF describes a permissioned single-patient CSV zip export with 15 sections, but structure is sparse and appears projection-limited relative to full designated-record-set expectations.",
+      "alternatives": "A more positive summary was rejected because multiple high-impact domains are not clearly represented.",
+      "uncertainty": "Sample exports and cost disclosure details could materially refine practical and completeness judgments.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "Summary aligned to projection-limited posture with concrete evidence."
+    },
+    "summary": "Helios documents a clear, self-service, single-patient CSV-in-zip export path with 15 typed section schemas, but the model is highly flattened and likely incomplete for full designated-record-set EHI coverage, especially outside summary clinical slices."
+  },
+  "notableFacts": [
+    "The public b(10) PDF explicitly states export is launched from Encounter Summary and is permission-gated by system administrators.",
+    "Each selected category generates an independent CSV file and the system downloads a zip bundle.",
+    "The schema documents 15 export sections and 71 datatype-bearing field rows.",
+    "Most sections are highly compressed (often Id plus one varchar field), with no documented inter-file relationships.",
+    "No sample export payloads or machine-readable schema artifacts were included in the reviewed files.",
+    "A Provenance section exists (AuthorTimeStamp, AuthorOrganization), but this is limited metadata rather than full audit logging."
+  ]
+}

@@ -1,0 +1,729 @@
+{
+  "meta": {
+    "schemaVersion": "2026-02-15.v1",
+    "assessedAt": "2026-02-15",
+    "assessor": "reviewer_b",
+    "status": "draft"
+  },
+  "scope": {
+    "vendorName": "MedAZ",
+    "productFamily": "mhealthAZ product line",
+    "includedProducts": [
+      "mhealthAZ"
+    ],
+    "excludedProducts": [],
+    "versionsInScope": [
+      "2020.001",
+      "unknown"
+    ],
+    "scopeRationale": "Single ONC-associated API/fhir export line is covered here as one product family with bulk and single-patient export endpoints."
+  },
+  "sources": [
+    {
+      "sourceId": "SRC-MDZ-001",
+      "title": "MedAZ certification and API links",
+      "kind": "vendor_ehi_doc",
+      "location": "results/medaz-net-llc/downloads/certificationinfo.html",
+      "applicableProductFamilies": [
+        "mhealthAZ"
+      ],
+      "reportedLastUpdated": "2023-06-16",
+      "stability": "sporadically_updated",
+      "stabilityNotes": "Cert page includes 2023 certification date and explicit API endpoint references.",
+      "includesSampleData": "unknown",
+      "sampleCoverage": "unknown",
+      "sampleCoverageNotes": "No explicit downloadable data example in this file."
+    },
+    {
+      "sourceId": "SRC-MDZ-002",
+      "title": "MedAZ bulk FHIR capability statement",
+      "kind": "vendor_api_doc",
+      "location": "results/medaz-net-llc/downloads/fhir-capability-statement-bulk.json",
+      "applicableProductFamilies": [
+        "mhealthAZ"
+      ],
+      "reportedLastUpdated": null,
+      "stability": "unknown",
+      "stabilityNotes": "Structured capability metadata for bulk endpoint.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "No patient row payload in this artifact."
+    },
+    {
+      "sourceId": "SRC-MDZ-003",
+      "title": "MedAZ single-patient capability statement",
+      "kind": "vendor_api_doc",
+      "location": "results/medaz-net-llc/downloads/fhir-capability-statement-single.json",
+      "applicableProductFamilies": [
+        "mhealthAZ"
+      ],
+      "reportedLastUpdated": null,
+      "stability": "unknown",
+      "stabilityNotes": "Structured capability metadata for single-patient endpoint.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "No payload sample included."
+    },
+    {
+      "sourceId": "SRC-MDZ-004",
+      "title": "MedAZ bulk swagger spec",
+      "kind": "vendor_api_doc",
+      "location": "results/medaz-net-llc/downloads/swagger-bulk.json",
+      "applicableProductFamilies": [
+        "mhealthAZ"
+      ],
+      "reportedLastUpdated": null,
+      "stability": "unknown",
+      "stabilityNotes": "API operations and response types are machine-readable and include ndjson/xml variants.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "No sample response data."
+    },
+    {
+      "sourceId": "SRC-MDZ-005",
+      "title": "MedAZ single-patient swagger spec",
+      "kind": "vendor_api_doc",
+      "location": "results/medaz-net-llc/downloads/swagger-single-patient.json",
+      "applicableProductFamilies": [
+        "mhealthAZ"
+      ],
+      "reportedLastUpdated": null,
+      "stability": "unknown",
+      "stabilityNotes": "Operation paths and examples indicate single-record retrieval model.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "No row samples included."
+    },
+    {
+      "sourceId": "SRC-MDZ-006",
+      "title": "MedAZ product research",
+      "kind": "vendor_product_doc",
+      "location": "results/medaz-net-llc/product-research.md",
+      "applicableProductFamilies": [
+        "mhealthAZ"
+      ],
+      "reportedLastUpdated": null,
+      "stability": "unknown",
+      "stabilityNotes": "Contextual product background.",
+      "includesSampleData": "unknown",
+      "sampleCoverage": "unknown",
+      "sampleCoverageNotes": "No export samples."
+    }
+  ],
+  "assessmentFlow": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-MDZ-001",
+            "locator": "certificationinfo.html lines with QRDA-1, CCD-A and FHIR links",
+            "quote": "Preferred formats: QRDA-1, CCD-A; FHIR bulk and single endpoints listed",
+            "relevance": "Confirms both FHIR-centric and broader clinical exchange framing."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No explicit per-domain export checklist in this artifact."
+        ]
+      },
+      "stage": "discover_sources",
+      "method": "Collected certification page plus API and capability documents for bulk and single patient exports.",
+      "observations": [
+        "Primary interface is API-driven with FHIR capability statements and swagger specs."
+      ],
+      "impactOnAssessment": "Scoped to API pull surface with likely FHIR projection characteristics."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-MDZ-002",
+            "locator": "Capability statement resource types",
+            "quote": null,
+            "relevance": "Resource coverage can be bounded to a known FHIR type set."
+          },
+          {
+            "sourceId": "SRC-MDZ-004",
+            "locator": "Paths include /$export-poll-status and /download",
+            "quote": null,
+            "relevance": "Evidence of bulk export flow details."
+          }
+        ],
+        "strength": 5,
+        "gaps": [
+          "No sample payloads in the downloaded artifacts."
+        ]
+      },
+      "stage": "inspect_export_surface",
+      "method": "Inspected swagger and capability artifacts for serialization, endpoints, and resource set boundaries.",
+      "observations": [
+        "Single and bulk FHIR API patterns are explicitly present."
+      ],
+      "impactOnAssessment": "Set major constraints for fidelity and domain coverage scoring toward standards-projected exports."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-MDZ-001",
+            "locator": "certificationinfo lines for QRDA-1 / CCD-A",
+            "quote": null,
+            "relevance": "Indicates coexistence of alternate standards but not guaranteed in current sample set."
+          }
+        ],
+        "strength": 3,
+        "gaps": [
+          "No concrete C-CDA/QRDA sample artifacts were collected for this run."
+        ]
+      },
+      "stage": "compare_model_vs_export",
+      "method": "Compared API resource coverage against potential full EHI scope and identified likely omissions for non-FHIR-only domains.",
+      "observations": [
+        "Current accessible evidence is mostly FHIR resources and swagger-defined endpoints."
+      ],
+      "impactOnAssessment": "Supports external projection dominance with possible format fragmentation."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-MDZ-004",
+            "locator": "mediaType values application/ndjson and application/xml",
+            "quote": null,
+            "relevance": "Serialization formats widen integration but also indicate standardization."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No sample data to validate exact payload content boundaries."
+        ]
+      },
+      "stage": "score_and_classify",
+      "method": "Assigned hybrid scores reflecting FHIR export richness and likely projection risk for non-FHIR classes.",
+      "observations": [
+        "Classification placed toward external projection rather than native reflection."
+      ],
+      "impactOnAssessment": "Final synthesis emphasizes caution on custom/non-fhir workflow completeness."
+    }
+  ],
+  "exportSurface": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-MDZ-002",
+          "locator": "fhirVersion 4.0.1 and resource list",
+          "quote": null,
+          "relevance": "Shows baseline FHIR standardization and resource constraints."
+        },
+        {
+          "sourceId": "SRC-MDZ-004",
+          "locator": "swagger-bulk.json response types",
+          "quote": null,
+          "relevance": "Confirms API pull interface and ndjson/xml response support."
+        }
+      ],
+      "strength": 5,
+      "gaps": [
+        "No machine-readable export manifest zip found in this run."
+      ]
+    },
+    "container": "api_pull",
+    "serialization": "mixed",
+    "machineReadableSchema": "yes",
+    "includesDataDictionary": "yes",
+    "dictionaryDepth": "semantic",
+    "documentsValueSets": "unknown",
+    "documentsKeys": "field_plus_types",
+    "documentsRelationships": "semantic",
+    "documentsConstraints": "unknown",
+    "accessibilityTier": "assisted_standard",
+    "accessibilityNotes": "API access path indicates required integration/authorization behavior instead of simple UI export download."
+  },
+  "mappingRisk": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-MDZ-002",
+          "locator": "FHIR resource types include AllergyIntolerance, Condition, Encounter, Observation, Procedure, Patient",
+          "quote": null,
+          "relevance": "Core export resources are standardized FHIR resources."
+        },
+        {
+          "sourceId": "SRC-MDZ-001",
+          "locator": "certificationinfo includes QRDA/CCD-A",
+          "quote": null,
+          "relevance": "Potentially multiple standardized projections are referenced but not all are evidence-backed with data samples."
+        }
+      ],
+      "strength": 4,
+      "gaps": [
+        "No explicit mapping statement from internal data model to resources."
+      ]
+    },
+    "representation": "mapped_to_external_standard",
+    "mappingTarget": "fhir",
+    "projectionLossRiskScore": 4,
+    "conflationRiskScore": 3,
+    "reconstitutionEffortScore": 4,
+    "lossOrConflationExamples": [
+      "Internal module-specific concepts can be reduced to generic FHIR resources.",
+      "Unsupported custom claims/payment workflows may be unavailable without additional interfaces."
+    ],
+    "suspectedOmissions": [
+      "No direct evidence of custom attachments or module-specific metadata beyond exported FHIR resources."
+    ]
+  },
+  "domainAssessments": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-MDZ-002",
+            "locator": "Resource type Patient",
+            "quote": null,
+            "relevance": "Patient core demographic records are native to FHIR patient resource."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "demographics",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 5,
+      "rationale": "Patient resource is first-class and required for FHIR export."
+      ,
+      "caveats": []
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-MDZ-002",
+            "locator": "Resource type Encounter",
+            "quote": null,
+            "relevance": "Encounter appears in resource list."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "encounters",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 5,
+      "rationale": "Core clinical encounter data should be present via Encounter resource semantics.",
+      "caveats": [
+        "No sample payload to verify required/optional encounter fields."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-MDZ-002",
+            "locator": "Resource type Condition",
+            "quote": null,
+            "relevance": "Problems/conditions represented as standard Condition resources."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "problems_conditions",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 5,
+      "rationale": "Conditions are explicit FHIR resource coverage.",
+      "caveats": []
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-MDZ-002",
+            "locator": "Resource type Medication and MedicationRequest",
+            "quote": null,
+            "relevance": "Medication classes are present in resource set."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "domain": "medications",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 3,
+      "rationale": "Medication resources are declared, but depth and administration history are unverified without sample rows.",
+      "caveats": [
+        "No payload-level verification of Rx workflow and refill history completeness."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-MDZ-002",
+            "locator": "Resource type Observation",
+            "quote": null,
+            "relevance": "Observations imply vitals and lab result carriers."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "domain": "laboratory",
+      "coverageLevel": "implied_only",
+      "decisionSupportScore": 3,
+      "rationale": "Observation can carry vital signs and labs, but separate resource naming for labs not shown.",
+      "caveats": [
+        "Specialty and imaging observation nuance is ambiguous."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-MDZ-002",
+            "locator": "Resource type Coverage",
+            "quote": null,
+            "relevance": "Insurance/coverage data is represented as FHIR Coverage.",
+            "source": ""
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "Billing and claims lifecycle not separately verified."
+        ]
+      },
+      "domain": "insurance",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 4,
+      "rationale": "Coverage provides a baseline for payer relationship but may not include all adjudication detail.",
+      "caveats": [
+        "Claims, denial, and payment details may be scoped differently."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-MDZ-002",
+            "locator": "Resource type Procedure",
+            "quote": null,
+            "relevance": "Procedure records included in resource list."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "procedures",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 4,
+      "rationale": "Procedure export should exist as standard resource.",
+      "caveats": [
+        "Procedure code detail quality not verifiable in this run."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-MDZ-004",
+            "locator": "application/xml response type",
+            "quote": null,
+            "relevance": "XML output indicates possible export of documents/reporting content in mixed modes."
+          }
+        ],
+        "strength": 3,
+        "gaps": []
+      },
+      "domain": "documents_attachments",
+      "coverageLevel": "implied_only",
+      "decisionSupportScore": 2,
+      "rationale": "Documents could be surfaced via FHIR DocumentReference and XML output paths, but no dedicated export examples are present.",
+      "caveats": [
+        "Binary attachment handling not demonstrated."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-MDZ-004",
+            "locator": "resourceName path patterns",
+            "quote": null,
+            "relevance": "Generic resource endpoints may cover many clinical objects but not all communication domains.
+"
+          }
+        ],
+        "strength": 2,
+        "gaps": [
+          "No explicit message or referral resources in extracted list.",
+          "No appointment resource listed.",
+          "No immunization resource listed in the extracted resource set."
+        ]
+      },
+      "domain": "patient_communications",
+      "coverageLevel": "not_evidenced",
+      "decisionSupportScore": 1,
+      "rationale": "No communication-specific resource shown in collected resource listing."
+      ,
+      "caveats": [
+        "Messaging may exist as custom extension absent from the public list."
+      ]
+    }
+  ],
+  "domainCoverageSummary": {
+    "comprehensive": [
+      "demographics",
+      "encounters",
+      "problems_conditions",
+      "procedures"
+    ],
+    "partial": [
+      "medications",
+      "laboratory",
+      "insurance",
+      "documents_attachments",
+      "diagnostic_reports"
+    ],
+    "implied": [
+      "immunizations",
+      "allergies",
+      "vitals",
+      "care_plans_goals",
+      "orders_referrals",
+      "scheduling"
+    ],
+    "notEvidenced": [
+      "patient_communications",
+      "claims_billing",
+      "payments",
+      "consents_directives",
+      "audit_provenance"
+    ],
+    "conflicting": []
+  },
+  "dimensionScores": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-MDZ-002",
+            "locator": "resource type list",
+            "quote": null,
+            "relevance": "Shows several key domains but not full evidence of all designated record classes."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No sample payload to verify each domain class in practice."
+        ]
+      },
+      "dimension": "scope_completeness",
+      "score": 3,
+      "rationale": "Moderate evidence of core clinical domains; potential gaps in communications, claims, and specialty modules.",
+      "uncertaintyNotes": "Confidence improves if raw API responses are reviewed directly."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-MDZ-004",
+            "locator": "content types ndjson and xml",
+            "quote": null,
+            "relevance": "Machine-friendly response formats are explicit."
+          }
+        ],
+        "strength": 5,
+        "gaps": [
+          "No direct sample file for practical parser behavior."
+        ]
+      },
+      "dimension": "format_openness",
+      "score": 4,
+      "rationale": "NDJSON/XML support is robust for integration but mixed formats require handling both."
+      ,
+      "uncertaintyNotes": "Could score higher with confirmed response examples."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-MDZ-002",
+            "locator": "capability statement + swagger",
+            "quote": null,
+            "relevance": "Excellent machine-readable metadata exists."
+          }
+        ],
+        "strength": 5,
+        "gaps": [
+          "No full list of custom extensions in one extracted view."
+        ]
+      },
+      "dimension": "dictionary_quality",
+      "score": 4,
+      "rationale": "High-quality API specification surface.",
+      "uncertaintyNotes": "Could miss nonstandard extensions not in base capability statement."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-MDZ-004",
+            "locator": "OAuth and endpoint access setup in swagger",
+            "quote": null,
+            "relevance": "Access appears governed by API credentials and endpoint orchestration."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No details on customer onboarding friction in this run."
+        ]
+      },
+      "dimension": "accessibility",
+      "score": 2,
+      "rationale": "Needs API consumption capabilities versus simple file download.",
+      "uncertaintyNotes": "Could be higher for automated integrators; lower for non-technical teams."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-MDZ-002",
+            "locator": "fhirVersion 4.0.1 resource set",
+            "quote": null,
+            "relevance": "FHIR standardization implies external projection over native shape."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No mapping matrix from product-native fields to FHIR resources."
+        ]
+      },
+      "dimension": "model_fidelity",
+      "score": 2,
+      "rationale": "Strong external standardization raises transformation/conversion risk for non-FHIR-native semantics.",
+      "uncertaintyNotes": "Custom extensions may improve fidelity where present but are undocumented in detail."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-MDZ-002",
+            "locator": "resource subset excluding many workflow tables",
+            "quote": null,
+            "relevance": "Subset nature suggests projection risk."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No complete domain reconciliation evidence."
+        ]
+      },
+      "dimension": "projection_loss_risk",
+      "score": 4,
+      "rationale": "Risk of loss is material because export is FHIR-focused and likely excludes some local workflows.",
+      "uncertaintyNotes": "Could be lower if all product data is representable via FHIR extensions."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-MDZ-004",
+            "locator": "generic placeholder paths and limited resource names",
+            "quote": null,
+            "relevance": "Generic resource extraction may collapse local concepts into standard buckets."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "Unknown custom extension handling."
+        ]
+      },
+      "dimension": "conflation_risk",
+      "score": 3,
+      "rationale": "FHIR harmonization can merge product-specific semantics unless careful extension mapping is provided.",
+      "uncertaintyNotes": "Could reduce if implementation contains complete extension profiles and valuesets."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-MDZ-002",
+            "locator": "need to reconcile resource relationships and attachments manually",
+            "quote": null,
+            "relevance": "Downstream consumer will still need semantic normalization across resource categories."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No sample payload to estimate transformation effort exactly."
+        ]
+      },
+      "dimension": "reconstitution_effort",
+      "score": 4,
+      "rationale": "Requires significant mapping investment when local workflows do not map cleanly to FHIR.",
+      "uncertaintyNotes": "Integration burden may fall after first-party APIs if standardized."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-MDZ-006",
+            "locator": "report context",
+            "quote": null,
+            "relevance": "No sample export payload in provided run."
+          }
+        ],
+        "strength": 2,
+        "gaps": [
+          "No sample data available to evaluate representativeness."
+        ]
+      },
+      "dimension": "sample_data_representativeness",
+      "score": 1,
+      "rationale": "No sample payload available for this product in current files.",
+      "uncertaintyNotes": "Could improve sharply with even minimal sample extract."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-MDZ-001",
+            "locator": "certification date and endpoint references",
+            "quote": null,
+            "relevance": "Cert and endpoint list appears maintained but no change log provided in this artifact set."
+          }
+        ],
+        "strength": 3,
+        "gaps": [
+          "No recent update signal in API specs."
+        ]
+      },
+      "dimension": "documentation_stability",
+      "score": 3,
+      "rationale": "Structured docs exist, but periodic verification is required due no explicit update cadence.",
+      "uncertaintyNotes": "Recheck endpoint metadata regularly for breaking changes."
+    }
+  ],
+  "synthesis": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-MDZ-001",
+          "locator": "certification info + FHIR API endpoint set",
+          "quote": "FHIR bulk and single endpoints plus Capability statements",
+          "relevance": "Primary signal that export is standards-projected rather than native dump."
+        }
+      ],
+      "strength": 4,
+      "gaps": [
+        "No concrete payload sample to validate complete downstream mappings."
+      ]
+    },
+    "classification": "external_projection_dominant",
+    "confidence": "medium",
+    "keySignal": "API-export model is predominantly FHIR resource projection with mixed serialization and limited domain evidence."
+    ,
+    "operationalImplication": "Integrators should budget for FHIR mapping and extension handling; useful for standardized consumers but may miss custom/ niche workflows.",
+    "reproducibilityRisk": "High until raw response samples are collected, as domain omissions cannot be ruled out from spec alone."
+  }
+}

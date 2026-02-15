@@ -17,6 +17,20 @@ set -euo pipefail
 export PATH="$HOME/.local/bin:$HOME/.bun/bin:$PATH"
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+LOOP_LOG="$ROOT/wiggum/logs/loop-exit.log"
+mkdir -p "$(dirname "$LOOP_LOG")"
+
+cleanup() {
+  local code=$?
+  local ts
+  ts=$(date '+%Y-%m-%d %H:%M:%S')
+  if (( code != 0 )); then
+    echo "[$ts] Loop exited with code $code (line ${BASH_LINENO[0]:-?}, command: ${BASH_COMMAND:-?})" | tee -a "$LOOP_LOG" >&2
+  else
+    echo "[$ts] Loop finished normally" | tee -a "$LOOP_LOG" >&2
+  fi
+}
+trap cleanup EXIT
 CONFIG_DIR="$ROOT/wiggum"
 TARGETS="${TARGETS:-$ROOT/work/targets.json}"
 RESULTS_DIR="$ROOT/results"
@@ -126,7 +140,13 @@ fi
 TOTAL=$(jq 'length' "$TARGETS")
 echo "=== EHI Export Documentation Collection ==="
 echo "Phase:   $PHASE ($PHASE_LABEL)"
-echo "Backend: $LLM_BACKEND ($SHELLEY_MODEL)"
+case "$LLM_BACKEND" in
+  claude)  _model_label="claude-${CLAUDE_MODEL}" ;;
+  shelley) _model_label="$SHELLEY_MODEL" ;;
+  gemini)  _model_label="$GEMINI_MODEL" ;;
+  *)       _model_label="$LLM_BACKEND" ;;
+esac
+echo "Backend: $LLM_BACKEND ($_model_label)"
 echo "Targets: $TARGETS ($TOTAL URLs)"
 echo "Results: $RESULTS_DIR/"
 echo ""
@@ -178,13 +198,25 @@ run_target() {
 
   mkdir -p "$output_dir/downloads"
 
-  # Copy CHPL metadata (use original_index if present, else list position)
+  # Copy CHPL metadata, filtered to only products in this phase target's chpl_ids
   local orig_idx
   orig_idx=$(echo "$target" | jq -r '.original_index // empty')
   local meta_idx="${orig_idx:-$idx}"
   local meta_file="$ROOT/work/target-metadata/$(printf '%04d' "$meta_idx").json"
   if [[ -f "$meta_file" ]]; then
-    cp "$meta_file" "$output_dir/chpl-metadata.json"
+    local phase_ids
+    phase_ids=$(echo "$target" | jq -c '.chpl_ids')
+    jq --argjson ids "$phase_ids" '.products |= [.[] | select(.chpl_id as $id | $ids | index($id))]' \
+      "$meta_file" > "$output_dir/chpl-metadata.json"
+    # Skip if no products matched (chpl_ids not in metadata)
+    local product_count
+    product_count=$(jq '.products | length' "$output_dir/chpl-metadata.json")
+    if (( product_count == 0 )); then
+      echo "  SKIP: no matching products in metadata"
+      SKIPPED=$((SKIPPED + 1))
+      rm -rf "$output_dir"
+      return 0
+    fi
   fi
 
   echo "[$idx/$TOTAL] $slug"
@@ -206,8 +238,9 @@ run_target() {
 
     echo "  phase $phase ($label): running..."
 
-    local prompt
-    prompt=$(sed \
+    # Render template: simple vars via sed, then file includes via awk
+    local rendered
+    rendered=$(sed \
       -e "s|{{URL}}|${url}|g" \
       -e "s|{{DEVELOPERS}}|${developers}|g" \
       -e "s|{{PRODUCTS}}|${products}|g" \
@@ -215,17 +248,79 @@ run_target() {
       -e "s|{{OUTPUT_DIR}}|${output_dir}|g" \
       "$template")
 
+    # Inline file includes: {{FILE_REF}} → contents of prompts/file-ref.md
+    local prompt
+    prompt=$(echo "$rendered" | awk -v dir="$CONFIG_DIR/prompts" '{
+      if (match($0, /\{\{([A-Z_]+)\}\}/, m)) {
+        key = m[1]
+        gsub(/_/, "-", key)
+        cmd = "tr \"[:upper:]\" \"[:lower:]\" <<< \"" key "\""
+        cmd | getline lower_key
+        close(cmd)
+        inc = dir "/" lower_key ".md"
+        if ((getline line < inc) > 0) {
+          print line
+          while ((getline line < inc) > 0) print line
+          close(inc)
+        } else {
+          print  # no file found, keep original line
+        }
+      } else {
+        print
+      }
+    }')
+
     if [[ -n "$DISCOURAGE_SUBAGENTS" ]]; then
       prompt+=$'\n\n> **Note:** Avoid using subagents for this task. Work sequentially in a single conversation.\n'
     fi
 
     local log_file="$output_dir/phase${phase}-log.txt"
 
-    # Run agent — blocks until it finishes
-    if run_llm "$ROOT" <<< "$prompt" 2>&1 | tee "$log_file"; then
-      echo "  phase $phase ($label): done"
+    # Run agent — blocks until it finishes or hits timeout.
+    # A stale-output watchdog kills the agent if the log file hasn't
+    # been written to in STALE_TIMEOUT seconds (default 300 = 5 min).
+    local t0=$SECONDS
+    export -f run_llm
+    export LLM_BACKEND CLAUDE_MODEL SHELLEY_PROMPT SHELLEY_SERVER SHELLEY_MODEL SHELLEY_USER GEMINI_MODEL
+
+    # Start agent in background, capture its PID.
+    # Output goes to both the per-target log and stdout (for /tmp/wiggum-loop.log).
+    timeout "${TIMEOUT:-1800}" bash -c 'run_llm "$1" <<< "$2"' _ "$ROOT" "$prompt" \
+      2>&1 | tee "$log_file" &
+    local agent_pid=$!
+
+    # Stale-output watchdog: kill agent if log unchanged for STALE_TIMEOUT
+    local stale_timeout="${STALE_TIMEOUT:-300}"
+    (
+      while kill -0 "$agent_pid" 2>/dev/null; do
+        sleep 30
+        if [[ -f "$log_file" ]]; then
+          local age
+          age=$(( $(date +%s) - $(stat -c %Y "$log_file") ))
+          if (( age > stale_timeout )); then
+            echo "  watchdog: log stale for ${age}s, killing agent (PID $agent_pid)" >&2
+            kill "$agent_pid" 2>/dev/null || true
+            break
+          fi
+        fi
+      done
+    ) &
+    local watchdog_pid=$!
+
+    # Wait for agent to finish
+    wait "$agent_pid" 2>/dev/null
+    local exit_code=$?
+    kill "$watchdog_pid" 2>/dev/null || true
+    wait "$watchdog_pid" 2>/dev/null || true
+
+    if (( exit_code == 0 )); then
+      echo "  phase $phase ($label): done ($(( SECONDS - t0 ))s)"
+    elif (( exit_code == 124 )); then
+      echo "  ⏰ phase $phase ($label): timed out after $(( ${TIMEOUT:-1800} / 60 ))m"
+      target_failed=true
+      break
     else
-      echo "  phase $phase ($label): FAILED"
+      echo "  phase $phase ($label): FAILED (exit $exit_code, $(( SECONDS - t0 ))s)"
       target_failed=true
       break
     fi

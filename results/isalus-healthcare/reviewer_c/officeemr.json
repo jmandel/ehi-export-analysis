@@ -1,0 +1,544 @@
+{
+  "meta": {
+    "schemaVersion": "2026-02-15.v1",
+    "assessedAt": "2026-02-15",
+    "assessor": "reviewer_c",
+    "status": "final"
+  },
+  "scope": {
+    "vendorName": "iSALUS Healthcare",
+    "productFamily": "OfficeEMR",
+    "includedProducts": ["OfficeEMR"],
+    "excludedProducts": [],
+    "versionsInScope": [
+      "OfficeEMR v2021",
+      "Oct 2023 schema artifacts (v1)",
+      "November 2025 UI documentation snapshot"
+    ],
+    "scopeRationale": "Single certified product line and one documented OfficeEMR EHI export stack: KnowledgeOwl /ehi-export article plus ZIP artifacts (schemas, data dictionary, sample export) and screenshots.",
+    "_includedProducts": "Used product research and CHPL record (product name OfficeEMR, CHPL ID 10914, certification 2022-06-06) and confirmed all OfficeEMR-specific evidence points to the same family in the same support portal.",
+    "_excludedProducts": "No other named OfficeEMR-branded modules were documented in the collected sources; specialty add-on products (e.g., ENTChoice) are integrations within the same platform and are not separate EHI documentation streams in this workspace.",
+    "_versionsInScope": "Kept scope to the OfficeEMR 21 (2021) CHPL product plus artifacts dated 2023, plus the 2025-12-19 KnowledgeOwl page revision from which those files are linked; did not include legacy InfoDive (separate Data Export) pages unrelated to b(10).",
+    "scopeNotes": "Primary question is native multi-file EHI export completeness against OfficeEMR-stored clinical and administrative data; API-only g(10) artifacts were excluded unless referenced by the EHI export documentation.",
+    "_scopeNotes": "Evidence first comes from the registered URL and directly linked artifacts; alternate systems (legacy InfoDive CSV export, FHIR portal links) were explicitly treated as separate workflows."
+  },
+  "sources": [
+    {
+      "sourceId": "SRC-001",
+      "title": "iSALUS EHI export synthesis",
+      "kind": "vendor_ehi_doc",
+      "location": "results/isalus-healthcare/ehi-export-report.md",
+      "applicableProductFamilies": ["OfficeEMR"],
+      "reportedLastUpdated": "2026-02-14",
+      "stability": "sporadically_updated",
+      "stabilityNotes": "Narrative reflects artifacts collected from the current EHI export page and is updated with HTI-1 notes from 2026 path.",
+      "includesSampleData": "yes",
+      "sampleCoverage": "partial_realistic",
+      "sampleCoverageNotes": "Single patient export plus full schema dictionary and related metadata are covered in the source report."
+    },
+    {
+      "sourceId": "SRC-002",
+      "title": "OfficeEMR B10 schema archive",
+      "kind": "vendor_data_dictionary",
+      "location": "results/isalus-healthcare/downloads/officeemr-b10-schema-v1-oct2023.zip",
+      "applicableProductFamilies": ["OfficeEMR"],
+      "reportedLastUpdated": "2023-10-17",
+      "stability": "sporadically_updated",
+      "stabilityNotes": "Versioned ZIP bundle with 81 files under OfficeEMR_B10_Schema_v1-OCT2023/; no linked changelog included in downloaded set.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "Only machine-readable schema artifacts, no record payloads."
+    },
+    {
+      "sourceId": "SRC-003",
+      "title": "iSALUS EHI export data elements dictionary",
+      "kind": "vendor_data_dictionary",
+      "location": "results/isalus-healthcare/downloads/isalus-ehi-export-data-elements-version1-oct2023.zip",
+      "applicableProductFamilies": ["OfficeEMR"],
+      "reportedLastUpdated": "2023-10-17",
+      "stability": "sporadically_updated",
+      "stabilityNotes": "Single XLSX file with field-level descriptions; no separate versioned release notes included.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "Reference dictionary only."
+    },
+    {
+      "sourceId": "SRC-004",
+      "title": "Sample single-patient EHI export",
+      "kind": "sample_export_file",
+      "location": "results/isalus-healthcare/downloads/export-311322-voct2023.zip",
+      "applicableProductFamilies": ["OfficeEMR"],
+      "reportedLastUpdated": "2023-10-31",
+      "stability": "sporadically_updated",
+      "stabilityNotes": "Demonstrates runtime payload shape with 58 JSON files, but is one test patient only.",
+      "includesSampleData": "yes",
+      "sampleCoverage": "partial_realistic",
+      "sampleCoverageNotes": "Useful for mapping and cardinality behavior; cannot prove population-wide or all entity population coverage."
+    },
+    {
+      "sourceId": "SRC-005",
+      "title": "Rendered EHI export documentation PDF",
+      "kind": "vendor_product_doc",
+      "location": "results/isalus-healthcare/downloads/ehi-export-page.pdf",
+      "applicableProductFamilies": ["OfficeEMR"],
+      "reportedLastUpdated": "2025-12-19",
+      "stability": "actively_maintained",
+      "stabilityNotes": "Snapshot includes all accordion sections and references; appears tied to the current Help center page.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "Static documentation render only."
+    },
+    {
+      "sourceId": "SRC-006",
+      "title": "EHI export page screenshots",
+      "kind": "vendor_product_doc",
+      "location": "results/isalus-healthcare/downloads/screenshot-main-ehi-page.png",
+      "applicableProductFamilies": ["OfficeEMR"],
+      "reportedLastUpdated": "2025-12-19",
+      "stability": "sporadically_updated",
+      "stabilityNotes": "UI verification of discoverability and section structure; confirms accordion content exists on-page.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "Navigation artifact only."
+    }
+  ],
+  "assessmentFlow": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-005",
+            "locator": "Registered URL and screenshot references",
+            "quote": null,
+            "relevance": "Confirms the evidence path starts from https://officeemr.knowledgeowl.com/help/ehi-export and that documentation is public and directly downloadable."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "stage": "discover_sources",
+      "method": "Collected all linked artifacts from the registered URL and validated them against downloaded ZIP/PDF files under results/isalus-healthcare/downloads.",
+      "observations": [
+        "Discovery succeeded with no auth barriers and no dead links for core artifacts."
+      ],
+      "impactOnAssessment": "Allows deterministic scope boundary and avoids reliance on marketing pages or external standards docs."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "81 files in officeemr-b10-schema-v1-oct2023.zip",
+            "quote": null,
+            "relevance": "Direct evidence that OfficeEMR ships a dedicated b10 entity model spanning clinical and PM domains rather than only USCDI-only resources."
+          },
+          {
+            "sourceId": "SRC-001",
+            "locator": "product-research modules",
+            "quote": null,
+            "relevance": "Confirms that OfficeEMR includes PM, scheduling, portal, and specialty workflows, useful to judge expected export surface."
+          }
+        ],
+        "strength": 5,
+        "gaps": [
+          "Research does not enumerate every possible internal entity in the product workflow."
+        ]
+      },
+      "stage": "understand_product_model",
+      "method": "Mapped product capabilities from research (EHR + PM + billing + communication + modules) to the domains listed in the EHI export artifacts.",
+      "observations": [
+        "Model appears broader than classic clinical-only EHR profiles due to integrated PM and workflow content."
+      ],
+      "impactOnAssessment": "Raises expected baseline for export breadth beyond ambulatory core clinical records."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-004",
+            "locator": "58-sample file archive",
+            "quote": null,
+            "relevance": "Shows payload shape: per-entity JSON arrays per file plus readme.json and no indication of API-only response envelope."
+          },
+          {
+            "sourceId": "SRC-003",
+            "locator": "dictionary XLSX",
+            "quote": null,
+            "relevance": "Confirms field-level naming and human-readable descriptions alongside schema types."
+          },
+          {
+            "sourceId": "SRC-002",
+            "locator": "schema filenames",
+            "quote": null,
+            "relevance": "Demonstrates explicit coverage intent for claims, appointments, demographics, communications, and specialty entities."
+          }
+        ],
+        "strength": 5,
+        "gaps": [
+          "Value sets and value-level enumerations are not present in visible dictionaries."
+        ]
+      },
+      "stage": "inspect_export_surface",
+      "method": "Classified actual export mechanism and format from live artifacts: one file per entity in multi-file bundle JSON with schema and sample support docs.",
+      "observations": [
+        "Format is vendor-native JSON, not FHIR or CCDA for core clinical payloads."
+      ],
+      "impactOnAssessment": "Positions OfficeEMR as a true native export implementation with practical recomposition advantages but mapping requirements for consumers."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "schema vs sample comparison",
+            "quote": null,
+            "relevance": "Sample contains 58 files while schema list is 81 files, indicating sparse coverage in the sample dataset but not necessarily missing definitions."
+          },
+          {
+            "sourceId": "SRC-001",
+            "locator": "HTI-1 update page reference",
+            "quote": null,
+            "relevance": "Upcoming additions suggest evolving field coverage and reinforce that release completeness is snapshot-dependent."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "No full-practice export sample available to confirm all entity population behavior."
+        ]
+      },
+      "stage": "compare_model_vs_export",
+      "method": "Contrasted documented schema breadth with the single-patient sample and supporting text about bulk export handoff process.",
+      "observations": [
+        "Most core clinical/PM domains appear represented; some high-priority specialties and workflows may be only sparsely represented in sample."
+      ],
+      "impactOnAssessment": "Supports conservative scoring with explicit uncertainty on edge-case and low-frequency domains."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "dictionary + sample consistency",
+            "quote": null,
+            "relevance": "Field-level schema and concrete output together make reconstruction feasible despite lack of semantic enums."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "stage": "score_and_classify",
+      "method": "Applied schema depth, self-service access, mapping risk, and domain-level completeness checks with conservative penalties for undocumented values and missing edge-case validation.",
+      "observations": [
+        "OfficeEMR export is broad and machine-readable, but some areas are explicitly undocumented at code/value granularity and not verifiable from single-patient sample."
+      ],
+      "impactOnAssessment": "Final result is high coverage with moderate confidence and explicit caveats on edge workflows and rare entities."
+    }
+  ],
+  "exportSurface": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-004",
+          "locator": "zip payload names and readme.json",
+          "quote": null,
+          "relevance": "Confirms native multi-file JSON packaging and patient-specific payload structure."
+        },
+        {
+          "sourceId": "SRC-002",
+          "locator": "OfficeEMR_B10_Schema_v1-OCT2023/*.schema.json",
+          "quote": null,
+          "relevance": "Shows machine-readable schema coverage across entities."
+        }
+      ],
+      "strength": 5,
+      "gaps": [
+        "No machine-readable value sets for coded fields are in the schema set."
+      ]
+    },
+    "container": "multi_file_bundle",
+    "serialization": "json",
+    "machineReadableSchema": "yes",
+    "includesDataDictionary": "yes",
+    "dictionaryDepth": "semantic",
+    "documentsValueSets": "unknown",
+    "documentsKeys": "partial",
+    "documentsRelationships": "partial",
+    "documentsConstraints": "partial",
+    "accessibilityTier": "assisted_standard",
+    "accessibilityNotes": "Single-patient export appears self-serve via role-gated UI and immediate ZIP retrieval; all-patient export requires team submission and a team-processing delay (~15 days).",
+    "_container": "Used Evidence from sample export and artifact layout; export is not bundled as single file or API payload and is not a DB dump. Chosen as multi_file_bundle because each domain is a separate JSON file.",
+    "_formats": "Primary payload uses JSON arrays per file. The supporting documentation PDF is non-machine-readable, but not the actual export format.",
+    "_standardProfile": "No FHIR/CCDA standard profile for the payload; no external clinical profile references in schema file names or sample layout.",
+    "_selfService": "Single-patient path is clearly self-service. Bulk path includes vendor-assisted processing with lead time, so overall export mechanism is not fully self-service.",
+    "_operationalBurden": "Single-patient retrieval is low burden (self-serve). Bulk adds administrative overhead and wait time, producing an overall medium burden classification."
+  },
+  "mappingRisk": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-002",
+          "locator": "entity-per-file schema + field-level names",
+          "quote": null,
+          "relevance": "Supports mostly direct mapping from source table structures."
+        },
+        {
+          "sourceId": "SRC-003",
+          "locator": "descriptive dictionary XLSX",
+          "quote": null,
+          "relevance": "Provides names and descriptions that reduce guesswork, despite missing semantic domains for enumerations."
+        }
+      ],
+      "strength": 4,
+      "gaps": [
+        "Limited formal relationship graph and no published constraints for cross-field cardinalities."
+      ]
+    },
+    "representation": "transparent_model_reflection",
+    "mappingTarget": "custom_partner_spec",
+    "projectionLossRiskScore": 2,
+    "conflationRiskScore": 2,
+    "reconstitutionEffortScore": 3,
+    "lossOrConflationExamples": [
+      "Without value-set codebooks, many coded strings in sample retain meaning only by implementation convention.",
+      "Some template-derived clinical structures rely on nested sub-files; consumers need explicit join logic across encounter-related entities."
+    ],
+    "suspectedOmissions": [
+      "No dedicated schema for intelligent intake forms, RPM streams, telehealth session metadata, or fax activity."
+    ]
+  },
+  "domainAssessments": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-004",
+            "locator": "demographics.json + demographics.schema.json",
+            "quote": null,
+            "relevance": "Core patient identity and contact fields appear in both schema and sample payload."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "demographics",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 5,
+      "rationale": "Demographic identity, address, communication and identifier fields are clearly present, with field names and descriptions documented.",
+      "caveats": [
+        "Date format conventions are mixed across payloads and not consistently documented in one canonical section."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-004",
+            "locator": "insurance.json + payment.json + claim.json",
+            "quote": null,
+            "relevance": "Multiple finance/coverage files exist with sample records and schema descriptions."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "billing_and_financial",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 5,
+      "rationale": "Claims, claim procedures, denials, payments, eligibility, price estimates, statements, and prior authorizations are represented.",
+      "caveats": [
+        "Some financial extensions (e.g., sliding_fee, fee_schedule) are schema-defined but absent in the single-patient sample.",
+        "No separate claims adjudication workflow traces are provided."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-004",
+            "locator": "problem_list.json + problem_list_note.json + problem_list schema",
+            "quote": null,
+            "relevance": "Core diagnosis/problem tables and notes appear in both schema and sample."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "problem_list",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 5,
+      "rationale": "Problem list and related annotations are explicitly exported in dedicated files.",
+      "caveats": []
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-004",
+            "locator": "medication.json + medication.schema.json",
+            "quote": null,
+            "relevance": "Medication fields are shown with prescription, history, and eRx-related links in product context."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "Sample shows limited medication breadth and does not validate all prescription detail variants."
+        ]
+      },
+      "domain": "medications",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 4,
+      "rationale": "Medication and pharmacy-related entities are present, but coverage depth for all prescription states is not observable from one sample patient."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-004",
+            "locator": "vital.json + vital.schema.json",
+            "quote": null,
+            "relevance": "Fine-grained vital fields documented and sample-recorded."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "domain": "vitals",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 5,
+      "rationale": "Vitals are explicitly modeled and included with extensive fields in schema and sample.",
+      "caveats": [
+        "Date/time fields are inconsistently formatted in examples (string variants)."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-004",
+            "locator": "progress_note.json + template_encounter*.json",
+            "quote": null,
+            "relevance": "Clinical note and template encounter files are present for encounter-based narrative workflows."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "Evidence of all encounter template variants and specialties is partial in sample."
+        ]
+      },
+      "domain": "clinical_notes",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 4,
+      "rationale": "Core note types and template fragments exist, supporting reconstructable encounter documentation.",
+      "caveats": [
+        "Custom template and specialist note variants may be stored in ways not directly visible in one sample."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-004",
+            "locator": "allergy.json + allergy_symptom.json",
+            "quote": null,
+            "relevance": "Both files are present in schema and sample; HTI-1 updates mention planned allergy verification extensions."
+          }
+        ],
+        "strength": 4,
+        "gaps": [
+          "Planned HTI-1 additions show current schema may not yet include verification fields for some allergy entries."
+        ]
+      },
+      "domain": "allergies",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 4,
+      "rationale": "Allergy entities are defined and populated in sample; upcoming additions imply incremental enhancement rather than missing core capture."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-004",
+            "locator": "image_document.json + image_xref.json",
+            "quote": null,
+            "relevance": "Document metadata and cross-references for images are present with dedicated schema and sample files."
+          }
+        ],
+        "strength": 3,
+        "gaps": [
+          "Binary image payloads are not included in export artifact evidence here."
+        ]
+      },
+      "domain": "imaging_and_documents",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 3,
+      "rationale": "Metadata for documents/images is included, but consumers need external object retrieval for actual content when present.",
+      "caveats": [
+        "Binary attachments may require separate retrieval assumptions not documented in schema."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-004",
+            "locator": "lab_result.json + immunization.json + order.json",
+            "quote": null,
+            "relevance": "Laboratory and immunization objects are schema-defined and present in sample."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "domain": "labs_immunizations_orders",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 4,
+      "rationale": "Core lab/immunization/order records exist; order fulfillment depth and cross-file result relationships are implicit rather than formally constrained.",
+      "caveats": [
+        "No explicit relationship graph was found."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "sources + ehi-export references",
+            "quote": null,
+            "relevance": "Portal and communication-related entities appear in schema, and feature set includes patient messaging workflows."
+          }
+        ],
+        "strength": 3,
+        "gaps": [
+          "No dedicated portal analytics/event logs were found."
+        ]
+      },
+      "domain": "patient_communications",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 3,
+      "rationale": "Communication recipient/message and comment entities exist, but not full usage/audit context from patient portal modules."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "product-research + absence in data entity list",
+            "quote": null,
+            "relevance": "Product features include telehealth and tele-intake modules, but no corresponding sample/schema entities were confirmed as dedicated entities."
+          }
+        ],
+        "strength": 2,
+        "gaps": [
+          "No specific telehealth or intake-form entity was named in schema sample names."
+        ]
+      },
+      "domain": "telehealth_and_intake",
+      "coverageLevel": "unclear",
+      "decisionSupportScore": 2,
+      "rationale": "Evidence suggests these workflows exist in product UX but do not have explicit standalone exported entities in the captured artifact set.",
+      "caveats": [
+        "These records may be represented indirectly through template encounter or note entities, but that is unverified."
+      ]
+    }
+  ]
+}

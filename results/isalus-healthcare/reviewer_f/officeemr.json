@@ -1,0 +1,362 @@
+{
+  "meta": {
+    "schemaVersion": "2026-02-15.v3",
+    "assessedAt": "2026-02-15",
+    "assessor": "reviewer_f",
+    "status": "final"
+  },
+  "scope": {
+    "vendorName": "iSALUS Healthcare",
+    "productFamily": "OfficeEMR",
+    "_includedProducts": "Used CHPL and product-research materials for CHPL ID 10914 (OfficeEMR), the EHI Export page, and the downloaded export artifacts. Included only the OfficeEMR family because the research and phase-2 evidence explicitly describe the same certified EHR/product surface and one export documentation set. Excluded non-OfficeEMR variants to avoid conflating with separate legacy exports or unrelated products. Certainty high.",
+    "includedProducts": [
+      "OfficeEMR"
+    ],
+    "_excludedProducts": "Excluded ENTChoice and other iSALUS offerings because these are referenced as specialty-related offerings, not the OfficeEMR CHPL-certified product line under review. Also excluded InfoDive \"Data Export\" items because the export docs and sources repeatedly distinguish them as a separate legacy CSV mechanism, not the (b)(10) EHI export. Certainty high.",
+    "excludedProducts": [
+      "ENTChoice",
+      "Legacy InfoDive data export (separate CSV-based mechanism)"
+    ],
+    "_versionsInScope": "Included OfficeEMR with current EHI Export artifacts identified in phase-2 (`OfficeEMR_B10_Schema_v1-OCT2023`, `ehi-export-page` artifacts, and sample export `311322`) plus the matching CHPL-certified product period. Excluded other potential future schemas because no evidence was collected for a different versioned schema in scope here. Certainty medium due an explicit \"HT1 coming soon\" note that suggests pending changes.",
+    "versionsInScope": [
+      "OfficeEMR (CHPL certification context referenced as v2021 / CHPL ID 10914)",
+      "OfficeEMR B10 EHI export schema v1-OCT2023"
+    ],
+    "scopeNotes": "Single product-family abstraction: OfficeEMR EHI (b)(10) export artifacts only."
+  },
+  "exportPaths": [
+    {
+      "_mechanism": "Used the phase-2 report and KnowledgeOwl EHI Export instructions. Explicitly states single-patient export is performed in the app by users with the EHI Export role, generated as a ZIP-like bundle. No API or FHIR endpoint is used for this path. Alternatives (g(10) API paths and legacy InfoDive CSV exports) were rejected because the report marks them as separate systems. Certainty high.",
+      "mechanism": "ui_single_patient_export",
+      "_container": "Downloaded ZIP sample and single-patient documentation describe all entities as separate JSON files/arrays, implying a bundled multi-file payload per export operation. Certainty high.",
+      "container": "multi_file_bundle",
+      "_formats": "Parsed `sample-export` artifacts: each entity is one JSON file; no evidence of FHIR/XML/CSV as primary payload for this path. Certainty high.",
+      "formats": [
+        "json"
+      ],
+      "_standardProfile": "No USCDI/FHIR/CCDA profile enforcement is described for the primary export payload; artifacts are vendor-native schemas and data dictionaries. Therefore marked as vendor-native. Certainty high.",
+      "standardProfile": "none_vendor_native",
+      "_selfService": "User can trigger and download from the Reports portal with role-based access and immediate ZIP completion status. No queue or vendor handoff is described for this single-patient path. Certainty medium.",
+      "selfService": "yes",
+      "_operationalBurden": "Single patient flow is straightforward (role-enabled UI, request, completion, download). Burden is low-moderate and lower than practice-wide exports. Certainty high.",
+      "operationalBurden": 2,
+      "notes": "Requires EHI Export role in UI; appears self-service for in-portal exports."
+    },
+    {
+      "_mechanism": "Phase-2 notes for OfficeEMR EHI Export state \"all-patient\" export is initiated by users with EHI Practice Export role in the same portal, then handled through the iSALUS Data Export team. This is materially different from immediate single-patient flow due human/process dependency. Certainty high.",
+      "mechanism": "vendor_assisted_bulk_export",
+      "_container": "Evidence describes practice-level export as downloadable as export files from the same mechanism; no direct API-based pull path described. Certainty high.",
+      "container": "multi_file_bundle",
+      "_formats": "The practice export is described as the same EHI export artifact family, so the same JSON entity-file structure applies. Certainty high.",
+      "formats": [
+        "json"
+      ],
+      "_standardProfile": "No standardized API/profiles are identified for the practice-export stream; same vendor-native file set is used. Certainty high.",
+      "standardProfile": "none_vendor_native",
+      "_selfService": "Although users can request it, the documentation describes a Data Export team handoff and ~15-day delivery, which means it is not fully self-service without staff/vendor operations. Certainty high.",
+      "selfService": "no",
+      "_operationalBurden": "Additional role coordination plus manual/assisted fulfillment and long turnaround (about 15 days) creates high operational burden. Certainty high.",
+      "operationalBurden": 4,
+      "notes": "Practical for migrations/large extractions, but not immediate and dependent on internal delivery processes."
+    }
+  ],
+  "documentation": {
+    "_hasDataDictionary": "The Excel dictionary file (`iSalus_EHI_ExportDataElements_published_version1_Oct2023_pristine.xlsx`) and PDF field pages are explicitly downloaded under phase-2 and list export data dictionaries by entity. Certainty high.",
+    "hasDataDictionary": "yes",
+    "_hasMachineReadableSchema": "The `OfficeEMR_B10_Schema_v1-OCT2023` ZIP contains JSON Schema files for each export entity. Certainty high.",
+    "hasMachineReadableSchema": "yes",
+    "_describesFieldNames": "The schemas and XLSX include field names for each entity; sample JSON exports show matching keys in practice. Certainty high.",
+    "describesFieldNames": "yes",
+    "_describesFieldTypes": "JSON Schemas define type objects for every exported field. Some nullable fields are not modeled with ideal nullable constructs, but base type information is present. Certainty high.",
+    "describesFieldTypes": "yes",
+    "_describesFieldSemantics": "Field semantics are documented in the XLSX and PDF dictionary as plain-English descriptions; this supplements schema typing. Certainty high.",
+    "describesFieldSemantics": "yes",
+    "_describesValueSets": "No authoritative value sets/enums are documented; schemas use string/object broadly and do not enumerate accepted code sets. Value set references are absent in available artifacts. Certainty high.",
+    "describesValueSets": "no",
+    "_describesRelationships": "Evidence shows shared IDs (`patientId`, `claimId`, etc.) and implied links in narrative, but no ER diagram or formal relationship section is provided. Alternatives were rejected because no explicit FK/ER docs are present in artifacts. Certainty medium.",
+    "describesRelationships": "partial",
+    "_describesKeysConstraints": "Schemas and dictionary describe field-level properties but do not consistently document requiredness, key/cardinality invariants, or constraints beyond type and naming. Therefore conservative marking as partial. Certainty high.",
+    "describesKeysConstraints": "partial",
+    "_hasSampleData": "A full single-patient sample ZIP (`export-311322-voct2023.zip`) with 58 JSON files was collected; readme links back to format docs. Certainty high.",
+    "hasSampleData": "yes",
+    "_sampleRepresentativeness": "Sample export is realistic but limited to one patient and does not include every possible entity/file type (e.g., several schema entities absent in sample). So representativeness is moderate. Certainty high.",
+    "sampleRepresentativeness": 3,
+    "_docsCurrentness": "The evidence includes last-modified and active follow-up content (e.g., HT1 updates, Q1 2026 note). However, there is no explicit changelog in the artifacts themselves. Certainty medium.",
+    "docsCurrentness": 3,
+    "_maturity": "Given availability of dictionary, machine schema, and sample exports in one place, implementation guidance is workable. Missing value sets/relationship formalism and mixed-format date conventions reduce implementation completeness. Certainty high.",
+    "maturity": "good",
+    "notes": "Strong overall documentation surface; strongest gap is semantic detail beyond simple typing."
+  },
+  "fidelityRisk": {
+    "_representationType": "The artifacts expose a large set of entity JSON files that map directly to product concepts (appointments, claims, labs, notes, documents, etc.), indicating direct projection of vendor-native model structures rather than a narrow external standard slice. Certainty high.",
+    "representationType": "native_model_like",
+    "_mappingTarget": "No evidence of a projection into FHIR/CCDA for this export; the same native JSON model is described end-to-end. Certainty high.",
+    "mappingTarget": "none",
+    "_projectionLossRisk": "Evidence is broad (clinical + claims + communications + specialty entities), and not obviously a pure subset. But absence of explicit telehealth/intake/fax/domain-specific modules raises moderate risk that some EHI-adjacent content is omitted. Certainty high.",
+    "projectionLossRisk": 3,
+    "_conflationRisk": "Entities are separated by file, and sample data contains dedicated structures for many workflows. Conflation risk is lower than in compact summary APIs, but partially possible when specialty/custom templates collapse into generic encounter structures. Certainty high.",
+    "conflationRisk": 2,
+    "_reconstructionDifficulty": "A third party can likely reconstruct a longitudinal record using patientId links and array entities, but missing explicit constraints and mixed value formats increase integration effort and interpretation effort. Certainty high.",
+    "reconstructionDifficulty": 3,
+    "_keyLossPatterns": "No evidence was found for explicit telehealth session records, patient portal activity logs, and fax/transmission workflow artifacts. Value sets are undeclared, and some schema/entity relationships are implicit only; these are likely areas of semantic loss in downstream consumption. Certainty high.",
+    "keyLossPatterns": [
+      "No explicit telehealth visit module entities",
+      "No explicit e-fax workflow entities",
+      "No explicit intake form schema entities"
+    ],
+    "_likelyOmittedAreas": "Given CHPL-wide scope claims, potential omissions are where product marketing mentions modules but export dictionary does not show dedicated files. Missing areas were not inferred broadly; they are limited to weak or unconfirmed evidence only. Certainty medium.",
+    "likelyOmittedAreas": [
+      "Telehealth-specific encounter metadata",
+      "Intake form submission content",
+      "Electronic quality-measure/MIPS workflow outputs"
+    ]
+  },
+  "domainCoverage": [
+    {
+      "_domain": "Used the data dictionary and sample-export entities listed in ehi-export-report and confirmed through schema file presence. Coverage assignment follows explicit included export entities first, with uncertainty where products modules are mentioned elsewhere but not clearly exported. Certainty high.",
+      "domain": "demographics",
+      "_coverage": "Coverage is explicitly strong: demographics entity is present with many real-world fields in sample and schema. Alternative of partial coverage was rejected due breadth of fields. Certainty high.",
+      "coverage": "comprehensive",
+      "_confidence": "Direct evidence in both schema and sample export shows wide attribute coverage. Certainty high.",
+      "confidence": 5,
+      "notes": "Extensive patient attribute coverage including identifiers and demographics."
+    },
+    {
+      "_domain": "Encounter coverage is evidenced by `appointment`, `template_encounter`, and related encounter sub-entities in the schema + sample. No standalone visit-signature module is explicitly named. Certainty high.",
+      "domain": "encounters",
+      "_coverage": "Evidence supports substantial encounter/documentation capture across appointments and note templates. Because there is no separate encounter summary schema taxonomy beyond provided templates, marked substantial not comprehensive. Certainty high.",
+      "coverage": "substantial",
+      "_confidence": "Moderate because sample includes several encounter types but may miss all specialty workflows. Certainty high.",
+      "confidence": 4,
+      "notes": "Template encounter plus appointments, HPI/exam/history/treatment-plan files."
+    },
+    {
+      "_domain": "Problem list and related note artifacts are explicitly named in EHI references and present in schema/sample. This is direct evidence of domain inclusion. Certainty high.",
+      "domain": "problems_conditions",
+      "_coverage": "Marked substantial due dedicated entities (`problem_list`, `problem_list_note`) with supporting schema and sample coverage; not marked comprehensive because no explicit problem severity/history taxonomy was observed in summary level. Certainty high.",
+      "coverage": "substantial",
+      "_confidence": "High confidence in presence and moderate confidence on complete clinical semantics. Certainty high.",
+      "confidence": 4,
+      "notes": "Problem entities with note/detail separation."
+    },
+    {
+      "_domain": "Medication records are repeatedly listed in scope references and represented by medication and prescription-related schema files; sample export includes medication data. Certainty high.",
+      "domain": "medications",
+      "_coverage": "Substantial coverage due explicit medication entity and related order/formulation context. Comprehensive labeling rejected because e-prescribing integration details are not all exposed as separate export structures. Certainty high.",
+      "coverage": "substantial",
+      "_confidence": "Evidence is direct but clinical nuance (drug history semantics, refill history depth) is uncertain from sampled records. Certainty high.",
+      "confidence": 4,
+      "notes": "Medication entity present with robust sample fields."
+    },
+    {
+      "_domain": "Allergy coverage is directly represented by `allergy` and `allergy_symptom` entities in export materials and sample evidence. Certainty high.",
+      "domain": "allergies",
+      "_coverage": "Comprehensive for core allergy information and symptoms, with dedicated entities and structured fields. Certainty high.",
+      "coverage": "comprehensive",
+      "_confidence": "High confidence due direct schema + sample presence. Certainty high.",
+      "confidence": 5,
+      "notes": "Dedicated allergy and symptom entities suggest full EHI-aligned capture."
+    },
+    {
+      "_domain": "Immunization artifacts (`immunization`, `immunization_registry`) are listed and present in the schema set, though sample coverage was not explicitly described for every field. Certainty high.",
+      "domain": "immunizations",
+      "_coverage": "Marked substantial because entities exist and are part of the export dictionary, but full completeness cannot be asserted from single-patient sample. Certainty high.",
+      "coverage": "substantial",
+      "_confidence": "Direct schema evidence confirms presence; representativeness across all code systems is uncertain. Certainty high.",
+      "confidence": 4,
+      "notes": "Coverage includes vaccination and registry-linked exports."
+    },
+    {
+      "_domain": "Vitals are directly present as a dedicated JSON entity and appear in sample export; evidence also notes detailed field names in that entity. Certainty high.",
+      "domain": "vitals",
+      "_coverage": "Comprehensive due explicit vital-attribute breadth (BP variants, body measurements, oxygen metrics, etc.) shown in report and sample context. Certainty high.",
+      "coverage": "comprehensive",
+      "_confidence": "High confidence from schema+sample. Certainty high.",
+      "confidence": 5,
+      "notes": "Detailed vital signs structure is a notable strength."
+    },
+    {
+      "_domain": "Lab evidence is present via `lab_result` entity and related ordering structures, and documented in data dictionary sections. Certainty high.",
+      "domain": "laboratory",
+      "_coverage": "Substantial: lab result and ordering context exists, but not all related reference ranges/value interpretation tables are visible in extracted summaries. Certainty high.",
+      "coverage": "substantial",
+      "_confidence": "Moderate-high confidence due explicit entity-level coverage and sample inclusion. Certainty high.",
+      "confidence": 4,
+      "notes": "Lab export appears present through dedicated result entities."
+    },
+    {
+      "_domain": "Only `lab_result`-type objects are explicitly documented; a separate diagnostic report abstraction is not clearly enumerated as a distinct export domain. Certainty high.",
+      "domain": "diagnostic_reports",
+      "_coverage": "Partial. There is likely overlap through lab/diagnostic artifacts, but no explicit diagnostic report entity cataloging radiology or imaging narratives separately was identified. Certainty high.",
+      "coverage": "partial",
+      "_confidence": "Moderate; evidence shows adjacent entities but not complete domain naming. Certainty high.",
+      "confidence": 3,
+      "notes": "Potential overlap with lab/notes, not a separate documented domain."
+    },
+    {
+      "_domain": "Clinical narratives are explicitly covered by `progress_note`, `template_encounter*`, `care_team`, and related note structures in dictionary and sample exports. Certainty high.",
+      "domain": "clinical_notes",
+      "_coverage": "Comprehensive for core note artifacts, with extensive template-specific files. Complex template rendering may require additional interpretation but clinical narrative presence is strong. Certainty high.",
+      "coverage": "comprehensive",
+      "_confidence": "High confidence due schema count and sample breadth across note-related files. Certainty high.",
+      "confidence": 5,
+      "notes": "Multiple encounter-note subtypes indicate high narrative coverage."
+    },
+    {
+      "_domain": "Goal and care planning is represented through `care_plan_goal` and related clinical support entities in export docs. Certainty high.",
+      "domain": "care_plans_goals",
+      "_coverage": "Substantial because goal structures are present, while full longitudinal care-plan execution history is not deeply described in the report. Certainty high.",
+      "coverage": "substantial",
+      "_confidence": "Moderate-high; direct entities are present but execution semantics remain limited. Certainty high.",
+      "confidence": 4,
+      "notes": "Care plan goals and related goal substructures available."
+    },
+    {
+      "_domain": "Referral and order workflows are present via `order`, `order_finding`, `referral_tracking` in schema lists and export files. Certainty high.",
+      "domain": "orders_referrals",
+      "_coverage": "Substantial because entities exist, including order pathways and referral tracking. Could be partial for downstream interoperability because external order semantics are inferred. Certainty high.",
+      "coverage": "substantial",
+      "_confidence": "High for presence, moderate for clinical completeness depth. Certainty high.",
+      "confidence": 4,
+      "notes": "Covers ordering/fulfillment plus referral tracking."
+    },
+    {
+      "_domain": "Documents are present as `image_document` and `image_xref`; report indicates imaging/docs are referenced externally and may be separate files. Certainty high.",
+      "domain": "documents_attachments",
+      "_coverage": "Substantial due explicit document metadata and linkage entities. Completeness is partial for raw binary object retrieval semantics from metadata-only records. Certainty high.",
+      "coverage": "substantial",
+      "_confidence": "Moderate due uncertain linkage to actual binary payload retrieval workflow. Certainty high.",
+      "confidence": 4,
+      "notes": "Export includes document metadata/linkage and references original file formats."
+    },
+    {
+      "_domain": "Insurance and payer fields are explicitly covered (`insurance`, `responsible_party`, payer fields in claims). Certainty high.",
+      "domain": "insurance",
+      "_coverage": "Comprehensive as per report references and dictionary depth, including payer and eligibility-related data. Certainty high.",
+      "coverage": "comprehensive",
+      "_confidence": "High from direct schema coverage and sample-level evidence. Certainty high.",
+      "confidence": 5,
+      "notes": "Strong payer and policy coverage relative to EHI export."
+    },
+    {
+      "_domain": "Claims and billing entities are explicitly enumerated, including `claim`, `claim_procedure`, `denial`, `payment`, and `statement`. Certainty high.",
+      "domain": "claims_billing",
+      "_coverage": "Comprehensive to substantial. Comprehensive is not absolute because some fee/scheduling adjunct modules are sparse in the sample, but multiple claim/denial/payment entities show broad coverage. Certainty high.",
+      "coverage": "substantial",
+      "notes": "Major billing data structures are represented in the export model."
+      ,
+      "_confidence": "High confidence in broad presence; some depth gaps remain around complete claims adjudication workflow history. Certainty high.",
+      "confidence": 4
+    },
+    {
+      "_domain": "Payments are explicitly present (`payment` entity) with claims/payment-linked references in dictionaries and schema. Certainty high.",
+      "domain": "payments",
+      "_coverage": "Substantial because core payment transactions and aging/balances are present. Certainty high.",
+      "coverage": "substantial",
+      "_confidence": "High due direct field evidence in sample and schema. Certainty high.",
+      "confidence": 5,
+      "notes": "Payments represented as first-class export data."
+    },
+    {
+      "_domain": "Scheduling is evidenced by `appointment` entity and supported modules in product research; however export appears scheduling-only rather than full block-resource metadata. Certainty high.",
+      "domain": "scheduling",
+      "_coverage": "Partial because appointments are included but no separate scheduling constraints/history module is documented. Certainty high.",
+      "coverage": "partial",
+      "_confidence": "Moderate confidence; appointment data is directly present but may omit all scheduler operational fields. Certainty high.",
+      "confidence": 4,
+      "notes": "Appointment entities and recalls are documented outside EHI export details."
+    },
+    {
+      "_domain": "Consent artifacts are explicitly included via `consent` and therefore covered. Certainty high.",
+      "domain": "consents_directives",
+      "_coverage": "Minimal-to-partial: consent records exist but directionality of directives and consent lifecycle transitions are not deeply documented. Certainty high.",
+      "coverage": "partial",
+      "_confidence": "Moderate; direct entity exists but semantics may be coarse. Certainty high.",
+      "confidence": 3,
+      "notes": "Consent presence likely adequate for baseline migration, weaker on operational history."
+    },
+    {
+      "_domain": "Patient messaging is shown with `communication` and `portal_message` entities and documented in product claims. Certainty high.",
+      "domain": "patient_communications",
+      "_coverage": "Substantial: core communications entities exist, although full patient portal interaction logs are not separately enumerated. Certainty high.",
+      "coverage": "substantial",
+      "_confidence": "Moderate-high; direct files are present but operational activity history breadth is uncertain. Certainty high.",
+      "confidence": 4,
+      "notes": "Communications covered for message content and recipients."
+    },
+    {
+      "_domain": "No evidence in provided artifact set documents an explicit audit or provenance entity. This domain is excluded by statutory scope for HIPAA security logs anyway. Certainty high.",
+      "domain": "audit_provenance",
+      "_coverage": "No. Neither schema list nor sample indicates access/audit logs. Rejected alternative was mapping this to available metadata fields because no direct audit trail entity is present. Certainty high.",
+      "coverage": "none",
+      "_confidence": "High confidence that explicit audit-log domain is not present in export artifacts reviewed. Certainty high.",
+      "confidence": 5,
+      "notes": "EHI scope explicitly excludes most access/log artifacts."
+    }
+  ],
+  "domainCoverageSummary": {
+    "comprehensive": [
+      "demographics",
+      "allergies",
+      "vitals",
+      "clinical_notes"
+    ],
+    "substantial": [
+      "encounters",
+      "problems_conditions",
+      "medications",
+      "immunizations",
+      "laboratory",
+      "care_plans_goals",
+      "orders_referrals",
+      "documents_attachments",
+    "insurance",
+      "claims_billing",
+      "payments",
+      "patient_communications"
+    ],
+    "partial": [
+      "scheduling",
+      "diagnostic_reports",
+      "consents_directives"
+    ],
+    "minimalOrNone": [
+      "audit_provenance"
+    ],
+    "unclear": []
+  },
+  "accessConstraints": {
+    "_docsPubliclyAccessible": "Direct curl and PDF export access demonstrate public availability without login, CAPTCHA, or API key. The page and files are downloadable from public URLs. Certainty high.",
+    "docsPubliclyAccessible": "yes",
+    "_roleRestricted": "EHI export workflow mentions role requirements (`EHI Export`, `EHI Practice Export`) in the UI path. This is an in-product gate but not external authentication, so marked role restricted. Certainty high.",
+    "roleRestricted": "yes",
+    "_vendorInvolvementNeeded": "Practice-wide export requires Data Export team execution and 15-day fulfillment. Single-patient export is self-serve. Because one supported pathway is vendor-assisted, this flag is set to yes. Certainty high.",
+    "vendorInvolvementNeeded": "yes",
+    "_potentialFeesForStandardExport": "No explicit fee schedule for standard EHI export access is documented in provided materials. This is not stated as paid/unpaid. Certainty high.",
+    "potentialFeesForStandardExport": "unknown",
+    "_practicalAccessibilityScore": "Documentation is reachable via public web and includes download links; however, role checks and long-tail manual processing for all-patient export increase practical friction. Score reflects moderate, practical accessibility burden. Certainty high.",
+    "practicalAccessibilityScore": 2,
+    "notes": "Single-patient path is easy and public; practice export has higher friction."
+  },
+  "overall": {
+    "_posture": "Evidence shows extensive native EHI export coverage across core clinical, operational, and billing domains with concrete schema + sample artifacts. However, missing value sets and potential uncovered specialist modules prevent marking this as high-fidelity-complete. Therefore posture is best set to 'usable_but_partial'. Certainty high.",
+    "posture": "usable_but_partial",
+    "_completenessScore": "Scored 4 because the export includes both clinical and billing domains broadly, but certain module-adjacent domains are not clearly represented (telehealth/e-fax/intake), and relationship/version semantics are lightly documented. Certainty high.",
+    "completenessScore": 4,
+    "_technicalUsabilityScore": "Scored 3 due strong machine-readable artifacts and sample outputs, balanced by missing value-set documentation and implicit relational constraints. Certainty high.",
+    "technicalUsabilityScore": 3,
+    "_confidence": "Moderate-to-high confidence from direct artifacts and structured sample; reduced by the fact that evidence is single-vendor documentation and one sample patient. Certainty high.",
+    "confidence": 4,
+    "_strongestSignal": "The strongest signal is the complete artifact trio: downloadable JSON schemas, XLSX dictionary, and realistic sample export for the same B10 export version, showing practical implementation intent. Certainty high.",
+    "strongestSignal": "JSON schema + XLSX dictionary + sample export for the same OfficeEMR B10 package.",
+    "_biggestRisk": "The biggest risk is under-coverage in modules not explicitly represented in export artifacts (notably telehealth and intake/auxiliary workflows) plus weakly documented value semantics and relationships. Certainty high.",
+    "biggestRisk": "Potential omission of secondary workflow modules and ambiguous field/value semantics.",
+    "_summary": "OfficeEMR shows strong evidence of a broad, vendor-native EHI export implementation covering many EHI domains beyond USCDI, with clear export mechanics and decent self-service usability for single-patient use. Remaining limitations are completeness uncertainty in peripheral modules and downstream interpretability due limited value-set and relational documentation. Certainty high.",
+    "summary": "OfficeEMR provides a practical, broad non-standard JSON EHI export with significant strengths and some recoverable documentation gaps."
+  },
+  "notableFacts": [
+    "Single-patient EHI export is available as a self-service, immediate portal flow; practice-wide export is assisted and documented at ~15-day turnaround.",
+    "EHI export documentation is explicitly not a repackaged g(10) API and uses proprietary JSON entity files rather than FHIR/CCDA.",
+    "Export artifacts include 80 JSON Schema files, an Excel data dictionary, and a single-patient sample ZIP."
+  ]
+}

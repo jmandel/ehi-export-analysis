@@ -53,9 +53,10 @@ ONC requirements:
   This covers a defined subset of clinical data — USCDI data classes like
   problems, medications, allergies, labs, vitals, etc.
 - **170.315(b)(10)** requires export of **all electronic health information**
-  the product stores — not just US Core, not just USCDI, but *everything*:
-  billing, images, custom forms, audit logs, specialty-specific
-  data, administrative records, and more.
+  the product stores — not just US Core, not just USCDI, but *everything*
+  in the designated record set: billing, images, custom forms,
+  specialty-specific clinical data, and more. (See the EHI scope
+  reference below for what "designated record set" includes and excludes.)
 
 The (b)(10) export doesn't need to be FHIR. It doesn't need to be standardized
 at all. A SQL dump or CSV export of every table would satisfy the requirement
@@ -65,7 +66,7 @@ When you find a vendor pointing to their FHIR Bulk Data endpoint as their EHI
 export, ask: does this actually cover everything? Or is it just the US Core
 slice? Look for signs:
 - The documentation only mentions US Core / USCDI resource types
-- There's no mention of billing, audit, or specialty-specific data
+- There's no mention of billing or specialty-specific clinical data
 - The export endpoint is the same as their (g)(10) certified API
 - The data dictionary (if any) maps only to standard FHIR resources
 
@@ -73,6 +74,8 @@ This is not necessarily bad faith — many vendors genuinely don't understand
 the distinction. But it's a critical finding for the coverage assessment.
 A vendor that has done real (b)(10) work will have documented how they export
 data that *doesn't* fit neatly into FHIR US Core.
+
+{{EHI_SCOPE_REFERENCE}}
 
 ### Staying focused: let the export docs guide you
 
@@ -129,6 +132,40 @@ web pages. Look for ways to download the underlying structured data:
 The goal is computable artifacts, not screenshots and text extractions of
 web pages. A JSON schema is worth more than a text scrape of the page that
 describes the same schema.
+
+### Required enrichment for large documentation corpora
+
+If you collect a substantial set of HTML/docs (for example many extracted
+model pages like `.../mysql-model/html/*.html`), do not stop at raw files.
+You must produce a reproducible enrichment pass that extracts the underlying
+content into queryable JSON.
+
+Create:
+- `{{OUTPUT_DIR}}/downloads/enrichment/`
+
+Inside that folder, include:
+- One or more Bun TypeScript scripts that perform the extraction
+  (for example `extract-*.ts`).
+- A short `README.md` with:
+  - exact run command(s)
+  - input boundary (which files were parsed)
+  - output files produced
+  - known parsing limitations
+- Extracted JSON artifacts that are complete and queryable (not just ad-hoc
+  snippets).
+
+Minimum enrichment expectations:
+- Parse all in-scope files in the corpus, not just a sample.
+- Emit machine-queryable structures for core documentation content
+  (entities/models, fields/columns, relationships/references, value sets/codes,
+  and source-page linkage where available).
+- Emit coverage/accounting output:
+  - total files discovered
+  - total files parsed
+  - parse failures with file paths and error reasons
+- Keep transformations deterministic and rerunnable from local artifacts only.
+
+This enrichment output is part of the deliverable, not optional analysis scratch.
 
 ## How To Navigate
 
@@ -227,6 +264,29 @@ pdftoppm -f 1 -l 1 -r 150 -png filename.pdf /tmp/page-preview
 Use `pdftotext` first. If the extracted text is garbled or missing structure
 (common with scanned documents or complex table layouts), render a few sample
 pages as images to understand the content visually.
+
+Also check whether the PDF points to additional material (links, attachments),
+so you don't miss follow-on artifacts:
+
+```bash
+# Find clickable URLs embedded in PDF objects (not just visible text)
+pdfinfo -url filename.pdf
+
+# Check for embedded files/attachments inside the PDF
+pdfdetach -list filename.pdf
+
+# Extract plain-text URLs from the PDF text layer
+pdftotext filename.pdf - | rg -No 'https?://[^[:space:]>)"]+' | sort -u
+pdftotext filename.pdf - | rg -No 'www\\.[^[:space:]>)"]+' | sort -u
+```
+
+Interpretation examples:
+- If `pdfinfo -url` is empty and `pdfdetach -list` says `0 embedded files`,
+  there are no embedded follow-on artifacts in that PDF.
+- Build a concrete URL checklist in your notes:
+  `url -> destination title/type -> relevant to EHI export? yes/no + why`
+- If the PDF says things like "See detailed guide" but gives no URL and no
+  attachment, record that as a documentation gap in your report.
 
 Note in the collection log what the PDF contains — a data dictionary with N
 tables? Export instructions? A schema diagram? This context helps Phase 3.
@@ -341,6 +401,8 @@ interface FilesManifest {
 ```
 
 Include everything you saved: docs, screenshots, evidence of dead pages.
+Include enrichment scripts and enrichment JSON outputs under
+`downloads/enrichment/`.
 
 ## Mindset
 
@@ -352,6 +414,9 @@ Include everything you saved: docs, screenshots, evidence of dead pages.
   EHI export. Skip unrelated regulatory filings.
 - **Prefer computable formats.** If there's a JSON schema AND a PDF describing
   the same thing, get both but note the JSON is the primary artifact.
+- **When docs are large, normalize them.** Build a rerunnable Bun+TypeScript
+  enrichment step and deliver the script + JSON outputs in
+  `downloads/enrichment/` so downstream analysis can query the full corpus.
 - **Capture obstacles.** Did you need special headers? Did Cloudflare block you?
   This information is as valuable as the docs themselves.
 - **Be proportionate.** Single PDF with clean link? 2 minutes. Complex multi-page

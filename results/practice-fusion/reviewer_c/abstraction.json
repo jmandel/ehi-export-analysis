@@ -1,0 +1,584 @@
+{
+  "meta": {
+    "schemaVersion": "2026-02-15.v1",
+    "assessedAt": "2026-02-15",
+    "assessor": "reviewer_c",
+    "status": "final"
+  },
+  "scope": {
+    "vendorName": "Practice Fusion",
+    "productFamily": "Practice Fusion EHR",
+    "includedProducts": ["Practice Fusion EHR"],
+    "excludedProducts": [],
+    "versionsInScope": ["v9"],
+    "scopeRationale": "This coverage is scoped to documented version-9 EHI export dictionaries and index artifacts."
+  },
+  "sources": [
+    {
+      "sourceId": "SRC-001",
+      "title": "Practice Fusion EHI export report",
+      "kind": "vendor_ehi_doc",
+      "location": "results/practice-fusion/ehi-export-report.md",
+      "applicableProductFamilies": ["Practice Fusion EHR"],
+      "reportedLastUpdated": "2026-02-14",
+      "stability": "sporadically_updated",
+      "stabilityNotes": "Research summary for v9 export docs; underlying pages are static versioned links.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "No sample artifacts included in downloaded corpus."
+    },
+    {
+      "sourceId": "SRC-002",
+      "title": "v9 entity index",
+      "kind": "vendor_ehi_doc",
+      "location": "results/practice-fusion/downloads/v9-index.html",
+      "applicableProductFamilies": ["Practice Fusion EHR"],
+      "reportedLastUpdated": "2024-08-01",
+      "stability": "sporadically_updated",
+      "stabilityNotes": "Versioned and accessible static page.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "No sample files."
+    },
+    {
+      "sourceId": "SRC-003",
+      "title": "v9 entity TSV dictionary",
+      "kind": "vendor_data_dictionary",
+      "location": "results/practice-fusion/downloads/v9-pages/",
+      "applicableProductFamilies": ["Practice Fusion EHR"],
+      "reportedLastUpdated": "2024-08-01",
+      "stability": "sporadically_updated",
+      "stabilityNotes": "TSV dictionaries provide field names and data types.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "Dictionary only, no row examples."
+    },
+    {
+      "sourceId": "SRC-004",
+      "title": "EHI documentation landing",
+      "kind": "implementation_guide",
+      "location": "results/practice-fusion/downloads/ehi-export-documentation-main.html",
+      "applicableProductFamilies": ["Practice Fusion EHR"],
+      "reportedLastUpdated": "2024-08-26",
+      "stability": "sporadically_updated",
+      "stabilityNotes": "Navigation remains with v9 context and index links.",
+      "includesSampleData": "no",
+      "sampleCoverage": "none",
+      "sampleCoverageNotes": "No export initiation walkthrough."
+    }
+  ],
+  "assessmentFlow": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "v9 index",
+            "quote": null,
+            "relevance": "Confirms the official export reference points and data dictionary scope."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "stage": "discover_sources",
+      "method": "Captured official index, documentation pages, and dictionary directory paths.",
+      "observations": ["No separate API-style payload source appears in this set."],
+      "impactOnAssessment": "Established native dictionary-first evidence path."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-003",
+            "locator": "TSV entity pages",
+            "quote": null,
+            "relevance": "Field/type dictionaries are present across most clinical tables."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "stage": "understand_product_model",
+      "method": "Mapped dictionary entities to EHI domain taxonomy and product feature set.",
+      "observations": ["Evidence supports broad clinical scope with some administrative tables."],
+      "impactOnAssessment": "Model appears broad but only partially verifiable."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-003",
+            "locator": "output format",
+            "quote": null,
+            "relevance": "Primary output format is TSV rather than JSON schema bundle."
+          }
+        ],
+        "strength": 5,
+        "gaps": ["No sample payload examples."]
+      },
+      "stage": "inspect_export_surface",
+      "method": "Validated that output is dictionary-document-driven and not accompanied by sample records.",
+      "observations": ["Developer workload increases for parsing and edge-case interpretation."],
+      "impactOnAssessment": "Openability is good, but reproducibility confidence is reduced."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "report findings",
+            "quote": null,
+            "relevance": "No evidence of FHIR-only projection behavior from v9 docs."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "stage": "compare_model_vs_export",
+      "method": "Checked that documented entities are presented as Practice Fusion dictionaries rather than standardized API objects.",
+      "observations": ["Model fidelity appears native rather than remapped."],
+      "impactOnAssessment": "Supports native-like classification with uncertainty around coverage details."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "absence of sample files",
+            "quote": null,
+            "relevance": "Lack of sample payload is the limiting evidence constraint."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "stage": "score_and_classify",
+      "method": "Applied scores with weight on dictionary quality and representativeness gap.",
+      "observations": ["Partial confidence due no payload sample."],
+      "impactOnAssessment": "Finalized as native-like partial."
+    }
+  ],
+  "exportSurface": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-002",
+          "locator": "v9 export index",
+          "quote": null,
+          "relevance": "Confirms file-per-entity dictionaries for the documented export surface."
+        }
+      ],
+      "strength": 5,
+      "gaps": ["No sample payload."
+      ]
+    },
+    "container": "multi_file_bundle",
+    "serialization": "tsv",
+    "machineReadableSchema": "no",
+    "includesDataDictionary": "yes",
+    "dictionaryDepth": "field_plus_types",
+    "documentsValueSets": "unknown",
+    "documentsKeys": "partial",
+    "documentsRelationships": "partial",
+    "documentsConstraints": "unknown",
+    "accessibilityTier": "assisted_standard",
+    "accessibilityNotes": "No clear export workflow details were captured for user-triggered runs."
+  },
+  "mappingRisk": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-003",
+          "locator": "entity dictionary",
+          "quote": null,
+          "relevance": "Dictionary-first, table-style export path suggests low intentional projection."
+        }
+      ],
+      "strength": 4,
+      "gaps": ["No relationship map or constraints in public artifact."]
+    },
+    "representation": "transparent_model_reflection",
+    "mappingTarget": "custom_partner_spec",
+    "projectionLossRiskScore": 2,
+    "conflationRiskScore": 2,
+    "reconstitutionEffortScore": 3,
+    "lossOrConflationExamples": [
+      "Flat entity files require manual relationship interpretation",
+      "No sample output prevents rare-format validation"
+    ],
+    "suspectedOmissions": [
+      "Operational workflow coverage details for scheduling and communications"
+    ]
+  },
+  "domainAssessments": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-003",
+            "locator": "patient-demographics",
+            "quote": null,
+            "relevance": "Demographic entity is documented."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "demographics",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 5,
+      "rationale": "Core baseline data is directly documented.",
+      "caveats": []
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-003",
+            "locator": "patient-appointments",
+            "quote": null,
+            "relevance": "Scheduling-related tables appear in dictionary set."
+          }
+        ],
+        "strength": 3,
+        "gaps": []
+      },
+      "domain": "scheduling",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 3,
+      "rationale": "Presence is indicated; full field semantics are not empirically exercised.",
+      "caveats": ["No sample data for recurring exceptions."]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-003",
+            "locator": "patient-medications",
+            "quote": null,
+            "relevance": "Medication entities are documented in v9 dictionaries."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "domain": "medications",
+      "coverageLevel": "explicit_comprehensive",
+      "decisionSupportScore": 4,
+      "rationale": "Pharmacy data structures appear clearly listed.",
+      "caveats": []
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-003",
+            "locator": "patient-superbills",
+            "quote": null,
+            "relevance": "Billing-related entities are present in dictionary index."
+          }
+        ],
+        "strength": 4,
+        "gaps": ["No sample payload."
+        ]
+      },
+      "domain": "claims_billing",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 3,
+      "rationale": "Billing appears in documented domain list, but implementation detail is limited.",
+      "caveats": ["No sample evidence for all claim states."]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-003",
+            "locator": "patient-insurances",
+            "quote": null,
+            "relevance": "Insurance-related dictionaries are documented."
+          }
+        ],
+        "strength": 3,
+        "gaps": []
+      },
+      "domain": "insurance",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 3,
+      "rationale": "Insurance domain likely covered through table dictionaries.",
+      "caveats": ["No sample validation."
+      ]
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-004",
+            "locator": "document section",
+            "quote": null,
+            "relevance": "Document-like records are represented as entities in the dictionary context."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "domain": "documents_attachments",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 3,
+      "rationale": "Document-related entities are present but relationship depth is not fully explained.",
+      "caveats": []
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-003",
+            "locator": "entity naming",
+            "quote": null,
+            "relevance": "Encounter-like tables are present across the index."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "domain": "encounters",
+      "coverageLevel": "explicit_partial",
+      "decisionSupportScore": 4,
+      "rationale": "Core encounter structures are expected and dictionary-backed.",
+      "caveats": []
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "limitations",
+            "quote": null,
+            "relevance": "Communication-related entities are not strongly evidenced in export docs."
+          }
+        ],
+        "strength": 2,
+        "gaps": []
+      },
+      "domain": "patient_communications",
+      "coverageLevel": "implied_only",
+      "decisionSupportScore": 2,
+      "rationale": "Communication records may be represented indirectly, but not directly evidenced.",
+      "caveats": ["No explicit message table examples."]
+    }
+  ],
+  "domainCoverageSummary": {
+    "comprehensive": ["demographics", "medications", "encounters", "documents_attachments"],
+    "partial": ["scheduling", "claims_billing", "insurance", "problems_conditions", "allergies", "patient_communications"],
+    "implied": ["care_plans_goals", "vitals", "documents_attachments"],
+    "notEvidenced": ["audit_provenance", "payments"],
+    "conflicting": []
+  },
+  "dimensionScores": [
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-003",
+            "locator": "entity catalog breadth",
+            "quote": null,
+            "relevance": "Multiple domains are represented by dictionaries."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "dimension": "scope_completeness",
+      "score": 3,
+      "rationale": "Broad documented list with no sample-level validation.",
+      "uncertaintyNotes": "A real export sample could increase this score."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-003",
+            "locator": "tsv tables",
+            "quote": null,
+            "relevance": "TSV files are open and parseable with documented schema fields."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "dimension": "format_openness",
+      "score": 3,
+      "rationale": "Readable format, but no sample rows reduce immediate openness confidence.",
+      "uncertaintyNotes": "Moderate ambiguity in separators/escaping conventions."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-003",
+            "locator": "field/type tables",
+            "quote": null,
+            "relevance": "Dictionary quality is above minimal level."
+          }
+        ],
+        "strength": 4,
+        "gaps": ["Constraint and vocabulary metadata incomplete."]
+      },
+      "dimension": "dictionary_quality",
+      "score": 3,
+      "rationale": "Field-plus-types is good for parsing and limited quality control.",
+      "uncertaintyNotes": "No sample payload to cross-check constraints."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "no workflow docs",
+            "quote": null,
+            "relevance": "No full export workflow details were captured."
+          }
+        ],
+        "strength": 3,
+        "gaps": []
+      },
+      "dimension": "accessibility",
+      "score": 2,
+      "rationale": "Discoverable docs but practical runbook is weak.",
+      "uncertaintyNotes": "Potentially easier in product UI than documented publicly."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "native dictionary docs",
+            "quote": null,
+            "relevance": "No clear external-standard remap is asserted."
+          }
+        ],
+        "strength": 4,
+        "gaps": ["Relationship graph is limited."]
+      },
+      "dimension": "model_fidelity",
+      "score": 4,
+      "rationale": "Likely native model export with parseable tables.",
+      "uncertaintyNotes": "Sample needed for strong domain-level fidelity proof."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-003",
+            "locator": "no remap metadata",
+            "quote": null,
+            "relevance": "Projection risk appears low."
+          }
+        ],
+        "strength": 4,
+        "gaps": []
+      },
+      "dimension": "projection_loss_risk",
+      "score": 2,
+      "rationale": "Low risk of remap distortion from documented model."
+      ,"uncertaintyNotes": "Could increase if hidden transformations occur in export engine."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-003",
+            "locator": "entity naming",
+            "quote": null,
+            "relevance": "Low obvious concept collapse in dictionary naming.",
+            "strength": 4
+          }
+        ],
+        "gaps": []
+      },
+      "dimension": "conflation_risk",
+      "score": 2,
+      "rationale": "Entity boundaries are explicit in dictionary files.",
+      "uncertaintyNotes": "Edge cases still require key graph interpretation."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-004",
+            "locator": "no sample payload",
+            "quote": null,
+            "relevance": "Effort rises without examples."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "dimension": "reconstitution_effort",
+      "score": 3,
+      "rationale": "Effort is moderate without sample to validate and verify joins.",
+      "uncertaintyNotes": "Sample request should reduce this quickly."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-001",
+            "locator": "lack of samples",
+            "quote": null,
+            "relevance": "No concrete representativeness evidence available."
+          }
+        ],
+        "strength": 5,
+        "gaps": []
+      },
+      "dimension": "sample_data_representativeness",
+      "score": 0,
+      "rationale": "No sample means no field-level representativeness validation.",
+      "uncertaintyNotes": "A single sample file for all-patient or single-patient output should be prioritized."
+    },
+    {
+      "evidence": {
+        "items": [
+          {
+            "sourceId": "SRC-002",
+            "locator": "document version",
+            "quote": null,
+            "relevance": "Documentation exists but with limited versioning detail."
+          }
+        ],
+        "strength": 3,
+        "gaps": []
+      },
+      "dimension": "documentation_stability",
+      "score": 2,
+      "rationale": "Reasonable stability signal, constrained by sparse changelog evidence.",
+      "uncertaintyNotes": "Could change without public migration notes."
+    }
+  ],
+  "synthesis": {
+    "evidence": {
+      "items": [
+        {
+          "sourceId": "SRC-002",
+          "locator": "v9 index + dictionaries",
+          "quote": null,
+          "relevance": "Evidence supports native table-style export and broad surface."
+        },
+        {
+          "sourceId": "SRC-001",
+          "locator": "sample gap",
+          "quote": null,
+          "relevance": "No sample payload reduces confidence in actual completeness."
+        }
+      ],
+      "strength": 5,
+      "gaps": []
+    },
+    "classification": "native_like_partial",
+    "confidence": "medium",
+    "keySignal": "Dictionary-first native export model without sample payload for full coverage verification.",
+    "operationalImplication": "Request one sample and one all-patient export before migration planning.",
+    "reproducibilityRisk": "Moderate to high for independent revalidation due missing sample output."
+  }
+}

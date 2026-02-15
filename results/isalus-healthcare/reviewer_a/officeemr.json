@@ -1,0 +1,378 @@
+{
+  "meta": {
+    "schemaVersion": "2026-02-15.v3",
+    "assessedAt": "2026-02-15",
+    "assessor": "Codex",
+    "status": "final"
+  },
+  "scope": {
+    "vendorName": "iSALUS Healthcare",
+    "productFamily": "OfficeEMR",
+    "_includedProducts": "Evidence: product research and export artifacts are scoped to OfficeEMR (CHPL product name and certification ID 10914), while export URLs and all downloadable artifacts reference OfficeEMR EHI Export documentation. Decision rule: include only products explicitly documented under this family, not general vendor-level items. I excluded ENTChoice and other product-named workflows because no separate OfficeEMR family artifacts were provided. Certainty: high.",
+    "includedProducts": [
+      "OfficeEMR"
+    ],
+    "_excludedProducts": "Evidence: only OfficeEMR export documentation was downloaded from `https://officeemr.knowledgeowl.com/help/ehi-export` and related Evidence: officeemr pages; sources and artifacts do not document separate non-OfficeEMR export families. I explicitly excluded iSALUS legacy InfoDive/CSV export pages and third-party product pages because they are explicitly documented as different workflows (separate legacy Data Export), and excluded ENTChoice because it is listed as an enterprise integration/specialty branding rather than this scoped EHI artifact set. Certainty: moderate (ENTChoice lineage is described but not part of the collected EHI-export artifacts).",
+    "excludedProducts": [
+      "ENTChoice",
+      "Legacy InfoDive/CSV Data Export",
+      "Other iSALUS products outside EHI Export scope"
+    ],
+    "_versionsInScope": "Evidence: EHI export materials are tied to OfficeEMR and titled `OfficeEMR v2021`, with downloadable schema/dictionary artifacts labeled `...v1-OCT2023` and later HTI-1 updates documented as coming Q1 2026. Decision rule: scope to the in-evidence artifact family and note update pipeline, not future unreleased changes. Certainty: moderate to high.",
+    "versionsInScope": [
+      "OfficeEMR v2021",
+      "OfficeEMR B10 export v1-Oct2023"
+    ],
+    "scopeNotes": "OfficeEMR is positioned as a full ambulatory EHR/PM/billing suite (research report), and this abstraction evaluates the EHI export implementation documented for that suite, not the separate CHPL compliance or marketing pages."
+  },
+  "exportPaths": [
+    {
+      "_mechanism": "Evidence: single-patient EHI exports are user-initiated from the Reports portal and downloaded as a ZIP after status reaches `Completed`; this is a UI-driven on-demand flow. Decision rule: classify as single-patient UI export and not API-initiated. Certainty: high.",
+      "mechanism": "ui_single_patient_export",
+      "_container": "Evidence: single-patient export package is described as a ZIP download containing multiple JSON entity files. Decision rule: classify as multi-file bundle rather than a single file payload. Certainty: high.",
+      "container": "multi_file_bundle",
+      "_formats": "Evidence: ehi-export-report and downloadable sample export list JSON files (`*.json`) as each entity; no FHIR/CCDA/API payload is used for this path. Decision rule: mark `json` only (no other serialized formats shown). Certainty: high.",
+      "formats": [
+        "json"
+      ],
+      "_standardProfile": "Evidence: report explicitly states a proprietary JSON export, with custom entities and no external profile mention in the single-patient EHI export path. Decision rule: select non-standard native vendor model. Certainty: high.",
+      "standardProfile": "none_vendor_native",
+      "_selfService": "Evidence: user can request single-patient export from within OfficeEMR UI after having the EHI Export role. There is no indicated vendor intermediation for this flow. Decision rule: mark yes; alternatives rejected because only bulk flow has manual processing. Certainty: high.",
+      "selfService": "yes",
+      "_operationalBurden": "Evidence: report describes this as a straightforward request/download flow and immediate completed status. Decision rule: low friction path; assign a low burden score. Certainty: moderate (no exact timing SLA stated beyond portal completion).
+",
+      "operationalBurden": 1,
+      "notes": "Single-patient EHI export is role-gated (`EHI Export`) and produced as a downloadable ZIP."
+    },
+    {
+      "_mechanism": "Evidence: all-patient export is initiated through the same UI workflow but routed through the iSALUS Data Export team with approx. 15-day turnaround. Decision rule: classify as vendor-assisted bulk export, not direct user self-service download. Certainty: high.",
+      "mechanism": "vendor_assisted_bulk_export",
+      "_container": "Evidence: practice-wide export is still a downloadable package of JSON entity files, per process documentation and file naming. Decision rule: multi-file bundle.",
+      "container": "multi_file_bundle",
+      "_formats": "Evidence: supported output for bulk export aligns with the same EHI Export artifacts (JSON entity files), and no alternate bulk format is documented. Decision rule: JSON only.",
+      "formats": [
+        "json"
+      ],
+      "_standardProfile": "Evidence: same proprietary schema-driven model as single-patient export; no standardized transformation layer in the documented workflow. Certainty: high.",
+      "standardProfile": "none_vendor_native",
+      "_selfService": "Evidence: users can submit the request with a role but processing and fulfillment are performed by the vendor export team. Decision rule: mark not self-service because practical execution requires vendor action. Certainty: moderate-high.",
+      "selfService": "no",
+      "_operationalBurden": "Evidence: report documents migration-use case with iSALUS Data Export team involvement and approximately 15-day delivery. Decision rule: this is high operational burden relative to immediate patient export. Certainty: high.",
+      "operationalBurden": 5,
+      "notes": "Bulk export requires role `EHI Practice Export`, queueing, and delayed delivery."
+    }
+  ],
+  "documentation": {
+    "_hasDataDictionary": "Evidence: downloadable XLSX `iSalus_EHI_ExportDataElements_published_version1_Oct2023_pristine.xlsx` is explicitly listed and described as field-level dictionary in export artifacts. Decision rule: mark yes. Certainty: high.",
+    "hasDataDictionary": "yes",
+    "_hasMachineReadableSchema": "Evidence: 80 JSON Schema draft-07 files are present in `officeemr-b10-schema-v1-oct2023.zip`. Decision rule: mark yes. Certainty: high.",
+    "hasMachineReadableSchema": "yes",
+    "_describesFieldNames": "Evidence: schema files and dictionary each enumerate field names for each entity. Decision rule: yes because field names are explicitly enumerated. Certainty: high.",
+    "describesFieldNames": "yes",
+    "_describesFieldTypes": "Evidence: schema files include JSON Schema `type` declarations for fields; report notes these are present. Decision rule: yes despite some nullable/type oddities. Certainty: high.",
+    "describesFieldTypes": "yes",
+    "_describesFieldSemantics": "Evidence: XLSX and PDF documentation include plain-English field descriptions and entity-level purpose text; schema `description` fields are empty. Decision rule: yes because plain-language definitions exist outside schema description fields. Certainty: high.",
+    "describesFieldSemantics": "yes",
+    "_describesValueSets": "Evidence: report flags coded fields (for example, gender and status fields) without documented enumerations/code systems in schema or README. Decision rule: do not mark yes because value-set sources are absent. Certainty: high.",
+    "describesValueSets": "no",
+    "_describesRelationships": "Evidence: report states relationships are mostly implied by IDs and notes that there is no ERD/formal relationship documentation. Decision rule: do not mark yes; evidence supports partial but undocumented linkage. Certainty: high.",
+    "describesRelationships": "no",
+    "_describesKeysConstraints": "Evidence: schema defines field structure but only limited formal constraints and incomplete nullable typing. No comprehensive key/constraint narrative was found. Decision rule: mark no to reflect missing key semantics detail. Certainty: moderate.",
+    "describesKeysConstraints": "no",
+    "_hasSampleData": "Evidence: `export-311322-voct2023.zip` sample patient export contains 58 JSON files and is explicitly called a complete sample output. Decision rule: mark yes. Certainty: high.",
+    "hasSampleData": "yes",
+    "_sampleRepresentativeness": "Evidence: sample has realistic data and many core clinical/practice-management entities but not all schema-covered entities; entities without test data may be patient-dependent or absent. Decision rule: score 3 because useful but incomplete breadth.",
+    "sampleRepresentativeness": 3,
+    "_docsCurrentness": "Evidence: page modified 2025-12-19 and HTI-1 updates page tracks Q1 2026 additions, indicating recent maintenance. Decision rule: set strong-but-not perfect currency score due planned updates not fully in base schema artifact set. Certainty: high.",
+    "docsCurrentness": 4,
+    "_maturity": "Evidence: machine-readable schema + field dictionary + sample export and explicit instructions are all present; largest gaps are value-set/relationship rigor. Decision rule: classify as `strong` rather than `excellent` because of notable semantic gaps. Certainty: moderate-high.",
+    "maturity": "strong",
+    "notes": "Docs are unusually complete for a smaller vendor, but semantic value-set and formal relationship rigor are missing."
+  },
+  "fidelityRisk": {
+    "_representationType": "Evidence: exported entities mirror OfficeEMR-specific objects (`claims`, `vitals`, `template_encounter_*`, etc.) rather than FHIR resources; report says this is purpose-built proprietary JSON. Decision rule: native model-like representation.",
+    "representationType": "native_model_like",
+    "_mappingTarget": "Evidence: no FHIR/CCDA/standard projection layer is described for this B10 export; entities are vendor-native. Decision rule: mark as none.",
+    "mappingTarget": "none",
+    "_projectionLossRisk": "Evidence: broad coverage includes clinical and practice-management domains, and schema appears broad; however some non-EHI operational channels (fax, some portal/telehealth workflow traces) are not clearly represented. Decision rule: assign low-moderate projection risk.",
+    "projectionLossRisk": 2,
+    "_conflationRisk": "Evidence: use of shared IDs suggests entity joins but absence of explicit schema relations can cause accidental flattening during downstream import. Decision rule: low-moderate conflation risk, not high because IDs and naming are present.",
+    "conflationRisk": 2,
+    "_reconstructionDifficulty": "Evidence: custom JSON model requires import logic across many entity files; no ERD or key constraints means reconstruction is feasible but not trivial. Decision rule: moderate difficulty.",
+    "reconstructionDifficulty": 3,
+    "_keyLossPatterns": "Evidence: (1) lack of codified value sets makes semantic re-interpretation lossy, (2) implicit rather than documented relationships can lead to incorrect joins, (3) sample lacks some entities so edge-case domains are hard to validate without production data.",
+    "keyLossPatterns": [
+      "Loss of domain semantics where coded fields have no documented value set or code system",
+      "Potential join errors from implicit key relationships and missing relationship documentation",
+      "Unclear telehealth/intake/fax coverage where those workflows may be mapped to generic notes or omitted"
+    ],
+    "_likelyOmittedAreas": "Evidence: export references and schema list do not explicitly include dedicated telehealth session, intelligent intake, e-fax, or legacy audit logs; features are documented in product pages but not clearly in EHI domain files. Decision rule: include only areas explicitly weak or missing. Certainty: moderate.",
+    "likelyOmittedAreas": [
+      "Audit/access logs and user access provenance",
+      "Dedicated telehealth session metadata",
+      "Dedicated intelligent intake form responses",
+      "Dedicated e-fax message payloads",
+      "MIPS/quality measure artifacts"
+    ]
+  },
+  "domainCoverage": [
+    {
+      "_domain": "Evidence: schema and dictionary include demographics fields (race, language, contact, identifiers) and report states demographics is covered. Decision rule: mark comprehensive.",
+      "domain": "demographics",
+      "_coverage": "Evidence: multiple demographics fields and dedicated demographics entity are present. Potential ambiguity: some EHI-adjacent fields may be feature-dependent. Certainty: high.",
+      "coverage": "comprehensive",
+      "_confidence": "Evidence quality and frequency in dictionary/sample indicate strong confirmation across docs. Certainty: high.",
+      "confidence": 5,
+      "notes": "Core patient attributes appear complete for EHI baseline."
+    },
+    {
+      "_domain": "Evidence: `appointment.json` and documented scheduling/export reference indicate scheduling coverage. Decision rule: mark substantial because appointment domain is clearly present but breadth of all scheduler behaviors not fully evidenced.",
+      "domain": "scheduling",
+      "_coverage": "Evidence: scheduling entity appears in schema/data dictionary and product modules, with sample including appointment records. Certainty: moderate.",
+      "coverage": "substantial",
+      "_confidence": "Evidence is explicit but implementation depth for all appointment workflow states is not fully documented. Certainty: moderate.",
+      "confidence": 3,
+      "notes": "Likely adequate for migration of scheduling history and future appointments, but edge states unclear."
+    },
+    {
+      "_domain": "Evidence: dedicated problem list/goal and note files plus detailed sections in PDF indicate explicit support. Decision rule: mark comprehensive.",
+      "domain": "problems_conditions",
+      "_coverage": "Evidence includes `problem_list.json`, `problem_list_note.json`, and references to problem/care-plan domains. Certainty: high.",
+      "coverage": "comprehensive",
+      "_confidence": "Evidence appears repeated in dictionary and sample format definitions. Certainty: high.",
+      "confidence": 5,
+      "notes": "Problem/care context is strongly represented."
+    },
+    {
+      "_domain": "Evidence: `medication.json` and associated order/optimize paths are in schema list and sample data; product modules confirm Rx/Prior auth features. Decision rule: mark comprehensive with caution on full clinical context.",
+      "domain": "medications",
+      "_coverage": "Evidence is explicit for prescriptions and medication records, but no separate dispensing/administration domain in listed files. Certainty: moderate-high.",
+      "coverage": "comprehensive",
+      "_confidence": "Core medication export is clear; complete lifecycle fidelity cannot be fully confirmed from sample alone. Certainty: moderate.",
+      "confidence": 4,
+      "notes": "Medication core appears present; administration workflow details may be less explicit."
+    },
+    {
+      "_domain": "Evidence: `allergy.json` and `allergy_symptom.json` are included, matching product features and export references. Decision rule: comprehensive for documented allergy content.",
+      "domain": "allergies",
+      "_coverage": "Evidence is explicit and includes symptom-level companion files. Certainty: high.",
+      "coverage": "comprehensive",
+      "_confidence": "Evidence in both schema and sample is direct; future USCDI additions indicate continuing active maintenance. Certainty: high.",
+      "confidence": 5,
+      "notes": "One of the stronger clinical domains."
+    },
+    {
+      "_domain": "Evidence: `immunization.json` and `immunization_registry.json` are present. Decision rule: comprehensive at documented level.",
+      "domain": "immunizations",
+      "_coverage": "Evidence includes vaccine administration and registry entities, matching known product reporting modules. Certainty: moderate-high.",
+      "coverage": "comprehensive",
+      "_confidence": "Evidence exists in both schema and dictionary; sample completeness for this domain not obvious. Certainty: moderate.",
+      "confidence": 4,
+      "notes": "Covers both immunization data and reporting artifact paths."
+    },
+    {
+      "_domain": "Evidence: `vital.json` is included and export report describes very detailed vital fields. Decision rule: mark comprehensive.",
+      "domain": "vitals",
+      "_coverage": "Evidence includes extensive vital-sign structure including posture-specific BP and multiple measurement types. Certainty: high.",
+      "coverage": "comprehensive",
+      "_confidence": "Evidence strong in schema and report description. Certainty: high.",
+      "confidence": 5,
+      "notes": "Very strong vital-sign representation."
+    },
+    {
+      "_domain": "Evidence: `lab_result.json`, `order.json`, `order_finding.json` and HPI/visit modules indicate lab workflow support. Decision rule: substantial because breadth exists but direct imaging/diagnostic interpretation docs are limited.",
+      "domain": "laboratory",
+      "_coverage": "Evidence includes order/result entities, but the reporting around diagnostic interpretations is limited. Certainty: moderate.",
+      "coverage": "substantial",
+      "_confidence": "Coverage is explicit for lab-related entities though cross-modality depth is uncertain. Certainty: moderate.",
+      "confidence": 4,
+      "notes": "Lab coverage appears strong for results/results metadata; confirm imaging/reporting details only when needed."
+    },
+    {
+      "_domain": "Evidence: `lab_result` and similar clinical result entities appear, but no explicit diagnostic imaging report schema beyond generic results. Decision rule: partial because some diagnostic-report forms may map to lab-like structures.",
+      "domain": "diagnostic_reports",
+      "_coverage": "Evidence is partial; no dedicated radiology/diagnostic-report resource is clearly documented. Certainty: moderate-high.",
+      "coverage": "partial",
+      "_confidence": "Evidence for non-lab diagnostics is weak. Certainty: moderate.",
+      "confidence": 3,
+      "notes": "Potential diagnostic report data may exist in progress/template structures but is not explicitly domain-separated."
+    },
+    {
+      "_domain": "Evidence: claim/procedure linked entities and procedure workflows are documented (`claim_procedure`, `claim`) and procedure fields in notes. Decision rule: substantial due explicit presence but partial procedural event richness.",
+      "domain": "procedures",
+      "_coverage": "Evidence covers billing-facing procedure lines and related notes; full procedural context may depend on narrative documents. Certainty: moderate.",
+      "coverage": "substantial",
+      "_confidence": "Evidence for procedure presence is direct while full granularity is less explicit. Certainty: moderate.",
+      "confidence": 4,
+      "notes": "Procedure billing and detail data are included, but not all operative context is guaranteed explicit."
+    },
+    {
+      "_domain": "Evidence: multiple note and template encounter files (`progress_note`, `template_encounter*`, `problem_list_note`, `phone_encounter`) and product documentation list notes extensively. Decision rule: substantial to comprehensive; choose substantial due one domain covering many note types.",
+      "domain": "clinical_notes",
+      "_coverage": "Evidence strongly indicates note coverage but may vary by clinical specialty customization. Certainty: high.",
+      "coverage": "comprehensive",
+      "_confidence": "Evidence is explicit from schema and sample. Certainty: high.",
+      "confidence": 5,
+      "notes": "Could be custom note templates not fully captured as separate schema entities."
+    },
+    {
+      "_domain": "Evidence: care_plan_goal and case management care-plan entities exist. Decision rule: substantial because explicit care planning artifacts are included but depth of outcomes not fully proven.",
+      "domain": "care_plans_goals",
+      "_coverage": "Evidence includes goal and care_plan structures and related notes. Certainty: moderate-high.",
+      "coverage": "substantial",
+      "_confidence": "Evidence exists but outcome semantics granularity uncertain. Certainty: moderate.",
+      "confidence": 4,
+      "notes": "Care planning support is clearly present in schema and sample."
+    },
+    {
+      "_domain": "Evidence: order, order_finding, and referral_tracking entities are present; product reports support referrals and order workflows. Decision rule: substantial due explicit entities and moderate uncertainty on full referral content semantics.",
+      "domain": "orders_referrals",
+      "_coverage": "Evidence confirms both order and referral artifacts exist. Certainty: moderate-high.",
+      "coverage": "substantial",
+      "_confidence": "Coverage appears direct and practical; nuanced referral statuses may need downstream mapping. Certainty: moderate-high.",
+      "confidence": 4,
+      "notes": "Orders and referral coverage is materially present."
+    },
+    {
+      "_domain": "Evidence: `image_document.json` and `image_xref.json` plus product documentation mention eDocuments. Decision rule: substantial for document metadata, not necessarily original binaries.",
+      "domain": "documents_attachments",
+      "_coverage": "Evidence indicates document metadata is exported and report states original images are stored separately as files. Certainty: moderate-high.",
+      "coverage": "substantial",
+      "_confidence": "Evidence shows inclusion path but not full attachment payload for every media type. Certainty: moderate.",
+      "confidence": 4,
+      "notes": "Metadata likely included; binary file bundling behavior should be validated in a migration pilot."
+    },
+    {
+      "_domain": "Evidence: `insurance.json`, `responsible_party.json`, and payer-related schema entries are present; product explicitly stores insurance and payer data. Decision rule: comprehensive given explicit entities.",
+      "domain": "insurance",
+      "_coverage": "Evidence highlights detailed payer/insurance schema and export references. Certainty: high.",
+      "coverage": "comprehensive",
+      "_confidence": "Evidence is strong and field-rich. Certainty: high.",
+      "confidence": 5,
+      "notes": "One of the strongest non-clinical financial domains."
+    },
+    {
+      "_domain": "Evidence: `claim`, `claim_procedure`, and payment-related files are present in both schema and sample. Decision rule: comprehensive given explicit inclusion.",
+      "domain": "claims_billing",
+      "_coverage": "Evidence covers claim claims, denial, eligibility, price estimate, statements, and sliding fees in schema/data references. Certainty: high.",
+      "coverage": "comprehensive",
+      "_confidence": "Evidence is direct and extensive. Certainty: high.",
+      "confidence": 5,
+      "notes": "Includes broad billing workflow data suitable for migration."
+    },
+    {
+      "_domain": "Evidence: `payment.json`, claims ecosystem, and statements/denial files are present. Decision rule: comprehensive for explicit payment transaction data.",
+      "domain": "payments",
+      "_coverage": "Evidence includes direct payment records and related status/balancing context; some operational collections may remain in external systems. Certainty: high.",
+      "coverage": "comprehensive",
+      "_confidence": "Evidence of payment structures is explicit. Certainty: high.",
+      "confidence": 5,
+      "notes": "Payment history/capitalization data appears robust for core revenue cycle needs."
+    },
+    {
+      "_domain": "Evidence: communication.json and communication_recipient.json plus portal message support indicate communication export. Decision rule: substantial due likely full EHR communication but not full session analytics.",
+      "domain": "patient_communications",
+      "_coverage": "Evidence supports patient-facing and internal communication records but excludes broad portal engagement logs. Certainty: moderate-high.",
+      "coverage": "substantial",
+      "_confidence": "Evidence is explicit but depth of log/metadata is uncertain. Certainty: moderate.",
+      "confidence": 4,
+      "notes": "Core message records are present; audit-level conversation telemetry likely absent."
+    },
+    {
+      "_domain": "Evidence: `consent.json` exists and product mentions consent workflows. Decision rule: comprehensive for explicit consent records in EHI export scope.",
+      "domain": "consents_directives",
+      "_coverage": "Evidence is direct but limited to listed consent entity definitions. Certainty: moderate-high.",
+      "coverage": "substantial",
+      "_confidence": "Evidence is clear but value semantics and historical state model are less explicit. Certainty: moderate.",
+      "confidence": 4,
+      "notes": "Consent capture is represented; directives outside clinical/legal forms may be under-documented."
+    },
+    {
+      "_domain": "Evidence: no audit log or access history export entity appears in schema list, while report explicitly mentions no schema for audit/user access logs. Decision rule: mark minimal.",
+      "domain": "audit_provenance",
+      "_coverage": "Evidence is insufficient for export of audit/access provenance tables. Certainty: high for omission and moderate for impact.",
+      "coverage": "minimal",
+      "_confidence": "Evidence is explicit about non-presence. Certainty: high.",
+      "confidence": 5,
+      "notes": "This omission is intentional for operational security data, not always part of EHI."
+    },
+    {
+      "_domain": "Evidence: encounter-level data is represented in `template_encounter` files, `appointment`, and `progress_note` objects. Decision rule: substantial because event coverage is distributed across entities and likely includes encounters and related context.",
+      "domain": "encounters",
+      "_coverage": "Evidence is explicit for structured encounter templates and note records. Certainty: high.",
+      "coverage": "substantial",
+      "_confidence": "Evidence is strong though custom encounter metadata may vary by workflow. Certainty: high.",
+      "confidence": 5,
+      "notes": "Core encounter/event timeline is available though full specialty-template heterogeneity is uncertain."
+    }
+  ],
+  "domainCoverageSummary": {
+    "comprehensive": [
+      "demographics",
+      "problems_conditions",
+      "medications",
+      "allergies",
+      "immunizations",
+      "vitals",
+      "clinical_notes",
+      "insurance",
+      "claims_billing",
+      "payments",
+      "consents_directives"
+    ],
+    "substantial": [
+      "scheduling",
+      "laboratory",
+      "procedures",
+      "care_plans_goals",
+      "orders_referrals",
+      "documents_attachments",
+      "patient_communications",
+      "encounters"
+    ],
+    "partial": [
+      "diagnostic_reports"
+    ],
+    "minimalOrNone": [
+      "audit_provenance"
+    ],
+    "unclear": []
+  },
+  "accessConstraints": {
+    "_docsPubliclyAccessible": "Evidence: all artifacts were downloaded via public URLs without authentication (`curl` succeeded and PDF/downloads were directly accessible). Decision rule: mark yes for documentation accessibility. Certainty: high.",
+    "docsPubliclyAccessible": "yes",
+    "_roleRestricted": "Evidence: export execution itself requires roles (`EHI Export`, `EHI Practice Export`) and role-gated documentation references these roles. Decision rule: mark role restricted for use, not docs.",
+    "roleRestricted": "yes",
+    "_vendorInvolvementNeeded": "Evidence: all-patient export is processed by iSALUS Data Export team and takes ~15 days. Decision rule: yes because bulk path cannot be completed without vendor-side fulfillment. Note: single-patient path is still self-service, but this overall access constraint remains true for full scope.",
+    "vendorInvolvementNeeded": "yes",
+    "_potentialFeesForStandardExport": "Evidence: no explicit pricing or fee language was documented in the EHI Export help page or artifacts. Decision rule: mark unknown to avoid overcalling a free/paid distinction.",
+    "potentialFeesForStandardExport": "unknown",
+    "_practicalAccessibilityScore": "Evidence: one flow is immediate UI export, second flow requires role + queue + ~15 days. Decision rule: assign moderate difficulty overall due dual-path asymmetry and migration delays for bulk. Certainty: high.",
+    "practicalAccessibilityScore": 3,
+    "notes": "Public documentation is easy to access; production-grade all-patient migration still incurs operational lead time and role gating."
+  },
+  "overall": {
+    "_posture": "Evidence: B10 export is proprietary but broad and includes clinical + billing entities with strong schema/dictionary/sample artifacts; however missing explicit value sets, relationship docs, and potential omission of some adjunct workflows keep it from ‘high_fidelity_export’. Decision rule: classify as usable but partial.",
+    "posture": "usable_but_partial",
+    "_completenessScore": "Evidence: comprehensive coverage is strongest for demographics/claims/meds/notes/vitals, with a notable gap in audit logs and uncertain handling of telehealth/intake/fax/portal-analytics. Decision rule: score 4 due breadth plus residual gaps.",
+    "completenessScore": 4,
+    "_technicalUsabilityScore": "Evidence: machine-readable schema + sample are strong, but absent value sets and formal relations increase implementation effort. Decision rule: assign moderate-high technical usability.",
+    "technicalUsabilityScore": 3,
+    "_confidence": "Evidence quality is high for core export artifacts and product context, and uncertainties are localized rather than global. Decision rule: confidence moderate due unresolved edge cases.",
+    "confidence": 3,
+    "_strongestSignal": "Evidence: full artifact set includes JSON schema bundle, XLSX dictionary, and real sample export for a test patient, all public and on the same documented path. This is strong implementation-ready evidence of broad B10 coverage.",
+    "strongestSignal": "Evidence-backed native data model with schema + sample export and clear export workflows for both single- and all-patient use.",
+    "_biggestRisk": "Evidence: no explicit value-set or relationship documentation and no guaranteed evidence of telehealth/intake/fax/audit-log coverage, creating downstream semantic and completeness risk during migration mapping.",
+    "biggestRisk": "Semantic reconstruction errors from undocumented enums and implicit joins, plus possible missing non-clinical adjunct workflows.",
+    "_summary": "Evidence supports a broad, implementation-aware B10 export path with two access modes. The strongest value is broad EHI breadth and concrete artifacts; the main limitation is that some adjunct/operational workflows remain weakly documented and the bulk path adds migration friction.",
+    "summary": "OfficeEMR presents a broad, vendor-native EHI export with good documented core-coverage and practical tooling, but conservative treatment is needed for adjunct workflow and relationship/value semantics gaps."
+  },
+  "notableFacts": [
+    "Single-patient and all-patient EHI export are separate operational paths; only bulk export is explicitly vendor-assisted with ~15-day turnaround.",
+    "Export format is vendor-native JSON, packaged per entity in multi-file ZIPs; no native FHIR/g(10) or C-CDA format is required for this documented path.",
+    "The documentation bundle includes three primary machine-readable assets: JSON schemas, XLSX dictionary, and a sample export zip.",
+    "Schema `description` fields are largely empty, so semantic understanding depends on the XLSX/PDF dictionary and sample data.",
+    "Claims/financial data is explicitly represented (claims, procedures, payments, denials, payer, eligibility) alongside detailed clinical modules.",
+    "No explicit EHI export evidence was found for audit/access logs, dedicated telehealth session entities, e-fax records, or MIPS/quality-measure payloads."
+  ]
+}

@@ -1,0 +1,1011 @@
+{
+  "meta": {
+    "schemaVersion": "2026-02-15.v9",
+    "assessedAt": "2026-02-15",
+    "assessor": "codex-gpt-5",
+    "status": "draft"
+  },
+  "scope": {
+    "vendorName": "SolidPractice Technologies, LLC",
+    "productFamily": "SolidPractice",
+    "_includedProducts": {
+      "sources": "results/solidpractice-technologies-llc/chpl-metadata.json (products[0]: product_name SolidPractice, version 2.0); results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf title/header \"b10 - exportable data content\" for this product family",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The CHPL metadata in-scope identifies one certified product named SolidPractice (v2.0), and the primary b(10) artifact is a single product-level exportable data table with no alternate product model in the evidence set.",
+      "alternatives": "Splitting into multiple product records was rejected because no artifact in this folder names a separate product line or a distinct export model.",
+      "uncertainty": "If additional primary artifacts later show separate products with different export models, scope should split.",
+      "confidence": "high (4/5)",
+      "decision": "includedProducts is limited to SolidPractice family evidence in this result set."
+    },
+    "includedProducts": [
+      "SolidPractice v2.0 (CHPL product 15.05.05.3095.SOLP.01.00.1.211227)"
+    ],
+    "_excludedProducts": {
+      "sources": "results/solidpractice-technologies-llc/chpl-metadata.json; results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No separate SolidPractice Technologies product families are identified in the in-scope primary export artifacts, so there are no evidence-backed sibling product lines to include here.",
+      "alternatives": "Adding unrelated or inferred product names was rejected because direct product-boundary evidence is absent.",
+      "uncertainty": "Corporate websites may mention adjacent capabilities, but this dataset does not provide primary export artifacts for distinct additional products.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "No explicitly excluded product families were evidenced in this folder."
+    },
+    "excludedProducts": [],
+    "_versionsInScope": {
+      "sources": "results/solidpractice-technologies-llc/chpl-metadata.json (version 2.0); results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf footer date 06-Dec-2022; results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf metadata CreationDate 2024-03-27",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The only explicit product version in evidence is 2.0; export documentation dates (2022 API guide and 2024 b10 content list) appear to describe that same ongoing product line with no documented model break.",
+      "alternatives": "Grouping unknown historical versions was rejected because artifacts do not show continuity guarantees before v2.0.",
+      "uncertainty": "If version-specific schema break documentation appears, version scope may need to split.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "versionsInScope is anchored to version 2.0 era artifacts."
+    },
+    "versionsInScope": [
+      "2.0 (certified 2021-12-27; export docs dated 2022-12-06 and 2024-03-27)"
+    ],
+    "scopeNotes": "Scope is one product family only (SolidPractice) and uses only artifacts in results/solidpractice-technologies-llc for this abstraction."
+  },
+  "exportPaths": [
+    {
+      "_mechanism": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §3.1 Endpoint URL /CCD/ExportPatientData; §3.2 required params key + patientId",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The Data Access API is an explicit HTTP endpoint that accepts patientId and returns patient CCD payloads, so this is an API single-patient export mechanism.",
+        "alternatives": "api_bulk_export was rejected because the endpoint is patient-scoped; UI-based options were rejected because this artifact documents direct endpoint invocation.",
+        "uncertainty": "The docs do not state throughput or batching behavior that could emulate bulk extraction.",
+        "confidence": "high (4/5)",
+        "decision": "mechanism = api_single_patient_export"
+      },
+      "mechanism": "api_single_patient_export",
+      "_container": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §3.3 Response specification and success JSON example",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Responses are returned over HTTP as API payloads (JSON object containing CCD XML string), fitting a streaming API container style rather than packaged files.",
+        "alternatives": "single_file and multi_file_bundle were rejected because no file bundle/archive workflow is documented for this API path.",
+        "uncertainty": "The artifact does not describe pagination or asynchronous job semantics.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "container = streaming_api"
+      },
+      "container": "streaming_api",
+      "_formats": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §3.3 (JSON keys success/data/message) and success example embedding <ClinicalDocument ...> XML",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The API response envelope is JSON while the exported clinical content in `data` is CCD XML, so both JSON and C-CDA/XML representations are directly present in this path.",
+        "alternatives": "Using only json was rejected because the core clinical payload is XML; using only ccda was rejected because transport envelope fields are explicitly JSON.",
+        "uncertainty": "No machine-readable examples show whether the XML always conforms to a specific C-CDA release profile.",
+        "confidence": "high (4/5)",
+        "decision": "formats = [json, ccda]"
+      },
+      "formats": [
+        "json",
+        "ccda"
+      ],
+      "_standardProfile": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §1 introduction \"obtain CCD data\" and success example with ClinicalDocument XML",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Evidence supports that the payload is CCD/C-CDA style XML, but the documentation does not explicitly declare a specific C-CDA release/profile version (for example R2.1).",
+        "alternatives": "ccda_r21 was rejected because version-specific conformance is not stated; none_vendor_native was rejected because CCD is explicitly named.",
+        "uncertainty": "A version-tagged implementation guide or sample with explicit template identifiers could change this call.",
+        "confidence": "moderate (3/5)",
+        "decision": "standardProfile = unknown"
+      },
+      "standardProfile": "unknown",
+      "_selfService": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §1 token obtained via EMR Setup and client can connect via standard HTTP",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The artifact describes customer-side API invocation once a token is provisioned in EMR setup, indicating health-system operable execution rather than mandatory vendor-run extraction.",
+        "alternatives": "no was rejected because required vendor-operated extraction is not stated; unknown was rejected because direct client invocation instructions are present.",
+        "uncertainty": "Some deployments may still involve account-manager help for token setup, which may vary by organization.",
+        "confidence": "moderate (3/5)",
+        "decision": "selfService = yes"
+      },
+      "selfService": "yes",
+      "_operationalBurden": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §1 token dependency; §3.2 many optional section toggles and date filters",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Using this endpoint is feasible but requires token provisioning, parameter management, and repeated patient-level calls, creating moderate operational friction.",
+        "alternatives": "Scores 0-2 were rejected because setup and repeated execution are non-trivial; scores 4-5 were rejected because the endpoint itself is directly documented and callable.",
+        "uncertainty": "Burden could be higher in practice if token issuance or throttling policies are restrictive.",
+        "confidence": "moderate (3/5)",
+        "decision": "operationalBurden = 3"
+      },
+      "operationalBurden": 3,
+      "notes": "Patient-scoped API path with optional section filters (allergies, medications, problem, procedures, immunizations, vitalSigns, socialHistory, results, medicalEquipment, assessment, planOfTreatment, reasonForReferral, goals, healthConcerns, functionalStatus, cognitiveStatus)."
+    },
+    {
+      "_mechanism": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf pages 1-3 format matrix columns (Computable PDF Export, CCD XML Export, JSON)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The b(10) matrix documents export content and per-element format availability, but it does not document operational workflow (UI/API/vendor ticket) for the matrix itself.",
+        "alternatives": "Any specific UI or vendor-assisted mechanism classification was rejected because no execution workflow is described in this artifact.",
+        "uncertainty": "A workflow guide or screenshots could resolve mechanism classification for this path.",
+        "confidence": "high (4/5)",
+        "decision": "mechanism = unknown"
+      },
+      "mechanism": "unknown",
+      "_container": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf pages 1-3 only list field-format matrix, with no packaging instructions",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No artifact text specifies whether outputs are single files, bundles, dumps, or streamed endpoints for this matrix-defined path.",
+        "alternatives": "single_file, multi_file_bundle, and database_dump were rejected because packaging evidence is absent.",
+        "uncertainty": "Container could differ by format (PDF vs JSON vs CCD), but the matrix does not specify delivery details.",
+        "confidence": "high (4/5)",
+        "decision": "container = unknown"
+      },
+      "container": "unknown",
+      "_formats": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf page 1 header columns and pages 1-3 X marks (43 CCD XML rows, 42 JSON rows, 2 Computable PDF rows)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The matrix explicitly marks three output formats across listed elements: CCD XML, JSON, and Computable PDF.",
+        "alternatives": "Using only one format was rejected because X marks appear in all three format columns across the 87-row table.",
+        "uncertainty": "The artifact does not define JSON schema, CCD profile version, or how Computable PDF is structurally encoded.",
+        "confidence": "high (5/5)",
+        "decision": "formats = [pdf, ccda, json]"
+      },
+      "formats": [
+        "pdf",
+        "ccda",
+        "json"
+      ],
+      "_standardProfile": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf format columns include CCD XML and non-standard formats (Computable PDF, JSON)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "This path mixes a standards-oriented CCD column with vendor-native/non-profiled formats, so profile posture is mixed rather than single-profile.",
+        "alternatives": "ccda_r21 was rejected because the sheet does not declare C-CDA version; none_vendor_native was rejected because CCD XML is explicitly included.",
+        "uncertainty": "If versioned CCD conformance and JSON profile docs are published, this classification may tighten.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "standardProfile = mixed"
+      },
+      "standardProfile": "mixed",
+      "_selfService": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf pages 1-3 (no workflow or actor information)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The matrix is silent on who executes the export, so self-service status cannot be determined from direct evidence.",
+        "alternatives": "yes was rejected because no explicit customer-run workflow is documented for this matrix path; no was rejected because required vendor operation is also not stated.",
+        "uncertainty": "Operational documentation showing exact user steps would resolve this field.",
+        "confidence": "high (4/5)",
+        "decision": "selfService = unknown"
+      },
+      "selfService": "unknown",
+      "_operationalBurden": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf pages 1-3; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf (only API path fully specified)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Because format availability is documented without execution workflow, packaging, or schema details, practical operational burden for this path is high.",
+        "alternatives": "Scores 0-3 were rejected because key implementation details are missing; score 5 was rejected because at least field-level format availability is explicit.",
+        "uncertainty": "Burden could drop substantially if concrete user instructions and sample exports are provided.",
+        "confidence": "moderate (3/5)",
+        "decision": "operationalBurden = 4"
+      },
+      "operationalBurden": 4,
+      "notes": "In the b10 matrix, rows 1-43 are marked CCD XML, rows 44-46 and 49-87 are marked JSON, and rows 47-48 are marked Computable PDF."
+    }
+  ],
+  "documentation": {
+    "_hasDataDictionary": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf pages 1-3 table columns No/Data Element/Data Description over 87 rows",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The b(10) artifact functions as a compact data dictionary by enumerating named data elements with per-field descriptions.",
+      "alternatives": "no was rejected because explicit field-name + description listings are present.",
+      "uncertainty": "Dictionary depth is limited because types/constraints/value sets are not included.",
+      "confidence": "high (4/5)",
+      "decision": "hasDataDictionary = yes"
+    },
+    "hasDataDictionary": "yes",
+    "_hasMachineReadableSchema": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No OpenAPI/JSON Schema/XSD/DDL artifact is provided; both sources are narrative PDFs.",
+      "alternatives": "yes was rejected because parseable prose/examples do not satisfy machine-readable schema requirements.",
+      "uncertainty": "A published OpenAPI spec or XSD would change this decision.",
+      "confidence": "high (5/5)",
+      "rule": "Use yes only if vendor provides machine-consumable schema artifact.",
+      "decision": "hasMachineReadableSchema = no"
+    },
+    "hasMachineReadableSchema": "no",
+    "_describesFieldNames": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf Data Element column rows 1-87; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §3.2 parameter names",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Field and parameter names are explicitly listed in both artifacts.",
+      "alternatives": "no was rejected because names are directly documented across the b10 list and API parameter table.",
+      "uncertainty": "Naming is present, but naming conventions and identifier crosswalks are not documented.",
+      "confidence": "high (5/5)",
+      "decision": "describesFieldNames = yes"
+    },
+    "describesFieldNames": "yes",
+    "_describesFieldTypes": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf rows 1-87 descriptions; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §3.2 examples (true/false/date strings)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The docs do not provide a systematic field type declaration matrix for exported elements; examples imply some types but are not explicit type documentation for the data model.",
+      "alternatives": "yes was rejected because sporadic examples (true/false, date samples) do not constitute explicit type coverage.",
+      "uncertainty": "A typed field catalog could raise this to yes.",
+      "confidence": "high (4/5)",
+      "decision": "describesFieldTypes = no"
+    },
+    "describesFieldTypes": "no",
+    "_describesFieldSemantics": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf Data Description column rows 1-87",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Each listed element has business-meaning text (for example \"Patient primary subscriber ID - insurance\", \"Paid copay amount of service\"), which is direct semantic description beyond bare names.",
+      "alternatives": "no was rejected because semantic meaning text is explicitly present for the listed fields.",
+      "uncertainty": "Descriptions are short and sometimes broad, so semantic precision is still limited.",
+      "confidence": "high (4/5)",
+      "decision": "describesFieldSemantics = yes"
+    },
+    "describesFieldSemantics": "yes",
+    "_describesValueSets": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No explicit enumerations or code-binding lists are provided for coded concepts (for example gender, race, appointment status, payment method).",
+      "alternatives": "yes was rejected because neither artifact enumerates allowed values or bound code systems.",
+      "uncertainty": "Value-set documentation may exist elsewhere but is not present in collected primary artifacts.",
+      "confidence": "high (5/5)",
+      "rule": "Use yes only with explicit enumerations or code-binding lists.",
+      "decision": "describesValueSets = no"
+    },
+    "describesValueSets": "no",
+    "_describesRelationships": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf (field list only); results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf (section toggles only)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Artifacts list fields and section switches but do not provide explicit inter-entity relationship mapping (no FK map, ERD, or cardinal relationship statements).",
+      "alternatives": "yes was rejected because inferred linkage from terms like patientId is not equivalent to documented cross-entity relationships.",
+      "uncertainty": "If an ERD or explicit join documentation is published, this could change.",
+      "confidence": "high (5/5)",
+      "rule": "Inferred joins from similar names are not enough for yes.",
+      "decision": "describesRelationships = no"
+    },
+    "describesRelationships": "no",
+    "_describesKeysConstraints": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf row 1 \"Patient ID\" description; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §3.2 patientId parameter",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Evidence includes identifier mentions but no documented key/constraint semantics (no PK/FK rules, requiredness matrix, cardinality constraints, or uniqueness policy).",
+      "alternatives": "yes was rejected because identifier mentions alone do not satisfy richer keys/constraints documentation.",
+      "uncertainty": "Detailed schema docs could provide key/constraint semantics later.",
+      "confidence": "high (5/5)",
+      "rule": "A lone identifier mention is insufficient for yes.",
+      "decision": "describesKeysConstraints = no"
+    },
+    "describesKeysConstraints": "no",
+    "_hasSampleData": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §3.3.1 success JSON example and §3.3.2 error examples",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The API document includes concrete sample response payloads (JSON envelope and embedded XML snippet), so at least toy sample data is present.",
+      "alternatives": "no was rejected because explicit response examples are included in the primary artifact.",
+      "uncertainty": "Examples are minimal and not representative of full export breadth.",
+      "confidence": "high (4/5)",
+      "decision": "hasSampleData = yes"
+    },
+    "hasSampleData": "yes",
+    "_sampleRepresentativeness": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §3.3.1-3.3.2 examples",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Samples are short toy examples showing wrapper structure and placeholder XML, not realistic multi-domain patient exports.",
+      "alternatives": "Scores 2-5 were rejected because no broad realistic payload set is provided.",
+      "uncertainty": "Representativeness would increase with full example exports spanning the 87 documented elements.",
+      "confidence": "high (4/5)",
+      "decision": "sampleRepresentativeness = 1"
+    },
+    "sampleRepresentativeness": 1,
+    "_docsCurrentness": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf metadata CreationDate 2024-03-27; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf metadata CreationDate 2022-12-06",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Documentation includes one relatively recent artifact (2024) plus an older API guide (2022), indicating somewhat current but not actively versioned evidence.",
+      "alternatives": "Scores 4-5 were rejected because there is no visible ongoing version history; scores 1-2 were rejected because docs are not obviously obsolete.",
+      "uncertainty": "Currentness could improve with dated changelogs or newer API rev docs.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "docsCurrentness = 3"
+    },
+    "docsCurrentness": 3,
+    "_maturity": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The docs clearly enumerate many export elements and provide callable API details, but they lack machine-readable schema, relationship/key docs, full type metadata, and representative payload samples.",
+      "alternatives": "minimal was rejected because useful structural content exists; good/strong/excellent were rejected due major implementation ambiguities.",
+      "uncertainty": "Maturity could move upward with schema artifacts and full sample exports.",
+      "confidence": "high (4/5)",
+      "decision": "maturity = basic"
+    },
+    "maturity": "basic",
+    "notes": "Documentation is strongest on high-level field inventory and API call syntax, and weakest on structural rigor needed for reliable migration mapping."
+  },
+  "fidelityRisk": {
+    "_representationType": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf (flat 87-element matrix); results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf (CCD projection with selectable sections)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Evidence shows mixed posture: a vendor-native flat field matrix plus a CCD-based projection API. This indicates native content exposure with clear projection layers.",
+      "alternatives": "native_model_like was rejected because no operational relational model is exposed; external_standard_projection was rejected because non-standard JSON/PDF matrix coverage is also explicit.",
+      "uncertainty": "If full internal schema exports are provided, representation could move closer to native_model_like.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "representationType = native_plus_projection"
+    },
+    "representationType": "native_plus_projection",
+    "_modelExposureLevel": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf rows 1-87 as flattened element list without explicit entities/joins",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The b10 artifact is primarily a flattened projection of fields and does not expose broad operational entity relationships or constraints.",
+      "alternatives": "partial_entity_model was rejected because explicit entity-level structure is largely absent; operational_model_like was rejected because keys/relationships are undocumented.",
+      "uncertainty": "A table-level schema or real JSON export samples might justify a higher exposure level.",
+      "confidence": "high (4/5)",
+      "decision": "modelExposureLevel = summary_projection"
+    },
+    "modelExposureLevel": "summary_projection",
+    "_mappingTarget": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf (CCD target); results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf (JSON + Computable PDF columns)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The export ecosystem includes explicit CCD targeting plus non-standard vendor-native outputs, so mapping target behavior is mixed.",
+      "alternatives": "none was rejected because explicit CCD mapping exists; ccda alone was rejected because JSON/PDF outputs are also documented.",
+      "uncertainty": "Relative dependence on each target in production is not quantified in the artifacts.",
+      "confidence": "moderate (3/5)",
+      "decision": "mappingTarget = mixed"
+    },
+    "mappingTarget": "mixed",
+    "_projectionLossRisk": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Risk is high because available artifacts present flattened field lists and section toggles without robust relationship semantics, making omission of meaningful internal context plausible.",
+      "alternatives": "Scores 0-2 were rejected due sparse structural fidelity evidence; score 5 was rejected because many clinical and financial fields are at least explicitly listed.",
+      "uncertainty": "Projection loss risk would decrease if full schema + representative exports confirm complete internal object coverage.",
+      "confidence": "moderate (3/5)",
+      "decision": "projectionLossRisk = 4"
+    },
+    "projectionLossRisk": 4,
+    "_conflationRisk": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf (single-row fields for broad concepts like prescriptions, problem list, receipts); results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf (section-level toggles)",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Multiple complex clinical/financial concepts appear collapsed into broad fields or section toggles, increasing risk that distinct states/concepts are conflated.",
+      "alternatives": "Low scores (0-2) were rejected because granularity is visibly compressed; score 5 was rejected because some domain differentiation still exists across many listed elements.",
+      "uncertainty": "Granularity of real JSON/CCD payloads is unknown and could alter this risk.",
+      "confidence": "moderate (3/5)",
+      "decision": "conflationRisk = 4"
+    },
+    "conflationRisk": 4,
+    "_reconstructionDifficulty": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Reconstructing a robust import model requires combining heterogeneous formats (JSON/PDF/CCD) with sparse relationship/key constraints, creating high inferred-join effort.",
+      "alternatives": "Scores 0-2 were rejected because cross-format and low-schema mapping burden is substantial; score 5 was rejected because at least one explicit API and a broad field inventory are provided.",
+      "uncertainty": "Difficulty could drop with sample exports and key mapping documentation.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "reconstructionDifficulty = 4"
+    },
+    "reconstructionDifficulty": 4,
+    "_keyLossPatterns": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf rows 1-87; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §3.2-§3.3",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The same structural issues recur: flattened domain fields, sparse join metadata, and format heterogeneity without crosswalk documentation.",
+      "alternatives": "Claiming no key-loss patterns was rejected because explicit PK/FK and cross-format linkage details are absent.",
+      "uncertainty": "Real payloads may contain hidden linkage fields not documented in these PDFs.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "keyLossPatterns capture repeated evidence-backed structural risks."
+    },
+    "keyLossPatterns": [
+      "No explicit PK/FK relationship map is documented across the 87-element matrix domains.",
+      "Complex domains (for example medications, problem list, receipts) are represented as broad fields that can hide event-level semantics.",
+      "CCD API section exports are patient/section scoped without documented crosswalk to the JSON/PDF matrix outputs.",
+      "Format heterogeneity (JSON, CCD XML, Computable PDF) is documented without package-level linkage conventions."
+    ],
+    "_likelyOmittedAreas": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf rows 1-87; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §3.2 selectable sections",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Several high-impact patient-facing areas are not clearly represented in the listed export content, suggesting likely omission or underrepresentation.",
+      "alternatives": "Declaring no likely omissions was rejected because explicit rows/sections for these areas are missing in primary artifacts.",
+      "uncertainty": "Some omitted areas may exist in uncollected artifacts, so this list is evidence-bounded rather than absolute.",
+      "confidence": "moderate (3/5)",
+      "decision": "likelyOmittedAreas emphasize domains not clearly surfaced by primary docs."
+    },
+    "likelyOmittedAreas": [
+      "Encounter/progress note narrative exports are not explicitly listed as discrete exportable elements.",
+      "Detailed claims adjudication/coding structures (for example CPT/ICD line-level details) are not explicitly documented beyond receipt/payment fields.",
+      "Patient communication threads (portal messaging, correspondence context) are not explicitly represented.",
+      "Explicit consent/advance-directive structured elements are not clearly documented outside generic uploaded files."
+    ]
+  },
+  "domainCoverage": [
+    {
+      "domain": "demographics",
+      "_coverage": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf rows 1-29 (patient identifiers, demographics, address/contact, emergency contact)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Demographics are extensively represented with core identity, contact, and emergency contact elements, indicating broad demographic domain presence.",
+        "alternatives": "present_but_not_comprehensive was rejected because the listed set is already broad for this domain; not_clearly_present is inconsistent with explicit row coverage.",
+        "uncertainty": "Unknown whether additional demographic substructures exist beyond listed fields.",
+        "confidence": "high (5/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "confidence": 5,
+      "notes": "Rows 1-29 cover standard patient demographic and contact data used in treatment and billing decisions."
+    },
+    {
+      "domain": "encounters",
+      "_coverage": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §3.2 `from`/`to` encounter date filters; results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf rows 66-71 appointment fields",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Encounter context is present indirectly via encounter-date filters and appointment metadata, but explicit encounter record structures are not described.",
+        "alternatives": "plausibly_comprehensive was rejected because no explicit encounter entity/field set is documented; not_clearly_present was rejected because encounter-related evidence does exist.",
+        "uncertainty": "Direct encounter table/resource definitions are missing, which could shift coverage lower or higher.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 3,
+      "notes": "Encounter representation is inferred from encounter-date filtering and scheduling fields, not from a clearly documented encounter model."
+    },
+    {
+      "domain": "problems_conditions",
+      "_coverage": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf row 39 Problem List; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §3.2 `problem` section flag",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Problems/conditions are directly named in both the b10 list and API section toggles.",
+        "alternatives": "plausibly_comprehensive was rejected because structure/coding/detail depth is undocumented; not_clearly_present conflicts with explicit problem entries.",
+        "uncertainty": "Without payload samples, condition granularity and historical completeness remain uncertain.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Problem data is clearly present, but documentation does not show coding systems, status history, or per-problem structure."
+    },
+    {
+      "domain": "medications",
+      "_coverage": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf row 30 Prescriptions and rows 31-35 preferred pharmacy; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §3.2 `medications` section",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Medication domain is explicitly present via prescriptions and medication section exports; pharmacy linkage fields are also included.",
+        "alternatives": "plausibly_comprehensive was rejected because medication attribute-level details are not documented; not_clearly_present is contradicted by explicit rows/sections.",
+        "uncertainty": "No evidence clarifies whether medication administration/status details are complete.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Medication/prescription data is present but structurally thin in available documentation."
+    },
+    {
+      "domain": "allergies",
+      "_coverage": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf row 42 Allergies; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §3.2 `allergiesAndIntolerances`",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Allergy data is explicitly called out in both the element matrix and API section list.",
+        "alternatives": "plausibly_comprehensive was rejected because allergen/reaction/severity structure is not documented; not_clearly_present is inconsistent with explicit listings.",
+        "uncertainty": "Full clinical detail depth in allergy payloads remains unknown.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Allergy presence is direct; representational depth is not documented."
+    },
+    {
+      "domain": "immunizations",
+      "_coverage": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf row 38 Patient Immunization history; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §3.2 `immunizations`",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Immunization history is directly named in both artifacts.",
+        "alternatives": "plausibly_comprehensive was rejected because coding/manufacturer/lot-level detail is undocumented; not_clearly_present was rejected due explicit immunization entries.",
+        "uncertainty": "Unknown whether historical completeness and administered-vs-reported distinctions are preserved.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Direct immunization coverage exists, but fine-grained structure is not documented."
+    },
+    {
+      "domain": "vitals",
+      "_coverage": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf row 41 Vitals; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §3.2 `vitalSigns`",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Vitals are directly present by name in both sources.",
+        "alternatives": "plausibly_comprehensive was rejected because specific vital sign components and units are not enumerated; not_clearly_present was rejected due direct references.",
+        "uncertainty": "No sample payload confirms breadth of vital sign types.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Vitals are clearly in scope, but element-level detail is not documented."
+    },
+    {
+      "domain": "laboratory",
+      "_coverage": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf rows 45 Lab Results and 46 Lab Order, Imaging Order; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §3.2 `results`",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Laboratory results/orders are directly identified in b10 rows and reinforced by API `results` section.",
+        "alternatives": "plausibly_comprehensive was rejected because no analyte-level structure/code bindings are documented; not_clearly_present was rejected because rows are explicit.",
+        "uncertainty": "Specimen-level linkage and result status semantics are unknown from available artifacts.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Lab domain presence is explicit; structure/coding depth is unclear."
+    },
+    {
+      "domain": "diagnostic_reports",
+      "_coverage": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf row 47 Imaging Reports; row 46 includes Imaging Order",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Diagnostic imaging reporting is explicitly represented via imaging order/report rows.",
+        "alternatives": "plausibly_comprehensive was rejected because modality/report-detail structure is not documented; not_clearly_present is contradicted by explicit rows.",
+        "uncertainty": "No sample report payloads are available to confirm breadth of diagnostic report content.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Imaging report presence is explicit but only as high-level elements in documentation."
+    },
+    {
+      "domain": "procedures",
+      "_coverage": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf row 40 Procedures; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §3.2 `procedures`",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Procedure data is directly listed in both artifacts.",
+        "alternatives": "plausibly_comprehensive was rejected because procedure coding/status/timing details are not specified; not_clearly_present conflicts with explicit procedure entries.",
+        "uncertainty": "No payload samples show procedure granularity.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Procedures are present but documentation is high-level only."
+    },
+    {
+      "domain": "clinical_notes",
+      "_coverage": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf rows 1-87 (no explicit note/progress-note element); results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §3.2 includes assessment/planOfTreatment/healthConcerns/functionalStatus/cognitiveStatus sections",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Some narrative-adjacent clinical sections are present in the CCD API, but explicit encounter/progress note export structures are not clearly documented in the b10 field list.",
+        "alternatives": "plausibly_comprehensive was rejected because explicit note-domain coverage is missing; not_clearly_present was rejected because note-like CCD sections do exist.",
+        "uncertainty": "Whether those sections capture full note narratives is unclear without sample CCD outputs.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 3,
+      "notes": "Clinical note-like sections exist in API toggles, but explicit progress/encounter note export detail is not documented."
+    },
+    {
+      "domain": "care_plans_goals",
+      "_coverage": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §3.2 `planOfTreatment`, `goals`, `healthConcerns`",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Care planning/goals content is explicitly represented by dedicated API section toggles.",
+        "alternatives": "plausibly_comprehensive was rejected because no field-level definitions or samples show breadth; not_clearly_present is contradicted by explicit section names.",
+        "uncertainty": "Completeness across longitudinal plan revisions is unknown.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Care-plan/goals domain is directly present in API section configuration."
+    },
+    {
+      "domain": "orders_referrals",
+      "_coverage": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf row 46 Lab Order, Imaging Order; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §3.2 `reasonForReferral`",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Orders and referral-related content are explicitly represented by order rows and referral reason section toggles.",
+        "alternatives": "plausibly_comprehensive was rejected because referral/order lifecycle detail is not documented; not_clearly_present conflicts with explicit row/section evidence.",
+        "uncertainty": "No explicit referral object schema is provided.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Orders/referral domain is present but lacks structured lifecycle detail in docs."
+    },
+    {
+      "domain": "documents_attachments",
+      "_coverage": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf row 48 \"Files uploaded to the patient chart - insurance cards, consent form etc.\"",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The b10 matrix explicitly names uploaded chart files/attachments as exportable content.",
+        "alternatives": "plausibly_comprehensive was rejected because attachment metadata/file packaging behavior is not described; not_clearly_present is contradicted by explicit row 48.",
+        "uncertainty": "Unknown whether original binaries or only metadata are exported.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Attachment domain is explicitly listed, but export fidelity (binary vs reference) is unclear."
+    },
+    {
+      "domain": "insurance",
+      "_coverage": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf rows 49-56 (primary/secondary carrier, subscriber, group, plan) and rows 57-65 guarantor data",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Insurance and guarantor fields are extensively listed, indicating broad insurance/enrollment domain representation.",
+        "alternatives": "present_but_not_comprehensive was rejected because primary/secondary + guarantor coverage is broad in listed fields; not_clearly_present is contradicted by explicit rows.",
+        "uncertainty": "Policy history, effective dates, and coverage periods are not explicitly documented.",
+        "confidence": "high (5/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "confidence": 5,
+      "notes": "Insurance coverage and guarantor identity details are broad in rows 49-65."
+    },
+    {
+      "domain": "claims_billing",
+      "_coverage": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf rows 72-87 receipt/service/billing facility fields including outstanding balance with Claim#",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Patient-specific billing/claim-linked receipt data is explicitly present, satisfying clear claims/billing domain presence.",
+        "alternatives": "plausibly_comprehensive was rejected because claim adjudication lifecycle and coded line items are not documented; not_clearly_present conflicts with rows 72-87.",
+        "uncertainty": "Depth of coding/adjudication detail remains uncertain.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 4,
+      "notes": "Billing/claim-linked receipt data is present, but full claims data model coverage is unclear."
+    },
+    {
+      "domain": "payments",
+      "_coverage": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf rows 73-76 and 82-84 (copay, deductible, credit account, amount paid, paid method, transaction number)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Multiple payment-specific fields are explicitly listed, indicating broad payment information availability.",
+        "alternatives": "present_but_not_comprehensive was rejected because payment details are substantial in listed receipt fields; not_clearly_present is contradicted by explicit payment rows.",
+        "uncertainty": "No payer remittance/adjustment schema is provided.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "confidence": 4,
+      "notes": "Payment amounts, methods, and transaction identifiers are directly listed in the b10 matrix."
+    },
+    {
+      "domain": "scheduling",
+      "_coverage": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf rows 66-71 (appointment type, date/time, status, description, scheduled provider, duration)",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Scheduling data has a dedicated cluster of appointment fields covering core scheduling attributes.",
+        "alternatives": "present_but_not_comprehensive was rejected because the listed appointment set is broad for typical schedule exports; not_clearly_present conflicts with explicit rows.",
+        "uncertainty": "Advanced scheduling artifacts (waitlists/resource blocks) are not documented.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = plausibly_comprehensive"
+      },
+      "coverage": "plausibly_comprehensive",
+      "confidence": 4,
+      "notes": "Core appointment scheduling domain is clearly represented in rows 66-71."
+    },
+    {
+      "domain": "consents_directives",
+      "_coverage": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf row 48 includes uploaded files examples \"consent form etc.\"",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Consent-related artifacts are implied through uploaded chart files, but no dedicated structured consent/directive fields are listed.",
+        "alternatives": "plausibly_comprehensive was rejected because only indirect attachment evidence is present; not_clearly_present was rejected because consent forms are explicitly mentioned in row 48 description.",
+        "uncertainty": "Unknown whether directives/consent statuses are exported as structured data vs unstructured attachments only.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "confidence": 3,
+      "notes": "Consent evidence appears via uploaded files, not a dedicated structured consent model."
+    },
+    {
+      "domain": "patient_communications",
+      "_coverage": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf rows 1-87; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §3.2 section list",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No explicit patient messaging/communication artifacts (for example portal messages, secure message threads) are listed in either source.",
+        "alternatives": "present_but_not_comprehensive was rejected because there is no direct communications-domain row/section evidence.",
+        "uncertainty": "Communication data may exist in product features outside collected export artifacts.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "confidence": 4,
+      "notes": "No direct export evidence for patient communication records in collected primary docs."
+    },
+    {
+      "domain": "audit_provenance",
+      "_coverage": {
+        "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf rows 1-87; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Audit/provenance artifacts are not documented in these export sources.",
+        "alternatives": "present_but_not_comprehensive was rejected because no direct audit/provenance fields are listed.",
+        "uncertainty": "Audit logs may exist operationally, but they are outside core EHI scope unless used for individual decision-making.",
+        "confidence": "high (4/5)",
+        "rule": "Audit/access logs are operational/security artifacts and are not required EHI completeness targets.",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "confidence": 4,
+      "notes": "Absence here is not itself an EHI deficiency because audit logs are generally outside designated record set scope."
+    }
+  ],
+  "quantitativeProfile": {
+    "artifactCounts": {
+      "totalArtifactsReviewed": {
+        "status": "measured",
+        "value": 5,
+        "method": "exact",
+        "notes": "Count includes 2 primary downloads plus 3 contextual artifacts reviewed in this turn: product-research.md, ehi-export-report.md, and files.json."
+      },
+      "exportArtifactsDocumented": {
+        "status": "measured",
+        "value": 2,
+        "method": "exact",
+        "notes": "Primary export-structure artifacts are SolidPractice-b10-exportable-data-content.pdf and SolidPractice-Data-Access-API.pdf."
+      },
+      "sampleDataArtifacts": {
+        "status": "measured",
+        "value": 1,
+        "method": "exact",
+        "notes": "One artifact (Data Access API PDF) contains sample response payload snippets."
+      },
+      "dictionaryOrSchemaArtifacts": {
+        "status": "measured",
+        "value": 2,
+        "method": "exact",
+        "notes": "Counted the b10 field matrix PDF and Data Access API specification PDF."
+      },
+      "machineReadableSchemaArtifacts": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No machine-readable schema files (OpenAPI/JSON Schema/XSD/DDL) were provided."
+      }
+    },
+    "modelEntityCounts": {
+      "documentedEntities": {
+        "status": "measured",
+        "value": 16,
+        "method": "exact",
+        "notes": "Counted 16 explicitly named CCD section toggles in API parameter table (allergiesAndIntolerances through cognitiveStatus) as the only clear entity-like structural units."
+      },
+      "observedEntities": {
+        "status": "measured",
+        "value": 1,
+        "method": "exact",
+        "notes": "One explicit payload entity root observed in sample content: ClinicalDocument XML in API success example."
+      },
+      "exportDistinctUnits": {
+        "status": "not_observable",
+        "notes": "Practical full-export unit count (files/resources/tables) cannot be established from the available documentation alone."
+      }
+    },
+    "fieldCounts": {
+      "documentedFields": {
+        "status": "measured",
+        "value": 87,
+        "method": "exact",
+        "notes": "Directly counted from b10 rows numbered 1 through 87."
+      },
+      "observedFields": {
+        "status": "measured",
+        "value": 3,
+        "method": "exact",
+        "notes": "Observed JSON response keys in API examples: success, data, message."
+      },
+      "fieldsWithTypeInfo": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No exported-field type catalog is explicitly documented for the 87 data elements."
+      },
+      "fieldsWithSemanticDescription": {
+        "status": "measured",
+        "value": 87,
+        "method": "exact",
+        "notes": "All 87 listed elements include text in the Data Description column."
+      },
+      "codedFields": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No explicit coded/enumerated field bindings are documented in the artifacts."
+      }
+    },
+    "relationshipCounts": {
+      "documentedRelationships": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No explicit relationship map (joins/references/cardinality) is documented."
+      },
+      "documentedPrimaryKeys": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No explicit PK semantics are documented beyond identifier mentions."
+      },
+      "documentedForeignKeys": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No FK mappings are documented in the reviewed artifacts."
+      },
+      "documentedConstraints": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No requiredness, uniqueness, check constraints, or cardinality matrices are documented."
+      }
+    },
+    "valueSetCounts": {
+      "documentedValueSets": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No explicit value-set catalogs are documented."
+      },
+      "valueSetsWithCodeSystem": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No code systems/versions are tied to value sets in reviewed docs."
+      },
+      "fieldsBoundToValueSets": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No field-to-valueset binding table is documented."
+      },
+      "localCustomValueSets": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No vendor-local value-set definitions are explicitly documented."
+      }
+    },
+    "projectionSignals": {
+      "entitiesWithOnlyIdPlusOnePayloadField": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No documented entity in these artifacts matches explicit Id + single payload-column pattern as defined by this metric."
+      },
+      "domainsWithoutDocumentedJoinKey": {
+        "status": "measured",
+        "value": 21,
+        "method": "derived",
+        "notes": "Derived from the 21 canonical domains assessed: no domain has explicitly documented cross-entity join semantics in the reviewed artifacts."
+      }
+    },
+    "notes": "Counts were anchored to explicit, directly countable artifacts and avoid inferred precision where packaging/schema evidence is missing."
+  },
+  "accessConstraints": {
+    "_docsPubliclyAccessible": {
+      "sources": "results/solidpractice-technologies-llc/files.json (access_status found, direct URL); results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Both primary PDFs were directly retrievable without authentication barriers in the collected evidence.",
+      "alternatives": "no was rejected because the artifacts are present from direct public URL retrieval.",
+      "uncertainty": "Additional private implementation materials may still exist outside these public docs.",
+      "confidence": "high (5/5)",
+      "decision": "docsPubliclyAccessible = yes"
+    },
+    "docsPubliclyAccessible": "yes",
+    "_roleRestricted": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §1 token requirement and EMR Setup access",
+      "sourceQuality": "primary_direct",
+      "reasoning": "API access requires an access key obtained via EMR setup, indicating role/permission gating for operational export use.",
+      "alternatives": "no was rejected because explicit key-gated access is documented.",
+      "uncertainty": "Exact tenant role matrix is not published in reviewed artifacts.",
+      "confidence": "high (4/5)",
+      "decision": "roleRestricted = yes"
+    },
+    "roleRestricted": "yes",
+    "_vendorInvolvementNeeded": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf §1 \"Please contact your Account Manager for support if needed\"; b10 matrix lacks workflow details",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Artifacts do not clearly establish whether standard exports can always be executed without vendor touchpoints across all documented formats.",
+      "alternatives": "no was rejected because non-API matrix workflows are undocumented; yes was rejected because mandatory vendor operation is not explicitly required.",
+      "uncertainty": "A concrete customer-run workflow guide for each format would resolve this call.",
+      "confidence": "moderate (3/5)",
+      "decision": "vendorInvolvementNeeded = unknown"
+    },
+    "vendorInvolvementNeeded": "unknown",
+    "_potentialFeesForStandardExport": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The reviewed primary artifacts do not provide explicit fee policy for standard export operation.",
+      "alternatives": "yes and no were both rejected because direct fee statements are absent in the in-scope primary sources.",
+      "uncertainty": "Fee posture could be clarified by contractual disclosures or pricing docs tied to export workflows.",
+      "confidence": "moderate (3/5)",
+      "decision": "potentialFeesForStandardExport = unknown"
+    },
+    "potentialFeesForStandardExport": "unknown",
+    "_practicalAccessibilityScore": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf; results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Practical accessibility is high-friction: docs are public, but execution is role-gated and one major matrix path lacks concrete operational/packaging details.",
+      "alternatives": "Scores 0-2 were rejected because meaningful implementation ambiguity remains; score 5 was rejected because at least one concrete API mechanism is documented.",
+      "uncertainty": "Accessibility may vary by customer provisioning/support practices not visible in these artifacts.",
+      "confidence": "moderate (3/5)",
+      "decision": "practicalAccessibilityScore = 4"
+    },
+    "practicalAccessibilityScore": 4,
+    "notes": "Public documentation exists, but operational execution clarity is uneven across documented formats."
+  },
+  "overall": {
+    "_posture": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Overall posture is usable but partial: evidence shows broad domain intent (including insurance/scheduling/payments) but structural fidelity and execution clarity are limited.",
+      "alternatives": "high_fidelity_export was rejected due missing schema/relationship rigor; projection_limited was considered but not selected because non-CCD JSON/PDF domain coverage is explicitly listed; insufficiently_documented was rejected because substantial direct evidence exists.",
+      "uncertainty": "Posture could improve with machine-readable schemas and representative payload samples.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "posture = usable_but_partial"
+    },
+    "posture": "usable_but_partial",
+    "_completenessScore": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf rows 1-87; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf section list",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Documented coverage includes many core clinical and financial EHI domains, but major ambiguity remains for clinical-note depth, claims granularity, and communication artifacts.",
+      "alternatives": "Scores 4-5 were rejected because completeness cannot be verified at structural depth; scores 1-2 were rejected because many important domains are explicitly present.",
+      "uncertainty": "Completeness could shift with full export payload inspection.",
+      "confidence": "moderate (3/5)",
+      "decision": "completenessScore = 3"
+    },
+    "completenessScore": 3,
+    "_technicalUsabilityScore": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf; results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Technical usability is difficult: API syntax is usable, but schema typing, relationships, and cross-format mapping details are insufficient for straightforward import.",
+      "alternatives": "Scores 4-5 were rejected because import-ready structure is not provided; score 1 was rejected because at least one concrete API with examples is documented.",
+      "uncertainty": "Usability may improve significantly with detailed implementation guides and sample exports.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "technicalUsabilityScore = 2"
+    },
+    "technicalUsabilityScore": 2,
+    "_confidence": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf; results/solidpractice-technologies-llc/chpl-metadata.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Confidence is moderate because core evidence is direct and concrete, but several key judgments depend on absent workflow/schema artifacts.",
+      "alternatives": "Higher confidence (4-5) was rejected due unresolved mechanism and structural ambiguities; lower confidence (1-2) was rejected because primary sources are substantial.",
+      "uncertainty": "Confidence would increase with real export files and formal schema docs.",
+      "confidence": "moderate (3/5)",
+      "decision": "confidence = 3"
+    },
+    "confidence": 3,
+    "_strongestSignal": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf rows 49-87 and 66-71 plus clinical rows",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Strongest positive signal is breadth: the b10 matrix explicitly includes patient-facing financial and scheduling records in addition to core clinical domains.",
+      "alternatives": "Choosing API syntax quality as strongest signal was rejected because domain breadth is more consequential for EHI completeness.",
+      "uncertainty": "Signal strength still depends on actual payload fidelity not shown in samples.",
+      "confidence": "high (4/5)",
+      "decision": "strongestSignal highlights explicit cross-domain EHI coverage intent."
+    },
+    "strongestSignal": "The b10 matrix explicitly covers clinical plus patient-specific insurance, scheduling, billing, and payment fields, indicating intent beyond USCDI-only summaries.",
+    "_biggestRisk": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Highest-impact risk is missing structural detail: no machine-readable schema, no relationship map, and unclear execution details for non-API format rows.",
+      "alternatives": "Other risks (for example role restrictions) were ranked lower because they are operationally manageable compared to semantic reconstruction uncertainty.",
+      "uncertainty": "Risk could be materially reduced by providing full sample exports and explicit schema docs.",
+      "confidence": "high (4/5)",
+      "decision": "biggestRisk centers on structural ambiguity affecting migration fidelity."
+    },
+    "biggestRisk": "Lack of explicit schema/relationship documentation and unclear workflow details for JSON/PDF matrix outputs create high semantic reconstruction risk.",
+    "_summary": {
+      "sources": "results/solidpractice-technologies-llc/downloads/SolidPractice-b10-exportable-data-content.pdf; results/solidpractice-technologies-llc/downloads/SolidPractice-Data-Access-API.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The evidence supports a broad but structurally thin export posture: many EHI-relevant domains are listed, yet implementation-ready fidelity details are insufficient.",
+      "alternatives": "A stronger summary claiming near-complete import readiness was rejected because key technical documentation is absent.",
+      "uncertainty": "Summary could change with richer artifacts (schemas, payloads, mapping guides).",
+      "confidence": "moderate-high (4/5)",
+      "decision": "summary aligns with usable_but_partial posture."
+    },
+    "summary": "SolidPractice documents broad EHI-domain export intent (clinical, insurance, scheduling, billing/payments) and a concrete patient-level CCD API, but limited schema/relationship detail and unclear non-API workflow mechanics keep migration fidelity risk moderate-to-high."
+  },
+  "holisticNarrative": {
+    "summary": "The primary evidence shows two different strengths: broad coverage intent and narrow structural precision. The b10 sheet is unusually broad for a small vendor because it explicitly names not only clinical domains but also insurance, guarantor, appointments, and receipt/payment fields used in individual financial decisions. That breadth is important for designated-record-set scope and is a concrete positive signal.\n\nAt the same time, the documentation posture is thin for technical migration. The API guide is useful for calling a patient-level endpoint, but the returned payload model is only partially described (JSON wrapper plus CCD XML string) and the b10 matrix does not explain packaging, schemas, keys, relationships, or cross-format linkage. This makes reconstruction fragile even when domain presence appears strong.\n\nThe biggest practical implication is that migration teams could probably extract substantial patient-facing content, but should expect significant reverse-engineering effort to preserve semantics and linkage, especially across billing/payment, attachments, and note-like clinical narrative sections.",
+    "standoutObservations": [
+      "Broad EHI-domain coverage is explicitly listed in a compact 87-row matrix, including patient financial records.",
+      "The Data Access API is concrete and callable but remains single-patient scoped with token-gated access.",
+      "Documentation lacks machine-readable schemas and explicit relationship/key mappings, which is the dominant migration risk.",
+      "Audit/provenance absence is not treated as an EHI gap under designated-record-set scope rules."
+    ]
+  },
+  "notableFacts": [
+    "The b10 exportable data table enumerates 87 elements across demographics, clinical data, insurance/guarantor, appointments, and receipts/payments.",
+    "In the b10 matrix, 43 rows are marked CCD XML, 42 rows JSON, and 2 rows Computable PDF.",
+    "Data Access API endpoint `/CCD/ExportPatientData` requires token key + patientId and supports optional encounter-date filtering and 16 section toggles.",
+    "API response shape is JSON (`success`, `data`, `message`) where `data` contains a ClinicalDocument XML string.",
+    "No machine-readable schema artifact (OpenAPI/XSD/JSON Schema) is present in the reviewed evidence set."
+  ]
+}

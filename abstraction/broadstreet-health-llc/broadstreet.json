@@ -1,0 +1,1183 @@
+{
+  "meta": {
+    "schemaVersion": "2026-02-15.v8",
+    "assessedAt": "2026-02-15",
+    "assessor": "codex-gpt-5",
+    "status": "draft"
+  },
+  "scope": {
+    "vendorName": "BroadStreet Health LLC",
+    "productFamily": "BroadStreet",
+    "_includedProducts": {
+      "sources": "results/broadstreet-health-llc/chpl-metadata.json; results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "CHPL metadata identifies one certified product named BroadStreet version 1, and both the EHI export page and RWT plan refer to that same product family without evidence of a separate export model.",
+      "alternatives": "Splitting into multiple in-scope product records was rejected because no distinct product-specific export artifacts were found in downloads/.",
+      "uncertainty": "Related Arsana/WashSense ecosystem branding exists in secondary research, but no separate BroadStreet b(10) export model boundary was evidenced.",
+      "confidence": "high (4/5)",
+      "decision": "includedProducts focuses on BroadStreet v1 family represented by this evidence set."
+    },
+    "includedProducts": [
+      "BroadStreet v1 (CHPL product number 15.05.05.3161.BRDS.01.00.1.231222)",
+      "BroadStreet EHI export documentation path at /docs/ehi-export"
+    ],
+    "_excludedProducts": {
+      "sources": "results/broadstreet-health-llc/chpl-metadata.json; results/broadstreet-health-llc/product-research.md",
+      "sourceQuality": "primary_descriptive",
+      "reasoning": "Research mentions related WashSense/Arsana offerings, but this result set does not provide separate b(10) export artifacts for those products.",
+      "alternatives": "Including all related corporate offerings was rejected because that would mix products without shared export-model evidence.",
+      "uncertainty": "If future artifacts show a shared or separate export model with explicit schemas, scope should be revisited.",
+      "confidence": "moderate (3/5)",
+      "decision": "Excluded adjacent non-BroadStreet product lines to keep one-product-family scope."
+    },
+    "excludedProducts": [
+      "WashSense device/infection-surveillance product lines",
+      "Any non-BroadStreet Arsana platform components without direct b(10) export artifacts"
+    ],
+    "_versionsInScope": {
+      "sources": "results/broadstreet-health-llc/chpl-metadata.json; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The evidence set ties to BroadStreet version 1 and the 2025 RWT plan for the same certified CHPL line; no model-break documentation across versions is present.",
+      "alternatives": "Creating separate version records was rejected because no second version-specific export artifact exists in this folder.",
+      "uncertainty": "Undocumented product updates after publication could exist, but they are not evidenced in reviewed artifacts.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "versionsInScope remains one continuity track around BroadStreet v1 certification-era artifacts."
+    },
+    "versionsInScope": [
+      "BroadStreet version 1 (certification date 2023-12-22)",
+      "RWT plan year 2025 describing operational testing of the same certified line"
+    ],
+    "scopeNotes": "Single-product-family abstraction for BroadStreet only. Judgments are grounded in downloaded primary artifacts and constrained to designated-record-set EHI scope."
+  },
+  "exportPaths": [
+    {
+      "_mechanism": {
+        "sources": "results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf; results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Evidence confirms single-patient EHI export incidents are tracked, but no concrete UI steps, API endpoint workflow, or vendor-ticket procedure is documented for the b(10) path.",
+        "alternatives": "ui_single_patient_export and api_single_patient_export were rejected because the artifact set does not directly show execution mechanics for b(10) exports.",
+        "uncertainty": "A product manual, screenshoted workflow, or endpoint specification would resolve mechanism classification.",
+        "confidence": "moderate (3/5)",
+        "rule": "Use unknown when evidence does not reliably distinguish UI/API/vendor-operated execution.",
+        "decision": "mechanism = unknown"
+      },
+      "mechanism": "unknown",
+      "_container": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The page states CDA documents, a FHIR bundle, and HTML notes exist, but does not define how outputs are packaged for one request (single file, archive, or multiple files).",
+        "alternatives": "single_file and multi_file_bundle were both rejected because packaging behavior is not explicitly documented.",
+        "uncertainty": "Sample export files would immediately clarify this call.",
+        "confidence": "high (4/5)",
+        "decision": "container = unknown"
+      },
+      "container": "unknown",
+      "_formats": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The EHI page explicitly names CDA 2.1 and FHIR R4 outputs and separately documents BroadStreet Notes exported as HTML.",
+        "alternatives": "Using only one format was rejected because the same page explicitly presents three format families.",
+        "uncertainty": "The exact serialization details (for example XML flavor or JSON profile constraints) are not specified.",
+        "confidence": "high (4/5)",
+        "decision": "formats = [ccda, fhir_r4_json, other]"
+      },
+      "formats": [
+        "ccda",
+        "fhir_r4_json",
+        "other"
+      ],
+      "_standardProfile": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The same documented path references at least two explicit standards (CDA and FHIR) plus a vendor-native HTML note representation, so profile behavior is mixed.",
+        "alternatives": "none_vendor_native, fhir_other, and ccda_r21 alone were rejected because no single profile class covers all described outputs.",
+        "uncertainty": "US Core profile alignment is more explicit in separate FHIR API docs than in b(10) export details.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "standardProfile = mixed"
+      },
+      "standardProfile": "mixed",
+      "_selfService": {
+        "sources": "results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "RWT text discusses export requests and log review in production, but it does not explicitly state that health-system users can execute the export without vendor operation.",
+        "alternatives": "yes was rejected due lack of direct customer-run workflow evidence; no was rejected due lack of direct vendor-required statement.",
+        "uncertainty": "Operational runbook evidence would be needed for a hard yes/no call.",
+        "confidence": "moderate (3/5)",
+        "decision": "selfService = unknown"
+      },
+      "selfService": "unknown",
+      "_operationalBurden": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Execution burden appears moderate because the capability exists and is exercised in production testing, but missing procedural guidance, package specs, and sample outputs introduce real operational friction.",
+        "alternatives": "Lower scores (0-2) were rejected due substantial implementation ambiguity; higher scores (4-5) were rejected because evidence still indicates functioning export activity.",
+        "uncertainty": "Tenant-specific tooling and permissions could materially shift actual burden.",
+        "confidence": "moderate (3/5)",
+        "decision": "operationalBurden = 3"
+      },
+      "operationalBurden": 3,
+      "notes": "Single-patient export is evidenced by RWT language, but mechanism and packaging remain under-specified in public artifacts."
+    },
+    {
+      "_mechanism": {
+        "sources": "results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Test Case 4 explicitly mentions population-level EHI export simulation, but does not identify whether bulk extraction is UI, API, or vendor-assisted.",
+        "alternatives": "ui_bulk_export, api_bulk_export, and vendor_assisted_bulk_export were rejected because none is directly evidenced in the b(10) materials.",
+        "uncertainty": "A bulk export SOP or endpoint documentation is needed for a definitive mechanism call.",
+        "confidence": "moderate (3/5)",
+        "decision": "mechanism = unknown"
+      },
+      "mechanism": "unknown",
+      "_container": {
+        "sources": "results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf; results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Bulk export is asserted in testing text, but no artifact shows how population exports are physically packaged.",
+        "alternatives": "single_file, multi_file_bundle, and database_dump were rejected as unsupported by direct evidence.",
+        "uncertainty": "Direct sample population exports are required to classify container shape.",
+        "confidence": "high (4/5)",
+        "decision": "container = unknown"
+      },
+      "container": "unknown",
+      "_formats": {
+        "sources": "results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf; results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "While the EHI page lists possible formats generally, it does not map those formats specifically to the population-level export path described in RWT.",
+        "alternatives": "Applying the same format list as single-patient was rejected because bulk-specific format mapping is not explicit.",
+        "uncertainty": "Bulk sample files would resolve whether format behavior differs by path.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "formats = [unknown]"
+      },
+      "formats": [
+        "unknown"
+      ],
+      "_standardProfile": {
+        "sources": "results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf; results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No explicit standard-profile declaration is provided specifically for the population export path.",
+        "alternatives": "mixed/fhir/ccda options were rejected because the path-level profile mapping is not directly documented.",
+        "uncertainty": "A bulk export spec would be needed to classify profile reliably.",
+        "confidence": "moderate (3/5)",
+        "decision": "standardProfile = unknown"
+      },
+      "standardProfile": "unknown",
+      "_selfService": {
+        "sources": "results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The plan confirms population export testing but is silent on whether customer organizations can execute this path without vendor assistance.",
+        "alternatives": "yes and no were both rejected because direct evidence for either requirement boundary is missing.",
+        "uncertainty": "Workflow ownership documentation would change this call.",
+        "confidence": "moderate (3/5)",
+        "decision": "selfService = unknown"
+      },
+      "selfService": "unknown",
+      "_operationalBurden": {
+        "sources": "results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf; results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Bulk path burden is high because mechanism, packaging, and format specifics are not documented, making practical execution and downstream ingestion difficult despite claimed capability.",
+        "alternatives": "Lower burden scores were rejected due materially missing implementation detail for bulk exports.",
+        "uncertainty": "Observed customer-run bulk export examples could reduce this score.",
+        "confidence": "moderate (3/5)",
+        "decision": "operationalBurden = 4"
+      },
+      "operationalBurden": 4,
+      "notes": "Population-level export capability is evidenced in RWT but remains operationally opaque in public documentation."
+    }
+  ],
+  "documentation": {
+    "_hasDataDictionary": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Artifacts provide prose descriptions and one HTML note field list, but no comprehensive entity/field dictionary covering export payloads.",
+      "alternatives": "yes was rejected because a narrow note template section is not a full export data dictionary.",
+      "uncertainty": "A formal table/resource field catalog would change this call.",
+      "confidence": "high (4/5)",
+      "decision": "hasDataDictionary = no"
+    },
+    "hasDataDictionary": "no",
+    "_hasMachineReadableSchema": {
+      "sources": "results/broadstreet-health-llc/files.json; results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No OpenAPI, JSON Schema, XSD, SQL DDL, or equivalent machine-readable schema artifact appears in the downloaded files.",
+      "alternatives": "yes was rejected because HTML prose and screenshots are not machine-readable schema artifacts.",
+      "uncertainty": "A linked schema file or downloadable spec would change this call.",
+      "confidence": "high (4/5)",
+      "rule": "Use yes only with an explicit vendor-provided machine-consumable schema artifact.",
+      "decision": "hasMachineReadableSchema = no"
+    },
+    "hasMachineReadableSchema": "no",
+    "_describesFieldNames": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The BroadStreet Notes section explicitly names fields (for example Physician Name, Date of Service, Diagnosis Code), and FHIR/CDA sections name resource/document components.",
+      "alternatives": "no was rejected because explicit field/resource names are directly listed.",
+      "uncertainty": "Coverage of field names is incomplete outside the notes section.",
+      "confidence": "high (4/5)",
+      "decision": "describesFieldNames = yes"
+    },
+    "describesFieldNames": "yes",
+    "_describesFieldTypes": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The documentation describes concepts but does not provide explicit data types for listed note fields or resource elements.",
+      "alternatives": "yes was rejected because semantic descriptions are not datatype declarations.",
+      "uncertainty": "Typed schemas would change this call immediately.",
+      "confidence": "high (4/5)",
+      "decision": "describesFieldTypes = no"
+    },
+    "describesFieldTypes": "no",
+    "_describesFieldSemantics": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Each named note field is accompanied by a short business meaning (for example Next Appointment, Reason for Next Visit), providing semantic descriptions even though they are sparse.",
+      "alternatives": "no was rejected because those field-level meaning statements are explicit in the notes section.",
+      "uncertainty": "Semantic depth is limited and does not cover most FHIR/CDA element-level mappings.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "describesFieldSemantics = yes"
+    },
+    "describesFieldSemantics": "yes",
+    "_describesValueSets": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No explicit allowed-value enumerations or code-binding lists are provided; ICD is mentioned for diagnosis code but value set bindings are not documented.",
+      "alternatives": "yes was rejected because generic mention of coded fields is insufficient without enumerations/bindings.",
+      "uncertainty": "A value-set appendix would change this call.",
+      "confidence": "high (4/5)",
+      "rule": "Use yes only with explicit enumerations or code-binding lists.",
+      "decision": "describesValueSets = no"
+    },
+    "describesValueSets": "no",
+    "_describesRelationships": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Artifacts list resources and fields but do not provide an explicit FK map, ERD, or relationship statements for export payload linkage.",
+      "alternatives": "yes was rejected because inferred relationships from known FHIR conventions were not explicitly documented in the export materials.",
+      "uncertainty": "Path-specific relationship docs would be needed for a yes call.",
+      "confidence": "high (4/5)",
+      "rule": "Use yes only with explicit relationship documentation.",
+      "decision": "describesRelationships = no"
+    },
+    "describesRelationships": "no",
+    "_describesKeysConstraints": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No explicit primary keys, foreign keys, uniqueness, requiredness, or cardinality constraints are documented for the export outputs.",
+      "alternatives": "yes was rejected because field labels and narrative prose do not establish formal key/constraint documentation.",
+      "uncertainty": "Explicit schema constraints would change this call.",
+      "confidence": "high (4/5)",
+      "rule": "yes requires explicit PK/FK/requiredness/uniqueness/cardinality constraints.",
+      "decision": "describesKeysConstraints = no"
+    },
+    "describesKeysConstraints": "no",
+    "_hasSampleData": {
+      "sources": "results/broadstreet-health-llc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Downloaded artifacts include screenshots, HTML documentation, and the RWT plan, but no sample export payload files.",
+      "alternatives": "yes was rejected because descriptive docs are not sample data.",
+      "uncertainty": "Any example export bundle would change this call.",
+      "confidence": "high (5/5)",
+      "decision": "hasSampleData = no"
+    },
+    "hasSampleData": "no",
+    "_sampleRepresentativeness": {
+      "sources": "results/broadstreet-health-llc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No sample payload artifacts are present, so representativeness is none.",
+      "alternatives": "Scores above 0 were rejected because there are no data examples to evaluate.",
+      "uncertainty": "Would change if sample exports become available.",
+      "confidence": "high (5/5)",
+      "decision": "sampleRepresentativeness = 0"
+    },
+    "sampleRepresentativeness": 0,
+    "_docsCurrentness": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-raw.html; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The website footer indicates 2024 site content and the RWT plan is for 2025, suggesting somewhat current but not actively versioned export documentation.",
+      "alternatives": "Very stale scores (1-2) were rejected because the artifacts are relatively recent. High-currentness scores (4-5) were rejected because explicit version history for export docs is missing.",
+      "uncertainty": "Exact page publication/update dates are not provided.",
+      "confidence": "moderate (3/5)",
+      "decision": "docsCurrentness = 3"
+    },
+    "docsCurrentness": 3,
+    "_maturity": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf; results/broadstreet-health-llc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Documentation provides basic format/resource descriptions and limited note fields but lacks implementation-critical artifacts (machine schema, relationship map, key constraints, sample payloads, and concrete runbook details).",
+      "alternatives": "minimal was rejected because some concrete structure is documented; good/strong were rejected because major implementation blockers remain.",
+      "uncertainty": "Maturity would increase with downloadable sample exports and formal schema assets.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "maturity = basic"
+    },
+    "maturity": "basic",
+    "notes": "Strength: explicit statement of CDA/FHIR/HTML export representations and a note field list. Major gaps: no machine-readable schema, no payload samples, no relationship/key constraints, and no path-specific execution details."
+  },
+  "fidelityRisk": {
+    "_representationType": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The documented posture is predominantly standards projection (CDA and FHIR resources) plus a separate HTML notes projection, not a direct underlying operational data model dump.",
+      "alternatives": "native_model_like was rejected due absence of native entity tables/keys and workflow-level internals. native_plus_projection was rejected because explicit external-standard framing is dominant.",
+      "uncertainty": "Without real payloads, exact depth of standard mappings remains uncertain.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "representationType = external_standard_projection"
+    },
+    "representationType": "external_standard_projection",
+    "_mappingTarget": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The export page explicitly references both CDA and FHIR as target representations, while also documenting vendor-native HTML notes.",
+      "alternatives": "none/fhir/ccda alone were rejected because multiple target representations are described in one export posture.",
+      "uncertainty": "No formal mapping table is provided for how internal structures map to each target.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "mappingTarget = mixed"
+    },
+    "mappingTarget": "mixed",
+    "_projectionLossRisk": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf; results/broadstreet-health-llc/chpl-metadata.json",
+      "sourceQuality": "primary_descriptive",
+      "reasoning": "Risk is high because documentation is heavily standards-level and does not demonstrate coverage of designated-record-set areas beyond standard clinical resources (for example billing/claims/payments and specialty post-acute records).",
+      "alternatives": "Lower risk scores were rejected because repeated omission signals exist across domain documentation. Score 5 was rejected because substantial core clinical domains are still represented.",
+      "uncertainty": "Could decrease with evidence of comprehensive non-USCDI EHI export units.",
+      "confidence": "moderate (3/5)",
+      "decision": "projectionLossRisk = 4"
+    },
+    "projectionLossRisk": 4,
+    "_conflationRisk": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Conflation risk is moderate because the notes export collapses many clinical ideas into broad narrative sections and there is no documented fine-grained mapping detail.",
+      "alternatives": "Low risk was rejected due sparse structural detail; very high risk was rejected because at least named FHIR resources are distinguished conceptually.",
+      "uncertainty": "Sample payloads could shift this score in either direction.",
+      "confidence": "moderate (3/5)",
+      "decision": "conflationRisk = 3"
+    },
+    "conflationRisk": 3,
+    "_reconstructionDifficulty": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/files.json; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Reconstruction is difficult because there are no sample payloads, no explicit key/relationship documentation, and no package specification for connecting multi-format outputs.",
+      "alternatives": "Lower difficulty scores were rejected due missing importer-critical details; score 5 was rejected because some conceptual structure is available.",
+      "uncertainty": "Difficulty would drop with actual export bundles and schema constraints.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "reconstructionDifficulty = 4"
+    },
+    "reconstructionDifficulty": 4,
+    "_keyLossPatterns": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Evidence shows repeated patterns that can lose semantics and linkage during migration.",
+      "alternatives": "No-risk interpretation was rejected because relationship and key metadata are absent from published export docs.",
+      "uncertainty": "Real export samples could reveal undocumented stable identifiers.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "keyLossPatterns capture recurring structural risk patterns."
+    },
+    "keyLossPatterns": [
+      "No explicit cross-format key map between CDA, FHIR bundle content, and HTML notes export artifacts.",
+      "No documented primary/foreign key constraints for note fields or any bundle-level linkage assumptions.",
+      "No value-set binding tables for coded fields like diagnosis or advance directive code.",
+      "API-style resource lists and b(10) export descriptions are presented separately, creating ambiguity about what is truly in export payloads."
+    ],
+    "_likelyOmittedAreas": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/chpl-metadata.json; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+      "sourceQuality": "primary_descriptive",
+      "reasoning": "Compared with designated-record-set scope, multiple high-impact patient/billing domains are not clearly evidenced in export documentation.",
+      "alternatives": "Assuming near-complete EHI coverage was rejected because explicit documentation is sparse and concentrated in standard-summary structures.",
+      "uncertainty": "Some omitted areas may exist in actual exports but are not verifiable from public artifacts.",
+      "confidence": "moderate (3/5)",
+      "decision": "likelyOmittedAreas focuses on likely DRS-relevant gaps, excluding non-EHI operational logs."
+    },
+    "likelyOmittedAreas": [
+      "Patient-specific billing, claims adjudication, and payment records used for financial decisions.",
+      "Post-acute specialty records (for example nursing assessments and medication administration details) not explicitly represented in export docs.",
+      "Comprehensive attachments/documents package definitions beyond a generic DocumentReference mention.",
+      "Structured insurance enrollment/coverage records beyond high-level patient demographics.",
+      "Cross-entity linkage metadata needed to reconstruct longitudinal records across formats."
+    ]
+  },
+  "domainCoverage": [
+    {
+      "domain": "demographics",
+      "_coverage": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Patient resource references and note fields (Patient Name, Date of Birth, Gender) provide direct demographic coverage evidence.",
+        "alternatives": "not_clearly_present was rejected because demographics are explicitly listed. plausibly_comprehensive was rejected due missing element-level schema and sample payloads.",
+        "uncertainty": "Demographic breadth beyond listed fields is unclear without payload examples.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects that calls rely on public documentation text and screenshot OCR, with no sample export payloads.",
+        "alternatives": "Higher confidence was rejected where decisions depend on absence inference or where EHI export and FHIR API documentation are not cleanly separated.",
+        "uncertainty": "Confidence would increase with actual export files, package manifests, and field-level schemas.",
+        "confidence": "high (4/5)",
+        "decision": "domain confidence = 4/5"
+      },
+      "confidence": 4,
+      "notes": "Core demographics are clearly present, but completeness cannot be confirmed."
+    },
+    {
+      "domain": "encounters",
+      "_coverage": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Encounter appears in the resource listings and note structure includes Date of Service and visit details.",
+        "alternatives": "not_clearly_present was rejected because encounter-level artifacts are explicit. plausibly_comprehensive was rejected due no encounter schema details.",
+        "uncertainty": "Encounter subtype coverage and linkage are not documented.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects that calls rely on public documentation text and screenshot OCR, with no sample export payloads.",
+        "alternatives": "Higher confidence was rejected where decisions depend on absence inference or where EHI export and FHIR API documentation are not cleanly separated.",
+        "uncertainty": "Confidence would increase with actual export files, package manifests, and field-level schemas.",
+        "confidence": "high (4/5)",
+        "decision": "domain confidence = 4/5"
+      },
+      "confidence": 4,
+      "notes": "Encounter domain is present with limited structural depth."
+    },
+    {
+      "domain": "problems_conditions",
+      "_coverage": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Condition is explicitly listed and notes include Primary Concern and Assessment/Diagnosis context.",
+        "alternatives": "not_clearly_present was rejected due direct Condition evidence; plausibly_comprehensive was rejected due sparse coding/value-set detail.",
+        "uncertainty": "Problem-list longitudinal structure is not shown.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects that calls rely on public documentation text and screenshot OCR, with no sample export payloads.",
+        "alternatives": "Higher confidence was rejected where decisions depend on absence inference or where EHI export and FHIR API documentation are not cleanly separated.",
+        "uncertainty": "Confidence would increase with actual export files, package manifests, and field-level schemas.",
+        "confidence": "high (4/5)",
+        "decision": "domain confidence = 4/5"
+      },
+      "confidence": 4,
+      "notes": "Condition/problem information is present but incompletely specified."
+    },
+    {
+      "domain": "medications",
+      "_coverage": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Medication and MedicationRequest are directly listed as export-relevant resources.",
+        "alternatives": "not_clearly_present was rejected because medication resources are explicit; plausibly_comprehensive was rejected because administration/MAR detail is undocumented.",
+        "uncertainty": "Medication administration and dispensing coverage remain uncertain.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects that calls rely on public documentation text and screenshot OCR, with no sample export payloads.",
+        "alternatives": "Higher confidence was rejected where decisions depend on absence inference or where EHI export and FHIR API documentation are not cleanly separated.",
+        "uncertainty": "Confidence would increase with actual export files, package manifests, and field-level schemas.",
+        "confidence": "high (4/5)",
+        "decision": "domain confidence = 4/5"
+      },
+      "confidence": 4,
+      "notes": "Medication data appears present but likely partial for post-acute workflows."
+    },
+    {
+      "domain": "allergies",
+      "_coverage": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "AllergyIntolerance is explicitly listed and Notes include an Allergies field.",
+        "alternatives": "not_clearly_present was rejected because allergy evidence is explicit; plausibly_comprehensive was rejected due missing coding/value-set details.",
+        "uncertainty": "Severity/reaction detail cannot be assessed from available artifacts.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects that calls rely on public documentation text and screenshot OCR, with no sample export payloads.",
+        "alternatives": "Higher confidence was rejected where decisions depend on absence inference or where EHI export and FHIR API documentation are not cleanly separated.",
+        "uncertainty": "Confidence would increase with actual export files, package manifests, and field-level schemas.",
+        "confidence": "high (4/5)",
+        "decision": "domain confidence = 4/5"
+      },
+      "confidence": 4,
+      "notes": "Allergies are clearly present with limited implementation depth."
+    },
+    {
+      "domain": "immunizations",
+      "_coverage": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Immunization is explicitly named in the documented resource lists.",
+        "alternatives": "not_clearly_present was rejected due explicit mention; plausibly_comprehensive was rejected because no payload examples or profile constraints are provided.",
+        "uncertainty": "Immunization completeness and coding depth are unknown.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects that calls rely on public documentation text and screenshot OCR, with no sample export payloads.",
+        "alternatives": "Higher confidence was rejected where decisions depend on absence inference or where EHI export and FHIR API documentation are not cleanly separated.",
+        "uncertainty": "Confidence would increase with actual export files, package manifests, and field-level schemas.",
+        "confidence": "moderate (3/5)",
+        "decision": "domain confidence = 3/5"
+      },
+      "confidence": 3,
+      "notes": "Presence is clear, but comprehensiveness is not demonstrated."
+    },
+    {
+      "domain": "vitals",
+      "_coverage": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Notes explicitly include Blood Pressure, Pulse, and Weight, and Observation is listed as an export resource.",
+        "alternatives": "not_clearly_present was rejected because direct vital-sign fields are documented; plausibly_comprehensive was rejected due narrow field list and no sample outputs.",
+        "uncertainty": "Additional vitals and measurement metadata are unclear.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects that calls rely on public documentation text and screenshot OCR, with no sample export payloads.",
+        "alternatives": "Higher confidence was rejected where decisions depend on absence inference or where EHI export and FHIR API documentation are not cleanly separated.",
+        "uncertainty": "Confidence would increase with actual export files, package manifests, and field-level schemas.",
+        "confidence": "high (4/5)",
+        "decision": "domain confidence = 4/5"
+      },
+      "confidence": 4,
+      "notes": "Vitals are directly evidenced but with narrow documented structure."
+    },
+    {
+      "domain": "laboratory",
+      "_coverage": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Observation and DiagnosticReport resources indicate laboratory-related content in scope.",
+        "alternatives": "not_clearly_present was rejected because lab-relevant resources are listed; plausibly_comprehensive was rejected due absent lab-specific schemas/examples.",
+        "uncertainty": "Exact lab panels, reference ranges, and coding bindings are not documented.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects that calls rely on public documentation text and screenshot OCR, with no sample export payloads.",
+        "alternatives": "Higher confidence was rejected where decisions depend on absence inference or where EHI export and FHIR API documentation are not cleanly separated.",
+        "uncertainty": "Confidence would increase with actual export files, package manifests, and field-level schemas.",
+        "confidence": "moderate (3/5)",
+        "decision": "domain confidence = 3/5"
+      },
+      "confidence": 3,
+      "notes": "Lab domain is signaled but not fully characterized."
+    },
+    {
+      "domain": "diagnostic_reports",
+      "_coverage": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "DiagnosticReport is explicitly listed in both the EHI page and the FHIR resources screenshot OCR.",
+        "alternatives": "not_clearly_present was rejected due explicit listing; plausibly_comprehensive was rejected because report content/attachments are not specified.",
+        "uncertainty": "Report-level detail and image linkage remain uncertain.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects that calls rely on public documentation text and screenshot OCR, with no sample export payloads.",
+        "alternatives": "Higher confidence was rejected where decisions depend on absence inference or where EHI export and FHIR API documentation are not cleanly separated.",
+        "uncertainty": "Confidence would increase with actual export files, package manifests, and field-level schemas.",
+        "confidence": "moderate (3/5)",
+        "decision": "domain confidence = 3/5"
+      },
+      "confidence": 3,
+      "notes": "Diagnostic report presence is clear but depth unknown."
+    },
+    {
+      "domain": "procedures",
+      "_coverage": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Procedure appears in documented export resource lists.",
+        "alternatives": "not_clearly_present was rejected due direct Procedure mention; plausibly_comprehensive was rejected because coding and procedural context details are absent.",
+        "uncertainty": "Procedure granularity and status history are unclear.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects that calls rely on public documentation text and screenshot OCR, with no sample export payloads.",
+        "alternatives": "Higher confidence was rejected where decisions depend on absence inference or where EHI export and FHIR API documentation are not cleanly separated.",
+        "uncertainty": "Confidence would increase with actual export files, package manifests, and field-level schemas.",
+        "confidence": "moderate (3/5)",
+        "decision": "domain confidence = 3/5"
+      },
+      "confidence": 3,
+      "notes": "Procedure data is present in principle, but structure is underspecified."
+    },
+    {
+      "domain": "clinical_notes",
+      "_coverage": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "A dedicated BroadStreet Notes HTML section documents note structure and 20 named note fields.",
+        "alternatives": "not_clearly_present was rejected because a note-export section is explicit; plausibly_comprehensive was rejected because only one note template shape is documented.",
+        "uncertainty": "Coverage across note types beyond the shown template is unknown.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects that calls rely on public documentation text and screenshot OCR, with no sample export payloads.",
+        "alternatives": "Higher confidence was rejected where decisions depend on absence inference or where EHI export and FHIR API documentation are not cleanly separated.",
+        "uncertainty": "Confidence would increase with actual export files, package manifests, and field-level schemas.",
+        "confidence": "high (4/5)",
+        "decision": "domain confidence = 4/5"
+      },
+      "confidence": 4,
+      "notes": "Clinical notes are one of the strongest evidenced domains, but still not fully documented."
+    },
+    {
+      "domain": "care_plans_goals",
+      "_coverage": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "CarePlan appears on the EHI page and both CarePlan and Goal appear in the FHIR resources screenshot.",
+        "alternatives": "not_clearly_present was rejected due direct care-plan/goal references; plausibly_comprehensive was rejected due no field-level plan/goal schema.",
+        "uncertainty": "Care plan versioning and goal tracking structure are not documented.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects that calls rely on public documentation text and screenshot OCR, with no sample export payloads.",
+        "alternatives": "Higher confidence was rejected where decisions depend on absence inference or where EHI export and FHIR API documentation are not cleanly separated.",
+        "uncertainty": "Confidence would increase with actual export files, package manifests, and field-level schemas.",
+        "confidence": "moderate (3/5)",
+        "decision": "domain confidence = 3/5"
+      },
+      "confidence": 3,
+      "notes": "Care plan/goal data is present but incompletely specified."
+    },
+    {
+      "domain": "orders_referrals",
+      "_coverage": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "ServiceRequest appears in the FHIR resources screenshot, signaling orders/referrals representation.",
+        "alternatives": "not_clearly_present was rejected because ServiceRequest is explicitly listed; plausibly_comprehensive was rejected because the export page itself does not detail order/referral payloads.",
+        "uncertainty": "Referral routing details and order lifecycle coverage are unknown.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects that calls rely on public documentation text and screenshot OCR, with no sample export payloads.",
+        "alternatives": "Higher confidence was rejected where decisions depend on absence inference or where EHI export and FHIR API documentation are not cleanly separated.",
+        "uncertainty": "Confidence would increase with actual export files, package manifests, and field-level schemas.",
+        "confidence": "moderate (3/5)",
+        "decision": "domain confidence = 3/5"
+      },
+      "confidence": 3,
+      "notes": "Orders/referrals are indicated but weakly documented."
+    },
+    {
+      "domain": "documents_attachments",
+      "_coverage": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "DocumentReference appears in the FHIR resources screenshot, indicating document-level representation.",
+        "alternatives": "not_clearly_present was rejected due direct DocumentReference evidence; plausibly_comprehensive was rejected because attachment packaging/content is undocumented.",
+        "uncertainty": "Actual binary attachments and metadata export behavior are unknown.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects that calls rely on public documentation text and screenshot OCR, with no sample export payloads.",
+        "alternatives": "Higher confidence was rejected where decisions depend on absence inference or where EHI export and FHIR API documentation are not cleanly separated.",
+        "uncertainty": "Confidence would increase with actual export files, package manifests, and field-level schemas.",
+        "confidence": "moderate (3/5)",
+        "decision": "domain confidence = 3/5"
+      },
+      "confidence": 3,
+      "notes": "Documents are indicated but attachment completeness cannot be verified."
+    },
+    {
+      "domain": "insurance",
+      "_coverage": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No insurance/coverage resource or insurance field set is explicitly documented in the reviewed export artifacts.",
+        "alternatives": "present_but_not_comprehensive was rejected because there is no direct insurance-specific export artifact evidence.",
+        "uncertainty": "Insurance data may exist in product internals but is not visible in public export documentation.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects that calls rely on public documentation text and screenshot OCR, with no sample export payloads.",
+        "alternatives": "Higher confidence was rejected where decisions depend on absence inference or where EHI export and FHIR API documentation are not cleanly separated.",
+        "uncertainty": "Confidence would increase with actual export files, package manifests, and field-level schemas.",
+        "confidence": "moderate (3/5)",
+        "decision": "domain confidence = 3/5"
+      },
+      "confidence": 3,
+      "notes": "Insurance coverage is not clearly documented for export."
+    },
+    {
+      "domain": "claims_billing",
+      "_coverage": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No claims, charges, adjudication, or billing record structures are documented on the export page or RWT b(10) details.",
+        "alternatives": "present_but_not_comprehensive was rejected due absence of direct billing export evidence.",
+        "uncertainty": "Could change if vendor publishes billing export schemas or samples.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects that calls rely on public documentation text and screenshot OCR, with no sample export payloads.",
+        "alternatives": "Higher confidence was rejected where decisions depend on absence inference or where EHI export and FHIR API documentation are not cleanly separated.",
+        "uncertainty": "Confidence would increase with actual export files, package manifests, and field-level schemas.",
+        "confidence": "high (4/5)",
+        "decision": "domain confidence = 4/5"
+      },
+      "confidence": 4,
+      "notes": "Billing/claims are a major designated-record-set uncertainty and likely gap."
+    },
+    {
+      "domain": "payments",
+      "_coverage": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No payment posting/remittance/payment-history structures are evidenced in export documentation.",
+        "alternatives": "present_but_not_comprehensive was rejected because no payment-specific artifacts were found.",
+        "uncertainty": "Payment data may be external or undocumented; current evidence cannot establish presence.",
+        "confidence": "high (4/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects that calls rely on public documentation text and screenshot OCR, with no sample export payloads.",
+        "alternatives": "Higher confidence was rejected where decisions depend on absence inference or where EHI export and FHIR API documentation are not cleanly separated.",
+        "uncertainty": "Confidence would increase with actual export files, package manifests, and field-level schemas.",
+        "confidence": "high (4/5)",
+        "decision": "domain confidence = 4/5"
+      },
+      "confidence": 4,
+      "notes": "Payment domain is not clearly represented in current export evidence."
+    },
+    {
+      "domain": "scheduling",
+      "_coverage": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Appointment is listed on the EHI export page as a FHIR resource example, indicating scheduling-related data presence signal.",
+        "alternatives": "not_clearly_present was rejected because Appointment is explicitly named; plausibly_comprehensive was rejected because scheduling appears inconsistently across artifacts and lacks schema detail.",
+        "uncertainty": "Scheduling coverage breadth is uncertain and possibly limited.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects that calls rely on public documentation text and screenshot OCR, with no sample export payloads.",
+        "alternatives": "Higher confidence was rejected where decisions depend on absence inference or where EHI export and FHIR API documentation are not cleanly separated.",
+        "uncertainty": "Confidence would increase with actual export files, package manifests, and field-level schemas.",
+        "confidence": "moderate (3/5)",
+        "decision": "domain confidence = 3/5"
+      },
+      "confidence": 3,
+      "notes": "Scheduling appears present but inconsistently documented."
+    },
+    {
+      "domain": "consents_directives",
+      "_coverage": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Notes include an explicit Advance Directive Code field, providing direct evidence of directives-related data.",
+        "alternatives": "not_clearly_present was rejected because directive code is explicitly documented; plausibly_comprehensive was rejected due lack of broader consent model evidence.",
+        "uncertainty": "Scope beyond a single directive code field is unclear.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects that calls rely on public documentation text and screenshot OCR, with no sample export payloads.",
+        "alternatives": "Higher confidence was rejected where decisions depend on absence inference or where EHI export and FHIR API documentation are not cleanly separated.",
+        "uncertainty": "Confidence would increase with actual export files, package manifests, and field-level schemas.",
+        "confidence": "moderate (3/5)",
+        "decision": "domain confidence = 3/5"
+      },
+      "confidence": 3,
+      "notes": "Directives/consent domain is present but narrow."
+    },
+    {
+      "domain": "patient_communications",
+      "_coverage": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No dedicated patient-communication export objects (messages, threads, outreach events) are explicitly documented in the export artifacts.",
+        "alternatives": "present_but_not_comprehensive was rejected because note fields alone do not establish communication-log export coverage.",
+        "uncertainty": "Communication records might exist in product workflows but are not documented for export.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = not_clearly_present"
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects that calls rely on public documentation text and screenshot OCR, with no sample export payloads.",
+        "alternatives": "Higher confidence was rejected where decisions depend on absence inference or where EHI export and FHIR API documentation are not cleanly separated.",
+        "uncertainty": "Confidence would increase with actual export files, package manifests, and field-level schemas.",
+        "confidence": "moderate (3/5)",
+        "decision": "domain confidence = 3/5"
+      },
+      "confidence": 3,
+      "notes": "Patient communication coverage is not clearly evidenced."
+    },
+    {
+      "domain": "audit_provenance",
+      "_coverage": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Provenance appears in the FHIR resources screenshot, but audit/provenance details are not described as part of the b(10) export path.",
+        "alternatives": "not_clearly_present was rejected because Provenance is explicitly listed in one artifact; plausibly_comprehensive was rejected because no b(10)-specific provenance payload details are provided.",
+        "uncertainty": "This domain is non-core for EHI completeness under designated-record-set scope and may be intentionally limited.",
+        "confidence": "low (2/5)",
+        "decision": "coverage = present_but_not_comprehensive"
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence reflects that calls rely on public documentation text and screenshot OCR, with no sample export payloads.",
+        "alternatives": "Higher confidence was rejected where decisions depend on absence inference or where EHI export and FHIR API documentation are not cleanly separated.",
+        "uncertainty": "Confidence would increase with actual export files, package manifests, and field-level schemas.",
+        "confidence": "low (2/5)",
+        "decision": "domain confidence = 2/5"
+      },
+      "confidence": 2,
+      "notes": "Provenance signal exists, but this area is not a primary EHI completeness determinant."
+    }
+  ],
+  "quantitativeProfile": {
+    "artifactCounts": {
+      "totalArtifactsReviewed": {
+        "status": "measured",
+        "value": 9,
+        "method": "exact",
+        "notes": "Count includes 5 downloaded primary artifacts plus 4 supporting context artifacts under results/broadstreet-health-llc."
+      },
+      "exportArtifactsDocumented": {
+        "status": "measured",
+        "value": 4,
+        "method": "exact",
+        "notes": "Artifacts directly describing export structure/content: rendered EHI HTML, EHI screenshot, FHIR resources screenshot, and RWT plan."
+      },
+      "sampleDataArtifacts": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No sample export payload files were present in downloads/."
+      },
+      "dictionaryOrSchemaArtifacts": {
+        "status": "measured",
+        "value": 1,
+        "method": "exact",
+        "notes": "Only one artifact provides field-level structure (BroadStreet Notes section in rendered EHI page); no full dictionary."
+      },
+      "machineReadableSchemaArtifacts": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No OpenAPI, JSON Schema, XSD, SQL DDL, or equivalent machine-readable schema artifacts were found."
+      }
+    },
+    "modelEntityCounts": {
+      "documentedEntities": {
+        "status": "measured",
+        "value": 35,
+        "method": "derived",
+        "notes": "Derived as 24 distinct resource/document labels (union of EHI page and FHIR resources page list) + 10 note sections + 1 CDA document class."
+      },
+      "observedEntities": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No sample export payloads were available to directly observe exported entities/resources in data files."
+      },
+      "exportDistinctUnits": {
+        "status": "not_observable",
+        "notes": "Packaging boundaries for full export runs are not documented, so practical distinct-unit count is not observable."
+      }
+    },
+    "fieldCounts": {
+      "documentedFields": {
+        "status": "measured",
+        "value": 20,
+        "method": "exact",
+        "notes": "Count based on explicitly named BroadStreet Notes fields in rendered HTML (for example Physician Name through Electronically Signed By)."
+      },
+      "observedFields": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No payload samples were provided, so no fields were directly observed in exported data rows/resources."
+      },
+      "fieldsWithTypeInfo": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "Documentation provides semantic labels but no explicit datatypes for note or resource elements."
+      },
+      "fieldsWithSemanticDescription": {
+        "status": "measured",
+        "value": 20,
+        "method": "exact",
+        "notes": "All 20 named note fields have short textual meaning descriptions in the rendered EHI page."
+      },
+      "codedFields": {
+        "status": "measured",
+        "value": 2,
+        "method": "exact",
+        "notes": "Two explicitly code-oriented note fields are documented: Advance Directive Code and Diagnosis Code (ICD)."
+      }
+    },
+    "relationshipCounts": {
+      "documentedRelationships": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No explicit relationship map/ERD/join statements were found."
+      },
+      "documentedPrimaryKeys": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No explicit primary key declarations were documented."
+      },
+      "documentedForeignKeys": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No explicit foreign key declarations were documented."
+      },
+      "documentedConstraints": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No explicit requiredness/uniqueness/cardinality/check constraints were documented."
+      }
+    },
+    "valueSetCounts": {
+      "documentedValueSets": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No explicit value-set/enum lists were documented."
+      },
+      "valueSetsWithCodeSystem": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No value sets were documented with named code system/version bindings."
+      },
+      "fieldsBoundToValueSets": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No explicit field-to-value-set binding tables were provided."
+      },
+      "localCustomValueSets": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No vendor-local/custom value-set catalogs were documented."
+      }
+    },
+    "notes": "Counts intentionally separate what is documented vs. what is directly observed in payloads. Because no sample export files exist, many observed-structure measures are zero or not observable despite documented format claims."
+  },
+  "accessConstraints": {
+    "_docsPubliclyAccessible": {
+      "sources": "results/broadstreet-health-llc/files.json; results/broadstreet-health-llc/downloads/ehi-export-page-raw.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Documentation artifacts were retrievable from public URLs without login credentials; the main caveat is that rendered content requires browser JS.",
+      "alternatives": "no was rejected because evidence shows successful public retrieval.",
+      "uncertainty": "Future access controls could change this, but current evidence indicates public accessibility.",
+      "confidence": "high (4/5)",
+      "decision": "docsPubliclyAccessible = yes"
+    },
+    "docsPubliclyAccessible": "yes",
+    "_roleRestricted": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No artifact explicitly states which user roles can run export operations, so role gating cannot be determined.",
+      "alternatives": "yes and no were rejected because neither is directly evidenced in these materials.",
+      "uncertainty": "Role/permission matrix documentation would resolve this call.",
+      "confidence": "moderate (3/5)",
+      "decision": "roleRestricted = unknown"
+    },
+    "roleRestricted": "unknown",
+    "_vendorInvolvementNeeded": {
+      "sources": "results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf; results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Artifacts confirm export capability testing but do not explicitly state whether standard exports require vendor-operated extraction.",
+      "alternatives": "no was rejected because explicit self-run workflow is not documented; yes was rejected because required vendor operation is also not stated.",
+      "uncertainty": "Operational support policy docs would change this call.",
+      "confidence": "moderate (3/5)",
+      "rule": "Use no only with explicit evidence of self-run execution without required vendor operation.",
+      "decision": "vendorInvolvementNeeded = unknown"
+    },
+    "vendorInvolvementNeeded": "unknown",
+    "_potentialFeesForStandardExport": {
+      "sources": "results/broadstreet-health-llc/chpl-metadata.json; results/broadstreet-health-llc/ehi-export-report.md",
+      "sourceQuality": "secondary",
+      "reasoning": "No explicit statement in primary b(10) artifacts defines fees for standard EHI export.",
+      "alternatives": "yes and no were rejected because fee policy for the standard export path is not directly documented.",
+      "uncertainty": "Formal pricing/disclosure language specific to b(10) export would resolve this.",
+      "confidence": "low-moderate (2/5)",
+      "decision": "potentialFeesForStandardExport = unknown"
+    },
+    "potentialFeesForStandardExport": "unknown",
+    "_practicalAccessibilityScore": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/ehi-export-page-raw.html; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Practical accessibility is moderate: docs are public, but key operational details are sparse and critical content depends on JS-rendered pages rather than downloadable structured specs.",
+      "alternatives": "Low-friction scores (0-2) were rejected due missing runbook/spec artifacts; high-friction scores (4-5) were rejected because core documentation is publicly reachable and export capability is evidenced.",
+      "uncertainty": "Actual customer experience may vary depending on internal support materials not visible here.",
+      "confidence": "moderate (3/5)",
+      "decision": "practicalAccessibilityScore = 3"
+    },
+    "practicalAccessibilityScore": 3,
+    "notes": "Public access to docs is straightforward, but execution readiness is constrained by missing schema/payload artifacts and unclear operational workflow ownership."
+  },
+  "overall": {
+    "_posture": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf; results/broadstreet-health-llc/chpl-metadata.json",
+      "sourceQuality": "primary_descriptive",
+      "reasoning": "The documented export posture is primarily standards-projection (CDA/FHIR) with limited native note fields and weak evidence of full designated-record-set breadth, especially for billing/payment domains.",
+      "alternatives": "usable_but_partial was rejected because projection constraints are central to available evidence. insufficiently_documented was rejected because some concrete format/domain signals are still present.",
+      "uncertainty": "If full export samples show broad non-USCDI EHI coverage, posture may improve.",
+      "confidence": "moderate (3/5)",
+      "decision": "posture = projection_limited"
+    },
+    "posture": "projection_limited",
+    "_completenessScore": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/chpl-metadata.json",
+      "sourceQuality": "primary_descriptive",
+      "reasoning": "Completeness appears materially incomplete relative to likely designated-record-set scope because core clinical domains are signaled but billing/claims/payments and specialty post-acute records are not clearly evidenced.",
+      "alternatives": "Higher completeness scores were rejected due repeated high-impact domain uncertainty. Score 1 was rejected because multiple major clinical domains are explicitly present.",
+      "uncertainty": "Could increase with direct evidence of complete patient-specific billing and specialty export content.",
+      "confidence": "moderate (3/5)",
+      "decision": "completenessScore = 2"
+    },
+    "completenessScore": 2,
+    "_technicalUsabilityScore": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/files.json; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Technical usability is difficult because format claims are high-level while importer-critical details (schema constraints, relationships, payload examples, packaging specifics) are absent.",
+      "alternatives": "Score 3+ was rejected due major implementation assumptions required. Score 1 was rejected because some concrete structural clues exist.",
+      "uncertainty": "Usability would improve materially with sample exports and machine-readable schemas.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "technicalUsabilityScore = 2"
+    },
+    "technicalUsabilityScore": 2,
+    "_confidence": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/ehi-export-page-raw.html; results/broadstreet-health-llc/downloads/ehi-export-page.png; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf; results/broadstreet-health-llc/files.json; results/broadstreet-health-llc/chpl-metadata.json; results/broadstreet-health-llc/product-research.md; results/broadstreet-health-llc/ehi-export-report.md",
+      "sourceQuality": "primary_direct + primary_descriptive",
+      "reasoning": "Confidence is moderate because key calls are supported by direct artifacts, but many conclusions still rely on absence inference due sparse implementation documentation.",
+      "alternatives": "Higher confidence was rejected due lack of payload samples and explicit mapping/relationship specs.",
+      "uncertainty": "Confidence would increase with real exported files and path-level operational documentation.",
+      "confidence": "moderate (3/5)",
+      "decision": "overall confidence = 3/5"
+    },
+    "confidence": 3,
+    "_strongestSignal": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf",
+      "sourceQuality": "primary_direct",
+      "reasoning": "There is explicit direct evidence of multi-format export intent (CDA, FHIR, HTML notes) plus production-environment RWT testing that includes both individual and population export scenarios.",
+      "alternatives": "Alternative strongest signals (for example comprehensive schema depth) were rejected because those artifacts are not present.",
+      "uncertainty": "Operational success details remain high-level and not payload-backed.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "strongestSignal identifies the clearest positive capability evidence."
+    },
+    "strongestSignal": "BroadStreet publicly documents CDA/FHIR/HTML export representations and reports production RWT testing of both individual and population EHI export scenarios.",
+    "_biggestRisk": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/files.json; results/broadstreet-health-llc/downloads/fhir-resources-page.png",
+      "sourceQuality": "primary_descriptive",
+      "reasoning": "The highest-impact risk is that public artifacts do not prove full designated-record-set coverage or provide payload-level structure, especially for patient financial and specialty post-acute data.",
+      "alternatives": "Lower-impact risks were rejected because this uncertainty directly affects legal completeness and migration reliability.",
+      "uncertainty": "Could be mitigated by publishing sample export bundles and complete data dictionaries.",
+      "confidence": "high (4/5)",
+      "decision": "biggestRisk emphasizes completeness uncertainty in DRS-relevant domains."
+    },
+    "biggestRisk": "Export documentation does not demonstrate comprehensive designated-record-set coverage (especially billing/payments/specialty post-acute data) and omits payload-level schema details needed for reliable migration.",
+    "_summary": {
+      "sources": "results/broadstreet-health-llc/downloads/ehi-export-page-rendered.html; results/broadstreet-health-llc/downloads/ehi-export-page-raw.html; results/broadstreet-health-llc/downloads/ehi-export-page.png; results/broadstreet-health-llc/downloads/fhir-resources-page.png; results/broadstreet-health-llc/downloads/BST-2025-RWT-Plan.pdf; results/broadstreet-health-llc/files.json; results/broadstreet-health-llc/chpl-metadata.json; results/broadstreet-health-llc/product-research.md; results/broadstreet-health-llc/ehi-export-report.md",
+      "sourceQuality": "primary_direct + primary_descriptive",
+      "reasoning": "BroadStreet shows credible evidence that export functionality exists and is tested, but the published artifacts describe standards at a high level and leave major designated-record-set completeness and reconstruction questions unresolved.",
+      "alternatives": "A high-fidelity summary was rejected because missing schema and sample payload evidence prevents that conclusion.",
+      "uncertainty": "Summary could improve with direct full-export files and explicit field-level mapping documentation.",
+      "confidence": "moderate (3/5)",
+      "decision": "summary is aligned with projection_limited posture and moderate confidence."
+    },
+    "summary": "Available evidence supports functioning export pathways and broad clinical-domain signaling, but documentation remains projection-heavy and too sparse to confirm comprehensive designated-record-set EHI coverage or low-risk migration fidelity."
+  },
+  "holisticNarrative": {
+    "summary": "BroadStreet publishes a clear high-level claim that EHI can be exported as CDA 2.1, FHIR R4 bundles, and HTML notes, and the 2025 RWT plan indicates these capabilities are exercised in production with both individual and population scenarios. That is a meaningful positive signal: this is not a complete absence of export functionality.\n\nThe limiting factor is documentation depth. The artifacts do not include a machine-readable schema, payload examples, key/relationship constraints, or explicit path-level instructions tying mechanism, packaging, and format behavior together. As a result, the evidence looks more like compliance-level standards framing than an implementation-ready export specification.\n\nUnder designated-record-set EHI scope, this matters most for domains beyond core USCDI-style clinical summaries. Clinical domains are signaled, but billing/claims/payments and specialty post-acute records are not clearly evidenced in export materials. That creates high practical risk for migration and completeness assertions until direct payload artifacts are available.",
+    "standoutObservations": [
+      "Positive: Public EHI page explicitly names three output representations (CDA, FHIR, HTML notes).",
+      "Positive: RWT Test Case 4 states both individual and population EHI export scenarios are tested in production.",
+      "Risky: No sample export payloads are available, so structure and linkage assumptions cannot be verified.",
+      "Risky: Public docs do not clearly prove designated-record-set completeness for billing/payment domains.",
+      "Unclear: Relationship between b(10) export path and separate FHIR API resource docs is not explicitly mapped."
+    ]
+  },
+  "notableFacts": [
+    "The rendered EHI export page explicitly states BroadStreet exports in CDA 2.1 and FHIR R4, and also documents BroadStreet Notes export in HTML.",
+    "The note-export section documents 20 named fields including vitals, diagnosis code (ICD), and advance directive code.",
+    "RWT Test Case 4 explicitly references both individual and population-level EHI export scenarios in a production environment.",
+    "No machine-readable schema artifacts or sample export payload files were present in results/broadstreet-health-llc/downloads.",
+    "FHIR resources screenshot OCR shows a 23-resource list (including CareTeam, Goal, DocumentReference, and ServiceRequest), while the EHI page lists a smaller subset including Appointment."
+  ]
+}

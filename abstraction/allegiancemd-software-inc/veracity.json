@@ -1,0 +1,1331 @@
+{
+  "meta": {
+    "schemaVersion": "2026-02-15.v7",
+    "assessedAt": "2026-02-15",
+    "assessor": "codex-gpt-5",
+    "status": "draft"
+  },
+  "scope": {
+    "vendorName": "AllegianceMD Software, Inc.",
+    "productFamily": "Veracity",
+    "_includedProducts": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "CHPL metadata in this result set names one certified product, Veracity version 9.1, and the export artifacts are a single cohesive Javadoc/JSON model for that product.",
+      "alternatives": "Creating multiple in-scope product records was rejected because no separate export model artifacts were found under this vendor directory.",
+      "uncertainty": "If later evidence shows another AllegianceMD product with a materially different export model, scope should be split.",
+      "confidence": "high (4/5)",
+      "decision": "Included products are limited to Veracity and its documented EHI export model."
+    },
+    "includedProducts": [
+      "Veracity v9.1 (CHPL product 15.02.05.2672.ALLE.01.01.1.220117)"
+    ],
+    "_excludedProducts": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No additional product family appears in CHPL metadata or in the downloaded export artifacts; the evidence set is specific to Veracity.",
+      "alternatives": "Including broader corporate offerings or website modules as separate products was rejected because there are no distinct export data structures for them in the evidence set.",
+      "uncertainty": "Corporate branding pages may mention capabilities that are not represented as separate certified product lines in this corpus.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "Excluded non-Veracity offerings to avoid over-aggregation beyond one product family."
+    },
+    "excludedProducts": [
+      "Any AllegianceMD offerings without distinct Veracity-level export artifacts in this corpus"
+    ],
+    "_versionsInScope": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The only certified version stated in primary metadata is Veracity 9.1, and all downloaded export docs are one 2023-era model set without evidence of a schema break.",
+      "alternatives": "Splitting by minor undocumented revisions was rejected due lack of direct versioned export artifacts.",
+      "uncertainty": "Undocumented tenant-specific or later revisions may exist outside the collected files.",
+      "confidence": "moderate (3/5)",
+      "decision": "Versions in scope are the continuity line represented by Veracity 9.1 export artifacts."
+    },
+    "versionsInScope": [
+      "Veracity 9.1 export documentation set (Javadoc generated 2023-10-25)"
+    ],
+    "scopeNotes": "This record is intentionally scoped to one product family only: Veracity. Judgments are grounded in downloads/ primary artifacts with supplementary context from CHPL metadata."
+  },
+  "exportPaths": [
+    {
+      "_mechanism": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The documentation states output format and linked data structure, but does not state whether export is run in UI, API, or by vendor ticket workflow.",
+        "alternatives": "ui_bulk_export and vendor_assisted_bulk_export were considered, but direct operational workflow evidence is missing.",
+        "uncertainty": "A procedural runbook or screenshots of export execution would resolve mechanism classification.",
+        "rule": "Use unknown when evidence does not reliably distinguish mechanism classes.",
+        "confidence": "high (4/5)",
+        "decision": "Mechanism is classified as unknown due missing explicit workflow evidence."
+      },
+      "mechanism": "unknown",
+      "_container": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The page explicitly says documents and clinical data are included in a zip file, with each document accompanied by a .meta file.",
+        "alternatives": "single_file was rejected because zip plus paired meta files implies multiple export units. database_dump and streaming_api are not evidenced.",
+        "uncertainty": "The exact internal folder/file layout of the zip is not shown in sample payloads.",
+        "confidence": "high (4/5)",
+        "decision": "Container is multi_file_bundle."
+      },
+      "container": "multi_file_bundle",
+      "_formats": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The documentation explicitly names CBOR (RFC 8949) as the export encoding; CBOR is not one of the enumerated format literals in the target schema.",
+        "alternatives": "json, xml, and csv were rejected because none are explicitly declared for this path. mixed was considered but not directly specified beyond document attachments.",
+        "uncertainty": "Attachment document file types in the zip are not enumerated.",
+        "confidence": "high (4/5)",
+        "decision": "Formats list uses other to represent CBOR output."
+      },
+      "formats": [
+        "other"
+      ],
+      "_standardProfile": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Output is vendor-native entity serialization (Javadoc entity model + CBOR) rather than an explicit FHIR or C-CDA profile.",
+        "alternatives": "fhir_other and ccda_r21 were rejected because no primary artifact describes this path as FHIR/C-CDA payloads.",
+        "uncertainty": "The site footer links to FHIR resources generally, but no direct mapping to this b(10) export path is shown.",
+        "rule": "Do not choose FHIR/C-CDA unless the path explicitly emits that profile.",
+        "confidence": "high (4/5)",
+        "decision": "Standard profile is none_vendor_native."
+      },
+      "standardProfile": "none_vendor_native",
+      "_selfService": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The available docs describe structure and format but do not say whether health-system staff can independently trigger exports in-product.",
+        "alternatives": "yes and no were both rejected because there is no direct evidence confirming either customer self-run workflow or required vendor operation.",
+        "uncertainty": "Operational guidance or customer admin UI evidence would change this call.",
+        "confidence": "high (4/5)",
+        "decision": "selfService is unknown."
+      },
+      "selfService": "unknown",
+      "_operationalBurden": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Documentation is substantial for model structure, but practical execution details (how to run export, permissions, delivery workflow) remain unclear, creating moderate friction.",
+        "alternatives": "Lower burden (1-2) was rejected because mechanism ambiguity is material. Higher burden (4-5) was rejected because a concrete export format/model is still documented.",
+        "uncertainty": "Real burden may be lower for existing customers with internal SOPs not present in public artifacts.",
+        "confidence": "moderate (3/5)",
+        "decision": "operationalBurden is 3 (moderate friction)."
+      },
+      "operationalBurden": 3,
+      "notes": "CBOR format and zip packaging are explicit; execution path and entitlement workflow are not explicit in reviewed primary artifacts."
+    }
+  ],
+  "documentation": {
+    "_hasDataDictionary": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "A dedicated entity data dictionary JSON is present and mirrors the entity-level Javadoc field catalogs.",
+      "alternatives": "no was rejected because dictionary artifacts are explicit and concrete.",
+      "uncertainty": "None material for existence call.",
+      "confidence": "high (5/5)",
+      "decision": "hasDataDictionary = yes."
+    },
+    "hasDataDictionary": "yes",
+    "_hasMachineReadableSchema": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The vendor artifacts include a machine-readable JSON field catalog (`entity-data-dictionary.json`) that can be directly parsed by tooling.",
+      "alternatives": "no was rejected because the JSON artifact is machine-consumable and schema-like, unlike only human-readable HTML.",
+      "uncertainty": "The JSON is not a formal JSON Schema/OpenAPI artifact, but still meets machine-readable schema intent for this field.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "hasMachineReadableSchema = yes."
+    },
+    "hasMachineReadableSchema": "yes",
+    "_describesFieldNames": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Field names are explicitly listed for all entities in both Javadoc and JSON dictionary artifacts.",
+      "alternatives": "no was rejected due direct explicit field-name listings.",
+      "uncertainty": "None material for this binary call.",
+      "confidence": "high (5/5)",
+      "decision": "describesFieldNames = yes."
+    },
+    "describesFieldNames": "yes",
+    "_describesFieldTypes": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Each field entry has a type value (for example String, Date, Integer, List<Entity>, byte[]) in the dictionary and class pages.",
+      "alternatives": "no was rejected because type declarations are explicit across the documented fields.",
+      "uncertainty": "Type precision for date/time subformats is not always explicit.",
+      "confidence": "high (5/5)",
+      "decision": "describesFieldTypes = yes."
+    },
+    "describesFieldTypes": "yes",
+    "_describesFieldSemantics": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Business meaning is explicitly documented for a substantial subset of fields (for example all PatientEntity, InsuranceDataEntity, CasesEntity fields).",
+      "alternatives": "no was rejected because semantic descriptions are present directly in the artifacts, even though many fields remain undocumented.",
+      "uncertainty": "Semantic coverage is uneven (many entities have blank descriptions), so this is presence-only, not completeness.",
+      "confidence": "moderate (3/5)",
+      "decision": "describesFieldSemantics = yes."
+    },
+    "describesFieldSemantics": "yes",
+    "_describesValueSets": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No explicit enumeration tables or allowed-value lists are provided for status/category/code fields in the reviewed artifacts.",
+      "alternatives": "yes was rejected because naming a coded field (for example CVX/LOINC/SNOMED columns) is not the same as documenting allowed values/value sets.",
+      "uncertainty": "In-product value sets may exist but are not documented in these export artifacts.",
+      "rule": "Use yes only with explicit enumerations or binding lists.",
+      "confidence": "high (4/5)",
+      "decision": "describesValueSets = no."
+    },
+    "describesValueSets": "no",
+    "_describesRelationships": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Relationships are explicitly represented by typed list fields linking entities (for example PatientEntity -> allergyList/encountersEntities/ordersList).",
+      "alternatives": "no was rejected because cross-entity links are directly declared in model field types, not merely inferred from similar names.",
+      "uncertainty": "Cardinality and join-key mechanics are not fully specified.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "describesRelationships = yes."
+    },
+    "describesRelationships": "yes",
+    "_describesKeysConstraints": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Artifacts do not explicitly mark PK/FK constraints, uniqueness rules, requiredness constraints, or formal cardinality constraints.",
+      "alternatives": "yes was rejected because field names like id/pid are not explicit key-constraint documentation.",
+      "uncertainty": "Database constraints may exist internally but are not described in the export docs.",
+      "rule": "yes requires explicit PK/FK/requiredness/uniqueness/cardinality constraints.",
+      "confidence": "high (4/5)",
+      "decision": "describesKeysConstraints = no."
+    },
+    "describesKeysConstraints": "no",
+    "_hasSampleData": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No downloadable sample CBOR payload or sample export bundle is present in the reviewed artifact set.",
+      "alternatives": "yes was rejected because only schema/dictionary-style docs were found.",
+      "uncertainty": "Sample exports might exist in customer-only portals not represented here.",
+      "confidence": "high (4/5)",
+      "decision": "hasSampleData = no."
+    },
+    "hasSampleData": "no",
+    "_sampleRepresentativeness": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Because no sample export payloads are present, representativeness is effectively none.",
+      "alternatives": "Higher scores were rejected due absence of any sample data artifact.",
+      "uncertainty": "Could change immediately if sample exports are provided.",
+      "confidence": "high (4/5)",
+      "decision": "sampleRepresentativeness = 0."
+    },
+    "sampleRepresentativeness": 0,
+    "_docsCurrentness": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The Javadoc export model indicates generation date 2023-10-25; assessment date is 2026-02-15 with no newer export revision artifact in this corpus.",
+      "alternatives": "Scores 3-5 were rejected because no recent update evidence is present. Score 1 was rejected because docs are still coherent and usable.",
+      "uncertainty": "Uncaptured vendor updates could exist outside downloaded files.",
+      "confidence": "moderate (3/5)",
+      "decision": "docsCurrentness = 2 (mostly stale)."
+    },
+    "docsCurrentness": 2,
+    "_maturity": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Documentation is broad on fields/entities and partially semantic, but lacks key constraints, value sets, and sample payloads needed for high-assurance implementation.",
+      "alternatives": "strong/excellent were rejected due missing implementation-critical details. basic was rejected because structural breadth is substantial.",
+      "uncertainty": "Maturity would increase if sample bundles and join/key maps are provided.",
+      "confidence": "moderate (3/5)",
+      "decision": "maturity = good."
+    },
+    "maturity": "good",
+    "notes": "Strengths: broad entity/field coverage and machine-readable dictionary. Gaps: no sample payload, weak value-set/key documentation, and uneven field-level semantics."
+  },
+  "fidelityRisk": {
+    "_representationType": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The export model exposes many operational entities with internal-style names and nested child structures (31 entities, including appointments, transactions, insurance, orders, messages) rather than a condensed standards projection.",
+      "alternatives": "external_standard_projection was rejected because artifacts are not organized as FHIR/C-CDA resources. native_plus_projection was considered but not strongly evidenced as mixed.",
+      "uncertainty": "Actual runtime export behavior could still omit undocumented internal objects.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "representationType = native_model_like."
+    },
+    "representationType": "native_model_like",
+    "_mappingTarget": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No explicit mapping target is documented; output is described as CBOR serialization of vendor entities.",
+      "alternatives": "fhir, ccda, and flat_tables were rejected due no explicit mapping-language evidence.",
+      "uncertainty": "Private mapping layers could exist but are not described in primary artifacts.",
+      "confidence": "high (4/5)",
+      "decision": "mappingTarget = none."
+    },
+    "mappingTarget": "none",
+    "_projectionLossRisk": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Risk is bounded rather than minimal: entity breadth is strong, but lack of sample payloads and absent key/constraint docs could hide omissions in practical exports.",
+      "alternatives": "0-1 was rejected due those documentation gaps. 4-5 was rejected because primary evidence does show substantial native-domain breadth.",
+      "uncertainty": "Real loss risk depends on what fields are actually populated/exported in production bundles.",
+      "confidence": "moderate (3/5)",
+      "decision": "projectionLossRisk = 2."
+    },
+    "projectionLossRisk": 2,
+    "_conflationRisk": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Separate entities exist for many concepts, reducing collapse risk, but some domains blend multipurpose fields (for example generic status/type/result fields) without value-set definitions.",
+      "alternatives": "0-1 was rejected because ambiguous coded fields can conflate semantics; 4-5 was rejected because the model is not heavily flattened.",
+      "uncertainty": "Conflation risk could be better judged with real payload examples and value sets.",
+      "confidence": "moderate (3/5)",
+      "decision": "conflationRisk = 2."
+    },
+    "conflationRisk": 2,
+    "_reconstructionDifficulty": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Reconstruction requires moderate inference effort: relationships are visible, but primary/foreign keys, constraint rules, and sample instances are not documented.",
+      "alternatives": "1-2 was rejected because missing keys and sample data materially complicate robust import logic. 4-5 was rejected because entity links and typed fields are still rich.",
+      "uncertainty": "Difficulty may vary significantly once tenant exports are tested.",
+      "confidence": "moderate (3/5)",
+      "decision": "reconstructionDifficulty = 3."
+    },
+    "reconstructionDifficulty": 3,
+    "_keyLossPatterns": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Repeated patterns in artifacts indicate likely semantic/key fragility during migration work.",
+      "alternatives": "No-pattern interpretation was rejected because gaps are consistent across many entities.",
+      "uncertainty": "Some risks may be mitigated by undocumented implementation guides.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "Key loss pattern list captures the highest-impact recurring issues."
+    },
+    "keyLossPatterns": [
+      "No explicit PK/FK or requiredness/cardinality constraints in published artifacts.",
+      "No explicit value-set enumerations for status/type/category fields.",
+      "No sample payloads to verify real-world population patterns and null semantics.",
+      "Binary/document fields (for example noteBytes, message attachments) lack explicit encoding/manifest conventions in docs."
+    ],
+    "_likelyOmittedAreas": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Entity list strongly covers core ambulatory domains but does not clearly evidence some patient-decision domains as standalone structures.",
+      "alternatives": "Assuming no omissions was rejected because care-planning/consent-style structures are not clear. Assuming major omissions was rejected due broad model coverage.",
+      "uncertainty": "Some omitted areas could be represented indirectly in custom forms or attachment artifacts not fully documented.",
+      "confidence": "moderate (3/5)",
+      "decision": "Likely omitted/underrepresented areas are listed as bounded risks."
+    },
+    "likelyOmittedAreas": [
+      "Explicit care plan and goal tracking structures are not clearly documented.",
+      "Advance directives/consent-specific structures are not clearly documented.",
+      "Detailed adjudication/remittance workflow granularity is not explicit beyond transaction/payment fields."
+    ]
+  },
+  "domainCoverage": [
+    {
+      "_domain": {
+        "sources": "results/allegiancemd-software-inc/downloads/PatientEntity.html; results/allegiancemd-software-inc/downloads/GuarantorEntity.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Patient and guarantor entities contain core person/contact/demographic attributes used in care and billing decisions.",
+        "alternatives": "Other domain labels were rejected because these fields are directly demographic/identity content.",
+        "uncertainty": "None material for domain identification.",
+        "confidence": "high (5/5)",
+        "decision": "domain = demographics."
+      },
+      "domain": "demographics",
+      "_coverage": {
+        "sources": "results/allegiancemd-software-inc/downloads/PatientEntity.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "PatientEntity alone carries broad demographic/contact/state fields and links to related patient-level structures.",
+        "alternatives": "present_but_not_comprehensive was considered, but breadth of direct demographic fields is high in available artifacts.",
+        "uncertainty": "Payload-level completeness cannot be confirmed without sample exports.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "coverage = plausibly_comprehensive."
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is strong because this call is based on direct field names and descriptions in primary model artifacts.",
+        "alternatives": "Lower confidence rejected due direct evidence quality.",
+        "uncertainty": "Field-population rates are unknown.",
+        "confidence": "high (4/5)",
+        "decision": "confidence score = 4."
+      },
+      "confidence": 4,
+      "notes": "Includes identifiers, address/phone/email, DOB/sex, communication preference, and guarantor demographics."
+    },
+    {
+      "_domain": {
+        "sources": "results/allegiancemd-software-inc/downloads/EncountersEntity.html; results/allegiancemd-software-inc/downloads/EmrEncounterEntity.html; results/allegiancemd-software-inc/downloads/EncountersDiagEntity.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Dedicated encounter entities and encounter-diagnosis linking fields directly identify this domain.",
+        "alternatives": "Scheduling/billing-only interpretation rejected because clinical encounter structures are explicit.",
+        "uncertainty": "None material for domain identification.",
+        "confidence": "high (5/5)",
+        "decision": "domain = encounters."
+      },
+      "domain": "encounters",
+      "_coverage": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "EncountersEntity, EmrEncounterEntity, and diagnosis/transaction links suggest broad encounter representation in the exported model.",
+        "alternatives": "present_but_not_comprehensive considered, but multi-entity encounter structures and linked billing/diagnosis strongly indicate broad coverage.",
+        "uncertainty": "Inpatient and edge-case encounter workflows are not explicitly characterized.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = plausibly_comprehensive."
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Strong direct structural evidence supports the call; uncertainty mostly concerns depth, not presence.",
+        "alternatives": "Lower confidence rejected due explicit entities.",
+        "uncertainty": "No sample payloads.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "confidence score = 4."
+      },
+      "confidence": 4,
+      "notes": "Encounter records are linked to diagnoses and transactions, indicating clinically and financially relevant encounter context."
+    },
+    {
+      "_domain": {
+        "sources": "results/allegiancemd-software-inc/downloads/EmrProblemEntity.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "EmrProblemEntity with ICD/SNOMED/problem fields maps directly to problems/conditions.",
+        "alternatives": "Diagnostic report domain rejected because this entity stores problem-list style condition data.",
+        "uncertainty": "None material for domain identification.",
+        "confidence": "high (5/5)",
+        "decision": "domain = problems_conditions."
+      },
+      "domain": "problems_conditions",
+      "_coverage": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Problem coverage is clearly present via one dedicated entity with coded condition fields, but breadth across all condition workflows is not fully documented.",
+        "alternatives": "plausibly_comprehensive rejected because only one clear condition table is shown and sample exports are absent.",
+        "uncertainty": "Problem history/status semantics may rely on undocumented value sets.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive."
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Presence is direct; completeness is inferred conservatively.",
+        "alternatives": "Higher confidence rejected due no sample payloads.",
+        "uncertainty": "Potential additional condition representations in custom forms are unclear.",
+        "confidence": "moderate (3/5)",
+        "decision": "confidence score = 3."
+      },
+      "confidence": 3,
+      "notes": "Includes ICD-9/10, SNOMED, severity, status, and date fields."
+    },
+    {
+      "_domain": {
+        "sources": "results/allegiancemd-software-inc/downloads/EmrMedicationEntity.html; results/allegiancemd-software-inc/downloads/PatientPharmacyEntity.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Medication and pharmacy entities explicitly capture medication prescribing and refill context.",
+        "alternatives": "Orders-only classification rejected because medication-specific fields dominate.",
+        "uncertainty": "None material for domain ID.",
+        "confidence": "high (5/5)",
+        "decision": "domain = medications."
+      },
+      "domain": "medications",
+      "_coverage": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The medication entity is large and includes prescribing workflow, refill, rxnorm/rxcui, pharmacy, and authorization-related attributes.",
+        "alternatives": "present_but_not_comprehensive considered but rejected because breadth appears high in documented fields.",
+        "uncertainty": "Medication administration events beyond documented structures are not independently validated with samples.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "coverage = plausibly_comprehensive."
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Strong direct evidence supports presence and breadth.",
+        "alternatives": "Lower confidence rejected due explicit rich field set.",
+        "uncertainty": "No sample payloads to verify all fields are populated in practice.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "confidence score = 4."
+      },
+      "confidence": 4,
+      "notes": "Medication structure includes prescribing metadata, refill lifecycle, and pharmacy linkage."
+    },
+    {
+      "_domain": {
+        "sources": "results/allegiancemd-software-inc/downloads/EmrAllergyEntity.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "EmrAllergyEntity directly represents allergy/adverse reaction data with reactants and reaction attributes.",
+        "alternatives": "Problem/medication domain labels rejected because the fields are allergy-specific.",
+        "uncertainty": "None material for domain identification.",
+        "confidence": "high (5/5)",
+        "decision": "domain = allergies."
+      },
+      "domain": "allergies",
+      "_coverage": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Allergy data is clearly present in a dedicated entity but overall completeness across complex allergy workflows is not fully evidenced.",
+        "alternatives": "plausibly_comprehensive rejected due limited documentation depth beyond field names.",
+        "uncertainty": "No value-set docs for reaction/status fields.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive."
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Presence is direct; completeness remains somewhat uncertain.",
+        "alternatives": "Higher confidence rejected due lack of samples/value sets.",
+        "uncertainty": "Unknown population consistency across tenants.",
+        "confidence": "moderate (3/5)",
+        "decision": "confidence score = 3."
+      },
+      "confidence": 3,
+      "notes": "Includes reactant name/type, symptom/reaction indicators, and status/date attributes."
+    },
+    {
+      "_domain": {
+        "sources": "results/allegiancemd-software-inc/downloads/EmrInjectionEntity.html; results/allegiancemd-software-inc/downloads/PatientEntity.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Injection/immunization fields (CVX, VIS, lot/manufacturer, route/site, refusal/publicity indicators) map directly to immunization-domain data.",
+        "alternatives": "Procedure-only interpretation rejected because immunization coding constructs are explicit.",
+        "uncertainty": "Entity name includes injections broadly, so not all rows may be immunizations.",
+        "confidence": "high (4/5)",
+        "decision": "domain = immunizations."
+      },
+      "domain": "immunizations",
+      "_coverage": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Immunization-relevant data is clearly present, but mixed injection/immunization semantics and no sample data limit confidence in full immunization completeness.",
+        "alternatives": "not_clearly_present rejected due direct CVX/VIS evidence; plausibly_comprehensive rejected due mixed-use ambiguity.",
+        "uncertainty": "Unknown whether historical registry exchanges are fully represented.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive."
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Direct coded immunization indicators support moderate confidence.",
+        "alternatives": "Higher confidence rejected due mixed entity purpose and no samples.",
+        "uncertainty": "Potential under/over-counting of immunization records in injection entity.",
+        "confidence": "moderate (3/5)",
+        "decision": "confidence score = 3."
+      },
+      "confidence": 3,
+      "notes": "CVX/VIS/publicity/refusal fields provide explicit immunization signal."
+    },
+    {
+      "_domain": {
+        "sources": "results/allegiancemd-software-inc/downloads/EmrVitalsEntity.html; results/allegiancemd-software-inc/downloads/EmrVitalsCategoryEntity.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Dedicated vitals entities and category fields map directly to vital-sign observations.",
+        "alternatives": "Lab or screening domains rejected because entities are explicitly labeled vitals.",
+        "uncertainty": "None material for ID.",
+        "confidence": "high (5/5)",
+        "decision": "domain = vitals."
+      },
+      "domain": "vitals",
+      "_coverage": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Vitals are clearly present, but field set is relatively compact and lacks explicit breadth indicators across all possible vital modalities.",
+        "alternatives": "plausibly_comprehensive rejected because coverage depth is less clear than demographics/encounters.",
+        "uncertainty": "Could still be broad in practice depending on category usage.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive."
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Dedicated entities provide direct presence evidence.",
+        "alternatives": "Lower confidence rejected due explicit vitals tables.",
+        "uncertainty": "No sample exports to verify representativeness.",
+        "confidence": "moderate (3/5)",
+        "decision": "confidence score = 3."
+      },
+      "confidence": 3,
+      "notes": "Includes vitals values plus category metadata with LOINC code support."
+    },
+    {
+      "_domain": {
+        "sources": "results/allegiancemd-software-inc/downloads/EmrPatientOrderPanelEntity.html; results/allegiancemd-software-inc/downloads/EmrPatientOrderItemEntity.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Order panel/item structures include lab identifiers, LOINC, ranges, and result values, which directly map to laboratory domain content.",
+        "alternatives": "Orders-only classification rejected because actual lab result attributes are present.",
+        "uncertainty": "Could include non-lab orders in same structures.",
+        "confidence": "high (4/5)",
+        "decision": "domain = laboratory."
+      },
+      "domain": "laboratory",
+      "_coverage": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Lab data is clearly represented through order/result structures, but documentation does not prove complete representation of all lab workflows or external lab documents.",
+        "alternatives": "not_clearly_present rejected due direct LOINC/result fields; plausibly_comprehensive rejected due mixed order-type ambiguity.",
+        "uncertainty": "No sample payloads to test breadth across lab result types.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive."
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Field-level evidence is direct and specific to lab semantics.",
+        "alternatives": "Higher confidence rejected because coverage breadth is inferred.",
+        "uncertainty": "Some results may appear as attached documents rather than structured rows.",
+        "confidence": "moderate (3/5)",
+        "decision": "confidence score = 3."
+      },
+      "confidence": 3,
+      "notes": "Evidence includes LOINC, reference ranges, abnormal flags, specimen and reporting timestamps."
+    },
+    {
+      "_domain": {
+        "sources": "results/allegiancemd-software-inc/downloads/EmrPatientOrderPanelEntity.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Order panel fields include reportStatus/dateTimeReported and PDF-capable noteBytes for imaging/procedure-type orders, indicating diagnostic report content.",
+        "alternatives": "Laboratory-only interpretation rejected because documentation references imaging/procedure report attachments.",
+        "uncertainty": "No dedicated radiology report entity is documented.",
+        "confidence": "moderate (3/5)",
+        "decision": "domain = diagnostic_reports."
+      },
+      "domain": "diagnostic_reports",
+      "_coverage": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Diagnostic report signals exist, but they appear embedded in order-panel structures with limited explicit narrative/report schema details.",
+        "alternatives": "not_clearly_present rejected due explicit report/PDF indicators; plausibly_comprehensive rejected due lack of dedicated report model.",
+        "uncertainty": "Unknown if all imaging/diagnostic domains are represented structurally versus attachments.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive."
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Evidence is real but indirect (embedded in order model).",
+        "alternatives": "Higher confidence rejected due indirect structure and no samples.",
+        "uncertainty": "Attachment conventions could materially change interpretation.",
+        "confidence": "moderate-low (2/5)",
+        "decision": "confidence score = 2."
+      },
+      "confidence": 2,
+      "notes": "Diagnostic report content appears partly as structured status fields and partly as attached PDF bytes."
+    },
+    {
+      "_domain": {
+        "sources": "results/allegiancemd-software-inc/downloads/TransactionsEntity.html; results/allegiancemd-software-inc/downloads/EmrInjectionEntity.html; results/allegiancemd-software-inc/downloads/EmrImplantableDeviceEntity.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Procedure-related signals include CPT fields, implantable device details, and order/procedure references.",
+        "alternatives": "Billing-only interpretation rejected because procedure/device clinical details are also present.",
+        "uncertainty": "Procedure granularity across specialties is not fully documented.",
+        "confidence": "moderate (3/5)",
+        "decision": "domain = procedures."
+      },
+      "domain": "procedures",
+      "_coverage": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Procedure content is present across multiple entities, but dedicated full procedure-note structures are not clearly documented.",
+        "alternatives": "not_clearly_present rejected due direct CPT/procedure indicators; plausibly_comprehensive rejected due mixed billing/clinical representation.",
+        "uncertainty": "Some procedures may only be represented in attachments.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive."
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Procedure indicators are explicit but distributed across entities with mixed semantics.",
+        "alternatives": "Higher confidence rejected due potential conflation with billing transactions.",
+        "uncertainty": "No sample-level validation.",
+        "confidence": "moderate-low (2/5)",
+        "decision": "confidence score = 2."
+      },
+      "confidence": 2,
+      "notes": "Procedure evidence is dispersed (CPT, implantable devices, order panel type/noteBytes)."
+    },
+    {
+      "_domain": {
+        "sources": "results/allegiancemd-software-inc/downloads/NotesEntity.html; results/allegiancemd-software-inc/downloads/InternalNotesEntity.html; results/allegiancemd-software-inc/downloads/EmrRefToProvidersEntity.html; results/allegiancemd-software-inc/downloads/PatientMedicalFormEntity.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Multiple note-like entities and clinical-note fields map to clinical documentation domain content.",
+        "alternatives": "Communication-only interpretation rejected because note fields are also tied to clinical/referral structures.",
+        "uncertainty": "Separation between clinical notes and operational/internal notes is imperfect in available docs.",
+        "confidence": "moderate (3/5)",
+        "decision": "domain = clinical_notes."
+      },
+      "domain": "clinical_notes",
+      "_coverage": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Clinical-note presence is clear, but full specialty narrative note coverage (H&P/progress/discharge style structures) is not explicitly documented by dedicated entities.",
+        "alternatives": "not_clearly_present rejected due explicit note entities; plausibly_comprehensive rejected due uncertain note taxonomy.",
+        "uncertainty": "Clinical narratives may be present in attachments or custom forms not fully described.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive."
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Direct note artifacts support presence, but domain breadth is uncertain.",
+        "alternatives": "Higher confidence rejected due lack of explicit note-type matrix.",
+        "uncertainty": "Unknown share of notes that are purely operational versus clinical.",
+        "confidence": "moderate-low (2/5)",
+        "decision": "confidence score = 2."
+      },
+      "confidence": 2,
+      "notes": "Includes general notes, internal notes, referral clinical note field, and form/screening result text."
+    },
+    {
+      "_domain": {
+        "sources": "results/allegiancemd-software-inc/downloads/PatientCareTeamEntity.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "PatientCareTeamEntity maps to care-team membership but does not explicitly evidence care plan/goals structures.",
+        "alternatives": "orders_referrals rejected because no order panel/referral fields define this entity.",
+        "uncertainty": "Care-plan details may be embedded in other notes/forms.",
+        "confidence": "moderate (3/5)",
+        "decision": "domain = care_plans_goals."
+      },
+      "domain": "care_plans_goals",
+      "_coverage": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No explicit care plan/goal entities or goal-tracking fields are clearly documented; only care-team roster data is visible.",
+        "alternatives": "present_but_not_comprehensive was considered, but evidence for actual plan/goal content is too weak.",
+        "uncertainty": "Custom fields/forms could contain plan information without explicit schema labels.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = not_clearly_present."
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is moderate because this is partly an absence-based inference.",
+        "alternatives": "Higher confidence rejected due potential hidden representation in generic note/form structures.",
+        "uncertainty": "Would change with direct care-plan payload examples.",
+        "confidence": "moderate-low (2/5)",
+        "decision": "confidence score = 2."
+      },
+      "confidence": 2,
+      "notes": "Care team contacts are present, but explicit plan/goals artifacts are not clearly identified."
+    },
+    {
+      "_domain": {
+        "sources": "results/allegiancemd-software-inc/downloads/EmrPatientOrderPanelEntity.html; results/allegiancemd-software-inc/downloads/EmrPatientOrderItemEntity.html; results/allegiancemd-software-inc/downloads/EmrRefToProvidersEntity.html; results/allegiancemd-software-inc/downloads/PatientEntity.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Order panel/item structures and referral entity explicitly map to orders and referrals domain.",
+        "alternatives": "Laboratory-only domain rejected because referral/outgoing-provider fields show broader order/referral workflow.",
+        "uncertainty": "Order breadth outside lab/imaging remains unclear.",
+        "confidence": "high (4/5)",
+        "decision": "domain = orders_referrals."
+      },
+      "domain": "orders_referrals",
+      "_coverage": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Orders and referrals are materially present through dedicated entities, but comprehensive coverage across all order classes is not proven.",
+        "alternatives": "not_clearly_present rejected due direct evidence; plausibly_comprehensive rejected due uncertain cross-domain order completeness.",
+        "uncertainty": "No complete order catalog/value sets are documented.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive."
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Presence confidence is strong due explicit entities.",
+        "alternatives": "Higher confidence rejected due breadth uncertainty.",
+        "uncertainty": "No sample payloads for uncommon order types.",
+        "confidence": "moderate (3/5)",
+        "decision": "confidence score = 3."
+      },
+      "confidence": 3,
+      "notes": "Includes order headers/items, specimen/review fields, and referral-specific attributes."
+    },
+    {
+      "_domain": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/EmrPatientOrderPanelEntity.html; results/allegiancemd-software-inc/downloads/MessagesEntity.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Primary docs explicitly mention documents in zip with .meta files, and model fields include attachment/message document references and PDF-capable note bytes.",
+        "alternatives": "clinical_notes-only classification rejected because explicit attachment/document references are present.",
+        "uncertainty": "No sample bundle to verify exact attachment organization.",
+        "confidence": "high (4/5)",
+        "decision": "domain = documents_attachments."
+      },
+      "domain": "documents_attachments",
+      "_coverage": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Document/attachment presence is clear, but artifact set lacks examples showing the full breadth and indexing conventions of attached documents.",
+        "alternatives": "not_clearly_present rejected due direct zip/document statement; plausibly_comprehensive rejected due absent samples.",
+        "uncertainty": "Unknown whether all document classes are included or filtered in practice.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive."
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Direct textual evidence exists, but payload-level details are missing.",
+        "alternatives": "Higher confidence rejected due no concrete sample files.",
+        "uncertainty": "Attachment metadata schema beyond .meta statement is unclear.",
+        "confidence": "moderate (3/5)",
+        "decision": "confidence score = 3."
+      },
+      "confidence": 3,
+      "notes": "Explicit statement: documents plus corresponding .meta files in zip export."
+    },
+    {
+      "_domain": {
+        "sources": "results/allegiancemd-software-inc/downloads/InsuranceDataEntity.html; results/allegiancemd-software-inc/downloads/InsuranceDataAuthorizationsEntity.html; results/allegiancemd-software-inc/downloads/GuarantorEntity.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Dedicated insurance, authorization, and guarantor entities directly map to insurance/enrollment coverage domain.",
+        "alternatives": "Claims-billing-only interpretation rejected because subscriber/policy/plan demographics are explicit.",
+        "uncertainty": "None material for ID.",
+        "confidence": "high (5/5)",
+        "decision": "domain = insurance."
+      },
+      "domain": "insurance",
+      "_coverage": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Insurance structures include plan/policy/subscriber details plus authorization tracking, indicating broad insurance-domain representation.",
+        "alternatives": "present_but_not_comprehensive rejected because field breadth is extensive in dedicated tables.",
+        "uncertainty": "Coverage of edge payer scenarios is unverified without sample data.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "coverage = plausibly_comprehensive."
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Strong direct evidence from multiple dedicated entities.",
+        "alternatives": "Lower confidence rejected due clear domain specificity.",
+        "uncertainty": "No payloads to evaluate null/optional patterns.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "confidence score = 4."
+      },
+      "confidence": 4,
+      "notes": "Includes policy/subscriber fields, eligibility dates, copay, and prior authorization details."
+    },
+    {
+      "_domain": {
+        "sources": "results/allegiancemd-software-inc/downloads/TransactionsEntity.html; results/allegiancemd-software-inc/downloads/EncountersEntity.html; results/allegiancemd-software-inc/downloads/CasesEntity.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Transactions and encounter billing fields (charges, balance, insurance adjustments, statement counts/dates) map directly to claims/billing records.",
+        "alternatives": "Payments-only interpretation rejected because claims-line and adjustment constructs are explicit.",
+        "uncertainty": "Claim submission/adjudication lifecycle detail may be partial.",
+        "confidence": "high (4/5)",
+        "decision": "domain = claims_billing."
+      },
+      "domain": "claims_billing",
+      "_coverage": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Billing and claims-like financial line data is rich and multi-field, suggesting broad representation for ambulatory billing decisions.",
+        "alternatives": "present_but_not_comprehensive considered but rejected due depth of transaction-level insurance/patient financial fields.",
+        "uncertainty": "External clearinghouse event detail may not be fully represented.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = plausibly_comprehensive."
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Direct transaction/encounter billing fields provide strong evidence.",
+        "alternatives": "Lower confidence rejected because fields are explicit and numerous.",
+        "uncertainty": "No sample claims export to validate real-world breadth.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "confidence score = 4."
+      },
+      "confidence": 4,
+      "notes": "Transactions include CPT, diagnosis pointers, insurer balances/payments/adjustments, patient responsibility, and statements."
+    },
+    {
+      "_domain": {
+        "sources": "results/allegiancemd-software-inc/downloads/PaymentEntity.html; results/allegiancemd-software-inc/downloads/TransactionsEntity.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Dedicated payment records plus transaction-level payment fields map to payments domain.",
+        "alternatives": "Claims-only interpretation rejected due separate payment entity and posting fields.",
+        "uncertainty": "None material for identification.",
+        "confidence": "high (4/5)",
+        "decision": "domain = payments."
+      },
+      "domain": "payments",
+      "_coverage": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Payment presence is clear, but breadth across all remittance/payment workflows is not fully documented with samples.",
+        "alternatives": "not_clearly_present rejected due dedicated entity; plausibly_comprehensive rejected due incomplete workflow documentation.",
+        "uncertainty": "Potential batch remittance structures are not explicit.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive."
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Entity evidence is direct, with moderate uncertainty on breadth.",
+        "alternatives": "Higher confidence rejected due no sample export validation.",
+        "uncertainty": "Payment reversals/void semantics may be implementation-specific.",
+        "confidence": "moderate (3/5)",
+        "decision": "confidence score = 3."
+      },
+      "confidence": 3,
+      "notes": "Includes payment amount/date/type, posting data, check numbers, and void/unapplied indicators."
+    },
+    {
+      "_domain": {
+        "sources": "results/allegiancemd-software-inc/downloads/AppointmentsEntity.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "AppointmentsEntity contains scheduling workflow fields (status, room, check-in/out timing, duration, reason for visit).",
+        "alternatives": "Encounter-only classification rejected because pre-encounter scheduling states are explicit.",
+        "uncertainty": "None material for domain ID.",
+        "confidence": "high (5/5)",
+        "decision": "domain = scheduling."
+      },
+      "domain": "scheduling",
+      "_coverage": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "The appointment entity includes broad scheduling-state fields that plausibly cover core ambulatory scheduling functions.",
+        "alternatives": "present_but_not_comprehensive rejected due substantial scheduling field breadth.",
+        "uncertainty": "Complex resource scheduling and recurring logic are not specifically documented.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = plausibly_comprehensive."
+      },
+      "coverage": "plausibly_comprehensive",
+      "_confidence": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Direct scheduling fields support high confidence in domain presence.",
+        "alternatives": "Lower confidence rejected due explicit dedicated table.",
+        "uncertainty": "No sample records for edge scheduling cases.",
+        "confidence": "moderate-high (4/5)",
+        "decision": "confidence score = 4."
+      },
+      "confidence": 4,
+      "notes": "Covers appointment lifecycle timing (waiting/exam/check-in/out) and visit metadata."
+    },
+    {
+      "_domain": {
+        "sources": "results/allegiancemd-software-inc/downloads/entity-data-dictionary.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Domain label is consents_directives because rubric requires explicit check, but no clearly named consent/directive entities were found.",
+        "alternatives": "documents_attachments rejected because generic attachment fields are not explicit consent/directive structures.",
+        "uncertainty": "Consent content might exist inside generic forms/attachments.",
+        "confidence": "moderate (3/5)",
+        "decision": "domain = consents_directives."
+      },
+      "domain": "consents_directives",
+      "_coverage": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No explicit consent/directive fields or entities are clearly documented in the published model artifacts.",
+        "alternatives": "present_but_not_comprehensive rejected because evidence is absence-based and indirect.",
+        "uncertainty": "Could be represented in custom forms or documents without explicit labels.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = not_clearly_present."
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Confidence is lower because this call relies on absence in naming/documentation.",
+        "alternatives": "Higher confidence rejected due potential hidden representation in generic structures.",
+        "uncertainty": "Sample payloads or form catalogs could change this judgment.",
+        "confidence": "low-moderate (2/5)",
+        "decision": "confidence score = 2."
+      },
+      "confidence": 2,
+      "notes": "No dedicated consent/directive model is explicitly named in reviewed artifacts."
+    },
+    {
+      "_domain": {
+        "sources": "results/allegiancemd-software-inc/downloads/MessagesEntity.html; results/allegiancemd-software-inc/downloads/TaskCommentsEntity.html; results/allegiancemd-software-inc/downloads/TasksEntity.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Messages/task-comment entities contain patient-related communication content and metadata.",
+        "alternatives": "Operational-only interpretation rejected because messages are explicitly patient-related in index description.",
+        "uncertainty": "Some task data may be internal workflow rather than patient-facing communication.",
+        "confidence": "high (4/5)",
+        "decision": "domain = patient_communications."
+      },
+      "domain": "patient_communications",
+      "_coverage": {
+        "sources": "results/allegiancemd-software-inc/downloads/MessagesEntity.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Patient communication data is clearly present via messages (subject/body/attachments/read flags), but full channel breadth is unclear.",
+        "alternatives": "not_clearly_present rejected due direct message evidence; plausibly_comprehensive rejected because channel scope is not fully documented.",
+        "uncertainty": "Portal thread/message linkage behavior is not detailed.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = present_but_not_comprehensive."
+      },
+      "coverage": "present_but_not_comprehensive",
+      "_confidence": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Message structure gives direct evidence with moderate breadth uncertainty.",
+        "alternatives": "Higher confidence rejected due unknown channel completeness.",
+        "uncertainty": "No samples for communication volume/diversity.",
+        "confidence": "moderate (3/5)",
+        "decision": "confidence score = 3."
+      },
+      "confidence": 3,
+      "notes": "Index explicitly states messages are sent regarding the patient; entity includes body, subject, attachment fields."
+    },
+    {
+      "_domain": {
+        "sources": "results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/downloads/ehi-export-index.html",
+        "sourceQuality": "primary_direct",
+        "reasoning": "Audit/provenance is evaluated as required domain, but explicit audit/access-log entities are not documented in the export model.",
+        "alternatives": "Treating generic creationDate/updatedBy fields as full audit_provenance was rejected because that is not a dedicated audit log export.",
+        "uncertainty": "Undocumented audit exports may exist outside the reviewed artifact set.",
+        "confidence": "moderate (3/5)",
+        "decision": "domain = audit_provenance."
+      },
+      "domain": "audit_provenance",
+      "_coverage": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "No dedicated audit/access-log export units are visible; only scattered timestamp/user fields appear in clinical and operational entities.",
+        "alternatives": "present_but_not_comprehensive rejected because trace metadata alone does not demonstrate meaningful audit-provenance domain export.",
+        "uncertainty": "Could change if vendor publishes separate audit export artifacts.",
+        "confidence": "moderate (3/5)",
+        "decision": "coverage = not_clearly_present."
+      },
+      "coverage": "not_clearly_present",
+      "_confidence": {
+        "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+        "sourceQuality": "primary_direct",
+        "reasoning": "This is largely an absence-based call; confidence is therefore limited.",
+        "alternatives": "Higher confidence rejected due potential undocumented audit capabilities.",
+        "uncertainty": "Dedicated security/audit docs would materially change this call.",
+        "confidence": "low-moderate (2/5)",
+        "decision": "confidence score = 2."
+      },
+      "confidence": 2,
+      "notes": "Per EHI scope rules, absence of full audit logs should not be treated as an EHI completeness defect."
+    }
+  ],
+  "quantitativeProfile": {
+    "_artifactCounts": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Counts were computed directly from filesystem and artifact classes: 37 files under downloads plus 4 context files (files.json, product-research.md, ehi-export-report.md, chpl-metadata.json).",
+      "alternatives": "Estimated counting was rejected because direct file enumeration was feasible.",
+      "uncertainty": "Counts reflect only artifacts present in this workspace snapshot.",
+      "confidence": "high (5/5)",
+      "decision": "Artifact count measures are exact and reproducible."
+    },
+    "artifactCounts": {
+      "totalArtifactsReviewed": {
+        "status": "measured",
+        "value": 41,
+        "method": "exact",
+        "notes": "37 files in downloads + 4 context artifacts in vendor root"
+      },
+      "exportArtifactsDocumented": {
+        "status": "measured",
+        "value": 34,
+        "method": "derived",
+        "notes": "31 entity pages + ehi-export-index.html + ehi-export-documentation-page.html + entity-data-dictionary.json"
+      },
+      "sampleDataArtifacts": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No sample CBOR payloads or example export bundles were found."
+      },
+      "dictionaryOrSchemaArtifacts": {
+        "status": "measured",
+        "value": 33,
+        "method": "derived",
+        "notes": "31 entity Javadoc pages + ehi-export-index.html + entity-data-dictionary.json"
+      },
+      "machineReadableSchemaArtifacts": {
+        "status": "measured",
+        "value": 1,
+        "method": "exact",
+        "notes": "entity-data-dictionary.json is machine-readable JSON."
+      }
+    },
+    "_modelEntityCounts": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Documented entities come from dictionary keys (31). Relationship-bearing model entities are represented but no sample payload set exists to observe emitted entities in actual exports.",
+      "alternatives": "Estimating observed entities from docs was rejected; observed requires sample payloads.",
+      "uncertainty": "Export runtime may include additional units not visible in static docs.",
+      "confidence": "high (4/5)",
+      "decision": "Model-entity counts use exact docs-derived totals and not_observable for sample-dependent metrics."
+    },
+    "modelEntityCounts": {
+      "documentedEntities": {
+        "status": "measured",
+        "value": 31,
+        "method": "exact",
+        "notes": "Counted from top-level keys in entity-data-dictionary.json."
+      },
+      "observedEntities": {
+        "status": "not_observable",
+        "notes": "No sample export payload artifacts were provided."
+      },
+      "exportDistinctUnits": {
+        "status": "not_observable",
+        "notes": "No sample bundle/file manifest showing actual emitted unit count was provided."
+      }
+    },
+    "_fieldCounts": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Field counts were computed from dictionary entries: 715 documented fields, 715 with type info, 164 with non-empty descriptions.",
+      "alternatives": "Manual or estimated counts rejected because direct programmatic counting was feasible.",
+      "uncertainty": "Semantics count relies on non-empty description strings and may understate semantics encoded only in names.",
+      "confidence": "high (5/5)",
+      "decision": "Field counts are exact for documented artifacts; observed fields are not observable without samples."
+    },
+    "fieldCounts": {
+      "documentedFields": {
+        "status": "measured",
+        "value": 715,
+        "method": "exact",
+        "notes": "Summed dictionary field arrays across all entities."
+      },
+      "observedFields": {
+        "status": "not_observable",
+        "notes": "No sample payloads available to observe emitted fields."
+      },
+      "fieldsWithTypeInfo": {
+        "status": "measured",
+        "value": 715,
+        "method": "exact",
+        "notes": "Every dictionary row includes a populated type string."
+      },
+      "fieldsWithSemanticDescription": {
+        "status": "measured",
+        "value": 164,
+        "method": "exact",
+        "notes": "Counted fields with non-empty description text in dictionary extraction."
+      },
+      "codedFields": {
+        "status": "not_observable",
+        "notes": "Artifacts name coded columns (for example LOINC/SNOMED/CVX) but do not consistently declare value-domain constraints."
+      }
+    },
+    "_relationshipCounts": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Explicit cross-entity link count (26) was derived from field types containing Entity references (List<...Entity>). PK/FK/constraint documentation is not explicit.",
+      "alternatives": "Inferring PK/FK counts from id-like names was rejected by rubric.",
+      "uncertainty": "Actual DB keys may exist but are not documented.",
+      "confidence": "high (4/5)",
+      "decision": "Relationship counts use exact documented link types and not_observable for keys/constraints."
+    },
+    "relationshipCounts": {
+      "documentedRelationships": {
+        "status": "measured",
+        "value": 26,
+        "method": "exact",
+        "notes": "Counted dictionary fields whose type string includes Entity reference."
+      },
+      "documentedPrimaryKeys": {
+        "status": "not_observable",
+        "notes": "No explicit PK declarations found in reviewed artifacts."
+      },
+      "documentedForeignKeys": {
+        "status": "not_observable",
+        "notes": "No explicit FK declarations found in reviewed artifacts."
+      },
+      "documentedConstraints": {
+        "status": "not_observable",
+        "notes": "No explicit uniqueness/requiredness/cardinality constraints documented."
+      }
+    },
+    "_valueSetCounts": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Reviewed artifacts do not publish explicit enumerated value sets or code-system binding tables, so documented value-set counts are zero.",
+      "alternatives": "not_observable was considered, but explicit review found no value-set artifacts, allowing defensible zero counts for documented sets.",
+      "uncertainty": "External implementation guides could introduce value sets not present in this corpus.",
+      "confidence": "moderate-high (4/5)",
+      "decision": "Value-set counts are set to measured zero for documented artifacts."
+    },
+    "valueSetCounts": {
+      "documentedValueSets": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No explicit enumerations/value-set tables found in reviewed artifacts."
+      },
+      "valueSetsWithCodeSystem": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No explicit value-set definitions with named code-system/version bindings were documented."
+      },
+      "fieldsBoundToValueSets": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No explicit field-to-value-set binding tables were documented."
+      },
+      "localCustomValueSets": {
+        "status": "measured",
+        "value": 0,
+        "method": "exact",
+        "notes": "No documented custom/local value-set catalogs were found."
+      }
+    },
+    "notes": "Quantitative counts are constrained to visible artifacts in this corpus and intentionally avoid inferring undocumented keys/value-set bindings."
+  },
+  "accessConstraints": {
+    "_docsPubliclyAccessible": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "All reviewed export documentation artifacts were retrieved from publicly reachable vendor URLs without authenticated portal access in this corpus.",
+      "alternatives": "no was rejected because artifacts are present as public webpage/Javadoc captures.",
+      "uncertainty": "Some operational guides could still be customer-only.",
+      "confidence": "high (4/5)",
+      "decision": "docsPubliclyAccessible = yes."
+    },
+    "docsPubliclyAccessible": "yes",
+    "_roleRestricted": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No primary artifact explicitly describes role/permission requirements for executing export.",
+      "alternatives": "yes and no were rejected because direct permission evidence is absent.",
+      "uncertainty": "Most production systems restrict export roles, but this cannot be asserted without direct evidence.",
+      "confidence": "moderate (3/5)",
+      "decision": "roleRestricted = unknown."
+    },
+    "roleRestricted": "unknown",
+    "_vendorInvolvementNeeded": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Operational dependency is not stated in the documentation set.",
+      "alternatives": "no rejected because self-run execution is not explicitly documented; yes rejected because required vendor assistance is not explicitly documented.",
+      "uncertainty": "Runbook/support docs could resolve this immediately.",
+      "rule": "Use no only with explicit evidence of self-run execution without required vendor operation.",
+      "confidence": "moderate (3/5)",
+      "decision": "vendorInvolvementNeeded = unknown."
+    },
+    "vendorInvolvementNeeded": "unknown",
+    "_potentialFeesForStandardExport": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "No artifact in this set states whether standard export incurs fees.",
+      "alternatives": "yes/no both rejected due no direct fee statement tied to export execution.",
+      "uncertainty": "Mandatory disclosure documents outside this corpus may include fee details.",
+      "confidence": "moderate (3/5)",
+      "decision": "potentialFeesForStandardExport = unknown."
+    },
+    "potentialFeesForStandardExport": "unknown",
+    "_practicalAccessibilityScore": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Accessibility is mixed: documentation is public and structurally rich, but practical run conditions (roles, vendor dependency, fee policy) are undocumented.",
+      "alternatives": "Low-friction scores (0-2) rejected due operational unknowns; high-friction scores (4-5) rejected because capability docs are publicly available.",
+      "uncertainty": "Actual customer onboarding/export process could materially shift this score.",
+      "confidence": "moderate (3/5)",
+      "decision": "practicalAccessibilityScore = 3."
+    },
+    "practicalAccessibilityScore": 3,
+    "notes": "Public docs reduce discovery friction, but real-world export execution constraints are incompletely documented."
+  },
+  "overall": {
+    "_posture": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Evidence shows a substantial vendor-native model with broad clinical/financial domains, but meaningful implementation gaps remain (no sample payloads, no explicit keys/value sets, unclear execution workflow).",
+      "alternatives": "high_fidelity_export rejected due those gaps; projection_limited rejected because this is not primarily a standards-projection model; insufficiently_documented rejected because structural docs are extensive.",
+      "uncertainty": "Practical posture may improve or degrade once real exports are tested.",
+      "confidence": "moderate (3/5)",
+      "decision": "posture = usable_but_partial."
+    },
+    "posture": "usable_but_partial",
+    "_completenessScore": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Documented model breadth supports moderate completeness, but some EHI domains (care plans/directives) are not clearly represented and sample exports are absent.",
+      "alternatives": "Scores 4-5 rejected due those bounded but material gaps; scores 1-2 rejected due strong multi-domain evidence.",
+      "uncertainty": "Could move up with payload verification; could move down if runtime export omits documented structures.",
+      "confidence": "moderate (3/5)",
+      "decision": "completenessScore = 3."
+    },
+    "completenessScore": 3,
+    "_technicalUsabilityScore": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Usability is moderate: machine-readable dictionary and broad entity model help, but CBOR-specific handling plus missing PK/FK/value-set/sample guidance adds integration assumptions.",
+      "alternatives": "Scores 4-5 rejected due missing implementation-critical artifacts; scores 1-2 rejected because documentation is still materially useful.",
+      "uncertainty": "Could improve with sample bundles and relationship/constraint docs.",
+      "confidence": "moderate (3/5)",
+      "decision": "technicalUsabilityScore = 3."
+    },
+    "technicalUsabilityScore": 3,
+    "_confidence": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Confidence is moderated by strong structural docs but absence of sample payloads and operational workflow evidence.",
+      "alternatives": "Higher confidence rejected due unresolved unknowns; lower confidence rejected because primary artifacts are substantial.",
+      "uncertainty": "Runtime export behavior remains unverified in this evidence set.",
+      "confidence": "moderate (3/5)",
+      "decision": "overall confidence score = 3."
+    },
+    "confidence": 3,
+    "_strongestSignal": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "The strongest positive signal is the combination of a 31-entity Javadoc model and machine-readable dictionary covering 715 documented fields across clinical and financial domains.",
+      "alternatives": "Alternative strengths (public availability, CBOR declaration) are secondary to model breadth.",
+      "uncertainty": "Breadth alone does not prove runtime completeness.",
+      "confidence": "high (4/5)",
+      "decision": "Selected strongestSignal as documented model breadth with machine-readable extraction."
+    },
+    "strongestSignal": "Comprehensive vendor-native model documentation: 31 entities and 715 documented fields in Javadoc + JSON dictionary.",
+    "_biggestRisk": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Highest-impact risk is implementation ambiguity: no sample payloads, no explicit PK/FK constraints/value sets, and no explicit run workflow for export execution.",
+      "alternatives": "Domain absence risk was considered but is lower impact than cross-cutting structural ambiguity for migration safety.",
+      "uncertainty": "Risk magnitude may decrease with vendor-run pilot exports and supplemental docs.",
+      "confidence": "high (4/5)",
+      "decision": "biggestRisk focuses on missing implementation-critical artifacts rather than domain presence alone."
+    },
+    "biggestRisk": "Lack of sample exports and explicit key/value-set/operational execution details creates fragile assumptions for migration-grade reconstruction.",
+    "_summary": {
+      "sources": "results/allegiancemd-software-inc/downloads/ehi-export-documentation-page.html; results/allegiancemd-software-inc/downloads/ehi-export-index.html; results/allegiancemd-software-inc/downloads/entity-data-dictionary.json; results/allegiancemd-software-inc/chpl-metadata.json; results/allegiancemd-software-inc/files.json",
+      "sourceQuality": "primary_direct",
+      "reasoning": "Summary synthesizes documented strengths (broad native model) and bounded weaknesses (partial semantic/operational detail).",
+      "alternatives": "More optimistic or pessimistic summaries were rejected because evidence supports a mixed profile.",
+      "uncertainty": "Pilot export testing could materially refine this summary.",
+      "confidence": "moderate (3/5)",
+      "decision": "Summary is aligned with usable_but_partial posture and mid-range completeness/usability scores."
+    },
+    "summary": "Veracity publishes a broad vendor-native EHI export model (CBOR + zip attachments) with substantial entity/field documentation, including core clinical and billing domains. The export is usable for analysis and mapping, but remains partial for migration assurance because key constraints, value-set bindings, sample payloads, and operational execution details are not explicitly documented."
+  },
+  "holisticNarrative": {
+    "summary": "The Veracity evidence set is notable for structural openness: instead of a minimal standards projection, it exposes a fairly large native model with 31 entities spanning encounters, medications, allergies, lab-order/result constructs, insurance, transactions, and payments. That breadth is a meaningful positive signal for EHI fidelity because it suggests patient-decision and billing-decision data are not heavily collapsed into summary-only artifacts.\n\nAt the same time, implementation-grade confidence is capped by missing operational and semantic details. The docs say exports are CBOR and that documents are zipped with .meta companions, but they do not show concrete payload examples, key constraints, or explicit value-set bindings. This means downstream consumers can map a lot of fields, but must still make fragile assumptions when building deterministic joins, enforcing constraints, and interpreting coded statuses.\n\nApplying the EHI scope boundary, the key concern is not missing audit logs or system internals; those are not required for EHI completeness. The more relevant gap is uncertainty around whether care-plan/goal and consent/directive content are explicitly represented or only buried in generic forms/attachments. Overall, this is a strong structural export foundation that remains short of near-import-ready transparency.",
+    "standoutObservations": [
+      "Surprising: export format is explicitly CBOR rather than common CSV/JSON/FHIR payloads.",
+      "Strong signal: 31 documented entities with machine-readable dictionary extraction.",
+      "Risk: no sample export bundle to verify real-world structure and cardinality behavior.",
+      "Risk: no explicit PK/FK and value-set bindings despite broad field inventory."
+    ]
+  },
+  "notableFacts": [
+    "Primary export documentation explicitly states CBOR format (RFC 8949).",
+    "Primary documentation explicitly states documents and clinical data are included in a zip, with per-document .meta files.",
+    "Entity model documentation lists 31 entities with 715 documented fields in the extracted dictionary.",
+    "Explicit typed cross-entity relationship fields counted: 26.",
+    "No sample export payload files were present in the reviewed artifacts."
+  ]
+}
