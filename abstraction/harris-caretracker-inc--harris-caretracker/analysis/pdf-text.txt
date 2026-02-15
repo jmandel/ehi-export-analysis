@@ -1,0 +1,363 @@
+CareTracker EHI Export: Folder Organization and Data Format Specification – v1.0
+The EHI Export feature is designed to facilitate efficient data export for both individual patients and patient
+populations within a comprehensive healthcare system. This comprehensive functionality caters to two primary
+scenarios: exporting data for a single patient or exporting data for a patient population. In the patient population
+scenario, users have the flexibility to select patients based on different criteria, such as Provider, All Active
+Patients, All Patients, or Patients within an Encounter Range.
+
+
+
+In both the single patient and patient population scenarios, a dedicated folder is created for each patient,
+marked with a timestamp to facilitate easy identification. The exported data is formatted in a machine-readable
+manner to ensure interoperability and ease of data processing.
+
+
+
+Inside each patient's folder, a distinct file structure is maintained to accommodate different Data Classes. Each
+Data Class corresponds to a specific category of patient information. The corresponding information, such as
+Imported Items, images, and related documents, is stored within a designated "Documents" subfolder,
+preserving the original storage or import format.
+
+
+
+To maintain consistency and clarity, the filenames for each data entry within a Data Class follow a standardized
+pattern: "[Data Class Name].[Export Format]". The "[Export Format]" extension indicates the data format for
+export, with options including ".csv" (Comma-Separated Values), ".json" (JavaScript Object Notation), and ".xml"
+(Extensible Markup Language).
+
+
+
+Below is a listing of the Data Classes along with their corresponding Column Headings:
+
+     Data Class Name                                           Column Headings
+ Addendum                         PatID, AddendumDate, NoteType, NoteSubject, NoteBody, SavedByName
+ Advance Directives               PatientID, ProviderFirstName, ProviderLastName, SavedBy, DirectiveName,
+                                  DirectiveText, DateActive, DateInactive, DirectiveCode, IsActive, Comments,
+                                  PathToDirective, History, DateEntered
+ Alerts                           PatientID, ProviderFirstName, ProviderLastName, SavedBy, DirectiveName,
+                                  DirectiveText, DateActive, DateInactive, DirectiveCode, IsActive, Comments,
+                                  PathToDirective, History, DateEntered
+ Allergies and Intolerances       PatientID, AllergyID, AllergyDescription, AllergySource, Reaction, Comments,
+ Pending                          AddedByFirstName, AddedByLastName, DateAdded, EditedByFirstName,
+                                  EditedByLastName, DateEdited, Inactive, Migrated,
+                                  LastConfirmedByFirstName, LastConfirmedByLastName, LastConfirmedDate,
+                                  Severity, Source, AdverseReactionId, ReactionSeverityId, ReactionSeverityText,
+                                  DateAllergyStarted, DateAllergyEnded, PendingFlag, ImportedDate
+
+
+
+
+                                                         1
+CareTracker EHI Export: Folder Organization and Data Format Specification – v1.0
+
+ Allergies and Intolerances   PatientID, AllergyID, AllergyDescription, AllergySource, Reaction, Comments,
+                              AddedByFirstName, AddedByLastName, DateAdded, EditedByFirstName,
+                              EditedByLastName, DateEdited, Inactive, Migrated,
+                              LastConfirmedByFirstName, LastConfirmedByLastName, LastConfirmedDate,
+                              Severity, Source, AdverseReactionId, ReactionSeverityId, ReactionSeverityText,
+                              DateAllergyStarted, DateAllergyEnded, IsRemovedFromRecord
+ Assesments                   PatientID, EncounterDate, ProviderFirstName, ProviderLastName, Assesment
+ Billing History              PatientID, PlaceOfService, Complexity, ChiefCompliant, BillingComments,
+                              DateOfService, IsOpen, ICDType, Location, LocationAddress1,
+                              LocationAddress2, LocationCity, LocationState, LocationPostalCode,
+                              LocationCountry, LocationPhone, LocationFax, FacilityName, FacilityAddress1,
+                              FacilityAddress2, FacilityCity, FacilityState, FacilityPostalCode, FacilityCountry,
+                              FacilityNPI, PracticeFacilityCode, FacilityType, BillingProviderFirstName,
+                              BillingProviderMiddleName, BillingProviderLastName, BillingProviderDegree,
+                              BillingProviderDEA, BillingProviderStateLicenceNumber, BillingProvideerState,
+                              BillingProviderUPIN, BillingProviderNPI, BillingProviderEmail, CPTCode,
+                              CPTdescription, CPTShortDescription, Fee, Charge, CPTUnits, CPTPrice,
+                              CPTComment, CPTSequence, NDCCode, NDCUnits, ICD1, ICD2, ICD3, ICD4,
+                              ICD5, ICD6, ICD7, ICD8, ICD9, ICD10, ICD11, ICD12, ModifierCode,
+                              ModifierComment, ModifierSequence, PriorAuthorizationNumber,
+                              ReferProviderFirstName, ReferProviderMiddleName, ReferProviderLastName,
+                              ReferProviderDegree, ReferProviderDEA, ReferProviderStateLicenceNumber,
+                              ReferProvideerState, ReferProviderUPIN, ReferProviderNPI,
+                              ReferProviderEmail
+ Care Team Members            LastName, FirstName, Suffix, RoleOnTeam, Status, DateStarts, DateEnds,
+                              Address1, Address2, City, State, Zip, Phone
+ Clinical Notes               PatientID, EncounterDate, ChiefComplaint, HistoryPresentIllness,
+                              ReviewOfSystem, PastMedicalHistory, Medications, Allergies, SocialHistory,
+                              FamilyHistory, PhysicalExam, Assessment, Plan, BloodPressure, Temperature,
+                              RespirationRate, Pulse, Weight, Height, BodyMassIndex, HeadCircumference,
+                              VitalComments, FirstName, MiddleName, LastName, Degree, CPTcode,
+                              CPTcomments, Image1Description, Image1Location, Image2Description,
+                              Image2Location, Illustration1Description, Illustration1Location,
+                              Illustration2Description, Illustration2Location, SaturationPercent, PainScale,
+                              PulmonaryFunction, MiscellaneousVitalInformation, ConfidentialInformation,
+                              SaturationAirSource, SaturationSupplementalOxygen, PeakFlow,
+                              SaturationSupplementalOxygenType, PacksPerDay, YearsSmoked, YearsQuit,
+                              IsResourceProvided, SNOMED, TobaccoUseNameExtra,
+                              SaturationSupplementalOxygen1, TransitionOfCare, LastMenstrualPeriod,
+                              EstimatedDeliveryDate, PregnancyComments, VisionOS, VisionOD, Hearing,
+                              HearingComments, SBPSupine, DBPSupine, TobaccoStatusStartDate,
+                              TobaccoStatusEndDate, TobaccoPipeSmoker, TobaccoPipeStartDate,
+                              TobaccoPipeEndDate, TobaccoCigarSmoker, TobaccoCigarStartDate,
+                              TobaccoCigarEndDate, TobaccoChewing, TobaccoChewingStartDate,
+                              TobaccoChewingEndDate, DeclinedClinicalSummary, Instructions, IsIcd10,
+
+
+                                                      2
+CareTracker EHI Export: Folder Organization and Data Format Specification – v1.0
+
+                            Goals, HealthConcerns, TobaccoEcig, TobaccoEcigStartDate,
+                            TobaccoEcigEndDate, WaitCircumference, LocationName, LocationAddress1,
+                            LocationAddress2, LocationCity, StateOrRegion, PostalCode,
+                            EncounterTypeName
+ Demographic Immunization   PatientId, RecallsReminders, TexasRegistryConsentForm, HistoricalVFC,
+                            Registry, PatientConsentToShare, VFC, DateVFCInitialScreen
+ Email                      PatientID, DateSent, SentFromFirstName, SentFromLastName, EmailFrom,
+                            SentToFirstName, SentToLastName, EmailTo, Subject, CarbonCopy, Body
+ FamilyHistory              PatientID, FamilyHistory, NoSignificantFamilyHealthHistory,
+                            UnknownFamilyHealthHistory, RelationName, RelationGender,
+                            RelationBirthDate, RelationDateOfDeath, RelationNotes,
+                            RelationHasNoSignificanthealthHistory, RelationHasUnknownHealthHistory,
+                            DiagnosisDate, AgeAtDiagnosis, AgeUnitAtDiagnosis,
+                            WasDiagnosisCauseOfDeath, DiagnosisNotes, SnomedCode, icd10cm_key,
+                            Diagnosis, EnteredDate
+ FunctionalStatus           Description, IsMentalStatus, DateEntered, FirstNameEnteredBy,
+                            LastNameEnteredBy, DoctorDegree
+ Goals                      PatientID, EncounterDate, ProviderFirstName, ProviderLastName, Goals
+
+ Health Concerns            PatientID ,EncounterDate, ProviderFirstName, ProviderLastName,
+                            HealthConcerns
+
+ Health Insurance           PatientID, Description, PolicyNumber, GroupNumber, GroupName, CoPay,
+                            InsuranceStartDate, InsuranceEndDate, PayorName, PlanName, PlanCode,
+                            InsPhoneNumber, InsAddress1, InsAddress2, InsCity, InsState, InsPostalCode,
+                            SubscriberRelation, SubscriberFrist, SubscriberMiddle, SubscriberLast,
+                            SubscriberAddress1, SubscriberAddress2, SubscriberCity, SubscriberState,
+                            SubscriberZip, SubscriberPhone, SubscriberEmail, GuarantorRelation,
+                            GuarantorFirst, GuarantorMiddle, GuarantorLast, SubscriberAddress11,
+                            SubscriberAddress21, SubscriberCity1, SubscriberState1, SubscriberZip1,
+                            SubscriberPhone1, SubscriberEmail1
+ HM Rules Ignored           PatientID, RuleIgnoredComment, DateRuleIgnoredEntered, RuleName,
+                            RecommendedAge, MinAge, MaxAge, RecommendedInterval, MinInterval,
+                            MaxInterval, RuleText, FrequencyOfService, RuleRationale, Footnote, Source,
+                            Type, Grade, DoseNumber, ApplicableGender, ApplicableICDs, RestrictedICDs,
+                            LiveVaccine, EggComponent, GelatinComponent, RiskCategory, RiskFactors,
+                            ApplicableAgeGroup, CPT, RuleComment, Inactive, AgeSpecific,
+                            FundingSource, ReleaseRevisionDate, BibliographicCitation, Obsolete,
+                            RuleType, IntegrationPartner, ClinicalAssessmentUrl, IsInBundle,
+                            TestResultsRequired
+
+
+
+
+                                                  3
+CareTracker EHI Export: Folder Organization and Data Format Specification – v1.0
+
+ HM Rules                 PatientID, HMruleName, VaccineName, LotNo, DateGiven,
+                          RecordedByFirstName, RecordedByLastName, Volume, Route, Site,
+                          Manufacturer, Expiration, Comment, Sequence, Type, cpt, IsGivenElsewhere,
+                          PatientRefused, VISname, VISversion, VISDateGiven, Deleted,
+                          DateSentToRegistry, PatientParentRefused, PatientHadInfection,
+                          HowMigrated, Reaction, ReactionDate, DocumentName, Action,
+                          DateLastAction, TestResultsReviewed, RuleName, RecommendedAge,
+                          MinAge, MaxAge, RecommendedInterval, MinInterval, MaxInterval, RuleText,
+                          FrequencyOfService, RuleRationale, Footnote, Source, Type1, Grade,
+                          DoseNumber, ApplicableGender, ApplicableICDs, RestrictedICDs, LiveVaccine,
+                          EggComponent, GelatinComponent, RiskCategory, RiskFactors,
+                          ApplicableAgeGroup, CPT1, RuleComment, Inactive, AgeSpecific,
+                          FundingSource, ReleaseRevisionDate, BibliographicCitation, Obsolete,
+                          RuleType, IntegrationPartner, ClinicalAssessmentUrl, IsInBundle,
+                          TestResultsRequired, med_id, VaccineName1, VaccineDescription,
+                          VaccineGenericName, VaccineGenericDrug, VaccineManufactureID,
+                          VaccineManufacturerName, VaccineOutOfDate, VaccineCountry, Location,
+                          LocationAddress1, LocationAddress2, LocationCity, LocationState, PostalCode,
+                          NP001Description, NP001FriendlyName
+ Immunizations            PatientID, HMruleName, RuleName, VaccineName, CompositeVaccineID,
+                          LotNo, DateGiven, RecordedByFirstName, RecordedByLastName, Volume,
+                          Route, Site, Manufacturer, Expiration, Comment, Sequence, Result, CPT,
+                          IsGivenElsewhere, PatientRefused, VISname, VISversion, VISDateGiven,
+                          Deleted, DateSentToRegistry, PatientParentRefused, PatientHadInfection,
+                          HowMigrated, Reaction, ReactionDate, Location, NP001Description,
+                          NP001FriendlyName, DocumentName, Action, DateLastAction,
+                          TestResultsReviewed
+ Implantable device       PatientID, DeviceDescription, ImplantDate, DeviceStatus, UniqueDeviceId,
+                          ExplantDate, ImplantArea, DeviceIdentifier, LotNumber, SerialNumber,
+                          DeviceExpirationDate, DeviceManufactureDate, HctpIdentificationCode,
+                          BrandName, VersionModelNumber, CompanyName, MriSafetyInformation,
+                          LabeledContainsNrl, IsDeleted
+
+ Imported Items           PatientID, ImportedBy, DateOfItem, DateImported, TypeOfItem, ItemSubject,
+                          ItemFrom, ItemComments, ItemCurrentPath, ToBeSignedByFirstName,
+                          ToBeSignedByLastName, SignedOffByFirstName, SignedOffByLastName,
+                          SignOffDate, IsLetter, IsLabEmbeddedRpt
+
+ Injections               PatientID, InjectionName, LotNo, DateGiven, RecordedByFirstName,
+                          RecordedByLastName, Volume, Route, Manufacturer, ExpirationDate,
+                          Comment, CPTCode, IsGivenElsewhere, NDCCode
+
+
+
+
+                                               4
+CareTracker EHI Export: Folder Organization and Data Format Specification – v1.0
+
+ Lab Tests                PatientID, TestCreatedDate, TestCreatedByFirstName,
+                          TestCreatedByLastName, TestLastUpdatedDate, TestLastUpdatedByFirstName,
+                          TestLastUpdatedByLastName, TestLabOrderSentDate,
+                          TestLabResultMessageDate, TestLabResultReceivedDate,
+                          TestLabLocationCode, TestLabCompany, TestSpecimenNumber, TestBillType,
+                          TestSpecimenStatus, Fasting, LabTestStatus, TestSignedOffByFirstName,
+                          TestSignedOffByLastName, TestSigedOffDate, TestComment,
+                          TestLabPatientFamilyName, LabPatientGivenName, LabPatientMiddleName,
+                          LabPatientSuffix, LabPatientRace, LabPatientRaceAlternate, LabPatientDOB,
+                          LabPatientSex, LabPatientIdNumber, LabPatientAANamespaceId,
+                          LabPatientIdTypeCode, CcdaGuidLabTestId, TestLabName, TestLabAddress1,
+                          TestLabAddress2, TestLabCity, TestLabState, TestLabZip, TestLabPhone,
+                          ResultSequenceNumber, ResultAccessionNumberAC, ResultCreatedDate,
+                          ResultCreatedByFirstName, ResultCreatedByLastName,
+                          RestultLastUpdatedDate, ResultLastUpdatedByFirstName,
+                          ResultLastUpdatedByLastName, ResultOrderedByFirstname,
+                          ResultOrderedByLastName, ResultElectronicOrderCreationDate,
+                          ResultSpecimenNumber, ResultSpecimenCollectedDate,
+                          ResultSpecimenSource, ResultAlternateID1, ResultAlternateID2,
+                          ResultsSentDate, ResultFacilityPermingTest, ResultTestStatus,
+                          ResultParentForReflexOBX, ResultParentForReflexOBR,
+                          ResultOrderingProviderNotInAC, ResultSpecimenCondition,
+                          ResultSpecimenUiversalId, ResultSpecimenUniversalIdType,
+                          ResultSpecimenCollectedDate1, ResultTimingStartDate, ResultTimingEndDate,
+                          ResultSpecimenType, ResultSpecimenRejectReason,
+                          ResultDetailSequenceNumber, ResultDetailCreatedDate,
+                          ResultDetailCreatedFirstName, ResultDetailCreatedLastName,
+                          ResultDetailLastUpdatedDate, ResultDetailLastUpdatedByFirstName,
+                          ResultDetailLastUpdatedByLastName, ResultDetailInactive,
+                          ResultDetailCorrectsLabTestID, ResultDetailCorrectedByLabTestID,
+                          ResultDetailLabtestStatus, LabTestCodeDescription,
+                          ResultDetailLoincTestCode, ResultDetailObservationSubID,
+                          ResultDetailObservationValue, UncertaintyofMeasurement,
+                          ResultDetailRefenceRanges, ResultDetailAbnormalFlag,
+                          ResultDetailAbnormalType, ResultDetailReferenceRangeChangeDate,
+                          ResultDetailSecurityAccessChecks, ResultDetailObservationSentDate,
+                          ResultDetailLabLocationCode, ResultDetailLabName,
+                          ResultDetailLabAddress1, ResultDetailLabAddress2, ResultDetailLabCity,
+                          ResultDetailLabState, ResultDetailLabZip, ResultDetailLabPhone,
+                          ResultDetailValueType, ResultDetailIsLabReport, NoteSequenceNumber,
+                          NoteLaborderID, NoteLabOrderDetailID, NoteCreatedDate,
+                          NoteCreatedByFirstName, NoteCreatedByLastName, NoteLastUpdatedDate,
+                          NoteLastUpdatedByFirstName, NoteLastUpdateByLastName,
+                          NoteOwnerType, NoteOwnerID, NoteText, NoteReplaced, Group,
+                          PerformedBy, LabName, LabAddress1, LabAddress2, LabCity, LabState, LabZip,
+                          LabPhone, LabDirectorName, ReportFileName
+
+
+
+                                               5
+CareTracker EHI Export: Folder Organization and Data Format Specification – v1.0
+
+ List Problem Pending      PatientID, ProblemICD, ProblemName, DateRowAdded, DateActive,
+                           DateInactive, AddingProviderFirstName, AddingProviderLastName, Chronicity,
+                           DateLastActivated, DateSentToRegistry, DateResolved, PendingFlag,
+                           ImportedDate, Source, COSTAR, SNOMED, IcdType
+ List Problem              PatientId, ProblemName, ProblemICD, DateEntered, DateActive, DateInactive,
+                           AddingProviderFirstName, AddingProviderLastName, Chronicity,
+                           DateLastActivated, DateSentToRegistry, DateResolved, Source, COSTAR,
+                           SNOMED, Historical, IcdType
+ Medications Pending       PatientID, DateEntered, PrescribingProviderFirstName,
+                           PrescribingproviderLastName, MedicineName, Signetur, MedicineQuantity,
+                           Refills, DateInitiated, DateLastRefilled, MedComments, PriorRefills, Refillable,
+                           Inactive, MedSource, ExternalID, PharmacyName, PharmacyPhone,
+                           PharmacyFax, PharmacyTransactionID, QuickAddWhoPrescribed,
+                           QuickAddReasonPrescribed, Deleted, DateInactivated, RxGUID, DateStarted,
+                           DispenseQualifier, ERXstatus, DispenseAsWritten, IsFormularyChecked,
+                           SentBySureScripts, PharmacyTransmitFailed, InactivateReason, ScriptPrinted,
+                           ScriptFaxed, PendingFlag, ImportedDate, Source
+ Medications               PatientID, DateEntered, PrescribingProviderFirstName,
+                           PrescribingproviderLastName, MedicineName, Signature, MedicineQuantity,
+                           Refills, DateInitiated, DateLastRefilled, MedComments, PriorRefills, Refillable,
+                           Inactive, MedSource, ExternalID, PharmacyName, PharmacyPhone,
+                           PharmacyFax, PharmacyTransactionID, QuickAddWhoPrescribed,
+                           QuickAddReasonPrescribed, Deleted, DateInactivated, RxGUID, DateStarted,
+                           DispenseQualifier, ERXstatus, DispenseAsWritten, IsFormularyChecked,
+                           SentBySureScripts, PharmacyTransmitFailed, InactivateReason, ScriptPrinted,
+                           ScriptFaxed, Source, AdministeredDuringVisit, Course, ProblemId, DaysSupply,
+                           ProviderDea, NoteToPharmacy, RenewalRequestIdForReplaceMed,
+                           RxChangeGuidForApproved, IsCompoundMed, CompoundMedSchedule,
+                           EarliestFillDate, ScheduledDrugSeriesLink, Problem, ICDCode
+ Next Of Kin               PatientID, IsPrimaryGuardian, FirstName, LastName, SSN, Address1, Address2,
+                           City, State, Zip, Phone, Email, BirthDate, RelationName, PrimaryGuardian,
+                           Gender, Comments
+ Occupation and Industry   Patientid, Active, YearStarted, SendingFullURL, CensusIndustryCode,
+ History                   CensusIndustryTitle, NAICSCode, NAICSTitle, NAICSProbability,
+                           CensusOccupationCode, CensusIndustryTitle1, SOCCode, SOCTitle,
+                           SOCProbability
+ Orders                    PatientID, OrderEnteredDate, OrderTypeDescriptin, OrderText, CPTs, ICDs,
+                           OrderComments, SentByFirstName, SentByLastName, SentToFirstName,
+                           SentToLastName, DateSent, IsPartialResult, IsSigned, OrderStatus, DateDone,
+                           TrackingComments, DoneByFirstName, DoneByLastName,
+                           AssignedToFirstName, AssignedToLastName, OriginalOrderText,
+                           ResultTypeDescription, DateAssigned
+
+
+
+
+                                                  6
+CareTracker EHI Export: Folder Organization and Data Format Specification – v1.0
+
+ Patient Demographics         PatientID, ChartID, Salutation, FristName, MiddleName, LastName, Suffix,
+                              Gender, BirthDate, SocialSecurityNumber, Address, Address2, City, State, Zip,
+                              Phone, WorkPhone, Fax, Email, EmployerName, EmergencyContactName,
+                              EmergencyContactPhone, SpouseName, Comments, RecordsReleased,
+                              Referredby, ReferredbyMore, Inactive, ReasonInactive, PreferredPhysician,
+                              PreferredPharmacy, ReferringDoc, ReferringNumber, Miscellaneous1,
+                              Miscellaneous2, Miscellaneous3, Miscellaneous4, MaritalStatus,
+                              AllergiesDemo, ExemptFromReporting, TakesNoMeds, PatientRace,
+                              ExemptFromReportingReason, LanguagePreference, PatientEthnicity,
+                              ContactPreference, DateOfDeath, MothersMaidenName, BirthOrder,
+                              DateTimePatientInactivated, MothersFirstName, SexualOrientation,
+                              GenderIdentity, MaidenName, AliasNickname, PreviousAddress1,
+                              PreviousAddress2, PreviousCity, PreviousState, PreviousZip, Occupation,
+                              ImageName
+ Patient Generated Data       PatientID, ProviderFirstName, ProviderLastName, SavedBy, DirectiveName,
+                              DirectiveText, DateActive, DateInactive, DirectiveCode, IsActive, Comments,
+                              PathToDirective, History, DateEntered
+ Patient Health Information   PatientID, ProviderFirstName, ProviderLastName, SavedBy, DateSaved,
+ Capture                      DirectiveName, DirectiveText, DateActive, DateInactive, DirectiveTypeName,
+                              DirectiveTypeDesc, DirectiveLevel, IsActive, MedicalAlertType, Comments,
+                              PathToDirective, History
+ Patient Record Release       PatientID, Name, Address, City, State, Zipcode, Phone, URL, DateOfRelease,
+                              AuthorizationField, ReleaseReason, ReleasedBy, Fax, Comments, Method,
+                              IsFullPatientRecord, RecipientFirstName, RecipientLastName,
+                              RecipientOrganization, ReferralName, ReferralDateStarts, ReferralDateEnds,
+                              NumberOfVisits, ReferralComment, ReferralProviderFirstName,
+                              ReferralProviderLastName
+ Plan of Treatment            PatientID, EncounterDate, ProviderFirstName, ProviderLastName, Plan
+
+ Procedures                   PatientId, CPTCode, CPTdescription, CPTShortDescription, Fee, Charge, Units,
+                              Price, Comments, DatePerformed, Resolved, Sequence, AppealFlag, NDCCode,
+                              NDCUnits
+ Referrals                    PatientID, EnteredDate, ReferralName, ReferralFirstName, ReferralLastName,
+                              DateStarts, DateEnds, NumberOfVisits, Comment, Description,
+                              OnBehalfOfFirstName, OnBehalfOfLastName
+ Risk Factors                 PatientId, RiskFactorName, DateEntered, AddingProviderFirstName,
+                              AddingProviderLastName
+ Scheduling                   PatientID, AppointmentDate, VisitType, Comments, BookedByFirstName,
+                              BookedByLastName, DateBooked, ProviderFirstName, ProviderLastName,
+                              Duration, XLinkProviderID, VisitIdExternal, IsEditable, IsTelehealth
+ Smoking Statuses             PatientID, TobaccoStatusStartDate, TobaccoStatusEndDate, PacksPerDay,
+                              YearsSmoked, YearsQuit, IsSignedOff, DateRowAdded, TobaccoUseName,
+                              TobaccoUseNameExtra, DisplayOrder, SNOMED
+
+
+
+                                                    7
+CareTracker EHI Export: Folder Organization and Data Format Specification – v1.0
+
+ Tracked Data             PatientId, Item, Date, Value, Comments
+
+ Travel History           PatientId, StartDate, EndDate, Location, IsForeignLocation, Notes,
+                          CcdaGuidTravelHistory
+ User Defined Fields      PatientId, FieldValue, Template, DateEntered
+ Vital Signs              PatientId, EncounterDate, Temperature, PulseRate, BloodPressure,
+                          RespirationRate, BloodOxygen, Weight, Height, BMI, BP, Pulse, RR, WC, Sat,
+                          SatSuppO2Amount, Pain, PF(pre-bronchodilator), PF(post-bronchodilator),
+                          VisionOS, VisionOD, Hearing, HearingComments, LastMenstrualPeriod,
+                          EstimatedDeliveryDate, PregnancyComments, Other, HeadCircumference
+
+
+
+
+                                                8
+

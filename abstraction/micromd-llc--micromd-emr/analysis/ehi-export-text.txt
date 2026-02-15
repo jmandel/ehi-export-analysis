@@ -1,0 +1,969 @@
+                                                                                                  micromd.com
+
+
+     MicroMD EMR 170.315(b)(10) Electronic Health Information export (EHI)
+     This documentation provides information for the format of the export output when utilizing the MicroMD
+     EMR EHI export. The intended purpose satisfies the requirements of 2015 Edition Cures Update
+     Conformance Regulation §170.315(b)(10) Electronic Health Information export,
+
+     ONC Health IT Certifications
+     MicroMD’s EMR 2015 Edition Cures Update Certification Information
+
+     EHI Export File
+     A compressed file will be exported when using the EHI process within MicroMD EMR
+     (see user manual for instruction). The file will have a naming convention of the
+     practice id and the patient chart id (####.######.0). This file will be password
+     protected using the patient date of birth (mmddyyyy). The following files with
+     schema will be included with this compressed file.
+
+     EHI Export File Schema
+
+
+              • Billing.xml
+         <Billing>
+              <Superbill billingsource="" billingsourcerefid="" billingstatus=""
+         clinicid="" cptcode="" cptdescription="" datesent="" deptid="" encounterid=""
+         financialresponsibility="" guarantorid="" patientid="" paymentmethod=""
+         plansetid="" providerid="" recordedon="" servicefacilityguid="" transcomment=""
+         transactionid="" validated=""/>
+              <Diagnosis assessmentcode="" description="" finsuperbilldiagnosisid=""
+         rank="" snocode="" transactionid=""/>
+              <Diagnosis assessmentcode="" description="" findiagnosisid="" pointer=""
+         procedureid="" rank="" snocode="" transactionid=""/>
+              <Procedure amount="" billnumber="" completedstatus="" locationperformed=""
+         modifier="" performedby="" performedbyname="" proccomment="" procedurecode=""
+         procedureid="" quantity="" servicedatefrom="" servicedateto="" transactionid=""
+         validationerrorlevel=""/>
+              <Modifier description="" modifier="" procedureid="" rank=""
+         transactionid=""/>
+              <ReferringPhysician firstname="" lastname="" NPI="" phone="" physicianid=""
+         transactionid="" UPIN=""/>
+              <Insurance inspolicyid="" patinspolicyid="" planname="" policynumber=""
+         procedureid="" rank="" transactionid=""/>
+            </Billing>
+
+
+              • Encounters.xml
+         <Encounters>
+              <Encounters clinicid="" confidentiality="" cosignby="" cosignedon=""
+         cptencountercode="" dateofbirth="" deptid="" encountercatid="" encounterdate=""
+
+
+P: 330-758-8832 • F: 330-758-0182 – 3375 Canfield Rd, Unit 2835, Youngstown, OH 44511                           1
+
+Canfield, OH 44407
+                                                                                        micromd.com
+         encounterdisplay="" encounterduration="" encounterid=""
+         encounterlevelcriteria="" encounterlocation="" encounternature=""
+         encounterstatus="" encountertime="" encountertype="" examinationtype=""
+         externalid="" externalrefId="" firstname="" gender="" lastname="" noteid=""
+         patientid="" phone="" providerfirstname="" providerid="" providerlastname=""
+         recordedby="" recordedon="" recordingmethod="" revisiondate="" revisionflag=""
+         revisionid="" revisionno="" timesigned="" transitionofcareid="" visitid=""
+         voicetranscriptionid="" wizardid=""/>
+              <Reasons description="" encounterid="" reasonid="" recordedby=""
+         recordedon="" snocode=""/>
+              <Assessments>
+                      <Assessment assessmentid="" categorycode="" description=""
+         encounterid="" hcccode="" hccvalue="" icdcode="" noteid="" performedby=""
+         rank="" recordedby="" recordedon="" snocode="" status=""/>
+                      <AssessmentDetail assessmentcomment="" assessmentid=""
+         assessmentdetailid="" descriptorid="" encounterid="" formatteddescriptor=""
+         rank="" recordedby="" recordedon="" unit="" value=""/>
+                      <JustifyingAssessment description="" encounterid="" icdcode=""
+         justifyingassessmentid="" medicationid="" recordedby="" recordedon=""
+         snocode=""/>
+              </Assessments>
+              <Subjectives>
+                      <Subjective catrank="" categorycode="" description="" encounterid=""
+         noteid="" performedby="" rank="" recordedby="" recordedon="" snocode=""
+         status="" subjectiveid=""/>
+                      <SubjectiveDetail descriptorid="" encounterid=""
+         formatteddescriptor="" rank="" recordedby="" recordedon="" subjcomment=""
+         subjectiveid="" subjectivedetailid="" unit="" value=""/>
+              </Subjectives>
+              <Objectives>
+                      <Objective catrank="" categorycode="" description="" encounterid=""
+         noteid="" objectiveid="" performedby="" rank="" recordedby="" recordedon=""
+         snocode="" status=""/>
+                      <Objective descriptorid="" encounterid="" formatteddescriptor=""
+         objcomment="" objectiveid="" objectivedetailid="" rank="" recordedby=""
+         recordedon="" unit="" value=""/>
+              </Objectives>
+              <ReviewProblems>
+                      <ReviewProblem description="" encounterid="" icdcode="" noteid=""
+         performedby="" problemid="" rank="" recordedby="" recordedon="" snocode=""/>
+                      <ReviewProblemDetail descriptorid="" encounterid=""
+         formatteddescriptor="" problemcomment="" problemid="" rank="" recordedby=""
+         recordedon="" unit="" value=""/>
+              </ReviewProblems>
+              <Medications>
+                      <Medication administeredby="" administeredbyname="" ADPType=""
+         allowsubstitute="" begindate="" comment="" deletedby="" deletedon=""
+         deletedreason="" description="" dispenseqty="" dispenseqtyunit="" doseamount=""
+         doseform="" dosefrequency="" dosefrequencyunit="" durationlength=""
+         durationunit="" encounterid="" enddate="" gcnseqno="" isadministered=""
+         medicationid="" medid="" ndc="" noteid="" pharmacyinstr="" prescribedby=""
+         rank="" recordedby="" recordedon="" refill="" rxid="" rxnorm="" sigtext=""
+         status="" supplyrequested="" supplyrequestedunit="" terminatecode=""
+         terminatereason="" terminatedby=""/>
+                      <MedicationSig doseamount="" dosedelivery="" doseform=""
+         dosemodtext="" durationlength="" durationmodtext="" durationunit=""
+         encounterid="" frequency="" frequencymodtext="" frequencyunit="" interval=""
+
+P: 330-758-8832 • F: 330-758-0182 – 3375 Canfield Rd, Unit 2835, Youngstown, OH 44511                 2
+                                                                                        micromd.com
+         intervalunit="" medicationid="" multisigmodifier="" rank="" route=""
+         routemodtext="" sigid="" sigtext="" useasdirected=""/>
+              </Medications>
+              <Plans>
+                      <Plan apptdate="" appttime="" billitem="" categorycode=""
+         completedstatus="" cptcode="" createrequest="" dateperformed="" description=""
+         displaycategory="" encounterid="" instructioncode="" labcode="" labPanelcode=""
+         location="" modifier="" noteid="" orderid="" orderedfordate="" performedby=""
+         plancomment="" planduration="" planid="" preorder="" quantity="" rank=""
+         recordedby="" recordedon="" referredtoid="" referredtoname=""
+         referredtospeciality="" refusalreason="" resourceid="" resourcename="" status=""
+         vaccinecode="" validationerrorlevel="" xmlapptinstructions=""/>
+                      <Order createreminder="" description="" encounterid="" enddate=""
+         endsetby="" occurrences="" planid="" recurdayofmonth="" recurdayofweek=""
+         recurevery="" recurmonth="" recuroption="" recurpattern="" recurweekofmonth=""
+         recurringorderid="" reminderactivate="" reminderactivateunit="" reminderto=""
+         startdate=""/>
+                      <Diagnosis diagnosiscode="" diagnosisdescription="" diagnosisid=""
+         encounterid="" icdcode="" planid=""/>
+                      <Modifier description="" encounterid="" modifier="" modifierid=""
+         planid="" rank=""/>
+              </Plans>
+              <FaceTime apptdate="" begintime="" comment="" encounterid="" endtime=""
+         facetimeid="" patientid="" recordedby="" recordedon="" userid=""/>
+              <MedinfoLink deletedby="" description="" encmedinfoid="" encounterid=""
+         medinfoid="" medinfotype="" patientid="" recordedby="" recordedon=""/>
+              <Notes>
+                      <Note audiorecording="" encounterid="" graphic="" notedate=""
+         notedesc="" noteid="" notereftable="" notereftableid="" notetext="" notetype=""
+         recordedby="" recordedon=""/>
+                      <Group encgroupid="" encgroupnoteId="" encounterid="" note=""
+         notedate="" noteformat="" notetext="" recordedby="" recordedon=""/>
+              </Notes>
+            </Encounters>
+
+
+              • HealthScreening.xml
+         <HealthScreening>
+              <GoalMonitoring>
+                      <GoalMonitoring comment="" datecreated="" deletedby="" deletedon=""
+         description="" enddate="" fromdate="" goalcode="" goalid="" goalname=""
+         goalvalue="" lastupdated="" loinc="" monitoringmethod="" patientid=""
+         recordedby="" recordedon="" repeatnumber="" repeatunits=""
+         responsiblephysician="" riskcode="" riskname="" schedule="" status=""
+         teachingmethod=""/>
+                      <Progress daterecommended="" educationreceived="" educationtype=""
+         fromAge="" fromDate="" fromNumber="" fromUnits="" fromWhen="" goalid=""
+         lastupdated="" nextPhase="" patientid="" progresscomment="" progressdate=""
+         progressdescription="" progressid="" progressrating="" rank="" recordedby=""
+         recordedon="" resulttype="" resultvalue="" status="" untilNumber=""
+         untilUnits=""/>
+                      <ProgressInstructions description="" goalid="" instrid=""
+         instructioncode="" patientid="" progressid=""/>
+              </GoalMonitoring>
+              <HealthConcern>
+
+
+P: 330-758-8832 • F: 330-758-0182 – 3375 Canfield Rd, Unit 2835, Youngstown, OH 44511                 3
+                                                                                        micromd.com
+                      <HealthConcern begindate="" begindateisapprox=""
+         category="" categoryid="" deletedby="" deletedon="" description="" enddate=""
+         enddateisapprox="" healthconcerncomment="" healthconcernid="" lastupdated=""
+         patientid="" recordedby="" recordedon="" responsiblephysician="" riskscore=""
+         status="" terminatereason=""/>
+                      <Goals deletedby="" deletedon="" goalid="" healthconcernid=""
+         patientid="" rank="" recordedby="" recordedon=""/>
+                      <RelatedConcern category="" deletedby="" deletedon="" description=""
+         healthconcernid="" patientid="" recordedby="" recordedon="" relatedconcernid=""
+         snocode=""/>
+                      <RelatedRisk deletedby="" deletedon="" description=""
+         healthconcernid="" patientid="" recordedby="" recordedon="" relatedconcernid=""
+         snocode=""/>
+                      <CareTeam careteamid="" deletedby="" deletedon="" healthconcernid=""
+         lastupdated="" lastupdatedby="" patientid="" providerid="" recordedby=""
+         recordedon=""/>
+              </HealthConcern>
+              <HealthScreening>
+                      <HealthScreening commsyscode="" cptcode="" deletedby="" deletedon=""
+         encounterid="" externalid="" healthscreenid="" lastupdated="" lastupdatedby=""
+         loinc="" patientid="" questionnaireid="" reason="" recordedby="" recordedon=""
+         requestid="" respondent="" responsiblephysician="" resultviewed=""
+         resultviewedby="" resultviewedon="" screeningname="" submissionstatus=""
+         templateid="" timesigned=""/>
+                      <Question answer="" answerdecline="" answerid="" answerloinc=""
+         answerscore="" answertext="" answertype="" comment="" healthscreenid=""
+         patientid="" question="" questionid="" questionloinc="" questionrank=""
+         refsectionid="" screenquestionid="" sectionid="" showdecline=""/>
+                      <Answer answer="" answerid="" answerloinc="" answerrank=""
+         answerscore="" answertext="" healthscreenid="" patientid="" questionid=""/>
+                      <FollowUp category="" externalid="" followupid="" followupname=""
+         healthscreenid="" patientid="" resultid="" target=""/>
+                      <Result abbreviation="" alertflag="" description="" externalid=""
+         healthscreenid="" outcome="" patientid="" rank="" resultid="" resulttext=""
+         score="" scoreloinc="" sectionid=""/>
+                      <Section description="" healthscreenid="" patientid=""
+         refsectionid="" sectionabbreviation="" sectionid="" sectionloinc=""
+         sectionrank="" totalscoreloinc=""/>
+              </HealthScreening>
+              <Immunizations>
+                      <Immunization basedonrule="" datecreated="" deletedby=""
+         deletedon="" encounterid="" immunizationid="" isrecurring="" lastupdated=""
+         patientid="" recordedby="" recordedon="" repeatnumber="" repeatunits=""
+         responsiblephysician="" schedule="" status="" templateid="" untilnumber=""
+         untilunits="" vaccinecode="" vaccinename=""/>
+                      <Detail administeredstatus="" administratedtext=""
+         administratedtextconceptid="" cptcode="" cvxcode="" dategiven=""
+         dategivenisapprox="" daterecommended="" daterequested="" doseamount=""
+         doseunit="" expirydate="" fromAge="" fromDate="" fromNumber="" fromUnits=""
+         fromWhen="" immunizationid="" immunizationdetailid="" InfoSheetGiven=""
+         InfoSheetVersion="" lastupdated="" locationid="" locationname="" lotnumber=""
+         medimmunizationrequestid="" ndc="" notes="" patientid="" perfbyname=""
+         performedby="" placeadminstered="" productname="" protectionindicator=""
+         protectionindicatordate="" publicallysupplied="" rank="" recordedby=""
+         recordedon="" refundeligibility="" refusalreason="" responsiblephysician=""
+         routeadministered="" sideeffects="" sideeffectcode="" signed="" status=""
+
+
+P: 330-758-8832 • F: 330-758-0182 – 3375 Canfield Rd, Unit 2835, Youngstown, OH 44511                 4
+                                                                                        micromd.com
+         supplier="" supplierref="" untilNumber="" untilUnits=""
+         vaccinecode="" vaccinename="" wassideEffect=""/>
+                      <Info begindate="" enddate="" immunizationid=""
+         immunizationdetailid="" immunizationinfoid="" keyname="" keynamedescription=""
+         keyvalue="" keyvaluedescription="" patientid="" rank=""/>
+                      <Vis documentname="" immunizationid="" immunizationdetailid=""
+         info="" infosheetgiven="" infosheetgivenpresentedon=""
+         infosheetgivenpublishedon="" infosheetversion="" medimmunizationdetailvisid=""
+         patientid="" rank="" vaccinesheetid=""/>
+              </Immunizations>
+              <Risk comment="" deletedby="" deletedon="" description="" factors=""
+         lastupdated="" patientid="" recordedby="" recordedon="" responsiblephysician=""
+         riskid="" snocode=""/>
+              <Prevention>
+                      <Program basedonrule="" datecreated="" deletedby="" deletedon=""
+         description="" encounterid="" FromAge="" fromDate="" FromNumber="" FromUnits=""
+         FromWhen="" lastupdated="" loinc="" NotifyAppt="" NotifyEmail=""
+         NotifyReminder="" patientid="" proccode="" programdescription="" programid=""
+         recordedby="" recordedon="" repeatnumber="" repeatunits=""
+         responsiblephysician="" schedule="" status="" templateid="" UntilNumber=""
+         UntilUnits=""/>
+                      <Details administeredstatus="" cptcode="" dategiven=""
+         dategivenisapprox="" daterecommended="" description="" encounterid="" fromage=""
+         fromdate="" fromnumber="" fromunits="" fromwhen="" implementationcomment=""
+         implementationdescription="" lastupdated="" loinc="" patientid="" perfbyname=""
+         performedby="" preventiondetailid="" programid="" rank="" recordedby=""
+         recordedon="" refusalreason="" responsiblephysician="" resultstatus=""
+         resultvalue="" status="" untilnumber="" untilunits=""/>
+                      <AssociatedPrograms assocprogramid="" codetype="" cptcode=""
+         description="" loinc="" patientid="" programid="" rank="" screeningid=""/>
+              </Prevention>
+            </HealthScreening>
+
+
+              • Histories.xml
+         <Histories>
+              <Family begindate="" begindateisapprox="" beginperfbyname="" confidential=""
+         deceased="" deletedby="" deletedon="" description="" encounterid="" enddate=""
+         enddateisapprox="" endperformedby="" familialrelationship="" familymemberage=""
+         familymemberagedeath="" familymemberdob="" familymembername="" historycomment=""
+         historyid="" historytype="" icdcode="" isnegative="" noknown="" patientid=""
+         proccode="" procdescription="" recordedby="" recordedon=""
+         relationshipdescription="" responsiblephysician="" snocode=""
+         terminatereason=""/>
+              <Medical begindate="" begindateisapprox="" beginperfbyname=""
+         confidential="" deceased="" deletedby="" deletedon="" description=""
+         encounterid="" enddate="" enddateisapprox="" endperformedby=""
+         familialrelationship="" familymemberage="" familymemberagedeath=""
+         familymemberdob="" familymembername="" historycomment="" historyid=""
+         historytype="" icdcode="" isdeleted="" isnegative="" isnoknown="" noknown=""
+         patientid="" proccode="" procdescription="" recordedby="" recordedon=""
+         relationshipdescription="" responsiblephysician="" snocode=""
+         terminatereason=""/>
+              <Social begindate="" begindateisapprox="" beginperfbyname="" confidential=""
+         deceased="" deletedby="" deletedon="" description="" encounterid="" enddate=""
+         enddateisapprox="" endperformedby="" familialrelationship="" familymemberage=""
+
+P: 330-758-8832 • F: 330-758-0182 – 3375 Canfield Rd, Unit 2835, Youngstown, OH 44511                 5
+                                                                                        micromd.com
+         familymemberagedeath="" familymemberdob="" familymembername=""
+         historycomment="" historyid="" historytype="" icdcode="" isnegative=""
+         noknown="" patientid="" proccode="" procdescription="" recordedby=""
+         recordedon="" relationshipdescription="" responsiblephysician="" snocode=""
+         terminatereason=""/>
+              <Surgical begindate="" begindateisapprox="" beginperfbyname=""
+         confidential="" deceased="" deletedby="" deletedon="" description=""
+         encounterid="" enddate="" enddateisapprox="" endperformedby=""
+         familialrelationship="" familymemberage="" familymemberagedeath=""
+         familymemberdob="" familymembername="" historycomment="" historyid=""
+         historytype="" icdcode="" isalert="" isdeleted="" isnegative="" isnoknown=""
+         noknown="" patientid="" proccode="" procdescription="" recordedby=""
+         recordedon="" relationshipdescription="" responsiblephysician="" snocode=""
+         terminatereason=""/>
+              <Birth apgar5minute="" apgarbirth="" birthno="" birthsyndrome=""
+         birthdate="" bloodgroup="" chestcircumference="" comment="" dateadmitted=""
+         deletedby="" deletedon="" deliverymethod="" deliverypresentation=""
+         encounterid="" fetaldistress="" gestation="" headcircumference="" height=""
+         historyid="" hospital="" laborlength="" lastupdated="" lengthofstay=""
+         maternalhistory="" multiplebirthorder="" NoOfFeatuses="" NoOfFeatusesLiving=""
+         obstetrition="" patientid="" pediatrition="" Pku="" recordedby="" recordedon=""
+         responsiblephysician="" T4="" toxicology="" units="" weightbirth=""
+         weightreleased=""/>
+              <Sexual begindate="" begindateisapprox="" beginperfbyname="" confidential=""
+         deletedby="" deletedon="" description="" enddate="" enddateisapprox=""
+         endperformedby="" historycomment="" historyid="" isnegative="" lastupdated=""
+         noknown="" numberofpartners="" numberofpastPartners="" patientid=""
+         recordedby="" recordedon="" responsiblephysician="" sexualcategory="" snocode=""
+         terminatereason="" treatment="" vaginalintercourse=""/>
+              <Asthma admissions="" anaphylaxis="" asthmaid="" bronchodilatorunits=""
+         bronchodilators="" deletedby="" deletedon="" diagnosedby="" encounterid=""
+         episodeunits="" episodes="" eradmissions="" fef="" fev1="" fvc=""
+         historycomment="" icuadmissions="" intubations="" lastupdated="" lastRast=""
+         LastSkintest="" misseddays="" noknown="" nocturnalsymptoms="" patientid=""
+         pef="" recordedby="" recordedon="" responsiblephysician="" severitylevel=""
+         sinceage="" steroids="" symptomcoughing="" symptomextolerance="" symptomsob=""
+         symptomsputum="" symptomwheezing="" triggerallergens="" triggeremotions=""
+         triggerexercise="" triggerfatigue="" triggerinfections="" triggerlaughing=""
+         worseday="" worsefall="" worsespring="" worsesummer="" worsewinter=""/>
+              <Habit begindate="" begindateisapprox="" description="" enddate=""
+         enddateisapprox="" frequency="" habitcategory="" habitcomment="" habitid=""
+         isalert="" isdeleted="" isnegative="" patientid=""/>
+              <Hospital>
+                      <Hospitalization admissionreason="" begindate="" confidential=""
+         dateisapprox="" deletedby="" deletedon="" department="" dischargereason=""
+         emergencyroomonly="" encounterid="" hospital="" hospitalizationcomment=""
+         hospitalizationid="" lastupdated="" lengthofstay="" noknown="" noteid=""
+         numberofhospitalizations="" patientid="" recordedby="" recordedon=""
+         responsiblephysician=""/>
+                      <Procedure cptcode="" hospprocid="" hospitalizationid=""
+         instructioncode="" laterality="" patientid="" procdescription=""/>
+                      <Diagnosis diagdescription="" hospdiagid="" hospitalizationid=""
+         icdcode="" patientid="" snocode=""/>
+                      <Report attendingprovider="" comment="" commsyscode="" deletedby=""
+         deletedon="" department="" hospital="" hospitalizationid="" hospitalreportid=""
+         lastupdated="" orderdate="" orderedby="" patientid="" providerid=""
+         recordedby="" recordedon="" referenceid="" reportcategory="" reportdate=""
+
+P: 330-758-8832 • F: 330-758-0182 – 3375 Canfield Rd, Unit 2835, Youngstown, OH 44511                 6
+                                                                                        micromd.com
+         reportname="" reporttext="" resultstatus="" resultviewed=""
+         resultviewedby="" resultviewedon="" resultstotype="" timesigned=""
+         transcribedby=""/>
+              </Hospital>
+              <Consent comment="" consentcategory="" consentitem="" consentreason=""
+         consenthistoryid="" description="" docid="" documentrefid="" documenttype=""
+         formid="" lastupdated="" patientid="" recordedby="" recordedon=""/>
+            </Histories>
+
+
+              • MedicalInfo.xml
+         <MedicalInfo>
+              <Allergies allergycode="" allergycomment="" allergyid="" allergyreaction=""
+         allergyrefCode="" allergyrefId="" allergyrefType="" allergyseverity=""
+         allergytype="" begindate="" begindateisapprox="" beginperfbyname="" deletedby=""
+         deletedon="" description="" encounterid="" enddate="" enddateisapprox=""
+         endperformedby="" isalert="" isdeleted="" isnegative="" isnoknown="" noknown=""
+         patientid="" recordedby="" recordedon="" responsiblephysician=""
+         severitydescription="" terminatereason="" typedescription=""/>
+              <Problems>
+                      <Problem begindate="" begindateisapprox="" beginperfbyname=""
+         chronicity="" description="" enddate="" enddateisapprox="" icd10code=""
+         icdcode="" isalert="" isdeleted="" isnegative="" isnoknown="" laterality=""
+         patientid="" problemcomment="" problemid="" severity="" snocode="" status=""/>
+                      <Cancer behavior="" cancerid="" comment="" deletedby="" deletedon=""
+         diagconfirmation="" distantmetastases="" exportable="" grade="" histology=""
+         laterality="" patientid="" primarysite="" primarytumor="" problemid=""
+         recordedby="" recordedon="" regionallymph="" stagedescriptor="" stagegroup=""
+         stagetype="" stagedby="" statusdate=""/>
+              </Problems>
+              <Vital bloodsugar="" bmi="" bmirefusalreason="" bodyposition=""
+         bprefusalreason="" commsyscode="" cuffsize="" dateperformed="" deletedby=""
+         deletedon="" diastolic="" directionofmeasure="" encounterid=""
+         estimatedduedate="" externalid="" fetalheartpresent="" fetalheartrate=""
+         fetalhearttype="" flowrate="" headcircumference="" height="" isnursing=""
+         ispregnant="" lastmenstrualperiod="" lastupdated="" oxygensaturation=""
+         oxygentank="" painseverity="" patientadded="" patientid="" peekflow=""
+         performedby="" pulserate="" pulsetype="" recordedby="" recordedon=""
+         respiratoryrate="" responsiblephysician="" systolic="" temperature=""
+         temperaturetaken="" vitalsigncomment="" vitalsignid="" waistcircumference=""
+         weight=""/>
+              <Medication ADPType="" alertid="" allowsubstitute="" bdage="" bdagetype=""
+         bddatetype="" begindate="" begindateisapprox="" beginperfbyname="" category=""
+         comment="" deletedby="" deletedon="" deptid="" description=""
+         dispensedescription="" dispenseqty="" dispenseqtyunit="" dosagedescription=""
+         doseamount="" doseform="" dosefrequency="" dosefrequencyunit=""
+         durationlength="" durationunit="" edage="" edagetype="" eddatetype=""
+         encmedicationid="" encounterdate="" encounterid="" enddate="" enddateisapprox=""
+         endperformedby="" epaid="" gcnseqno="" itemid="" medid="" ndc="" noknown=""
+         patientid="" pharmacyinstr="" premedId="" prescripmedid="" prescriptionid=""
+         rank="" recordedby="" recordedon="" refill="" refillperiod=""
+         refillremindprovider="" responsiblephysician="" restartdate="" rxid=""
+         rxstatus="" RXNorm="" subclass="" supplyrequested="" supplyrequestedunit=""
+         terminatecode="" terminatereason=""/>
+              <TestResults abnormalflag="" abnormalreason="" classname="" commsyscode=""
+         datereported="" description="" loinc="" orderdate="" orderid="" patientadded=""
+
+P: 330-758-8832 • F: 330-758-0182 – 3375 Canfield Rd, Unit 2835, Youngstown, OH 44511                 7
+                                                                                        micromd.com
+         patientid="" recordedby="" recordedon="" resultanalysis=""
+         resultcode="" resultid="" resultnote="" resultviewed="" resultsto="" testcode=""
+         testcomment="" testid="" testname="" testnormal="" testnotes="" teststatus=""
+         testunits="" testvalue=""/>
+              <Behavior>
+                      <Behavior behaviorid="" deletedby="" deletedon="" encounterid=""
+         lastupdated="" lastupdatedby="" patientid="" questionnaireid=""
+         questionnairename="" reason="" recordedby="" recordedon=""
+         responsiblephysician="" resultviewed="" resultviewedby="" resultviewedon=""
+         timesigned=""/>
+                      <Question answer="" answerdecline="" answerid="" answerloinc=""
+         answerscore="" answertext="" answertype="" behaviorid="" behaviorquestionid=""
+         comment="" patientid="" question="" questionid="" questionloinc=""
+         questionrank="" refsectionid="" sectionid="" showdecline=""/>
+                      <Answer answer="" answerid="" answerloinc="" answerrank=""
+         answerscore="" behaviorid="" patientid="" questionid=""/>
+                      <Section behaviorid="" description="" patientid="" refsectionid=""
+         sectionabbreviation="" sectionid="" sectionloinc="" sectionrank=""
+         totalscoreloinc=""/>
+              </Behavior>
+              <ClinicalDecisionSupport>
+                      <Alert alertid="" alertname="" alerttext="" externalid=""
+         patientid="" prioritycode="" treatmentid=""/>
+                      <AlertAction actdescription="" actid="" actname="" alertid=""
+         classcode="" code="" codeSystem="" isnegative="" patientid="" prioritycode=""
+         treatmentid=""/>
+                      <AlertReference alertid="" patientid="" referenceid=""
+         referencesource="" referencetext="" treatmentid=""/>
+                      <Recommendation description="" patientid="" rank=""
+         recomendationid="" treatmentid=""/>
+                      <Treatment catalogname="" effectivetime="" externalid=""
+         patientid="" providerid="" recordedon="" title="" transmitid="" treatmentid=""/>
+              </ClinicalDecisionSupport>
+              <Ultraspimd abdominalcircumf="" acdate="" amnioticfluid="" bpd="" bpddate=""
+         crownrumplength="" crownrumplengthdate="" dateisapprox="" dateperformed=""
+         deletedby="" deletedon="" encounterid="" femur="" femurdate=""
+         fetalultrasoundunits="" fetusno="" gestationalsacdiameter=""
+         gestationalsacdiameterdate="" hcdate="" headcircumf="" heartbeatrate=""
+         heartbeattype="" humeruslength="" humeruslengthdate="" instructions=""
+         lastupdated="" noknown="" nuchalskinfold="" nuchalskinfolddate="" obcareid=""
+         occipitofrontaldiameter="" occipitofrontaldiameterdate="" overseenby=""
+         overseenbyid="" patientid="" performedat="" placentacond="" placentapos=""
+         position="" recordedby="" recordedon="" responsiblephysician=""
+         ultrasoundcomment="" ultrasoundid="" umbilicalcord="" units="" weight=""
+         yolksacdiameter="" yolksacdiameterdate=""/>
+              <Operation>
+                      <Operation datedecided="" dateperformed="" datescheduled=""
+         decidedby="" deletedby="" deletedon="" operatingroom="" operationcomment=""
+         operationid="" operationreason="" operationstart="" operationtype=""
+         operationtypedescr="" patientid="" priority="" recordedby="" recordedon=""
+         responsiblephysician="" status=""/>
+                      <Procedure comment="" cptcode="" description="" laterality=""
+         operationid="" patientid="" procedureid="" proceduretype=""/>
+                      <Diagnosis comment="" description="" diagnosisid="" diagnosistype=""
+         icdcode="" operationid="" patientid="" snocode=""/>
+                      <Medication comment="" description="" doseamount="" doseform=""
+         medicationid="" medicationtype="" medid="" ndc="" operationid="" patientid=""/>
+
+P: 330-758-8832 • F: 330-758-0182 – 3375 Canfield Rd, Unit 2835, Youngstown, OH 44511                 8
+                                                                                        micromd.com
+                      <Flow actioncode="" actionname="" actiontype=""
+         actualtime="" comment="" estimatedtime="" flowid="" operationid="" patientid=""
+         rank=""/>
+                      <Personal comment="" operationid="" patientid="" personalid=""
+         userfunction="" userid=""/>
+              </Operation>
+              <Treatment>
+                      <Treatment begindate="" comment="" deletedby="" deletedon=""
+         encounterid="" enddate="" frequency="" frequencyunit="" lastupdated=""
+         lastupdatedby="" nextreviewdate="" outsideinvolvement="" patientcopy=""
+         patientid="" projectedenddate="" reason="" recordedby="" recordedon=""
+         responsiblephysician="" reviewinterval="" servicesneeded="" status=""
+         templateid="" treatmentid="" treatmentname="" treatmenttype=""/>
+                      <Objective begindate="" deletedby="" deletedon="" description=""
+         enddate="" lastupdated="" lastupdatedby="" objectiveid="" patientid=""
+         problemid="" projectedenddate="" recordedby="" recordedon="" treatmentid=""/>
+                      <Problem comment="" deletedby="" deletedon="" description=""
+         goalcode="" goals="" lastupdated="" lastupdatedby="" patientid="" problemid=""
+         rank="" recordedby="" recordedon="" snocode="" status="" treatmentid=""/>
+                      <Medication begindate="" deletedby="" deletedon="" description=""
+         enddate="" lastupdated="" lastupdatedby="" medicationid="" medid="" patientid=""
+         prescripmedid="" problemid="" providerid="" recordedby="" recordedon=""
+         sigtext="" treatmentid=""/>
+                      <Intervention begindate="" cptcode="" deletedby="" deletedon=""
+         description="" interventionid="" lastupdated="" lastupdatedby="" patientid=""
+         problemid="" providerid="" recordedby="" recordedon="" treatmentid=""/>
+                      <Progress deletedby="" deletedon="" description="" lastupdated=""
+         lastupdatedby="" patientid="" problemid="" progressid="" progressrating=""
+         providerid="" recordedby="" recordedon="" reviewdate="" treatmentid=""/>
+                      <CareTeam careteamid="" careteamtype="" careteamtypeId=""
+         deletedby="" deletedon="" lastupdated="" lastupdatedby="" patientid=""
+         providerid="" recordedby="" recordedon="" treatmentid=""/>
+              </Treatment>
+            </MedicalInfo>
+
+
+              • Miscellaneous.xml
+         <Miscellaneous>
+              <Attachments>
+                      <Attachment attachmentcategory="" attachmentcomment=""
+         attachmentfileid="" attachmentfor="" attachmentformat="" attachmentid=""
+         attachmentname="" attachmentviewed="" contentstatus="" dateperformed=""
+         deletedby="" deletedon="" docid="" encounterid="" externalref="" lastupdated=""
+         loinc="" pagenames="" patientid="" priority="" recordedby="" recordedon=""
+         responsiblephysician="" signed="" size=""/>
+                      <MedinfoLink attlinkid="" attachmentid="" patientid=""
+         refcategory="" refId="" testresult=""/>
+              </Attachments>
+              <Letter communiqueid="" confidential="" deletedby="" deletedon=""
+         description="" docid="" encounterid="" lastupdated="" lettercomment=""
+         letterfileId="" letterformat="" patientid="" recordedby="" recordedon=""
+         responsiblephysician="" sentfrom="" sentto="" signed=""/>
+              <Directive begindate="" deletedby="" deletedon="" directiveid=""
+         encounterid="" enddate="" instruction="" lastupdated="" patientid=""
+         recordedby="" recordedon="" responsiblephysician="" subject=""/>
+
+
+P: 330-758-8832 • F: 330-758-0182 – 3375 Canfield Rd, Unit 2835, Youngstown, OH 44511                 9
+                                                                                        micromd.com
+              <Education deletedby="" deletedon="" description="" docid=""
+         documentname="" eduformat="" edusource="" educationid="" encounterid=""
+         givenforcode="" givenfordescription="" givenfortype="" lastupdated=""
+         learningbarriers="" pateducategory="" pateducomment="" pateduid="" patientid=""
+         patientresponse="" recordedby="" recordedon="" responsiblephysician=""
+         teachingmethod="" url=""/>
+              <ReferralIn authorizationcode="" authorizationeffectivedate=""
+         authorizationexpirydate="" authorizedtotalvisits="" authorizedusedvisits=""
+         confidential="" confirmpatient="" daterequested="" deletedby="" deletedon=""
+         eligibility="" insurancepolicyno="" lastupdated="" obtainedauthorization=""
+         patientid="" patinspolicyid="" priority="" recordedby="" recordedon=""
+         referralfor="" referralid="" referralreason="" referredby="" referredbyname=""
+         requestedby="" servicerequested="" status="" statuscomment="" subject=""/>
+              <TransitionOfCare begindate="" clinicid="" deletedby="" deletedon=""
+         deptid="" direction="" directiondescription="" enddate="" msgid="" patientid=""
+         patientname="" priority="" receiverid="" receivername="" recordedby=""
+         recordedon="" referralid="" senderid="" sendername="" summaryofcarestatus=""
+         toccomment="" tocdetail="" tocformtype="" tocformtypedescription="" tocreason=""
+         transitionofcareid=""/>
+            </Miscellaneous>
+
+
+              • Orders.xml
+         <Orders>
+              <Order classname="" completebydate="" daterequested="" deletedby=""
+         deletedon="" description="" encounterid="" medinfoclass="" ordercategoryid=""
+         patientid="" priority="" receiverid="" receivername="" recordedby=""
+         recordedon="" requestid="" resultid="" senderid="" sendername=""
+         statusdisplay="" worktodocomment="" worktodoid="" worktodostatus=""/>
+            </Orders>
+
+
+              • Patient.xml
+         <Patient>
+              <Demographic additionalphone="" age="" alternatephone="" beeper="" city=""
+         confidentialcommunicationpreference="" confidentiality="" contactmethod=""
+         countrycode="" countryoforigin="" datedeceased="" dateofbirth="" email=""
+         employmentstatus="" ethnicgroup="" externalid="" familialrelationship=""
+         familyid="" familysize="" fathersname="" fax="" firstname="" firstvisit=""
+         gender="" genderdisplay="" genderidentity="" genderidentitynote="" homeless=""
+         identityno="" identitynolast4="" immigrationdate="" lastname="" lastupdated=""
+         lastvisit="" maidenname="" maritalstatus="" middlename="" migrant="" mobile=""
+         mobileemail="" nationality="" noteid="" occupation="" patientcomment=""
+         patientid="" patientlastfirst="" patientname="" patientprimaryphone=""
+         patientstatus="" phone="" phonelast4="" prefcontactmethod="" primarylanguage=""
+         primaryphysician="" race="" racedisplay="" recordedon="" referenceno=""
+         religion="" reportingstatus="" sexualorientation="" sexualorientationnote=""
+         statecode="" streetaddress="" streetaddress2="" suffix="" title=""
+         yearlyincome="" zip=""/>
+              <Addresses>
+                      <Current additionalphone="" addressenddate=""
+         addressenddateisapprox="" addressstartdate="" addressstartdateisapprox=""
+         alternatephone="" beeper="" city="" contactmethod="" countrycode="" county=""
+         email="" fax="" mobile="" mobileemail="" patientid="" patientprimaryphone=""
+         patientsecondaryphone="" patientaddressid="" phone="" phonelast4="" statecode=""
+
+P: 330-758-8832 • F: 330-758-0182 – 3375 Canfield Rd, Unit 2835, Youngstown, OH 44511                 10
+                                                                                        micromd.com
+         streetaddress="" streetaddress2="" unformattedadditionalphone=""
+         unformattedmobile="" unformattedphone="" zip="" zipid="" zip4=""/>
+                      <Alternate additionalphone="" addressenddate=""
+         addressenddateisapprox="" addressstartdate="" addressstartdateisapprox=""
+         alternatephone="" beeper="" city="" contactmethod="" countrycode="" county=""
+         email="" fax="" mobile="" mobileemail="" patientid="" patientprimaryphone=""
+         patientsecondaryphone="" patientaddressid="" phone="" phonelast4="" statecode=""
+         streetaddress="" streetaddress2="" unformattedadditionalphone=""
+         unformattedmobile="" unformattedphone="" zip="" zipid="" zip4=""/>
+              </Addresses>
+              <FamilyMember familypatientid="" familymemberrelation="" name=""
+         patientid=""/>
+              <Contact additionalphone="" city="" contactclass="" contactid=""
+         contactpatientid="" contactrank="" contactrelationship="" dateofbirth=""
+         displayname="" email="" fax="" firstname="" gender="" identityno=""
+         institutionname="" isprimary="" lastname="" mobile="" patcontactid=""
+         patientid="" phone="" relationshipdescription="" statecode="" streetaddress=""
+         streetaddress2="" zip=""/>
+              <Insurance acceptassignment="" begindate="" coinsurance="" comment=""
+         copay="" copaylevel="" deductible="" description="" enddate="" groupnumber=""
+         holdercontactid="" holderpatientid="" inscompanyname=""
+         inscompanyplanaddress1="" inscompanyplanaddress2=""
+         inscompanyplanauthorizationphone="" inscompanyplancarriercode=""
+         inscompanyplancity="" inscompanyplancode="" inscompanyplaneligibilityphone=""
+         inscompanyplanfax="" inscompanyplanfirstname="" inscompanyplaninsuranceclass=""
+         inscompanyplanlastname="" inscompanyplanname="" inscompanyplanphone=""
+         inscompanyplanplancode="" inscompanyplansourceofpay="" inscompanyplanstate=""
+         inscompanyplanzip="" inspolicyclassname="" inspolicyid="" insuranceplanid=""
+         insuredid="" isactive="" isdefault="" patientid="" patinspolicyid=""
+         plansetid="" policyholdercity="" policyholdercountrycode=""
+         policyholderdateofbirth="" policyholderfirstname="" policyholdergender=""
+         policyholderidentityno="" policyholderlastname="" policyholdermiddlename=""
+         policyholderphone="" policyholderrelsnocode="" policyholderrelationship=""
+         policyholderstatecode="" policyholderstreetaddress=""
+         policyholderstreetaddress2="" policyholdersuffix="" policyholderzip=""
+         policynumber="" rank="" refinsuranceplanid="" setname="" setno="" settype=""/>
+              <Providers>
+                      <Practice app="" city="" countrycode="" degree="" email="" fax=""
+         firstname="" lastname="" middlename="" npi="" patientid="" phone=""
+         practiceid="" professionalsuffix="" providertype="" statecode=""
+         streetaddress="" streetaddress2="" suffix="" taxdesc="" taxnumber=""
+         taxonomycode="" title="" upin="" userid="" zip=""/>
+                      <Referring address="" address2="" city="" classname="" clinic=""
+         deanumber="" department="" externalid="" fax="" firstname="" gender=""
+         isprimary="" lastname="" mobile="" mobileemail="" notes="" NPI=""
+         patcontactid="" patientid="" phone="" phone2="" professionalsuffix=""
+         providername="" rank="" refproviderid="" role="" specialtycode=""
+         specialtyname="" state="" suffix="" taxonomycode="" title="" UPIN="" zip=""/>
+              </Providers>
+              <Consent ccmbillingplanset="" ccmbillingprovider="" ccmcareteam=""
+         ccmchronicconditions="" ccmcomplex="" ccmparticipationelsewhere="" comment=""
+         consentdate="" consentfor="" consentid="" consentstatus="" dateterminated=""
+         deletedby="" deletedon="" ImmunizationRegistryStatusEffectiveDate=""
+         lastupdated="" patientid="" PublicityCodeEffectiveDate="" recordedby=""
+         recordedon="" refconsentid=""/>
+
+
+
+
+P: 330-758-8832 • F: 330-758-0182 – 3375 Canfield Rd, Unit 2835, Youngstown, OH 44511                 11
+                                                                                        micromd.com
+              <ConfidentialInfo confidentialinfoid="" deletedby=""
+         deletedon="" encounterid="" infocomment="" lastupdated="" patientid=""
+         physicianid="" recordedby="" recordedon="" subject=""/>
+            </Patient>
+
+
+              • Schedule.xml
+         <Schedule>
+              <Appointment aptmadeby="" aptwith="" begintime="" bookid="" clinicname=""
+         comment="" departmentname="" endtime="" id="" ondate="" patientid="" priority=""
+         speciality="" status="" subject=""/>
+            </Schedule>
+
+
+              • Specialty.xml
+         <Specialty>
+              <Vision>
+                      <Test dateisapprox="" dateperformed="" deletedby="" deletedon=""
+         encounterid="" eyeid="" eyetesttype="" eyetestunits="" lastupdated="" noknown=""
+         nvcomment="" nvccleft="" nvccleftbot="" nvccright="" nvccrightbot="" nvscleft=""
+         nvscleftbot="" nvscright="" nvscrightbot="" patientid="" presentaxisleft=""
+         presentaxisright="" presentbc="" presentbrand="" presentcylinderleft=""
+         presentcylinderleftpos="" presentcylinderright="" presentcylinderrightpos=""
+         presentdia="" presentlenses="" presentnearaddleft="" presentnearaddright=""
+         presentprismdirleft="" presentprismdirright="" presentprismvalueleft=""
+         presentprismvalueright="" presentsphereleft="" presentsphereleftpos=""
+         presentsphereright="" presentsphererighttpos="" presentvisiondefect=""
+         presentPdc="" recaxisleft="" recaxisright="" recbc="" recbrand=""
+         reccylinderleft="" reccylinderleftpos="" reccylinderright=""
+         reccylinderrightpos="" recdia="" reclenses="" recnearaddleft=""
+         recnearaddright="" recpdc="" recprismdirleft="" recprismdirright=""
+         recprismvalueleft="" recprismvalueright="" recsphereleft="" recsphereleftpos=""
+         recsphereright="" recsphererightpos="" recvisiondefect="" recordedby=""
+         recordedon="" responsiblephysician="" vacomment="" vaccbothbot="" vaccbothtop=""
+         vaccleftbot="" vacclefttop="" vaccrightbot="" vaccrighttop="" vascbothbot=""
+         vascbothtop="" vascleftbot="" vasclefttop="" vascrightbot="" vascrighttop=""/>
+                      <Confrontation concomment="" conlefteyeabnormal="" conlefteyefull=""
+         conlefteyenorest="" conlefteyenormal="" conlefteyerest="" conna=""
+         conrighteyeabnormal="" conrighteyefull="" conrighteyenorest=""
+         conrighteyenormal="" conrighteyerest="" coverccesop="" coverccesot=""
+         coverccexop="" coverccexot="" covercchyperpho="" covercchypertro=""
+         covercchypopho="" covercchypotro="" coverccortho="" covercomment="" coverna=""
+         coverscesop="" coverscesot="" coverscexop="" coverscexot="" coverschyperpho=""
+         coverschypertro="" coverschypopho="" coverschypotro="" coverscortho=""
+         extraocularcomment="" extraocularjerky="" extraocularna="" extraocularpainful=""
+         extraocularrestLE="" extraocularrestRE="" extraocularsafe=""
+         extraocularunablefollow="" eyeid="" patientid="" testid=""/>
+                      <Tonometry colorcomment="" colorleftbot="" colorlefttop=""
+         colorna="" colorrightbot="" colorrighttop="" colortype="" eyeid=""
+         firstmedicationmedid="" firstmedicationtype="" medicationcomment=""
+         medicationna="" patientid="" secondmedicationmedid="" secondmedicationtype=""
+         testid="" tonometrycomment="" tonometrylefteye="" tonometryna=""
+         tonometryrighteye="" tonometrytype=""/>
+              </Vision>
+              <Hearing>
+
+P: 330-758-8832 • F: 330-758-0182 – 3375 Canfield Rd, Unit 2835, Youngstown, OH 44511                 12
+                                                                                        micromd.com
+                      <Test comment="" dateisapprox="" dateperformed=""
+         deletedby="" deletedon="" encounterid="" hearingid="" hearingtype=""
+         increment="" lastupdated="" patientid="" performedby="" recordedby=""
+         recordedon="" responsiblephysician=""/>
+                      <Level frequency="" hearingid="" hearinglevel="" masklevel=""
+         patientid="" side="" testid="" testtype=""/>
+                      <Threshold hearingid="" leftbottomMask="" lefttopMask=""
+         leftvalue="" patientid="" rightbottommask="" righttopmask="" rightvalue=""
+         type=""/>
+                      <Report hearingid="" hearingreport="" patientid=""/>
+              </Hearing>
+              <Diabetes>
+                      <Diabetes anticipatorydose="" chomedication="" compmedication=""
+         dateperformed="" deletedby="" deletedon="" diabetescomment="" diabetesid=""
+         diabetesunits="" encounterid="" insulinlessthan="" insulinmorethan=""
+         lastupdated="" levellessthan="" levelmorethan="" numberofdays="" pmedication=""
+         patientid="" recordedby="" recordedon="" responsiblephysician="" smedication=""
+         tmedication="" targetfrom="" targetto=""/>
+                      <BasicDose choratio="" diabetesid="" dosewhen="" pdoseqty=""
+         patientid="" rank="" sdoseqty="" tdoseqty=""/>
+                      <CompDose diabetesid="" dosevalue="" label="" patientid=""
+         rangefrom="" rangeto="" rank=""/>
+                      <PumpBasalRate diabetesid="" patientid="" qty="" rank="" timefrom=""
+         timeto=""/>
+              </Diabetes>
+              <Pediatric agemonths="" deletedby="" deletedon="" developcomment=""
+         developmentid="" encounterid="" lastupdated="" patientid="" recordedby=""
+         recordedon="" responsiblephysician=""/>
+              <Genetic>
+                      <Screening code="" deletedby="" deletedon="" description=""
+         encounterid="" geneticcomment="" geneticid="" lastupdated="" patientid=""
+         recordedby="" recordedon="" responsiblephysician="" screeningresult=""/>
+                      <Family familialrelationship="" geneticid="" patientid="" rank=""/>
+              </Genetic>
+              <Geriatric>
+                      <Geriatric deletedby="" deletedon="" encounterid="" geriatricid=""
+         lastupdated="" patientid="" recordedby="" recordedon=""
+         responsiblephysician=""/>
+                      <Questions answerdescription="" answerid="" answerrating=""
+         comment="" geriatricid="" patientid="" questioncategory=""
+         questiondescription="" questionid=""/>
+              </Geriatric>
+              <Allergy>
+                      <Allergen allergenid="" category="" erythema="" patientid=""
+         testCode="" testName="" wheal=""/>
+                      <AllergenForm allergenid="" deletedby="" deletedon="" encounterid=""
+         lastupdated="" patientid="" recordedby="" recordedon=""
+         responsiblephysician=""/>
+              </Allergy>
+            </Specialty>
+
+
+              • WomenHealth.xml
+         <WomenHealth>
+              <Obstetrics>
+
+
+P: 330-758-8832 • F: 330-758-0182 – 3375 Canfield Rd, Unit 2835, Youngstown, OH 44511                 13
+                                                                                        micromd.com
+                     <Care active="" anesthesia="" anesthesiadate=""
+         authorizationcode="" authorizationexpirydate="" begindate="" Bloodbank=""
+         bloodbankdate="" circumcision="" circumcisiondate="" comment="" deletedby=""
+         deletedon="" DisabilityForms="" duedate="" eligibility="" enddate="" father=""
+         fatherphone="" formdate="" gestationalage="" hospital="" initialdate=""
+         insurancepolicyno="" lastupdated="" lmp="" newborndr="" noknown="" obcareid=""
+         obstetrician="" obtainedauthorization="" partner="" partnerphone="" patientid=""
+         patinspolicyid="" pcp="" pregnancycode="" pregnancyno="" recordedby=""
+         recordedon="" referring="" transdate="" transfusion="" tubaldate=""
+         TubalSterilize=""/>
+                     <InitialExam abdomen="" activepregnancy="" adnexa=""
+         beginperfbyname="" breasts="" cervix="" clinicalpelvimetry="" comment=""
+         deletedby="" deletedon="" encounterid="" extremities="" fibroids="" fundi=""
+         heart="" heent="" initialexamid="" lastupdated="" lungs="" lymphnodes=""
+         obcareid="" patientid="" physicaldate="" recordedby="" recordedon="" rectum=""
+         responsiblephysician="" signedby="" signedon="" skin="" spines="" symptoms=""
+         teeth="" thyroid="" uterussize="" vagina="" vulva=""/>
+                     <MedicalHistory abnormalpap="" abnormalpapcomment=""
+         abnormalpapdetail="" abnormalpapsnocode="" alcoholinprepregnancy=""
+         alcoholinpregnancy="" alcoholuseyears="" anemia="" anemiacomment=""
+         anemiadetail="" anemiasnocode="" anestheticcomplications=""
+         anestheticcomplicationscomment="" anestheticcomplicationsdetail=""
+         anestheticcomplicationssnocode="" arttreatment="" arttreatmentcomment=""
+         arttreatmentdetail="" arttreatmentsnocode="" autoimmunedisorder=""
+         autoimmunedisordercomment="" autoimmunedisorderdetail=""
+         autoimmunedisordersnocode="" bloodtransfusion="" bloodtransfusioncomment=""
+         bloodtransfusiondetail="" bloodtransfusionsnocode="" breast="" breastcomment=""
+         breastdetail="" breastsnocode="" cancer="" cancercomment="" cancerdetail=""
+         cancersnocode="" comment="" deletedby="" deletedon="" depression=""
+         depressioncomment="" depressiondetail="" depressionsnocode=""
+         dermatologicdisorder="" dermatologicdisordercomment=""
+         dermatologicdisorderdetail="" dermatologicdisordersnocode="" diabetes=""
+         diabetescomment="" diabetesdetail="" diabetessnocode="" DRHSensitized=""
+         DRHSensitizedcomment="" DRHSensitizeddetail="" DRHSensitizedsnocode=""
+         drugallergies="" drugallergiescomment="" drugallergiesdetail=""
+         drugallergiessnocode="" drugsinprepregnancy="" drugsinpregnancy=""
+         drugsuseyears="" exposedtotb="" exposedtotbcomment="" genitalherpes=""
+         genitalherpescomment="" genitalherpesdetail="" genitalherpessnocode=""
+         gestationaldiabetes="" gestationaldiabetescomment=""
+         gestationaldiabetesdetail="" gestationaldiabetessnocode="" gynsurgery=""
+         gynsurgerycomment="" gynsurgerydetail="" gynsurgerysnocode="" heartdisease=""
+         heartdiseasecomment="" heartdiseasedetail="" heartdiseasesnocode="" hepatitis=""
+         hepatitiscomment="" hepatitisdetail="" hepatitissnocode="" hepatitisb=""
+         hepatitisbcomment="" hepatitisbdetail="" hepatitisbsnocode="" historydate=""
+         hypertension="" hypertensioncomment="" hypertensiondetail=""
+         hypertensionsnocode="" infectioncomment="" infertility="" infertilitycomment=""
+         infertilitydetail="" infertilitysnocode="" kidneydisease=""
+         kidneydiseasecomment="" kidneydiseasedetail="" kidneydiseasesnocode=""
+         lastupdated="" lastupdatedby="" neurologic="" neurologiccomment=""
+         neurologicdetail="" neurologicsnocode="" obmedicalhistoryid="" obcareid=""
+         operations="" operationscomment="" operationsdetail="" operationssnocode=""
+         otherinfo="" otherinfocomment="" patientid="" polycysticovarysyndrome=""
+         polycysticovarysyndromecomment="" polycysticovarysyndromedetail=""
+         polycysticovarysyndromesnocode="" psychiatric="" psychiatriccomment=""
+         psychiatricdetail="" psychiatricsnocode="" pulmonary="" pulmonarycomment=""
+         pulmonarydetail="" pulmonarysnocode="" rashviral="" rashviralcomment=""
+         rashviraldetail="" rashviralsnocode="" recordedby="" recordedon=""
+
+P: 330-758-8832 • F: 330-758-0182 – 3375 Canfield Rd, Unit 2835, Youngstown, OH 44511                 14
+                                                                                        micromd.com
+         relevantfamilyhistory="" relevantfamilyhistorycomment=""
+         seasonalallergies="" seasonalallergiescomment="" seasonalallergiesdetail=""
+         seasonalallergiessnocode="" stdgonorrhea="" stdgonorrheacomment=""
+         stdgonorrheadetail="" stdgonorrheasnocode="" thyroiddysfunction=""
+         thyroiddysfunctioncomment="" thyroiddysfunctiondetail=""
+         thyroiddysfunctionsnocode="" tobaccoinprepregnancy="" tobaccoinpregnancy=""
+         tobaccouseyears="" trauma="" traumacomment="" traumadetail="" traumasnocode=""
+         uterineanomaly="" uterineanomalycomment="" uterineanomalydetail=""
+         uterineanomalysnocode="" varicosities="" varicositiescomment=""
+         varicositiesdetail="" varicositiessnocode=""/>
+              </Obstetrics>
+              <Genetics>
+                      <Genetic code="" deletedby="" deletedon="" description=""
+         encounterid="" geneticcomment="" lastupdated="" obcareid="" obgenid=""
+         patientid="" recordedby="" recordedon="" responsiblephysician=""
+         screeningresult=""/>
+                      <Family familialrelationship="" geneticid="" obcareid=""
+         patientid="" rank=""/>
+              </Genetics>
+              <Deliveries>
+                      <Delivery anesthetic="" birthno="" bleeding="" bloodgiven=""
+         comment="" cordvessels="" dateadmitted="" deletedby="" deletedon=""
+         deliverydate="" deliveryduration="" deliveryid="" deliverynotes=""
+         deliveryonset="" deliveryroom="" encounterid="" episiotomy="" gestation=""
+         hospital="" laborlength="" laceration="" lastupdated="" lengthofstay=""
+         midwife="" NoOfFeatuses="" NoOfFeatusesLiving="" obcareid="" obstetrition=""
+         patientid="" perfbyname="" plecentacomplete="" plecentadeliverycomment=""
+         plecentadeliveryonset="" plecentadeliverytime="" positionofsuture=""
+         pretermlabor="" recordedby="" recordedon="" responsiblephysician="" status=""
+         suturetype="" units="" waterbreakbeforebirth=""/>
+                      <Events comment="" deliveryid="" eventcode="" eventid=""
+         eventname="" eventtime="" eventtype="" patientid=""/>
+                      <Featus alive="" apgar5minute="" apgar5minutevalues="" apgarbirth=""
+         apgarbirthvalues="" birthdate="" bloodgroup="" chestcircumference="" comment=""
+         deliveryid="" deliverymethod="" deliverypresentation="" featusno=""
+         featuspatientId="" fetaldistress="" gender="" headcircumference="" height=""
+         interventions="" patientid="" Pku="" T4="" toxicology="" units="" weightbirth=""
+         weightreleased=""/>
+                      <Problems deliveryid="" description="" diagnosedby="" icdcode=""
+         patientid="" problemid="" snocode=""/>
+              </Deliveries>
+              <Prenatal>
+                      <Prenatal abdominalgirth="" cervixdilated="" cervixeffacement=""
+         cervixeffacementtype="" cervixfirmness="" cervixopen="" cervixposition=""
+         cervixshape="" cervixtender="" deletedby="" deletedon="" encounterid=""
+         fetalnumber="" fundusheight="" gestdays="" gestweeks="" highrisk=""
+         lastupdated="" maternalweight="" obcareid="" patientid="" pedaladema=""
+         pregnancyno="" prenatalcomment="" prenatalid="" preterm="" quickening=""
+         recordedby="" recordedon="" reflexis="" responsiblephysician="" signed=""
+         symptoms="" symptomslmp="" timesigned="" ultrasoundln="" units=""
+         urinealbumin="" urineglucose="" uteruscontractions="" uterusfirmness=""
+         visitdate="" visitno=""/>
+                      <Featus featusno="" fetalheartrate="" fetalmovement=""
+         fetalposition="" iugr="" iugrbasedon="" obcareid="" patientid="" prenatalid=""/>
+              </Prenatal>
+              <EstimatedDateOfDelivery active="" eddcalcid="" fhdays="" fhweeks=""
+         finaledd="" fundalheight="" initialexam="" initialultrasound="" initialedd=""
+
+P: 330-758-8832 • F: 330-758-0182 – 3375 Canfield Rd, Unit 2835, Youngstown, OH 44511                 15
+                                                                                        micromd.com
+         lastmenstrualperiod="" lmpdays="" lmpweeks="" obcareid=""
+         patientid="" qdays="" quickening="" qweeks="" recordedby="" recordedon=""
+         ultrasound="" updatededd=""/>
+              <ProgressOfLabor bishopscore="" comment="" consistency=""
+         contractionduration="" deliveryid="" diastolic="" dilation="" effacement=""
+         eventcode="" eventname="" laborid="" lastupdated="" noofcontractions=""
+         onadmission="" patientid="" position="" pulserate="" recordedon=""
+         respiratoryrate="" station="" systolic=""/>
+              <Pregnancies>
+                      <Pregnancy anesthetic="" birthweight="" breastfeedingduration=""
+         comment="" confidential="" createdinpm="" deletedby="" deletedon=""
+         deliveredbypractice="" delivery="" deliverydate="" deliveryisapprox=""
+         deliverypresentation="" description="" encounterid="" feedingby="" gender=""
+         gestationalage="" gestationalweeks="" laborlength="" lactationconsult=""
+         lastupdated="" noknown="" obcareid="" patientid="" perfbyname=""
+         placedelivered="" pregnancycode="" pregnancyid="" pregnancyno=""
+         prenataldeliverydate="" prenataldeliveryweight="" prenatalduedate=""
+         prenatalenrolledinwic="" prenatalfirstcaredate="" prenatalfirsttrimester=""
+         prenatalinfantenrolledinwic="" prenatalinfantguarantorid=""
+         prenatalinfantpatientno="" prenatalotherprovidersawfirst=""
+         prenatalpregnantandhivpostive="" prenatalsecondtrimester=""
+         prenatalthirdtrimester="" prenataluser="" pretermlabor="" recordedby=""
+         recordedon="" responsiblephysician="" snocode=""/>
+                      <Status abortioninduced="" abortionspontaneous="" comment=""
+         ectopics="" fullterm="" lastupdated="" living="" multiplebirths="" patientid=""
+         premature="" recordedby="" recordedon="" responsiblephysician=""
+         totalpregnancies=""/>
+                      <Featus alive="" apgar5minute="" apgar5minutevalues="" apgarbirth=""
+         apgarbirthvalues="" babyname="" birthdate="" birthdateisapprox="" bloodgroup=""
+         chestcircumference="" comment="" createdinpm="" deliverymethod=""
+         deliverypresentation="" ethnicity="" ethnicitysub="" featusno=""
+         featuspatientId="" fetaldistress="" gender="" headcircumference="" height=""
+         newbornscreen="" patientid="" Pku="" pregnancyid="" race="" racesub="" T4=""
+         toxicology="" units="" weightbirth="" weightreleased=""/>
+                      <Problems description="" diagnosedby="" icdcode="" patientid=""
+         pregnancyid="" problemid="" snocode="" stagediagnosed=""/>
+              </Pregnancies>
+              <Gynocology begindate="" begindateisapprox="" beginperfbyname=""
+         confidential="" deletedby="" deletedon="" description="" diagnosiscode=""
+         encounterid="" enddate="" enddateisapprox="" endperformedby=""
+         gynecologycomment="" gynecologyid="" isnegative="" lastupdated="" noknown=""
+         patientid="" proccode="" procdescription="" recordedby="" recordedon=""
+         responsiblephysician="" terminatereason=""/>
+              <Menstrual>
+                      <Menstrual comment="" lastupdated="" menarcheduration=""
+         menarcheinterval="" menarchelength="" menarcheonset="" menarchetype=""
+         menopauseonset="" patientid="" recordedby="" recordedon=""
+         responsiblephysician=""/>
+                      <History begindate="" begindateisapprox="" beginduration=""
+         begininterval="" beginintervalunit="" beginperfbyname="" complaint=""
+         confidential="" deletedby="" deletedon="" description="" encounterid=""
+         enddate="" enddateisapprox="" endduration="" endinterval="" endintervalunit=""
+         endperformedby="" intervaltype="" lastupdated="" menstrualcomment=""
+         menstrualid="" patientid="" recordedby="" recordedon="" responsiblephysician=""
+         snocode=""/>
+              </Menstrual>
+
+
+P: 330-758-8832 • F: 330-758-0182 – 3375 Canfield Rd, Unit 2835, Youngstown, OH 44511                 16
+                                                                                        micromd.com
+              <FamilyPlanning begindate="" begindateisapprox=""
+         beginperfbyname="" birthcontrol="" comment="" confidential="" deletedby=""
+         deletedon="" encounterid="" enddate="" enddateisapprox="" endperformedby=""
+         familyplanningid="" isnegative="" lastupdated="" medicationcode=""
+         medicationdescription="" noknown="" numberofpartners="" numberofpastPartners=""
+         patientid="" recordedby="" recordedon="" responsiblephysician=""
+         terminatereason=""/>
+            </WomenHealth>
+
+
+
+
+              • Additional files from DMS
+         Additional files will be included from the document management system. These
+         will have the file name and format as saved in the DMS system. They may include
+         pdf, doc, rtf, ccd, xml, image formats, ect.
+
+
+
+
+P: 330-758-8832 • F: 330-758-0182 – 3375 Canfield Rd, Unit 2835, Youngstown, OH 44511                 17
+

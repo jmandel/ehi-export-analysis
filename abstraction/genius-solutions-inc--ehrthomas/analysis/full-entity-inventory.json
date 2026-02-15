@@ -1,0 +1,163 @@
+{
+  "analysis_date": "2026-02-15",
+  "product": "ehrTHOMAS",
+  "vendor": "Genius Solutions Inc.",
+  "source_file": "downloads/ehi-export-page.html",
+  "export_format": "Proprietary XML",
+  "total_datasets": 8,
+  "total_leaf_fields_corrected": 96,
+  "fields_with_descriptions": 0,
+  "fields_with_type_annotations": 18,
+  "formal_schema_provided": false,
+  "sample_data_provided": true,
+  "sample_data_type": "XML snippets embedded in HTML documentation (not downloadable files)",
+  "datasets": [
+    {
+      "name": "Patient Dataset",
+      "category": "Demographics",
+      "leaf_fields": 22,
+      "fields": [
+        "KeyId", "AccountNumber", "SSN", "FirstName", "LastName", "Suffix",
+        "BirthDate", "Gender", "Phone", "WorkPhone", "CellPhone", "EMail",
+        "MothersMaidenName", "Line1", "Line2", "City", "State", "ZipCode",
+        "Race", "Language", "Ethnicity", "MaritalStatus"
+      ],
+      "coded_fields": ["Race", "Language", "Ethnicity", "Gender"],
+      "notes": "Reasonable demographic coverage. SSN included. No insurance info."
+    },
+    {
+      "name": "Encounter Dataset",
+      "category": "Encounters",
+      "leaf_fields": 10,
+      "fields": [
+        "KeyId", "PatientId", "Status", "VisitDate", "DischargeDate",
+        "NPI", "LastName", "FirstName", "MidInitial", "TaxonomyCode"
+      ],
+      "notes": "Minimal. No encounter type, reason for visit, location, or facility. Sample data shows all doctor name fields populated with NPI value '1234567897' — likely a data masking artifact but obscures field semantics."
+    },
+    {
+      "name": "Device Dataset",
+      "category": "Devices (UDI)",
+      "leaf_fields": 11,
+      "fields": [
+        "KeyId", "PatientId", "ManufactureDate", "ExpirationDate", "LotNumber",
+        "SerialNumber", "DeviceIdentifier", "CarrierHRF", "Snomed",
+        "DeviceDescription", "ImplantedDate"
+      ],
+      "notes": "Good UDI coverage with standard identifiers."
+    },
+    {
+      "name": "Immunization Dataset",
+      "category": "Immunizations",
+      "leaf_fields": 7,
+      "fields": [
+        "KeyId", "PatientId", "EncounterId", "LotNumber", "CVXCode",
+        "ShortDescription", "DateAdministered"
+      ],
+      "coded_fields": ["CVXCode"],
+      "notes": "Basic immunization record. No manufacturer, route, site, or administering provider."
+    },
+    {
+      "name": "Allergy Dataset",
+      "category": "Allergies",
+      "leaf_fields": 7,
+      "fields": [
+        "KeyId", "PatientId", "ClinicalStatus", "Reaction", "RecordedDate",
+        "SNOMED", "AllergyDescription"
+      ],
+      "coded_fields": ["SNOMED"],
+      "notes": "Basic allergy record with SNOMED coding."
+    },
+    {
+      "name": "Procedure Dataset",
+      "category": "Procedures",
+      "leaf_fields": 9,
+      "fields": [
+        "KeyId", "PatientId", "EncounterId", "Status", "CPTCode",
+        "Description", "RequestedTime", "ProcedureStartTime", "ProcedureEndTime"
+      ],
+      "coded_fields": ["CPTCode"],
+      "notes": "Includes CPT codes. Sample data shows 1800-01-01 as sentinel null date."
+    },
+    {
+      "name": "Vital Dataset",
+      "category": "Vitals",
+      "leaf_fields": 21,
+      "fields_by_path": [
+        "PatientId", "EncounterId",
+        "BodyTemperature/Temperature/Value", "BodyTemperature/Temperature/Unit",
+        "BodyTemperature/Location",
+        "BloodPressure/Systolic/Value", "BloodPressure/Diastolic/Value",
+        "Pulse/Value", "Pulse/Unit",
+        "Respiration/Value", "Respiration/Unit",
+        "SpO2/Value", "SpO2/Unit",
+        "FiO2/Value", "FiO2/Unit",
+        "Height/Value", "Height/Unit",
+        "Weight/Value", "Weight/Unit",
+        "BMI", "TimeRecorded"
+      ],
+      "notes": "Most detailed dataset. Good vital sign coverage including SpO2 and FiO2. Note: second sample record has a misplaced Unit element outside SpO2 (XML structural issue)."
+    },
+    {
+      "name": "Condition Dataset",
+      "category": "Conditions/Diagnoses",
+      "leaf_fields": 9,
+      "fields": [
+        "KeyId", "PatientId", "EncounterId", "ClinicalStatus",
+        "VerificationStatus", "OnSetDate", "Comment", "ICD10Code",
+        "ICD10Description"
+      ],
+      "coded_fields": ["ICD10Code"],
+      "notes": "CRITICAL DATA QUALITY ISSUE: ICD10Code field contains GUIDs (e.g., 'f1f0bd65-a248-4930-b981-2531ed4fcd93') instead of actual ICD-10 codes. Description field has the diagnosis text but the code field appears to contain internal database keys."
+    }
+  ],
+  "missing_domains": [
+    {
+      "domain": "Medications / Prescriptions",
+      "product_has_it": true,
+      "evidence": "ehrTHOMAS certified for CPOE-Medications (a)(1), e-prescribing (b)(3), DrFirst EPCS integration"
+    },
+    {
+      "domain": "Lab Orders / Results",
+      "product_has_it": true,
+      "evidence": "Certified for CPOE-Lab (a)(2), Quest Diagnostics integration, Labs/Dx Orders module visible in UI toolbar"
+    },
+    {
+      "domain": "Clinical Notes / Documents",
+      "product_has_it": true,
+      "evidence": "Touch-screen templates, WritePad module, Signing Dashboard visible in UI"
+    },
+    {
+      "domain": "Claims / Billing",
+      "product_has_it": true,
+      "evidence": "eTHOMAS practice management: claims, billing ledgers, Send Charges module visible in UI"
+    },
+    {
+      "domain": "Insurance / Coverage",
+      "product_has_it": true,
+      "evidence": "eTHOMAS handles insurance verification and claims"
+    },
+    {
+      "domain": "Care Plans",
+      "product_has_it": true,
+      "evidence": "Certified for (b)(9) Care Plan"
+    },
+    {
+      "domain": "Orders / Referrals",
+      "product_has_it": true,
+      "evidence": "Dx Order module visible in UI, referral tracking in eTHOMAS"
+    },
+    {
+      "domain": "Patient Communications / Messages",
+      "product_has_it": true,
+      "evidence": "Messages module visible in UI toolbar"
+    }
+  ],
+  "data_quality_issues": [
+    "ICD10Code field contains GUIDs instead of actual ICD-10 codes",
+    "Encounter doctor fields all populated with NPI value (masking artifact)",
+    "1800-01-01 used as sentinel null date",
+    "Vital Dataset has a misplaced XML Unit element (structural error in sample)",
+    "No formal schema — format documented only by XML samples"
+  ]
+}

@@ -1,0 +1,426 @@
+{
+  "pdf_analysis": {
+    "file": "EHI_DATA_EXPort_GUIDE.pdf",
+    "pages": 9,
+    "words": 2084,
+    "lines": 305,
+    "created": "2023-12-28",
+    "author": "Rahul Dewan",
+    "title": "DATA INTEROPERABILITY & EHI DATA EXPORT GUIDE",
+    "export_methods": [
+      "1. FHIR APIs (R4, 27 resource types via US Core)",
+      "2. C-CDA R2.1 bulk or single export (20 clinical sections)",
+      "3. CSV full data set export (health, activity, financial data)",
+      "4. HL7 2.x/3.x ADT (demographics, payer updates)",
+      "5. HL7 2.x SIU (appointment scheduling)",
+      "6. HL7 2.x DFT (financial transactions \u2014 note: description is copy-paste of SIU)",
+      "7. JSON-based exchange (scanned documents, faxes, BASE-64 encoded)",
+      "8. EDI 837P and 835 (claims and remittance files)"
+    ],
+    "ccda_sections": [
+      "Allergy",
+      "Assessment",
+      "Encounters",
+      "Family History",
+      "Functional Status",
+      "Cognitive status",
+      "Immunizations",
+      "Medical equipment",
+      "Medications",
+      "Lab results",
+      "Problems",
+      "Procedures",
+      "Reason for Visit",
+      "Referrals",
+      "Social History",
+      "Vitals",
+      "Care plan",
+      "Goal",
+      "Health Concern",
+      "Clinical Instructions",
+      "Only one record with ACTIVE status which is added",
+      "Only HBA1C order information will be sent in CCDA"
+    ],
+    "ccda_section_count": 22,
+    "data_dictionary_url": "https://emr.ehiconnect.com/docs/",
+    "data_dictionary_accessible": false,
+    "data_dictionary_http_status": 404
+  },
+  "fhir_analysis": {
+    "file": "fhir-capability-statement.json",
+    "fhir_version": "4.0.1",
+    "software_name": "Enable Healthcare FHIR Server",
+    "resource_count": 27,
+    "resource_types": [
+      "AllergyIntolerance",
+      "Binary",
+      "CarePlan",
+      "CareTeam",
+      "ClinicalImpression",
+      "Condition",
+      "Coverage",
+      "Device",
+      "DiagnosticReport",
+      "DocumentReference",
+      "Encounter",
+      "Goal",
+      "Group",
+      "Immunization",
+      "Location",
+      "MedicationDispense",
+      "MedicationRequest",
+      "Observation",
+      "Organization",
+      "Patient",
+      "Practitioner",
+      "PractitionerRole",
+      "Procedure",
+      "Provenance",
+      "RelatedPerson",
+      "ServiceRequest",
+      "Specimen"
+    ],
+    "resources_detail": [
+      {
+        "type": "Group",
+        "interactions": [],
+        "search_params": []
+      },
+      {
+        "type": "AllergyIntolerance",
+        "interactions": [
+          "read",
+          "search-type"
+        ],
+        "search_params": [
+          "patient",
+          "date",
+          "clinical-status"
+        ]
+      },
+      {
+        "type": "DocumentReference",
+        "interactions": [
+          "read",
+          "search-type"
+        ],
+        "search_params": [
+          "patient",
+          "_id",
+          "category",
+          "status",
+          "type",
+          "period",
+          "date"
+        ]
+      },
+      {
+        "type": "CarePlan",
+        "interactions": [
+          "read",
+          "search-type"
+        ],
+        "search_params": [
+          "patient",
+          "date",
+          "category",
+          "status"
+        ]
+      },
+      {
+        "type": "CareTeam",
+        "interactions": [
+          "read",
+          "search-type"
+        ],
+        "search_params": [
+          "patient",
+          "status"
+        ]
+      },
+      {
+        "type": "Device",
+        "interactions": [
+          "read",
+          "search-type"
+        ],
+        "search_params": [
+          "patient",
+          "type"
+        ]
+      },
+      {
+        "type": "Binary",
+        "interactions": [
+          "read",
+          "search-type"
+        ],
+        "search_params": [
+          "patient",
+          "date"
+        ]
+      },
+      {
+        "type": "DiagnosticReport",
+        "interactions": [
+          "read",
+          "search-type"
+        ],
+        "search_params": [
+          "patient",
+          "date",
+          "category",
+          "code"
+        ]
+      },
+      {
+        "type": "Goal",
+        "interactions": [
+          "read",
+          "search-type"
+        ],
+        "search_params": [
+          "patient",
+          "date",
+          "target-date"
+        ]
+      },
+      {
+        "type": "Immunization",
+        "interactions": [
+          "search-type",
+          "read"
+        ],
+        "search_params": [
+          "patient",
+          "date"
+        ]
+      },
+      {
+        "type": "MedicationRequest",
+        "interactions": [
+          "search-type",
+          "read"
+        ],
+        "search_params": [
+          "patient",
+          "code",
+          "intent",
+          "status",
+          "date"
+        ]
+      },
+      {
+        "type": "Location",
+        "interactions": [
+          "search-type",
+          "read"
+        ],
+        "search_params": [
+          "patient",
+          "date"
+        ]
+      },
+      {
+        "type": "Organization",
+        "interactions": [
+          "search-type",
+          "read"
+        ],
+        "search_params": [
+          "identifier",
+          "name",
+          "address",
+          "address-city",
+          "address-country",
+          "address-state",
+          "address-postalcode"
+        ]
+      },
+      {
+        "type": "Patient",
+        "interactions": [
+          "search-type",
+          "read"
+        ],
+        "search_params": [
+          "patient",
+          "_id",
+          "identifier",
+          "name",
+          "gender",
+          "family",
+          "given",
+          "birthdate"
+        ]
+      },
+      {
+        "type": "Condition",
+        "interactions": [
+          "search-type",
+          "read"
+        ],
+        "search_params": [
+          "patient",
+          "category",
+          "clinical-status",
+          "date"
+        ]
+      },
+      {
+        "type": "Procedure",
+        "interactions": [
+          "search-type",
+          "read"
+        ],
+        "search_params": [
+          "patient",
+          "date"
+        ]
+      },
+      {
+        "type": "Practitioner",
+        "interactions": [
+          "search-type",
+          "read"
+        ],
+        "search_params": [
+          "_id",
+          "identifier"
+        ]
+      },
+      {
+        "type": "PractitionerRole",
+        "interactions": [
+          "search-type",
+          "read"
+        ],
+        "search_params": [
+          "_id",
+          "identifier"
+        ]
+      },
+      {
+        "type": "Encounter",
+        "interactions": [
+          "search-type",
+          "read"
+        ],
+        "search_params": [
+          "_id",
+          "identifier",
+          "patient",
+          "date",
+          "status"
+        ]
+      },
+      {
+        "type": "ClinicalImpression",
+        "interactions": [
+          "search-type",
+          "read"
+        ],
+        "search_params": [
+          "patient",
+          "date"
+        ]
+      },
+      {
+        "type": "Observation",
+        "interactions": [
+          "search-type",
+          "read"
+        ],
+        "search_params": [
+          "patient",
+          "code",
+          "category",
+          "date"
+        ]
+      },
+      {
+        "type": "Provenance",
+        "interactions": [
+          "search-type",
+          "read"
+        ],
+        "search_params": []
+      },
+      {
+        "type": "ServiceRequest",
+        "interactions": [
+          "read"
+        ],
+        "search_params": [
+          "status",
+          "patient",
+          "category",
+          "code",
+          "_id",
+          "authored"
+        ]
+      },
+      {
+        "type": "RelatedPerson",
+        "interactions": [
+          "search-type",
+          "read"
+        ],
+        "search_params": [
+          "_id",
+          "identifier"
+        ]
+      },
+      {
+        "type": "Specimen",
+        "interactions": [
+          "search-type",
+          "read"
+        ],
+        "search_params": [
+          "patient",
+          "_id"
+        ]
+      },
+      {
+        "type": "Coverage",
+        "interactions": [
+          "search-type",
+          "read"
+        ],
+        "search_params": [
+          "patient"
+        ]
+      },
+      {
+        "type": "MedicationDispense",
+        "interactions": [
+          "search-type",
+          "read"
+        ],
+        "search_params": [
+          "status",
+          "type",
+          "patient"
+        ]
+      }
+    ]
+  },
+  "screenshots": [
+    {
+      "file": "fhir-portal-landing.png",
+      "size_bytes": 140865
+    },
+    {
+      "file": "fhir-api-documentation-page.png",
+      "size_bytes": 348511
+    }
+  ],
+  "total_artifacts": 4,
+  "artifact_list": [
+    "EHI_DATA_EXPort_GUIDE.pdf",
+    "fhir-api-documentation-page.png",
+    "fhir-capability-statement.json",
+    "fhir-portal-landing.png"
+  ]
+}
