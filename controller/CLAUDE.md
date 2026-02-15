@@ -3,13 +3,14 @@
 ## Quick Start: Run the Collection Loop
 
 ```bash
-# 1. Generate family-expanded targets (first time or after editing product-families.json)
+# 1. Generate family-expanded targets + phase files
+#    (first time, or after editing product-families.json)
 bun run scripts/expand-targets-by-family.ts
 
-# 2. Start collection (research + download for each product family)
+# 2. Start collection on phase 1 families (research + download)
 nohup env LLM_BACKEND=claude CLAUDE_MODEL=opus TIMEOUT=1800 STALE_TIMEOUT=300 \
   bun run wiggum/loop.ts \
-  --targets work/family-targets.json \
+  --targets work/phases/phase-1-comprehensive-ehrs.json \
   --phase both \
   --reverse --resume \
   > /tmp/wiggum-loop.log 2>&1 &
@@ -18,11 +19,20 @@ nohup env LLM_BACKEND=claude CLAUDE_MODEL=opus TIMEOUT=1800 STALE_TIMEOUT=300 \
 Use `nohup` so the loop survives session disconnects. Use `--resume` to skip
 already-completed targets.
 
+### Target lists (pick one for `--targets`)
+
+| File | Description | Families |
+|------|-------------|----------|
+| `work/phases/phase-1-comprehensive-ehrs.json` | CPOE + FHIR API (g)(10) — full EHRs | 217 |
+| `work/phases/phase-2-cpoe-no-fhir.json` | CPOE without FHIR API | 99 |
+| `work/phases/phase-3-other.json` | Everything else | 170 |
+| `work/family-targets.json` | All families combined | 486 |
+
 ## Loop Flags
 
 | Flag | Description |
 |------|-------------|
-| `--targets <file>` | Target list (default: `work/targets.json`). Use `work/family-targets.json` |
+| `--targets <file>` | Target list — use a phase file or `work/family-targets.json` |
 | `--phase <1\|2\|both>` | `1` = research only, `2` = download only, `both` = both sequentially |
 | `--reverse` | Process targets from end of list backwards |
 | `--resume` | Skip targets that already have completion markers |
@@ -102,7 +112,7 @@ JSDoc comments explaining derivation — the pipeline picks them up automaticall
 ```
 work/targets.json          448 URL-level targets from CHPL
         ↓  expand-targets-by-family.ts + work/product-families.json
-work/family-targets.json   476 per-family targets (one per product family)
+work/family-targets.json   486 per-family targets (one per product family)
         ↓  wiggum/loop.ts
 results/<vendor>--<family>/
   chpl-metadata.json       CHPL data filtered to this family
@@ -156,6 +166,7 @@ mkdir -p chpl-data && curl -sL \
 
 # 2. Generate targets + per-target metadata
 ./wiggum/00-fetch-export-urls.sh
+bun run scripts/build-metadata.ts
 
 # 3. Generate family-expanded targets + phase files
 bun run scripts/expand-targets-by-family.ts
@@ -173,12 +184,13 @@ mkdir -p chpl-data && curl -sL \
   -H 'api-key: 12909a978483dfb8ecd0596c98ae9094' \
   -o chpl-data/all-active-listings.json
 
-# 2. Regenerate targets + metadata (preserves existing target indices)
+# 2. Regenerate targets + metadata
 ./wiggum/00-fetch-export-urls.sh
+bun run scripts/build-metadata.ts
 
 # 3. Review product-families.json for any new multi-product vendors
 #    New vendors with multiple products need family groupings added manually.
-#    Products not in any defined family get individual family entries automatically.
+#    Products not in any defined family trigger a WARNING — fix before running.
 
 # 4. Regenerate family targets + phase files
 bun run scripts/expand-targets-by-family.ts
