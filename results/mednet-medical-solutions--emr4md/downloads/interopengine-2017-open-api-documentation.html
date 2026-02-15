@@ -1,0 +1,472 @@
+﻿<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+	
+	<!-- Agility - Responsive HTML5/CSS3 Template by SevenSpark http://agility-html.sevenspark.com -->
+
+	<!-- Basic Page Needs
+  	================================================== -->
+	<meta charset="utf-8">
+	<title>Open API Documentation | EMR Direct</title>
+	<meta name="description" content="Interoperability Engine Open API Documentation">
+	
+	<!--[if lt IE 9]>
+		<script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Mobile Specific Metas
+  	================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=4">
+
+	<!-- CSS
+  	================================================== -->
+	<link rel="stylesheet" href="../stylesheets/base.css">
+	<link rel="stylesheet" href="../stylesheets/skeleton.css">
+	<link rel="stylesheet" href="../stylesheets/layout.css">
+	
+	<!-- Favicons
+	================================================== -->
+	<link rel="icon" type="image/x-icon" href="../images/interoperability.ico">
+	
+
+	<!-- Fonts
+	================================================== -->	
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+		
+	
+	<!-- Modernizr -->
+	<script type="text/javascript" src="../javascripts/modernizr.js"></script>
+	
+	<!--[if IE 7]>
+	  <link rel="stylesheet" href="../stylesheets/ie7.css">
+	<![endif]-->
+		
+		
+	
+</head>
+<body class="skin-blue">
+<div class="wrap">
+
+
+	<!-- Primary Page Layout
+	================================================== -->
+
+	<!-- Header -->
+	<header id="header" class="container">
+		
+		<div id="header-inner" class="sixteen columns over">
+			
+						<div id="masthead" class="one-third column alpha">
+			<h1 id="site-title" class="remove-bottom"><a href="../index.html"><img src="../images/ielogo masthead 80x592.png" class="scale-with-grid" alt="Interoperability Engine"></a></h1>
+			</div>
+
+			
+			
+		</div>
+		
+	</header>
+	<!-- end Header -->
+
+	<!-- Main Container -->
+	<div class="container" id="main" role="main">
+		
+		<div class="sixteen columns">
+			<header>
+				<h1 class="page-title page-title-with-sub">Open API Documentation for Client Application Developers</h1>
+				<h4 class="sub-page-title" >Interoperability Engine 2017</h4>
+				<h5 class="sub-page-title" >Updated February 12, 2020</h5>
+			</header>	
+			<br/>
+		</div>
+		
+
+		
+		<!-- Portfolio Grid Layout -->		
+			<div class="portfolio col-1">
+								
+					
+				<!-- portfolio item -->
+				<article class="portfolio-item sixteen columns">
+																	
+<P>
+<H4>1. Introduction</H4><P>
+This guide is written for third party developers, including patients, who are developing software applications for accessing Protected Health Information (PHI) based on this documentation of an open API. 
+This documentation allows applications to query a public-facing API enabled by a Data Holder. 
+Data Holders wishing to publish such a public-facing API should have their Health IT vendor register as a developer integrator of EMR Direct Interoperability Engine services at <a href="https://www.emrdirect.com/subscribe-developer">https://www.emrdirect.com/subscribe-developer</a>.<P>
+ALWAYS KEEP IN MIND THAT ONLINE DATA TRANSFER IS NOT A SUBSTITUTE FOR PERSON-TO-PERSON COMMUNICATION OF URGENT OR CRITICAL MEDICAL INFORMATION.<P>
+This documentation also contains general information and important security information. General information will be marked as:
+<P class="note"><strong>Note:</strong></P>
+<P>and important security information will be marked as:</P>
+<P class="important"><strong>Important:</strong></P><P>
+<H4>2. General Concepts</H4><P>
+    <strong>a. Application Access Requests</strong><P>
+    The API is a read-only RESTful FHIR® STU 3 Ballot API and follows the syntax described at <a href="http://hl7.org/fhir/2016Sep/http.html">http://hl7.org/fhir/2016Sep/http.html</a>.<P>
+All data access requests will be in the following format, in which the [base] URL will need to be obtained from the Data Holder, either directly or via directory information:
+<span class="highlight">GET [base]/[resource-specific parameters]…</span><br /><P>
+<strong>b.	Connecting to the server</strong><P>
+The server is accessed by clients through an https connection.
+<P class="important"> <strong>Important:</strong> Local customer security policies must be in place to prevent unauthorized monitoring or eavesdropping of connections to the server.</P>
+<P class="note"> <strong>Note:</strong>  Only TLS 1.2 connections are accepted.  All plaintext connections will be refused.</P>
+<P class="note"> <strong>Note:</strong> Please limit your connection frequency to a value appropriate for your use case. Connection attempts which are more frequent than permitted by the bandwidth allocation for the data resource are not allowed.  </P>
+<P><strong>c.	Authentication – Obtaining an Access Token</strong><P>
+Client authentication can be performed using a username and strong password. A healthcare organization may reuse existing patient portal credentials for this purpose, in which case the authenticated username maps to a unique patient portal user on the resource holder’s side. The end user should obtain these credentials directly from the healthcare organizations from which they wish to access data.<P>
+Prior to making API requests, the client application must obtain an Access Token from the associated Authorization Server. The client software must support the OAuth 2.0 authorization code grant flow as detailed in RFC 6749. If the client application does not have a client ID and client secret for this purpose, the client application may obtain a client ID and client secret using the dynamic client registration protocol by submitting the required client information to the registration endpoint as detailed in RFC 7591.<P>
+Each healthcare organization will have a unique base URL to access its Authorization Server. The required endpoint URLs are as follows:<P>
+<TABLE>
+<TR>
+    <TH>Endpoint</TH><TH>URL</TH></TR>
+<TR><TD>Authorization</TD>	<TD>https://[baseOAuthURL]/authz</TD></TR>
+<TR><TD>Token</TD>	<TD>https://[baseOAuthURL]/token</TD></TR>
+<TR><TD>Registration</TD>	<TD>https://[baseOAuthURL]/register</TD></TR>
+</TABLE>
+<P>
+When the end user is directed to the authorization endpoint, the user will be presented with a login screen where they can enter their credentials for the healthcare organization they are accessing. If the correct credentials are supplied and the end user grants access to the client application, an authorization code will be returned to the client that the client application can use to obtain an access token through the token endpoint.<P>
+All requests to the API must include the access token transmitted in the Authorization header of the HTTP request as a bearer token as illustrated in RFC 6749. If the access token is missing, expired, or otherwise not valid for the requested operation, the API will return a 401 Unauthorized response.<P>
+<H4>3. API Details</H4><P>
+<strong>a. Query a Specific Data Category Resource</strong><P>
+Client software must be capable of making HTTPS RESTful requests in accordance with the FHIR specification and consuming the following FHIR Resources in order to support the Common Clinical Data Set (CCDS):<P>
+<TABLE>
+<TR>
+<TH>Common Clinical Data Set Element	</TH><TH>Resource	</TH><TH>Resource data element (if applicable)</TH></TR>
+<TR>
+<TD>Patient Name	</TD><TD>Patient	</TD><TD>Patient.name</TD></TR>
+<TR>
+<TD>Sex	</TD><TD>Patient	</TD><TD>Patient.gender</TD></TR>
+<TR>
+<TD>Date of Birth	</TD><TD>Patient	</TD><TD>Patient.birthDate</TD></TR>
+<TR>
+<TD>Race	</TD><TD>Patient	</TD><TD>Patient.extension</TD></TR>
+<TR>
+<TD>Ethnicity	</TD><TD>Patient	</TD><TD>Patient.extension</TD></TR>
+<TR>
+<TD>Preferred Language	</TD><TD>Patient	</TD><TD>Patient.communication</TD></TR>
+<TR>
+    <TD>Smoking Status	</TD><TD>Observation	</TD><TD></TD></TR>
+<TR>
+<TD>Problems	</TD><TD>Condition	</TD><TD></TD></TR>
+<TR>
+<TD>Medications	</TD><TD>MedicationStatement</TD><TD></TD></TR>	
+<TR>
+<TD>Medication Allergies	</TD><TD>AllergyIntolerance	</TD><TD></TD></TR>
+<TR>
+<TD>Laboratory Tests	</TD><TD>Observation	</TD><TD>Observation.code</TD></TR>
+<TR>
+<TD>Laboratory Values Results	</TD><TD>Observation	</TD><TD>Observation.value[x]</TD></TR>
+<TR>
+<TD>Vital Signs	</TD><TD>Observation	</TD><TD></TD></TR>
+<TR>
+<TD>Procedures	</TD><TD>Procedure	</TD><TD></TD></TR>
+<TR>
+<TD>Care Team Members	</TD><TD>CareTeam</TD><TD></TD></TR>	
+<TR>
+<TD>Immunizations	</TD><TD>Immunization</TD><TD></TD></TR>	
+<TR>
+<TD>Unique Device Identifiers	</TD><TD>Device	</TD><TD>Device.udiCarrier</TD></TR>
+<TR>
+<TD>Assessment and Plan	</TD><TD>CarePlan</TD><TD></TD></TR>	
+<TR>
+<TD>Goals	</TD><TD>Goal	</TD><TD></TD></TR>
+<TR>
+<TD>Health Concerns</TD><TD>	Condition</TD><TD></TD></TR>
+</TABLE><P>
+General specifications for FHIR resources and the associated data elements can be found at <a href="http://www.hl7.org/fhir/2016Sep/resourcelist.html">http://www.hl7.org/fhir/2016Sep/resourcelist.html</a>.<P>
+Additional information for the FHIR Resource or Data Element used to represent each data category can be found at the URLs listed in the following table:<P>
+<TABLE>
+<TR>
+<TH>Common Clinical Data Set Element	</TH><TH>Resource or Data Element	</TH><TH>URL for Additional Information</TH></TR>
+<TR>
+<TD>Patient Name	</TD><TD>Patient.name	</TD><TD>http://hl7.org/fhir/2016Sep/patient-definitions.html#Patient.name</TD></TR>
+
+<TR>
+<TD>Sex	</TD><TD>Patient.gender	</TD><TD>http://hl7.org/fhir/2016Sep/patient-definitions.html#Patient.gender</TD></TR>
+
+<TR>
+<TD>Date of Birth	</TD><TD>Patient.birthDate	</TD><TD>http://hl7.org/fhir/2016Sep/patient-definitions.html#Patient.birthDate</TD></TR>
+
+<TR>
+<TD>Race	</TD><TD>Patient.extension	</TD><TD>http://hl7.org/fhir/2016Sep/extension-us-core-race.html</TD></TR>
+
+<TR>
+<TD>Ethnicity	</TD><TD>Patient.extension	</TD><TD>http://hl7.org/fhir/2016Sep/extension-us-core-ethnicity.html</TD></TR>
+
+<TR>
+<TD>Preferred Language	</TD><TD>Patient.communication	</TD><TD>http://hl7.org/fhir/2016Sep/patient-definitions.html#Patient.communication</TD></TR>
+
+<TR>
+<TD>Smoking Status	</TD><TD>Observation	</TD><TD>http://hl7.org/fhir/2016Sep/observation.html</TD></TR>
+
+<TR>
+<TD>Problems	</TD><TD>Condition	</TD><TD>http://hl7.org/fhir/2016Sep/condition.html</TD></TR>
+
+<TR>
+<TD>Medications	</TD><TD>MedicationStatement	</TD><TD>http://hl7.org/fhir/2016Sep/medicationstatement.html</TD></TR>
+
+<TR>
+<TD>Medication Allergies	</TD><TD>AllergyIntolerance	</TD><TD>http://hl7.org/fhir/2016Sep/allergyintolerance.html</TD></TR>
+
+<TR>
+<TD>Laboratory Tests	</TD><TD>Observation.code	</TD><TD>http://hl7.org/fhir/2016Sep/observation-definitions.html#Observation.code</TD></TR>
+
+<TR>
+<TD>Laboratory Values Results	</TD><TD>Observation.value[x]	</TD><TD>http://hl7.org/fhir/2016Sep/observation-definitions.html#Observation.value_x_</TD></TR>
+
+<TR>
+<TD>Vital Signs	</TD><TD>Observation	</TD><TD>http://hl7.org/fhir/2016Sep/observation.html</TD></TR>
+
+<TR>
+<TD>Procedures	</TD><TD>Procedure	</TD><TD>http://hl7.org/fhir/2016Sep/procedure.html</TD></TR>
+
+<TR>
+<TD>Care Team Members	</TD><TD>CareTeam	</TD><TD>http://hl7.org/fhir/2016Sep/careteam.html</TD></TR>
+
+<TR>
+<TD>Immunizations	</TD><TD>Immunization	</TD><TD>http://hl7.org/fhir/2016Sep/immunization.html</TD></TR>
+
+<TR>
+<TD>Unique Device Identifiers	</TD><TD>Device.udiCarrier	</TD><TD>http://hl7.org/fhir/2016Sep/device-definitions.html#Device.udiCarrier</TD></TR>
+
+<TR>
+<TD>Assessment and Plan	</TD><TD>CarePlan	</TD><TD>http://hl7.org/fhir/2016Sep/careplan.html</TD></TR>
+
+<TR>
+<TD>Goals	</TD><TD>Goal	</TD><TD>http://hl7.org/fhir/2016Sep/goal.html</TD></TR>
+
+<TR>
+<TD>Health Concerns	</TD><TD>Condition	</TD><TD>http://hl7.org/fhir/2016Sep/condition.html</TD></TR>
+
+</TABLE>
+<P class="note">
+<strong>Note:</strong>  Authentication certificates or passwords can be reset by the Data Holder.</P>
+<P>
+<strong>b.	Patient Selection</strong>
+<P>
+To search for patients, the application should request a bundle of Patient resources matching suitable search criteria. To facilitate this, the following optional search parameters can be applied to the Patient resource:
+<P>
+<TABLE>
+<TR>
+    <TH>Resource Data Element	</TH><TH>Search Parameter</TH></TR>
+<TR>
+<TD>Patient.name.family	</TD><TD>family</TD></TR>
+<TR>
+<TD>Patient.birthDate	</TD><TD>birthdate</TD></TR></TABLE> 
+<P>
+For example, to retrieve a bundle of Patient resources to which the user is authorized, where the patient’s last name is Smith and the patient was born on July 4, 1976, the request could be formatted as:<P>
+<span class="highlight" style="margin-left: 40px">
+https://[baseURL]/Patient?family=Smith&amp;birthdate=1976-07-04</span>
+<br />
+<P>
+The API will return a bundle of all patients (possibly zero) matching the search criteria. Only patients for which the user has been authorized access will be included in the results. Each patient returned in the search results is assigned a unique patient ID that can be found in the Patient.id element of the corresponding Patient resource. This patient ID can be included in subsequent requests to retrieve additional resources for that specific patient. 
+<P>
+<strong>c.	Query for a Specific Data Category</strong>
+<P>
+The Patient resource can be retrieved by specifying a specific patient ID or by performing a search as discussed in section 5(b). The remaining resource types listed in Section 5(a) can be accessed for a specific patient as a Bundle of resources by performing a search by resource type or by patient compartment and specifying the patient ID in the request. For example, to retrieve a bundle of Immunization resources containing all available immunization history for Patient 1234, the request could be formatted as:<P>
+<span class="highlight" style="margin-left: 40px">
+https://[baseURL]/Immunization?patient=1234</span>
+<p style="margin-left: 80px">
+or (equivalently) <P>
+<span class="highlight" style="margin-left: 40px">
+https://[baseURL]/Patient/1234/Immunization</span>
+<br />
+<P>
+The following search terms can be used to isolate results for a single CCDS category in cases where two or more CCDS categories are represented by a single Resource type:
+<P>
+<TABLE>
+<TR>
+<TH>CCDS Element	</TH><TH>Search Term</TH></TR>
+<TR>
+<TD>Health Concern	</TD><TD>category=http://argonaut.hl7.org/extension-codes|health-concern</TD></TR>
+<TR>
+<TD>Problem	</TD><TD>category=http://argonaut.hl7.org/extension-codes|problem</TD></TR>
+<TR>
+<TD>Smoking Status	</TD><TD>code=http://loinc.org|72166-2</TD></TR>
+<TR>
+<TD>Vital Signs	</TD><TD>category=http://hl7.org/fhir/observation-category|vital-signs</TD></TR>
+<TR>
+<TD>Laboratory Tests &amp; Laboratory Values/Results	</TD><TD>category=http://hl7.org/fhir/observation-category|laboratory</TD></TR></TABLE>
+<P>
+For example, to retrieve the Smoking Status for Patient 1234, the request could be formatted as:<P>
+<span class="highlight" style="margin-left: 40px">
+https://[baseURL]/Patient/1234/Observation?code=http://loinc.org|72166-2</span>
+<br />
+<P>
+Each search request will return a bundle of zero or more results meeting the search criteria.
+<P>
+<strong>d.	Query for All Data as a CCDA document</strong>
+<P>
+CCDA documents can be accessed within DocumentReference resources. CCDAs are categorized as “Summary of Episode” Notes with LOINC code 34133-9. For example, to request a CCDA document covering all dates for patient 1234, the query could be formatted as:<P>
+<span class="highlight" style="margin-left: 40px">
+https://[baseURL]/DocumentReference?patient=1234&amp;type=http://loinc.org|34133-9</span>
+<br />
+<P>
+The Base64 encoded CCDA XML data can be found in the DocumentReference.content.attchment.data element of the returned DocumentReference resource
+<P>
+<strong>e.	Query for a Specific Date or Date Range</strong>
+<P>
+    The CCDS data categories or CCDA documents returned by the API may be limited by date by specifying either (1) a specific date or (2) start and/or end dates. These dates can be included as FHIR STU3 search parameters as defined at <a href="http://hl7.org/fhir/2016Sep/http.html#search">http://hl7.org/fhir/2016Sep/http.html#search</a>. Specifying a date or date range in the request is optional. The following table lists the supported search parameters for this purpose:
+<P>
+<TABLE>
+<TR>
+<TH>Resource Data Element	</TH><TH>Search Parameter</TH></TR>
+<TR>
+<TD>AllergyIntolerance.reaction.onset	</TD><TD>onset</TD></TR>
+<TR>
+<TD>CarePlan.period	</TD><TD>date</TD></TR>
+<TR>
+<TD>CareTeam.period	</TD><TD>date</TD></TR>
+<TR>
+<TD>Condition.onset	</TD><TD>onset-date</TD></TR>
+<TR>
+<TD>Goal.target	</TD><TD>targetdate</TD></TR>
+<TR>
+<TD>Immunization.date	</TD><TD>date</TD></TR>
+<TR>
+<TD>MedicationStatement.effective	</TD><TD>effective</TD></TR>
+<TR>
+<TD>Observation.effective	</TD><TD>date</TD></TR>
+<TR>
+<TD>Procedure.performed	</TD><TD>date</TD></TR>
+<TR>
+<TD>DocuementReference.period	</TD><TD>period</TD></TR></TABLE>
+<P>	
+<strong>f.	Error Handling</strong>
+<P>
+If the access token used in the request is invalid, expired, or the user has not been authorized to access the requested Resource, the API will return a 401 Unauthorized HTTP response.
+<P>
+If the request cannot be processed for other reasons (temporarily unavailable, unsupported resource type, system error, etc.), the API will return a 400 Bad Request HTTP response containing an OperationOutcome Resource with additional information regarding the issue contained in the OperationOutcome.issue element.
+<P>
+Handling of OAuth-related errors is detailed in RFC 6749.
+<P>
+Handling of dynamic client registration errors is detailed in RFC 7591.
+<P>
+<H4>4.	Frequently Asked Questions</H4>
+<P>
+<strong>a.	How do I access production API resources with my client application?</strong>
+<P>
+Please obtain [base] URL resource information from a specific healthcare provider organization when you are ready to begin allowing client end users to access PHI with production credentials. Each clinical data source accessible through the API will have a unique Base URL.
+<P>
+<strong>b.	How extensible is the Interoperability Engine API?</strong>
+<P>
+API resources are modeled after the HL7 FHIR Standard for Trial Use 3 (STU 3) Ballot which is in ballot stage as of this writing. This internationally-recognized API standard has been extended to include the additional data categories needed for use in systems certifying to the 2015 Edition Certification Criteria’s Common Clinical Data Set requirements. The API is designed to optimally interface with client applications while being comprehensive as a 2015 Edition solution for implementers wishing to rely on EMR Direct Interoperability Engine for Application Access services. This guide will help you access the data categories enabled by 2015 Edition Application Access APIs.
+<P>
+<strong>c.	How do end users and applications authenticate to the API?</strong>
+<P>
+The API is designed to support existing patient portal credentials via the OAuth 2.0 authorization framework as per RFC 6749. The OAuth server also supports dynamic client registration as per RFC 7591. 
+<P>
+<strong>d.	What data is available through the API?</strong>
+<P>
+The API will return all properly formatted data provided by a connected data source system in response to a submitted query. Healthcare organizations may have their own policies and/or safety best practices that will dictate what data can be sent and when data is considered complete and/or ready to be sent. Please contact a healthcare organization directly for questions related to their specific policies.
+<P>
+    <strong>e. What additional options are offered?</strong>
+<P>
+    Interoperability Engine 2017 also supports FHIR DSTU2 (with the Argonaut Data Query IG profiles),
+    the SMART App Launch Framework (both standalone launch and EHR launch),
+    SMART clinical scopes (patient, user, and system scopes), Open ID Connect, UMA (with the HEART profile),
+    OAuth 2.0 client credentials flow, OAuth 2.0 refresh tokens, OAuth 2.0 revocation, 
+    the Unified Data Access Profiles, manual client registration, sandbox access for testing, and more. Please contact the Data Holder
+    to determine which additional options have been enabled by the Data Holder for a particular endpoint.
+</P>
+    Terms of Use: <A HREF="http://www.interopengine.com/open-api-terms">http://www.interopengine.com/open-api-terms</A>
+<P>
+
+Trademark Notice: Interoperability Engine and the Interoperability Engine gears logo are trademarks of
+EMR Direct. HL7 and FHIR are registered trademarks of Health Level Seven International.
+
+<P>Copyright Notice: &copy; 2026 EMR Direct. All rights reserved.<P>
+<P>
+
+
+
+						
+<P>
+<P>
+																
+					
+										
+				</article>
+				<!-- end .portfolio-item -->
+		
+				
+					
+			</div>		
+			<!-- end .portfolio -->
+
+					
+	</div>
+	<!-- end #main.container -->
+
+	<!-- footer -->
+	<footer id="colophon">
+            <div class="footer-upper container">
+
+                <div class="one-third column">
+                </div>
+
+                <div class="one-third column">
+
+
+                </div>
+                <div>
+                    <div class="one-third column">						
+                        <P><P><A HREF="https://www.emrdirect.com/terms.html">Website Terms Of Use</A>
+                            <BR><A HREF="https://www.emrdirect.com/privacy.html">Privacy Policy</A>
+
+                    </div>	
+
+                </div>
+
+
+            </div>
+            <div id="footer-base">
+                <div class="container">
+                    <div class="eight columns">
+                        
+                        &copy; 2026 EMR Direct 
+                    </div>
+                    <div class="eight columns far-edge">
+
+                    </div>
+                </div>
+            </div>
+	</footer>
+	<!-- end footer -->
+
+
+
+	
+</div>
+<!-- end .wrap -->
+
+
+<!-- JS
+================================================== -->
+
+<!-- jQuery 1.6.2 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+
+<!-- Tabs -->
+<script src="../javascripts/tabs.js"></script>
+
+<!-- Agility JS -->
+<script src="../javascripts/agility.js"></script>
+
+<!--[if (gte IE 6)&(lte IE 8)]>
+  <script type="text/javascript" src="../javascripts/fix-ie.js"></script>
+<![endif]-->
+
+<!-- end Scripts -->
+
+
+<!-- End Document
+================================================== -->
+
+<!-- Agility - Responsive HTML5/CSS3 Template by SevenSpark http://agility-html.sevenspark.com -->
+
+</body>
+
+
+
+</html>
