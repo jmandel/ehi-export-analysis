@@ -154,9 +154,37 @@ mkdir -p chpl-data && curl -sL \
   -H 'api-key: 12909a978483dfb8ecd0596c98ae9094' \
   -o chpl-data/all-active-listings.json
 
-# 2. Generate targets + phase files
+# 2. Generate targets + per-target metadata
 ./wiggum/00-fetch-export-urls.sh
 
-# 3. Generate family-expanded targets
+# 3. Generate family-expanded targets + phase files
 bun run scripts/expand-targets-by-family.ts
 ```
+
+## Refreshing When New Products Appear
+
+When CHPL adds new certified products or updates URLs:
+
+```bash
+# 1. Re-download bulk data
+rm chpl-data/all-active-listings.json
+mkdir -p chpl-data && curl -sL \
+  'https://chpl.healthit.gov/rest/listings/download?listingType=active&format=json' \
+  -H 'api-key: 12909a978483dfb8ecd0596c98ae9094' \
+  -o chpl-data/all-active-listings.json
+
+# 2. Regenerate targets + metadata (preserves existing target indices)
+./wiggum/00-fetch-export-urls.sh
+
+# 3. Review product-families.json for any new multi-product vendors
+#    New vendors with multiple products need family groupings added manually.
+#    Products not in any defined family get individual family entries automatically.
+
+# 4. Regenerate family targets + phase files
+bun run scripts/expand-targets-by-family.ts
+
+# 5. Run the loop with --resume (skips already-collected families)
+```
+
+The pipeline is additive: `--resume` skips any family that already has completion
+markers, so only new/changed families get processed.
