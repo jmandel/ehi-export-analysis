@@ -31,24 +31,20 @@ export function Histogram({
   for (const v of vendors) buckets[toBin(v.holistic_score, min, max)]++;
   const maxCount = Math.max(...buckets, 1);
 
-  const mean =
-    vendors.length > 0
-      ? vendors.reduce((s, v) => s + v.holistic_score, 0) / vendors.length
-      : 0;
   const sorted = [...scores].sort((a, b) => a - b);
-  const median =
+  const medianScore =
     sorted.length > 0
       ? sorted.length % 2 === 0
         ? (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2
         : sorted[Math.floor(sorted.length / 2)]
       : 0;
+  const medianGrade = BIN_GRADES[toBin(medianScore, min, max)];
 
   return (
     <section className="histogram">
       <div className="stats">
         <span>{vendors.length} vendors</span>
-        <span>mean {mean.toFixed(1)}</span>
-        <span>median {median.toFixed(1)}</span>
+        <span>median {medianGrade}</span>
       </div>
       <div className="bars">
         {Array.from({ length: NUM_BINS }, (_, i) => NUM_BINS - i).map((bin) => (
