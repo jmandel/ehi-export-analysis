@@ -82,7 +82,7 @@ fi
 
 # Slugify product name for output directory
 slugify() {
-  echo "$1" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]\+/-/g' | sed 's/^-\|-$//g' | cut -c1-60
+  echo "$1" | tr '[:upper:]' '[:lower:]' | LC_ALL=C sed 's/[^a-z0-9]\+/-/g' | sed 's/^-\|-$//g' | cut -c1-60
 }
 PRODUCT_SLUG=$(slugify "$PRODUCT_NAME")
 
