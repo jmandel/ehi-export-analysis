@@ -111,6 +111,25 @@ esac
 
 mkdir -p "$OUTPUT_DIR"
 
+# Write metadata.json for traceability
+jq -n \
+  --arg vendor_slug "$TARGET_DIRNAME" \
+  --arg product_name "$PRODUCT_NAME" \
+  --arg product_slug "$PRODUCT_SLUG" \
+  --arg results_dir "results/$TARGET_DIRNAME" \
+  --arg created_at "$(date -Iseconds)" \
+  --argjson products "$(jq '[.products[] | select(.product_name == "'"$PRODUCT_NAME"'")]' "$RESULTS_DIR/chpl-metadata.json" 2>/dev/null || echo '[]')" \
+  --argjson developer "$(jq '.developer // {}' "$RESULTS_DIR/chpl-metadata.json" 2>/dev/null || echo '{}')" \
+  '{
+    vendor_slug: $vendor_slug,
+    product_name: $product_name,
+    product_slug: $product_slug,
+    results_dir: $results_dir,
+    created_at: $created_at,
+    developer: $developer,
+    certified_products: $products
+  }' > "$OUTPUT_DIR/metadata.json"
+
 # Render the prompt template
 PROMPT_FILE=$(mktemp)
 trap 'rm -f "$PROMPT_FILE"' EXIT
