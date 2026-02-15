@@ -1,0 +1,948 @@
+[
+  {
+    "name": "AMENDMENT_REQUESTS",
+    "description": "Table containing records of requests to modify or amend patient records.",
+    "columnCount": 8,
+    "primaryKeys": [
+      "AMENDMENT_REQUEST_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID"
+    ]
+  },
+  {
+    "name": "CCDS_IMPORTED_DOCUMENTS",
+    "description": "Table storing records of imported Continuity of Care Documents (CCDs).",
+    "columnCount": 10,
+    "primaryKeys": [
+      "CCDS_DOCUMENT_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID",
+      "PROVIDER_ID",
+      "LOCATION_ID"
+    ]
+  },
+  {
+    "name": "DIAGNOSTIC_IMAGING_REPORTS",
+    "description": "Table containing records of diagnostic imaging reports for patients.",
+    "columnCount": 6,
+    "primaryKeys": [
+      "DIAGNOSTIC_IMAGING_REPORT_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID"
+    ]
+  },
+  {
+    "name": "DOCUMENT_SNAPSHOTS",
+    "description": "Table storing snapshots of a patient’s medical records at a specific point in time.",
+    "columnCount": 5,
+    "primaryKeys": [
+      "SNAPSHOT_ID"
+    ],
+    "foreignKeyHints": [
+      "ENCOUNTER_ID"
+    ]
+  },
+  {
+    "name": "DRUG_HISTORY_REQUESTS",
+    "description": "Table containing records of requests for a patient’s drug history.",
+    "columnCount": 4,
+    "primaryKeys": [
+      "REQUEST_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID"
+    ]
+  },
+  {
+    "name": "DRUG_HISTORY_REQUEST_MESSAGES",
+    "description": "Table containing records of messages related to drug history requests.",
+    "columnCount": 4,
+    "primaryKeys": [
+      "REQUEST_ID",
+      "SURESCRIPTS_MESSAGE_ID"
+    ],
+    "foreignKeyHints": []
+  },
+  {
+    "name": "ETHNICITIES",
+    "description": "Table storing dictionary of ethnicities.",
+    "columnCount": 5,
+    "primaryKeys": [
+      "ETHNICITY_ID"
+    ],
+    "foreignKeyHints": []
+  },
+  {
+    "name": "HEALTH_CARE_TEAM_OTH_CONTACTS",
+    "description": "Table containing records of other health care team members.",
+    "columnCount": 4,
+    "primaryKeys": [
+      "HEALTH_CARE_TEAM_OC_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID",
+      "OTHER_CONTACT_ID"
+    ]
+  },
+  {
+    "name": "HEALTH_CARE_TEAM_PROVIDERS",
+    "description": "Table storing records of health care team providers.",
+    "columnCount": 7,
+    "primaryKeys": [
+      "HEALTH_CARE_TEAM_PROVIDER_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID",
+      "PROVIDER_ID"
+    ]
+  },
+  {
+    "name": "INTERVENTIONS",
+    "description": "Table containing records of medical interventions for patients.",
+    "columnCount": 14,
+    "primaryKeys": [
+      "INTERVENTION_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID",
+      "CPT_ID"
+    ]
+  },
+  {
+    "name": "INTERVENTIONS_NOT_DONE",
+    "description": "Table storing records of medical interventions that were not performed for patients.",
+    "columnCount": 12,
+    "primaryKeys": [
+      "INTERVENTION_NOT_DONE_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID",
+      "CPT_ID"
+    ]
+  },
+  {
+    "name": "LABORATORY_TESTS",
+    "description": "Table containing records of laboratory tests performed on patients.",
+    "columnCount": 5,
+    "primaryKeys": [
+      "LABORATORY_TEST_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID"
+    ]
+  },
+  {
+    "name": "LAB_ORGANIZATION",
+    "description": "Table storing records of laboratory organizations.",
+    "columnCount": 18,
+    "primaryKeys": [
+      "LAB_ORGANIZATION_ID"
+    ],
+    "foreignKeyHints": []
+  },
+  {
+    "name": "LAB_PANELS",
+    "description": "Table storing records of laboratory test panels.",
+    "columnCount": 39,
+    "primaryKeys": [
+      "LAB_PANEL_ID"
+    ],
+    "foreignKeyHints": [
+      "LAB_REPORT_ID",
+      "SOURCE_LAB_ID",
+      "LAB_PROVIDER_ID",
+      "CONTROL_ID",
+      "BATTERY_ID",
+      "SECTION_ID",
+      "ALT_BATTERY_ID"
+    ]
+  },
+  {
+    "name": "LAB_REPORTS",
+    "description": "Table containing records of laboratory reports for patients.",
+    "columnCount": 17,
+    "primaryKeys": [
+      "LAB_REPORT_ID",
+      "ACCOUNT_NAME"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID",
+      "LOCATION_ID",
+      "SOURCE_ENCOUNTER_ID",
+      "ORDERING_PROVIDER_ID"
+    ]
+  },
+  {
+    "name": "LAB_REPORT_LOCATIONS",
+    "description": "Table storing records of the locations where laboratory reports were generated.",
+    "columnCount": 17,
+    "primaryKeys": [
+      "LAB_REPORT_ID",
+      "ACCOUNT_NAME"
+    ],
+    "foreignKeyHints": []
+  },
+  {
+    "name": "LAB_TEST_RESULTS",
+    "description": "Table containing records of laboratory test results for patients.",
+    "columnCount": 32,
+    "primaryKeys": [
+      "LAB_TEST_RESULT_ID"
+    ],
+    "foreignKeyHints": [
+      "LAB_REPORT_ID",
+      "LAB_PANEL_ID",
+      "OBSERVATION_ID",
+      "SUB_ID",
+      "PRODUCER_ID",
+      "OBSERVER_ID",
+      "ALT_OBSERVATION_ID"
+    ]
+  },
+  {
+    "name": "LOCATIONS",
+    "description": "Table storing records of locations.",
+    "columnCount": 17,
+    "primaryKeys": [
+      "ACCOUNT_NAME",
+      "LOCATION_ID"
+    ],
+    "foreignKeyHints": []
+  },
+  {
+    "name": "MEDS",
+    "description": "Table containing records of medications prescribed to patients.",
+    "columnCount": 17,
+    "primaryKeys": [
+      "MED_ID",
+      "ACCOUNT_NAME"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID"
+    ]
+  },
+  {
+    "name": "MEDS_DOCUMENTED",
+    "description": "Table storing records of medications that were documented as being taken by patients.",
+    "columnCount": 7,
+    "primaryKeys": [
+      "MED_DOCUMENTED_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID"
+    ]
+  },
+  {
+    "name": "MEDS_NOT_DOCUMENTED",
+    "description": "Table storing records of medications that were not documented as being taken by patients.",
+    "columnCount": 8,
+    "primaryKeys": [
+      "MED_NOT_DOCUMENTED_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID"
+    ]
+  },
+  {
+    "name": "MEDS_NOT_ORDERED",
+    "description": "Table storing records of medications that were not ordered for patients.",
+    "columnCount": 17,
+    "primaryKeys": [
+      "MED_NOT_ORDERED_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID"
+    ]
+  },
+  {
+    "name": "MEDS_NO_KNOWN",
+    "description": "Table storing records of patients who have no known medication history.",
+    "columnCount": 1,
+    "primaryKeys": [
+      "PATIENT_ID"
+    ],
+    "foreignKeyHints": []
+  },
+  {
+    "name": "MED_CONCERNS",
+    "description": "Table storing records of medical concerns related to patient medications.",
+    "columnCount": 22,
+    "primaryKeys": [
+      "MED_CONCERN_ID",
+      "PATIENT_ID"
+    ],
+    "foreignKeyHints": []
+  },
+  {
+    "name": "MED_CONCERNS_DOCUMENTED",
+    "description": "Table storing records of documented medical concerns related to patient medications.",
+    "columnCount": 7,
+    "primaryKeys": [
+      "MED_CONCERN_DOCUMENTED_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID"
+    ]
+  },
+  {
+    "name": "MED_CONCERNS_NKA_STATUS",
+    "description": "Table storing records of the patient’s NKA (No Known Allergies) status related to medications.",
+    "columnCount": 5,
+    "primaryKeys": [
+      "PATIENT_ID"
+    ],
+    "foreignKeyHints": []
+  },
+  {
+    "name": "MED_RXS",
+    "description": "Table containing records of medication prescriptions for patients.",
+    "columnCount": 38,
+    "primaryKeys": [
+      "RX_ID",
+      "ACCOUNT_NAME"
+    ],
+    "foreignKeyHints": [
+      "MED_ID",
+      "THERAPY_ID",
+      "PROVIDER_ID",
+      "EPCS_ID",
+      "LOCATION_ID",
+      "PATIENT_ID",
+      "RELATES_TO_RX_ID"
+    ]
+  },
+  {
+    "name": "MED_THERAPIES",
+    "description": "Table storing records of medical therapies prescribed for patients.",
+    "columnCount": 33,
+    "primaryKeys": [
+      "THERAPY_ID",
+      "ACCOUNT_NAME"
+    ],
+    "foreignKeyHints": [
+      "MED_ID",
+      "PATIENT_ID"
+    ]
+  },
+  {
+    "name": "MISC_DEVICES",
+    "description": "Table containing records of misc medical devices used for patient care.",
+    "columnCount": 22,
+    "primaryKeys": [
+      "MISCDEV_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID",
+      "DEVICE_ID"
+    ]
+  },
+  {
+    "name": "ORDERS",
+    "description": "Table storing records of orders for patient care.",
+    "columnCount": 44,
+    "primaryKeys": [
+      "ORDER_ID",
+      "ACCOUNT_NAME"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID",
+      "TEST_LOCATION_ID",
+      "ORDERING_PROVIDER_ID",
+      "SIGNING_PROVIDER_ID",
+      "CPT_CODE_ID",
+      "AUC_ID"
+    ]
+  },
+  {
+    "name": "ORDERS_ACTIONS",
+    "description": "Table containing records of actions taken on patient orders.",
+    "columnCount": 8,
+    "primaryKeys": [
+      "ORDER_ACTION_ID"
+    ],
+    "foreignKeyHints": [
+      "ORDER_ID"
+    ]
+  },
+  {
+    "name": "OTHER_CONTACTS",
+    "description": "Table storing records of contacts related to patients.",
+    "columnCount": 15,
+    "primaryKeys": [
+      "OTHER_CONTACT_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID"
+    ]
+  },
+  {
+    "name": "PATIENTS",
+    "description": "Table storing records of patients.",
+    "columnCount": 112,
+    "primaryKeys": [
+      "PATIENT_ID"
+    ],
+    "foreignKeyHints": [
+      "MEDICAL_RECORD_ID",
+      "OFFICE_LOCATION_ID",
+      "REGULAR_PROVIDER_ID",
+      "OTHER_PHONE_CONTACT_ID"
+    ]
+  },
+  {
+    "name": "PATIENT_ADDRESSES",
+    "description": "Table containing records of patient addresses.",
+    "columnCount": 13,
+    "primaryKeys": [
+      "ACCOUNT_NAME",
+      "PATIENT_ID",
+      "SORT_ORDER"
+    ],
+    "foreignKeyHints": []
+  },
+  {
+    "name": "PATIENT_EDUCATION_RECIPIENTS",
+    "description": "Table storing records of patient education recipients.",
+    "columnCount": 2,
+    "primaryKeys": [],
+    "foreignKeyHints": [
+      "RESOURCE_ID"
+    ]
+  },
+  {
+    "name": "PATIENT_EDUCATION_RESOURCES",
+    "description": "Table containing records of patient education resources.",
+    "columnCount": 16,
+    "primaryKeys": [
+      "RESOURCE_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID",
+      "LOCATION_ID",
+      "PROVIDER_ID"
+    ]
+  },
+  {
+    "name": "PATIENT_EDUCATION_TRACKING",
+    "description": "Table storing records of patient education tracking.",
+    "columnCount": 3,
+    "primaryKeys": [],
+    "foreignKeyHints": [
+      "PATIENT_ID"
+    ]
+  },
+  {
+    "name": "PATIENT_ELIGIBILITY_COVERAGE",
+    "description": "Table containing records of patient eligibility and coverage for healthcare services.",
+    "columnCount": 6,
+    "primaryKeys": [
+      "ELIGIBILITY_ID",
+      "SERVICE_TYPE_CODE"
+    ],
+    "foreignKeyHints": []
+  },
+  {
+    "name": "PATIENT_ELIGIBILITY_INFO",
+    "description": "Table containing information on a patient’s eligibility for healthcare services, including insurance coverage and benefit details.",
+    "columnCount": 28,
+    "primaryKeys": [
+      "ELIGIBILITY_ID",
+      "ACCOUNT_NAME"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID",
+      "PBM_PARTICIPANT_ID",
+      "PATIENT_PBM_ID",
+      "CARD_HOLDER_ID",
+      "GROUP_ID",
+      "FORMULARY_LIST_ID",
+      "ALT_FORMULARY_LIST_ID",
+      "COVERAGE_ID",
+      "BAND_ID",
+      "COPAY_ID"
+    ]
+  },
+  {
+    "name": "PATIENT_ETHNICITY",
+    "description": "Table storing records a patient’s ethnicity.",
+    "columnCount": 4,
+    "primaryKeys": [
+      "ACCOUNT_NAME",
+      "PATIENT_ID",
+      "ETHNICITY_ID"
+    ],
+    "foreignKeyHints": []
+  },
+  {
+    "name": "PATIENT_IMMUNIZATIONS",
+    "description": "Table storing information about immunizations administered to a patient.",
+    "columnCount": 18,
+    "primaryKeys": [
+      "IMMUNIZATION_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID"
+    ]
+  },
+  {
+    "name": "PATIENT_INSURANCE",
+    "description": "Table storing information about a patient’s insurance policies and coverage.",
+    "columnCount": 12,
+    "primaryKeys": [
+      "PATIENT_INSURANCE_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID",
+      "PLAN_ID"
+    ]
+  },
+  {
+    "name": "PATIENT_PHARMACIES",
+    "description": "Table containing a list of pharmacies where a patient has received or can receive prescription medication.",
+    "columnCount": 4,
+    "primaryKeys": [
+      "PATIENT_ID",
+      "PHARMACY_ID"
+    ],
+    "foreignKeyHints": []
+  },
+  {
+    "name": "PATIENT_PREVIOUS_NAMES",
+    "description": "Table storing any previous names a patient has used.",
+    "columnCount": 11,
+    "primaryKeys": [
+      "PATIENT_ID",
+      "ACCOUNT_NAME",
+      "SORT_ORDER"
+    ],
+    "foreignKeyHints": []
+  },
+  {
+    "name": "PATIENT_PROCEDURES",
+    "description": "Table storing information about medical procedures a patient has undergone.",
+    "columnCount": 17,
+    "primaryKeys": [
+      "PROCEDURE_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID",
+      "CPT_ID"
+    ]
+  },
+  {
+    "name": "PATIENT_PROGRAM_ENROLLMENTS",
+    "description": "Table containing details about patient enrollment in healthcare programs.",
+    "columnCount": 3,
+    "primaryKeys": [
+      "ACCOUNT_NAME",
+      "PROGRAM_ID",
+      "PATIENT_ID"
+    ],
+    "foreignKeyHints": []
+  },
+  {
+    "name": "PATIENT_PROGRAM_SPECS",
+    "description": "Table storing information about healthcare programs.",
+    "columnCount": 6,
+    "primaryKeys": [
+      "PROGRAM_ID"
+    ],
+    "foreignKeyHints": []
+  },
+  {
+    "name": "PATIENT_RACE",
+    "description": "Table storing a patient’s race.",
+    "columnCount": 4,
+    "primaryKeys": [
+      "PATIENT_ID",
+      "RACE_ID",
+      "ACCOUNT_NAME"
+    ],
+    "foreignKeyHints": []
+  },
+  {
+    "name": "PATIENT_RELATIVES",
+    "description": "Table containing information about a patient’s family members.",
+    "columnCount": 16,
+    "primaryKeys": [
+      "RELATIVE_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID"
+    ]
+  },
+  {
+    "name": "PATIENT_RELATIVE_DISEASES",
+    "description": "Table storing information about diseases or medical conditions that affect a patient’s family members, which may be relevant to the patient’s own healthcare.",
+    "columnCount": 4,
+    "primaryKeys": [
+      "PATIENT_RELATIVE_DISEASE_ID"
+    ],
+    "foreignKeyHints": [
+      "RELATIVE_ID"
+    ]
+  },
+  {
+    "name": "PATIENT_REPORTED_VITALS",
+    "description": "Table containing vital sign measurements reported by the patient.",
+    "columnCount": 10,
+    "primaryKeys": [
+      "PATIENT_REPORTED_VITALS_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID"
+    ]
+  },
+  {
+    "name": "PATIENT_TRANSFERS",
+    "description": "Table storing information about patient transfers.",
+    "columnCount": 5,
+    "primaryKeys": [
+      "PATIENT_ID",
+      "DATETIME",
+      "ACCOUNT_NAME"
+    ],
+    "foreignKeyHints": [
+      "PROVIDER_ID"
+    ]
+  },
+  {
+    "name": "PC_PATIENT_CONTACTS",
+    "description": "Table containing contact information for patients.",
+    "columnCount": 12,
+    "primaryKeys": [
+      "PC_PATIENT_ID"
+    ],
+    "foreignKeyHints": []
+  },
+  {
+    "name": "PE_PATIENT_ENCOUNTER",
+    "description": "Table containing information about patient encounters.",
+    "columnCount": 56,
+    "primaryKeys": [
+      "PE_ACCOUNT_NAME",
+      "PE_ENCOUNTER_ID"
+    ],
+    "foreignKeyHints": [
+      "PE_ENCOUNTER_LOCATION_ID",
+      "PE_PATIENT_ID",
+      "PE_PRIMARY_EXAMINER_ID",
+      "PE_RESIDENT_EXAMINER_ID",
+      "PE_SOURCE_LAB_REPORT_ID",
+      "MQ_MESSAGE_ID"
+    ]
+  },
+  {
+    "name": "PHR_ACTIVITY_LOG",
+    "description": "Table containing activities related to a patient’s personal health record (PHR).",
+    "columnCount": 8,
+    "primaryKeys": [
+      "PHR_ACTIVITY_LOG_ID",
+      "ACCOUNT_NAME"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID",
+      "ENCOUNTER_ID"
+    ]
+  },
+  {
+    "name": "PHR_DOCUMENTS",
+    "description": "Table storing documents related to a patient’s health that are accessible through the patient’s PHR.",
+    "columnCount": 10,
+    "primaryKeys": [
+      "PHR_DOCUMENT_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID",
+      "ENCOUNTER_ID",
+      "LAB_REPORT_ID",
+      "TRANSMISSION_ID"
+    ]
+  },
+  {
+    "name": "PHR_PATIENT_COMMUNICATIONS",
+    "description": "Table containing information about communication between a patient and healthcare provider through the patient’s PHR.",
+    "columnCount": 7,
+    "primaryKeys": [
+      "PHR_PATIENT_COMMUNICATIONS_ID",
+      "ACCOUNT_NAME"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID"
+    ]
+  },
+  {
+    "name": "PHR_RECEIVED_MESSAGES",
+    "description": "Table storing messages received by the patient through their PHR.",
+    "columnCount": 11,
+    "primaryKeys": [
+      "PHR_MESSAGE_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID",
+      "LOCATION_ID",
+      "TASK_ID",
+      "REPLY_TO_PHR_SENT_MESSAGE_ID"
+    ]
+  },
+  {
+    "name": "PHR_SENT_MESSAGES",
+    "description": "Table storing messages sent by the patient through their PHR.",
+    "columnCount": 10,
+    "primaryKeys": [
+      "PHR_SENT_MESSAGE_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID",
+      "LOCATION_ID"
+    ]
+  },
+  {
+    "name": "PROBLEMS",
+    "description": "Table storing information about health problems or diagnoses for patients.",
+    "columnCount": 18,
+    "primaryKeys": [
+      "PROBLEM_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID"
+    ]
+  },
+  {
+    "name": "PROBLEMS_DOCUMENTED",
+    "description": "Table storing documentation and notes about the patient’s problems or diagnoses.",
+    "columnCount": 7,
+    "primaryKeys": [
+      "PROBLEM_DOCUMENTED_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID"
+    ]
+  },
+  {
+    "name": "PROVIDERS",
+    "description": "Table storing information about healthcare providers.",
+    "columnCount": 44,
+    "primaryKeys": [
+      "ACCOUNT_NAME",
+      "PROVIDER_ID"
+    ],
+    "foreignKeyHints": [
+      "SURESCRIPTS_PROVIDER_ID",
+      "MEDMAN_ID",
+      "MEDMAN_TRINITY_ID",
+      "SUPERVISING_PROVIDER_ID"
+    ]
+  },
+  {
+    "name": "RECONCILIATION_HISTORY",
+    "description": "Table tracking the medication reconciliation history for a patient, including changes and updates made.",
+    "columnCount": 7,
+    "primaryKeys": [
+      "RECONCILIATION_HISTORY_ID",
+      "ACCOUNT_NAME"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID",
+      "CCDS_DOCUMENT_ID"
+    ]
+  },
+  {
+    "name": "RS_RESEARCH_STUDY_DESC",
+    "description": "Table storing descriptions of research studies that patients may participate in.",
+    "columnCount": 6,
+    "primaryKeys": [
+      "RS_ACCOUNT_NAME",
+      "RS_RESEARCH_STUDY_ID"
+    ],
+    "foreignKeyHints": []
+  },
+  {
+    "name": "RS_STUDY_MEMBER",
+    "description": "Table storing information about members of a research study.",
+    "columnCount": 13,
+    "primaryKeys": [
+      "RS_ACCOUNT_NAME",
+      "RS_RESEARCH_STUDY_ID",
+      "RS_PATIENT_ID"
+    ],
+    "foreignKeyHints": []
+  },
+  {
+    "name": "RS_STUDY_SITE",
+    "description": "Table storing information about the sites where a research study is being conducted.",
+    "columnCount": 4,
+    "primaryKeys": [
+      "RS_ACCOUNT_NAME",
+      "RS_RESEARCH_STUDY_ID",
+      "RS_SITE_NUMBER"
+    ],
+    "foreignKeyHints": []
+  },
+  {
+    "name": "RXHUB_DRUG_HISTORY",
+    "description": "Table storing a patient’s medication history as obtained from a prescription drug monitoring program.",
+    "columnCount": 89,
+    "primaryKeys": [
+      "ACCOUNT_NAME",
+      "DRUG_HISTORY_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID",
+      "ELIGIBILITY_ID",
+      "SOURCE_REFERENCE_ID"
+    ]
+  },
+  {
+    "name": "RXHUB_DRUG_HISTORY_EVAL",
+    "description": "Table storing the evaluation results of a patient’s medication history obtained from a prescription drug monitoring program.",
+    "columnCount": 8,
+    "primaryKeys": [
+      "ACCOUNT_NAME",
+      "DRUG_HISTORY_EVAL_ID"
+    ],
+    "foreignKeyHints": [
+      "DRUG_HISTORY_ID",
+      "CO_AGENT_ID"
+    ]
+  },
+  {
+    "name": "SCANNED_CARDS",
+    "description": "Table storing images of physical cards.",
+    "columnCount": 8,
+    "primaryKeys": [
+      "SCANNED_CARD_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID"
+    ]
+  },
+  {
+    "name": "SOCIAL_HISTORY_ENTRIES",
+    "description": "Table storing information about the patient’s social history.",
+    "columnCount": 14,
+    "primaryKeys": [
+      "SH_ENTRY_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID"
+    ]
+  },
+  {
+    "name": "SURVEYS",
+    "description": "Table storing information about surveys completed by patients.",
+    "columnCount": 9,
+    "primaryKeys": [
+      "SURVEY_ID",
+      "ACCOUNT_NAME"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID",
+      "APPOINTMENT_ID",
+      "SURVEY_FORM_TYPE_ID"
+    ]
+  },
+  {
+    "name": "SURVEY_FIELD_VALUES",
+    "description": "Table storing the responses to individual survey questions.",
+    "columnCount": 8,
+    "primaryKeys": [],
+    "foreignKeyHints": [
+      "SURVEY_ID"
+    ]
+  },
+  {
+    "name": "SURVEY_FORM_TYPES",
+    "description": "Table storing information about the types of surveys that can be completed.",
+    "columnCount": 11,
+    "primaryKeys": [
+      "SURVEY_FORM_TYPE_ID"
+    ],
+    "foreignKeyHints": []
+  },
+  {
+    "name": "SURVEY_FORM_TYPE_BLOCKS",
+    "description": "SURVEY_FORM_TYPE_BLOCKS",
+    "columnCount": 4,
+    "primaryKeys": [
+      "BLOCK_ID"
+    ],
+    "foreignKeyHints": [
+      "SURVEY_FORM_TYPE_ID"
+    ]
+  },
+  {
+    "name": "SURVEY_FORM_TYPE_FIELDS",
+    "description": "Table storing the specific questions of a particular survey type.",
+    "columnCount": 9,
+    "primaryKeys": [
+      "ACCOUNT_NAME",
+      "FIELD_NAME",
+      "BLOCK_ID"
+    ],
+    "foreignKeyHints": []
+  },
+  {
+    "name": "SURVEY_FORM_TYPE_TEXT_BLOCKS",
+    "description": "SURVEY_FORM_TYPE_TEXT_BLOCKS",
+    "columnCount": 3,
+    "primaryKeys": [],
+    "foreignKeyHints": [
+      "BLOCK_ID"
+    ]
+  },
+  {
+    "name": "TOC_REQUESTS",
+    "description": "Table storing information about requests for transition of care documents.",
+    "columnCount": 11,
+    "primaryKeys": [
+      "TOC_REQUEST_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID",
+      "PROVIDER_ID",
+      "LOCATION_ID"
+    ]
+  },
+  {
+    "name": "TRANSITION_OF_CARE_HISTORY_LOG",
+    "description": "Table storing a log of transition of care documents that have been sent or received.",
+    "columnCount": 8,
+    "primaryKeys": [
+      "TOC_HISTORY_LOG_ID",
+      "ACCOUNT_NAME"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID",
+      "ENCOUNTER_ID"
+    ]
+  },
+  {
+    "name": "USERS",
+    "description": "Table storing information about users who have access to the EHR system.",
+    "columnCount": 33,
+    "primaryKeys": [
+      "USERNAME"
+    ],
+    "foreignKeyHints": [
+      "PHR_PATIENT_ID"
+    ]
+  },
+  {
+    "name": "VITALS",
+    "description": "Table storing vital sign measurements for patients.",
+    "columnCount": 56,
+    "primaryKeys": [
+      "VITALS_ID"
+    ],
+    "foreignKeyHints": [
+      "PATIENT_ID",
+      "OFFICE_VISIT_ID",
+      "LINKED_PATIENT_REPORTED_VITALS_ID",
+      "MQ_MESSAGE_ID"
+    ]
+  }
+]
