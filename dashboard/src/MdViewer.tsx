@@ -1,9 +1,8 @@
-import { createRoot } from "react-dom/client";
 import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-function MdViewer() {
+export function MdViewer() {
   const [content, setContent] = useState<string>("Loading…");
   const src = new URLSearchParams(window.location.search).get("src");
 
@@ -16,7 +15,6 @@ function MdViewer() {
       .then((r) => (r.ok ? r.text() : "*Document not found.*"))
       .then((text) => {
         setContent(text);
-        // Set page title from first heading
         const m = text.match(/^#\s+(.+)/m);
         if (m) document.title = m[1];
       });
@@ -30,5 +28,3 @@ function MdViewer() {
     </div>
   );
 }
-
-createRoot(document.getElementById("root")!).render(<MdViewer />);

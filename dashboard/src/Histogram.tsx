@@ -1,12 +1,14 @@
 import type { Vendor } from "./types";
 
-function scoreColor(score: number): string {
-  if (score <= 2) return "#e74c3c";
-  if (score <= 4) return "#e67e22";
-  if (score <= 6) return "#f1c40f";
-  if (score <= 8) return "#2ecc71";
-  return "#27ae60";
+const NUM_BINS = 5;
+
+function toBin(score: number, min: number, max: number): number {
+  if (max === min) return 1;
+  const normalized = (score - min) / (max - min);
+  return Math.min(NUM_BINS, Math.max(1, Math.ceil(normalized * NUM_BINS)));
 }
+
+const BIN_COLORS = ["", "#e74c3c", "#e67e22", "#f1c40f", "#2ecc71", "#27ae60"];
 
 export function Histogram({
   vendors,
@@ -17,27 +19,28 @@ export function Histogram({
   selectedScore: number | null;
   onSelect: (score: number) => void;
 }) {
-  // Bucket by integer score
-  const buckets = new Array(11).fill(0);
-  for (const v of vendors) {
-    const b = Math.min(10, Math.max(0, Math.floor(v.holistic_score)));
-    buckets[b]++;
-  }
+  const scores = vendors.map((v) => v.holistic_score);
+  const min = Math.min(...scores, 0);
+  const max = Math.max(...scores, 1);
+
+  const buckets = new Array(NUM_BINS + 1).fill(0);
+  for (const v of vendors) buckets[toBin(v.holistic_score, min, max)]++;
   const maxCount = Math.max(...buckets, 1);
 
   const mean =
     vendors.length > 0
       ? vendors.reduce((s, v) => s + v.holistic_score, 0) / vendors.length
       : 0;
-  const sorted = [...vendors].sort((a, b) => a.holistic_score - b.holistic_score);
+  const sorted = [...scores].sort((a, b) => a - b);
   const median =
     sorted.length > 0
       ? sorted.length % 2 === 0
-        ? (sorted[sorted.length / 2 - 1].holistic_score +
-            sorted[sorted.length / 2].holistic_score) /
-          2
-        : sorted[Math.floor(sorted.length / 2)].holistic_score
+        ? (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2
+        : sorted[Math.floor(sorted.length / 2)]
       : 0;
+
+  // Bin edge labels
+  const binLabel = (bin: number) => `${bin}`;
 
   return (
     <section className="histogram">
@@ -47,25 +50,27 @@ export function Histogram({
         <span>median {median.toFixed(1)}</span>
       </div>
       <div className="bars">
-        {buckets.map((count, score) => (
+        {Array.from({ length: NUM_BINS }, (_, i) => i + 1).map((bin) => (
           <div
-            key={score}
-            className={`bar-col ${selectedScore === score ? "selected" : ""}`}
-            onClick={() => onSelect(score)}
+            key={bin}
+            className={`bar-col ${selectedScore === bin ? "selected" : ""}`}
+            onClick={() => onSelect(bin)}
           >
-            <span className="bar-count">{count || ""}</span>
+            <span className="bar-count">{buckets[bin] || ""}</span>
             <div
               className="bar"
               style={{
-                height: `${(count / maxCount) * 200}px`,
-                backgroundColor: scoreColor(score),
-                opacity: selectedScore !== null && selectedScore !== score ? 0.3 : 1,
+                height: `${(buckets[bin] / maxCount) * 200}px`,
+                backgroundColor: BIN_COLORS[bin],
+                opacity: selectedScore !== null && selectedScore !== bin ? 0.3 : 1,
               }}
             />
-            <span className="bar-label">{score}</span>
+            <span className="bar-label">{binLabel(bin)}</span>
           </div>
         ))}
       </div>
     </section>
   );
 }
+
+export { toBin };

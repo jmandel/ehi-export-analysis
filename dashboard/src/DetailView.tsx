@@ -2,12 +2,17 @@ import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import type { Vendor } from "./types";
+import { toBin } from "./Histogram";
+
+const BIN_COLORS = ["", "#e74c3c", "#e67e22", "#f1c40f", "#2ecc71", "#27ae60"];
 
 export function DetailView({
   vendor,
+  scoreRange,
   onBack,
 }: {
   vendor: Vendor | null;
+  scoreRange: [number, number];
   onBack: () => void;
 }) {
   const [analysisContent, setAnalysisContent] = useState<string>("");
@@ -30,12 +35,8 @@ export function DetailView({
     );
   }
 
-  let scoreColor = "#e74c3c";
-  if (vendor.holistic_score > 2) scoreColor = "#e67e22";
-  if (vendor.holistic_score > 4) scoreColor = "#f1c40f";
-  if (vendor.holistic_score > 6) scoreColor = "#2ecc71";
-  if (vendor.holistic_score > 8) scoreColor = "#27ae60";
-
+  const bin = toBin(vendor.holistic_score, scoreRange[0], scoreRange[1]);
+  const scoreColor = BIN_COLORS[bin];
   const baseUrl = `${window.location.origin}${window.location.pathname}`;
 
   return (
@@ -49,7 +50,7 @@ export function DetailView({
           className="score-badge large"
           style={{ backgroundColor: scoreColor }}
         >
-          {vendor.holistic_score}
+          {bin}
         </span>
         <div>
           <h1>
@@ -70,12 +71,15 @@ export function DetailView({
             🏥 CHPL #{id}
           </a>
         ))}
+      </nav>
+
+      <nav className="detail-links ai-links">
         {vendor.has_research && (
           <a
             href={`${baseUrl}md.html?src=data/research/${vendor.slug}.md`}
             target="_blank"
           >
-            📋 Product Research
+            <span className="ai-tag">AI</span> Product Research
           </a>
         )}
         {vendor.has_report && (
@@ -83,7 +87,7 @@ export function DetailView({
             href={`${baseUrl}md.html?src=data/reports/${vendor.slug}.md`}
             target="_blank"
           >
-            📊 Download/Retrieval Report
+            <span className="ai-tag">AI</span> Download/Retrieval Report
           </a>
         )}
       </nav>
@@ -129,6 +133,7 @@ export function DetailView({
       )}
 
       <article className="analysis-content">
+        <h2><span className="ai-tag">AI</span> Export Analysis</h2>
         <ReactMarkdown remarkPlugins={[remarkGfm]}>
           {analysisContent}
         </ReactMarkdown>

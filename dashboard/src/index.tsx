@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
-import { useState, useEffect } from "react";
 import { App } from "./App";
+import { MdViewer } from "./MdViewer";
 
 const root = createRoot(document.getElementById("root")!);
-root.render(<App />);
+const isMdViewer = window.location.pathname.endsWith("md.html");
+root.render(isMdViewer ? <MdViewer /> : <App />);

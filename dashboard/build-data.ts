@@ -1,21 +1,22 @@
 #!/usr/bin/env bun
-// Build the static dashboard data directory.
+// Build the dashboard data directory.
 //
 // Merges summary.json + metadata.json for each vendor into vendors.json,
 // copies all artifacts (analyses, research, reports, downloads, scripts)
-// into static/data/ for a self-contained archive.
+// into dist/data/ for a self-contained archive.
 //
 // Usage:
-//   bun run scripts/build-dashboard.ts
+//   bun run build-data.ts
 
-import { join, dirname, basename } from "node:path";
+import { join, dirname } from "node:path";
 import { mkdirSync, existsSync, readdirSync, cpSync } from "node:fs";
 
-const ROOT = join(dirname(new URL(import.meta.url).pathname), "..");
+const DASHBOARD = dirname(new URL(import.meta.url).pathname);
+const ROOT = join(DASHBOARD, "..");
 const ABSTRACTION = join(ROOT, "abstraction");
 const RESULTS = join(ROOT, "results");
-const STATIC = join(ROOT, "static");
-const DATA = join(STATIC, "data");
+const DIST = join(DASHBOARD, "dist");
+const DATA = join(DIST, "data");
 
 interface Vendor {
   slug: string;

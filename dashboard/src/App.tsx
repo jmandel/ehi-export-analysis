@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import type { Vendor } from "./types";
-import { Histogram } from "./Histogram";
+import { Histogram, toBin } from "./Histogram";
 import { VendorList } from "./VendorList";
 import { DetailView } from "./DetailView";
 
@@ -26,11 +26,16 @@ export function App() {
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
 
+  const scores = vendors.map((v) => v.holistic_score);
+  const min = Math.min(...scores, 0);
+  const max = Math.max(...scores, 1);
+
   if (detailSlug) {
     const vendor = vendors.find((v) => v.slug === detailSlug);
     return (
       <DetailView
         vendor={vendor ?? null}
+        scoreRange={[min, max]}
         onBack={() => {
           window.location.hash = "";
         }}
@@ -40,7 +45,7 @@ export function App() {
 
   const filtered =
     selectedScore !== null
-      ? vendors.filter((v) => Math.floor(v.holistic_score) === selectedScore)
+      ? vendors.filter((v) => toBin(v.holistic_score, min, max) === selectedScore)
       : vendors;
 
   return (
@@ -60,6 +65,7 @@ export function App() {
       <VendorList
         vendors={filtered}
         selectedScore={selectedScore}
+        scoreRange={[min, max]}
         onClearFilter={() => setSelectedScore(null)}
       />
     </div>

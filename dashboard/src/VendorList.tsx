@@ -1,14 +1,12 @@
 import type { Vendor } from "./types";
+import { toBin } from "./Histogram";
 
-function scoreBadge(score: number) {
-  let color = "#e74c3c";
-  if (score > 2) color = "#e67e22";
-  if (score > 4) color = "#f1c40f";
-  if (score > 6) color = "#2ecc71";
-  if (score > 8) color = "#27ae60";
+const BIN_COLORS = ["", "#e74c3c", "#e67e22", "#f1c40f", "#2ecc71", "#27ae60"];
+
+function scoreBadge(bin: number) {
   return (
-    <span className="score-badge" style={{ backgroundColor: color }}>
-      {score}
+    <span className="score-badge" style={{ backgroundColor: BIN_COLORS[bin] }}>
+      {bin}
     </span>
   );
 }
@@ -16,10 +14,12 @@ function scoreBadge(score: number) {
 export function VendorList({
   vendors,
   selectedScore,
+  scoreRange,
   onClearFilter,
 }: {
   vendors: Vendor[];
   selectedScore: number | null;
+  scoreRange: [number, number];
   onClearFilter: () => void;
 }) {
   const sorted = [...vendors].sort((a, b) => a.holistic_score - b.holistic_score);
@@ -49,7 +49,7 @@ export function VendorList({
             target="_blank"
             rel="noopener"
           >
-            {scoreBadge(v.holistic_score)}
+            {scoreBadge(toBin(v.holistic_score, scoreRange[0], scoreRange[1]))}
             <div className="vendor-info">
               <div className="vendor-name">
                 {v.developer} — {v.family}
