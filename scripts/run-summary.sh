@@ -11,7 +11,7 @@
 # Options:
 #   --analysis-dir  Path to abstraction/<vendor>--<product>/ directory (required)
 #   --backend       LLM backend: copilot (default)
-#   --model         Model override (default: claude-sonnet-4.5)
+#   --model         Model override (default: claude-opus-4.6-fast)
 #   -h, --help      Show this message
 
 set -euo pipefail
@@ -53,10 +53,10 @@ if [[ ! -f "$SCHEMA_FILE" ]]; then
   exit 2
 fi
 
-# Set default model per backend — lighter model since this is extraction not analysis
+# Set default model per backend
 if [[ -z "$MODEL" ]]; then
   case "$BACKEND" in
-    copilot) MODEL="claude-sonnet-4.5" ;;
+    copilot) MODEL="claude-opus-4.6-fast" ;;
     codex)   MODEL="gpt-5.1-codex" ;;
     *)       echo "Unknown backend: $BACKEND"; exit 1 ;;
   esac
