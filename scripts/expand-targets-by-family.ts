@@ -184,6 +184,7 @@ for (let idx = 0; idx < targets.length; idx++) {
 
   if (families) {
     // Use defined families
+    const claimedIds = new Set<number>();
     for (const fam of families) {
       // Find matching products and their CHPL IDs
       const matchedProducts: ProductDetail[] = [];
@@ -203,6 +204,8 @@ for (let idx = 0; idx < targets.length; idx++) {
 
       if (inScope.length === 0) continue; // family not in this target
 
+      for (const p of inScope) claimedIds.add(p.chpl_id);
+
       // Pick newest as focus
       inScope.sort((a, b) => b.certification_date.localeCompare(a.certification_date));
       const focus = inScope[0];
@@ -218,6 +221,25 @@ for (let idx = 0; idx < targets.length; idx++) {
         original_index: origIdx,
         product_count: inScope.length,
         phase: classifyFamily(inScope.map((p) => p.certified_criteria)),
+      });
+    }
+
+    // Catch products not claimed by any defined family
+    const unclaimed = metadata
+      ? metadata.products.filter((p) => target.chpl_ids.includes(p.chpl_id) && !claimedIds.has(p.chpl_id))
+      : [];
+    for (const p of unclaimed) {
+      output.push({
+        url: target.url,
+        developers: target.developers,
+        family: p.product_name,
+        focus_product: p.product_name,
+        focus_version: p.version,
+        products: [p.product_name],
+        chpl_ids: [p.chpl_id],
+        original_index: origIdx,
+        product_count: 1,
+        phase: classifyFamily([p.certified_criteria]),
       });
     }
   } else {
