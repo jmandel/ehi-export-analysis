@@ -352,27 +352,44 @@ Every hard number in the analysis.md should be traceable to a file in `analysis/
 
 ### Extraction completeness requirement
 
-When you write a script to parse a data dictionary, schema, or other structured
-artifact, **always materialize the full extracted content** — not just summary
-counts. Specifically:
+Your most valuable output is a **complete, idiomatic JSON parse** of every
+structured artifact in `downloads/`. The workflow is:
 
-1. **`full-entity-inventory.json`** (required for any export with a data dictionary):
-   A complete machine-readable extraction containing every entity/table and every
-   field the script parsed. Each field entry should include all available metadata
-   (name, type, description, nullability, relationships, value sets — whatever
-   the source provides). This is the canonical extracted representation.
+1. **Parse first, analyze second.** Before writing any summary statistics or
+   prose, write a script that reads the raw artifact (HTML data dictionary,
+   PDF tables, JSON schema, XLSX, CSV, etc.) and emits a clean, complete
+   JSON representation of its full content. This is your intermediate
+   representation — everything downstream derives from it.
 
-2. **`category-summary.json`** or similar (derived from the full inventory):
-   Aggregate statistics by the vendor's own categories — entity count, field count,
-   description coverage per category. This is what you reference in analysis.md.
+2. **`full-entity-inventory.json`** (required whenever there's a parseable
+   data dictionary or schema): A complete machine-readable extraction of
+   every entity/table and every field. For each field, capture everything
+   the source provides: name, type, description, nullability, max length,
+   foreign keys, value sets, coded values, default values, example data.
+   Don't summarize or truncate — if the source has 715 fields, the JSON
+   has 715 field objects. This file IS the parse.
 
-The principle: if your script reads a field name, description, and type from a
-PDF or HTML table, all three should appear in the output JSON — not just a count
-of "164 described fields." The full inventory is the most valuable artifact you
-produce; summary stats are derived from it, not a substitute for it.
+3. **Derive aggregates from the parse.** Summary statistics, category
+   breakdowns, coverage tables in analysis.md — all computed from the
+   full inventory JSON, not counted separately. If your script counts
+   "164 fields with descriptions," there should be exactly 164 field
+   objects in the JSON where `description` is non-empty.
 
-If parsing is lossy (e.g., `pdftotext` garbles some table rows), document the
-parse failures in the output and note the gap in analysis.md.
+4. **Parse aggressively.** If a PDF has tabular data, extract the table
+   rows — don't just count them. If an HTML page has field definitions
+   in a `<dl>` or `<table>`, parse every entry. If a JSON schema has
+   nested properties, flatten and enumerate them all. Err on the side
+   of extracting too much rather than too little. A messy-but-complete
+   parse is better than a tidy summary with the underlying data thrown
+   away.
+
+5. **Handle parse failures explicitly.** If `pdftotext` garbles some rows,
+   include them with a `"parse_error": true` flag and the raw text. Report
+   total parsed vs failed in the output. Don't silently skip unparseable
+   content.
+
+The full inventory is the most valuable artifact you produce. Every number
+in analysis.md should be reproducible by querying it.
 
 ## Important guidance
 
