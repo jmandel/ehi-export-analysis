@@ -1,5 +1,6 @@
 #!/usr/bin/env bun
-// Expand targets.json into per-family targets using product-families.json.
+// Expand targets.json into per-family targets using product-families.json,
+// then classify each family into a priority phase based on certification criteria.
 //
 // For each URL target, looks up the vendor's product families and emits
 // one target entry per family. Single-product vendors get one entry with
@@ -9,10 +10,21 @@
 // The "focus_product" is the newest certified product in each family
 // (by certification_date), which collection prompts should prioritize.
 //
+// Phase classification (highest-priority match across all products in family):
+//   Phase 1 (comprehensive-ehrs): any product has CPOE (a)(1-3) AND FHIR API (g)(10)
+//   Phase 2 (cpoe-no-fhir):       any product has CPOE but none have (g)(10)
+//   Phase 3 (other):              everything else
+//
+// Outputs:
+//   work/family-targets.json              — all family targets
+//   work/phases/phase-{N}-{slug}.json     — per-phase family target lists
+//   work/phases/manifest.json             — phase summary
+//
 // Usage:
 //   bun run scripts/expand-targets-by-family.ts [--targets work/targets.json] [--output work/family-targets.json]
 
 import { join, dirname } from "node:path";
+import { mkdirSync } from "node:fs";
 
 const ROOT = join(dirname(new URL(import.meta.url).pathname), "..");
 
@@ -36,6 +48,54 @@ for (let i = 0; i < args.length; i++) {
     console.log("Usage: bun run scripts/expand-targets-by-family.ts [--targets <file>] [--output <file>]");
     process.exit(0);
   }
+}
+
+// ── Phase definitions ───────────────────────────────────────────────────────
+const CPOE = new Set(["170.315 (a)(1)", "170.315 (a)(2)", "170.315 (a)(3)"]);
+const G10 = new Set(["170.315 (g)(10)"]);
+
+function hasCPOE(criteria: string[]): boolean {
+  return criteria.some((c) => CPOE.has(c));
+}
+function hasG10(criteria: string[]): boolean {
+  return criteria.some((c) => G10.has(c));
+}
+
+interface PhaseDef {
+  phase: number;
+  name: string;
+  slug: string;
+  description: string;
+}
+
+const PHASES: PhaseDef[] = [
+  {
+    phase: 1,
+    name: "Comprehensive EHRs",
+    slug: "comprehensive-ehrs",
+    description: "CPOE + FHIR API (g)(10). Full-featured EHRs with order entry and standards-based API access.",
+  },
+  {
+    phase: 2,
+    name: "CPOE systems without FHIR API",
+    slug: "cpoe-no-fhir",
+    description: "CPOE certified but no (g)(10). EHRs with order entry but no standardized FHIR API.",
+  },
+  {
+    phase: 3,
+    name: "Other certified products",
+    slug: "other",
+    description: "Everything else: no CPOE. Patient portals, lab systems, specialty modules, minimal certifications.",
+  },
+];
+
+// Classify a family by its products' criteria (highest-priority match)
+function classifyFamily(allCriteria: string[][]): number {
+  const anyCPOE = allCriteria.some((c) => hasCPOE(c));
+  const anyG10 = allCriteria.some((c) => hasG10(c));
+  if (anyCPOE && anyG10) return 1;
+  if (anyCPOE) return 2;
+  return 3;
 }
 
 interface Target {
@@ -80,6 +140,7 @@ interface FamilyTarget {
   chpl_ids: number[];
   original_index: number;
   product_count: number;
+  phase: number;
 }
 
 const targets: Target[] = await Bun.file(targetsPath).json();
@@ -156,6 +217,7 @@ for (let idx = 0; idx < targets.length; idx++) {
         chpl_ids: inScope.map((p) => p.chpl_id),
         original_index: origIdx,
         product_count: inScope.length,
+        phase: classifyFamily(inScope.map((p) => p.certified_criteria)),
       });
     }
   } else {
@@ -183,6 +245,11 @@ for (let idx = 0; idx < targets.length; idx++) {
         chpl_ids: matchingIds,
         original_index: origIdx,
         product_count: matchingIds.length,
+        phase: classifyFamily(
+          matchingIds
+            .map((id) => metadata?.products.find((p) => p.chpl_id === id)?.certified_criteria)
+            .filter((c): c is string[] => !!c),
+        ),
       });
     }
   }
@@ -200,3 +267,27 @@ const multiFamily = new Set(
 );
 console.log(`  ${targets.length} URL targets → ${output.length} family targets`);
 console.log(`  ${multiFamily.size} vendors with multiple families`);
+
+// ── Write per-phase family target files ─────────────────────────────────────
+const phasesDir = join(ROOT, "work", "phases");
+mkdirSync(phasesDir, { recursive: true });
+
+const manifest: { phase: number; name: string; slug: string; file: string; description: string; family_count: number }[] = [];
+
+for (const phaseDef of PHASES) {
+  const phaseTargets = output.filter((t) => t.phase === phaseDef.phase);
+  const filename = `phase-${phaseDef.phase}-${phaseDef.slug}.json`;
+  await Bun.write(join(phasesDir, filename), JSON.stringify(phaseTargets, null, 2));
+  manifest.push({
+    phase: phaseDef.phase,
+    name: phaseDef.name,
+    slug: phaseDef.slug,
+    file: filename,
+    description: phaseDef.description,
+    family_count: phaseTargets.length,
+  });
+  console.log(`  Phase ${phaseDef.phase} (${phaseDef.name}): ${phaseTargets.length} families`);
+}
+
+await Bun.write(join(phasesDir, "manifest.json"), JSON.stringify(manifest, null, 2));
+console.log(`  Manifest: work/phases/manifest.json`);
