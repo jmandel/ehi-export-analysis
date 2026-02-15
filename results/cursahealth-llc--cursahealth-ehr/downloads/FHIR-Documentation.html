@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="icon" href="https://cursahealth.com/img/favicon.png">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="FHIR-Documentation">
+    <link rel="apple-touch-icon" href="https://cursahealth.com/img/favicon.png">
+    <link rel="stylesheet" href="./FHIR-Documentation_files//all.min.css">
+    <title>
+        FHIR Documentation
+    </title>
+
+    <script defer="defer" src="./FHIR-Documentation_files/js_main.js"></script>
+    <link href="./FHIR-Documentation_files/css_main.css" rel="stylesheet">	
+    <link rel="preconnect" href="https://fonts.googleapis.com/" crossorigin="true">
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="stylesheet" href="./FHIR-Documentation_files/css2.css">
+</head>
+
+<body cz-shortcut-listen="true">
+
+    <div id="root">
+        <nav class="navbar navbar-expand-lg fixed-top navbar-light header-color">
+            <a class="navbar-brand"
+                href="https://cursahealth.com/" target="_blank">
+				<img src="./FHIR-Documentation_files/images/logo-whitetext.png">
+            </a>
+            <h3>FHIR</h3>
+                <button
+                class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
+                    class="navbar-toggler-icon"></span></button>
+                </nav>
+        <div class="content-container  colSingle pt-5rem " style="overflow: auto;">
+            <div class="singleContent">
+                <div class="width50AtFull w-100">
+                    <div class="width50padd">
+                        <h1 class="mb-0">CursaHealth FHIR Documentation</h1><span class="mt-3 d-block">Technical
+                            documentation regarding FHIR resources and API methods to interoperate with CursaHealth FHIR
+                            platform will be found here. Default syntax is JSON, authorization is performed by using
+                            OAuth2 (under TLS 1.2)</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="singleContent" id="Client_Registration">
+                <div class="width50AtFull w-100">
+                    <div class="width50padd">
+                   
+						<h2>Client Registration</h2>
+						<br>
+						
+						<span>Client Applications can be registered with CursaHealth by
+                            submitting a request by filling out the<a target="_blank"
+                                href="https://cursahealth.com/Fhir-registration-request.aspx"
+                                class="nav-link mr-2 p-0 d-inline-block"><b>Client
+                                Registration Form</b></a>Once the registration process is successfully completed, Client
+                            will be issued an OAuth Client ID, Secret Key.</span>
+                        <h5 class="mt-2 font-weight-bold">Components and Configurations</h5>
+                        <ul>
+                            <li><span class="font-weight-bold">Confidential Clients:</span> To be registered as a
+                                confidential client, the client must be capable of storing a client secret.</li>
+                            <li><span class="font-weight-bold">Public Clients:</span> Clients that are not capable of
+                                securely storing a client secret will be registered as public clients.</li>
+                            <li><span class="font-weight-bold">Bulk Export:</span> Clients using the Bulk Export API
+                                must support authorization using the Client Credentials Flow with JWT Credential.</li>
+                            <li><span class="font-weight-bold">Standalone Launch:</span> Standalone Launch is currently
+                                supported for patient-facing 3rd-party applications. These Apps must support the
+                                Authorization Code Flow as outlined in the SMART App Launch IG 1.0.0.</li>
+                            <li><span class="font-weight-bold"> EHR Launch:</span> EHR Launch is currently supported for
+                                provider-facing applications that are integrated with the EHR. These Apps must support
+                                the Authorization Code Flow as outlined in the SMART App Launch IG 1.0.0.</li>
+                        </ul>
+                        <h5 class="mt-2 font-weight-bold">Authorization Server Info</h5>
+                        <ul>
+                            <li><span class="">The FHIR Authorization root URL :</span>
+                                <div id="json-pretty">
+                                    <pre
+                                        class="__json-pretty-error__">https://fhirauth.cursahealth.com/connect/authorize</pre>
+                                </div>
+                            </li>
+                            <li><span class="">Token URL : </span>
+                                <div id="json-pretty">
+                                    <pre
+                                        class="__json-pretty-error__">https://fhirauth.cursahealth.com/connect/token</pre>
+                                </div>
+                            </li>
+                            <li><span class="">OpenID Connect well-known configuration :</span>
+                                <div id="json-pretty">
+                                    <pre
+                                        class="__json-pretty-error__">https://fhirauth.cursahealth.com/.well-known/openid-configuration</pre>
+                                </div>
+                            </li>
+                        </ul>
+                        <h5 class="mt-2 font-weight-bold">API Information</h5>
+                        <ul>
+                            <li> FHIR Base URL:<div id="json-pretty">
+                                    <pre class="__json-pretty-error__">https://fhirapi.cursahealth.com/api</pre>
+                                </div>
+                            </li>
+                            <li> FHIR Capability Statement URL:<div id="json-pretty">
+                                    <pre class="__json-pretty-error__">https://fhirapi.cursahealth.com/api/metadata</pre>
+                                </div>
+                            </li>
+                            <li> SMART Configuration URL:<div id="json-pretty">
+                                    <pre
+                                        class="__json-pretty-error__">https://fhirapi.cursahealth.com/api/.well-known/smart-configuration</pre>
+                                </div>
+                            </li>
+							
+								  <li> Service Based Url:<div id="json-pretty">
+                                    <pre  class="__json-pretty-error__">https://fhirapi.cursahealth.com/r4/service_based_url</pre>
+                                </div>
+                            </li>
+						
+                        </ul>
+                        <h5 class="mt-2 font-weight-bold">TOKEN VALIDATION THROUGH INTROSPECTION ENDPOINT</h5>
+                        <span>Introspection endpoint is used for validating tokens.</span><span class="d-block  mt-2">
+                            <div id="json-pretty">
+                                <pre
+                                    class="__json-pretty-error__">https://fhirauth.cursahealth.com/connect/introspect</pre>
+                            </div>
+                        </span>
+                        <h5 class="mt-2 font-weight-bold">Token Refresh / OFFLINE_ACCESS</h5><span>A Refresh Token is
+                            returned by the authorize endpoint when the offline_access scope is requested and obtained
+                            with the user’s authorization. To get an access token from a refresh token, you will need to
+                            form a new token request providing the refresh token in the refresh_token parameter a nd
+                            refresh_token as the value for the grant_type parameter. An app will also need to specify in
+                            the scope parameter which of the previously granted scopes your app would like included in
+                            the new access token.</span>
+                        <h5 class="mt-2 font-weight-bold">Accessing Resources</h5><span>To access FHIR® resources
+                            utilizing an access token, include a "bearer" authorization header in your HTTP request per
+                            RFC 6750 as follows:</span><span class="d-block  mt-2">
+                            <div id="json-pretty">
+                                <pre
+                                    class="__json-pretty-error__">Authorization: Bearer eyJraWQiOiIyMDE2LTExLTAxVDE1OjExOjQ4LjY1NS5lYyIsInR5</pre>
+									
+                            </div>
+						
+                        </span>
+						 
+                    </div>
+                </div>
+            </div>
+            <div class="singleContent" id="Resources">
+                <div class="width50AtFull">
+                    <div class="width50padd">
+                        <h2>Resources</h2>
+                        <div class="txtUnderline01" id="Allergy_Intolerance">Allergy Intolerance</div>
+                        <p>This resource conforms to USCDI profile for Allergy Intolerance - refer to <a class="mx-1"
+                                href="https://hl7.org/fhir/us/core/stu3.1.1/StructureDefinition-us-core-allergyintolerance.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">US Core
+                                AllergyIntolerance Profile.</a> Allergy Intolerance response can be requested in JSON or
+                            XML format as per FHIR standard R4 version <a class="mx-1"
+                                href="http://hl7.org/fhir/R4/allergyintolerance.html" target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">AllergyIntolerance
+                                - FHIR v4.0.1</a>(hl7.org) supports the following data elements</p>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Search_Allergies_GET_Allergy_Intolerance" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Search Allergies</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Allergy_Intolerance_By_Id_GET_Allergy_Intolerance"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Allergy Intolerance By Id</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between " id="_search_POST_Allergy_Intolerance"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: orange;">POST</span>_search</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="BMI_For_Age_Observation">BMI For Age Observation</div>
+                        <p>This resource conforms to USCDI profile for Observation - refer to<a class="mx-1"
+                                href="http://hl7.org/fhir/us/core/STU3.1.1/StructureDefinition-pediatric-bmi-for-age.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">US Core BMI for
+                                Age Observation</a> Profile. Observation response can be requested in JSON or XML format
+                            as per FHIR standard R4 version <a class="mx-1"
+                                href="http://hl7.org/fhir/R4/Observation.html" target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">Observation -
+                                FHIR v4.0.1 (hl7.org)</a>supports the data elements documented as BMI Percentile.</p>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Search_BMI_For_Age_Observation_GET_BMI_For_Age_Observation"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Search BMI For Age Observation</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Observation_By_Id_GET_BMI_For_Age_Observation" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Observation By Id</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="_search_POST_BMI_For_Age_Observation" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: orange;">POST</span>_search</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="Condition_Health_Concerns">Condition Health Concerns</div>
+                        <p>This resource conforms to USCDI profile for Condition - refer to <a class="mx-1"
+                                href="http://hl7.org/fhir/us/core/STU3.1.1/StructureDefinition-us-core-condition.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">US Core
+                                Condition Profile.</a> Condition response can be requested in JSON or XML format as per
+                            FHIR standard R4 version <a class="mx-1" href="http://hl7.org/fhir/R4/Condition.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">Condition - FHIR
+                                v4.0.1 (hl7.org)</a> supports the following data elements documented as follows.</p>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Search_Condition_GET_Condition_Health_Concerns" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Search Condition</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Condition_By_Id_GET_Condition_Health_Concerns" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Condition By Id</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="_search_POST_Condition_Health_Concerns" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: orange;">POST</span>_search</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="CarePlan">CarePlan</div>
+                        <p>This resource conforms to USCDI profile for CarePlan - refer to <a class="mx-1"
+                                href="https://hl7.org/fhir/us/core/stu3.1.1/StructureDefinition-us-core-careplan.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">US Core CarePlan
+                                Profile.</a> CarePlan response can be requested in JSON or XML format as per FHIR
+                            standard R4 version <a class="mx-1" href="http://hl7.org/fhir/R4/careplan.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">CarePlan - FHIR
+                                v4.0.1 (hl7.org)</a> supports the data elements documented as Assessment and Plan of
+                            Treatment</p>
+                        <div class="singleContent d-flex justify-content-between " id="Search_CarePlan_GET_CarePlan"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Search CarePlan</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between " id="CarePlan_By_Id_GET_CarePlan"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>CarePlan By Id</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between " id="_search_POST_CarePlan"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: orange;">POST</span>_search</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="CareTeam">CareTeam</div>
+                        <p>This resource conforms to USCDI profile for CareTeam - refer to<a class="mx-1"
+                                href="http://hl7.org/fhir/us/core/STU3.1.1/StructureDefinition-us-core-careteam.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">USCore CareTeam
+                                Profile.</a>CareTeam response can be requested in JSON or XML format as per FHIR
+                            standard R4 version <a class="mx-1" href="http://hl7.org/fhir/R4/careteam.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">CareTeam - FHIR
+                                v4.0.1 (hl7.org)</a> supports the following data elements.</p>
+                        <div class="singleContent d-flex justify-content-between " id="Search_CareTeam_GET_CareTeam"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Search CareTeam</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between " id="CareTeam_By_Id_GET_CareTeam"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>CareTeam By Id</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between " id="_search_POST_CareTeam"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: orange;">POST</span>_search</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="Device">Device</div>
+                        <p>This resource conforms to USCDI profile for Device - refer to <a class="mx-1"
+                                href="http://hl7.org/fhir/us/core/STU3.1.1/StructureDefinition-us-core-implantable-device.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">USCore Device
+                                Profile.</a> Device response can be requested in JSON or XML format as per FHIR standard
+                            R4 version <a class="mx-1" href="http://hl7.org/fhir/R4/device.html" target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">Device - FHIR
+                                v4.0.1 (hl7.org)</a> supports the following data elements documented as Unique Device
+                            Identifier(s) for Patient's Implantable Device(s).</p>
+                        <div class="singleContent d-flex justify-content-between " id="Search_Device_GET_Device"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Search Device</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between " id="Device_By_Id_GET_Device"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Device By Id</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between " id="_search_POST_Device"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: orange;">POST</span>_search</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="DiagnosticReport">DiagnosticReport</div>
+                        <p>This resource conforms to USCDI profile for DiagnosticReport - refer to <a class="mx-1"
+                                href="http://hl7.org/fhir/us/core/STU3.1.1/StructureDefinition-us-core-diagnosticreport-lab.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">US Core
+                                DiagnosticReport Profile.</a> DiagnosticReport response can be requested in JSON or XML
+                            format as per FHIR standard R4 version<a class="mx-1"
+                                href="http://hl7.org/fhir/R4/diagnosticreport.html" target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">DiagnosticReport-
+                                FHIR v4.0.1 (hl7.org)</a> supports the following data elements documented
+                            DiagnosticReport as Laboratory.</p>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Search_DiagnosticReport_GET_DiagnosticReport" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Search DiagnosticReport</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="DiagnosticReport_By_Id_GET_DiagnosticReport" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>DiagnosticReport By Id</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between " id="_search_POST_DiagnosticReport"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: orange;">POST</span>_search</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="DocumentReference">DocumentReference</div>
+                        <p>This resource conforms to USCDI profile for DocumentReference - refer to US Core
+                            DocumentReference Profile. DocumentReference response can be requested in JSON or XML format
+                            as per FHIR standard R4 version <a class="mx-1"
+                                href="http://hl7.org/fhir/R4/documentreference.html" target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">DocumentReference
+                                - FHIR v4.0.1 (hl7.org)</a> supports the following data elements:</p>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Search_DocumentReference_GET_DocumentReference" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Search DocumentReference</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="DocumentReference_By_Id_GET_DocumentReference" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>DocumentReference By Id</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between " id="_search_POST_DocumentReference"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: orange;">POST</span>_search</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="Encounter">Encounter</div>
+                        <p>This resource conforms to USCDI profile for Encounter - refer to <a class="mx-1"
+                                href="http://hl7.org/fhir/us/core/STU3.1.1/StructureDefinition-us-core-encounter.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">US Core
+                                Encounter Profile.</a> Encounter resource response can be requested in JSON or XML
+                            format as per FHIR standard R4 version <a class="mx-1"
+                                href="http://hl7.org/fhir/R4/encounter.html" target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">Encounter - FHIR
+                                v4.0.1 (hl7.org)</a> supports the following data for Encounter.</p>
+                        <div class="singleContent d-flex justify-content-between " id="Encounter_GET_Encounter"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Encounter</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="Goal">Goal</div>
+                        <p>This resource conforms to USCDI profile for Goal - refer to <a class="mx-1"
+                                href="http://hl7.org/fhir/us/core/STU3.1.1/StructureDefinition-us-core-goal.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">US Core Goal
+                                Profile.</a> Goal response can be requested in JSON or XML format as per FHIR standard
+                            R4 version<a class="mx-1" href="http://hl7.org/fhir/R4/goal.html" target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">Goal - FHIR
+                                v4.0.1 (hl7.org)</a> supports the data element Patient Goals</p>
+                        <div class="singleContent d-flex justify-content-between " id="Search_Goal_GET_Goal"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Search Goal</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between " id="Goal_By_Id_GET_Goal"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Goal By Id</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between " id="_search_POST_Goal"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: orange;">POST</span>_search</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="Head_Occipital-frontal_Circumference">Head Occipital-frontal
+                            Circumference</div>
+                        <p>This resource conforms to USCDI profile for Observation - refer to<a class="mx-1"
+                                href="http://hl7.org/fhir/us/core/STU3.1.1/StructureDefinition-head-occipital-frontal-circumference-percentile.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">US Core
+                                Pediatric Head Occipital-Frontal Circumference Percentile Observation</a> Profile.
+                            Observation response can be requested in JSON or XML format as per FHIR standard R4 version
+                            <a class="mx-1" href="http://hl7.org/fhir/R4/Observation.html" target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">Observation -
+                                FHIR v4.0.1 (hl7.org)</a>supports the data elements documented as Occipital-frontal Head
+                            Circumference Percentile.</p>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Search_Head_Occipital-frontal_GET_Head_Occipital-frontal_Circumference"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Search Head Occipital-frontal</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Observation_By_Id_GET_Head_Occipital-frontal_Circumference"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Observation By Id</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="_search_POST_Head_Occipital-frontal_Circumference"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: orange;">POST</span>_search</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="Immunization">Immunization</div>
+                        <p>This resource conforms to USCDI profile for Immunization - refer to<a class="mx-1"
+                                href="http://hl7.org/fhir/us/core/STU3.1.1/StructureDefinition-us-core-immunization.html"
+                                target="_blank" style="text-decoration: underline; color: darkorange; cursor: pointer;">
+                                US Core Immunization Profile.</a> Immunization response can be requested in JSON or XML
+                            format as per FHIR standard R4 version <a class="mx-1"
+                                href="http://hl7.org/fhir/R4/immunization.html" target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;"></a>supports the
+                            data elements documented as Immunization.</p>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Search_Immunization_GET_Immunization" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Search Immunization</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Immunization_By_Id_GET_Immunization" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Immunization By Id</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between " id="_search_POST_Immunization"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: orange;">POST</span>_search</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="Laboratory_Result_Observation">Laboratory Result Observation
+                        </div>
+                        <p>This resource conforms to USCDI profile for Observation - refer to<a class="mx-1"
+                                href="http://hl7.org/fhir/us/core/STU3.1.1/StructureDefinition-us-core-observation-lab.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">US Core Lab
+                                Result Observation</a> Profile. Observation response can be requested in JSON or XML
+                            format as per FHIR standard R4 version <a class="mx-1"
+                                href="http://hl7.org/fhir/R4/Observation.html" target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">Observation -
+                                FHIR v4.0.1 (hl7.org)</a>supports the data elements documented as Lab Result
+                            Observation.</p>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Search_Laboratory_Result_Observation_GET_Laboratory_Result_Observation"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Search Laboratory Result Observation</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Observation_By_Id_GET_Laboratory_Result_Observation"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Observation By Id</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="_search_POST_Laboratory_Result_Observation" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: orange;">POST</span>_search</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="Location">Location</div>
+                        <p>This resource conforms to USCDI profile for Location - refer to <a class="mx-1"
+                                href="http://hl7.org/fhir/us/core/STU3.1.1/StructureDefinition-us-core-location.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">US Core Location
+                                Profile.</a> Location resource response can be requested in JSON or XML format as per
+                            FHIR standard R4 version <a class="mx-1" href="http://hl7.org/fhir/R4/encounter.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">Encounter - FHIR
+                                v4.0.1 (hl7.org)</a> supports the following data for Location.</p>
+                        <div class="singleContent d-flex justify-content-between " id="Location_GET_Location"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Location</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="MedicationRequest">MedicationRequest</div>
+                        <p>This resource conforms to USCDI profile for MedicationRequest - refer to <a class="mx-1"
+                                href="http://hl7.org/fhir/us/core/STU3.1.1/StructureDefinition-us-core-medicationrequest.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">US Core
+                                MedicationRequest</a> Profile. MedicationRequest response can be requested in JSON or
+                            XML format as per FHIR standard R4 version <a class="mx-1"
+                                href="http://hl7.org/fhir/R4/MedicationRequest.html" target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">MedicationRequest
+                                - FHIR v4.0.1 (hl7.org)</a> supports the following data elements documented as
+                            Medications.</p>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="MedicationRequest_By_Patient_Id_GET_MedicationRequest"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>MedicationRequest By Patient Id</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="MedicationRequest_By_Id_GET_MedicationRequest" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>MedicationRequest By Id</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between " id="_search_POST_MedicationRequest"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: orange;">POST</span>_search</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="Observation_Body_Height">Observation Body Height</div>
+                        <p>This resource conforms to USCDI profile for Observation - refer to US Core Observation
+                            Profile. Observation response can be requested in JSON or XML format as per FHIR standard R4
+                            version <a class="mx-1" href="http://hl7.org/fhir/R4/Observation.html" target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">Observation -
+                                FHIR v4.0.1 (hl7.org)</a> supports the data elements documented as Body Height.</p>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Search_Observation_Body_Height_GET_Observation_Body_Height"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Search Observation Body Height</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Observation_By_Id_GET_Observation_Body_Height" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Observation By Id</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="_search_POST_Observation_Body_Height" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: orange;">POST</span>_search</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="Observation_Body_Temperature">Observation Body Temperature</div>
+                        <p>This resource conforms to USCDI profile for Observation - refer to US Core Observation
+                            Profile. Observation response can be requested in JSON or XML format as per FHIR standard R4
+                            version <a class="mx-1" href="http://hl7.org/fhir/R4/Observation.html" target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">Observation -
+                                FHIR v4.0.1 (hl7.org)</a> supports the data elements documented as Body Temperature.</p>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Search_Observation_Body_Temperature_GET_Observation_Body_Temperature"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Search Observation Body Temperature</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Observation_By_Id_GET_Observation_Body_Temperature"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Observation By Id</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="_search_POST_Observation_Body_Temperature" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: orange;">POST</span>_search</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="Observation_Blood_Pressure">Observation Blood Pressure</div>
+                        <p>This resource conforms to USCDI profile for Observation - refer to US Core Observation
+                            Profile. Observation response can be requested in JSON or XML format as per FHIR standard R4
+                            version <a class="mx-1" href="http://hl7.org/fhir/R4/Observation.html" target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">Observation -
+                                FHIR v4.0.1 (hl7.org)</a> supports the data elements documented as Blood Pressure
+                            Systolic/Diastolic.</p>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Search_Observation_Blood_Pressure_GET_Observation_Blood_Pressure"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Search Observation Blood Pressure</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Observation_By_Id_GET_Observation_Blood_Pressure"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Observation By Id</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="_search_POST_Observation_Blood_Pressure" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: orange;">POST</span>_search</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="Observation_Body_Weight">Observation Body Weight</div>
+                        <p>This resource conforms to USCDI profile for Observation - refer to US Core Observation
+                            Profile. Observation response can be requested in JSON or XML format as per FHIR standard R4
+                            version <a class="mx-1" href="http://hl7.org/fhir/R4/Observation.html" target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">Observation -
+                                FHIR v4.0.1 (hl7.org)</a> supports the data elements documented as Heart Rate.</p>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Search_Observation_Body_Weight_GET_Observation_Body_Weight"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Search Observation Body Weight</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Observation_By_Id_GET_Observation_Body_Weight" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Observation By Id</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="_search_POST_Observation_Body_Weight" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: orange;">POST</span>_search</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="Observation_Heart_Rate">Observation Heart Rate</div>
+                        <p>This resource conforms to USCDI profile for Observation - refer to US Core Observation
+                            Profile. Observation response can be requested in JSON or XML format as per FHIR standard R4
+                            version <a class="mx-1" href="http://hl7.org/fhir/R4/Observation.html" target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">Observation -
+                                FHIR v4.0.1 (hl7.org)</a> supports the data elements documented as Heart Rate.</p>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Search_Observation_Heart_Rate_GET_Observation_Heart_Rate"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Search Observation Heart Rate</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Observation_By_Id_GET_Observation_Heart_Rate" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Observation By Id</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="_search_POST_Observation_Heart_Rate" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: orange;">POST</span>_search</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="Observation_Respiratory_Rate">Observation Respiratory Rate</div>
+                        <p>This resource conforms to USCDI profile for Observation - refer to US Core Observation
+                            Profile. Observation response can be requested in JSON or XML format as per FHIR standard R4
+                            version <a class="mx-1" href="http://hl7.org/fhir/R4/Observation.html" target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">Observation -
+                                FHIR v4.0.1 (hl7.org)</a> supports the data elements documented as Respiratory Rate</p>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Search_Observation_Respiratory_Rate_GET_Observation_Respiratory_Rate"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Search Observation Respiratory Rate</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Observation_By_Id_GET_Observation_Respiratory_Rate"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Observation By Id</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="_search_POST_Observation_Respiratory_Rate" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: orange;">POST</span>_search</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="Organization">Organization</div>
+                        <p>This resource conforms to USCDI profile for Organization - refer to USCore <a class="mx-1"
+                                href="http://hl7.org/fhir/us/core/STU3.1.1/StructureDefinition-us-core-organization.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">Organization</a>
+                            Profile. Organization response can be requested in JSON or XML format as per FHIR standard
+                            R4 version <a class="mx-1" href="http://hl7.org/fhir/R4/organization.html" target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">Organization -
+                                FHIR v4.0.1 (hl7.org)</a>supports the following data elements:</p>
+                        <div class="singleContent d-flex justify-content-between " id="Organization_GET_Organization"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Organization</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="Patient">Patient</div>
+                        <p>This resource conforms to USCDI profile for Patient Demographics - refer to <a class="mx-1"
+                                href="https://hl7.org/fhir/us/core/stu3.1.1/StructureDefinition-us-core-patient.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">USCore Patient
+                                Profile.</a> Patient resource response can be requested in JSON or XML format as per
+                            FHIR standard R4 version <a class="mx-1" href="http://hl7.org/fhir/R4/patient.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">Patient - FHIR
+                                v4.0.1 (hl7.org)</a>supports the following data for Patient</p>
+                        <div class="singleContent d-flex justify-content-between " id="Search_Patient_GET_Patient"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Search Patient</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between " id="Search_Patient_By_ID_GET_Patient"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Search Patient By ID</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between " id="_search_POST_Patient"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: orange;">POST</span>_search</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="Procedure">Procedure</div>
+                        <p>This resource conforms to USCDI profile for Procedure - refer to <a class="mx-1"
+                                href="http://hl7.org/fhir/us/core/STU3.1.1/StructureDefinition-us-core-procedure.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">US Core
+                                Procedure Profile.</a> Procedure response can be requested in JSON or XML format as per
+                            FHIR standard R4 version <a class="mx-1" href="http://hl7.org/fhir/R4/Procedure.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">Procedure - FHIR
+                                v4.0.1 (hl7.org)</a> supports the data elements documented as Procedures.</p>
+                        <div class="singleContent d-flex justify-content-between " id="Search_Procedure_GET_Procedure"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Search Procedure</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between " id="Procedure_By_Id_GET_Procedure"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Procedure By Id</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between " id="_search_POST_Procedure"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: orange;">POST</span>_search</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="Practitioner">Practitioner</div>
+                        <p>This resource conforms to USCDI profile for Practitioner - refer to<a class="mx-1"
+                                href="http://hl7.org/fhir/us/core/STU3.1.1/StructureDefinition-us-core-practitioner.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">USCore
+                                Practitioner</a> Profile. Practitioner response can be requested in JSON or XML format
+                            as per FHIR standard R4 version <a class="mx-1"
+                                href="http://hl7.org/fhir/R4/practitioner.html" target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">Practitioner -
+                                FHIR v4.0.1 (hl7.org)</a> supports the following data elements:</p>
+                        <div class="singleContent d-flex justify-content-between " id="Practitioner_GET_Practitioner"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Practitioner</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="Provenance">Provenance</div>
+                        <p>This resource conforms to USCDI profile for Provenance - refer to <a class="mx-1"
+                                href="http://hl7.org/fhir/us/core/STU3.1.1/StructureDefinition-us-core-provenance.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">US Core
+                                Provenance</a> Profile. Provenance response can be requested in JSON or XML format as
+                            per FHIR standard R4 version <a class="mx-1" href="http://hl7.org/fhir/R4/Provenance.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">Provenance -
+                                FHIR v4.0.1 (hl7.org)</a> supports the following data elements:</p>
+                        <div class="singleContent d-flex justify-content-between " id="Provenance_GET_Provenance"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Provenance</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="Pulse_Oximetry">Pulse Oximetry</div>
+                        <p>This resource conforms to USCDI profile for Observation - refer to<a class="mx-1"
+                                href="http://hl7.org/fhir/us/core/STU3.1.1/StructureDefinition-us-core-pulse-oximetry.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">US Core Pulse
+                                Oximetry Observation</a> Profile. Observation response can be requested in JSON or XML
+                            format as per FHIR standard R4 version <a class="mx-1"
+                                href="http://hl7.org/fhir/R4/Observation.html" target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">Observation -
+                                FHIR v4.0.1 (hl7.org)</a>supports the data elements documented as Pulse Oximetry.</p>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Search_Pulse_Oximetry_GET_Pulse_Oximetry" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Search Pulse Oximetry</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Observation_By_Id_GET_Pulse_Oximetry" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Observation By Id</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between " id="_search_POST_Pulse_Oximetry"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: orange;">POST</span>_search</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="Smoking_Status_Observation">Smoking Status Observation</div>
+                        <p>This resource conforms to USCDI profile for Observation - refer to<a class="mx-1"
+                                href="http://hl7.org/fhir/us/core/STU3.1.1/StructureDefinition-us-core-smokingstatus.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">US Core
+                                Observation</a> Profile. Observation response can be requested in JSON or XML format as
+                            per FHIR standard R4 version <a class="mx-1" href="http://hl7.org/fhir/R4/Observation.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">Observation -
+                                FHIR v4.0.1 (hl7.org)</a>supports the data elements documented as Smoking Status.</p>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Search_Smoking_Status_GET_Smoking_Status_Observation"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Search Smoking Status</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Observation_By_Id_GET_Smoking_Status_Observation"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Observation By Id</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="_search_POST_Smoking_Status_Observation" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: orange;">POST</span>_search</span></div>
+                            </div>
+                        </div>
+                        <div class="txtUnderline01" id="Weight_For_Height_Observation">Weight For Height Observation
+                        </div>
+                        <p>This resource conforms to USCDI profile for Observation - refer to<a class="mx-1"
+                                href="http://hl7.org/fhir/us/core/STU3.1.1/StructureDefinition-pediatric-weight-for-height.html"
+                                target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">US Core
+                                Pediatric Weight For Height Observation</a> Profile. Observation response can be
+                            requested in JSON or XML format as per FHIR standard R4 version <a class="mx-1"
+                                href="http://hl7.org/fhir/R4/Observation.html" target="_blank"
+                                style="text-decoration: underline; color: darkorange; cursor: pointer;">Observation -
+                                FHIR v4.0.1 (hl7.org)</a>supports the data elements documented as Weight for Length
+                            Percentile.</p>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Search_Weight_For_Height_Observation_GET_Weight_For_Height_Observation"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Search Weight For Height Observation</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="Observation_By_Id_GET_Weight_For_Height_Observation"
+                            style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: green;">GET</span>Observation By Id</span></div>
+                            </div>
+                        </div>
+                        <div class="singleContent d-flex justify-content-between "
+                            id="_search_POST_Weight_For_Height_Observation" style="width: 203%; min-height: 450px;">
+                            <div class="width50AtFull">
+                                <div class="txtUnderline01"><span><span class="mr-3"
+                                            style="color: orange;">POST</span>_search</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="singleContent" id="Errors_and_Exceptions">
+                <div class="width50AtFull">
+                    <div class="width50padd">
+                        <h2>Errors and Exceptions</h2>
+                        <h4 class="font-weight-bold my-2">ERROR HANDLING</h4>
+                        <p>Requests made without an access token, an invalid or expired access token, or for resources
+                            not permitted under the user's privileges defined by the authorization will result in an
+                            HTTPS 401 status code. An "Unauthorized" API may return a status code for communicating the
+                            result of each transaction/API call. The complete list of status codes typically returned by
+                            API are as follows:</p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="p-2" style="border: 1px solid rgba(211, 211, 211, 0.47);">Code</th>
+                                    <th class="p-2" style="border: 1px solid rgba(211, 211, 211, 0.47);">Meaning</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="p-2" style="border: 1px solid rgba(211, 211, 211, 0.47);">200</td>
+                                    <td class="p-2" style="border: 1px solid rgba(211, 211, 211, 0.47);">The request was
+                                        processed appropriately.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2" style="border: 1px solid rgba(211, 211, 211, 0.47);">400</td>
+                                    <td class="p-2" style="border: 1px solid rgba(211, 211, 211, 0.47);">Invalid
+                                        parameter.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2" style="border: 1px solid rgba(211, 211, 211, 0.47);">401</td>
+                                    <td class="p-2" style="border: 1px solid rgba(211, 211, 211, 0.47);">The request did
+                                        not have a valid authorization token or none was provided. Obtain a valid
+                                        authorization token and add it to the authorization header.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2" style="border: 1px solid rgba(211, 211, 211, 0.47);">403</td>
+                                    <td class="p-2" style="border: 1px solid rgba(211, 211, 211, 0.47);">The user is not
+                                        authorized for the operation. The user may not have access to the patient, or an
+                                        invalid scope was provided.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2" style="border: 1px solid rgba(211, 211, 211, 0.47);">404</td>
+                                    <td class="p-2" style="border: 1px solid rgba(211, 211, 211, 0.47);">Not found.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="singleContent" id="Terms_&amp;_Conditions">
+                <div class="width50AtFull">
+                    <div class="width50padd">
+                        <h2>Terms &amp; Conditions</h2>
+                        <div>
+                            <h5 class="mt-3">Terms and Conditions of Use</h5><span>Please read these Terms of Use before
+                                using the API hosted on https://fhirapi.cursahealth.com/. Your access to use the Service
+                                is based on your acceptance with these Terms. These Terms apply to all users of
+                                CursaHealth API. If you disagree with any part of the terms then you may not access the
+                                Service.</span>
+                            <ul class="mt-3">
+                                <li class="my-2"><span class="font-weight-bold">Account Security: </span><span
+                                        class="ml-1">You are responsible for safeguarding the password that you use to
+                                        access
+                                        the CursaHealth API and for any activities or actions under your password,
+                                        whether your password is with our Service or a third-party service. You
+                                        agree not to disclose your password to any third party. You must notify us
+                                        immediately upon becoming aware of any breach of security or unauthorized
+                                        use of your account.</span></li>
+                                <li class="my-2"><span class="font-weight-bold">Termination of Access and use:
+                                    </span><span class="ml-1">Company may, in its sole discretion, terminate the right
+                                        to access and
+                                        use the API of any Eligible Application that has violated these Terms and
+                                        Conditions</span></li>
+                                <li class="my-2"><span class="font-weight-bold">License: </span><span
+                                        class="ml-1">Company hereby grants you a non-transferable, non-exclusive,
+                                        limited license to use the API
+                                        subject to the terms and conditions of this Agreement. You may not, either on
+                                        your own behalf or through
+                                        any agent or third party decompile, disassemble, reverse engineer, or otherwise
+                                        attempt to derive source
+                                        code from the software components of the API, or modify or create derivative
+                                        works based on the
+                                        software components of the API.</span></li>
+                                <li class="my-2"><span class="font-weight-bold">Modifications: </span><span
+                                        class="ml-1">Company reserves the right, at our sole discretion, to modify or
+                                        replace these Terms at
+                                        any time. If a revision is made we will try to provide notice prior to any new
+                                        terms taking effect. What
+                                        constitutes a material change will be determined at our sole discretion. By
+                                        continuing to access or use our
+                                        Service after those revisions become effective, you agree to be bound by the
+                                        revised terms. If you do not
+                                        agree to the new terms, please stop using the Service.</span></li>
+                                <li class="my-2"><span class="font-weight-bold">Acceptance: </span><span
+                                        class="ml-1">Use of the API signifies your acknowledgement and acceptance of
+                                        these Terms of Use. If
+                                        you do not agree to these terms of use, please do not use the API.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slideout-sidebar">
+            <ul>
+                <li><a href="https://documents.cursahealth.com/#dropMenuClient_Registration" data-toggle="collapse"
+                        class="">Client Registration</a></li>
+                <li><a href="https://documents.cursahealth.com/#dropMenuResources" data-toggle="collapse"
+                        class="">Resources</a>
+                    <ul id="dropMenuResources" class="collapse">
+                        <li><a href="https://documents.cursahealth.com/#dropMenuAllergy_Intolerance"
+                                data-toggle="collapse">Allergy Intolerance</a>
+                            <ul id="dropMenuAllergy_Intolerance" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuSearch_Allergies"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Search Allergies</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuAllergy_Intolerance_By_Id"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Allergy Intolerance By
+                                        Id</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenu_search"><span
+                                            style="margin-right: 5px; color: orange;">POST</span>_search</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuBMI_For_Age_Observation"
+                                data-toggle="collapse">BMI For Age Observation</a>
+                            <ul id="dropMenuBMI_For_Age_Observation" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuSearch_BMI_For_Age_Observation"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Search BMI For Age
+                                        Observation</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuObservation_By_Id"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Observation By Id</a>
+                                </li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenu_search"><span
+                                            style="margin-right: 5px; color: orange;">POST</span>_search</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuCondition_Health_Concerns"
+                                data-toggle="collapse">Condition Health Concerns</a>
+                            <ul id="dropMenuCondition_Health_Concerns" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuSearch_Condition"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Search Condition</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuCondition_By_Id"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Condition By Id</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenu_search"><span
+                                            style="margin-right: 5px; color: orange;">POST</span>_search</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuCarePlan"
+                                data-toggle="collapse">CarePlan</a>
+                            <ul id="dropMenuCarePlan" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuSearch_CarePlan"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Search CarePlan</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuCarePlan_By_Id"><span
+                                            style="margin-right: 5px; color: green;">GET</span>CarePlan By Id</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenu_search"><span
+                                            style="margin-right: 5px; color: orange;">POST</span>_search</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuCareTeam"
+                                data-toggle="collapse">CareTeam</a>
+                            <ul id="dropMenuCareTeam" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuSearch_CareTeam"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Search CareTeam</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuCareTeam_By_Id"><span
+                                            style="margin-right: 5px; color: green;">GET</span>CareTeam By Id</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenu_search"><span
+                                            style="margin-right: 5px; color: orange;">POST</span>_search</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuDevice"
+                                data-toggle="collapse">Device</a>
+                            <ul id="dropMenuDevice" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuSearch_Device"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Search Device</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuDevice_By_Id"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Device By Id</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenu_search"><span
+                                            style="margin-right: 5px; color: orange;">POST</span>_search</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuDiagnosticReport"
+                                data-toggle="collapse">DiagnosticReport</a>
+                            <ul id="dropMenuDiagnosticReport" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuSearch_DiagnosticReport"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Search
+                                        DiagnosticReport</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuDiagnosticReport_By_Id"><span
+                                            style="margin-right: 5px; color: green;">GET</span>DiagnosticReport By
+                                        Id</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenu_search"><span
+                                            style="margin-right: 5px; color: orange;">POST</span>_search</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuDocumentReference"
+                                data-toggle="collapse">DocumentReference</a>
+                            <ul id="dropMenuDocumentReference" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuSearch_DocumentReference"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Search
+                                        DocumentReference</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuDocumentReference_By_Id"><span
+                                            style="margin-right: 5px; color: green;">GET</span>DocumentReference By
+                                        Id</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenu_search"><span
+                                            style="margin-right: 5px; color: orange;">POST</span>_search</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuEncounter"
+                                data-toggle="collapse">Encounter</a>
+                            <ul id="dropMenuEncounter" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuEncounter"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Encounter</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuGoal" data-toggle="collapse">Goal</a>
+                            <ul id="dropMenuGoal" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuSearch_Goal"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Search Goal</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuGoal_By_Id"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Goal By Id</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenu_search"><span
+                                            style="margin-right: 5px; color: orange;">POST</span>_search</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuHead_Occipital-frontal_Circumference"
+                                data-toggle="collapse">Head Occipital-frontal Circumference</a>
+                            <ul id="dropMenuHead_Occipital-frontal_Circumference" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuSearch_Head_Occipital-frontal"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Search Head
+                                        Occipital-frontal</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuObservation_By_Id"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Observation By Id</a>
+                                </li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenu_search"><span
+                                            style="margin-right: 5px; color: orange;">POST</span>_search</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuImmunization"
+                                data-toggle="collapse">Immunization</a>
+                            <ul id="dropMenuImmunization" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuSearch_Immunization"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Search Immunization</a>
+                                </li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuImmunization_By_Id"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Immunization By Id</a>
+                                </li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenu_search"><span
+                                            style="margin-right: 5px; color: orange;">POST</span>_search</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuLaboratory_Result_Observation"
+                                data-toggle="collapse">Laboratory Result Observation</a>
+                            <ul id="dropMenuLaboratory_Result_Observation" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuSearch_Laboratory_Result_Observation"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Search Laboratory Result
+                                        Observation</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuObservation_By_Id"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Observation By Id</a>
+                                </li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenu_search"><span
+                                            style="margin-right: 5px; color: orange;">POST</span>_search</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuLocation"
+                                data-toggle="collapse">Location</a>
+                            <ul id="dropMenuLocation" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuLocation"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Location</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuMedicationRequest"
+                                data-toggle="collapse">MedicationRequest</a>
+                            <ul id="dropMenuMedicationRequest" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuMedicationRequest_By_Patient_Id"><span
+                                            style="margin-right: 5px; color: green;">GET</span>MedicationRequest By
+                                        Patient Id</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuMedicationRequest_By_Id"><span
+                                            style="margin-right: 5px; color: green;">GET</span>MedicationRequest By
+                                        Id</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenu_search"><span
+                                            style="margin-right: 5px; color: orange;">POST</span>_search</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuObservation_Body_Height"
+                                data-toggle="collapse">Observation Body Height</a>
+                            <ul id="dropMenuObservation_Body_Height" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuSearch_Observation_Body_Height"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Search Observation Body
+                                        Height</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuObservation_By_Id"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Observation By Id</a>
+                                </li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenu_search"><span
+                                            style="margin-right: 5px; color: orange;">POST</span>_search</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuObservation_Body_Temperature"
+                                data-toggle="collapse">Observation Body Temperature</a>
+                            <ul id="dropMenuObservation_Body_Temperature" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuSearch_Observation_Body_Temperature"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Search Observation Body
+                                        Temperature</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuObservation_By_Id"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Observation By Id</a>
+                                </li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenu_search"><span
+                                            style="margin-right: 5px; color: orange;">POST</span>_search</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuObservation_Blood_Pressure"
+                                data-toggle="collapse">Observation Blood Pressure</a>
+                            <ul id="dropMenuObservation_Blood_Pressure" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuSearch_Observation_Blood_Pressure"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Search Observation Blood
+                                        Pressure</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuObservation_By_Id"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Observation By Id</a>
+                                </li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenu_search"><span
+                                            style="margin-right: 5px; color: orange;">POST</span>_search</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuObservation_Body_Weight"
+                                data-toggle="collapse">Observation Body Weight</a>
+                            <ul id="dropMenuObservation_Body_Weight" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuSearch_Observation_Body_Weight"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Search Observation Body
+                                        Weight</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuObservation_By_Id"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Observation By Id</a>
+                                </li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenu_search"><span
+                                            style="margin-right: 5px; color: orange;">POST</span>_search</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuObservation_Heart_Rate"
+                                data-toggle="collapse">Observation Heart Rate</a>
+                            <ul id="dropMenuObservation_Heart_Rate" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuSearch_Observation_Heart_Rate"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Search Observation Heart
+                                        Rate</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuObservation_By_Id"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Observation By Id</a>
+                                </li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenu_search"><span
+                                            style="margin-right: 5px; color: orange;">POST</span>_search</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuObservation_Respiratory_Rate"
+                                data-toggle="collapse">Observation Respiratory Rate</a>
+                            <ul id="dropMenuObservation_Respiratory_Rate" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuSearch_Observation_Respiratory_Rate"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Search Observation
+                                        Respiratory Rate</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuObservation_By_Id"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Observation By Id</a>
+                                </li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenu_search"><span
+                                            style="margin-right: 5px; color: orange;">POST</span>_search</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuOrganization"
+                                data-toggle="collapse">Organization</a>
+                            <ul id="dropMenuOrganization" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuOrganization"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Organization</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuPatient"
+                                data-toggle="collapse">Patient</a>
+                            <ul id="dropMenuPatient" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuSearch_Patient"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Search Patient</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuSearch_Patient_By_ID"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Search Patient By ID</a>
+                                </li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenu_search"><span
+                                            style="margin-right: 5px; color: orange;">POST</span>_search</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuProcedure"
+                                data-toggle="collapse">Procedure</a>
+                            <ul id="dropMenuProcedure" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuSearch_Procedure"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Search Procedure</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuProcedure_By_Id"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Procedure By Id</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenu_search"><span
+                                            style="margin-right: 5px; color: orange;">POST</span>_search</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuPractitioner"
+                                data-toggle="collapse">Practitioner</a>
+                            <ul id="dropMenuPractitioner" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuPractitioner"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Practitioner</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuProvenance"
+                                data-toggle="collapse">Provenance</a>
+                            <ul id="dropMenuProvenance" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuProvenance"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Provenance</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuPulse_Oximetry"
+                                data-toggle="collapse">Pulse Oximetry</a>
+                            <ul id="dropMenuPulse_Oximetry" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuSearch_Pulse_Oximetry"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Search Pulse Oximetry</a>
+                                </li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuObservation_By_Id"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Observation By Id</a>
+                                </li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenu_search"><span
+                                            style="margin-right: 5px; color: orange;">POST</span>_search</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuSmoking_Status_Observation"
+                                data-toggle="collapse">Smoking Status Observation</a>
+                            <ul id="dropMenuSmoking_Status_Observation" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuSearch_Smoking_Status"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Search Smoking Status</a>
+                                </li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuObservation_By_Id"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Observation By Id</a>
+                                </li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenu_search"><span
+                                            style="margin-right: 5px; color: orange;">POST</span>_search</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://documents.cursahealth.com/#dropMenuWeight_For_Height_Observation"
+                                data-toggle="collapse">Weight For Height Observation</a>
+                            <ul id="dropMenuWeight_For_Height_Observation" class="collapse">
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuSearch_Weight_For_Height_Observation"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Search Weight For Height
+                                        Observation</a></li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenuObservation_By_Id"><span
+                                            style="margin-right: 5px; color: green;">GET</span>Observation By Id</a>
+                                </li>
+                                <li style="padding: 9px;"><a data-toggle="collapse"
+                                        href="https://documents.cursahealth.com/#dropMenu_search"><span
+                                            style="margin-right: 5px; color: orange;">POST</span>_search</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="https://documents.cursahealth.com/#dropMenuErrors_and_Exceptions" data-toggle="collapse"
+                        class="">Errors and Exceptions</a></li>
+                <li><a href="https://documents.cursahealth.com/#dropMenuTerms_&amp;_Conditions" data-toggle="collapse"
+                        class="">Terms &amp; Conditions</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+
+
+
+
+</body>
+
+</html>
