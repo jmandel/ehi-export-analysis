@@ -1,0 +1,49 @@
+"Export Creation Process","","","","","","","","","",""
+"1. Authorization to perform export:
+
+To authorize a user to perform an export, the administrator must  give the user access to the Data Export screen under System Configuration.  The user must also enable 2FA protection on their account by accessing PM Home -> Settiings -> Preferences -> My Account and following the prompts at the bottom to Enable 2-Factor Authentication.
+
+2. Performing an export of a single patient's record
+
+An authorized user can perform the export of a single patient's record by accessing the PM Home -> System Configuration -> Data Export screen.  Here, click the magnifying glass to open the patient search.  Select a patient, then press the ""Request Download"" button.  A password prompt will appear, you must enter a password to encrypt the zip file in order to initiate the process.  The pending epxort will appear in the Data Export list as pending.  An export of a single patient's record can be expected to take approximately 5 minutes, though patients with a large number of ultrasound images or other documents may take longer.
+
+3. Performing a complete export of all records
+
+An authorized user can export all records in the software by accessing the PM Home -> System Configuration -> Data Export screen.  Here, press the ""Request Download"" button without selecting a patient. A password prompt will appear, you must enter a password to encrypt the zip file in order to initiate the process.  Note that the duration of this process will depend on the total number of patients and the amount of stored images or documents.
+
+4. Retrieving the completed export
+
+Once complete the export file(s) will be shown with checksums and download links for each one. Please use the browser's refresh button to screen to check the export progress.  You may also leave the screen and return later.   Each zip volume is approximately 10GB of data.  Export files will be retained on the server for 7 days.","","","","","","","","","",""
+"Documentation For .zip format ","","","","","","","","","",""
+"The zip format is a compressed arrchive file format created by the 7-zip open-source file archiver.   It utilizes AES-256 encryption to secure the medical records.  Note that some versions of windows will indicate that this file is corrupt due to lack of support for this level of encryption.  Use of a third-party archive tool is required to open and extract these archives.  We recommend the freely available 7-zip utility which is available from https://www.7-zip.org/download 
+
+When initiating the export, a password must be given to encrypt the archive.  This password must be used in order to extract data files from the archive and cannot be recovered if it is lost or forgotten.  Please make sure to store the password in a safe place such as a secure password safe.  We strongly recommend not storing the archive and password in the same location, especially on a removable thumbdrive or disk, as in the event the drive is stolen, the password can then be used to extract the data.
+
+➡️ You can extract the the data by opening the *filename*.zip.001 file.  Note that if multiple volumes are created (.zip.001, .zip.002, etc), all volumes must be stored in a single folder.  Opening the first volume (001) will open all following volumes as necessary, you do not need to individually open each volume.
+➡️ Enter the password that you selected while exporting the data
+➡️ Drag and drop files from the archive to another location to extract them.","","","","","","","","","",""
+"Documentation For .csv format","","","","","","","","","",""
+"CSV is a simple and widely used file format for storing tablular data. In a CSV file, each line of the file represents a record of data separated by a newline character, and the cells (fields) in each row are reparated by commas.  The first row of each file is the heading, each comma-separated value indicating the title of that column.  String data should be expected to be encoded in UTF-8.
+
+Columns without data will simply be empty.  Note that there is no distinction between an empty string and a ""NULL"" value in this case.  Strings that contain newlines, double quotation marks ("") and will themselves be enclosed in doulbe quotation marks.  Double quotation marks occurring within a string will be doubled ("""")
+
+Example for a data table of a person's name, age and hometown, containing 3 records.  The first record, the name field contains a comma and is therefore enclosed in quotes.  The second record has a name containing quotes, and is therefore enclosed in quotes and the quotes within the string are doubled.  The third record contains a person with no hometown.
+
+Name,Age,Hometown
+""Hancock, John"",39,Houston
+""John """"The Don"""" Doe"",52,Chicago
+Susie Wanderer,38,
+","","","","","","","","","",""
+"Document Repository","","","","","","","","","",""
+"Scanned documents, DICOM files, HL7 messages, and various other artefacts are stored in the Document Repository rather than the CSV files.  The Documents CSV file contains a column with the filename to the document relative to the Documents folder within the archive..  The file extension should generally reflect the content type.however a Mime-type column is present in the Documents table when the mime-type of the document is known.  Please note that the format of any given type of file stored in the repository is outside of the scope of this documentation.
+
+Documentrs and images: These files generally end in .pdf, .png, .jpg, .gif, .tif, however as any document may be uploaded to nAbleMD it may also include .doc, .docx, and other document formats.
+ANSI Claim/EDI messages: These files generally end in .835, .837, .277, .277FE, .271, .271.xml (for XML-wrapped 271 files used by some clearinghouses).  There may be other non-standard claim message files such as .DPR or .EBR
+HL7 messages: Generally end in .hl7.  Typically .orm.hl7 for laboratory test result files and .oru.hl7 for laboratory test order files.  Imaging/Radiology orders may also use this format.
+DICOM: Generally end in .dcm.  Note that files may be either image data or Structured Report (SR) data, as transmitted by the interfaced machines.
+
+Note that within nAble there may be documents stored in the Docment Archive that are not associated wiht any patient, such as incoming faxes that have not been filed to a chart or documents intentionally uploaded outside of a patient chart.  These documents will only be exported when a full export is requested.","","","","","","","","","",""
+"This Guide","","","","","","","","","",""
+"This guide contains documentation and data dictionary for the CSV files exported from nAbleMD 6.0c.  Please see the Revision History tab for more details.
+
+The Table of Contents tab lists the various data tables that are exported and included in the archive.  Note that not all data tables are used by all specialties, please check the specialty column of the Table of Contents to see if a particular data table is relevant to your practice,  After the Table of Contents tab is a tab containing a description of each data table and the columns as exported to the CSV file. The name of the tab matches the name of the CSV file (plus the "".csv"" extension) thus the ""Visit.csv"" file is documented in the Visit tab.","","","","","","","","","",""
