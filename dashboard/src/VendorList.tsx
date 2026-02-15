@@ -1,12 +1,10 @@
 import type { Vendor } from "./types";
-import { toBin } from "./Histogram";
+import { toBin, toGrade, BIN_COLORS, BIN_GRADES } from "./Histogram";
 
-const BIN_COLORS = ["", "#e74c3c", "#e67e22", "#f1c40f", "#2ecc71", "#27ae60"];
-
-function scoreBadge(bin: number) {
+function scoreBadge(bin: number, grade: string) {
   return (
     <span className="score-badge" style={{ backgroundColor: BIN_COLORS[bin] }}>
-      {bin}
+      {grade}
     </span>
   );
 }
@@ -30,7 +28,7 @@ export function VendorList({
         <h2>
           {selectedScore !== null ? (
             <>
-              Score {selectedScore} ({vendors.length}){" "}
+              Grade {BIN_GRADES[selectedScore]} ({vendors.length}){" "}
               <button className="clear-btn" onClick={onClearFilter}>
                 Show all
               </button>
@@ -49,7 +47,7 @@ export function VendorList({
             target="_blank"
             rel="noopener"
           >
-            {scoreBadge(toBin(v.holistic_score, scoreRange[0], scoreRange[1]))}
+            {scoreBadge(toBin(v.holistic_score, scoreRange[0], scoreRange[1]), toGrade(v.holistic_score, scoreRange[0], scoreRange[1]))}
             <div className="vendor-info">
               <div className="vendor-name">
                 {v.developer} — {v.family}

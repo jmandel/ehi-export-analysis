@@ -2,9 +2,7 @@ import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import type { Vendor } from "./types";
-import { toBin } from "./Histogram";
-
-const BIN_COLORS = ["", "#e74c3c", "#e67e22", "#f1c40f", "#2ecc71", "#27ae60"];
+import { toBin, toGrade, BIN_COLORS } from "./Histogram";
 
 export function DetailView({
   vendor,
@@ -36,6 +34,7 @@ export function DetailView({
   }
 
   const bin = toBin(vendor.holistic_score, scoreRange[0], scoreRange[1]);
+  const grade = toGrade(vendor.holistic_score, scoreRange[0], scoreRange[1]);
   const scoreColor = BIN_COLORS[bin];
   const baseUrl = `${window.location.origin}${window.location.pathname}`;
 
@@ -50,7 +49,7 @@ export function DetailView({
           className="score-badge large"
           style={{ backgroundColor: scoreColor }}
         >
-          {bin}
+          {grade}
         </span>
         <div>
           <h1>

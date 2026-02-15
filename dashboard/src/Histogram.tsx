@@ -1,6 +1,8 @@
 import type { Vendor } from "./types";
 
 const NUM_BINS = 5;
+const BIN_GRADES = ["", "F", "D", "C", "B", "A"];
+const BIN_COLORS = ["", "#e74c3c", "#e67e22", "#f1c40f", "#2ecc71", "#27ae60"];
 
 function toBin(score: number, min: number, max: number): number {
   if (max === min) return 1;
@@ -8,7 +10,9 @@ function toBin(score: number, min: number, max: number): number {
   return Math.min(NUM_BINS, Math.max(1, Math.ceil(normalized * NUM_BINS)));
 }
 
-const BIN_COLORS = ["", "#e74c3c", "#e67e22", "#f1c40f", "#2ecc71", "#27ae60"];
+function toGrade(score: number, min: number, max: number): string {
+  return BIN_GRADES[toBin(score, min, max)];
+}
 
 export function Histogram({
   vendors,
@@ -39,9 +43,6 @@ export function Histogram({
         : sorted[Math.floor(sorted.length / 2)]
       : 0;
 
-  // Bin edge labels
-  const binLabel = (bin: number) => `${bin}`;
-
   return (
     <section className="histogram">
       <div className="stats">
@@ -65,7 +66,7 @@ export function Histogram({
                 opacity: selectedScore !== null && selectedScore !== bin ? 0.3 : 1,
               }}
             />
-            <span className="bar-label">{binLabel(bin)}</span>
+            <span className="bar-label">{BIN_GRADES[bin]}</span>
           </div>
         ))}
       </div>
@@ -73,4 +74,4 @@ export function Histogram({
   );
 }
 
-export { toBin };
+export { toBin, toGrade, BIN_GRADES, BIN_COLORS };
