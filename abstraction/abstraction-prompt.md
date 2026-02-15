@@ -350,6 +350,30 @@ Save scripts you wrote and their outputs to `{{OUTPUT_DIR}}/analysis/`. Include:
 
 Every hard number in the analysis.md should be traceable to a file in `analysis/`.
 
+### Extraction completeness requirement
+
+When you write a script to parse a data dictionary, schema, or other structured
+artifact, **always materialize the full extracted content** — not just summary
+counts. Specifically:
+
+1. **`full-entity-inventory.json`** (required for any export with a data dictionary):
+   A complete machine-readable extraction containing every entity/table and every
+   field the script parsed. Each field entry should include all available metadata
+   (name, type, description, nullability, relationships, value sets — whatever
+   the source provides). This is the canonical extracted representation.
+
+2. **`category-summary.json`** or similar (derived from the full inventory):
+   Aggregate statistics by the vendor's own categories — entity count, field count,
+   description coverage per category. This is what you reference in analysis.md.
+
+The principle: if your script reads a field name, description, and type from a
+PDF or HTML table, all three should appear in the output JSON — not just a count
+of "164 described fields." The full inventory is the most valuable artifact you
+produce; summary stats are derived from it, not a substitute for it.
+
+If parsing is lossy (e.g., `pdftotext` garbles some table rows), document the
+parse failures in the output and note the gap in analysis.md.
+
 ## Important guidance
 
 - **Do the work.** Parse the PDFs. Count the fields. Inspect the sample data.
