@@ -29,6 +29,12 @@ pages," "data dictionary has 50 fields"), verify it yourself before repeating it
 in your analysis. If you find a discrepancy, note it. Your analysis should be
 independently defensible, not a summary of the prior agent's work.
 
+**Don't surface claims you can't substantiate.** If a prior report says a website
+is down or a file was inaccessible, don't repeat that unless you've checked
+yourself. Your analysis should only contain claims you can back up with evidence
+from the artifacts in `downloads/` or from your own verification. Omit rather
+than speculate.
+
 ## What you're trying to understand
 
 The ONC Cures Act rule 170.315(b)(10) requires certified EHR systems to support

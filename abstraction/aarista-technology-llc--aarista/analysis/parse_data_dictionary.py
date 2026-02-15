@@ -1,102 +1,141 @@
 #!/usr/bin/env python3
-"""Parse the Aarista EHI Export data dictionary PDF and produce structured inventory.
-
-The PDF contains 7 tables across 8 pages. We extract text with pdftotext -layout
-and parse field names + SQL Server data types from each table section.
-"""
+"""Parse the Aarista EHI Export Data Dictionary PDF and produce structured inventory."""
 
 import json
-import re
 import subprocess
+import re
 
 PDF_PATH = "/home/jmandel/hobby/ehi-export-analysis/results/aarista-technology-llc/downloads/Aarista_EHI_Export.pdf"
-OUTPUT_DIR = "/home/jmandel/hobby/ehi-export-analysis/abstraction/aarista-technology-llc--aarista/analysis"
 
+# Extract text
 result = subprocess.run(["pdftotext", "-layout", PDF_PATH, "-"], capture_output=True, text=True)
-lines = result.stdout.split('\n')
+text = result.stdout
 
-# Table boundaries determined by manual line-by-line inspection of PDF text
-table_defs = [
-    {"name": "Single Patient - Patient Demographics", "start": 17, "end": 45, "category": "Demographics"},
-    {"name": "Single Patient - Patient Addresses", "start": 49, "end": 61, "category": "Demographics"},
-    {"name": "Single Patient - Patient Contacts", "start": 66, "end": 86, "category": "Demographics"},
-    {"name": "Single Patient - Patient Insurances", "start": 89, "end": 113, "category": "Insurance"},
-    {"name": "Single Patient - Patient Encounters – Clinical and Billing", "start": 116, "end": 176, "category": "Clinical & Billing"},
-    {"name": "Practice Patients - Patient Demographics and Billing Encounters", "start": 183, "end": 199, "category": "Practice Billing"},
-    {"name": "Practice Patients - Patient Demographics and Clinical Encounters", "start": 202, "end": 227, "category": "Practice Clinical"},
-]
+# Split into lines
+lines = text.split('\n')
 
-def parse_field_line(line):
-    line = line.strip()
-    if not line or 'Data Field' in line or 'Data Type' in line:
-        return None
-    m = re.match(r'(.+?)\s{2,}(.+)$', line)
-    if m:
-        name = m.group(1).strip()
-        dtype = m.group(2).strip()
-        return {
-            "name": name.rstrip('*').strip(),
-            "name_raw": name,
-            "type": dtype,
-            "required": '*' in name,
-            "has_description": False,
-            "multiple_records": 'multiple records' in dtype.lower()
-        }
-    return None
-
+# Parse tables by identifying headers and field rows
 tables = []
-for tdef in table_defs:
-    fields = []
-    for i in range(tdef["start"] - 1, min(tdef["end"], len(lines))):
-        field = parse_field_line(lines[i])
-        if field:
-            fields.append(field)
-    tables.append({
-        "name": tdef["name"],
-        "category": tdef["category"],
-        "field_count": len(fields),
-        "required_count": sum(1 for f in fields if f["required"]),
-        "multiple_record_fields": sum(1 for f in fields if f["multiple_records"]),
-        "fields": fields
-    })
+current_table = None
 
-total_fields = sum(t["field_count"] for t in tables)
-total_required = sum(t["required_count"] for t in tables)
-total_multiple = sum(t["multiple_record_fields"] for t in tables)
+for line in lines:
+    stripped = line.strip()
+    
+    # Detect table headers (lines like "Single Patient - Patient Demographics")
+    if re.match(r'^(Single Patient|Practice Patients)\s*-\s*', stripped):
+        if current_table:
+            tables.append(current_table)
+        current_table = {
+            "name": stripped,
+            "fields": [],
+            "has_descriptions": False,
+            "has_types": True,
+        }
+        continue
+    
+    if current_table is None:
+        continue
+    
+    # Skip header rows and empty lines
+    if stripped in ("", "Data Field", "Data Type") or stripped.startswith("Data Field"):
+        continue
+    if stripped.startswith("EHI Export") or stripped.startswith("The Electronic"):
+        continue
+    
+    # Match field lines: field name followed by data type
+    # Types: nvarchar, nchar, int, date, datetime, float, bit, varchar, derived, constant, n/a
+    field_match = re.match(
+        r'^(.+?)\s{2,}(nvarchar\(.+?\)|nchar\(.+?\)|int|date(?:time)?|float|bit|varchar\(.+?\)|derived\s+field|constant\s+string|n/a|9\s+digits.*|2\s+digits.*)',
+        stripped,
+        re.IGNORECASE
+    )
+    
+    if field_match:
+        field_name = field_match.group(1).strip().rstrip('*')
+        is_required = '*' in field_match.group(1)
+        data_type = field_match.group(2).strip()
+        
+        # Check for "multiple records" annotation
+        multi = "multiple records" in stripped.lower()
+        
+        current_table["fields"].append({
+            "name": field_name,
+            "type": data_type,
+            "required": is_required,
+            "multiple_records": multi,
+        })
+
+if current_table:
+    tables.append(current_table)
+
+# Categorize tables
+categories = {
+    "Single Patient - Patient Demographics": "Demographics",
+    "Single Patient - Patient Addresses": "Demographics",
+    "Single Patient - Patient Contacts": "Demographics",
+    "Single Patient - Patient Insurances": "Insurance",
+    "Single Patient - Patient Encounters – Clinical and Billing": "Clinical & Billing",
+    "Practice Patients - Patient Demographics and Billing Encounters": "Billing",
+    "Practice Patients - Patient Demographics and Clinical Encounters": "Clinical",
+}
+
+# Build summary
+total_fields = 0
+for t in tables:
+    t["field_count"] = len(t["fields"])
+    t["category"] = categories.get(t["name"], "Unknown")
+    total_fields += t["field_count"]
 
 summary = {
     "total_tables": len(tables),
     "total_fields": total_fields,
-    "total_required_fields": total_required,
-    "total_multiple_record_fields": total_multiple,
-    "fields_with_descriptions": 0,
+    "fields_with_descriptions": 0,  # None have descriptions beyond field names
+    "fields_with_types": total_fields,  # All have SQL types
     "description_percentage": 0.0,
-    "tables": tables
+    "tables": []
 }
 
-with open(f"{OUTPUT_DIR}/full-entity-inventory.json", "w") as f:
+for t in tables:
+    table_info = {
+        "name": t["name"],
+        "category": t["category"],
+        "field_count": t["field_count"],
+        "fields_with_descriptions": 0,
+        "has_types": True,
+        "fields": t["fields"]
+    }
+    summary["tables"].append(table_info)
+
+# Output
+output_path = "/home/jmandel/hobby/ehi-export-analysis/abstraction/aarista-technology-llc--aarista/analysis/full-entity-inventory.json"
+with open(output_path, 'w') as f:
     json.dump(summary, f, indent=2)
 
-print("=== Aarista EHI Export Data Dictionary Summary ===")
-print(f"Total tables: {len(tables)}")
-print(f"Total fields: {total_fields}")
-print(f"Required fields: {total_required}")
-print(f"Fields with descriptions: 0 (0%)")
-print(f"Fields with 'multiple records' notation: {total_multiple}")
+# Print summary
+print(f"Total tables: {summary['total_tables']}")
+print(f"Total fields: {summary['total_fields']}")
+print(f"Fields with descriptions: {summary['fields_with_descriptions']} (0%)")
+print(f"Fields with types: {summary['fields_with_types']} (100%)")
 print()
-print(f"{'Table Name':<65} {'Fields':>6} {'Req':>4} {'Category'}")
-print("-" * 100)
-for t in tables:
-    print(f"{t['name']:<65} {t['field_count']:>6} {t['required_count']:>4} {t['category']}")
-print()
-print("=== Typos Found ===")
-for orig, corrected in [("Mother Mainder Name","Mother Maiden Name"),("Ethnithity","Ethnicity"),
-    ("Chief Comlaint","Chief Complaint"),("Historhy of Present Illness","History of Present Illness"),("L:abs","Labs")]:
-    print(f"  '{orig}' -> '{corrected}'")
-print()
-for t in tables:
-    print(f"\n--- {t['name']} ({t['field_count']} fields) ---")
-    for f in t["fields"]:
-        req = "*" if f["required"] else " "
-        multi = " [MULTI]" if f["multiple_records"] else ""
-        print(f"  {req} {f['name_raw']:<45} {f['type']}{multi}")
+
+for t in summary["tables"]:
+    multi_count = sum(1 for f in t["fields"] if f.get("multiple_records"))
+    required_count = sum(1 for f in t["fields"] if f.get("required"))
+    print(f"  {t['name']}")
+    print(f"    Category: {t['category']}")
+    print(f"    Fields: {t['field_count']}")
+    print(f"    Required fields: {required_count}")
+    print(f"    Multi-record fields: {multi_count}")
+    print()
+
+# Count typos
+typos = {
+    "Ethnithity": "Ethnicity",
+    "Mother Mainder Name": "Mother Maiden Name", 
+    "Chief Comlaint": "Chief Complaint",
+    "Historhy of Present Illness": "History of Present Illness",
+    "L:abs": "Labs",
+}
+print(f"Typos found: {len(typos)}")
+for wrong, right in typos.items():
+    print(f"  '{wrong}' → '{right}'")
