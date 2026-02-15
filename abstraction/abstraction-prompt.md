@@ -21,6 +21,14 @@ The results directory contains:
 **The `downloads/` folder is your primary source of truth.** The markdown reports
 are useful for orientation but may be incomplete or wrong. Do your own work.
 
+**Verify, don't parrot.** The prior reports were written by automated agents at
+collection time and may contain errors — websites that were down may be back up,
+claims about file contents may be wrong, page counts or field counts may be off.
+When a prior report makes a factual claim (e.g., "site returns 403," "PDF has 8
+pages," "data dictionary has 50 fields"), verify it yourself before repeating it
+in your analysis. If you find a discrepancy, note it. Your analysis should be
+independently defensible, not a summary of the prior agent's work.
+
 ## What you're trying to understand
 
 The ONC Cures Act rule 170.315(b)(10) requires certified EHR systems to support
