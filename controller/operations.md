@@ -92,20 +92,80 @@ done
 
 ## Post-Collection: Analysis & Summary
 
-```bash
-# Analysis: deep review of collected artifacts → analysis.md
-./scripts/run-analysis.sh --dir <vendor>--<family>        # single
-./scripts/run-all-analyses.sh -j 4                         # batch (skips done)
-./scripts/run-all-analyses.sh --force --filter "epic*"     # force redo
+### Analysis (produces analysis.md from collected artifacts)
 
-# Summary: extract structured JSON from analysis.md → summary.json
-./scripts/run-summary.sh --analysis-dir abstraction/<vendor>--<family>  # single
-./scripts/run-all-summaries.sh -j 4                                     # batch
-./scripts/run-all-summaries.sh --force -j 4                             # after schema change
+The analysis pipeline reads everything in `results/<vendor>--<family>/` and
+produces a deep narrative assessment in `abstraction/<vendor>--<family>/analysis.md`.
+Uses the prompt template at `abstraction/abstraction-prompt.md`.
+
+```bash
+# Single family:
+./scripts/run-analysis.sh --dir <vendor>--<family>
+
+# All families with collected results (skips done by default):
+./scripts/run-all-analyses.sh -j 4
+
+# Force redo for specific vendors:
+./scripts/run-all-analyses.sh --force --filter "epic*"
+
+# Dry run — see what would execute:
+./scripts/run-all-analyses.sh --dry-run
+
+# Resume after interruption (same command — skips existing analysis.md):
+./scripts/run-all-analyses.sh -j 4
 ```
 
-The summary schema lives in `abstraction/ehi-summary-schema.ts`. Add fields with
-JSDoc comments explaining derivation — the pipeline picks them up automatically.
+Options for `run-all-analyses.sh`:
+
+| Flag | Description |
+|------|-------------|
+| `-j, --jobs N` | Parallel jobs (default: 1, streams output) |
+| `--force` | Remove existing analysis.md and re-run |
+| `--dry-run` | Print commands without executing |
+| `--backend <b>` | LLM backend (default: copilot) |
+| `--model <m>` | Model override |
+| `--filter <glob>` | Only process dirs matching glob |
+
+Options for `run-analysis.sh`:
+
+| Flag | Description |
+|------|-------------|
+| `--dir <slug>` | Results directory slug, e.g. `epic-systems-corporation--epic` |
+| `--output-dir <dir>` | Override output directory (default: `abstraction/<slug>/`) |
+| `--backend <b>` | LLM backend |
+| `--model <m>` | Model override |
+
+### Summary extraction (produces summary.json from analysis.md)
+
+The summary pipeline reads `analysis.md` + the TypeScript schema at
+`abstraction/ehi-summary-schema.ts` and extracts structured JSON.
+Schema-agnostic: add fields to the `.ts` file with JSDoc comments
+explaining how to derive them, and the pipeline picks them up automatically.
+
+```bash
+# Single family:
+./scripts/run-summary.sh --analysis-dir abstraction/<vendor>--<family>
+
+# All families with completed analyses (skips done by default):
+./scripts/run-all-summaries.sh -j 4
+
+# Force re-extract after schema changes:
+./scripts/run-all-summaries.sh --force -j 4
+
+# Filter to specific vendors:
+./scripts/run-all-summaries.sh --filter "aarista*" --force
+```
+
+Options for `run-all-summaries.sh`:
+
+| Flag | Description |
+|------|-------------|
+| `-j, --jobs N` | Parallel jobs (default: 1) |
+| `--force` | Remove existing summary.json and re-run |
+| `--dry-run` | Print commands without executing |
+| `--backend <b>` | LLM backend (default: copilot) |
+| `--model <m>` | Model override (default: claude-sonnet-4.5) |
+| `--filter <glob>` | Only process dirs matching glob |
 
 ## How It All Fits Together
 
