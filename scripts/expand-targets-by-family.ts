@@ -224,23 +224,16 @@ for (let idx = 0; idx < targets.length; idx++) {
       });
     }
 
-    // Catch products not claimed by any defined family
+    // Warn about products not claimed by any defined family
     const unclaimed = metadata
       ? metadata.products.filter((p) => target.chpl_ids.includes(p.chpl_id) && !claimedIds.has(p.chpl_id))
       : [];
-    for (const p of unclaimed) {
-      output.push({
-        url: target.url,
-        developers: target.developers,
-        family: p.product_name,
-        focus_product: p.product_name,
-        focus_version: p.version,
-        products: [p.product_name],
-        chpl_ids: [p.chpl_id],
-        original_index: origIdx,
-        product_count: 1,
-        phase: classifyFamily([p.certified_criteria]),
-      });
+    if (unclaimed.length > 0) {
+      console.warn(`WARNING: ${vendorSlug} has ${unclaimed.length} product(s) not in any family:`);
+      for (const p of unclaimed) {
+        console.warn(`  - ${p.product_name} (chpl_id=${p.chpl_id})`);
+      }
+      console.warn(`  → Add to work/product-families.json and re-run`);
     }
   } else {
     // No family definition — one entry per unique product name
