@@ -42,10 +42,6 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-slugify() {
-  echo "$1" | tr '[:upper:]' '[:lower:]' | LC_ALL=C sed 's/[^a-z0-9]\+/-/g' | sed 's/^-\|-$//g' | cut -c1-60
-}
-
 # Build the list of commands
 commands=()
 total=0
@@ -55,68 +51,34 @@ forced=0
 for results_dir in "$ROOT_DIR"/results/*/; do
   slug=$(basename "$results_dir")
 
+  # Only process family-scoped dirs (contain --)
+  [[ "$slug" == *"--"* ]] || continue
+
+  # Must have chpl-metadata and downloads
+  [[ -f "$results_dir/chpl-metadata.json" ]] || continue
+
   # Apply filter if set
   if [[ -n "$FILTER" ]]; then
     # shellcheck disable=SC2254
     case "$slug" in $FILTER) ;; *) continue ;; esac
   fi
 
-  meta="$results_dir/chpl-metadata.json"
-  [[ -f "$meta" ]] || continue
+  output_dir="$ROOT_DIR/abstraction/$slug"
+  total=$((total + 1))
 
-  # Check if we have product family definitions for this vendor
-  families_file="$ROOT_DIR/work/product-families.json"
-  if [[ -f "$families_file" ]] && jq -e --arg s "$slug" '.[$s]' "$families_file" >/dev/null 2>&1; then
-    # Use family definitions: one analysis per family
-    mapfile -t family_names < <(jq -r --arg s "$slug" '.[$s][].family' "$families_file")
-    for family in "${family_names[@]}"; do
-      product_slug=$(slugify "$family")
-      output_dir="$ROOT_DIR/abstraction/${slug}--${product_slug}"
-      # Collect the product names in this family for passing to run-analysis.sh
-      products_json=$(jq -c --arg s "$slug" --arg f "$family" '.[$s][] | select(.family == $f) | .products' "$families_file")
-      total=$((total + 1))
-
-      if [[ -f "$output_dir/analysis.md" ]]; then
-        if [[ "$FORCE" == true ]]; then
-          forced=$((forced + 1))
-          if [[ "$DRY_RUN" == false ]]; then
-            rm -rf "$output_dir"
-          fi
-        else
-          skipped=$((skipped + 1))
-          continue
-        fi
+  if [[ -f "$output_dir/analysis.md" ]]; then
+    if [[ "$FORCE" == true ]]; then
+      forced=$((forced + 1))
+      if [[ "$DRY_RUN" == false ]]; then
+        rm -rf "$output_dir"
       fi
-
-      commands+=("./scripts/run-analysis.sh --dir \"$slug\" --product \"$family\" --products-json '$products_json' $BACKEND_ARG $MODEL_ARG")
-    done
-  else
-    # No family definitions: one analysis per unique product name (existing behavior)
-    mapfile -t products < <(jq -r '.products[].product_name' "$meta" 2>/dev/null | sort -u)
-    if [[ ${#products[@]} -eq 0 ]]; then
-      products=("$slug")
+    else
+      skipped=$((skipped + 1))
+      continue
     fi
-
-    for product in "${products[@]}"; do
-      product_slug=$(slugify "$product")
-      output_dir="$ROOT_DIR/abstraction/${slug}--${product_slug}"
-      total=$((total + 1))
-
-      if [[ -f "$output_dir/analysis.md" ]]; then
-        if [[ "$FORCE" == true ]]; then
-          forced=$((forced + 1))
-          if [[ "$DRY_RUN" == false ]]; then
-            rm -rf "$output_dir"
-          fi
-        else
-          skipped=$((skipped + 1))
-          continue
-        fi
-      fi
-
-      commands+=("./scripts/run-analysis.sh --dir \"$slug\" --product \"$product\" $BACKEND_ARG $MODEL_ARG")
-    done
   fi
+
+  commands+=("./scripts/run-analysis.sh --dir \"$slug\" $BACKEND_ARG $MODEL_ARG")
 done
 
 queued=${#commands[@]}

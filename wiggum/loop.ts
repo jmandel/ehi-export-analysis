@@ -20,6 +20,9 @@ import { join, dirname } from "node:path";
 interface Target {
   url: string;
   developers: string[];
+  family: string;
+  focus_product: string;
+  focus_version: string;
   products: string[];
   chpl_ids: number[];
   original_index?: number;
@@ -642,9 +645,15 @@ async function runTarget(
   const developers = target.developers.join(", ");
   const products = target.products.join(", ");
   const chplIds = target.chpl_ids.map(String).join(", ");
+  const family = target.family ?? target.products[0] ?? "unknown";
+  const focusProduct = target.focus_product ?? family;
+  const focusVersion = target.focus_version ?? "";
 
-  let slug = slugify(target.developers[0]);
-  if (target.developers.length > 1) slug = `${slug}-and-others-${idx}`;
+  // Slug: <vendor>--<family>
+  let vendorSlug = slugify(target.developers[0]);
+  if (target.developers.length > 1) vendorSlug = `${vendorSlug}-and-others-${idx}`;
+  const familySlug = slugify(family);
+  const slug = `${vendorSlug}--${familySlug}`;
 
   const outputDir = join(RESULTS_DIR, slug);
 
@@ -656,14 +665,14 @@ async function runTarget(
 
   await mkdir(join(outputDir, "downloads"), { recursive: true });
 
-  // Copy & filter CHPL metadata
+  // Copy & filter CHPL metadata to just this family's products
   const origIdx = target.original_index ?? idx;
   const metaFile = join(ROOT, "work", "target-metadata", String(origIdx).padStart(4, "0") + ".json");
   if (existsSync(metaFile)) {
     const meta = await Bun.file(metaFile).json();
-    const phaseIds = new Set(target.chpl_ids);
+    const familyIds = new Set(target.chpl_ids);
     meta.products = (meta.products ?? []).filter(
-      (p: { chpl_id: number }) => phaseIds.has(p.chpl_id),
+      (p: { chpl_id: number }) => familyIds.has(p.chpl_id),
     );
     if (meta.products.length === 0) {
       console.log(`  SKIP: no matching products in metadata`);
@@ -675,12 +684,16 @@ async function runTarget(
   console.log(`[${idx}/${total}] ${slug}`);
   console.log(`  URL: ${url}`);
   console.log(`  Dev: ${developers}`);
+  console.log(`  Family: ${family} (focus: ${focusProduct} ${focusVersion})`);
 
   const templateVars: Record<string, string> = {
     URL: url,
     DEVELOPERS: developers,
     PRODUCTS: products,
     CHPL_IDS: chplIds,
+    FAMILY: family,
+    FOCUS_PRODUCT: focusProduct,
+    FOCUS_VERSION: focusVersion,
     OUTPUT_DIR: outputDir,
   };
 
@@ -765,7 +778,7 @@ async function main() {
   console.log("=== EHI Export Documentation Collection ===");
   console.log(`Phase:   ${opts.phase} (${phaseLabel})`);
   console.log(`Backend: ${LLM_BACKEND} (${modelLabel})`);
-  console.log(`Targets: ${opts.targets} (${total} URLs)`);
+  console.log(`Targets: ${opts.targets} (${total} families)`);
   console.log(`Results: ${RESULTS_DIR}/`);
   console.log("");
 

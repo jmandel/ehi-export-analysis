@@ -12,40 +12,34 @@ set -euo pipefail
 usage() {
   cat <<'EOF'
 Usage:
-  ./scripts/run-analysis.sh --dir <results-slug> [options]
+  ./scripts/run-analysis.sh --dir <results-dir-name> [options]
 
 Options:
-  --dir        Directory name under results/ (required)
-  --product    Product or family name to analyze (default: auto-detect from chpl-metadata)
-  --output-dir Output directory (default: abstraction/<dir>--<product-slug>)
+  --dir        Directory name under results/ (required, e.g. "vendor--product")
+  --output-dir Output directory (default: abstraction/<dir>)
   --backend    LLM backend: copilot, codex (default: copilot)
   --model      Model override (default: claude-opus-4.6-fast for copilot)
   -h, --help   Show this message
 
 Examples:
-  ./scripts/run-analysis.sh --dir practice-fusion
-  ./scripts/run-analysis.sh --dir practice-fusion --product "Practice Fusion EHR"
-  ./scripts/run-analysis.sh --dir claimpower-inc --backend codex
+  ./scripts/run-analysis.sh --dir aarista-technology-llc--aarista
+  ./scripts/run-analysis.sh --dir practice-fusion--practice-fusion-ehr --backend codex
 EOF
 }
 
 TARGET_DIRNAME=""
-PRODUCT_NAME=""
-PRODUCTS_JSON=""
 OUTPUT_DIR=""
 BACKEND="copilot"
 MODEL=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --dir)           TARGET_DIRNAME="$2"; shift 2 ;;
-    --product)       PRODUCT_NAME="$2"; shift 2 ;;
-    --products-json) PRODUCTS_JSON="$2"; shift 2 ;;
-    --output-dir)    OUTPUT_DIR="$2"; shift 2 ;;
-    --backend)       BACKEND="$2"; shift 2 ;;
-    --model)         MODEL="$2"; shift 2 ;;
-    -h|--help)       usage; exit 0 ;;
-    *)               echo "Unknown arg: $1"; usage; exit 1 ;;
+    --dir)        TARGET_DIRNAME="$2"; shift 2 ;;
+    --output-dir) OUTPUT_DIR="$2"; shift 2 ;;
+    --backend)    BACKEND="$2"; shift 2 ;;
+    --model)      MODEL="$2"; shift 2 ;;
+    -h|--help)    usage; exit 0 ;;
+    *)            echo "Unknown arg: $1"; usage; exit 1 ;;
   esac
 done
 
@@ -72,25 +66,18 @@ if [[ ! -d "$RESULTS_DIR" ]]; then
   exit 2
 fi
 
-# Auto-detect product name from chpl-metadata if not specified
+# Derive product name from chpl-metadata
+PRODUCT_NAME=""
+if [[ -f "$RESULTS_DIR/chpl-metadata.json" ]]; then
+  PRODUCT_NAME=$(jq -r '.products[0].product_name // empty' "$RESULTS_DIR/chpl-metadata.json" 2>/dev/null)
+fi
 if [[ -z "$PRODUCT_NAME" ]]; then
-  if [[ -f "$RESULTS_DIR/chpl-metadata.json" ]]; then
-    PRODUCT_NAME=$(jq -r '.products[0].product_name // empty' "$RESULTS_DIR/chpl-metadata.json" 2>/dev/null)
-  fi
-  if [[ -z "$PRODUCT_NAME" ]]; then
-    PRODUCT_NAME="$TARGET_DIRNAME"
-  fi
+  PRODUCT_NAME="$TARGET_DIRNAME"
 fi
 
-# Slugify product name for output directory
-slugify() {
-  echo "$1" | tr '[:upper:]' '[:lower:]' | LC_ALL=C sed 's/[^a-z0-9]\+/-/g' | sed 's/^-\|-$//g' | cut -c1-60
-}
-PRODUCT_SLUG=$(slugify "$PRODUCT_NAME")
-
-# Build output dir: abstraction/<vendor>--<product>
+# Output dir mirrors results dir name: abstraction/<same-slug>
 if [[ -z "$OUTPUT_DIR" ]]; then
-  OUTPUT_DIR="$ROOT_DIR/abstraction/${TARGET_DIRNAME}--${PRODUCT_SLUG}"
+  OUTPUT_DIR="$ROOT_DIR/abstraction/$TARGET_DIRNAME"
 fi
 
 # Resolve CLI binary
@@ -113,32 +100,17 @@ esac
 
 mkdir -p "$OUTPUT_DIR"
 
-# Write metadata.json for traceability
-# If --products-json was provided (list of product names in this family),
-# use it to select matching CHPL entries. Otherwise match on product_name.
-if [[ -n "$PRODUCTS_JSON" ]]; then
-  PRODUCTS_FILTER=$(echo "$PRODUCTS_JSON" | jq -r 'map(@json) | join(",")' | sed 's/^/[/;s/$/]/')
-  MATCHED_PRODUCTS=$(jq --argjson names "$PRODUCTS_FILTER" \
-    '[.products[] | select(.product_name as $pn | $names | index($pn))]' \
-    "$RESULTS_DIR/chpl-metadata.json" 2>/dev/null || echo '[]')
-else
-  MATCHED_PRODUCTS=$(jq --arg pn "$PRODUCT_NAME" \
-    '[.products[] | select(.product_name == $pn)]' \
-    "$RESULTS_DIR/chpl-metadata.json" 2>/dev/null || echo '[]')
-fi
-
+# Write metadata.json for traceability — chpl-metadata is already family-filtered
 jq -n \
-  --arg vendor_slug "$TARGET_DIRNAME" \
+  --arg dir_slug "$TARGET_DIRNAME" \
   --arg product_name "$PRODUCT_NAME" \
-  --arg product_slug "$PRODUCT_SLUG" \
   --arg results_dir "results/$TARGET_DIRNAME" \
   --arg created_at "$(date -Iseconds)" \
-  --argjson products "$MATCHED_PRODUCTS" \
+  --argjson products "$(jq '.products // []' "$RESULTS_DIR/chpl-metadata.json" 2>/dev/null || echo '[]')" \
   --argjson developer "$(jq '.developer // {}' "$RESULTS_DIR/chpl-metadata.json" 2>/dev/null || echo '{}')" \
   '{
-    vendor_slug: $vendor_slug,
+    dir_slug: $dir_slug,
     product_name: $product_name,
-    product_slug: $product_slug,
     results_dir: $results_dir,
     created_at: $created_at,
     developer: $developer,
