@@ -1,0 +1,793 @@
+{
+  "document": {
+    "title": "Lunar Cloud Platform 2.6 — Electronic Health Information Export",
+    "date": "January 2026",
+    "pages": 54,
+    "format": "C-CDA XML with supplemental CSV",
+    "ccdaVersion": "CDA Release 4.1"
+  },
+  "ccdaSections": [
+    {
+      "name": "Patient Summary",
+      "description": "This section includes basic demographic information about the patient, such as name, date of birth, gender, contact details, and identifiers (e.g., MRN). It serves as the foundational metadata for identifying the patient within the document.",
+      "templateId": null,
+      "loincCode": null,
+      "loincDisplay": null,
+      "hasExampleXml": true,
+      "keyElements": [
+        {
+          "element": "<patientRole>",
+          "description": "Wraps the information about the patient"
+        },
+        {
+          "element": "<id>",
+          "description": "Captures unique patient identifiers (e.g., MRN or SSN)"
+        },
+        {
+          "element": "<addr>",
+          "description": "Specifies the patient’s address (e.g., street, city, state, postal code, and"
+        },
+        {
+          "element": "<telecom>",
+          "description": "Contains the patient’s contact number or email"
+        },
+        {
+          "element": "<patient>",
+          "description": "Wraps patient-specific details such as name, gender, birth date, and"
+        },
+        {
+          "element": "<name>",
+          "description": "Contains the patient’s name, with separate elements for given and family"
+        },
+        {
+          "element": "<administrativeGenderCode>",
+          "description": "Indicates the patient’s gender"
+        },
+        {
+          "element": "<birthTime>",
+          "description": "Specifies the patient’s date of birth in YYYYMMDD format"
+        },
+        {
+          "element": "<maritalStatusCode>",
+          "description": "Represents the marital status using a coded value (e.g., Married - M)"
+        },
+        {
+          "element": "<raceCode>",
+          "description": "Describes the patient’s race and ethnicity according to CDC standards"
+        },
+        {
+          "element": "<ethnicGroupCode>",
+          "description": "Describes the patient’s race and ethnicity according to CDC standards"
+        },
+        {
+          "element": "<languageCommunication>",
+          "description": "Captures the patient’s preferred language for communication (e.g., en-US"
+        },
+        {
+          "element": "<providerOrganization>",
+          "description": "Contains the associated healthcare organization details, such as name,"
+        },
+        {
+          "element": "<deceasedInd>",
+          "description": "Indicates if the patient is deceased."
+        },
+        {
+          "element": "<deceasedTime>",
+          "description": "Specifies the patient’s date of death in YYYYMMDD format, if deceased"
+        }
+      ],
+      "pageRange": "6-7"
+    },
+    {
+      "name": "Allergies and Intolerances",
+      "description": "The Allergies and Intolerances section lists any known allergies or adverse reactions the patient has experienced to medications, substances, or environmental factors. Each entry includes the allergen, reaction type, and severity, helping to prevent adverse clinical events.",
+      "templateId": "2.16.840.1.113883.10.20.22.2.6.1 (2015-08-01)",
+      "loincCode": null,
+      "loincDisplay": null,
+      "hasExampleXml": true,
+      "keyElements": [
+        {
+          "element": "<entry>",
+          "description": "Represents the allergy or adverse reaction entry"
+        },
+        {
+          "element": "<observation>",
+          "description": "Contains details about the allergy"
+        },
+        {
+          "element": "<statusCode>",
+          "description": "Indicates the status (e.g., active, completed)"
+        },
+        {
+          "element": "<effectiveTime>",
+          "description": "Specifies the time of occurrence/documentation"
+        },
+        {
+          "element": "<code>",
+          "description": "Coded representation of the allergen or reaction"
+        },
+        {
+          "element": "<value>",
+          "description": "Coded representation of the reaction severity"
+        },
+        {
+          "element": "<entryRelationship>",
+          "description": "Links related observations, such as severity"
+        }
+      ],
+      "pageRange": "8-10"
+    },
+    {
+      "name": "Problem List",
+      "description": "This section contains the patient’s active and resolved medical problems, diagnoses, and conditions. Problems are documented with descriptions, diagnosis codes, status, and dates to provide a summary of ongoing and historical health issues.",
+      "templateId": "2.16.840.1.113883.10.20.22.2.5.1 (2015-08-01)",
+      "loincCode": "11450-4",
+      "loincDisplay": "Problem list",
+      "hasExampleXml": true,
+      "keyElements": [
+        {
+          "element": "<entry>",
+          "description": "Represents a problem or concern entry"
+        },
+        {
+          "element": "<act>",
+          "description": "Serves as a wrapper for the Problem Concern"
+        },
+        {
+          "element": "<code>",
+          "description": "Describes the concern or problem type"
+        },
+        {
+          "element": "<statusCode>",
+          "description": "Indicates the status (e.g., active, completed)"
+        },
+        {
+          "element": "<effectiveTime>",
+          "description": "Specifies the timeframe for the problem"
+        },
+        {
+          "element": "<statusCode>",
+          "description": "Indicates the status (e.g., active, completed)"
+        },
+        {
+          "element": "<entryRelationship>",
+          "description": "Links the concern act to the problem observation"
+        },
+        {
+          "element": "<observation>",
+          "description": "Captures the detailed clinical problem or diagnosis"
+        },
+        {
+          "element": "<value>",
+          "description": "Describes the problem using standardized coding systems"
+        }
+      ],
+      "pageRange": "11-13"
+    },
+    {
+      "name": "History of Medication Use",
+      "description": "This section contains information about a patient’s historical medication usage, including the medication name, dosage, frequency, route of administration, and status.",
+      "templateId": "2.16.840.1.113883.10.20.22.2.1.1 (2014-06-09)",
+      "loincCode": "10160-0",
+      "loincDisplay": "HISTORY OF MEDICATION USE",
+      "hasExampleXml": true,
+      "keyElements": [
+        {
+          "element": "<entry>",
+          "description": "Represents an individual medication administration record"
+        },
+        {
+          "element": "<substanceAdministration>",
+          "description": "Captures the structured details of the medication use"
+        },
+        {
+          "element": "<statusCode>",
+          "description": "Indicates if the medication is active or completed"
+        },
+        {
+          "element": "<effectiveTime>",
+          "description": "Start and end date of the medication use"
+        },
+        {
+          "element": "<doseQuantity>",
+          "description": "Specifies the dosage amount for the medication"
+        },
+        {
+          "element": "<rateQuantity>",
+          "description": "Indicates the rate of administration, if applicable"
+        },
+        {
+          "element": "<routeCode>",
+          "description": "Specifies the method of administration (e.g., oral, IV)"
+        },
+        {
+          "element": "<consumable>",
+          "description": "Links the medication to a recognized code (e.g., RxNorm)"
+        },
+        {
+          "element": "<manufacturedProduct>",
+          "description": "Represents the medication product details"
+        },
+        {
+          "element": "<manufacturedMaterial>",
+          "description": "Contains the code and name of the medication (e.g., CVX or RxNorm)"
+        }
+      ],
+      "pageRange": "14-16"
+    },
+    {
+      "name": "Laboratory/Diagnostic Results",
+      "description": "The Laboratory Results section provides lab test results, including names of tests, values, units of measurement, reference ranges, and interpretation (e.g., abnormal/normal).",
+      "templateId": "2.16.840.1.113883.10.20.22.2.3.1 (2015-08-01)",
+      "loincCode": "30954-2",
+      "loincDisplay": "Diagnostic / Lab Results",
+      "hasExampleXml": true,
+      "keyElements": [
+        {
+          "element": "<entry>",
+          "description": "Represents a laboratory or diagnostic result entry"
+        },
+        {
+          "element": "<organizer>",
+          "description": "Groups related observations (e.g., a lab panel or test set)"
+        },
+        {
+          "element": "<observation>",
+          "description": "Represents each individual test result"
+        },
+        {
+          "element": "<code>",
+          "description": "Identifies the test or panel (e.g., 6690-2 for white blood cell count)"
+        },
+        {
+          "element": "<value>",
+          "description": "Contains the result value and unit of measurement"
+        },
+        {
+          "element": "<effectiveTime>",
+          "description": "Indicates the date/time the test was performed"
+        },
+        {
+          "element": "<statusCode>",
+          "description": "Indicates the status of the result (e.g., “completed”)"
+        }
+      ],
+      "pageRange": "17-19"
+    },
+    {
+      "name": "Procedures",
+      "description": "The Procedures section details medical or surgical procedures the patient has undergone. It includes procedure names, dates, descriptions, and providers involved, ensuring a record of interventions is available for continuity of care.",
+      "templateId": "2.16.840.1.113883.10.20.22.2.7.1 (2014-06-09)",
+      "loincCode": null,
+      "loincDisplay": null,
+      "hasExampleXml": true,
+      "keyElements": [
+        {
+          "element": "<entry>",
+          "description": "Represents an individual procedure record"
+        },
+        {
+          "element": "<procedure>",
+          "description": "Captures structured details of the procedure"
+        },
+        {
+          "element": "<code>",
+          "description": "Describes the specific procedure (e.g., SNOMED-CT code)"
+        },
+        {
+          "element": "<statusCode>",
+          "description": "Indicates the status of the procedure (e.g., completed)"
+        },
+        {
+          "element": "<effectiveTime>",
+          "description": "Specifies the date or time of the procedure"
+        },
+        {
+          "element": "<author>",
+          "description": "Identifies the person responsible for documenting the procedure"
+        }
+      ],
+      "pageRange": "20-21"
+    },
+    {
+      "name": "Social History",
+      "description": "This section includes details about the patient’s lifestyle and social factors that influence health, such as smoking status, alcohol use, employment, and living arrangements.",
+      "templateId": "2.16.840.1.113883.10.20.22.2.17 (2015-08-01)",
+      "loincCode": "29762-2",
+      "loincDisplay": "Social History",
+      "hasExampleXml": true,
+      "keyElements": [
+        {
+          "element": "<entry>",
+          "description": "Represents an individual social history observation"
+        },
+        {
+          "element": "<observation>",
+          "description": "Captures structured details of the social history event"
+        },
+        {
+          "element": "<code>",
+          "description": "Describes the specific type of social history (e.g., smoking)"
+        },
+        {
+          "element": "<statusCode>",
+          "description": "Indicates the status of the observation (e.g., completed)"
+        },
+        {
+          "element": "<value>",
+          "description": "Captures the value of the observation (e.g., ex-smoker) and links to a standardized"
+        }
+      ],
+      "pageRange": "22-23"
+    },
+    {
+      "name": "Functional Status",
+      "description": "This section documents the patient’s functional and cognitive abilities, including mobility, activities of daily living, and any physical or mental impairments.",
+      "templateId": "2.16.840.1.113883.10.20.22.2.14 (2014-06-09)",
+      "loincCode": null,
+      "loincDisplay": null,
+      "hasExampleXml": true,
+      "keyElements": [
+        {
+          "element": "<entry>",
+          "description": "Represents an individual functional status observation"
+        },
+        {
+          "element": "<observation>",
+          "description": "Captures structured details of the functional status event"
+        },
+        {
+          "element": "<code>",
+          "description": "Describes the functional status (e.g., walking disability)"
+        },
+        {
+          "element": "<statusCode>",
+          "description": "Indicates the status of the observation (e.g., completed)"
+        },
+        {
+          "element": "<effectiveTime>",
+          "description": "Defines the period when the observation applies"
+        },
+        {
+          "element": "<value>",
+          "description": "Captures the value of the observation (e.g., needs assistance) and links to a"
+        }
+      ],
+      "pageRange": "24-25"
+    },
+    {
+      "name": "Mental/Cognitive Status",
+      "description": "The Mental/Cognitive Status Section documents observations related to a patient’s mental and cognitive health, such as assessments for conditions like dementia, depression, or mental status evaluations.",
+      "templateId": "2.16.840.1.113883.10.20.22.2.56 (2015-08-01)",
+      "loincCode": null,
+      "loincDisplay": null,
+      "hasExampleXml": true,
+      "keyElements": [
+        {
+          "element": "<entry>",
+          "description": "Represents an individual mental/cognitive status observation"
+        },
+        {
+          "element": "<observation>",
+          "description": "Captures structured details of the cognitive status assessment"
+        },
+        {
+          "element": "<code>",
+          "description": "Describes the mental/cognitive assessment and links to a standardized code (e.g.,"
+        },
+        {
+          "element": "<statusCode>",
+          "description": "Indicates the status of the observation (e.g., completed)"
+        },
+        {
+          "element": "<effectiveTime>",
+          "description": "Defines the period when the observation applies"
+        },
+        {
+          "element": "<value>",
+          "description": "Captures the outcome of the assessment (e.g., no impairment) and links to a"
+        }
+      ],
+      "pageRange": "26-27"
+    },
+    {
+      "name": "Vital Signs",
+      "description": "The Vital Signs section records key physiological measurements such as blood pressure, heart rate, temperature, respiratory rate, height, weight, and BMI.",
+      "templateId": "2.16.840.1.113883.10.20.22.2.4.1 (2015-08-01)",
+      "loincCode": "8716-3",
+      "loincDisplay": "Vital\nSigns",
+      "hasExampleXml": true,
+      "keyElements": [
+        {
+          "element": "<entry>",
+          "description": "Represents the entire vital sign organizer"
+        },
+        {
+          "element": "<organizer>",
+          "description": "Groups related observations (e.g., temperature, BP)"
+        },
+        {
+          "element": "<code>",
+          "description": "Identifies the type of measurement (e.g., vital signs)"
+        },
+        {
+          "element": "<statusCode>",
+          "description": "Indicates the status of the observation (e.g., completed)"
+        },
+        {
+          "element": "<effectiveTime>",
+          "description": "Specifies the observation date or time range"
+        },
+        {
+          "element": "<component>",
+          "description": "Holds each individual observation within the organizer"
+        },
+        {
+          "element": "<observation>",
+          "description": "Captures details of each measured vital sign"
+        },
+        {
+          "element": "<value>",
+          "description": "Captures the outcome of the assessment (e.g., no impairment) and links to a"
+        }
+      ],
+      "pageRange": "28-30"
+    },
+    {
+      "name": "History of Encounters",
+      "description": "The Encounters section documents the patient’s clinical visits or interactions with healthcare providers. It includes encounter details such as the date, time, location, purpose of the visit, and the attending clinician.",
+      "templateId": "2.16.840.1.113883.10.20.22.2.22.1 (2015-08-01)",
+      "loincCode": "46240-8",
+      "loincDisplay": "History\nof encounters",
+      "hasExampleXml": true,
+      "keyElements": [
+        {
+          "element": "<entry>",
+          "description": "Represents the structured data for an encounter"
+        },
+        {
+          "element": "<encounter>",
+          "description": "Holds details of the clinical encounter"
+        },
+        {
+          "element": "<templateId>",
+          "description": "Identifies the CDA template being used"
+        },
+        {
+          "element": "<code>",
+          "description": "Identifies the type of data being documented (e.g., diagnosis code)"
+        },
+        {
+          "element": "<effectiveTime>",
+          "description": "Specifies the date or time range of the encounter"
+        },
+        {
+          "element": "<performer>",
+          "description": "Identifies the clinician or entity responsible for the encounter or observation."
+        },
+        {
+          "element": "<entryRelationship>",
+          "description": "Establishes relationships to nested clinical observations"
+        },
+        {
+          "element": "<observation>",
+          "description": "Captures the diagnosis or findings related to the encounter"
+        },
+        {
+          "element": "<value>",
+          "description": "Contains the coded diagnosis or clinical finding"
+        },
+        {
+          "element": "<statusCode>",
+          "description": "Indicates the status of the observation (e.g., completed)"
+        }
+      ],
+      "pageRange": "31-33"
+    },
+    {
+      "name": "History of Immunizations",
+      "description": "This section contains the patient’s vaccination history, including immunization types, dates administered, and, if applicable, notes on vaccine status or contraindications.",
+      "templateId": "2.16.840.1.113883.10.20.22.2.2.1 (2014-06-09)",
+      "loincCode": "11369-6",
+      "loincDisplay": "History\nof immunizations",
+      "hasExampleXml": true,
+      "keyElements": [
+        {
+          "element": "<entry>",
+          "description": "Wraps the immunization record and identifies it as a structured data entry"
+        },
+        {
+          "element": "<substanceAdministration>",
+          "description": "Describes the administration of a vaccine, including the details of what"
+        },
+        {
+          "element": "<statusCode>",
+          "description": "Represents the current status of the immunization (e.g., “completed,”"
+        },
+        {
+          "element": "<effectiveTime>",
+          "description": "Specifies the date or time the immunization was administered"
+        },
+        {
+          "element": "<consumable>",
+          "description": "Contains details about the vaccine or substance administered"
+        },
+        {
+          "element": "<manufacturedMaterial>",
+          "description": "Provides the name and standard code for the vaccine"
+        },
+        {
+          "element": "<code>",
+          "description": "The code value for the vaccine (e.g., “149” for Influenza LAIV4)"
+        }
+      ],
+      "pageRange": "34-35"
+    },
+    {
+      "name": "Care Team",
+      "description": "The Care Team Section documents the members of the care team involved in a patient’s care, including their roles, names, and contact details.",
+      "templateId": "2.16.840.1.113883.10.20.22.2.500 (2019-07-01)",
+      "loincCode": "85847-2",
+      "loincDisplay": "Care\nTeam Section",
+      "hasExampleXml": true,
+      "keyElements": [
+        {
+          "element": "<entry>",
+          "description": "Wraps the care team information as a structured entry"
+        },
+        {
+          "element": "<organizer>",
+          "description": "Groups related information about the care team"
+        },
+        {
+          "element": "<statusCode>",
+          "description": "Indicates the status of the care team (e.g., “active”)"
+        },
+        {
+          "element": "<effectiveTime>",
+          "description": "Specifies the time period for which the care team member’s involvement is"
+        },
+        {
+          "element": "<performer>",
+          "description": "Details the care team member, including their role, contact information,"
+        },
+        {
+          "element": "<assignedEntity>",
+          "description": "Captures the care team member’s organizational and role details"
+        },
+        {
+          "element": "<assignedPerson>",
+          "description": "Provides the name of the care team member"
+        },
+        {
+          "element": "<code>",
+          "description": "Specifies the role of the care team member (e.g., “Doctor”)"
+        },
+        {
+          "element": "<addr>",
+          "description": "Provides the care team member’s address"
+        },
+        {
+          "element": "<telecom>",
+          "description": "Provides the care team member’s contact details"
+        }
+      ],
+      "pageRange": "36-38"
+    },
+    {
+      "name": "Assessments",
+      "description": "The Assessments Section contains clinical evaluations or assessments of a patient’s condition, which are typically part of a summary note or care plan.",
+      "templateId": "2.16.840.1.113883.10.20.22.2.8",
+      "loincCode": null,
+      "loincDisplay": null,
+      "hasExampleXml": true,
+      "keyElements": [
+        {
+          "element": "<entry>",
+          "description": "Wraps the structured assessment data"
+        },
+        {
+          "element": "<act>",
+          "description": "Represents the clinical activity (e.g., an assessment)"
+        },
+        {
+          "element": "<statusCode>",
+          "description": "Indicates the status of the assessment (e.g., “completed”)"
+        },
+        {
+          "element": "<effectiveTime>",
+          "description": "Represents the time period when the assessment was valid"
+        },
+        {
+          "element": "<entryRelationship>",
+          "description": "Links the act to an observation, typically for a specific finding or"
+        },
+        {
+          "element": "<observation>",
+          "description": "Contains the detailed assessment data"
+        },
+        {
+          "element": "<value>",
+          "description": "The coded value of the assessment (e.g., specific diagnosis or condition)"
+        }
+      ],
+      "pageRange": "39-40"
+    },
+    {
+      "name": "Treatment Plan",
+      "description": "The Treatment Plan Section contains information regarding planned care, treatments, or procedures intended to address a patient’s health conditions. This section typically includes entries for scheduled or recommended care.",
+      "templateId": "2.16.840.1.113883.10.20.22.2.10 (2014-06-09)",
+      "loincCode": null,
+      "loincDisplay": null,
+      "hasExampleXml": true,
+      "keyElements": [
+        {
+          "element": "<entry>",
+          "description": "Wraps the structured treatment plan data"
+        },
+        {
+          "element": "<procedure>",
+          "description": "Represents the planned clinical action or service"
+        },
+        {
+          "element": "<templateId>",
+          "description": "Identifies the CCDA Plan of Care Activity Procedure template"
+        },
+        {
+          "element": "<statusCode>",
+          "description": "Indicates the status of the intervention (e.g., “active” or “planned”)"
+        },
+        {
+          "element": "<effectiveTime>",
+          "description": "Represents the time when the planned treatment is scheduled to begin or"
+        },
+        {
+          "element": "<entryRelationship>",
+          "description": "Links the treatment act to a specific observation (e.g., planned procedure"
+        },
+        {
+          "element": "<observation>",
+          "description": "Contains details of the planned care, such as a specific procedure or"
+        },
+        {
+          "element": "<code>",
+          "description": "SNOMED CT code describing the planned intervention"
+        },
+        {
+          "element": "<text>",
+          "description": "Human-readable reference linking the structured entry back to the"
+        }
+      ],
+      "pageRange": "41-43"
+    },
+    {
+      "name": "Clinical Notes",
+      "description": "The Clinical Notes Section provides detailed narrative summaries or observations documented during a patient’s care. These notes can include various types of clinical documentation such as progress notes, emergency department notes, discharge summaries, and more.",
+      "templateId": "2.16.840.1.113883.10.20.22.2.65 (2016-11-01)",
+      "loincCode": "11506-3",
+      "loincDisplay": "Clinical\nNotes Section",
+      "hasExampleXml": true,
+      "keyElements": [
+        {
+          "element": "<entry>",
+          "description": "Wraps the structured data for the clinical note"
+        },
+        {
+          "element": "<act>",
+          "description": "Represents the clinical note activity"
+        },
+        {
+          "element": "<text>",
+          "description": "Provides a reference link to the human-readable text section"
+        },
+        {
+          "element": "<statusCode>",
+          "description": "Indicates the status of the note (e.g., “completed”)"
+        },
+        {
+          "element": "<effectiveTime>",
+          "description": "Specifies the date and time when the note was documented"
+        },
+        {
+          "element": "<author>",
+          "description": "Captures the healthcare provider who wrote the note"
+        },
+        {
+          "element": "<assignedAuthor>",
+          "description": "Contains the author’s credentials, such as ID, role, and organization"
+        },
+        {
+          "element": "<assignedPerson>",
+          "description": "Holds the author’s name"
+        },
+        {
+          "element": "<representedOrganization>",
+          "description": "Identifies the organization the author represents"
+        }
+      ],
+      "pageRange": "44-46"
+    },
+    {
+      "name": "Payers",
+      "description": "The Health Insurance Information section lists any data related to an individual’s insurance coverage for healthcare. Insurance information includes coverage status, coverage type, relationship to subscriber, payer identifier, as well as member, subscriber, and group identifiers.",
+      "templateId": "2.16.840.1.113883.10.20.22.2.18 (2015-08-01)",
+      "loincCode": null,
+      "loincDisplay": null,
+      "hasExampleXml": true,
+      "keyElements": [
+        {
+          "element": "<entry>",
+          "description": "Wraps the structured insurance / payment source information for the"
+        },
+        {
+          "element": "<act>",
+          "description": "Represents the Payment Sources section container, using LOINC to"
+        },
+        {
+          "element": "<templateId>",
+          "description": "Identifies the CCDA Payment Sources or Coverage Activity template"
+        },
+        {
+          "element": "<code>",
+          "description": "Specifies that this entry is payment source information"
+        },
+        {
+          "element": "<statusCode>",
+          "description": "Indicates the status of the payment source documentation"
+        },
+        {
+          "element": "<effectiveTime>",
+          "description": "Date when coverage became effective"
+        },
+        {
+          "element": "<author>",
+          "description": "Captures the healthcare provider who wrote the note"
+        },
+        {
+          "element": "<performer>",
+          "description": "Payer entity responsible for coverage"
+        },
+        {
+          "element": "<representedOrganization>",
+          "description": "Identifies the organization providing coverage"
+        },
+        {
+          "element": "<text>",
+          "description": "Contains specific subscriber or policy ID"
+        }
+      ],
+      "pageRange": "47-49"
+    },
+    {
+      "name": "Participant",
+      "description": "The participant section lists any persons with a legal or familial relationship to the patient. Each entry includes the name of the participant and the relationship of the participant to the patient.",
+      "templateId": "2.16.840.1.113883.10.20.22.5.8 (2023-05-01)",
+      "loincCode": null,
+      "loincDisplay": null,
+      "hasExampleXml": true,
+      "keyElements": [
+        {
+          "element": "<participant>",
+          "description": "Represents the structured data for a participant"
+        },
+        {
+          "element": "<templateId>",
+          "description": "Identifies the CDA template being used"
+        },
+        {
+          "element": "<code>",
+          "description": "Describes the personal relationship between the participant and patient"
+        },
+        {
+          "element": "<addr>",
+          "description": "Specifies the address of the participant"
+        },
+        {
+          "element": "<associatedPerson>",
+          "description": "Identifies the participant that is related to the patient"
+        }
+      ],
+      "pageRange": "50-51"
+    }
+  ]
+}
