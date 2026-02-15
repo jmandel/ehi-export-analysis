@@ -9,7 +9,11 @@ collection loop. Load it explicitly when you need to manage the loop:
 
 Automated collection and characterization of EHI (Electronic Health
 Information) export documentation from ~448 ONC-certified EHR products
-listed in CHPL. The pipeline has two layers of "phases":
+listed in CHPL. The pipeline has three layers:
+
+1. **Collection** (wiggum loop) — per-product-family research & download
+2. **Analysis** (abstraction) — deep per-family analysis producing analysis.md
+3. **Summary** (extraction) — structured JSON from analysis.md
 
 ### Product Phases (target groupings)
 
@@ -35,14 +39,29 @@ Each target goes through two agent stages:
 Use `--phase both` to run research then download per target in one pass.
 Use `--phase 1` or `--phase 2` to run a single stage.
 
+## Directory Naming Convention
+
+All results and abstraction dirs use `<vendor-slug>--<family-slug>` format:
+
+```
+results/aarista-technology-llc--aarista/           # collection output
+abstraction/aarista-technology-llc--aarista/        # analysis output (mirrors results)
+```
+
+Multi-product vendors are split by product family. Families are defined in
+`work/product-families.json` and expanded into per-family targets by
+`scripts/expand-targets-by-family.ts`.
+
 ## Key Directories
 
 ```
-work/targets.json                    # 448 targets sorted by product_count desc
-work/phases/                         # Phased target lists (subsets of targets.jsoni
-uork/target-metadata/NNNN.json       # Per-target CHPL metadata (enriched)
-results/<slug>/                      # Per-vendor output
-  chpl-metadata.json                 # Copy of target metadata
+work/targets.json                    # 448 URL-level targets sorted by product_count desc
+work/family-targets.json             # Family-expanded targets (one per product family)
+work/product-families.json           # Product family groupings for multi-product vendors
+work/phases/                         # Phased target lists (subsets of targets.json)
+work/target-metadata/NNNN.json       # Per-target CHPL metadata (enriched)
+results/<vendor>--<family>/          # Per-family collection output
+  chpl-metadata.json                 # CHPL metadata filtered to this family's products
   product-research.md                # Phase 1: narrative research report
   sources.json                       # Phase 1 completion marker
   downloads/                         # Phase 2: downloaded artifacts
@@ -50,40 +69,60 @@ results/<slug>/                      # Per-vendor output
   files.json                         # Phase 2 completion marker
   phase1-log.txt                     # Phase 1 agent log
   phase2-log.txt                     # Phase 2 agent log
+abstraction/<vendor>--<family>/      # Per-family analysis output (same slug as results)
+  analysis.md                        # Deep analysis document
+  analysis/                          # Scripts and data produced during analysis
+  metadata.json                      # Traceability: developer, CHPL products, timestamps
+  summary.json                       # Structured JSON extracted from analysis.md
 chpl-data/all-active-listings.json   # CHPL bulk download (~148MB)
 wiggum/
-  loop.sh                            # Main orchestration loop (with watchdog)
+  loop.ts                            # Main orchestration loop (Bun TypeScript)
   prompts/1-research.md              # Phase 1 prompt template
   prompts/2-download.md              # Phase 2 prompt template
   prompts/ehi-scope-reference.md     # Shared EHI scope definition (inlined into prompts)
-  log-handler.py                     # Stream-json → readable filter
-  watch-results.sh                   # inotifywait watcher (legacy, watches analysis.json)
   logs/loop-exit.log                 # EXIT trap log — check here when loop dies
   00-fetch-export-urls.sh            # Build targets.json from CHPL
   status.sh                          # Quick progress check
 abstraction/
-  ehi-abstraction-target.ts          # TypeScript interface defining abstraction output shape
-  ehi-abstraction.schema.json        # JSON Schema (generated from TS interface)
+  abstraction-prompt.md              # Analysis prompt template
+  ehi-summary-schema.ts             # TypeScript interface for summary.json extraction
 scripts/
-  wrap-codex-yolo-single-product.sh  # Codex wrapper for single-product abstraction
+  expand-targets-by-family.ts        # Generate family-targets.json from targets + families
+  run-analysis.sh                    # Single-family analysis runner
+  run-all-analyses.sh                # Batch analysis runner (parallelism, skip-done)
+  run-summary.sh                     # Single-family summary extraction
+  run-all-summaries.sh               # Batch summary extraction
 controller/CLAUDE.md                 # This file
 ```
 
-## Running the Loop
+## Running the Collection Loop
 
-### Start collection (both research + download per target)
+### Prerequisites: generate family-expanded targets
 
 ```bash
-# Phase 1 products (comprehensive EHRs), backwards, using Claude Opus:
+# First time or after updating product-families.json:
+bun run scripts/expand-targets-by-family.ts
+# Produces work/family-targets.json (one entry per product family)
+```
+
+### Start collection
+
+```bash
+# Using the TypeScript loop with family targets:
 nohup env LLM_BACKEND=claude CLAUDE_MODEL=opus TIMEOUT=1800 STALE_TIMEOUT=300 \
-  ./wiggum/loop.sh \
-  --targets work/phases/phase-1-comprehensive-ehrs.json \
+  bun run wiggum/loop.ts \
+  --targets work/family-targets.json \
   --phase both \
   --reverse --resume \
   > /tmp/wiggum-loop.log 2>&1 &
 ```
 
 **Important**: Use `nohup` to keep the loop running if your session disconnects.
+
+The loop creates `results/<vendor>--<family>/` directories with chpl-metadata
+filtered to just the products in that family. Prompt templates receive
+`{{FAMILY}}`, `{{FOCUS_PRODUCT}}`, and `{{FOCUS_VERSION}}` variables so the
+agent focuses on the newest certified product in each family.
 
 ### Key flags
 
@@ -102,6 +141,7 @@ nohup env LLM_BACKEND=claude CLAUDE_MODEL=opus TIMEOUT=1800 STALE_TIMEOUT=300 \
 |----------|---------|-------------|
 | `LLM_BACKEND` | shelley | Backend: `claude`, `shelley`, or `gemini` |
 | `CLAUDE_MODEL` | opus | Model for claude backend |
+| `SHELLEY_MODEL` | claude-opus-4.6 | Model for shelley backend |
 | `TIMEOUT` | 1800 | Per-target timeout in seconds (30 min) |
 | `STALE_TIMEOUT` | 300 | Watchdog: kill agent if log stale for N seconds (5 min) |
 | `DISCOURAGE_SUBAGENTS` | (empty) | Set non-empty to discourage subagent use |
@@ -110,20 +150,20 @@ nohup env LLM_BACKEND=claude CLAUDE_MODEL=opus TIMEOUT=1800 STALE_TIMEOUT=300 \
 
 ### EXIT trap
 On any exit (success or failure), the loop logs to `wiggum/logs/loop-exit.log`
-with the exit code, line number, and failing command. Check this file first when
-the loop dies unexpectedly.
+with the exit code. Check this file first when the loop dies unexpectedly.
 
 ### Stale-output watchdog
 A per-agent background watchdog monitors the log file. If no output is written
 for `STALE_TIMEOUT` seconds (default 300 = 5 min), the watchdog kills the agent.
-The loop marks the target as failed and moves on to the next one. This prevents
-hung agents from blocking the entire pipeline.
+The loop marks the target as failed and moves on to the next one.
 
 ### Prompt template includes
-Prompts support `{{PLACEHOLDER}}` syntax for file includes. A placeholder like
-`{{EHI_SCOPE_REFERENCE}}` is replaced with the contents of
-`wiggum/prompts/ehi-scope-reference.md` (key lowercased, underscores to hyphens).
-This lets shared content (like the EHI scope definition) be reused across prompts.
+Prompts support `{{PLACEHOLDER}}` syntax. Variables like `{{URL}}`, `{{FAMILY}}`,
+`{{FOCUS_PRODUCT}}`, `{{FOCUS_VERSION}}`, `{{DEVELOPERS}}`, `{{PRODUCTS}}`,
+`{{CHPL_IDS}}`, `{{OUTPUT_DIR}}` are replaced with target-specific values.
+A placeholder like `{{EHI_SCOPE_REFERENCE}}` that doesn't match a variable is
+treated as a file include — loaded from `wiggum/prompts/ehi-scope-reference.md`
+(key lowercased, underscores to hyphens).
 
 ## Monitoring
 
@@ -134,13 +174,15 @@ tail -f /tmp/wiggum-loop.log
 
 **Current target's per-phase log:**
 ```bash
-tail -f results/<slug>/phase1-log.txt
+tail -f results/<vendor>--<family>/phase1-log.txt
 ```
 
 **Count completed:**
 ```bash
 echo "Phase 1: $(find results -name 'sources.json' | wc -l)"
 echo "Phase 2: $(find results -name 'files.json' | wc -l)"
+echo "Analyses: $(find abstraction -name 'analysis.md' | wc -l)"
+echo "Summaries: $(find abstraction -name 'summary.json' | wc -l)"
 ```
 
 **Recent completions from git log:**
@@ -150,7 +192,7 @@ git log --oneline --since="1 hour ago" -- 'results/*/sources.json' 'results/*/fi
 
 **Check if loop is running:**
 ```bash
-ps aux | grep -E 'loop\.sh|claude.*dangerous' | grep -v grep
+ps aux | grep -E 'loop\.ts|claude.*dangerous' | grep -v grep
 ```
 
 **Check exit log for failures:**
@@ -162,14 +204,10 @@ cat wiggum/logs/loop-exit.log
 
 **Kill everything:**
 ```bash
-pkill -f 'wiggum/loop.sh'
+pkill -f 'wiggum/loop.ts'
 sleep 1
 pkill -f 'claude -p --dangerously'
 ```
-
-**Wait for current target to finish, then restart** (graceful):
-Watch for the git commit line in the loop log, kill the loop after it appears,
-then restart with `--resume`.
 
 **Clean up incomplete results before restarting:**
 ```bash
@@ -183,42 +221,52 @@ done
 
 Then restart with `--resume` — it skips targets with existing completion markers.
 
-## How the Pipeline Works
+## Post-Collection Pipelines
 
-1. `loop.sh` reads a target list (e.g., `work/phases/phase-1-comprehensive-ehrs.json`)
-2. For each target, copies `work/target-metadata/NNNN.json` → `results/<slug>/chpl-metadata.json`
-3. Renders the phase prompt template with target details and file includes
-4. Agent runs in background; watchdog monitors log file for staleness
-5. Agent output goes to both `results/<slug>/phase{N}-log.txt` and stdout
-6. Each agent phase produces its completion marker (`sources.json` or `files.json`)
-7. The loop git-commits and pushes after each successful target completion
-8. If an agent exceeds `TIMEOUT` seconds or stalls for `STALE_TIMEOUT`, it is killed
-   and the loop moves on
-
-## Abstraction Pipeline (Post-Collection)
-
-After collection, each product's evidence is abstracted into structured JSON:
+### Analysis (produces analysis.md)
 
 ```bash
-./scripts/wrap-codex-yolo-single-product.sh \
-  --dir <results-slug> \
-  --product "<Product Name>" \
-  --output abstraction/<slug>/<product>.json
+# Single family:
+./scripts/run-analysis.sh --dir aarista-technology-llc--aarista
+
+# All families (skips done by default):
+./scripts/run-all-analyses.sh -j 4
+
+# Force redo:
+./scripts/run-all-analyses.sh --force --filter "aarista*"
 ```
 
-The wrapper:
-- Inlines the TS interface into the prompt
-- Pipes prompt via stdin to `codex exec` (avoids shell arg truncation)
-- Tells Codex to validate with `ajv` against `ehi-abstraction.schema.json`
-- Post-validates the output itself as a safety net
+### Summary extraction (produces summary.json from analysis.md)
 
-## i3 Desktop Setup
+```bash
+# Single:
+./scripts/run-summary.sh --analysis-dir abstraction/aarista-technology-llc--aarista
 
-Chrome windows launched by the chrome-devtools-mcp plugin route to workspace 0:
+# All:
+./scripts/run-all-summaries.sh -j 4
+
+# After changing ehi-summary-schema.ts, force re-extract:
+./scripts/run-all-summaries.sh --force -j 4
 ```
-for_window [instance="(?i)chrome-devtools-mcp"] move to workspace number 0
-```
-The MCP Chrome profile is at `~/.cache/chrome-devtools-mcp/chrome-profile`.
+
+The summary schema is in `abstraction/ehi-summary-schema.ts`. Add fields there
+with JSDoc comments explaining how to derive them — the pipeline picks up new
+fields automatically.
+
+## How the Pipeline Works
+
+1. `expand-targets-by-family.ts` reads `targets.json` + `product-families.json`
+   → produces `family-targets.json` with one entry per product family
+2. `loop.ts` reads a family target list
+3. For each family target, creates `results/<vendor>--<family>/` with
+   chpl-metadata filtered to that family's CHPL products
+4. Renders prompt template with family context (FAMILY, FOCUS_PRODUCT, etc.)
+5. Agent runs; watchdog monitors for staleness
+6. Each phase produces its completion marker (`sources.json` or `files.json`)
+7. Loop git-commits and pushes after each successful target
+8. Post-collection: `run-all-analyses.sh` iterates `results/*--*/` dirs,
+   produces `abstraction/<same-slug>/analysis.md`
+9. Post-analysis: `run-all-summaries.sh` extracts structured JSON per schema
 
 ## Setup From Scratch
 
@@ -239,3 +287,11 @@ ls chpl-data/all-active-listings.json 2>/dev/null || \
 ```
 
 This produces `work/targets.json` (448 targets) and the phase files.
+
+### 3. Generate family-expanded targets
+
+```bash
+bun run scripts/expand-targets-by-family.ts
+```
+
+This produces `work/family-targets.json` (476 family targets).
