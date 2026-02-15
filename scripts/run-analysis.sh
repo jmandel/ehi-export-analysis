@@ -31,19 +31,21 @@ EOF
 
 TARGET_DIRNAME=""
 PRODUCT_NAME=""
+PRODUCTS_JSON=""
 OUTPUT_DIR=""
 BACKEND="copilot"
 MODEL=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --dir)        TARGET_DIRNAME="$2"; shift 2 ;;
-    --product)    PRODUCT_NAME="$2"; shift 2 ;;
-    --output-dir) OUTPUT_DIR="$2"; shift 2 ;;
-    --backend)    BACKEND="$2"; shift 2 ;;
-    --model)      MODEL="$2"; shift 2 ;;
-    -h|--help)    usage; exit 0 ;;
-    *)            echo "Unknown arg: $1"; usage; exit 1 ;;
+    --dir)           TARGET_DIRNAME="$2"; shift 2 ;;
+    --product)       PRODUCT_NAME="$2"; shift 2 ;;
+    --products-json) PRODUCTS_JSON="$2"; shift 2 ;;
+    --output-dir)    OUTPUT_DIR="$2"; shift 2 ;;
+    --backend)       BACKEND="$2"; shift 2 ;;
+    --model)         MODEL="$2"; shift 2 ;;
+    -h|--help)       usage; exit 0 ;;
+    *)               echo "Unknown arg: $1"; usage; exit 1 ;;
   esac
 done
 
@@ -112,13 +114,26 @@ esac
 mkdir -p "$OUTPUT_DIR"
 
 # Write metadata.json for traceability
+# If --products-json was provided (list of product names in this family),
+# use it to select matching CHPL entries. Otherwise match on product_name.
+if [[ -n "$PRODUCTS_JSON" ]]; then
+  PRODUCTS_FILTER=$(echo "$PRODUCTS_JSON" | jq -r 'map(@json) | join(",")' | sed 's/^/[/;s/$/]/')
+  MATCHED_PRODUCTS=$(jq --argjson names "$PRODUCTS_FILTER" \
+    '[.products[] | select(.product_name as $pn | $names | index($pn))]' \
+    "$RESULTS_DIR/chpl-metadata.json" 2>/dev/null || echo '[]')
+else
+  MATCHED_PRODUCTS=$(jq --arg pn "$PRODUCT_NAME" \
+    '[.products[] | select(.product_name == $pn)]' \
+    "$RESULTS_DIR/chpl-metadata.json" 2>/dev/null || echo '[]')
+fi
+
 jq -n \
   --arg vendor_slug "$TARGET_DIRNAME" \
   --arg product_name "$PRODUCT_NAME" \
   --arg product_slug "$PRODUCT_SLUG" \
   --arg results_dir "results/$TARGET_DIRNAME" \
   --arg created_at "$(date -Iseconds)" \
-  --argjson products "$(jq '[.products[] | select(.product_name == "'"$PRODUCT_NAME"'")]' "$RESULTS_DIR/chpl-metadata.json" 2>/dev/null || echo '[]')" \
+  --argjson products "$MATCHED_PRODUCTS" \
   --argjson developer "$(jq '.developer // {}' "$RESULTS_DIR/chpl-metadata.json" 2>/dev/null || echo '{}')" \
   '{
     vendor_slug: $vendor_slug,
