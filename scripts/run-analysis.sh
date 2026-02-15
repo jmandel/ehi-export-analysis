@@ -16,19 +16,21 @@ Usage:
 
 Options:
   --dir        Directory name under results/ (required)
-  --output-dir Output directory (default: abstraction/<dir>)
+  --product    Product or family name to analyze (default: auto-detect from chpl-metadata)
+  --output-dir Output directory (default: abstraction/<dir>--<product-slug>)
   --backend    LLM backend: copilot, codex (default: copilot)
   --model      Model override (default: claude-opus-4.6-fast for copilot)
   -h, --help   Show this message
 
 Examples:
   ./scripts/run-analysis.sh --dir practice-fusion
+  ./scripts/run-analysis.sh --dir practice-fusion --product "Practice Fusion EHR"
   ./scripts/run-analysis.sh --dir claimpower-inc --backend codex
-  ./scripts/run-analysis.sh --dir dox-emr --model claude-sonnet-4
 EOF
 }
 
 TARGET_DIRNAME=""
+PRODUCT_NAME=""
 OUTPUT_DIR=""
 BACKEND="copilot"
 MODEL=""
@@ -36,6 +38,7 @@ MODEL=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --dir)        TARGET_DIRNAME="$2"; shift 2 ;;
+    --product)    PRODUCT_NAME="$2"; shift 2 ;;
     --output-dir) OUTPUT_DIR="$2"; shift 2 ;;
     --backend)    BACKEND="$2"; shift 2 ;;
     --model)      MODEL="$2"; shift 2 ;;
@@ -61,11 +64,31 @@ fi
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 RESULTS_DIR="$ROOT_DIR/results/$TARGET_DIRNAME"
-OUTPUT_DIR="${OUTPUT_DIR:-$ROOT_DIR/abstraction/$TARGET_DIRNAME}"
 
 if [[ ! -d "$RESULTS_DIR" ]]; then
   echo "Results folder not found: $RESULTS_DIR"
   exit 2
+fi
+
+# Auto-detect product name from chpl-metadata if not specified
+if [[ -z "$PRODUCT_NAME" ]]; then
+  if [[ -f "$RESULTS_DIR/chpl-metadata.json" ]]; then
+    PRODUCT_NAME=$(jq -r '.products[0].product_name // empty' "$RESULTS_DIR/chpl-metadata.json" 2>/dev/null)
+  fi
+  if [[ -z "$PRODUCT_NAME" ]]; then
+    PRODUCT_NAME="$TARGET_DIRNAME"
+  fi
+fi
+
+# Slugify product name for output directory
+slugify() {
+  echo "$1" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]\+/-/g' | sed 's/^-\|-$//g' | cut -c1-60
+}
+PRODUCT_SLUG=$(slugify "$PRODUCT_NAME")
+
+# Build output dir: abstraction/<vendor>--<product>
+if [[ -z "$OUTPUT_DIR" ]]; then
+  OUTPUT_DIR="$ROOT_DIR/abstraction/${TARGET_DIRNAME}--${PRODUCT_SLUG}"
 fi
 
 # Resolve CLI binary
@@ -94,11 +117,12 @@ trap 'rm -f "$PROMPT_FILE"' EXIT
 
 bun -e '
 const fs = require("fs");
-const [tmplPath, ehiPath, outPath, resultsDir, outputDir] = process.argv.slice(1);
+const [tmplPath, ehiPath, outPath, resultsDir, outputDir, productName] = process.argv.slice(1);
 let tmpl = fs.readFileSync(tmplPath, "utf8");
 const vars = {
   RESULTS_DIR: resultsDir,
   OUTPUT_DIR: outputDir,
+  PRODUCT_NAME: productName,
   EHI_SCOPE_REFERENCE: fs.readFileSync(ehiPath, "utf8"),
 };
 tmpl = tmpl.replace(/\{\{(\w+)\}\}/g, (_, k) => vars[k] || "{{" + k + "}}");
@@ -107,10 +131,12 @@ fs.writeFileSync(outPath, tmpl);
   "$ROOT_DIR/wiggum/prompts/ehi-scope-reference.md" \
   "$PROMPT_FILE" \
   "$RESULTS_DIR" \
-  "$OUTPUT_DIR"
+  "$OUTPUT_DIR" \
+  "$PRODUCT_NAME"
 
 echo "=== EHI Export Analysis ==="
 echo "Target:  $TARGET_DIRNAME"
+echo "Product: $PRODUCT_NAME"
 echo "Results: $RESULTS_DIR"
 echo "Output:  $OUTPUT_DIR"
 echo "Backend: $BACKEND ($MODEL)"

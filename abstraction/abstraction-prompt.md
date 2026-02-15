@@ -7,6 +7,7 @@ in the results folder and produce a rigorous, evidence-backed analysis.
 ## Your inputs
 
 - **Results directory**: `{{RESULTS_DIR}}`
+- **Product**: {{PRODUCT_NAME}}
 - **Output directory**: `{{OUTPUT_DIR}}`
 
 The results directory contains:
