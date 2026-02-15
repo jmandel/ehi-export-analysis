@@ -29,9 +29,8 @@ export interface EhiExportSummary {
    * - What's the single biggest strength or gap?
    * - Any notable quirks, ironies, or red flags?
    *
-   * Keep it under 300 characters. Be direct and specific — avoid generic praise
-   * or criticism. Every word should convey information. Do not use the word
-   * "textbook." Write naturally, not from a template.
+   * Keep it under 300 characters. Be direct and specific — every word
+   * should convey information.
    */
   summary: string;
 
