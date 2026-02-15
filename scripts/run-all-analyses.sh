@@ -118,10 +118,18 @@ failed=0
 fail_list=()
 
 run_one() {
-  local idx=$1 cmd=$2
+  local idx=$1 cmd=$2 stream=${3:-false}
   local logfile="$LOG_DIR/job-$idx.log"
   echo "[$(date +%H:%M:%S)] START ($((idx+1))/$queued): $cmd" >&2
-  if eval "$cmd" > "$logfile" 2>&1; then
+  if [[ "$stream" == true ]]; then
+    if eval "$cmd" 2>&1 | tee "$logfile"; then
+      echo "[$(date +%H:%M:%S)] DONE  ($((idx+1))/$queued): $cmd" >&2
+      return 0
+    else
+      echo "[$(date +%H:%M:%S)] FAIL  ($((idx+1))/$queued): $cmd" >&2
+      return 1
+    fi
+  elif eval "$cmd" > "$logfile" 2>&1; then
     echo "[$(date +%H:%M:%S)] DONE  ($((idx+1))/$queued): $cmd" >&2
     return 0
   else
@@ -133,7 +141,7 @@ run_one() {
 
 if [[ "$JOBS" -eq 1 ]]; then
   for i in "${!commands[@]}"; do
-    if run_one "$i" "${commands[$i]}"; then
+    if run_one "$i" "${commands[$i]}" true; then
       succeeded=$((succeeded + 1))
     else
       failed=$((failed + 1))
