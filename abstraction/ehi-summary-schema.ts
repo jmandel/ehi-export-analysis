@@ -29,18 +29,9 @@ export interface EhiExportSummary {
    * - What's the single biggest strength or gap?
    * - Any notable quirks, ironies, or red flags?
    *
-   * Examples of the tone/style to aim for:
-   * - "Textbook FHIR repackaging — 20 US Core resources and nothing more. One-paragraph
-   *   b(10) page with zero vendor-specific content; a patient would get their clinical
-   *   summary but miss every byte of billing, messaging, and specialty data."
-   * - "Genuinely impressive native export: 58 tables, 1,368 fields, 100% described.
-   *   Covers billing, scheduling, and clinical data with full data dictionary. Loses
-   *   points only for missing sample data and machine-readable schemas."
-   * - "A PDF and a prayer. Six bullet points naming export formats, zero field-level
-   *   detail, and no instructions on how to actually trigger the export."
-   *
    * Keep it under 300 characters. Be direct and specific — avoid generic praise
-   * or criticism. Every word should convey information.
+   * or criticism. Every word should convey information. Do not use the word
+   * "textbook." Write naturally, not from a template.
    */
   summary: string;
 
