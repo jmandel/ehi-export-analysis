@@ -1,0 +1,687 @@
+
+<html>
+<head><link rel="stylesheet" type="text/css" href="include/style.css"></head>
+<body>
+<p class="left">Last Updated: 9/24/2025 12:09:38 PM</p><p class="left">Intergy Version: 22.00.00.00</p>
+<p><font size="+2">RISStudy</font><font face="Arial" size="#"></font><p>
+<a href="#table">Table Definition</a>&nbsp&nbsp<a href="#parentrel">Parent Tables</a>&nbsp&nbsp<a href="#childrel">Child Tables</a>
+<p></p>
+<a name="table"></a>
+<font size="+1">Table Definition</font><br>
+<h3> Description: This table contains information about the radiology study for the patient visit.</h3>
+<table width="700" border="1">
+<tr>
+<th width="170">Field</th>
+<th width="95">Datatype</th>
+<th width="50">Default</th>
+<th width="50">Null Option</th>
+<th width="335">Comment</th>
+</tr>
+
+<tr>
+<td width="170" valign="top">RISStudySID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">System generated unique identifier for the study.  Generated from RIS sequence.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PracticeID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RISVisitSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">StaffID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - Staff - Radiologist who interprets/reads study.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">SupervisingStaffID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - From Staff.  Supervising Staff over Radiologist.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ApptSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ServiceCenterID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ReasonCode</td>
+<td width="95" valign="top">CHARACTER(6)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK - also known as study code.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">AilmentSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - overriding ailment to visit ailment.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">StudyStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered timestamp field indicate date and time of the study. Timestamp format for sorting purposes.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">AccessionID</td>
+<td width="95" valign="top">CHARACTER(16)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">System generated from RISACC Sequence.  Identifies study to radiologist and other people.
+Can be updated by PACS system and does not have to be unique per study.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">OriginalAccessionID</td>
+<td width="95" valign="top">CHARACTER(16)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">System entered.  Keeps the original accessionID if AccessionID is updated from PACS system.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">EncounterSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TechUserID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - Technician associated with study.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Priority</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">RIS Study priority.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">StudyStatus</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">User entered study status.  Values validated by RISStudyStatus lookuptype.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Note</td>
+<td width="95" valign="top">CHARACTER(28000)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered note on RISStudy.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was last written.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that last wrote the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was created.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that created the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ACRCode</td>
+<td width="95" valign="top">CHARACTER(6)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered code defining the outcome of the study.  ACR is a list of standard American College of Radiology codes and is validated by the LookupType 'RISACRCode'.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CompleteStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System entered datetime stamp indicating when the study was marked as completed.  A study becomes complete when the charges are posted.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LabelPrinted</td>
+<td width="95" valign="top">LOGICAL</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top"></td>
+</tr>
+
+<tr>
+<td width="170" valign="top">EncounterFormPrinted</td>
+<td width="95" valign="top">LOGICAL</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top"></td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DNStudyDate</td>
+<td width="95" valign="top">DATE</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Denormalize from date portion of RISStudy.StudyStamp.
+Maintained by write trigger.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PACSInbAETitle</td>
+<td width="95" valign="top">CHARACTER(20)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">AETitle provided by PACS system at time the image was read.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PACSInbModalityType</td>
+<td width="95" valign="top">CHARACTER(3)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered.  Indicates type of modality.  Validated by PACSModalityType LookupType.
+Provided by PACS system at time the image was read.
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">BodyPart</td>
+<td width="95" valign="top">CHARACTER(6)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered indication of which body part is being studied.  Validated by LookupType RISBodyPart.
+Defaulted from RISMacro</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ReadStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Timestamp indicating date/time study was marked Read.
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ReadStatus</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+Alpha_-_U
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">For Radiology Desktop, indicates status of study with respect to radiologist.
+Possible Values are:
+U - Unread
+F - Forward
+O - Over read
+C - Completed
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ReadStatusStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Timestamp indicating date/time when readstatus was last changed.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ImageCount</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+0
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Count of total images for the study.
+Partially denormalized field - maintained by write triggers on Document and Image tables.
+
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">SeriesCount</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+0
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Count of total series for the study.
+Partially denormalized field - maintained by write triggers on Document and Image tables.
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">HL7Updated</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Flags the RISStudy when the inbound ORU updates it, so that outbound won't pick up the change and send it out again (then it will reset it back).
+Valid Values: Y/N
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ImageAcquiredStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This is the TimeStamp that the images were acquired.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ImageType</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This field conveys the type of images that were acquired derived off the system defined Lookup code  with LookupType "RISImageType".
+
+Possible Values:
+F - Film
+D - Digital
+
+can be blank.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PACSOutAETitle</td>
+<td width="95" valign="top">CHAR(20)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">AETitle provided by modality rules system at time the study was created or updated.  Represents how HL7 sent the ORU out to the PACS.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PACSOutModalityType</td>
+<td width="95" valign="top">CHAR(3)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Indicates type of modality. Provided by modality rules system at time the study was created or updated.  Represents how HL7 sent the ORU out to the PACS.
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DNPACSModalityType</td>
+<td width="95" valign="top">CHAR(3)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Denormalized field based first off PACSInbModalityType.  If not entered, PACSOutModalityType is stored in this field.  This field is used by the radiology navigator to show radiologists which modality the study is from.  Trigger maintains value of this field.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DNScheduledDate</td>
+<td width="95" valign="top">DATE</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Date scheduled.  Maintained by DB triggers.  Unknown for Ordered studies.  Uses create date on appointment.  If no appointment, then uses create date on encounter.  Otherwise, this is unknown.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DNScheduledUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User scheduled.  Maintained by DB triggers.  Unknown for Ordered studies.  Uses create user on appointment.  If no appointment, then uses create user on encounter.  Otherwise, this is unknown.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">AUCGCode</td>
+<td width="95" valign="top">CHAR(10)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Procedure code indicating CDSM vendor</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">AUCModifier</td>
+<td width="95" valign="top">CHAR(2)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">G-Code modifier indicating if Appropriate Use was followed</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">AUCSessionID</td>
+<td width="95" valign="top">CHAR(50)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Clinical Decision Support Mechanism (CDSM) SessionID</td>
+</tr>
+
+</table>
+
+
+
+<p>
+<font size="+1">Parent Tables</font><br>
+<a name="parentrel"></a>
+<table width="700" border="1">
+<tr><th width="170">Parent Table</th><th>Join Phrase</th><th>When deleting parent record...</th></tr>
+
+<tr><td><a href="Staff.htm">Staff</a></td>
+<td>RISStudy.PracticeID = Staff.PracticeID and<br>
+    RISStudy.SupervisingStaffID = Staff.StaffID</td>
+<td>RESTRICT if RISStudy exists</td>
+</tr>
+
+
+
+<tr><td><a href="Encounter.htm">Encounter</a></td>
+<td>RISStudy.EncounterSID = Encounter.EncounterSID</td>
+<td>NONE if RISStudy exists</td>
+</tr>
+
+<tr><td><a href="Staff.htm">Staff</a></td>
+<td>RISStudy.PracticeID = Staff.PracticeID and<br>
+    RISStudy.StaffID = Staff.StaffID</td>
+<td>RESTRICT if RISStudy exists</td>
+</tr>
+
+<tr><td><a href="Ailment.htm">Ailment</a></td>
+<td>RISStudy.AilmentSID = Ailment.AilmentSID</td>
+<td>RESTRICT if RISStudy exists</td>
+</tr>
+
+<tr><td><a href="Appointment.htm">Appointment</a></td>
+<td>RISStudy.ApptSID = Appointment.ApptSID and<br>
+    RISStudy.PracticeID = Appointment.PracticeID and<br>
+    RISStudy.ServiceCenterID = Appointment.ServiceCenterID</td>
+<td>RESTRICT if RISStudy exists</td>
+</tr>
+
+
+
+
+
+<tr><td><a href="RISVisit.htm">RISVisit</a></td>
+<td>RISStudy.RISVisitSID = RISVisit.RISVisitSID</td>
+<td>CASCADE if RISStudy exists</td>
+</tr>
+
+</table>
+<p></p>
+<a name="childrel"></a>
+<font size="+1">Child Tables</font><br>
+<table width="700" border="1">
+<tr><th width="170">Child Table</th><th>Join Phrase</th><th>When deleting RISStudy record...</th></tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<tr><td><a href="RISStudyNote.htm">RISStudyNote</a></td>
+<td>RISStudyNote.RISStudySID = RISStudy.RISStudySID</td>
+<td>CASCADE if RISStudyNote exists </td>
+</tr>
+
+
+
+<tr><td><a href="TMSCatalog.htm">TMSCatalog</a></td>
+<td>TMSCatalog.PrimaryRISStudySID = RISStudy.RISStudySID</td>
+<td>SET NULL if TMSCatalog exists </td>
+</tr>
+
+
+
+<tr><td><a href="Document.htm">Document</a></td>
+<td>Document.RISStudySID = RISStudy.RISStudySID</td>
+<td>SET NULL if Document exists </td>
+</tr>
+
+
+
+
+
+</table>
+<p>
+
+</p></body>
+</html>

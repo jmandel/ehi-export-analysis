@@ -1,0 +1,342 @@
+
+<html>
+<head><link rel="stylesheet" type="text/css" href="include/style.css"></head>
+<body>
+<p class="left">Last Updated: 9/24/2025 12:09:38 PM</p><p class="left">Intergy Version: 22.00.00.00</p>
+<p><font size="+2">PracPersonSecureMessage</font><font face="Arial" size="#"></font><p>
+<a href="#table">Table Definition</a>&nbsp&nbsp<a href="#parentrel">Parent Tables</a>&nbsp&nbsp<a href="#childrel">Child Tables</a>
+<p></p>
+<a name="table"></a>
+<font size="+1">Table Definition</font><br>
+<h3> Description: This table stores the secure messages received for the person.</h3>
+<table width="700" border="1">
+<tr>
+<th width="170">Field</th>
+<th width="95">Datatype</th>
+<th width="50">Default</th>
+<th width="50">Null Option</th>
+<th width="335">Comment</th>
+</tr>
+
+<tr>
+<td width="170" valign="top">PracPersonSecureMessageSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">System Generated using the PracticePortalQueue sequence.
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PracticeID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK - PracPerson, Staff</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PersonID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK - PracPerson</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">StaffID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - From Staff</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RecordStatus</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Valid values:
+V - void
+A - Active</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">MessageDescription</td>
+<td width="95" valign="top">CHARACTER(60)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Subject line of message but note that the user could have edited it on a save</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">MessageType</td>
+<td width="95" valign="top">CHAR(40)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">System defined.  
+Message Type to categorize message.
+
+Note - this is sent from the message source (ie Kryptiq).
+
+(e.g. AppointmentRequest)</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">MessageCreateDateString</td>
+<td width="95" valign="top">CHAR(33)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Message datetime stamp string from message source.  Indicates when message was created.
+
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">KryptiqMessageID</td>
+<td width="95" valign="top">CHAR(256)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Unique message ID from source.  This should be globally unique.
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ToValue</td>
+<td width="95" valign="top">CHARACTER(20)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Delimited list of email addresses</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">FromValue</td>
+<td width="95" valign="top">CHARACTER(20)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Email address of sender</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CCValue</td>
+<td width="95" valign="top">CHARACTER(20)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Copy email address</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">BCCValue</td>
+<td width="95" valign="top">CHARACTER(20)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Blind copy email address</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">InboundOutbound</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Valid Values:
+I - Inbound / O - Outbound
+
+Inbound means the source message was sent from the patient to provider
+Outbound means provider to patient.
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was last written.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that last wrote the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was created.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that created the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">SecMsgDisplayInApp</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+Flag_-_Clinical
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Application where secure message saved to chart can be viewed. 
+Possible Values: 
+'C' - Clinical , 
+'O' - Other. 
+When 'C', a secure message saved to chart can be viewed in IEHR but not Intergy. When 'O', it is viewed in Intergy and IEHR.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ExternalSourceID</td>
+<td width="95" valign="top">CHARACTER(60)</td>
+<td width="50" valign="top">
+
+
+Kryptiq
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">External ID for source of secure message (e.g. 'Kryptiq')</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">IsPatientGeneratedHealthData</td>
+<td width="95" valign="top">LOGICAL</td>
+<td width="50" valign="top">
+
+
+Logical_False
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Defines whether secure message health information is generated by Patient/Person from portal.</td>
+</tr>
+
+</table>
+
+
+
+<p>
+<font size="+1">Parent Tables</font><br>
+<a name="parentrel"></a>
+<table width="700" border="1">
+<tr><th width="170">Parent Table</th><th>Join Phrase</th><th>When deleting parent record...</th></tr>
+
+<tr><td><a href="Staff.htm">Staff</a></td>
+<td>PracPersonSecureMessage.PracticeID = Staff.PracticeID and<br>
+    PracPersonSecureMessage.StaffID = Staff.StaffID</td>
+<td>RESTRICT if PracPersonSecureMessage exists</td>
+</tr>
+
+<tr><td><a href="PracPerson.htm">PracPerson</a></td>
+<td>PracPersonSecureMessage.PracticeID = PracPerson.PracticeID and<br>
+    PracPersonSecureMessage.PersonID = PracPerson.PersonID</td>
+<td>CASCADE if PracPersonSecureMessage exists</td>
+</tr>
+
+</table>
+<p></p>
+<a name="childrel"></a>
+<font size="+1">Child Tables</font><br>
+<table width="700" border="1">
+<tr><th width="170">Child Table</th><th>Join Phrase</th><th>When deleting PracPersonSecureMessage record...</th></tr>
+
+<tr><td><a href="PatientOrderSetResult.htm">PatientOrderSetResult</a></td>
+<td>PatientOrderSetResult.PracPersonSecureMessageSID = PracPersonSecureMessage.PracPersonSecureMessageSID</td>
+<td>RESTRICT if PatientOrderSetResult exists </td>
+</tr>
+
+
+
+
+
+
+
+<tr><td><a href="PracPersonSecureMsgBlob.htm">PracPersonSecureMsgBlob</a></td>
+<td>PracPersonSecureMsgBlob.PracPersonSecureMessageSID = PracPersonSecureMessage.PracPersonSecureMessageSID</td>
+<td>CASCADE if PracPersonSecureMsgBlob exists </td>
+</tr>
+
+</table>
+<p>
+
+</p></body>
+</html>

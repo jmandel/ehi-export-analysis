@@ -1,0 +1,399 @@
+
+<html>
+<head><link rel="stylesheet" type="text/css" href="include/style.css"></head>
+<body>
+<p class="left">Last Updated: 9/24/2025 12:09:38 PM</p><p class="left">Intergy Version: 22.00.00.00</p>
+<p><font size="+2">RefDoctor</font><font face="Arial" size="#"></font><p>
+<a href="#table">Table Definition</a>&nbsp&nbsp<a href="#parentrel">Parent Tables</a>&nbsp&nbsp<a href="#childrel">Child Tables</a>
+<p></p>
+<a name="table"></a>
+<font size="+1">Table Definition</font><br>
+<h3> Description: This table is used to record the referring doctors.</h3>
+<table width="700" border="1">
+<tr>
+<th width="170">Field</th>
+<th width="95">Datatype</th>
+<th width="50">Default</th>
+<th width="50">Null Option</th>
+<th width="335">Comment</th>
+</tr>
+
+<tr>
+<td width="170" valign="top">RefDoctorID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RecordStatus</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">User selected record status for the referring doctor. RecordStatus is defined in the LookupCode table for the lookup type 'RecordStatus'.  Codes for lookup type 'RecordStatus' are not user definable. Valid codes are (A)ctive and (I)nactive.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was last written.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that last wrote the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was created.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that created the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DNSortName</td>
+<td width="95" valign="top">CHAR(170)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Denormalized  name for providing sorted name list.  Write trigger maintains this field.  Field used to improve performance of referring provider searches.
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Class</td>
+<td width="95" valign="top">CHARACTER(6)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered referring provider class.  Field is supported by the lookup type RefProviderClass.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DNFirstName</td>
+<td width="95" valign="top">CHAR(35)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Denormalized for performance reasons from the Provider table. Do not write to this field. The write triggers will keep field up-to-date.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DNMiddleName</td>
+<td width="95" valign="top">CHAR(35)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Denormalized for performance reasons from the Provider table. Do not write to this field. The write triggers will keep field up-to-date.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DefaultSpecialtyCode</td>
+<td width="95" valign="top">CHARACTER(10)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered. Specialty code.  If it is a taxonomy specialty code, the first two characters must represent the provider type as validated by the lookup type mentioned. Field is supported by the lookup types:[TaxonomyProviderType]. Values are defined in the LookupCode table for the above lookup types.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RefGroupID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated unique id using the Entity sequence.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">MarketingRepUserID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - From MMUser
+Marketing Representative/Agent.  Used in RIS and other specialities.
+
+OBSOLETE in 3.50.01
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">FirstReferral</td>
+<td width="95" valign="top">DATE</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Marketing First Referral Date
+
+OBSOLETE in 3.50.01</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">BirthMonth</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Referring Doctor's birth month</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">BirthDay</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Referring Doctor's birth day number of month.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">BirthYear</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Referring doctor's birth year.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Note</td>
+<td width="95" valign="top">CHARACTER(28000)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered. Body of referring doctor note.</td>
+</tr>
+
+</table>
+
+
+
+<p>
+<font size="+1">Parent Tables</font><br>
+<a name="parentrel"></a>
+<table width="700" border="1">
+<tr><th width="170">Parent Table</th><th>Join Phrase</th><th>When deleting parent record...</th></tr>
+
+<tr><td><a href="MMUser.htm">MMUser</a></td>
+<td>RefDoctor.MarketingRepUserID = MMUser.MMUserSID</td>
+<td>RESTRICT if RefDoctor exists</td>
+</tr>
+
+
+
+<tr><td><a href="Specialty.htm">Specialty</a></td>
+<td>RefDoctor.DefaultSpecialtyCode = Specialty.SpecialtyCode</td>
+<td>SET NULL if RefDoctor exists</td>
+</tr>
+
+<tr><td><a href="Provider.htm">Provider</a></td>
+<td>RefDoctor.RefDoctorID = Provider.ProviderID</td>
+<td>RESTRICT if RefDoctor exists</td>
+</tr>
+
+</table>
+<p></p>
+<a name="childrel"></a>
+<font size="+1">Child Tables</font><br>
+<table width="700" border="1">
+<tr><th width="170">Child Table</th><th>Join Phrase</th><th>When deleting RefDoctor record...</th></tr>
+
+
+
+
+
+
+
+
+
+<tr><td><a href="Ailment.htm">Ailment</a></td>
+<td>Ailment.UBOperatingProviderID = RefDoctor.RefDoctorID</td>
+<td>RESTRICT if Ailment exists </td>
+</tr>
+
+<tr><td><a href="Ailment.htm">Ailment</a></td>
+<td>Ailment.UBAttendingProviderID = RefDoctor.RefDoctorID</td>
+<td>RESTRICT if Ailment exists </td>
+</tr>
+
+
+
+
+
+
+
+
+
+<tr><td><a href="CardioOrder.htm">CardioOrder</a></td>
+<td>CardioOrder.RefDoctorID = RefDoctor.RefDoctorID</td>
+<td>SET NULL if CardioOrder exists </td>
+</tr>
+
+<tr><td><a href="OBPregnancy.htm">OBPregnancy</a></td>
+<td>OBPregnancy.PrimaryProviderID = RefDoctor.RefDoctorID</td>
+<td>SET NULL if OBPregnancy exists </td>
+</tr>
+
+<tr><td><a href="PatientRefDocSpecialty.htm">PatientRefDocSpecialty</a></td>
+<td>PatientRefDocSpecialty.RefDoctorID = RefDoctor.RefDoctorID</td>
+<td>CASCADE if PatientRefDocSpecialty exists </td>
+</tr>
+
+<tr><td><a href="PatientOrderSet.htm">PatientOrderSet</a></td>
+<td>PatientOrderSet.RefDoctorID = RefDoctor.RefDoctorID</td>
+<td>SET NULL if PatientOrderSet exists </td>
+</tr>
+
+
+
+
+
+
+
+
+
+<tr><td><a href="OBPregnancy.htm">OBPregnancy</a></td>
+<td>OBPregnancy.PediatricianID = RefDoctor.RefDoctorID</td>
+<td>SET NULL if OBPregnancy exists </td>
+</tr>
+
+
+
+<tr><td><a href="CLWCorrespondence.htm">CLWCorrespondence</a></td>
+<td>CLWCorrespondence.RefDoctorID = RefDoctor.RefDoctorID</td>
+<td>RESTRICT if CLWCorrespondence exists </td>
+</tr>
+
+<tr><td><a href="PatientRx.htm">PatientRx</a></td>
+<td>PatientRx.RefDoctorID = RefDoctor.RefDoctorID</td>
+<td>SET NULL if PatientRx exists </td>
+</tr>
+
+
+
+
+
+
+
+<tr><td><a href="RISVisit.htm">RISVisit</a></td>
+<td>RISVisit.RefDoctorID = RefDoctor.RefDoctorID</td>
+<td>RESTRICT if RISVisit exists </td>
+</tr>
+
+
+
+
+
+
+
+<tr><td><a href="InpatientVisit.htm">InpatientVisit</a></td>
+<td>InpatientVisit.DischargeRefProviderID = RefDoctor.RefDoctorID</td>
+<td>RESTRICT if InpatientVisit exists </td>
+</tr>
+
+<tr><td><a href="Ailment.htm">Ailment</a></td>
+<td>Ailment.UBOtherProviderID = RefDoctor.RefDoctorID</td>
+<td>RESTRICT if Ailment exists </td>
+</tr>
+
+<tr><td><a href="Ailment.htm">Ailment</a></td>
+<td>Ailment.RefDoctorID = RefDoctor.RefDoctorID</td>
+<td>RESTRICT if Ailment exists </td>
+</tr>
+
+
+
+
+
+<tr><td><a href="Patient.htm">Patient</a></td>
+<td>Patient.RefDoctorID = RefDoctor.RefDoctorID</td>
+<td>RESTRICT if Patient exists </td>
+</tr>
+
+<tr><td><a href="LabOrder.htm">LabOrder</a></td>
+<td>LabOrder.RefDoctorID = RefDoctor.RefDoctorID</td>
+<td>RESTRICT if LabOrder exists </td>
+</tr>
+
+</table>
+<p>
+
+</p></body>
+</html>

@@ -1,0 +1,485 @@
+
+<html>
+<head><link rel="stylesheet" type="text/css" href="include/style.css"></head>
+<body>
+<p class="left">Last Updated: 9/24/2025 12:09:38 PM</p><p class="left">Intergy Version: 22.00.00.00</p>
+<p><font size="+2">Account</font><font face="Arial" size="#"></font><p>
+<a href="#table">Table Definition</a>&nbsp&nbsp<a href="#parentrel">Parent Tables</a>&nbsp&nbsp<a href="#childrel">Child Tables</a>
+<p></p>
+<a name="table"></a>
+<font size="+1">Table Definition</font><br>
+<h3> Description: This table is used to store account information.</h3>
+<table width="700" border="1">
+<tr>
+<th width="170">Field</th>
+<th width="95">Datatype</th>
+<th width="50">Default</th>
+<th width="50">Null Option</th>
+<th width="335">Comment</th>
+</tr>
+
+<tr>
+<td width="170" valign="top">AccountSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">System generated unique id using the Account sequence.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PracticeID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">GuarantorID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK - from Entity table.  Note that Guarantor can either be a person or a company.  Entity.Class dictates the type of guarantor.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">AccountNumber</td>
+<td width="95" valign="top">CHARACTER(10)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Manual or system generated account number which must form a unique id
+in combination with the practice code.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">AccountStatus</td>
+<td width="95" valign="top">CHARACTER(10)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">AcctFinanceGroup</td>
+<td width="95" valign="top">CHARACTER(6)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">User selects account class code.  Account class codes are defined in the LookupCode table for the lookup type 'AccountClass'.  Codes for lookup type 'AccountClass' are user definable.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Balance</td>
+<td width="95" valign="top">DECIMAL(10,2)</td>
+<td width="50" valign="top">
+
+
+0
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Balance following last close operation by practice.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PeriodBalance</td>
+<td width="95" valign="top">DECIMAL(10,2)</td>
+<td width="50" valign="top">
+
+
+0
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Balance for last period following last close operation by practice.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastReportedDate</td>
+<td width="95" valign="top">DATE</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Last Statement Date for the Account.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RecordStatus</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">User selected record status for the account. RecordStatus is defined in the LookupCode table for the lookup type 'RecordStatus'.  Codes for lookup type 'RecordStatus' are not user definable. Valid codes are (A)ctive and (I)nactive.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was last written.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that last wrote the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was created.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that created the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Class</td>
+<td width="95" valign="top">CHARACTER(6)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered. Field is supported by the lookup types:[AcctClass]. Values are defined in the LookupCode table for the above lookup types.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">MonthlyPayment</td>
+<td width="95" valign="top">DECIMAL(10,2)</td>
+<td width="50" valign="top">
+
+
+0
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Monthly minimum payment amount.  User entered.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TaxCode</td>
+<td width="95" valign="top">CHARACTER(10)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This field is reserved for future use by an external tax system.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">NonPatientAccount</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+No_Value__N_
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">This flag indicates the account is used by the practice for special purposes and may not have patients assigned to it.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">NonPatientAccountType</td>
+<td width="95" valign="top">CHARACTER(10)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This field indicates the type of non-patient account as set by the lookuptype NonPatAcctType.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">IndustrialAccount</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+No_Value__N_
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">
+Y = account is an industrial account which indicates that patients on this account are not related to one another.
+
+N = account is non industrial which indicates that patients on this account could be related or share the same address 
+(family accounts).
+
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastStatementAmount</td>
+<td width="95" valign="top">DECIMAL(10,2)</td>
+<td width="50" valign="top">
+
+
+0
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Last statement amount for the account.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DNSortAccountNumber</td>
+<td width="95" valign="top">CHARACTER(10)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This is a denormalized field maintained by write triggers whose source is the account number field. It is used for ease of sorting.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DNGuarLastName</td>
+<td width="95" valign="top">CHAR(35)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Denormalized for performance reasons from the Person table or Company table. Do not write to this field. The person and company write triggers will keep field up-to-date.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DNGuarFirstName</td>
+<td width="95" valign="top">CHAR(35)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Denormalized for performance reasons from the Person table. Do not write to this field. The person write triggers will keep field up-to-date.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DNGuarMiddleName</td>
+<td width="95" valign="top">CHAR(35)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Denormalized for performance reasons from the Person table. Do not write to this field. The person write triggers will keep field up-to-date.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DNGuarNameSuffix</td>
+<td width="95" valign="top">CHARACTER(20)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Denormalized for performance reasons from the Person table. Do not write to this field. The person write triggers will keep field up-to-date.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DiscountAdjCode</td>
+<td width="95" valign="top">CHARACTER(8)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Unique tag.  User entered.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">HL7Updated</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This field indicates if HL7 has processed this table entry and will be used by the DB triggers.
+values "Y" or "N".
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PreviousAcctFinanceGroup</td>
+<td width="95" valign="top">CHARACTER(6)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - from AcctFinanceGroupTable</td>
+</tr>
+
+</table>
+
+
+
+<p>
+<font size="+1">Parent Tables</font><br>
+<a name="parentrel"></a>
+<table width="700" border="1">
+<tr><th width="170">Parent Table</th><th>Join Phrase</th><th>When deleting parent record...</th></tr>
+
+
+
+
+
+
+
+<tr><td><a href="Entity.htm">Entity</a></td>
+<td>Account.GuarantorID = Entity.EntitySID</td>
+<td>RESTRICT if Account exists</td>
+</tr>
+
+<tr><td><a href="AccountStatus.htm">AccountStatus</a></td>
+<td>Account.AccountStatus = AccountStatus.AccountStatus</td>
+<td>RESTRICT if Account exists</td>
+</tr>
+
+<tr><td><a href="Practice.htm">Practice</a></td>
+<td>Account.PracticeID = Practice.PracticeID</td>
+<td>CASCADE if Account exists</td>
+</tr>
+
+</table>
+<p></p>
+<a name="childrel"></a>
+<font size="+1">Child Tables</font><br>
+<table width="700" border="1">
+<tr><th width="170">Child Table</th><th>Join Phrase</th><th>When deleting Account record...</th></tr>
+
+
+
+
+
+
+
+
+
+<tr><td><a href="Encounter.htm">Encounter</a></td>
+<td>Encounter.AccountSID = Account.AccountSID</td>
+<td>SET NULL if Encounter exists </td>
+</tr>
+
+
+
+
+
+
+
+
+
+<tr><td><a href="ChargeActivity.htm">ChargeActivity</a></td>
+<td>ChargeActivity.AccountSID = Account.AccountSID</td>
+<td>RESTRICT if ChargeActivity exists </td>
+</tr>
+
+<tr><td><a href="PaymentAssignment.htm">PaymentAssignment</a></td>
+<td>PaymentAssignment.AccountSID = Account.AccountSID</td>
+<td>RESTRICT if PaymentAssignment exists </td>
+</tr>
+
+
+
+<tr><td><a href="AccountBill.htm">AccountBill</a></td>
+<td>AccountBill.AccountSID = Account.AccountSID</td>
+<td>CASCADE if AccountBill exists </td>
+</tr>
+
+<tr><td><a href="Charge.htm">Charge</a></td>
+<td>Charge.AccountSID = Account.AccountSID</td>
+<td>RESTRICT if Charge exists </td>
+</tr>
+
+<tr><td><a href="PatientAccount.htm">PatientAccount</a></td>
+<td>PatientAccount.AccountSID = Account.AccountSID</td>
+<td>CASCADE if PatientAccount exists </td>
+</tr>
+
+
+
+<tr><td><a href="AccountNote.htm">AccountNote</a></td>
+<td>AccountNote.AccountSID = Account.AccountSID</td>
+<td>CASCADE if AccountNote exists </td>
+</tr>
+
+<tr><td><a href="AccountAlert.htm">AccountAlert</a></td>
+<td>AccountAlert.AccountSID = Account.AccountSID</td>
+<td>CASCADE if AccountAlert exists </td>
+</tr>
+
+<tr><td><a href="AccountStatement.htm">AccountStatement</a></td>
+<td>AccountStatement.AccountSID = Account.AccountSID</td>
+<td>CASCADE if AccountStatement exists </td>
+</tr>
+
+</table>
+<p>
+
+</p></body>
+</html>

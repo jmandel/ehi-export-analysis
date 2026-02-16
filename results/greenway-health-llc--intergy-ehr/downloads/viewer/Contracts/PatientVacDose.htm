@@ -1,0 +1,549 @@
+
+<html>
+<head><link rel="stylesheet" type="text/css" href="include/style.css"></head>
+<body>
+<p class="left">Last Updated: 9/24/2025 12:09:38 PM</p><p class="left">Intergy Version: 22.00.00.00</p>
+<p><font size="+2">PatientVacDose</font><font face="Arial" size="#"></font><p>
+<a href="#table">Table Definition</a>&nbsp&nbsp<a href="#parentrel">Parent Tables</a>&nbsp&nbsp<a href="#childrel">Child Tables</a>
+<p></p>
+<a name="table"></a>
+<font size="+1">Table Definition</font><br>
+<h3> Description: This table represents the relationship between a patient and a vaccination. It encompasses considerations for 'Ordering, Administering, Refusing, Voiding, etc'. </h3>
+<table width="700" border="1">
+<tr>
+<th width="170">Field</th>
+<th width="95">Datatype</th>
+<th width="50">Default</th>
+<th width="50">Null Option</th>
+<th width="335">Comment</th>
+</tr>
+
+<tr>
+<td width="170" valign="top">PatientVacDoseSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Uniquely identifies the dose of a vaccine for a patient. From the 'Immunization' sequence</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PracticeID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK - Patient and Staff</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PatientID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK - Patient receiving vaccine</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">StaffID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - Staff administering vaccine</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">EncounterSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK - Encounter</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">VaccineSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK - Vaccine</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DoseNumber</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Dose number of a vaccination.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DoseStatus</td>
+<td width="95" valign="top">CHARACTER(3)</td>
+<td width="50" valign="top">
+
+
+Alpha_-_O
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Validated by the PatientVacDoseStatus lookuptype. 
+'O'rdered , 
+'A'dministered , 
+'C'ontraindicated, 
+'V'oided , 
+'Ref'used , 
+'Rep'orted.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">AdminSite</td>
+<td width="95" valign="top">CHARACTER(20)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Location on the body where the injection was given. Based on lookup type: VacAdminSite</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LotNumber</td>
+<td width="95" valign="top">CHARACTER(50)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Lot number from which the vaccination came</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ExpirationDate</td>
+<td width="95" valign="top">DATE</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Date that the vaccine expires</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Manufacturer</td>
+<td width="95" valign="top">CHARACTER(50)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System defined. The manufacturer of the vaccine. Field is supported by the lookup types:[VacManufacturers].  Values are defined in the LookupCode table for the above lookup types.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Comment</td>
+<td width="95" valign="top">CHARACTER(250)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Free Text Comment associated with the vaccine</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">StatusTimeStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Date/Time stamp used to keep track of when the user indicated that this status was changed. This is user settable.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was last written.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that last wrote the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was created.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that created the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ChargeDiagnosisCode</td>
+<td width="95" valign="top">CHARACTER(10)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - From Diagnosis.
+The Diagnosis Code when ordering vaccine. This is used  to post charges when administering.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ChargeProcedureCode</td>
+<td width="95" valign="top">CHARACTER(10)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - From Procedure
+The Procedure Code when ordering vaccine. This is used  to post charges when administering.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RegistryStatus</td>
+<td width="95" valign="top">CHAR(2)</td>
+<td width="50" valign="top">
+
+
+Alpha_-_U
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Indicates the status of the vaccine dose with regard to the state immunization registry.  Valid values are defined by lookup type ImmuRegistryStatus.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">OrderedBy</td>
+<td width="95" valign="top">CHAR(250)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered free-text description of the ordering provider/facility for a patient reported immunization.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">AdminRoute</td>
+<td width="95" valign="top">CHAR(12)</td>
+<td width="50" valign="top">
+
+
+Set_To_Empty_String
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Selected Administered Route for the immunization. Defined by LookupType ImmuRoute</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">AdminAmount</td>
+<td width="95" valign="top">DECIMAL(10,2)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Defines amount of vaccine administered</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">AdminUnits</td>
+<td width="95" valign="top">CHAR(12)</td>
+<td width="50" valign="top">
+
+
+Set_To_Empty_String
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Amount units of vaccine administered. Defined by lookupType ImmuUnits</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">VaccineInfoStatementList</td>
+<td width="95" valign="top">CHAR(100)</td>
+<td width="50" valign="top">
+
+
+Set_To_Empty_String
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Compound list of selected VaccineInfoStatementSIDs delimited by the pipe symbol.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">VFCEligibilityCode</td>
+<td width="95" valign="top">CHAR(12)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Indicates VFC (Vaccines For Children) eligibility for this vaccine. Eligible values are defined for lookup type VFCCode.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">VFCEffectiveDate</td>
+<td width="95" valign="top">DATE</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Date VFC Eligibility Code is effective.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">InformationSource</td>
+<td width="95" valign="top">CHAR(2)</td>
+<td width="50" valign="top">
+
+
+Set_To_Empty_String
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Immunization information source for patient vaccine. Define by the LookupType ImmuInfoSource.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">FundingSource</td>
+<td width="95" valign="top">CHAR(10)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">The Funding source of the Vaccine being administered. Defined by VacFundingSource lookup.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">NDC</td>
+<td width="95" valign="top">CHAR(11)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">NDC (National Drug Code) for the vaccine.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RefusalReasonCode</td>
+<td width="95" valign="top">CHAR(10)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Defined by the LookupType ImmRefusalReason.
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TradeName</td>
+<td width="95" valign="top">CHAR(60)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User-entered trade name of the vaccine.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">StatusDateTimeUTC</td>
+<td width="95" valign="top">DATETIME-TZ</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This is a denormalized field based off the StatusTimeStamp. This field contains the Date, Time and timezone offset.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateDateTimeUTC</td>
+<td width="95" valign="top">DATETIME-TZ</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This is a denormalized field based off the CreateStamp. This field contains the Date, Time and timezone offset.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">VISGivenDate</td>
+<td width="95" valign="top">DATE</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">The field will hold the Vaccine Info Sheet Given date when a vaccine is administered to a patient</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">VISGivenTo</td>
+<td width="95" valign="top">CHAR(105)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">The field will hold the VIS Given To Name when a vaccine is administered to a patient</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStampUTC</td>
+<td width="95" valign="top">DATETIME-TZ</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This is a denormalized field based off the TimeStamp. This field contains the Date, Time and timezone offset.</td>
+</tr>
+
+</table>
+
+
+
+<p>
+<font size="+1">Parent Tables</font><br>
+<a name="parentrel"></a>
+<table width="700" border="1">
+<tr><th width="170">Parent Table</th><th>Join Phrase</th><th>When deleting parent record...</th></tr>
+
+<tr><td><a href="Procedure.htm">Procedure</a></td>
+<td>PatientVacDose.ChargeProcedureCode = Procedure.ProcedureCode</td>
+<td>SET NULL if PatientVacDose exists</td>
+</tr>
+
+<tr><td><a href="Diagnosis.htm">Diagnosis</a></td>
+<td>PatientVacDose.ChargeDiagnosisCode = Diagnosis.DiagnosisCode</td>
+<td>SET NULL if PatientVacDose exists</td>
+</tr>
+
+<tr><td><a href="Staff.htm">Staff</a></td>
+<td>PatientVacDose.PracticeID = Staff.PracticeID and<br>
+    PatientVacDose.StaffID = Staff.StaffID</td>
+<td>RESTRICT if PatientVacDose exists</td>
+</tr>
+
+<tr><td><a href="Encounter.htm">Encounter</a></td>
+<td>PatientVacDose.EncounterSID = Encounter.EncounterSID</td>
+<td>RESTRICT if PatientVacDose exists</td>
+</tr>
+
+<tr><td><a href="Vaccine.htm">Vaccine</a></td>
+<td>PatientVacDose.VaccineSID = Vaccine.VaccineSID</td>
+<td>RESTRICT if PatientVacDose exists</td>
+</tr>
+
+<tr><td><a href="Patient.htm">Patient</a></td>
+<td>PatientVacDose.PracticeID = Patient.PracticeID and<br>
+    PatientVacDose.PatientID = Patient.PatientID</td>
+<td>RESTRICT if PatientVacDose exists</td>
+</tr>
+
+</table>
+<p></p>
+<a name="childrel"></a>
+<font size="+1">Child Tables</font><br>
+<table width="700" border="1">
+<tr><th width="170">Child Table</th><th>Join Phrase</th><th>When deleting PatientVacDose record...</th></tr>
+
+<tr><td><a href="PatientVacDoseReaction.htm">PatientVacDoseReaction</a></td>
+<td>PatientVacDoseReaction.PatientVacDoseSID = PatientVacDose.PatientVacDoseSID</td>
+<td>CASCADE if PatientVacDoseReaction exists </td>
+</tr>
+
+<tr><td><a href="PatientVacDoseAction.htm">PatientVacDoseAction</a></td>
+<td>PatientVacDoseAction.PatientVacDoseSID = PatientVacDose.PatientVacDoseSID</td>
+<td>CASCADE if PatientVacDoseAction exists </td>
+</tr>
+
+</table>
+<p>
+
+</p></body>
+</html>

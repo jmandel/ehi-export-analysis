@@ -1,0 +1,211 @@
+
+<html>
+<head><link rel="stylesheet" type="text/css" href="include/style.css"></head>
+<body>
+<p class="left">Last Updated: 9/24/2025 12:09:38 PM</p><p class="left">Intergy Version: 22.00.00.00</p>
+<p><font size="+2">PlanAltID</font><font face="Arial" size="#"></font><p>
+<a href="#table">Table Definition</a>&nbsp&nbsp<a href="#parentrel">Parent Tables</a>&nbsp&nbsp<a href="#childrel">Child Tables</a>
+<p></p>
+<a name="table"></a>
+<font size="+1">Table Definition</font><br>
+<h3> Description: This table is used to record the alternate id's for a plan.</h3>
+<table width="700" border="1">
+<tr>
+<th width="170">Field</th>
+<th width="95">Datatype</th>
+<th width="50">Default</th>
+<th width="50">Null Option</th>
+<th width="335">Comment</th>
+</tr>
+
+<tr>
+<td width="170" valign="top">PlanID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">AidClass</td>
+<td width="95" valign="top">CHARACTER(3)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Developer supplied class.  Valid values are:
+
+D - provider (doctor)
+E - EDI 
+I - plan (insurance) 
+ID - insurance provider
+IP - insurance practice
+P - person
+S - service center
+F - finance center
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">AidTag</td>
+<td width="95" valign="top">CHARACTER(8)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">User entered ID Tag used to label an ID number for an entity assigned to an alternate ID class.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ProviderClass</td>
+<td width="95" valign="top">CHARACTER(3)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Developer supplied class.  Valid values are:
+
+D - provider (doctor)
+E - EDI 
+I - plan (insurance) 
+ID - insurance provider
+IP - insurance practice
+P - person
+S - service center
+F - finance center
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ProviderTag</td>
+<td width="95" valign="top">CHARACTER(8)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">User entered ID Tag used to label an ID number for an entity assigned to an alternate ID class.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ID</td>
+<td width="95" valign="top">CHARACTER(20)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">The alternate id for the associated alternate id tag.  User entered.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Options</td>
+<td width="95" valign="top">CHARACTER(20)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Options for the alternate id.  User entered.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was last written.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that last wrote the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was created.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that created the record.</td>
+</tr>
+
+</table>
+
+
+
+<p>
+<font size="+1">Parent Tables</font><br>
+<a name="parentrel"></a>
+<table width="700" border="1">
+<tr><th width="170">Parent Table</th><th>Join Phrase</th><th>When deleting parent record...</th></tr>
+
+<tr><td><a href="AlternateID.htm">AlternateID</a></td>
+<td>PlanAltID.ProviderClass = AlternateID.AidClass and<br>
+    PlanAltID.ProviderTag = AlternateID.AidTag</td>
+<td>RESTRICT if PlanAltID exists</td>
+</tr>
+
+<tr><td><a href="AlternateID.htm">AlternateID</a></td>
+<td>PlanAltID.AidClass = AlternateID.AidClass and<br>
+    PlanAltID.AidTag = AlternateID.AidTag</td>
+<td>CASCADE if PlanAltID exists</td>
+</tr>
+
+<tr><td><a href="Plan.htm">Plan</a></td>
+<td>PlanAltID.PlanID = Plan.PlanID</td>
+<td>CASCADE if PlanAltID exists</td>
+</tr>
+
+</table>
+<p></p>
+<a name="childrel"></a>
+<font size="+1">Child Tables</font><br>
+<table width="700" border="1">
+<tr><th width="170">Child Table</th><th>Join Phrase</th><th>When deleting PlanAltID record...</th></tr>
+
+</table>
+<p>
+
+</p></body>
+</html>

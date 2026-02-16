@@ -1,0 +1,301 @@
+
+<html>
+<head><link rel="stylesheet" type="text/css" href="include/style.css"></head>
+<body>
+<p class="left">Last Updated: 9/24/2025 12:09:38 PM</p><p class="left">Intergy Version: 22.00.00.00</p>
+<p><font size="+2">MedcinFinding</font><font face="Arial" size="#"></font><p>
+<a href="#table">Table Definition</a>&nbsp&nbsp<a href="#parentrel">Parent Tables</a>&nbsp&nbsp<a href="#childrel">Child Tables</a>
+<p></p>
+<a name="table"></a>
+<font size="+1">Table Definition</font><br>
+<h3> Description: This table stores the medcin finding data.</h3>
+<table width="700" border="1">
+<tr>
+<th width="170">Field</th>
+<th width="95">Datatype</th>
+<th width="50">Default</th>
+<th width="50">Null Option</th>
+<th width="335">Comment</th>
+</tr>
+
+<tr>
+<td width="170" valign="top">MedcinID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+0
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Medcin ID that uniquely identifies the finding.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">FullDescription</td>
+<td width="95" valign="top">CHARACTER(60)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">The description of the finding independent of its position in the Medcin hierarchy</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PartialDescription</td>
+<td width="95" valign="top">CHAR(80)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">The description of the finding relative to its parent finding's full description</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">NodeKey</td>
+<td width="95" valign="top">CHARACTER(20)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Uniquely identifies the location of the finding with the Medcin hierarchy.  The nodekey can change with each version of the Medcin knowledgebase.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TermType</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+0
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Numeric code representing the type of medical term as represented in the Medcin hierarchy.  Allowed values must be defined in the MedcinTermType lookup type.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RetiredFlag</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+No_Value__N_
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Flag indicating whether the finding is retired.  A retired finding does not display in the Medcin hierarchy, though it still exists in the knowledgebase.  Default value is 'N'.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">YesIsNormalFlag</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+No_Value__N_
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Flag indicating whether answering "Yes" to a finding is equivalent to a medically normal result.  Default value is 'N'.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">NonMedicalFlag</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+No_Value__N_
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Flag indicating when a finding is not available in the Medcin hierarchy because it exists solely for proprietary reasons.  Defaule value is 'N'.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">HasChildrenFlag</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+No_Value__N_
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Flag indicating that a finding has children in the Medcin hierarchy.  Default value is 'N'.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Gender</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Indicates when a finding is gender-specific.  Valid values are 'M'ale, 'F'emale.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Specialty</td>
+<td width="95" valign="top">CHARACTER(8)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Contains multiple 1-character codes representing specialties relevant to the finding.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">MedcinProcedureCode</td>
+<td width="95" valign="top">CHARACTER(6)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Medcin supplied Procedure Code.  Note: May not exist in Intergy Procedure Code.
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">MedcinDiagnosisCode</td>
+<td width="95" valign="top">CHAR(8)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Medcin supplied Diagnosis Code.  Note: May not exist in Intergy Diagnosis Code.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">StandardUnit</td>
+<td width="95" valign="top">CHARACTER(16)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Standard unit of measure for the finding.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">MinAge</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+0
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Minimum age (in minutes) relevant to the finding.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">MaxAge</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+0
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Maximum age (in minutes) relevant to the finding.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was last written.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that last wrote the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was created.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that created the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ProcedureModifier</td>
+<td width="95" valign="top">CHAR(2)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">The procedure modifier associated with this finding.</td>
+</tr>
+
+</table>
+
+
+
+<p>
+<font size="+1">Parent Tables</font><br>
+<a name="parentrel"></a>
+<table width="700" border="1">
+<tr><th width="170">Parent Table</th><th>Join Phrase</th><th>When deleting parent record...</th></tr>
+
+</table>
+<p></p>
+<a name="childrel"></a>
+<font size="+1">Child Tables</font><br>
+<table width="700" border="1">
+<tr><th width="170">Child Table</th><th>Join Phrase</th><th>When deleting MedcinFinding record...</th></tr>
+
+
+
+
+
+
+
+</table>
+<p>
+
+</p></body>
+</html>

@@ -1,0 +1,144 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intergy EHI Export</title>
+    <meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+    <meta name=Generator content="Microsoft Word 15 (filtered)">
+    <link rel="stylesheet" type="text/css" href="./assets/ehistyle.css" />
+	<style>
+	li {
+	margin-bottom: 10px;
+	}
+	</style>
+</head>
+
+	<body>
+		<nav id="Top" class="navbar">
+            <a href="../"><img class="logo" src="./assets/GW_Logo_White.png" alt="Greenway Health"></a>
+        </nav>
+
+		<main class="content">
+			<section class="bread-crumbs">
+				<a href="../default.htm">Home</a>
+				<span>></span>
+				<span>Intergy EHI Export</span>
+			  </section>
+			<h1>Intergy EHI Export</h1>
+
+			<p>In Intergy, the Single Patient and Patient Population EHI Export is built to enable patients and health organizations to have improved access and portability of health information. The EHI Export package contains multiple sets of files to support both the Single Patient and Patient Population Export.  </p>
+			<p>The minimum supported version for EHI export is: Intergy version 21.24.00.00</p>
+			 <div class="header-buttons">
+				<a class="button-primary" href="./EHI/Viewer/index.html">Data Tables</a>
+			</div></br>
+		
+		<h2>Single Patient Export</h2>
+		
+		<p>The following files are provided as part of the Intergy's Single Patient EHI Export package:
+		<ul>
+		<li><p><b>Documents</b>. The Documents folder contains Patient Clinical Documents, Images, and other Clinical Summary documents stored in the chart.
+		In this folder, the user will see files, such as GenFile in JPEG format and TMSCatalog in ZIP format. 
+		The General Images are stored as GenFile with a unique GenFileSID and the Patient Clinical Documents are stored as TMSCatalog with a unique CatalogSID in the database.</p>
+
+		<p><i><b>Note:</b> The Documents are exported as ZIP files and contain an embedded RTF/PDF/DOC file. In some cases, the embedded document can be a ZIP file that can still be opened in Adobe Viewer or Word or WordPad, and other editors. In this case, rename the file with the .RTF extension before opening in the editor.</i></li></p>
+
+		<li><p><b>Images</b>. The Images folder includes the patient images (like X-rays) along with their annotations, imaged supporting documents (like advance directives), imaged diagnostic imaging/procedure reports, impressions, and more in TIF and Video Clip format. The annotations are the separate XML files with an extension of .ann where the user's/provider's annotations are exported as a base64 encoded string.</p>
+		<p>Some images within the index do not bear a file extension.  For these files, a user or program may drop the file directly into a document processing program (such as Microsoft Word, Google Docs, etc.) and the image will open. It can then be viewed, stored, or converted to a new format.</p></li>
+
+		<li><p><b>Tables</b>. The Tables folder includes information about each database table that was exported. The user can see the table details with table fields in the CSV format. For information about the data included in each table, refer to the <a href="./EHI/Viewer/index.html">Data Tables.</a></p>
+		<p><i><b>Note</b>: In the table, the description "FK (Foreign Key)" means that the field is referencing details from the Parent table where it was originated in the database. The default value "?" means that the value defined for that table field in the database is null or empty.</i></li></p>
+		</ul>
+
+		</p>
+
+		<h2>Patient Population Export</h2>
+		<p>The following files are provided as part of the Intergy's Patient Population EHI Export package:
+		<ul>
+		<li><p><b>Documents</b>. The Documents folder contains all the documents in the system including blob data (raw data) in ZIP format. The user will see folders, such as <b>GenFileBlob</b>, <b>TMSCatalogBlob</b>, and <b>PracPersonSecureMsgBlob</b>. Each folder has an upper limit of 10,000 documents. If the limit is exceeded,  the documents are exported into multiple folders depending on the number of documents available in the system.</p>
+		<p>For <b>GenFileBlob</b>, files may be exported as several types of extension. If the file fails to open when selected, the file should be renamed from the current file extension (.jpg) to .zip. Files can then be extracted from the zipped folder as their intended extension, which can be for any file type (for example: .cfp, .cfm, .sch, .rdf, .doc, .txt). Files that require unzipping are a type that is not included in the single-patient EHI export as they may contain several patients' data (ex: HCFA-1500 forms, report templates, etc.). The data in these files is available in other tables within the export. For this reason, users may wish to ignore these files when interpreting their export.</p>
+		
+		<p>Regarding <b>TMSCatalogBlob</b>, although the export contains a TMSCatalogBlob table, as documented in the Data Dictionary, it is not a table listing for the blob tables. Instead, the <b>TMSCatalog.csv</b> file serves as an index of the <b>"Documents\TMSCatalogBlob"</b> folder contents. Each record in TMSCatalog.csv includes a CatalogSID that maps directly to a ZIP file in the TMSCatalogBlob folder. For example, a record with CatalogSID = 27 in the CSV corresponds to the _27.zip file in the folder.</p>
+		<img src="./assets/tmscatalogblob.jpg" alt="tmscatalogblob example">
+		</li>
+
+		<li><p><b>Images</b>. All Images in the system are exported in TAR Format. Each tar file has an upper limit of 5GB. The naming convention of each tar file depends on the storage device from which the image has been exported. The ImageIndexFile.csv file in the folder contains the path of the images. To view an image, unzip the respective TAR file. Refer to the path in the Image Index File and find the required image. The TAR file can be unzipped using an archiving application, such as 7Zip, WinRAR, or gzip.</p>
+		<p>Some images within the index do not bear a file extension.  For these files, a user or program may drop the file directly into a document processing program (such as Microsoft Word, Google Docs, etc.) and the image will open. It can then be viewed, stored, or converted to a new format.</p></li>
+
+		<li><p><b>Tables</b>. The Tables folder includes all the tables containing EHI that have been exported in the CSV format. This data may be viewed in Microsoft Excel or other spreadsheet applications. For information about the data included in each table, refer to the <a href="./EHI/Viewer/index.html">Data Tables.</a></p></li>
+		
+		<li><p><b>Bulk Export Status</b>. This file in CSV format shows the status of each table, document, and image exported. This status file consists of Table Name and Success/Failure indicating if a table/document/image export was completed successfully or with an error.</p></li>
+		</ul>
+		</p>
+	<h2>Intergy EHI Export Notes</h2>
+	<p>The MEDCIN Findings for both Single Patient and Patient Population export are indicated as:</p>
+<p><strong>Pregnancy Findings:</strong> When the <strong>PatientProblem</strong> table is exported, there could be a <strong>PatientProblem</strong> record indicating that the patient is pregnant. When MEDCIN finding <strong>30596</strong> is present in the export this indicates SNOMED <strong>77386006 Pregnancy (finding)</strong> or ICD-10 code <strong>Z33.1 Pregnant state, incidental</strong>.</p>
+<p><strong>Smoking Status Findings:</strong> When exporting the <strong>EncounterFinding</strong> table, the patient <strong>Smoking Status</strong> is logged under the <strong>EncounterFinding</strong> record with <strong>MedcinID</strong> and <strong>ClinicalLookupType</strong>. When MEDCIN finding <strong>100000511</strong> is present in the export, this indicates the smoking status for the patient defined by the SNOMED codes.</p>
+<p>The <strong>Intergy ClinicalLookupCode</strong> and <strong>Smoking Status</strong> along with the <strong>Standard SNOMED Code</strong> is shown below.</p>
+
+<table>
+<tr>
+<th>Intergy ClinicalLookupCode</th>
+<th>Smoking Status</th>
+<th>SNOMED code</th>
+<th>SNOMED Description</th>
+</tr>
+<tr>
+<td>1</td>
+<td>CURRENT EVERYDAY SMOKER</td>
+<td>449868002</td>
+<td>Smokes tobacco daily (finding)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>CURRENT SOME DAY SMOKER</td>
+<td>428041000124106</td>
+<td>Occasional tobacco smoker (finding)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>FORMER SMOKER</td>
+<td>8517006</td>
+<td>Ex-smoker (finding)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>NEVER SMOKER</td>
+<td>266919005</td>
+<td>Never smoked tobacco (finding)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>SMOKER STATUS UNKNOWN</td>
+<td>77176002</td>
+<td>Smoker (finding)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>UNKNOWN SMOKER</td>
+<td>266927001</td>
+<td>Tobacco smoking consumption unknown (finding)</td>
+</tr>
+<tr>
+<td>7</td>
+<td>HEAVY SMOKER</td>
+<td>428071000124103</td>
+<td>Heavy tobacco smoker (finding)</td>
+</tr>
+<tr>
+<td>8</td>
+<td>LIGHT SMOKER</td>
+<td>428061000124105</td>
+<td>Light tobacco smoker (finding)</td>
+</tr>
+</table>
+&nbsp;	
+
+		</main>
+
+		<footer class="footer"></footer>
+
+
+	</body>
+
+</html>

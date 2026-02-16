@@ -1,0 +1,348 @@
+
+<html>
+<head><link rel="stylesheet" type="text/css" href="include/style.css"></head>
+<body>
+<p class="left">Last Updated: 9/24/2025 12:09:38 PM</p><p class="left">Intergy Version: 22.00.00.00</p>
+<p><font size="+2">CLWCorrespondence</font><font face="Arial" size="#"></font><p>
+<a href="#table">Table Definition</a>&nbsp&nbsp<a href="#parentrel">Parent Tables</a>&nbsp&nbsp<a href="#childrel">Child Tables</a>
+<p></p>
+<a name="table"></a>
+<font size="+1">Table Definition</font><br>
+<h3> Description: This table holds the clinical letter writer system's correspondence. The actually document is maintained as a TMSCatalog.</h3>
+<table width="700" border="1">
+<tr>
+<th width="170">Field</th>
+<th width="95">Datatype</th>
+<th width="50">Default</th>
+<th width="50">Null Option</th>
+<th width="335">Comment</th>
+</tr>
+
+<tr>
+<td width="170" valign="top">CLWCorrespondenceSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">System-generated unique identifier of CLW Correspondence. Generated using the CLWCorrespondence sequence</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CLWTemplateSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK to CLWTemplate.
+This is the template that was, or will be used to generate the Correspondence document.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PracticeID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">StaffID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PatientID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">EncounterSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK to Encounter</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RefDoctorID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK to RefDoctor
+This is the 'to provider' for the correspondence.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PlanID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK from Plan</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CompanyID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK to Company</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">SendVia</td>
+<td width="95" valign="top">CHAR(8)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">'Send To' setting for the recipient. Allowed values must be defined in CLWViaType lookup type. Initial lookup codes will include Print, Fax</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">SendStatus</td>
+<td width="95" valign="top">CHAR(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">System defined. Send status for the correspondence document. Field is supported by the lookup types:[CLWSendStatus].  Values are defined in the LookupCode table for the above lookup types.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CatalogSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK to TMSCatalog</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was last written.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that last wrote the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was created.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that created the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DocumentEdited</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Allowed values are Y(es) and N(o).  The field will be used to keep track of whether the user edited the correspondence document after the data merge.
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PatientOrderSetSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - PatientOrderSet</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ServiceCenterID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK to ServiceCenter</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">SendTo</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">The type of recipient of the correspondence. Valid values will be: (I)nsurance, (P)atient, (E)mployer, (R)eferring Provider, and (F)acility.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">FHIRType</td>
+<td width="95" valign="top">CHAR(8)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FHIR Type of correspondence document.(Lookup type - FHIRType)</td>
+</tr>
+
+</table>
+
+
+
+<p>
+<font size="+1">Parent Tables</font><br>
+<a name="parentrel"></a>
+<table width="700" border="1">
+<tr><th width="170">Parent Table</th><th>Join Phrase</th><th>When deleting parent record...</th></tr>
+
+<tr><td><a href="ServiceCenter.htm">ServiceCenter</a></td>
+<td>CLWCorrespondence.ServiceCenterID = ServiceCenter.ServiceCenterID</td>
+<td>RESTRICT if CLWCorrespondence exists</td>
+</tr>
+
+<tr><td><a href="PatientOrderSet.htm">PatientOrderSet</a></td>
+<td>CLWCorrespondence.PatientOrderSetSID = PatientOrderSet.PatientOrderSetSID</td>
+<td>SET NULL if CLWCorrespondence exists</td>
+</tr>
+
+<tr><td><a href="Company.htm">Company</a></td>
+<td>CLWCorrespondence.CompanyID = Company.CompanyID</td>
+<td>SET NULL if CLWCorrespondence exists</td>
+</tr>
+
+<tr><td><a href="TMSCatalog.htm">TMSCatalog</a></td>
+<td>CLWCorrespondence.CatalogSID = TMSCatalog.CatalogSID</td>
+<td>CASCADE if CLWCorrespondence exists</td>
+</tr>
+
+<tr><td><a href="Plan.htm">Plan</a></td>
+<td>CLWCorrespondence.PlanID = Plan.PlanID</td>
+<td>SET NULL if CLWCorrespondence exists</td>
+</tr>
+
+<tr><td><a href="RefDoctor.htm">RefDoctor</a></td>
+<td>CLWCorrespondence.RefDoctorID = RefDoctor.RefDoctorID</td>
+<td>RESTRICT if CLWCorrespondence exists</td>
+</tr>
+
+<tr><td><a href="Encounter.htm">Encounter</a></td>
+<td>CLWCorrespondence.EncounterSID = Encounter.EncounterSID</td>
+<td>SET NULL if CLWCorrespondence exists</td>
+</tr>
+
+<tr><td><a href="Patient.htm">Patient</a></td>
+<td>CLWCorrespondence.PracticeID = Patient.PracticeID and<br>
+    CLWCorrespondence.PatientID = Patient.PatientID</td>
+<td>RESTRICT if CLWCorrespondence exists</td>
+</tr>
+
+<tr><td><a href="Staff.htm">Staff</a></td>
+<td>CLWCorrespondence.PracticeID = Staff.PracticeID and<br>
+    CLWCorrespondence.StaffID = Staff.StaffID</td>
+<td>RESTRICT if CLWCorrespondence exists</td>
+</tr>
+
+
+
+</table>
+<p></p>
+<a name="childrel"></a>
+<font size="+1">Child Tables</font><br>
+<table width="700" border="1">
+<tr><th width="170">Child Table</th><th>Join Phrase</th><th>When deleting CLWCorrespondence record...</th></tr>
+
+
+
+</table>
+<p>
+
+</p></body>
+</html>

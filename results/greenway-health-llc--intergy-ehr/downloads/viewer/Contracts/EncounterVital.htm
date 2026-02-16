@@ -1,0 +1,186 @@
+
+<html>
+<head><link rel="stylesheet" type="text/css" href="include/style.css"></head>
+<body>
+<p class="left">Last Updated: 9/24/2025 12:09:38 PM</p><p class="left">Intergy Version: 22.00.00.00</p>
+<p><font size="+2">EncounterVital</font><font face="Arial" size="#"></font><p>
+<a href="#table">Table Definition</a>&nbsp&nbsp<a href="#parentrel">Parent Tables</a>&nbsp&nbsp<a href="#childrel">Child Tables</a>
+<p></p>
+<a name="table"></a>
+<font size="+1">Table Definition</font><br>
+<h3> Description: This table stores the vital values taken during the encounter.</h3>
+<table width="700" border="1">
+<tr>
+<th width="170">Field</th>
+<th width="95">Datatype</th>
+<th width="50">Default</th>
+<th width="50">Null Option</th>
+<th width="335">Comment</th>
+</tr>
+
+<tr>
+<td width="170" valign="top">EncounterVitalSetSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK - From EncounterVitalSet</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">VitalTypeSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK from VitalType</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RecordStatus</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+Record_Status_Active
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Status of the vital record.  Allowed values must be defined in RecordStatus lookup type.  Default value is 'A'.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">VitalValue</td>
+<td width="95" valign="top">DECIMAL(10,6)</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Vital value.  Stored in a standard unit of measure for the vital type, which is hard-coded in the programs that access it.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was last written.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that last wrote the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was created.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that created the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Note</td>
+<td width="95" valign="top">CHAR(28000)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Comment field for encounter vital sign</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">VitalUnit</td>
+<td width="95" valign="top">CHAR(12)</td>
+<td width="50" valign="top">
+
+
+Set_To_Empty_String
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Defines the unit of measure in which the vital value was entered.  The VitalValue reflects the standard UOM.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateDateTimeUTC</td>
+<td width="95" valign="top">DATETIME-TZ</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This is a denormalized field based off the CreateStamp. This field contains the Date, Time and timezone offset.</td>
+</tr>
+
+</table>
+
+
+
+<p>
+<font size="+1">Parent Tables</font><br>
+<a name="parentrel"></a>
+<table width="700" border="1">
+<tr><th width="170">Parent Table</th><th>Join Phrase</th><th>When deleting parent record...</th></tr>
+
+<tr><td><a href="VitalType.htm">VitalType</a></td>
+<td>EncounterVital.VitalTypeSID = VitalType.VitalTypeSID</td>
+<td>RESTRICT if EncounterVital exists</td>
+</tr>
+
+<tr><td><a href="EncounterVitalSet.htm">EncounterVitalSet</a></td>
+<td>EncounterVital.EncounterVitalSetSID = EncounterVitalSet.EncounterVitalSetSID</td>
+<td>CASCADE if EncounterVital exists</td>
+</tr>
+
+</table>
+<p></p>
+<a name="childrel"></a>
+<font size="+1">Child Tables</font><br>
+<table width="700" border="1">
+<tr><th width="170">Child Table</th><th>Join Phrase</th><th>When deleting EncounterVital record...</th></tr>
+
+
+
+</table>
+<p>
+
+</p></body>
+</html>

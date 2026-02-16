@@ -1,0 +1,582 @@
+
+<html>
+<head><link rel="stylesheet" type="text/css" href="include/style.css"></head>
+<body>
+<p class="left">Last Updated: 9/24/2025 12:09:38 PM</p><p class="left">Intergy Version: 22.00.00.00</p>
+<p><font size="+2">PatientOrderSet</font><font face="Arial" size="#"></font><p>
+<a href="#table">Table Definition</a>&nbsp&nbsp<a href="#parentrel">Parent Tables</a>&nbsp&nbsp<a href="#childrel">Child Tables</a>
+<p></p>
+<a name="table"></a>
+<font size="+1">Table Definition</font><br>
+<h3> Description: This table stores patient order header information.</h3>
+<table width="700" border="1">
+<tr>
+<th width="170">Field</th>
+<th width="95">Datatype</th>
+<th width="50">Default</th>
+<th width="50">Null Option</th>
+<th width="335">Comment</th>
+</tr>
+
+<tr>
+<td width="170" valign="top">PatientOrderSetSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">System-defined. System generated unique id using the "OMOrder" sequence.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PracticeID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK - Practice</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PatientID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK - Patient.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ProviderID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK - From Provider.  This is the ordering provider of the set of orders for the patient.  It could be different from the encounter provider.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">OrderSetType</td>
+<td width="95" valign="top">CHARACTER(6)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Indicates which type of OrderSet this is. Possible values: 'OMOrder', 'LabReq', 'Cardio'</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">EncounterSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - Encounter.  As of V4, Lab Orders will be stored in this table. Intergy and EHR PDA do not yet require Encounters for Lab Orders. Therefore, Encounter will not be required on this table. However, as a business rule to be enforced in code, all other order types must have an Encounter.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PatientOrderSetStatus</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Indicates status of the Patient Order Set. Possible values: re(Q)uested, (O)rdered, re(S)ulted, (C)losed, (V)oided).</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">SendToUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - MMUser.
+User currently responsible for work on the order. This field is updated by the system.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RefDoctorID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - RefDoctor.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Priority</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">User assigned Order Set priority.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DueDate</td>
+<td width="95" valign="top">DATE</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Order due date. The Order due date is user entered but defaulted based on the Order Group setup.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Comments</td>
+<td width="95" valign="top">CHAR(28000)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered comments regarding the order set.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was last written.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that last wrote the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was created.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that created the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">EnteredByStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Date/Time of when this Order was entered into the system.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">EnteredByUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User who entered the data into the system.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ResultsRequired</td>
+<td width="95" valign="top">LOGICAL</td>
+<td width="50" valign="top">
+
+
+Logical_False
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Indicates that results are required all of the line tems on the order.  Possible values: (Y)es (N)o</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DNOMOrderGroupSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Denormalized from OMOrderGroup.OMOrderGroupSID. This is the "OrderSet's Type".</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DNOMOrderSubGroupSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Denormalized from OMOrderGroup.OMOrderGroupSID. This is the OrderSet's "SubType Code"</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DNOpen</td>
+<td width="95" valign="top">LOGICAL</td>
+<td width="50" valign="top">
+
+
+Logical_True
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Indicates that an order is Open. This data is maintained by database triggers. It will be very helpful in the OpenOrders browser in IEHR. Ordered, Requested, and Resulted orders will be considered Open. Void, Closed orders will be considered closed.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">SupervisingProviderID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - Staff
+The provider responsible for approving the order before it is marked with an Ordered status.
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CosignActionDate</td>
+<td width="95" valign="top">DATE</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">The date that the current Cosign action status was set.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CosignActionStatus</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This represents the last action that was performed by the supervisor for this Order. 
+NULL - The Order does not require a Cosignature. The CosignActionDate will be NULL.
+'W' - Waiting on supervisor to cosign the Order. 
+'A'  - Approved by the Supervising Provider.
+'C' - Approved with changes by the Supervising Provider. 
+'D' Denied  by the Supervising Provider. 
+The order should also be voided. 
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RequestTaskUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - From MMUser
+User to receive the request task for the order.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">SignStatus</td>
+<td width="95" valign="top">CHAR(1)</td>
+<td width="50" valign="top">
+
+
+Alpha_-_O
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Sign Status of the Order. Possible values include -
+
+'O' to indicate that Order is Open. This mostly applies to previously created orders in the System.
+
+'U' to indicate that the Order is 'Unsigned'. Meaning saved in the System and is pending a review by Encounter Provider. 
+
+'S' to indicate that Order is 'Signed'. Meaning reviewed and/or saved by Encounter Provider.
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">SignStamp</td>
+<td width="95" valign="top">CHAR(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Date/Time of when this Order was Signed by the user.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">SignUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+0
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User Id of the user that Signed the Order into the system.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RelayMethod</td>
+<td width="95" valign="top">CHAR(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This represents how the Order was relayed to the User. Possible values are defined by the OrderRelayMethod LookupType.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RefAuthNumber</td>
+<td width="95" valign="top">CHAR(30)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Referral authorization number.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PatientOrderCloseReason</td>
+<td width="95" valign="top">CHARACTER(6)</td>
+<td width="50" valign="top">
+
+
+Set_To_Empty_String
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Used for selecting the reason for closing an order that was not performed. Defined by OrderCloseReason LookupType.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateDateTimeUTC</td>
+<td width="95" valign="top">DATETIME-TZ</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This is a denormalized field based off the CreateStamp. This field contains the Date, Time and timezone offset.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">EnteredByStampUTC</td>
+<td width="95" valign="top">DATETIME-TZ</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This is a denormalized field based off the EnteredByStamp. This field contains the Date, Time and timezone offset.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStampUTC</td>
+<td width="95" valign="top">DATETIME-TZ</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This is a denormalized field based off the TimeStamp. This field contains the Date, Time and timezone offset.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">OrderGroupType</td>
+<td width="95" valign="top">CHARACTER(6)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System-defined categorization of Order Group's Type. Used to support logic only relevant to some Order Groups. Possible Values : (Ref)erral</td>
+</tr>
+
+</table>
+
+
+
+<p>
+<font size="+1">Parent Tables</font><br>
+<a name="parentrel"></a>
+<table width="700" border="1">
+<tr><th width="170">Parent Table</th><th>Join Phrase</th><th>When deleting parent record...</th></tr>
+
+<tr><td><a href="MMUser.htm">MMUser</a></td>
+<td>PatientOrderSet.RequestTaskUser = MMUser.MMUserSID</td>
+<td>RESTRICT if PatientOrderSet exists</td>
+</tr>
+
+<tr><td><a href="Staff.htm">Staff</a></td>
+<td>PatientOrderSet.PracticeID = Staff.PracticeID and<br>
+    PatientOrderSet.SupervisingProviderID = Staff.StaffID</td>
+<td>RESTRICT if PatientOrderSet exists</td>
+</tr>
+
+<tr><td><a href="Provider.htm">Provider</a></td>
+<td>PatientOrderSet.ProviderID = Provider.ProviderID</td>
+<td>RESTRICT if PatientOrderSet exists</td>
+</tr>
+
+<tr><td><a href="MMUser.htm">MMUser</a></td>
+<td>PatientOrderSet.SendToUser = MMUser.MMUserSID</td>
+<td>RESTRICT if PatientOrderSet exists</td>
+</tr>
+
+<tr><td><a href="Patient.htm">Patient</a></td>
+<td>PatientOrderSet.PracticeID = Patient.PracticeID and<br>
+    PatientOrderSet.PatientID = Patient.PatientID</td>
+<td>RESTRICT if PatientOrderSet exists</td>
+</tr>
+
+<tr><td><a href="Encounter.htm">Encounter</a></td>
+<td>PatientOrderSet.EncounterSID = Encounter.EncounterSID</td>
+<td>SET NULL if PatientOrderSet exists</td>
+</tr>
+
+<tr><td><a href="RefDoctor.htm">RefDoctor</a></td>
+<td>PatientOrderSet.RefDoctorID = RefDoctor.RefDoctorID</td>
+<td>SET NULL if PatientOrderSet exists</td>
+</tr>
+
+</table>
+<p></p>
+<a name="childrel"></a>
+<font size="+1">Child Tables</font><br>
+<table width="700" border="1">
+<tr><th width="170">Child Table</th><th>Join Phrase</th><th>When deleting PatientOrderSet record...</th></tr>
+
+
+
+<tr><td><a href="Charge.htm">Charge</a></td>
+<td>Charge.PatientOrderSetSID = PatientOrderSet.PatientOrderSetSID</td>
+<td>RESTRICT if Charge exists </td>
+</tr>
+
+
+
+<tr><td><a href="CardioOrder.htm">CardioOrder</a></td>
+<td>CardioOrder.PatientOrderSetSID = PatientOrderSet.PatientOrderSetSID</td>
+<td>SET NULL if CardioOrder exists </td>
+</tr>
+
+<tr><td><a href="PatientOrderSetResult.htm">PatientOrderSetResult</a></td>
+<td>PatientOrderSetResult.PatientOrderSetSID = PatientOrderSet.PatientOrderSetSID</td>
+<td>CASCADE if PatientOrderSetResult exists </td>
+</tr>
+
+<tr><td><a href="LabOrder.htm">LabOrder</a></td>
+<td>LabOrder.PatientOrderSetSID = PatientOrderSet.PatientOrderSetSID</td>
+<td>SET NULL if LabOrder exists </td>
+</tr>
+
+
+
+
+
+<tr><td><a href="PatientOMOrderSet.htm">PatientOMOrderSet</a></td>
+<td>PatientOMOrderSet.PatientOrderSetSID = PatientOrderSet.PatientOrderSetSID</td>
+<td>CASCADE if PatientOMOrderSet exists </td>
+</tr>
+
+<tr><td><a href="CLWCorrespondence.htm">CLWCorrespondence</a></td>
+<td>CLWCorrespondence.PatientOrderSetSID = PatientOrderSet.PatientOrderSetSID</td>
+<td>SET NULL if CLWCorrespondence exists </td>
+</tr>
+
+<tr><td><a href="PatientOrderSetAttr.htm">PatientOrderSetAttr</a></td>
+<td>PatientOrderSetAttr.PatientOrderSetSID = PatientOrderSet.PatientOrderSetSID</td>
+<td>CASCADE if PatientOrderSetAttr exists </td>
+</tr>
+
+<tr><td><a href="PatientOMOrderLineItem.htm">PatientOMOrderLineItem</a></td>
+<td>PatientOMOrderLineItem.PatientOrderSetSID = PatientOrderSet.PatientOrderSetSID</td>
+<td>CASCADE if PatientOMOrderLineItem exists </td>
+</tr>
+
+<tr><td><a href="PatientOrderSetActivity.htm">PatientOrderSetActivity</a></td>
+<td>PatientOrderSetActivity.PatientOrderSetSID = PatientOrderSet.PatientOrderSetSID</td>
+<td>CASCADE if PatientOrderSetActivity exists </td>
+</tr>
+
+</table>
+<p>
+
+</p></body>
+</html>

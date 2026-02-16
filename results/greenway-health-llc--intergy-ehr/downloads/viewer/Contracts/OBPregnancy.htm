@@ -1,0 +1,695 @@
+
+<html>
+<head><link rel="stylesheet" type="text/css" href="include/style.css"></head>
+<body>
+<p class="left">Last Updated: 9/24/2025 12:09:38 PM</p><p class="left">Intergy Version: 22.00.00.00</p>
+<p><font size="+2">OBPregnancy</font><font face="Arial" size="#"></font><p>
+<a href="#table">Table Definition</a>&nbsp&nbsp<a href="#parentrel">Parent Tables</a>&nbsp&nbsp<a href="#childrel">Child Tables</a>
+<p></p>
+<a name="table"></a>
+<font size="+1">Table Definition</font><br>
+<h3> Description: This table stores information regarding the pregnancy clinical case.</h3>
+<table width="700" border="1">
+<tr>
+<th width="170">Field</th>
+<th width="95">Datatype</th>
+<th width="50">Default</th>
+<th width="50">Null Option</th>
+<th width="335">Comment</th>
+</tr>
+
+<tr>
+<td width="170" valign="top">ClinicalCaseSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">System generated unique for the records on this table.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RecordStatus</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Record Status: Active (A), Inactive (I)</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PregnancyStatus</td>
+<td width="95" valign="top">CHAR(15)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">(A)ctive
+(H)istorical
+
+or
+
+Pregnant, but initial visit not-signed
+- Only initial visit may be edited
+Pregnant, initial visit signed
+- Only return visits may be created/edited
+Not pregnant, but pregnancy not signed
+- Only post-partum visits may be created/edited
+Not pregant, pregnancy signed.
+- Preganancy may not be edited.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">GestationalAge</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Gestational Age at Delivery time.
+
+This is a static value entered on the Delivery Info or Past Pregnancy form.
+
+This vlaue is stored in Days but the client reads/writes it in Weeks. Server code does the conversion. (This is to make is consistent with GA in OBEncounter.)
+
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LengthOfLabor</td>
+<td width="95" valign="top">DECIMAL(10,2)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Length of Labor in hrs.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">BirthCount</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Number of children delivered.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Anesthesia</td>
+<td width="95" valign="top">CHAR(15)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System defined. Type of Anesthesia used. Field is supported by the lookup types:[OBAnesthesia]. Values are defined in the LookupCode table for the above lookup types.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PlaceOfBirth</td>
+<td width="95" valign="top">CHAR(60)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Place where delivery happened.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Complications</td>
+<td width="95" valign="top">CHAR(5000)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Complications: Free text entered by the user.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Comments</td>
+<td width="95" valign="top">CHAR(5000)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Comments: Free text entered as comments on the delivery.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">BaseLineWeightLB</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+0
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Lb portion of the baseline weight of the patient at start of the pregnancy.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">BaseLineWeightOZ</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+0
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Oz portion of the baseline weight of the patient at start of the pregnancy.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PlannedFacilityID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - From Service Center table.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PlannedDeliveryType</td>
+<td width="95" valign="top">CHAR(15)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System defined. Planned Delivery Type to be used. Field is supported by the lookup types:[OBDeliveryType]. Values are defined in the LookupCode table for the above lookup types.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">AnesthesiaChoice</td>
+<td width="95" valign="top">CHAR(15)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System defined. Choice of type of Anesthesia to be used at the time of delivery. Field is supported by the lookup types:[OBAnesthType]. Values are defined in the LookupCode table for the above lookup types.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TubalLigation</td>
+<td width="95" valign="top">CHAR()</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Choice for Tubal Ligation at delivery time.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PediatricianID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - RefDoctor table.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Circumcision</td>
+<td width="95" valign="top">CHAR(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Choice of circumcision at delivery time.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">BirthPlanComments</td>
+<td width="95" valign="top">CHAR(5000)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Comments for Birthing plan: Free text entered by the user on birthing plan.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">BirthPlanUpdatedUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of the user last updated the birthing plan.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">BirthPlanUpdatedStamp</td>
+<td width="95" valign="top">CHAR(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Timestamp when the birthing plan was last updated.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LatestEDDSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">SID of the history record containing latest EDD.
+
+Not linked to OBEDDHistory.  If latest EDDSID is deleted, this field needs to be manually updated to point to the new latest EDDSID or set to NULL.
+
+DEPRECATED - OBSOLETE - NO LONGER USED
+
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LMPDate</td>
+<td width="95" valign="top">DATE</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Latest Value of the Last Menstual Periods (LMP) Date.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LMPFlag</td>
+<td width="95" valign="top">CHAR(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">LMP Flag: Is Normal (Y),  Is not Normal (N).</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PCDate</td>
+<td width="95" valign="top">DATE</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Latest value of Probable Conception Date.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">OnBCP</td>
+<td width="95" valign="top">CHAR(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">On Birth Control Pills Flag (Y/N).</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">HCGPosDate</td>
+<td width="95" valign="top">DATE</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Date when the HCG test came out positive.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">HCGFlag</td>
+<td width="95" valign="top">CHAR(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Type of HCG test done: 'urine' or 'serum'.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">HCGLevel</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+0
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">HCG Test result.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">UpdatedUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user who last udated this record.
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">UpdatedStamp</td>
+<td width="95" valign="top">CHAR(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Timestamp when this record was last updated.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TMSCatalogSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated document identifier.  The identifier value is obtained from the DOCUMENT sequence.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was last written.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that last wrote the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was created.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that created the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TransferredCareInFlag</td>
+<td width="95" valign="top">CHAR(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered.
+This field is Y if the pregnancy was first handled by a provider outside the practice.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TransferCareOutDate</td>
+<td width="95" valign="top">DATE</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Date care transferred to another practice</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TransferCareOutComment</td>
+<td width="95" valign="top">CHAR(5000)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Comment associated with transfer of care to another practice</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PrimaryProviderID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">MultipleFHRFlag</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Y/N flag indicating fetal heart rate for 2 fetuses</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">InitialCareDate</td>
+<td width="95" valign="top">DATE</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Date prenatal care was started (even if outside the practice).  This is used for FPAR reporting, Table 6B, Section B (as of 2008 spec).</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DeliveryProviderID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">The provider that delivered the baby. FK - From Provider</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PartnerName</td>
+<td width="95" valign="top">CHAR(60)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Partner name for the current pregnancy (Optional).</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PartnerRelToPatient</td>
+<td width="95" valign="top">CHAR(50)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Partner relationship to patient.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">HaveMetPartner</td>
+<td width="95" valign="top">CHAR(20)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Free-form text field for data relating to whether the provider has met the partner.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PartnerPhoneNumber</td>
+<td width="95" valign="top">CHAR(20)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Free-form text field for partner contact phone information.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DeliveryProviderName</td>
+<td width="95" valign="top">CHAR(60)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">The free text entered name of provider that delivered the baby when no ProviderID reference was available in the database.
+</td>
+</tr>
+
+</table>
+
+
+
+<p>
+<font size="+1">Parent Tables</font><br>
+<a name="parentrel"></a>
+<table width="700" border="1">
+<tr><th width="170">Parent Table</th><th>Join Phrase</th><th>When deleting parent record...</th></tr>
+
+<tr><td><a href="Provider.htm">Provider</a></td>
+<td>OBPregnancy.DeliveryProviderID = Provider.ProviderID</td>
+<td>SET NULL if OBPregnancy exists</td>
+</tr>
+
+<tr><td><a href="RefDoctor.htm">RefDoctor</a></td>
+<td>OBPregnancy.PrimaryProviderID = RefDoctor.RefDoctorID</td>
+<td>SET NULL if OBPregnancy exists</td>
+</tr>
+
+<tr><td><a href="TMSCatalog.htm">TMSCatalog</a></td>
+<td>OBPregnancy.TMSCatalogSID = TMSCatalog.CatalogSID</td>
+<td>SET NULL if OBPregnancy exists</td>
+</tr>
+
+<tr><td><a href="ServiceCenter.htm">ServiceCenter</a></td>
+<td>OBPregnancy.PlannedFacilityID = ServiceCenter.ServiceCenterID</td>
+<td>SET NULL if OBPregnancy exists</td>
+</tr>
+
+<tr><td><a href="RefDoctor.htm">RefDoctor</a></td>
+<td>OBPregnancy.PediatricianID = RefDoctor.RefDoctorID</td>
+<td>SET NULL if OBPregnancy exists</td>
+</tr>
+
+<tr><td><a href="ClinicalCase.htm">ClinicalCase</a></td>
+<td>OBPregnancy.ClinicalCaseSID = ClinicalCase.ClinicalCaseSID</td>
+<td>CASCADE if OBPregnancy exists</td>
+</tr>
+
+</table>
+<p></p>
+<a name="childrel"></a>
+<font size="+1">Child Tables</font><br>
+<table width="700" border="1">
+<tr><th width="170">Child Table</th><th>Join Phrase</th><th>When deleting OBPregnancy record...</th></tr>
+
+<tr><td><a href="OBPregnancyActivity.htm">OBPregnancyActivity</a></td>
+<td>OBPregnancyActivity.ClinicalCaseSID = OBPregnancy.ClinicalCaseSID</td>
+<td>CASCADE if OBPregnancyActivity exists </td>
+</tr>
+
+<tr><td><a href="OBEncounter.htm">OBEncounter</a></td>
+<td>OBEncounter.ClinicalCaseSID = OBPregnancy.ClinicalCaseSID</td>
+<td>CASCADE if OBEncounter exists </td>
+</tr>
+
+<tr><td><a href="OBPatient.htm">OBPatient</a></td>
+<td>OBPatient.CurrentPregnancySID = OBPregnancy.ClinicalCaseSID</td>
+<td>CASCADE if OBPatient exists </td>
+</tr>
+
+<tr><td><a href="OBBirth.htm">OBBirth</a></td>
+<td>OBBirth.ClinicalCaseSID = OBPregnancy.ClinicalCaseSID</td>
+<td>CASCADE if OBBirth exists </td>
+</tr>
+
+</table>
+<p>
+
+</p></body>
+</html>

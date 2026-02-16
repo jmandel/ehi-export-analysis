@@ -1,0 +1,537 @@
+
+<html>
+<head><link rel="stylesheet" type="text/css" href="include/style.css"></head>
+<body>
+<p class="left">Last Updated: 9/24/2025 12:09:38 PM</p><p class="left">Intergy Version: 22.00.00.00</p>
+<p><font size="+2">AccountBillItem</font><font face="Arial" size="#"></font><p>
+<a href="#table">Table Definition</a>&nbsp&nbsp<a href="#parentrel">Parent Tables</a>&nbsp&nbsp<a href="#childrel">Child Tables</a>
+<p></p>
+<a name="table"></a>
+<font size="+1">Table Definition</font><br>
+<h3> Description: This table is for reporting the items of a bill.</h3>
+<table width="700" border="1">
+<tr>
+<th width="170">Field</th>
+<th width="95">Datatype</th>
+<th width="50">Default</th>
+<th width="50">Null Option</th>
+<th width="335">Comment</th>
+</tr>
+
+<tr>
+<td width="170" valign="top">AccountSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">System generated account sid.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ActivityType</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+0
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Type of activity. 
+1 - Charge , 
+2 - Charge Void, 
+3 - Copay , 
+4 - Adjustment , 
+5 - RISStudy , 
+8 - Payment Assignment , 
+12 - Payment Reversal , 
+14 - Transfer , 
+16 - UC Assignment , 
+20 - UC Reversal , 
+24 - Rolled Up Account , 
+26 - Payment Void , 
+28 - Refund , 
+32 - Account Transfer In , 
+36 - Account Transfer Out , 
+40 - Admin Charge , 
+44 - Interest Charge , 
+48 - Separator (Used only for Statement/Receipt formatting purposes) , 
+50 - Payment Header, 
+52 - Appointment , 
+54 - Appointment Location Data and 
+60 - Finance Charge To Be Rolled Up</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ActivitySID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">SID of the activity of the current item. The activity SID can be ChargeSID, PaymentSID, AdjustmentSID, UnappliedCreditSID or RefundSID.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ActivityCount</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+0
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">This field is the number of the activity that has occurred against this statement item.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PatientID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">StaffCode</td>
+<td width="95" valign="top">CHARACTER(6)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Staff code.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Amount</td>
+<td width="95" valign="top">DECIMAL(10,2)</td>
+<td width="50" valign="top">
+
+
+0
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Amount of the charge.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ActivityDescription</td>
+<td width="95" valign="top">CHARACTER(60)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Description of adjustment.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PostDate</td>
+<td width="95" valign="top">DATE</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Post date of charge</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ChargeType</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Charge type indicates if the charge was a procedure charge or admin charge.   Possible values are (P)rocedure or (A)dmin.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">AdminChargeCode</td>
+<td width="95" valign="top">CHARACTER(10)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Administration charge code.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CurrentStatus</td>
+<td width="95" valign="top">CHARACTER(8)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Current status of charge.  User selects charge status.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DiagnosisCode</td>
+<td width="95" valign="top">CHARACTER(10)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Diagnosis codes for this charge (array of 4).</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DiagnosisDescription</td>
+<td width="95" valign="top">CHARACTER(60)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Diagnosis descriptions (array of 4).</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ProcedureCode</td>
+<td width="95" valign="top">CHARACTER(10)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Procedure code for the charge.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ProcedureDescription</td>
+<td width="95" valign="top">CHARACTER(60)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Description of the procedure for the charge.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TOSCode</td>
+<td width="95" valign="top">CHARACTER(3)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Type of service for the charge.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TOSDescription</td>
+<td width="95" valign="top">CHARACTER(60)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Type of service description.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">POSCode</td>
+<td width="95" valign="top">CHARACTER(3)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Place of service for the charge.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">POSDescription</td>
+<td width="95" valign="top">CHARACTER(60)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Place of service description.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PatientName</td>
+<td width="95" valign="top">CHAR(200)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Patient's name.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ApptDate</td>
+<td width="95" valign="top">DATE</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Date of next appointment.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ApptTime</td>
+<td width="95" valign="top">CHARACTER(5)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Time of next appointment.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ApptReason</td>
+<td width="95" valign="top">CHARACTER(60)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Reason for next appointment.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was last written.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that last wrote the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was created.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that created the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">SubType</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+0
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This field is used to define a sort order.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ApptProviderName</td>
+<td width="95" valign="top">CHAR(50)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Appointment Provider's Name first, last, suffix</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ApptLocationName</td>
+<td width="95" valign="top">CHARACTER(60)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Appt Location sort name</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ApptLocationLine1</td>
+<td width="95" valign="top">CHAR(20)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Appt Location address line 1</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ApptLocationLine2</td>
+<td width="95" valign="top">CHAR(20)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Appt Location address line 2</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ApptLocationCity</td>
+<td width="95" valign="top">CHAR(20)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Appt Location City</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ApptLocationState</td>
+<td width="95" valign="top">CHAR(2)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Appt Location State</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ApptLocationZip</td>
+<td width="95" valign="top">CHAR(10)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Appt Location Zip</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ApptLocationPhone</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Appt Location Phone</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ApptEquipmentDescription</td>
+<td width="95" valign="top">CHARACTER(60)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Appt Equipment's description</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ApptRoomDescription</td>
+<td width="95" valign="top">CHARACTER(60)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Appt Room's description</td>
+</tr>
+
+</table>
+
+
+
+<p>
+<font size="+1">Parent Tables</font><br>
+<a name="parentrel"></a>
+<table width="700" border="1">
+<tr><th width="170">Parent Table</th><th>Join Phrase</th><th>When deleting parent record...</th></tr>
+
+<tr><td><a href="AccountBill.htm">AccountBill</a></td>
+<td>AccountBillItem.AccountSID = AccountBill.AccountSID</td>
+<td>CASCADE if AccountBillItem exists</td>
+</tr>
+
+</table>
+<p></p>
+<a name="childrel"></a>
+<font size="+1">Child Tables</font><br>
+<table width="700" border="1">
+<tr><th width="170">Child Table</th><th>Join Phrase</th><th>When deleting AccountBillItem record...</th></tr>
+
+</table>
+<p>
+
+</p></body>
+</html>

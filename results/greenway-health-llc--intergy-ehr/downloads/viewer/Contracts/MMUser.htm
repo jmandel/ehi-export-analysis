@@ -1,0 +1,554 @@
+
+<html>
+<head><link rel="stylesheet" type="text/css" href="include/style.css"></head>
+<body>
+<p class="left">Last Updated: 9/24/2025 12:09:38 PM</p><p class="left">Intergy Version: 22.00.00.00</p>
+<p><font size="+2">MMUser</font><font face="Arial" size="#"></font><p>
+<a href="#table">Table Definition</a>&nbsp&nbsp<a href="#parentrel">Parent Tables</a>&nbsp&nbsp<a href="#childrel">Child Tables</a>
+<p></p>
+<a name="table"></a>
+<font size="+1">Table Definition</font><br>
+<h3> Description: This table is used to define users who may use the system.</h3>
+<table width="700" border="1">
+<tr>
+<th width="170">Field</th>
+<th width="95">Datatype</th>
+<th width="50">Default</th>
+<th width="50">Null Option</th>
+<th width="335">Comment</th>
+</tr>
+
+<tr>
+<td width="170" valign="top">MMUserSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">System generated user id using the security sequence.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Logon</td>
+<td width="95" valign="top">CHAR(80)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Logon name given to each user.  User entered</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Name</td>
+<td width="95" valign="top">CHARACTER(40)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Name of user.  User entered.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">UserType</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">User type codes are defined in the LookupCode table for the lookup type 'UserType'.  Codes for the lookup type 'UserType' are not user definable.  Acceptable codes are (L)ocal, (M)ulti Practice.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Class</td>
+<td width="95" valign="top">CHARACTER(8)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User class codes are defined in the LookupCode table for the lookup type 'UserClass'.  Codes for the lookup type 'UserClass' are user definable.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Password</td>
+<td width="95" valign="top">CHAR(40)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Password (system encrypted).  User entered.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PasswordSetDate</td>
+<td width="95" valign="top">DATE</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This date is set programmatically whenever the user changes their password.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ForcePasswordChange</td>
+<td width="95" valign="top">LOGICAL</td>
+<td width="50" valign="top">
+
+
+Logical_False
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This code is set programmatically when the password expires or by the user to indicate the user must change their password.  Change password status codes are defined in the LookupCode table for the lookup type 'Confirmation'.  Codes for the lookup type 'Confirmation' are not user definable.  Acceptable values are (Y)es and (N)o.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">AllowPasswordChange</td>
+<td width="95" valign="top">LOGICAL</td>
+<td width="50" valign="top">
+
+
+Logical_False
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User enters password allowed change code.  Password allowed change codes are defined in the LookupCode table for the lookup type 'Confirmation'.  Codes for the lookup type 'Confirmation' are not user definable.  Acceptable values are (Y)es and (N)o.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Administrator</td>
+<td width="95" valign="top">LOGICAL</td>
+<td width="50" valign="top">
+
+
+Logical_False
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Indicates if user is a system level administrator, (Y)es or (N)o.  Default is (N)o.  User entered.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RecordStatus</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+Record_Status_Active
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Record status indicates status of the user.  Valid values are (A)ctive or (I)nactive, (R)emoved.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was last written.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that last wrote the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was created.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that created the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PhoneNumber</td>
+<td width="95" valign="top">CHARACTER(20)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User's work phone number.  User entered.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PhoneExtension</td>
+<td width="95" valign="top">CHARACTER(6)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User's extension to the phone number.  User entered.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Email</td>
+<td width="95" valign="top">CHAR(254)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User's email address.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DeletedAccount</td>
+<td width="95" valign="top">LOGICAL</td>
+<td width="50" valign="top">
+
+
+Logical_False
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Indicates if the user has been deleted from the system.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">AllowCBO</td>
+<td width="95" valign="top">LOGICAL</td>
+<td width="50" valign="top">
+
+
+Logical_False
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered - Indicates whether user is CBO User.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LockoutEndTimeStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System defined - Indicates date and time of last account lockout (due to failed logon attempt).</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastLogonStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System set - Indicates last successful logon for user.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">UpgradeNotification</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User definable - If set to 'Y' then this user should receive notifications about upgrades.  If set to 'N' then this user should not receive any notifications about upgrades.
+
+Note - System Administrators will always be informed of upgrade notifications regardless of how this flag is set.
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">WinUsername</td>
+<td width="95" valign="top">CHARACTER(30)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">The fully dns-qualified or flat domain-credentialed windows username.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">AutoLogon</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Whether to automatically log a user onto Intergy.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">AllowAdminPHI</td>
+<td width="95" valign="top">LOGICAL</td>
+<td width="50" valign="top">
+
+
+Logical_True
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Is the user able to view PHI (protected health information) in the Practice and System Administration? When no, the user will be barred from some windows that contain PHI, such as File Archive Maintenance. Does not affect the Intergy desktop.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastName</td>
+<td width="95" valign="top">CHAR(20)</td>
+<td width="50" valign="top">
+
+
+Set_To_Empty_String
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">User entered last name of the user.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">FirstName</td>
+<td width="95" valign="top">CHAR(15)</td>
+<td width="50" valign="top">
+
+
+Set_To_Empty_String
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">User entered first name of the user.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">MiddleName</td>
+<td width="95" valign="top">CHAR(15)</td>
+<td width="50" valign="top">
+
+
+Set_To_Empty_String
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered middle name of the user.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">NameSuffix</td>
+<td width="95" valign="top">CHAR(20)</td>
+<td width="50" valign="top">
+
+
+Set_To_Empty_String
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered name suffix (e.g. Jr., M.D., etc.) of the user.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TelehealthRefreshToken</td>
+<td width="95" valign="top">CHARACTER(32000)</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Token for SSO in Telehealth</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">GISRefreshToken</td>
+<td width="95" valign="top">CHARACTER(100)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Token for getting Access Token from GIS to access Smart on FHIR apps.</td>
+</tr>
+
+</table>
+
+
+
+<p>
+<font size="+1">Parent Tables</font><br>
+<a name="parentrel"></a>
+<table width="700" border="1">
+<tr><th width="170">Parent Table</th><th>Join Phrase</th><th>When deleting parent record...</th></tr>
+
+</table>
+<p></p>
+<a name="childrel"></a>
+<font size="+1">Child Tables</font><br>
+<table width="700" border="1">
+<tr><th width="170">Child Table</th><th>Join Phrase</th><th>When deleting MMUser record...</th></tr>
+
+<tr><td><a href="Encounter.htm">Encounter</a></td>
+<td>Encounter.ProblemReconciliationUser = MMUser.MMUserSID</td>
+<td>NONE if Encounter exists </td>
+</tr>
+
+<tr><td><a href="Encounter.htm">Encounter</a></td>
+<td>Encounter.AllergyReconciliationUser = MMUser.MMUserSID</td>
+<td>NONE if Encounter exists </td>
+</tr>
+
+<tr><td><a href="Eligibility.htm">Eligibility</a></td>
+<td>Eligibility.RequestUserSID = MMUser.MMUserSID</td>
+<td>RESTRICT if Eligibility exists </td>
+</tr>
+
+
+
+
+
+<tr><td><a href="Encounter.htm">Encounter</a></td>
+<td>Encounter.MedicationReconciliationUser = MMUser.MMUserSID</td>
+<td>NONE if Encounter exists </td>
+</tr>
+
+
+
+
+
+<tr><td><a href="PolicyMember.htm">PolicyMember</a></td>
+<td>PolicyMember.BackImageScanUserID = MMUser.MMUserSID</td>
+<td>SET NULL if PolicyMember exists </td>
+</tr>
+
+<tr><td><a href="PolicyMember.htm">PolicyMember</a></td>
+<td>PolicyMember.FrontImageScanUserID = MMUser.MMUserSID</td>
+<td>SET NULL if PolicyMember exists </td>
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<tr><td><a href="PatientOrderSet.htm">PatientOrderSet</a></td>
+<td>PatientOrderSet.RequestTaskUser = MMUser.MMUserSID</td>
+<td>RESTRICT if PatientOrderSet exists </td>
+</tr>
+
+
+
+
+
+<tr><td><a href="PatientOrderSet.htm">PatientOrderSet</a></td>
+<td>PatientOrderSet.SendToUser = MMUser.MMUserSID</td>
+<td>RESTRICT if PatientOrderSet exists </td>
+</tr>
+
+
+
+
+
+
+
+<tr><td><a href="RefDoctor.htm">RefDoctor</a></td>
+<td>RefDoctor.MarketingRepUserID = MMUser.MMUserSID</td>
+<td>RESTRICT if RefDoctor exists </td>
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<tr><td><a href="TMSCatalog.htm">TMSCatalog</a></td>
+<td>TMSCatalog.OrigTranscriptionist = MMUser.MMUserSID</td>
+<td>SET NULL if TMSCatalog exists </td>
+</tr>
+
+
+
+
+
+
+
+<tr><td><a href="Provider.htm">Provider</a></td>
+<td>Provider.MMUserSID = MMUser.MMUserSID</td>
+<td>RESTRICT if Provider exists </td>
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+</table>
+<p>
+
+</p></body>
+</html>

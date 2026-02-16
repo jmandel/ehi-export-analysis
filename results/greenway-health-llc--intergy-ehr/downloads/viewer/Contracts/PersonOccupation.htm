@@ -1,0 +1,187 @@
+
+<html>
+<head><link rel="stylesheet" type="text/css" href="include/style.css"></head>
+<body>
+<p class="left">Last Updated: 9/24/2025 12:09:38 PM</p><p class="left">Intergy Version: 22.00.00.00</p>
+<p><font size="+2">PersonOccupation</font><font face="Arial" size="#"></font><p>
+<a href="#table">Table Definition</a>&nbsp&nbsp<a href="#parentrel">Parent Tables</a>&nbsp&nbsp<a href="#childrel">Child Tables</a>
+<p></p>
+<a name="table"></a>
+<font size="+1">Table Definition</font><br>
+<h3> Description: No Description Available</h3>
+<table width="700" border="1">
+<tr>
+<th width="170">Field</th>
+<th width="95">Datatype</th>
+<th width="50">Default</th>
+<th width="50">Null Option</th>
+<th width="335">Comment</th>
+</tr>
+
+<tr>
+<td width="170" valign="top">PersonID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK - Person</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">OccupationCode</td>
+<td width="95" valign="top">CHAR(300)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - Occupation</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">OccupationHireFuzzyDate</td>
+<td width="95" valign="top">CHAR(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">A "fuzzy" timestamp representing when the person was hired for this occupation. "Fuzzy" means the timestamp precision is variable. The hire date will be in one the following formats: YYYY, YYYY-MM, YYYY-MM-DD,</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">OccupationIndustryCode</td>
+<td width="95" valign="top">CHAR(20)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - OccupationIndustry</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastModifiedByPracticeID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK from Practice.
+The PracticeID of the 
+last
+practice that modified the occupation fields for the person
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastModifiedByDateTime</td>
+<td width="95" valign="top">DATETIME-TZ</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">The date, time and time zone offset the person occupation was modified.
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was last written.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that last wrote the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was created.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that created the record.</td>
+</tr>
+
+</table>
+
+
+
+<p>
+<font size="+1">Parent Tables</font><br>
+<a name="parentrel"></a>
+<table width="700" border="1">
+<tr><th width="170">Parent Table</th><th>Join Phrase</th><th>When deleting parent record...</th></tr>
+
+<tr><td><a href="Practice.htm">Practice</a></td>
+<td>PersonOccupation.LastModifiedByPracticeID = Practice.PracticeID</td>
+<td>CASCADE if PersonOccupation exists</td>
+</tr>
+
+<tr><td><a href="OccupationIndustry.htm">OccupationIndustry</a></td>
+<td>PersonOccupation.OccupationIndustryCode = OccupationIndustry.Code</td>
+<td>RESTRICT if PersonOccupation exists</td>
+</tr>
+
+<tr><td><a href="Occupation.htm">Occupation</a></td>
+<td>PersonOccupation.OccupationCode = Occupation.Code</td>
+<td>RESTRICT if PersonOccupation exists</td>
+</tr>
+
+<tr><td><a href="Person.htm">Person</a></td>
+<td>PersonOccupation.PersonID = Person.PersonID</td>
+<td>CASCADE if PersonOccupation exists</td>
+</tr>
+
+</table>
+<p></p>
+<a name="childrel"></a>
+<font size="+1">Child Tables</font><br>
+<table width="700" border="1">
+<tr><th width="170">Child Table</th><th>Join Phrase</th><th>When deleting PersonOccupation record...</th></tr>
+
+</table>
+<p>
+
+</p></body>
+</html>

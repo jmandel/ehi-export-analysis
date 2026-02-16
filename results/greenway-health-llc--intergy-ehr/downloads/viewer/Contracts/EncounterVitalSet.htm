@@ -1,0 +1,271 @@
+
+<html>
+<head><link rel="stylesheet" type="text/css" href="include/style.css"></head>
+<body>
+<p class="left">Last Updated: 9/24/2025 12:09:38 PM</p><p class="left">Intergy Version: 22.00.00.00</p>
+<p><font size="+2">EncounterVitalSet</font><font face="Arial" size="#"></font><p>
+<a href="#table">Table Definition</a>&nbsp&nbsp<a href="#parentrel">Parent Tables</a>&nbsp&nbsp<a href="#childrel">Child Tables</a>
+<p></p>
+<a name="table"></a>
+<font size="+1">Table Definition</font><br>
+<h3> Description: This table stores the encounter vital header record.</h3>
+<table width="700" border="1">
+<tr>
+<th width="170">Field</th>
+<th width="95">Datatype</th>
+<th width="50">Default</th>
+<th width="50">Null Option</th>
+<th width="335">Comment</th>
+</tr>
+
+<tr>
+<td width="170" valign="top">EncounterVitalSetSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">System-generated unique identifier of the vital. Uses 'Vitals' sequence.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">EncounterSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK - From Encounter</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RecordStatus</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+Record_Status_Active
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Status of the vital record.  Allowed values must be defined in RecordStatus lookup type.  Default value is 'A'.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">VitalDate</td>
+<td width="95" valign="top">DATE</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Date vitals were taken.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">VitalTime</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Time vitals were taken.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Note</td>
+<td width="95" valign="top">CHARACTER(500)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Note about the set of vitals (e.g. patient was nervous).</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was last written.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that last wrote the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was created.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that created the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">NoteStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Date time stamp when the Vital Note gets added/updated. This will be blank for all existing data prior to 5.00.00. Use the TimeStamp value instead.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">VitalDateTimeUTC</td>
+<td width="95" valign="top">DATETIME-TZ</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This is a denormalized field based off the VitalDate and VitalTime. This field contains the Date, Time and timezone offset.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">VitalPregnantEDD</td>
+<td width="95" valign="top">DATE</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">VitalPregnantEDD that is associated with this EncounterVitalSet</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">IsPatientPregnant</td>
+<td width="95" valign="top">LOGICAL</td>
+<td width="50" valign="top">
+
+
+Logical_False
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Deprecated (since Intergy 21.35), use PregnancyStatus</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStampUTC</td>
+<td width="95" valign="top">DATETIME-TZ</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This is a denormalized field based off the TimeStamp. This field contains the Date, Time and timezone offset.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">VitalSource</td>
+<td width="95" valign="top">CHARACTER(10)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Stores the name of the source that created the vitals</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PregnancyStatus</td>
+<td width="95" valign="top">CHAR(15)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Describes patient's current pregnancy state. Field is supported by Lookup Type: [PregnancyStatus], which is derived from ValueSet: [US Core Pregnancy Status Codes]. Values are defined in the LookupCode table for the above lookup types.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PregnancyIntent</td>
+<td width="95" valign="top">CHAR(15)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Describes patient's intent to become pregnant within a year. Field is supported by Lookup Type: [PregnancyIntent], which is derived from ValueSet: [US Core Pregnancy Intent Codes]. Values are defined in the LookupCode table for the above lookup types.
+</td>
+</tr>
+
+</table>
+
+
+
+<p>
+<font size="+1">Parent Tables</font><br>
+<a name="parentrel"></a>
+<table width="700" border="1">
+<tr><th width="170">Parent Table</th><th>Join Phrase</th><th>When deleting parent record...</th></tr>
+
+<tr><td><a href="Encounter.htm">Encounter</a></td>
+<td>EncounterVitalSet.EncounterSID = Encounter.EncounterSID</td>
+<td>CASCADE if EncounterVitalSet exists</td>
+</tr>
+
+</table>
+<p></p>
+<a name="childrel"></a>
+<font size="+1">Child Tables</font><br>
+<table width="700" border="1">
+<tr><th width="170">Child Table</th><th>Join Phrase</th><th>When deleting EncounterVitalSet record...</th></tr>
+
+
+
+<tr><td><a href="EncounterVital.htm">EncounterVital</a></td>
+<td>EncounterVital.EncounterVitalSetSID = EncounterVitalSet.EncounterVitalSetSID</td>
+<td>CASCADE if EncounterVital exists </td>
+</tr>
+
+</table>
+<p>
+
+</p></body>
+</html>

@@ -1,0 +1,237 @@
+
+
+
+
+● Read product research
+  $ cat /home/jmandel/hobby/ehi-export-analysis/results/greenway-health-llc--intergy-ehr/product-res
+  earch.md 2>/dev/null | head -200
+  └ 128 lines...
+
+● Read CHPL metadata
+  $ cat /home/jmandel/hobby/ehi-export-analysis/results/greenway-health-llc--intergy-ehr/chpl-metada
+  ta.json 2>/dev/null | head -50
+  └ 51 lines...
+
+● Probe the URL
+  $ mkdir -p /home/jmandel/hobby/ehi-export-analysis/results/greenway-health-llc--intergy-ehr/downlo
+  ads/enrichment && curl -sI -L "https://ehi.greenwayhealth.com/Intergy/IntergyEHIExport.html" -H
+  'User-Agent: Mozilla/5.0' 2>&1
+  └ 24 lines...
+
+The URL returns a 200 with 9266 bytes of HTML. Let me fetch and examine it.
+
+● Fetch and examine main page
+  $ curl -sL "https://ehi.greenwayhealth.com/Intergy/IntergyEHIExport.html" -H 'User-Agent:
+  Mozilla/5.0' -o /tmp/intergy-page.html && wc -c /tmp/intergy-page.html && echo "---TEXT---" && cat
+   /tmp/intergy-page.html | sed 's/<[^>]*>/ /g' | tr -s ' \n' | head -80
+  └ 80 lines...
+
+● Get remaining page text
+  $ # Get rest of page text
+  cat /tmp/intergy-page.html | sed 's/<[^>]*>/ /g' | tr -s ' \n' | tail -60
+  └ 50 lines...
+
+● Find links in page
+  $ # Get the full HTML to find links
+  grep -oiE 'href="[^"]*"' /tmp/intergy-page.html | head -30
+  echo "---"
+  grep -oiE 'href="[^"]*\.(pdf|zip|xlsx|xls|csv|json|doc|docx|yaml|yml|xml)[^"]*"'
+  /tmp/intergy-page.html...
+  └ 17 lines...
+
+There are 3 key links - the "Data Tables" link goes to `./EHI/Viewer/index.html`. Let me explore that and also check the parent page.
+
+● Fetch data tables viewer
+  $ curl -sL "https://ehi.greenwayhealth.com/Intergy/EHI/Viewer/index.html" -H 'User-Agent:
+  Mozilla/5.0' -o /tmp/intergy-viewer.html && wc -c /tmp/intergy-viewer.html && head -100
+  /tmp/intergy-viewer.html
+  └ 42 lines...
+
+● Check parent page
+  $ curl -sL "https://ehi.greenwayhealth.com/default.htm" -H 'User-Agent: Mozilla/5.0' -o
+  /tmp/intergy-parent.html && wc -c /tmp/intergy-parent.html && cat /tmp/intergy-parent.html | sed
+  's/<[^>]*>/ /g' | tr -s ' \n' | head -30
+  └ 29 lines...
+
+● Check parent page links
+  $ # Get all links from parent page and full text
+  grep -oiE 'href="[^"]*"' /tmp/intergy-parent.html
+  echo "---"
+  cat /tmp/intergy-parent.html | sed 's/<[^>]*>/ /g' | tr -s ' \n'
+  └ 63 lines...
+
+● Fetch data tables TOC
+  $ # Get the table of contents for data dictionary
+  curl -sL "https://ehi.greenwayhealth.com/Intergy/EHI/Viewer/Contracts/DBTOC.htm" -H 'User-Agent:
+  Mozilla/5.0' -o /tmp/intergy-toc.html && wc -c /tmp/intergy-toc.html && cat /tmp/intergy-toc.html
+  | sed 's/<[^>]*>/ /g' | tr -s ' \n' | head -80
+  └ 48 lines...
+
+The TOC is JavaScript-generated. Let me find the JS data file that contains the table list.
+
+● Full TOC HTML source
+  $ # Look at the full HTML source for the TOC to find JS includes
+  cat /tmp/intergy-toc.html
+  └ 51 lines...
+
+● Fetch TableSearch.js
+  $ curl -sL "https://ehi.greenwayhealth.com/Intergy/EHI/Viewer/Contracts/include/TableSearch.js" -H
+   'User-Agent: Mozilla/5.0' -o /tmp/intergy-tablesearch.js && wc -c /tmp/intergy-tablesearch.js &&
+  head -30 /tmp/intergy-tablesearch.js
+  └ 32 lines...
+
+● Fetch DB descriptions JS
+  $ # Get the DBDescriptions.js which contains the table list
+  curl -sL "https://ehi.greenwayhealth.com/Intergy/EHI/Viewer/Contracts/include/DBDescriptions.js"
+  -H 'User-Agent: Mozilla/5.0' -o /tmp/intergy-dbdesc.js && wc -c /tmp/intergy-dbdesc.js && head -50
+   /tmp/intergy-dbdesc.js
+  └ 52 lines...
+
+Now let me get the table count and find all the individual table HTML pages, then download everything systematically.
+
+● Extract table names
+  $ # Count tables and extract table names
+  grep -oP "Table\('([^']+)'" /tmp/intergy-dbdesc.js | sed "s/Table('//;s/'//" >
+  /tmp/intergy-tables.txt && wc -l /tmp/intergy-tables.txt && head -20 /tmp/intergy-tables.txt &&
+  echo "---TAIL---" && tail -20 /tmp/intergy-tables.txt
+  └ 43 lines...
+
+261 tables. Let me download a sample table page to understand the format, then download all of them.
+
+● Fetch sample table page
+  $ # Download a sample table page
+  curl -sL "https://ehi.greenwayhealth.com/Intergy/EHI/Viewer/Contracts/Account.htm" -H 'User-Agent:
+   Mozilla/5.0' -o /tmp/intergy-account.htm && wc -c /tmp/intergy-account.htm && head -80
+  /tmp/intergy-account.htm
+  └ 82 lines...
+
+Excellent - detailed table definitions with fields, datatypes, defaults, null options, comments, parent/child relationships. Let me download everything systematically.
+
+● Download base files
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/greenway-health-llc--intergy-ehr/downloads
+
+  # Save the main pages
+  curl -sL "https://ehi.greenwayhealth.com/Intergy/IntergyEHIExport.html" -H 'User-Agent:
+  Mozilla/5.0' -o IntergyEHIExport.html...
+  └ 28 lines...
+
+● Download all table pages
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/greenway-health-llc--intergy-ehr/downloads
+
+  # Download all 261 table HTML pages
+  cat /tmp/intergy-tables.txt | while read table; do
+    curl -sL "https://ehi.greenwayhealth.com/Intergy/EHI/Viewer/Contracts/${table}.htm" -H ...
+  └ 20 lines...
+
+All 262 table files downloaded. Now let me take a screenshot and build the enrichment scripts.
+
+● Verify downloads
+  $ # Check total size
+  du -sh
+  /home/jmandel/hobby/ehi-export-analysis/results/greenway-health-llc--intergy-ehr/downloads/
+  echo "---"
+  # Verify a few downloads aren't error pages...
+  └ 13 lines...
+
+Good. Now let me take a screenshot of the main page and the data dictionary viewer, then build the enrichment script.
+
+● chrome-devtools-navigate_page: https://ehi.greenwayhealth.com/Intergy/IntergyEHIExport.html
+  └ # navigate_page response
+
+● chrome-devtools-take_screenshot
+  └ # take_screenshot response
+
+● chrome-devtools-navigate_page: https://ehi.greenwayhealth.com/Intergy/EHI/Viewer/index.html
+  └ # navigate_page response
+
+● chrome-devtools-take_screenshot
+  └ # take_screenshot response
+
+Now let me build the enrichment script to extract structured JSON from all the HTML table pages.
+
+● Create results/greenway-health-llc--intergy-ehr/downloads/enrichment/extract-tables.ts (+176)
+
+● Run enrichment script
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/greenway-health-llc--intergy-ehr/downloads/en
+  richment && bun run extract-tables.ts
+  └ 4 lines...
+
+All 261 tables parsed with 4529 fields. Let me also extract the DBDescriptions for a quick lookup.
+
+● Verify enrichment output
+  $ # Verify output quality
+  cd /home/jmandel/hobby/ehi-export-analysis/results/greenway-health-llc--intergy-ehr/downloads/enri
+  chment
+  cat intergy-data-dictionary.json | python3 -c "import json,sys; d=json.load(sys.stdin); t=d[0];
+  print(json.dumps(t, indent=2))" | head -60
+  └ 61 lines...
+
+I see the default_value needs cleaning. Let me fix that.
+
+● Edit results/greenway-health-llc--intergy-ehr/downloads/enrichment/extract-tables.ts (+1 -1)
+
+● Re-run enrichment
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/greenway-health-llc--intergy-ehr/downloads/en
+  richment && bun run extract-tables.ts && cat intergy-data-dictionary.json | python3 -c "import
+  json,sys; d=json.load(sys.stdin); print(json.dumps(d[0]['fields'][:3], indent=2))"
+  └ 27 lines...
+
+Now create the README for enrichment.
+
+● Create results/greenway-health-llc--intergy-ehr/downloads/enrichment/README.md (+34)
+
+Now let me get file sizes for the manifest and write the final reports.
+
+● Get file sizes
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/greenway-health-llc--intergy-ehr/downloads
+  # Get all file sizes
+  find . -type f -exec stat --printf='%n\t%s\n' {} \; | sort
+  └ 279 lines...
+
+Now let me create the files.json manifest and the report.
+
+● Analyze table categories
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/greenway-health-llc--intergy-ehr/downloads
+  # Get a quick summary of table categories for the report
+  cat enrichment/intergy-data-dictionary.json | python3 -c "
+  import json, sys, collections
+  d = json.load(sys.stdin)...
+  └ 46 lines...
+
+● Generate files.json manifest
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/greenway-health-llc--intergy-ehr/downloads
+
+  # Build files.json using a script for accuracy
+  python3 << 'PYEOF'
+  import json, os...
+  └ 112 lines...
+
+Now write the report.
+
+● Create results/greenway-health-llc--intergy-ehr/ehi-export-report.md (+171)
+
+Let me verify the deliverables are complete.
+
+● Verify deliverables
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/greenway-health-llc--intergy-ehr
+  echo "=== Top-level files ==="
+  ls -la *.json *.md
+  echo ""
+  echo "=== Downloads structure ==="...
+  └ 51 lines...
+
+I notice 3 screenshots but I only took 2. Let me check — there may be an extra from an earlier session. Also, let me verify the files.json structure is correct.
+
+● Check png files
+  $ find /home/jmandel/hobby/ehi-export-analysis/results/greenway-health-llc--intergy-ehr/downloads
+  -name "*.png" -ls
+  └ 4 lines...
+
+The third is the Greenway logo (an asset). All good. Let me verify the JSON manifest is valid.
+
+● Validate files.json
+  $ python3 -c "import json; d=json.load(open('/home/jmandel/hobby/ehi-export-analysis/results/green
+  way-health-llc--intergy-ehr/files.json')); print(f'Valid JSON: {len(d[\"files\"])} files, status:
+  {d[\"access_status\"]}')"
+  └ 2 lines...
+

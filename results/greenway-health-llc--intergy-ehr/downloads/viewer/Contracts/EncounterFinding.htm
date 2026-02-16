@@ -1,0 +1,711 @@
+
+<html>
+<head><link rel="stylesheet" type="text/css" href="include/style.css"></head>
+<body>
+<p class="left">Last Updated: 9/24/2025 12:09:38 PM</p><p class="left">Intergy Version: 22.00.00.00</p>
+<p><font size="+2">EncounterFinding</font><font face="Arial" size="#"></font><p>
+<a href="#table">Table Definition</a>&nbsp&nbsp<a href="#parentrel">Parent Tables</a>&nbsp&nbsp<a href="#childrel">Child Tables</a>
+<p></p>
+<a name="table"></a>
+<font size="+1">Table Definition</font><br>
+<h3> Description: This table stores the findings for the encounter.</h3>
+<table width="700" border="1">
+<tr>
+<th width="170">Field</th>
+<th width="95">Datatype</th>
+<th width="50">Default</th>
+<th width="50">Null Option</th>
+<th width="335">Comment</th>
+</tr>
+
+<tr>
+<td width="170" valign="top">EncounterFindingSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Flag which designates whether the finding should be included in the Orders window. Allowed values are 'Y' and 'N'.
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">EncounterSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK - From Encounter</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">OrdersRelated</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+No_Value__N_
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Flag which designates whether the finding should be included in the Orders window.  Allowed values must be defined in the EncounterFindingOrdersRelated lookup type.  Default value is 'N'.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">FindingType</td>
+<td width="95" valign="top">CHARACTER(8)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">System defined. Classification of finding type. Allowed values must be defined in this lookup. Field is supported by the lookup types:[CiteType].  Values are defined in the LookupCode table for the above lookup types.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ExternalUnique</td>
+<td width="95" valign="top">CHARACTER(200)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Unique identifier of finding source.  In the case of cited findings, this would be the unique identifier of the origin of the citing (e.g. PersonAllergy - PersonID | AllergyCode).</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">MedcinID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Medcin ID that uniquely identifies the finding.
+
+Note - may be derived by MedicinFinding table but does not have to exist in that table.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Memo</td>
+<td width="95" valign="top">CHARACTER(28000)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Free text associated with the finding.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ROSFlag</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Flag indicating whether a symptom finding was entered as Review of Systems.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Duration</td>
+<td width="95" valign="top">CHARACTER(20)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Code representing the duration of the condition represented by the finding.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Episode</td>
+<td width="95" valign="top">CHARACTER(30)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Code representing the frequency or interval of the condition represented by the finding.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Modifier</td>
+<td width="95" valign="top">CHARACTER(2)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System defined. Code representing the Medcin modifier applied to the finding. Allowed values must be defined in this lookup. Field is supported by the lookup types:[MedcinModifier].  Values are defined in the LookupCode table for the above lookup types.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">OnSet</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">A "fuzzy" timestamp representing the onset of the condition represented by the finding.  "Fuzzy" means the timestamp precision is variable.  The onset may be of the form yyyy or yyyyMM or yyyyMMdd, etc.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Prefix</td>
+<td width="95" valign="top">CHARACTER(2)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System defined. Code representing the Medcin prefix applied to the finding. Allowed values must be defined in this lookup. Field is supported by the lookup types:[MedcinPrefix].  Values are defined in the LookupCode table for the above lookup types.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LinkQualifier</td>
+<td width="95" valign="top">CHARACTER(2)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Code representing the link type used when linking two findings.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">NormalRangeHigh</td>
+<td width="95" valign="top">DECIMAL(10,2)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">The high end of the normal range of values for the finding.  The normal range accounts for the age and gender of the patient.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">NormalRangeLow</td>
+<td width="95" valign="top">DECIMAL(10,2)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">The low end of the normal range of values for the finding.  The normal range accounts for the age and gender of the patient.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ResultFlag</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System defined. Code representing the medical result of the finding. Allowed values must be defined in this lookup. Field is supported by the lookup types:[MedcinResult].  Values are defined in the LookupCode table for the above lookup types.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">EncounterFindingStatus</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System defined. Code representing the status applied to the finding. Allowed values must be defined in this lookup. Field is supported by the lookup types:[MedcinStatus].  Values are defined in the LookupCode table for the above lookup types.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Unit</td>
+<td width="95" valign="top">CHARACTER(16)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top"></td>
+</tr>
+
+<tr>
+<td width="170" valign="top">FindingValue</td>
+<td width="95" valign="top">CHARACTER(20)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">The value applied to the finding.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LinkFindingSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System-assigned unique identifier of an encounter finding.  Generated by the EncounterFinding sequence.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ClinicalSummarySID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - From PatientClinicalSummary</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RecordStatus</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+Record_Status_Active
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Codes for lookup type 'RecordStatus' are not user definable. Valid codes are (A)ctive and (I)nactive.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">FindingSource</td>
+<td width="95" valign="top">CHAR(500)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top"></td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was last written.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that last wrote the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was created.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that created the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ClinicalNarrativeSectionSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System-generated unique identifier of narrative section.  Generated by the ClinicalNarrative sequence.
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DefaultMemo</td>
+<td width="95" valign="top">CHARACTER(28000)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">The default free text associated with this finding.  This is used by Encounter Note to keep track of the original value of the free text as defined within the Encounter Note Form.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TranscribedText</td>
+<td width="95" valign="top">CHAR(28000)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">The text returned by Medcin's transcribe function. The transcribe function returns the phrase or sentence description for a finding.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">MedcinProcedureCode</td>
+<td width="95" valign="top">CHARACTER(6)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Medcin supplied Procedure Code.  Note: May not exist in Intergy Procedure Code.
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">MedcinDiagnosisCode</td>
+<td width="95" valign="top">CHAR(8)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Medcin supplied Diagnosis Code.  Note: May not exist in Intergy Diagnosis Code.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ProcedureModifier</td>
+<td width="95" valign="top">CHAR(2)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">The procedure modifier associated with this finding.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">UpdatedUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User set. User ID of the user who last updated the Encounter Finding.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">UpdatedStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User Set.
+Timestamp when the Encounter Finding was last updated.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ClinicalLookupType</td>
+<td width="95" valign="top">CHARACTER(20)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - From ClinicalLookupCode</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ClinicalLookupCode</td>
+<td width="95" valign="top">CHARACTER(15)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - From ClinicalLookupCode</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">OverrideDescription</td>
+<td width="95" valign="top">CHAR(300)</td>
+<td width="50" valign="top">
+
+
+Set_To_Empty_String
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Users' override value of the description of a Finding.
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ActiveAssessment</td>
+<td width="95" valign="top">LOGICAL</td>
+<td width="50" valign="top">
+
+
+Logical_False
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Applies only to findings in the Assessment narrative section, or the user-modified equivalent.  A true value indicates that the assessment is active at the time of the visit.  This impacts the calculation of the E&M code.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ChronicAssessment</td>
+<td width="95" valign="top">LOGICAL</td>
+<td width="50" valign="top">
+
+
+Logical_False
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Applies only to findings in the Assessment narrative section, or the user-modified equivalent.  A true value indicates that the assessment is a chronic problem (e.g. diabetes).  This impacts the calculation of the the E&M code.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">AdditionalWorkupAssessment</td>
+<td width="95" valign="top">LOGICAL</td>
+<td width="50" valign="top">
+
+
+Logical_False
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Applies only to findings in the Assessment narrative section, or the user-modified equivalent.  A true value indicates that additional workup is planned.  This impacts the calculation of E&M code.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">NewProblemAssessment</td>
+<td width="95" valign="top">LOGICAL</td>
+<td width="50" valign="top">
+
+
+Logical_False
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Applies only to findings in the Assessment narrative section, or the user-modified equivalent.  A true value indicates that the problem is new to the provider of record on the encounter.  This impacts the calculation of the E&M code.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">MedcinDiagnosisCodeICD10</td>
+<td width="95" valign="top">CHAR(10)</td>
+<td width="50" valign="top">
+
+
+Set_To_Empty_String
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Medcin supplied ICD10 Diagnosis Code. Note: May not exist in Intergy Diagnosis Code.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ReplacementPhrase</td>
+<td width="95" valign="top">CHAR(60)</td>
+<td width="50" valign="top">
+
+
+Set_To_Empty_String
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">The replacement text for an encounter finding.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LOINCCode</td>
+<td width="95" valign="top">CHAR(30)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">LOINC Code.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">SNOMEDCode</td>
+<td width="95" valign="top">CHAR(30)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">SNOMED Code.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">VoidedTMSCatalogSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK from TMSCatalog. Reference to the voided TMS Catalog record. This field will be null (?) for the current note.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateDateTimeUTC</td>
+<td width="95" valign="top">DATETIME-TZ</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This is a denormalized field based off the CreateStamp. This field contains the Date, Time and timezone offset.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">OnsetDateTimeUTC</td>
+<td width="95" valign="top">DATETIME-TZ</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This is a denormalized field based off the Onset. This field contains the Date, Time and timezone offset. If the OnsetTime is null then the OnsetTime will be set to midnight.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStampUTC</td>
+<td width="95" valign="top">DATETIME-TZ</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This is a denormalized field based off the TimeStamp. This field contains the Date, Time and timezone offset.</td>
+</tr>
+
+</table>
+
+
+
+<p>
+<font size="+1">Parent Tables</font><br>
+<a name="parentrel"></a>
+<table width="700" border="1">
+<tr><th width="170">Parent Table</th><th>Join Phrase</th><th>When deleting parent record...</th></tr>
+
+<tr><td><a href="TMSCatalog.htm">TMSCatalog</a></td>
+<td>EncounterFinding.VoidedTMSCatalogSID = TMSCatalog.CatalogSID</td>
+<td>RESTRICT if EncounterFinding exists</td>
+</tr>
+
+<tr><td><a href="ClinicalLookupCode.htm">ClinicalLookupCode</a></td>
+<td>EncounterFinding.ClinicalLookupType = ClinicalLookupCode.ClinicalLookupType and<br>
+    EncounterFinding.ClinicalLookupCode = ClinicalLookupCode.ClinicalLookupCode</td>
+<td>RESTRICT if EncounterFinding exists</td>
+</tr>
+
+
+
+<tr><td><a href="PatientClinicalSummary.htm">PatientClinicalSummary</a></td>
+<td>EncounterFinding.ClinicalSummarySID = PatientClinicalSummary.ClinicalSummarySID</td>
+<td>SET NULL if EncounterFinding exists</td>
+</tr>
+
+<tr><td><a href="EncounterFinding.htm">EncounterFinding</a></td>
+<td>EncounterFinding.LinkFindingSID = EncounterFinding.EncounterFindingSID</td>
+<td>NONE if EncounterFinding exists</td>
+</tr>
+
+<tr><td><a href="Encounter.htm">Encounter</a></td>
+<td>EncounterFinding.EncounterSID = Encounter.EncounterSID</td>
+<td>CASCADE if EncounterFinding exists</td>
+</tr>
+
+</table>
+<p></p>
+<a name="childrel"></a>
+<font size="+1">Child Tables</font><br>
+<table width="700" border="1">
+<tr><th width="170">Child Table</th><th>Join Phrase</th><th>When deleting EncounterFinding record...</th></tr>
+
+
+
+<tr><td><a href="EncounterFindingHistory.htm">EncounterFindingHistory</a></td>
+<td>EncounterFindingHistory.EncounterFindingSID = EncounterFinding.EncounterFindingSID</td>
+<td>CASCADE if EncounterFindingHistory exists </td>
+</tr>
+
+<tr><td><a href="PatientClinicalSummary.htm">PatientClinicalSummary</a></td>
+<td>PatientClinicalSummary.FirstFindingSID = EncounterFinding.EncounterFindingSID</td>
+<td>RESTRICT if PatientClinicalSummary exists </td>
+</tr>
+
+<tr><td><a href="PatientClinicalSummary.htm">PatientClinicalSummary</a></td>
+<td>PatientClinicalSummary.CurrentFindingSID = EncounterFinding.EncounterFindingSID</td>
+<td>RESTRICT if PatientClinicalSummary exists </td>
+</tr>
+
+<tr><td><a href="EncounterFinding.htm">EncounterFinding</a></td>
+<td>EncounterFinding.LinkFindingSID = EncounterFinding.EncounterFindingSID</td>
+<td>NONE if EncounterFinding exists </td>
+</tr>
+
+</table>
+<p>
+
+</p></body>
+</html>

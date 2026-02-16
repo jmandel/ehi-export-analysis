@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Tables TOC</title>
+	
+	<link rel="stylesheet" type="text/css" href="include/dbTables.css" />
+	
+	
+	
+</head>
+
+<body onLoad="LoadAll();">
+
+<h2>Data Tables</h2>
+
+<div class="section">
+
+	<form class="DBForm" name="DBaseTOC">
+		<input class="filter" name="DBtype" placeholder="Search" size="30" onkeyup="selectValue(document.DBaseTOC.DBtype, document.DBaseTOC.DBaseList);"><br />
+		<select id="DBaseList" name="DBaseList" size="20" onChange="loadSubject ();"></select>
+	</form>
+</div>
+
+<script src="include/jquery-3.6.3.min.js"></script>
+	<script language="javascript" src="include/TableSearch.js"></script>
+	<script language="javascript" src="include/DBDescriptions.js"></script>
+<script>
+	
+	function CreateTocList() {
+		console.log("Loading tables");
+		for (var i=0; i<Tables.length; i++)
+		{
+		
+			console.log("Adding " + Tables[i].name);
+			let option = '<OPTION VALUE="' + Tables[i].name + '.htm">' + Tables[i].name + '</OPTION>';
+			console.log(option);
+			$('#DBaseList').append($(option));
+		}
+	}
+	
+	function LoadAll() {
+		BodyLoad();
+		CreateTocList();
+	}
+</script>
+
+</body>
+</html>

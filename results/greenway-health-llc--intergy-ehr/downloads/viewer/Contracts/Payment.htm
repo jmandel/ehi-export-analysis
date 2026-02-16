@@ -1,0 +1,452 @@
+
+<html>
+<head><link rel="stylesheet" type="text/css" href="include/style.css"></head>
+<body>
+<p class="left">Last Updated: 9/24/2025 12:09:38 PM</p><p class="left">Intergy Version: 22.00.00.00</p>
+<p><font size="+2">Payment</font><font face="Arial" size="#"></font><p>
+<a href="#table">Table Definition</a>&nbsp&nbsp<a href="#parentrel">Parent Tables</a>&nbsp&nbsp<a href="#childrel">Child Tables</a>
+<p></p>
+<a name="table"></a>
+<font size="+1">Table Definition</font><br>
+<h3> Description: This table is used to record payments.</h3>
+<table width="700" border="1">
+<tr>
+<th width="170">Field</th>
+<th width="95">Datatype</th>
+<th width="50">Default</th>
+<th width="50">Null Option</th>
+<th width="335">Comment</th>
+</tr>
+
+<tr>
+<td width="170" valign="top">PaymentSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Possible values are (I)nsurance, (G)uarantor	</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PracticeID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">JournalSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PostDate</td>
+<td width="95" valign="top">DATE</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Source</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">User set source of payment.  Possible values are 
+(I)nsurance 
+(G)uarantor
+Input is validated by the lookup type PaySource.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PayorID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Class</td>
+<td width="95" valign="top">CHARACTER(6)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User selects payment class code.  Payment class codes are defined in the LookupCode table for the lookup type 'PayClass'.  Codes for lookup type 'PayClass' are user definable and are intended to facilitate the issues such as payment type (i.e. cross-allocated payment, copay , etc.).</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Amount</td>
+<td width="95" valign="top">DECIMAL(10,2)</td>
+<td width="50" valign="top">
+
+
+0
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Payment amount.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Method</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User selects payment method code.  Payment method codes are defined in the LookupCode table for the lookup type 'PayMethod'.  Codes for lookup type 'PayMethod' are not user definable.   Acceptable values are 
+(C)ash 
+Chec(K)
+Cha(R)ge
+(E)lectronic funds transfer 
+(O)ther.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">FullyApplied</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Fully applied flag is set to (Y)es when all the total payment amount has been applied to charges, transfered, or applied to unapplied credit.
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreditCard</td>
+<td width="95" valign="top">CHARACTER(2)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered credit card type.  The value will be validated by the lookup type CreditCard.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">AuthorizationCode</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered authorization code as provided.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PreCollected</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Flag to indicate if the amount collected was collected prior to the charge being posted. Possible values are (Y)es or (N)o.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RestrictUser</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Flag to indicate if payments made from the check must be made by the user who created the check record.  The values for the flag are (Y)es or (N)o and are provided by the Confirmation lookup type.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ReferenceDate</td>
+<td width="95" valign="top">DATE</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered reference date for a payment as provided.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Voucher</td>
+<td width="95" valign="top">CHARACTER(16)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Any voucher number which will help identify the payment received.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RecordStatus</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Programmatically set record status for the payment. Valid codes are: 
+(O)pen , 
+(A)pplied and 
+(V)oided.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was last written.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that last wrote the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was created.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that created the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateMethod</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+M
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">System set field which indicates the method by which the activity record was created.  Possible values are:
+(M)anual
+(E)RS - ERA - Electronic Remittance Advice
+A - ESR - Electronic Statement Remittance</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CBOPaymentSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - From CBOPayment</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TraceNumber</td>
+<td width="95" valign="top">CHARACTER(20)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Trace Number/String from ESR Payment.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CCReceiptInfo</td>
+<td width="95" valign="top">CHARACTER(1024)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Credit Card Receipt Information</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ReportStorageSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Pointer to set of ReportStorage records. 
+No RFI to ReportStorage.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ReportStorageParams</td>
+<td width="95" valign="top">CHAR(28000)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Parameters required to render the report (listed on ReportStorageSID) using Report Builder</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">SPSReferenceID</td>
+<td width="95" valign="top">CHAR(16)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This is a unique identifier, called VANReference, for Sage Payment Services used to void a Credit Card Transaction.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PatientBilled</td>
+<td width="95" valign="top">LOGICAL</td>
+<td width="50" valign="top">
+
+
+Logical_False
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Indicates if Payment appeared on a receipt.</td>
+</tr>
+
+</table>
+
+
+
+<p>
+<font size="+1">Parent Tables</font><br>
+<a name="parentrel"></a>
+<table width="700" border="1">
+<tr><th width="170">Parent Table</th><th>Join Phrase</th><th>When deleting parent record...</th></tr>
+
+
+
+<tr><td><a href="Practice.htm">Practice</a></td>
+<td>Payment.PracticeID = Practice.PracticeID</td>
+<td>CASCADE if Payment exists</td>
+</tr>
+
+<tr><td><a href="Entity.htm">Entity</a></td>
+<td>Payment.PayorID = Entity.EntitySID</td>
+<td>RESTRICT if Payment exists</td>
+</tr>
+
+
+
+</table>
+<p></p>
+<a name="childrel"></a>
+<font size="+1">Child Tables</font><br>
+<table width="700" border="1">
+<tr><th width="170">Child Table</th><th>Join Phrase</th><th>When deleting Payment record...</th></tr>
+
+
+
+
+
+
+
+
+
+<tr><td><a href="PlanClaimRemit.htm">PlanClaimRemit</a></td>
+<td>PlanClaimRemit.PaymentSID = Payment.PaymentSID</td>
+<td>CASCADE if PlanClaimRemit exists </td>
+</tr>
+
+<tr><td><a href="PaymentAssignment.htm">PaymentAssignment</a></td>
+<td>PaymentAssignment.PaymentSID = Payment.PaymentSID</td>
+<td>RESTRICT if PaymentAssignment exists </td>
+</tr>
+
+<tr><td><a href="PaymentNote.htm">PaymentNote</a></td>
+<td>PaymentNote.PaymentSID = Payment.PaymentSID</td>
+<td>CASCADE if PaymentNote exists </td>
+</tr>
+
+<tr><td><a href="PaymentVoid.htm">PaymentVoid</a></td>
+<td>PaymentVoid.PaymentSID = Payment.PaymentSID</td>
+<td>RESTRICT if PaymentVoid exists </td>
+</tr>
+
+
+
+
+
+</table>
+<p>
+
+</p></body>
+</html>

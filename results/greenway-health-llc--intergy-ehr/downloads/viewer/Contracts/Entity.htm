@@ -1,0 +1,304 @@
+
+<html>
+<head><link rel="stylesheet" type="text/css" href="include/style.css"></head>
+<body>
+<p class="left">Last Updated: 9/24/2025 12:09:38 PM</p><p class="left">Intergy Version: 22.00.00.00</p>
+<p><font size="+2">Entity</font><font face="Arial" size="#"></font><p>
+<a href="#table">Table Definition</a>&nbsp&nbsp<a href="#parentrel">Parent Tables</a>&nbsp&nbsp<a href="#childrel">Child Tables</a>
+<p></p>
+<a name="table"></a>
+<font size="+1">Table Definition</font><br>
+<h3> Description: This table is used to define an entity.</h3>
+<table width="700" border="1">
+<tr>
+<th width="170">Field</th>
+<th width="95">Datatype</th>
+<th width="50">Default</th>
+<th width="50">Null Option</th>
+<th width="335">Comment</th>
+</tr>
+
+<tr>
+<td width="170" valign="top">EntitySID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">System generated unique id using the Entity sequence.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Class</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Class is set programmatically and may be: 
+P - person 
+C - company , 
+M - practice , 
+S - service center , 
+F - finance center , 
+I - plan (insurance) , 
+D - providers (doctors) , 
+R - carrier , 
+H - protected health information receiver ,
+Y - Payer</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Name</td>
+<td width="95" valign="top">CHAR(200)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">If entity class is company then name is user entered.  If entity class is person then name is set programmatically to combination of person's first name middle name and last name.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">SortName</td>
+<td width="95" valign="top">CHAR(200)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Sort name is set programmatically.
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was last written.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that last wrote the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was created.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that created the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">GlobalID</td>
+<td width="95" valign="top">CHAR(36)</td>
+<td width="50" valign="top">
+
+
+Set_To_Empty_String
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">GlobalID of the Entity. This could be application generated GUID.
+</td>
+</tr>
+
+</table>
+
+
+
+<p>
+<font size="+1">Parent Tables</font><br>
+<a name="parentrel"></a>
+<table width="700" border="1">
+<tr><th width="170">Parent Table</th><th>Join Phrase</th><th>When deleting parent record...</th></tr>
+
+</table>
+<p></p>
+<a name="childrel"></a>
+<font size="+1">Child Tables</font><br>
+<table width="700" border="1">
+<tr><th width="170">Child Table</th><th>Join Phrase</th><th>When deleting Entity record...</th></tr>
+
+<tr><td><a href="Staff.htm">Staff</a></td>
+<td>Staff.PhysicalBillLocationID = Entity.EntitySID</td>
+<td>RESTRICT if Staff exists </td>
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<tr><td><a href="Email.htm">Email</a></td>
+<td>Email.EntitySID = Entity.EntitySID</td>
+<td>CASCADE if Email exists </td>
+</tr>
+
+
+
+<tr><td><a href="PHIAuthorization.htm">PHIAuthorization</a></td>
+<td>PHIAuthorization.ReceiverSID = Entity.EntitySID</td>
+<td>RESTRICT if PHIAuthorization exists </td>
+</tr>
+
+<tr><td><a href="PHIDisclosure.htm">PHIDisclosure</a></td>
+<td>PHIDisclosure.ReceiverSID = Entity.EntitySID</td>
+<td>CASCADE if PHIDisclosure exists </td>
+</tr>
+
+
+
+<tr><td><a href="Document.htm">Document</a></td>
+<td>Document.EntitySID = Entity.EntitySID</td>
+<td>RESTRICT if Document exists </td>
+</tr>
+
+
+
+
+
+
+
+<tr><td><a href="Carrier.htm">Carrier</a></td>
+<td>Carrier.CarrierID = Entity.EntitySID</td>
+<td>CASCADE if Carrier exists </td>
+</tr>
+
+<tr><td><a href="Address.htm">Address</a></td>
+<td>Address.EntitySID = Entity.EntitySID</td>
+<td>CASCADE if Address exists </td>
+</tr>
+
+<tr><td><a href="Practice.htm">Practice</a></td>
+<td>Practice.PracticeID = Entity.EntitySID</td>
+<td>CASCADE if Practice exists </td>
+</tr>
+
+<tr><td><a href="Provider.htm">Provider</a></td>
+<td>Provider.ProviderID = Entity.EntitySID</td>
+<td>CASCADE if Provider exists </td>
+</tr>
+
+
+
+<tr><td><a href="ServiceCenter.htm">ServiceCenter</a></td>
+<td>ServiceCenter.ServiceCenterID = Entity.EntitySID</td>
+<td>CASCADE if ServiceCenter exists </td>
+</tr>
+
+<tr><td><a href="Company.htm">Company</a></td>
+<td>Company.CompanyID = Entity.EntitySID</td>
+<td>CASCADE if Company exists </td>
+</tr>
+
+<tr><td><a href="Policy.htm">Policy</a></td>
+<td>Policy.SubscriberID = Entity.EntitySID</td>
+<td>RESTRICT if Policy exists </td>
+</tr>
+
+<tr><td><a href="Person.htm">Person</a></td>
+<td>Person.PersonID = Entity.EntitySID</td>
+<td>CASCADE if Person exists </td>
+</tr>
+
+<tr><td><a href="Person.htm">Person</a></td>
+<td>Person.HeadOfHouseholdID = Entity.EntitySID</td>
+<td>RESTRICT if Person exists </td>
+</tr>
+
+<tr><td><a href="Account.htm">Account</a></td>
+<td>Account.GuarantorID = Entity.EntitySID</td>
+<td>RESTRICT if Account exists </td>
+</tr>
+
+<tr><td><a href="Phone.htm">Phone</a></td>
+<td>Phone.EntitySID = Entity.EntitySID</td>
+<td>CASCADE if Phone exists </td>
+</tr>
+
+<tr><td><a href="Plan.htm">Plan</a></td>
+<td>Plan.PlanID = Entity.EntitySID</td>
+<td>CASCADE if Plan exists </td>
+</tr>
+
+<tr><td><a href="FinanceCenter.htm">FinanceCenter</a></td>
+<td>FinanceCenter.FinanceCenterID = Entity.EntitySID</td>
+<td>CASCADE if FinanceCenter exists </td>
+</tr>
+
+<tr><td><a href="Payment.htm">Payment</a></td>
+<td>Payment.PayorID = Entity.EntitySID</td>
+<td>RESTRICT if Payment exists </td>
+</tr>
+
+<tr><td><a href="Staff.htm">Staff</a></td>
+<td>Staff.BillingLocationID = Entity.EntitySID</td>
+<td>RESTRICT if Staff exists </td>
+</tr>
+
+</table>
+<p>
+
+</p></body>
+</html>

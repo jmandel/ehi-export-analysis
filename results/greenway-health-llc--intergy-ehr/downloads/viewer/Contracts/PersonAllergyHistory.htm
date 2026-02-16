@@ -1,0 +1,376 @@
+
+<html>
+<head><link rel="stylesheet" type="text/css" href="include/style.css"></head>
+<body>
+<p class="left">Last Updated: 9/24/2025 12:09:38 PM</p><p class="left">Intergy Version: 22.00.00.00</p>
+<p><font size="+2">PersonAllergyHistory</font><font face="Arial" size="#"></font><p>
+<a href="#table">Table Definition</a>&nbsp&nbsp<a href="#parentrel">Parent Tables</a>&nbsp&nbsp<a href="#childrel">Child Tables</a>
+<p></p>
+<a name="table"></a>
+<font size="+1">Table Definition</font><br>
+<h3> Description: The table records the history of changes to patient allergies.</h3>
+<table width="700" border="1">
+<tr>
+<th width="170">Field</th>
+<th width="95">Datatype</th>
+<th width="50">Default</th>
+<th width="50">Null Option</th>
+<th width="335">Comment</th>
+</tr>
+
+<tr>
+<td width="170" valign="top">PersonID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK - Person Table.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">AllergyCode</td>
+<td width="95" valign="top">CHARACTER(8)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK - AllergyTable.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">HistoryCount</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">This is a programmatically generated sequence that keeps tracks of the number of updates made to an allergy.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PracticeID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - Practice Table.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">EncounterSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - Encounter Table.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">OnsetDateString</td>
+<td width="95" valign="top">CHAR(8)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This is not a date field. It is a 'fuzzy' date field. It will be in the form of 'CCYYMMDD'. The 'DD' and the 'MM' portions are allowed to be zero.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">OtherReactionDesc</td>
+<td width="95" valign="top">CHARACTER(25)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User-entered reaction notes regarding allergy.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">AllergyStatus</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Possible values: A - Active, I - Inactive, R - Resolved, V - Void</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ReviewedDate</td>
+<td width="95" valign="top">DATE</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Date the allergy was reviewed on.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ActionCode</td>
+<td width="95" valign="top">CHAR(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">Action taken on the allergy.  Supported by LookupType AllergyAction
+Possible values are: 
+N - New, 
+E - Edited, 
+R - Reviewed, 
+S - Resolved, 
+V - Voided, 
+D - Deactivated</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Comment</td>
+<td width="95" valign="top">CHAR(5000)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Free text that describes the Allergy and/or Action on the Allergy.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">EnteredBy</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User who is creating this history record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">EnteredOnStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Date-time stamp when this record was created.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was last written.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that last wrote the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was created.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that created the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Type</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+Alpha_-_A
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Record type. 
+If the record type is 'T', then the AllergyCode should be of type 'DS'. 
+Possible Values:
+'A' - Allergy
+'T' - Intolerance</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ResolvedClinicalDate</td>
+<td width="95" valign="top">CHARACTER(20)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered date when the allergy was resolved for the patient. This is not a date field. It is a 'fuzzy' date field. It will be in the form of 'CCYYMMDD'. The 'DD' and the 'MM' portions are allowed to be zero.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RxNormCode</td>
+<td width="95" valign="top">CHAR(10)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">The RxNorm Code - Used when importing allergy data from an Exchange Document. In the case of Drug Ingredient Allergies, this field can also be changed by the user.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">OnsetTime</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+0
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered onset time of allergy in seconds starting from midnight</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ResolvedClinicalTime</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered time when the allergy was resolved for the patient in seconds from midnight</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">OnsetDateTimeUTC</td>
+<td width="95" valign="top">DATETIME-TZ</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This is a denormalized field based off the OnsetDate/OnsetDateString and OnsetTime. This field contains the Date, Time and timezone offset. If the OnsetTime is null then the OnsetTime will be set to midnight.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ResolvedDateTimeUTC</td>
+<td width="95" valign="top">DATETIME-TZ</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This is a denormalized field based off the ResolvedClinicalDate and ResolvedClinicalTime. This field contains the Date, Time and timezone offset. If the ResolvedClinicalTime is null then the ResolvedClinicalTime will be set to midnight.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">EnteredOnStampUTC</td>
+<td width="95" valign="top">DATETIME-TZ</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">This is a denormalized field based off EnteredOnStamp. This field contains the Date, Time and timezone offset.</td>
+</tr>
+
+</table>
+
+
+
+<p>
+<font size="+1">Parent Tables</font><br>
+<a name="parentrel"></a>
+<table width="700" border="1">
+<tr><th width="170">Parent Table</th><th>Join Phrase</th><th>When deleting parent record...</th></tr>
+
+<tr><td><a href="PersonAllergy.htm">PersonAllergy</a></td>
+<td>PersonAllergyHistory.PersonID = PersonAllergy.PersonID and<br>
+    PersonAllergyHistory.AllergyCode = PersonAllergy.AllergyCode</td>
+<td>CASCADE if PersonAllergyHistory exists</td>
+</tr>
+
+<tr><td><a href="Encounter.htm">Encounter</a></td>
+<td>PersonAllergyHistory.EncounterSID = Encounter.EncounterSID</td>
+<td>SET NULL if PersonAllergyHistory exists</td>
+</tr>
+
+<tr><td><a href="Practice.htm">Practice</a></td>
+<td>PersonAllergyHistory.PracticeID = Practice.PracticeID</td>
+<td>SET NULL if PersonAllergyHistory exists</td>
+</tr>
+
+</table>
+<p></p>
+<a name="childrel"></a>
+<font size="+1">Child Tables</font><br>
+<table width="700" border="1">
+<tr><th width="170">Child Table</th><th>Join Phrase</th><th>When deleting PersonAllergyHistory record...</th></tr>
+
+<tr><td><a href="PersonAllergyReactionHist.htm">PersonAllergyReactionHist</a></td>
+<td>PersonAllergyReactionHist.PersonID = PersonAllergyHistory.PersonID and<br>
+    PersonAllergyReactionHist.AllergyCode = PersonAllergyHistory.AllergyCode and<br>
+    PersonAllergyReactionHist.HistoryCount = PersonAllergyHistory.HistoryCount</td>
+<td>CASCADE if PersonAllergyReactionHist exists </td>
+</tr>
+
+</table>
+<p>
+
+</p></body>
+</html>

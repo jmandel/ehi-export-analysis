@@ -1,0 +1,183 @@
+
+<html>
+<head><link rel="stylesheet" type="text/css" href="include/style.css"></head>
+<body>
+<p class="left">Last Updated: 9/24/2025 12:09:38 PM</p><p class="left">Intergy Version: 22.00.00.00</p>
+<p><font size="+2">PatientOMOrderSet</font><font face="Arial" size="#"></font><p>
+<a href="#table">Table Definition</a>&nbsp&nbsp<a href="#parentrel">Parent Tables</a>&nbsp&nbsp<a href="#childrel">Child Tables</a>
+<p></p>
+<a name="table"></a>
+<font size="+1">Table Definition</font><br>
+<h3> Description: This table holds patient order header information that's specific to OMOrders. Other tables will old stuff specific to other types of orders. (eg Labs)</h3>
+<table width="700" border="1">
+<tr>
+<th width="170">Field</th>
+<th width="95">Datatype</th>
+<th width="50">Default</th>
+<th width="50">Null Option</th>
+<th width="335">Comment</th>
+</tr>
+
+<tr>
+<td width="170" valign="top">PatientOrderSetSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">System-defined. System generated unique id using the "OMOrder" sequence.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">OMOrderGroupSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK - OMOrderGroup. Patient Orders maybe OMOrders. In which case, a PatientOMOrderSet record will exist for the PatientOrderSet. The OMOrderGroupSID indicates which OMOrderGroup this Order Set is for.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PostChargesOnAction</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Indicates the order is in the specified status that the charges should be posted. Possible values: (O)rdered, re(S)ulted, re(V)iewed</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DiagnosisCode</td>
+<td width="95" valign="top">CHARACTER(10)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK  - Diagnosis.  This is the diagnosis code for the PatientOMOrderSet.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ServiceCenterID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - ServiceCenter.  In general, this indicates where the order will be sent to or performed at.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was last written.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that last wrote the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was created.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that created the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">ChargesPostedStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">When this field is set, we do not need to auto-post charges for this order.
+
+When a user creates a order, charges may be defaulted into the shopping chart. If charges are defaulted into the shopping chart, this stamp should be set. (The user may choose to delete this charge and not post them.. but this flag will still be set).
+
+If the order is set to post charge when results are added to an order, or when all of the results are approved, then this field should be set at the time the charges were posted.</td>
+</tr>
+
+</table>
+
+
+
+<p>
+<font size="+1">Parent Tables</font><br>
+<a name="parentrel"></a>
+<table width="700" border="1">
+<tr><th width="170">Parent Table</th><th>Join Phrase</th><th>When deleting parent record...</th></tr>
+
+<tr><td><a href="ServiceCenter.htm">ServiceCenter</a></td>
+<td>PatientOMOrderSet.ServiceCenterID = ServiceCenter.ServiceCenterID</td>
+<td>SET NULL if PatientOMOrderSet exists</td>
+</tr>
+
+<tr><td><a href="Diagnosis.htm">Diagnosis</a></td>
+<td>PatientOMOrderSet.DiagnosisCode = Diagnosis.DiagnosisCode</td>
+<td>SET NULL if PatientOMOrderSet exists</td>
+</tr>
+
+
+
+<tr><td><a href="PatientOrderSet.htm">PatientOrderSet</a></td>
+<td>PatientOMOrderSet.PatientOrderSetSID = PatientOrderSet.PatientOrderSetSID</td>
+<td>CASCADE if PatientOMOrderSet exists</td>
+</tr>
+
+</table>
+<p></p>
+<a name="childrel"></a>
+<font size="+1">Child Tables</font><br>
+<table width="700" border="1">
+<tr><th width="170">Child Table</th><th>Join Phrase</th><th>When deleting PatientOMOrderSet record...</th></tr>
+
+</table>
+<p>
+
+</p></body>
+</html>

@@ -1,0 +1,457 @@
+
+<html>
+<head><link rel="stylesheet" type="text/css" href="include/style.css"></head>
+<body>
+<p class="left">Last Updated: 9/24/2025 12:09:38 PM</p><p class="left">Intergy Version: 22.00.00.00</p>
+<p><font size="+2">PatientRxDenial</font><font face="Arial" size="#"></font><p>
+<a href="#table">Table Definition</a>&nbsp&nbsp<a href="#parentrel">Parent Tables</a>&nbsp&nbsp<a href="#childrel">Child Tables</a>
+<p></p>
+<a name="table"></a>
+<font size="+1">Table Definition</font><br>
+<h3> Description: This procedure keeps a history of prescription denials.</h3>
+<table width="700" border="1">
+<tr>
+<th width="170">Field</th>
+<th width="95">Datatype</th>
+<th width="50">Default</th>
+<th width="50">Null Option</th>
+<th width="335">Comment</th>
+</tr>
+
+<tr>
+<td width="170" valign="top">PatientRxDenialSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">System generated unique id using the RX sequence.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PracticeID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK - From Staff, Patient</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">StaffID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - From Staff</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PatientID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK - From Patient</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DrugCode</td>
+<td width="95" valign="top">CHARACTER(6)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - From Drug</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">SigCode</td>
+<td width="95" valign="top">CHARACTER(6)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - From RxSig</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RenewedRxNumber</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - From PatientRx</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DateDenied</td>
+<td width="95" valign="top">DATE</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Date that the prescription was denied.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RxDirections</td>
+<td width="95" valign="top">CHARACTER(200)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered directions for taking the prescribed drug.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Quantity</td>
+<td width="95" valign="top">DECIMAL(10,3)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered quantity of the drug prescribed .</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">Refills</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+0
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered number of allowable refills.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DaysSupplied</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+0
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered number of days supplied.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DispenseAsWritten</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered flag to indicate if a generic drug is allowable.  This is supported by the Confirmation Lookup.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RxSendMode</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User entered mode that the prescription will be sent to the pharmacy. Acceptable values are:
+P - Print , 
+E - Electronic, 
+T - Telephoned , 
+D - Dispensed As Sample, 
+H - Hand Written , 
+O - Other and A - Administered</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PharmacyID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">FK - From Pharmacy</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">OrigRxNumber</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">MANDATORY</td>
+<td width="335" valign="top">FK - From PatientRx</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PRNFlag</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User-entered indicator to specify if the prescription has refills or is only prescribed on as as needed basis.  Supported by lookup type Confirmation.
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">SIGDescription</td>
+<td width="95" valign="top">CHARACTER(60)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Incoming SIG description.  This is denormalized here since incoming descriptions cannot be matched 100% against the descriptions in the SIG table.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">QuantityUnitOfMeasure</td>
+<td width="95" valign="top">CHARACTER(10)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Units of measure associated with the quantity of the prescribed drug.
+</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DenialCode</td>
+<td width="95" valign="top">CHARACTER(20)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">A code used to identify a prescription denial code.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DenialReason</td>
+<td width="95" valign="top">CHARACTER(60)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Description of the denial reason for the prescription.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">DrugName</td>
+<td width="95" valign="top">CHARACTER(60)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Drug name, mainly used if no drug code is available.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RequestType</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Valid Values: 
+M - Manual , 
+E - Electronic</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RequestedByUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+0
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">UserID of user that made prescription request.
+Note - no link to MMUser table</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RequestStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Timestamp of when Rx Request was made</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">PatientRequested</td>
+<td width="95" valign="top">CHARACTER(1)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Determines if patient made request directly from this office. Values can be 'Y' or 'N'.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">TimeStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was last written.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">LastUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that last wrote the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateStamp</td>
+<td width="95" valign="top">CHARACTER(14)</td>
+<td width="50" valign="top">
+
+
+
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">System generated date/time stamp record was created.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">CreateUser</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">User ID of user that created the record.</td>
+</tr>
+
+<tr>
+<td width="170" valign="top">RxRequestSID</td>
+<td width="95" valign="top">INTEGER</td>
+<td width="50" valign="top">
+
+
+?
+&nbsp</td>
+<td width="50" valign="top">OPTIONAL</td>
+<td width="335" valign="top">Unique identifier for the refill request that was denied.</td>
+</tr>
+
+</table>
+
+
+
+<p>
+<font size="+1">Parent Tables</font><br>
+<a name="parentrel"></a>
+<table width="700" border="1">
+<tr><th width="170">Parent Table</th><th>Join Phrase</th><th>When deleting parent record...</th></tr>
+
+<tr><td><a href="PatientRx.htm">PatientRx</a></td>
+<td>PatientRxDenial.OrigRxNumber = PatientRx.RxSID</td>
+<td>CASCADE if PatientRxDenial exists</td>
+</tr>
+
+<tr><td><a href="PatientRx.htm">PatientRx</a></td>
+<td>PatientRxDenial.RenewedRxNumber = PatientRx.RxSID</td>
+<td>CASCADE if PatientRxDenial exists</td>
+</tr>
+
+
+
+
+
+
+
+<tr><td><a href="Patient.htm">Patient</a></td>
+<td>PatientRxDenial.PracticeID = Patient.PracticeID and<br>
+    PatientRxDenial.PatientID = Patient.PatientID</td>
+<td>RESTRICT if PatientRxDenial exists</td>
+</tr>
+
+<tr><td><a href="Staff.htm">Staff</a></td>
+<td>PatientRxDenial.PracticeID = Staff.PracticeID and<br>
+    PatientRxDenial.StaffID = Staff.StaffID</td>
+<td>NONE if PatientRxDenial exists</td>
+</tr>
+
+</table>
+<p></p>
+<a name="childrel"></a>
+<font size="+1">Child Tables</font><br>
+<table width="700" border="1">
+<tr><th width="170">Child Table</th><th>Join Phrase</th><th>When deleting PatientRxDenial record...</th></tr>
+
+
+
+
+
+</table>
+<p>
+
+</p></body>
+</html>
