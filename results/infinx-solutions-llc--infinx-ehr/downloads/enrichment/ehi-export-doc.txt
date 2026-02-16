@@ -1,0 +1,1363 @@
+Electronic Health Information (EHI) Export Documentation
+Instructions to initiate single patient export of EHI are available in the user guide.
+For a bulk/multi-patient export of EHI, please contact support by creating a support ticket.
+
+When data is exported from the system, it will be available for download as a .zip file. Once downloaded, the file can be unzipped to reveal
+a folder of files. The folder will contain the following files:
+.csv files - these include all the patient data in patient tables. The files will have a header row with the field names listed, followed by the
+patient data in a comma-separated format. Find definitions of each field name in the below Patient Data Tables.
+.xml files - there will be one main ccda.xml that will be an export of all patient ccda-compatible data. There may be other ccda files with a
+32-digit id after ccda_ in the file name (ie. ccda_123456789.xml). These ccda’s are referrals and their associated referral information can be
+found in the patient_referrals csv by cross-referencing the ccda_id inside this csv with the filename.
+.pdf files - There are several types of files that may be exported as PDFs.
+SoapDoc_ files include all visit data from a particular patient visit.
+document_ files are chart documents that may have been scanned or otherwise uploaded into the patient chart.
+Labs_ files are PDF lab results.
+formletter_ files are letters the clinic has generated inside the patient’s chart
+OB_ files include all pregnancy-related visit data
+
+Patient Data Tables
+patientinfo - contains basic identifying information about the patient (dob, chart number, ssn), demographic information for the patient, and
+some medical or social history questions as customized by the clinic.
+charges - all CPT charges associated with the patient’s account
+healthmaintenance - scheduled recurrent diagnostic labs or tests the provider associated with the patient
+ob - OB report of pregnancy-related visits
+patient_advforms - online patient forms
+patient_codes - codes of various code systems associated with the patient
+patient_forms_data - forms filled out for the patient
+patient_guarantor - guarantor information and demographics associated with the patient
+patient_letters - letters written by the clinic that are associated with the patient
+patient_pmp - prescription monitoring program database results for the patient
+patient_referrals - referrals sent out to other providers on behalf of the patient
+ptinr - if the patient requires periodic prothrombin time(PT) and international normalized ratio(INR) tests, this documents the reason for the
+test and the frequency decided by the provider
+ptinr_log - connected to ptinr table, logs all pt/inr test results for the patient
+schedules - Scheduled appointments associated with the patient
+
+surgerymemo - Surgical documentation for the patient (custom function for specific clinic)
+
+patientinfo
+Basic identifying information about the patient (dob, chart number, ssn), demographic information for the patient, and some medical or social
+history questions as customized by the clinic.
+Field Name
+
+Description
+
+patientid
+
+system identifier of patient
+
+lastname
+
+Patient last name
+
+firstname
+
+Patient first name
+
+chartnumber
+
+Patient chart number
+
+ssn
+
+Patient social security number
+
+dob
+
+Patient Date of birth
+
+address1
+
+Patient street address
+
+address2
+
+Patient street address line 2
+
+city
+
+Patient city
+
+state
+
+Patient state
+
+zip
+
+Patient zip code
+
+prev_addr
+
+Patient’s previous addresses
+
+country
+
+Patient country
+
+mainphone
+
+Patient’s main phone number
+
+mainphone_ext
+
+Patient’s main phone number extension
+
+altphone
+
+Patient’s alternate phone number
+
+altphone_ext
+
+Patient’s alternate phone number extension
+
+workphone
+
+Patient’s work phone number
+
+workphone_ext
+
+Patient’s work phone number extension
+
+emergency_contact
+
+Patient’s emergency contact number
+
+emergency_contact_name
+
+Patient’s emergency contact name
+
+email
+
+Patient’s email
+
+marital_status
+
+Patient’s marital status
+
+primary_physician
+
+Patient’s primary physician
+
+primary_location
+
+Patient’s primary location
+
+chrGender
+
+Patient’s gender [1=male, 2=female]
+
+chrGenderIdentity
+
+Patient’s gender identity
+
+chrSexualOrientation
+
+Patient’s sexual orientation
+
+chrBirthSex
+
+Patient’s birth sex
+
+provider
+
+Patient’s provider
+
+preffered_language
+
+Patient’s preferred language
+
+preferred_comm
+
+Patient’s preffered method of communication
+
+ethnicity
+
+Patient’s ethnicity
+
+referring_physician
+
+Patient’s referring physician
+
+primarycare_physician
+
+Patient’s primary care physician
+
+employer_name
+
+Employer's name
+
+employer_address1
+
+Employer’s address
+
+employer_address2
+
+Employer’s address
+
+employer_city
+
+Employer’s city
+
+employer_state
+
+Employer’s state
+
+employer_zip
+
+Employer’s zip code
+
+date_of_injury
+
+Patient’s date of injury
+
+accident_type
+
+Patient’s accident type
+
+accident_state
+
+Patient’s accident state
+
+financial_class
+
+Patient’s financial class
+
+patient_type
+
+Patient type
+
+status
+
+if patient is active or inactive [0=active, 1=inactive]
+
+charges
+All CPT charges associated with the patient’s account
+Field Name
+
+Description
+
+Schema
+
+charges_id
+
+identifier of this particular log/row
+
+32 digit GUID (Globally Unique
+
+in the table
+
+Identifier)
+
+scheduleid
+
+identifier of patient’s visit
+
+32 digit GUID
+
+patientid
+
+identifier of the patient
+
+32 digit GUID
+
+date
+
+Date of charge
+
+date as Y-m-d
+
+userid
+
+identifier of user that added the
+
+32 digit GUID
+
+charge
+
+charge
+
+charge code as CPT
+
+Date as Y-m-d
+
+chargeHeading
+
+charge heading on superbill
+
+text
+
+chargeDesc
+
+charge description
+
+text
+
+chargeText
+
+text associated with charge
+
+text
+
+numUnits
+
+number of units for charge
+
+integer
+
+fee
+
+fee associated with charge
+
+Number
+
+verified
+
+if charge verified [0=no 1=yes]
+
+integer
+
+caseType
+
+[New,Pending,Processed]
+
+text
+
+charge_batch_number
+
+Batch number associated with
+
+integer
+
+charge
+isExported
+
+if charge exported [0=not
+
+integer
+
+exported, 1=set to export,
+2=exported]
+exported_datetime
+
+Date charge was exported
+
+timestamp as Y-m-d H:i:s
+
+export_error
+
+Error message associated with
+
+text
+
+export
+billing_desc
+
+Billing description of charge
+
+text
+
+sort_order
+
+Sort order of charge
+
+integer
+
+charge_location_guid
+
+identifier of location for charge
+
+32 digit GUID
+
+time_last_modified
+
+Date time item last modified
+
+timestamp as Y-m-d H:i:s
+
+healthmaintenance
+Scheduled recurrent diagnostic labs or tests the provider associated with the patient.
+Field Name
+
+Description
+
+Schema
+
+healthmaintenance_id
+
+identifier of this particular log/row
+
+32 digit GUID (Globally Unique
+
+in the table
+
+Identifier)
+
+patientid
+
+identifier of the patient
+
+32 digit GUID
+
+name
+
+Descriptive name of health
+
+text
+
+maintenance item
+frequency
+
+Recommended number of
+
+integer
+
+numbers item should reccur
+last_test_date
+
+Date of last test
+
+Date as Y-m-d
+
+healthmaint_notes
+
+Notes about the item
+
+text
+
+time_last_modified
+
+Date time item last modified
+
+timestamp as Y-m-d H:i:s
+
+inactive
+
+status of item [0=active,
+
+integer
+
+1=inactive]
+create_date
+
+Date item was created
+
+Date as Y-m-d
+
+delay_days
+
+Number of days item has been
+
+integer
+
+delayed
+
+ob
+OB report of pregnancy-related visits
+Field Name
+
+Description
+
+firstname
+
+Patient first name
+
+lastname
+
+Patient last name
+
+chartnumber
+
+Patient chart number
+
+ssn
+
+Patient social security number
+
+dob
+
+Patient Date of birth
+
+doctype
+
+OB
+
+date
+
+Date of start of pregnancy
+
+filename
+
+Name of associated PDF file
+
+patient_advforms
+Online patient forms
+Field Name
+
+Description
+
+Schema
+
+patient_advforms_id
+
+identifier of this particular log/row
+
+32 digit GUID (Globally Unique
+
+in the table
+
+Identifier)
+
+advform_id
+
+indentifier of the form template
+
+32 digit GUID
+
+patientid
+
+identifier of the patient
+
+32 digit GUID
+
+create_date
+
+Date form is created
+
+date as Y-m-d
+
+complete_date
+
+Date form was completed by
+
+date as Y-m-d
+
+patient
+user_data
+
+Patient answers to form questions
+
+JSON array
+
+as JSON
+sign_data
+
+Saved image of patient signature
+
+image data
+
+form_audit
+
+Audit of form
+
+Text
+
+status
+
+Status of form
+
+[SENT, COMPLETED,
+CANCELLED]
+
+deleted
+
+if form was deleted [0=not deleted,
+
+integer
+
+1=deleted]
+time_last_modified
+
+Date time form last modified
+
+timestamp as Y-m-d H:i:s
+
+patient_codes
+Codes of various code systems associated with the patient
+Field Name
+
+Description
+
+Schema
+
+item_guid
+
+identifier of this particular log/row
+
+32 digit GUID (Globally Unique
+
+in the table
+
+Identifier)
+
+patientid
+
+indentifier of the patient
+
+32 digit GUID
+
+scheduleid
+
+identifier of schedule associated
+
+32 digit GUID
+
+with code
+code
+
+Code
+
+date as Y-m-d
+
+value
+
+Value of code if necessary
+
+JSON array
+
+units
+
+Units of value if necessary
+
+32 digit GUID
+
+date
+
+Date of code
+
+date as Y-m-d
+
+type
+
+Type of code
+
+Text
+
+link_table
+
+Table associated with code
+
+Text
+
+link_guid
+
+GUID of the item code is related
+
+32 digit GUID
+
+to
+create_date
+create_user
+
+Date code created
+
+date as Y-m-d
+
+Identifier of the user that created
+
+32 digit GUID
+
+the code
+description
+
+Description of code
+
+Text
+
+log_notes
+
+Any notes logged with code
+
+Text
+
+Field Name
+
+Description
+
+Schema
+
+patient_forms_data_id
+
+identifier of this particular log/row
+
+32 digit GUID (Globally Unique
+
+in the table
+
+Identifier)
+
+patient_forms_data
+Forms filled out for the patient
+
+patientid
+
+indentifier of the patient
+
+32 digit GUID
+
+form_guid
+
+identifier of the form questions
+
+32 digit GUID
+
+template
+date
+response
+
+Date form created
+
+date as Y-m-d
+
+Form answers saved as a JSON
+
+JSON array
+
+array
+physicianid
+
+identifier of the physician
+
+32 digit GUID
+
+associated with the form
+
+patient_guarantor
+Guarantor information and demographics associated with the patient
+Field Name
+
+Description
+
+Schema
+
+patient_guarantor_id
+
+identifier of this particular log/row
+
+32 digit GUID (Globally Unique
+
+in the table
+
+Identifier)
+
+guar_acsid
+
+identifier for billing system
+
+32 digit GUID
+
+patientid
+
+Patient identifier
+
+32 digit GUID
+
+guar_firstname
+
+Guarantor’s first name
+
+Text
+
+guar_middlename
+
+Guarantor’s middle name
+
+Text
+
+guar_lastname
+
+Guarantor’s last name
+
+Text
+
+guar_address
+
+Street address of guarantor
+
+Text
+
+guar_address2
+
+Street address line 2 for guarantor
+
+Text
+
+guar_city
+
+Guarantor’s city
+
+Text
+
+guar_state
+
+Guarantor’s state
+
+Text
+
+guar_zip
+
+Guarantor’s zipcode
+
+Text
+
+guar_phone
+
+Guarantor’s phone number
+
+Text
+
+guar_phone_ext
+
+Guarantor’s phone extension
+
+Text
+
+guar_gender
+
+Guarantor’s gender
+
+(1=Male, 2= Female_
+
+guar_dob
+
+Guarantor’s date of birth
+
+date as Y-m-d
+
+guar_ssn
+
+Guarantor’s social secuirty
+
+Text
+
+number
+guar_relation
+
+Guarantor’s relationship to patient
+
+Text
+
+guar_employer
+
+Guarantor’s employer
+
+Text
+
+guar_employer_addr
+
+Guarantor’s employer address
+
+Text
+
+guar_employer_city
+
+Guarantor’s employer city
+
+Text
+
+guar_employer_state
+
+Guarantor’s employer state
+
+Text
+
+guar_employer_zip
+
+Guarantor’s employer zip code
+
+Text
+
+patient_letters
+Letters written by the clinic that are associated with the patient
+Field Name
+
+Description
+
+firstname
+
+Patient first name
+
+lastname
+
+Patient last name
+
+chartnumber
+
+Patient chart number
+
+ssn
+
+Patient social security number
+
+dob
+
+Patient Date of birth
+
+doctype
+
+LETTER
+
+date
+
+Date of letter
+
+filename
+
+Name of associated PDF file
+
+patient_pmp
+Prescription monitoring program database results for the patient.
+Field Name
+
+Description
+
+Schema
+
+patient_pmp_id
+
+identifier of this particular log/row
+
+32 digit GUID (Globally Unique
+
+in the table
+
+Identifier)
+
+patientid
+
+indentifier of the patient
+
+32 digit GUID
+
+narc_score
+
+Narcotics Score
+
+Number
+
+stim_score
+
+Stimulant Score
+
+Number
+
+sed_score
+
+Sedatives Score
+
+Number
+
+over_score
+
+Overall Score
+
+Number
+
+URL to view entire report
+
+Text
+
+url
+
+(accessible only by provider)
+message
+
+Error Message
+
+Text
+
+exp
+
+Date the url expires
+
+Y-m-d
+
+time_last_modified
+
+date/time when row was last
+
+Y-m-d H:i:s
+
+modified
+
+patient_referrals
+Referrals sent out to other providers on behalf of the patient
+Field Name
+
+Description
+
+firstname
+
+Patient first name
+
+lastname
+
+Patient last name
+
+chartnumber
+
+Patient chart number
+
+ssn
+
+Patient social security number
+
+dob
+
+Patient Date of birth
+
+doctype
+
+REFERRAL
+
+date
+
+Date of referral created
+
+filename
+
+Name of associated PDF file
+
+from_provider
+
+Name of referring provider
+
+to_provider
+
+Name of provider referral sent to
+
+referral_reason
+
+Reason for referral
+
+ccda_id
+
+Identifier of ccda, can match to ccda_[ccda_id].xml
+file inside folder
+
+ptinr
+For patient requires periodic prothrombin time(PT) and international normalized ratio(INR) tests, this documents the reason for the test and
+the frequency decided by the provider
+Field Name
+ptinrid
+
+Description
+
+Schema
+
+identifier of this particular log/row
+
+32 digit GUID (Globally Unique
+
+in the table
+
+Identifier)
+
+patientid
+
+indentifier of the patient
+
+32 digit GUID
+
+diagnosis
+
+Diagnosis that warrants PT/INR
+
+Text
+
+tracking
+inr_range
+
+Provider selected ideal range of
+
+Number
+
+INR result
+date_stop
+
+Date to end PT/INR tracking
+
+date as Y-m-d
+
+comments
+
+Comments
+
+Text
+
+inactive
+
+if ptinr is active for patient
+
+integer
+
+(0=active, 1=inactive)
+
+time_last_modified
+
+date/time when row last modified
+
+timestamp as Y-m-d H:i:s
+
+ptinr_log
+Logs all pt/inr test results for the patient; Connected to ptinr table.
+Field Name
+ptinr_logid
+
+ptinrid
+
+Description
+
+Schema
+
+identifier of this particular log/row
+
+32 digit GUID (Globally Unique
+
+in the table
+
+Identifier)
+
+indentifier of the patient’s PT/INR
+
+32 digit GUID
+
+plan found as a row in the ptinr
+table
+date_entered
+
+Date results entered
+
+date as Y-m-d
+
+date_drawn
+
+Date test drawn
+
+date as Y-m-d
+
+tab_strength_old
+
+Strength of warfarin/coumadin
+
+Number
+
+doseage_old
+
+Dose of warfarin/coumadin
+
+Number
+
+dose_instr_old
+
+Instructions given about doseage
+
+Text
+
+value_pt
+
+Numerical value of PT result
+
+Number or Text
+
+value_inr
+
+Numerical value of INR result
+
+Number or Text
+
+next_log
+
+date of next PT/INR appointment
+
+Text
+
+notes
+
+User inputted log notes
+
+Text
+
+status
+
+0= active log
+
+integer (0 or 1)
+
+1= inactive/deleted log
+status_userid
+
+identifier of user who created last
+
+32 digit GUID
+
+updated the status
+userid
+
+identifier of user who created the
+
+32 digit GUID
+
+log
+time_last_modified
+
+date/time when log last modified
+
+timestamp as Y-m-d H:i:s
+
+Description
+
+Schema
+
+schedules
+Scheduled appointments associated with the patient.
+Field Name
+
+scheduleid
+
+unique identifier of the item
+
+32 digit GUID (Globally Unique
+Identifier)
+
+patientid
+
+EHR patient identifier
+
+32 digit GUID
+
+doctorid
+
+identifier of the appointment
+
+32 digit GUID
+
+provider
+ob_pregid
+
+if a pregnancy visit, identifier of
+
+32 digit GUID
+
+the pregnancy
+date
+
+date of the appointment
+
+date as Y-m-d
+
+time
+
+time of the appointment
+
+time as H:i:s
+
+end
+
+end time of appointment
+
+time as H:i:s
+
+location
+checkin_time
+checkin
+roomno
+firstname
+lastname
+middlename
+chartnumber
+cancelled
+copay
+balance
+todays_charges
+notes
+internal_notes
+loc
+payment_type
+payment_type1
+payment_type2
+check_num
+check_num1
+check_num2
+acs_resource_id
+qsi_visit_no
+
+schedule_integrationid
+muerror
+visit_number
+time_last_modified
+referring_providerid
+summary_received
+confirmed
+confirmed_by
+soc_status
+routing_notes
+virtual_visit
+virtual_visit_url
+reg_complete
+payment_complete
+visit_copay
+visit_balance
+facility_id
+waitlist
+
+surgerymemo
+Surgical documentation for patient
+Custom function for specific clinic. Most clinics will have blank table.
+
+Field Name
+
+Description
+
+Schema
+
+surgerymemo_id
+
+unique identifier of the item
+
+32 digit GUID (Globally
+Unique Identifier)
+
+patientid
+
+EHR patient identifier
+
+32 digit GUID
+
+date
+
+date of the surgery
+
+date as Y-m-d
+
+description
+
+description input by provider or user
+
+Text
+
+location
+
+location of the surgery
+
+Text
+
+physician
+
+identifier of provider that performed the surgery
+
+32 digit GUID
+
+date_entered
+
+date surgery memo entered into system
+
+date as Y-m-d
+
+userid
+
+identifier of user who created the surgery memo
+
+32 digit GUID
+
+

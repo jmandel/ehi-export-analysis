@@ -1,0 +1,1278 @@
+{
+  "title": "Electronic Health Information (EHI) Export Documentation",
+  "export_format": {
+    "container": ".zip file containing a folder of files",
+    "file_types": [
+      {
+        "prefix": "*.csv",
+        "extension": "csv",
+        "description": "Patient data in patient tables. Header row with field names, followed by comma-separated data."
+      },
+      {
+        "prefix": "ccda.xml",
+        "extension": "xml",
+        "description": "Main C-CDA export of all patient ccda-compatible data. Additional ccda_[id].xml files are referrals."
+      },
+      {
+        "prefix": "SoapDoc_*",
+        "extension": "pdf",
+        "description": "Visit data from a particular patient visit (SOAP notes)."
+      },
+      {
+        "prefix": "document_*",
+        "extension": "pdf",
+        "description": "Chart documents that may have been scanned or uploaded into the patient chart."
+      },
+      {
+        "prefix": "Labs_*",
+        "extension": "pdf",
+        "description": "PDF lab results."
+      },
+      {
+        "prefix": "formletter_*",
+        "extension": "pdf",
+        "description": "Letters the clinic has generated inside the patient's chart."
+      },
+      {
+        "prefix": "OB_*",
+        "extension": "pdf",
+        "description": "Pregnancy-related visit data."
+      }
+    ]
+  },
+  "instructions": {
+    "single_patient": "Instructions to initiate single patient export of EHI are available in the user guide.",
+    "bulk_export": "For a bulk/multi-patient export of EHI, please contact support by creating a support ticket."
+  },
+  "tables": [
+    {
+      "name": "patientinfo",
+      "description": "Basic identifying information about the patient (dob, chart number, ssn), demographic information for the patient, and some medical or social history questions as customized by the clinic.",
+      "fields": [
+        {
+          "name": "patientid",
+          "description": "system identifier of patient"
+        },
+        {
+          "name": "lastname",
+          "description": "Patient last name"
+        },
+        {
+          "name": "firstname",
+          "description": "Patient first name"
+        },
+        {
+          "name": "chartnumber",
+          "description": "Patient chart number"
+        },
+        {
+          "name": "ssn",
+          "description": "Patient social security number"
+        },
+        {
+          "name": "dob",
+          "description": "Patient Date of birth"
+        },
+        {
+          "name": "address1",
+          "description": "Patient street address"
+        },
+        {
+          "name": "address2",
+          "description": "Patient street address line 2"
+        },
+        {
+          "name": "city",
+          "description": "Patient city"
+        },
+        {
+          "name": "state",
+          "description": "Patient state"
+        },
+        {
+          "name": "zip",
+          "description": "Patient zip code"
+        },
+        {
+          "name": "prev_addr",
+          "description": "Patient's previous addresses"
+        },
+        {
+          "name": "country",
+          "description": "Patient country"
+        },
+        {
+          "name": "mainphone",
+          "description": "Patient's main phone number"
+        },
+        {
+          "name": "mainphone_ext",
+          "description": "Patient's main phone number extension"
+        },
+        {
+          "name": "altphone",
+          "description": "Patient's alternate phone number"
+        },
+        {
+          "name": "altphone_ext",
+          "description": "Patient's alternate phone number extension"
+        },
+        {
+          "name": "workphone",
+          "description": "Patient's work phone number"
+        },
+        {
+          "name": "workphone_ext",
+          "description": "Patient's work phone number extension"
+        },
+        {
+          "name": "emergency_contact",
+          "description": "Patient's emergency contact number"
+        },
+        {
+          "name": "emergency_contact_name",
+          "description": "Patient's emergency contact name"
+        },
+        {
+          "name": "email",
+          "description": "Patient's email"
+        },
+        {
+          "name": "marital_status",
+          "description": "Patient's marital status"
+        },
+        {
+          "name": "primary_physician",
+          "description": "Patient's primary physician"
+        },
+        {
+          "name": "primary_location",
+          "description": "Patient's primary location"
+        },
+        {
+          "name": "chrGender",
+          "description": "Patient's gender",
+          "value_set": "1=male, 2=female"
+        },
+        {
+          "name": "chrGenderIdentity",
+          "description": "Patient's gender identity"
+        },
+        {
+          "name": "chrSexualOrientation",
+          "description": "Patient's sexual orientation"
+        },
+        {
+          "name": "chrBirthSex",
+          "description": "Patient's birth sex"
+        },
+        {
+          "name": "provider",
+          "description": "Patient's provider"
+        },
+        {
+          "name": "preffered_language",
+          "description": "Patient's preferred language"
+        },
+        {
+          "name": "preferred_comm",
+          "description": "Patient's preferred method of communication"
+        },
+        {
+          "name": "ethnicity",
+          "description": "Patient's ethnicity"
+        },
+        {
+          "name": "referring_physician",
+          "description": "Patient's referring physician"
+        },
+        {
+          "name": "primarycare_physician",
+          "description": "Patient's primary care physician"
+        },
+        {
+          "name": "employer_name",
+          "description": "Employer's name"
+        },
+        {
+          "name": "employer_address1",
+          "description": "Employer's address"
+        },
+        {
+          "name": "employer_address2",
+          "description": "Employer's address"
+        },
+        {
+          "name": "employer_city",
+          "description": "Employer's city"
+        },
+        {
+          "name": "employer_state",
+          "description": "Employer's state"
+        },
+        {
+          "name": "employer_zip",
+          "description": "Employer's zip code"
+        },
+        {
+          "name": "date_of_injury",
+          "description": "Patient's date of injury"
+        },
+        {
+          "name": "accident_type",
+          "description": "Patient's accident type"
+        },
+        {
+          "name": "accident_state",
+          "description": "Patient's accident state"
+        },
+        {
+          "name": "financial_class",
+          "description": "Patient's financial class"
+        },
+        {
+          "name": "patient_type",
+          "description": "Patient type"
+        },
+        {
+          "name": "status",
+          "description": "if patient is active or inactive",
+          "value_set": "0=active, 1=inactive"
+        }
+      ]
+    },
+    {
+      "name": "charges",
+      "description": "All CPT charges associated with the patient's account",
+      "fields": [
+        {
+          "name": "charges_id",
+          "description": "identifier of this particular log/row in the table",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "scheduleid",
+          "description": "identifier of patient's visit",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "patientid",
+          "description": "identifier of the patient",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "date",
+          "description": "Date of charge",
+          "schema": "date as Y-m-d"
+        },
+        {
+          "name": "userid",
+          "description": "identifier of user that added the charge",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "charge",
+          "description": "charge code as CPT",
+          "schema": "text"
+        },
+        {
+          "name": "chargeHeading",
+          "description": "charge heading on superbill",
+          "schema": "text"
+        },
+        {
+          "name": "chargeDesc",
+          "description": "charge description",
+          "schema": "text"
+        },
+        {
+          "name": "chargeText",
+          "description": "text associated with charge",
+          "schema": "text"
+        },
+        {
+          "name": "numUnits",
+          "description": "number of units for charge",
+          "schema": "integer"
+        },
+        {
+          "name": "fee",
+          "description": "fee associated with charge",
+          "schema": "Number"
+        },
+        {
+          "name": "verified",
+          "description": "if charge verified",
+          "schema": "integer",
+          "value_set": "0=no, 1=yes"
+        },
+        {
+          "name": "caseType",
+          "description": "case type",
+          "schema": "text",
+          "value_set": "New, Pending, Processed"
+        },
+        {
+          "name": "charge_batch_number",
+          "description": "Batch number associated with charge",
+          "schema": "integer"
+        },
+        {
+          "name": "isExported",
+          "description": "if charge exported",
+          "schema": "integer",
+          "value_set": "0=not exported, 1=set to export, 2=exported"
+        },
+        {
+          "name": "exported_datetime",
+          "description": "Date charge was exported",
+          "schema": "timestamp as Y-m-d H:i:s"
+        },
+        {
+          "name": "export_error",
+          "description": "Error message associated with export",
+          "schema": "text"
+        },
+        {
+          "name": "billing_desc",
+          "description": "Billing description of charge",
+          "schema": "text"
+        },
+        {
+          "name": "sort_order",
+          "description": "Sort order of charge",
+          "schema": "integer"
+        },
+        {
+          "name": "charge_location_guid",
+          "description": "identifier of location for charge",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "time_last_modified",
+          "description": "Date time item last modified",
+          "schema": "timestamp as Y-m-d H:i:s"
+        }
+      ]
+    },
+    {
+      "name": "healthmaintenance",
+      "description": "Scheduled recurrent diagnostic labs or tests the provider associated with the patient.",
+      "fields": [
+        {
+          "name": "healthmaintenance_id",
+          "description": "identifier of this particular log/row in the table",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "patientid",
+          "description": "identifier of the patient",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "name",
+          "description": "Descriptive name of health maintenance item",
+          "schema": "text"
+        },
+        {
+          "name": "frequency",
+          "description": "Recommended number of times item should recur",
+          "schema": "integer"
+        },
+        {
+          "name": "last_test_date",
+          "description": "Date of last test",
+          "schema": "Date as Y-m-d"
+        },
+        {
+          "name": "healthmaint_notes",
+          "description": "Notes about the item",
+          "schema": "text"
+        },
+        {
+          "name": "time_last_modified",
+          "description": "Date time item last modified",
+          "schema": "timestamp as Y-m-d H:i:s"
+        },
+        {
+          "name": "inactive",
+          "description": "status of item",
+          "schema": "integer",
+          "value_set": "0=active, 1=inactive"
+        },
+        {
+          "name": "create_date",
+          "description": "Date item was created",
+          "schema": "Date as Y-m-d"
+        },
+        {
+          "name": "delay_days",
+          "description": "Number of days item has been delayed",
+          "schema": "integer"
+        }
+      ]
+    },
+    {
+      "name": "ob",
+      "description": "OB report of pregnancy-related visits",
+      "fields": [
+        {
+          "name": "firstname",
+          "description": "Patient first name"
+        },
+        {
+          "name": "lastname",
+          "description": "Patient last name"
+        },
+        {
+          "name": "chartnumber",
+          "description": "Patient chart number"
+        },
+        {
+          "name": "ssn",
+          "description": "Patient social security number"
+        },
+        {
+          "name": "dob",
+          "description": "Patient Date of birth"
+        },
+        {
+          "name": "doctype",
+          "description": "OB"
+        },
+        {
+          "name": "date",
+          "description": "Date of start of pregnancy"
+        },
+        {
+          "name": "filename",
+          "description": "Name of associated PDF file"
+        }
+      ]
+    },
+    {
+      "name": "patient_advforms",
+      "description": "Online patient forms",
+      "fields": [
+        {
+          "name": "patient_advforms_id",
+          "description": "identifier of this particular log/row in the table",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "advform_id",
+          "description": "identifier of the form template",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "patientid",
+          "description": "identifier of the patient",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "create_date",
+          "description": "Date form is created",
+          "schema": "date as Y-m-d"
+        },
+        {
+          "name": "complete_date",
+          "description": "Date form was completed by patient",
+          "schema": "date as Y-m-d"
+        },
+        {
+          "name": "user_data",
+          "description": "Patient answers to form questions as JSON",
+          "schema": "JSON array"
+        },
+        {
+          "name": "sign_data",
+          "description": "Saved image of patient signature",
+          "schema": "image data"
+        },
+        {
+          "name": "form_audit",
+          "description": "Audit of form",
+          "schema": "Text"
+        },
+        {
+          "name": "status",
+          "description": "Status of form",
+          "value_set": "SENT, COMPLETED, CANCELLED"
+        },
+        {
+          "name": "deleted",
+          "description": "if form was deleted",
+          "schema": "integer",
+          "value_set": "0=not deleted, 1=deleted"
+        },
+        {
+          "name": "time_last_modified",
+          "description": "Date time form last modified",
+          "schema": "timestamp as Y-m-d H:i:s"
+        }
+      ]
+    },
+    {
+      "name": "patient_codes",
+      "description": "Codes of various code systems associated with the patient",
+      "fields": [
+        {
+          "name": "item_guid",
+          "description": "identifier of this particular log/row in the table",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "patientid",
+          "description": "identifier of the patient",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "scheduleid",
+          "description": "identifier of schedule associated with code",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "code",
+          "description": "Code",
+          "schema": "text"
+        },
+        {
+          "name": "value",
+          "description": "Value of code if necessary",
+          "schema": "JSON array"
+        },
+        {
+          "name": "units",
+          "description": "Units of value if necessary",
+          "schema": "text"
+        },
+        {
+          "name": "date",
+          "description": "Date of code",
+          "schema": "date as Y-m-d"
+        },
+        {
+          "name": "type",
+          "description": "Type of code",
+          "schema": "Text"
+        },
+        {
+          "name": "link_table",
+          "description": "Table associated with code",
+          "schema": "Text"
+        },
+        {
+          "name": "link_guid",
+          "description": "GUID of the item code is related to",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "create_date",
+          "description": "Date code created",
+          "schema": "date as Y-m-d"
+        },
+        {
+          "name": "create_user",
+          "description": "Identifier of the user that created the code",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "description",
+          "description": "Description of code",
+          "schema": "Text"
+        },
+        {
+          "name": "log_notes",
+          "description": "Any notes logged with code",
+          "schema": "Text"
+        }
+      ]
+    },
+    {
+      "name": "patient_forms_data",
+      "description": "Forms filled out for the patient",
+      "fields": [
+        {
+          "name": "patient_forms_data_id",
+          "description": "identifier of this particular log/row in the table",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "patientid",
+          "description": "identifier of the patient",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "form_guid",
+          "description": "identifier of the form questions template",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "date",
+          "description": "Date form created",
+          "schema": "date as Y-m-d"
+        },
+        {
+          "name": "response",
+          "description": "Form answers saved as a JSON array",
+          "schema": "JSON array"
+        },
+        {
+          "name": "physicianid",
+          "description": "identifier of the physician associated with the form",
+          "schema": "32 digit GUID"
+        }
+      ]
+    },
+    {
+      "name": "patient_guarantor",
+      "description": "Guarantor information and demographics associated with the patient",
+      "fields": [
+        {
+          "name": "patient_guarantor_id",
+          "description": "identifier of this particular log/row in the table",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "guar_acsid",
+          "description": "identifier for billing system",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "patientid",
+          "description": "Patient identifier",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "guar_firstname",
+          "description": "Guarantor's first name",
+          "schema": "Text"
+        },
+        {
+          "name": "guar_middlename",
+          "description": "Guarantor's middle name",
+          "schema": "Text"
+        },
+        {
+          "name": "guar_lastname",
+          "description": "Guarantor's last name",
+          "schema": "Text"
+        },
+        {
+          "name": "guar_address",
+          "description": "Street address of guarantor",
+          "schema": "Text"
+        },
+        {
+          "name": "guar_address2",
+          "description": "Street address line 2 for guarantor",
+          "schema": "Text"
+        },
+        {
+          "name": "guar_city",
+          "description": "Guarantor's city",
+          "schema": "Text"
+        },
+        {
+          "name": "guar_state",
+          "description": "Guarantor's state",
+          "schema": "Text"
+        },
+        {
+          "name": "guar_zip",
+          "description": "Guarantor's zipcode",
+          "schema": "Text"
+        },
+        {
+          "name": "guar_phone",
+          "description": "Guarantor's phone number",
+          "schema": "Text"
+        },
+        {
+          "name": "guar_phone_ext",
+          "description": "Guarantor's phone extension",
+          "schema": "Text"
+        },
+        {
+          "name": "guar_gender",
+          "description": "Guarantor's gender",
+          "value_set": "1=Male, 2=Female"
+        },
+        {
+          "name": "guar_dob",
+          "description": "Guarantor's date of birth",
+          "schema": "date as Y-m-d"
+        },
+        {
+          "name": "guar_ssn",
+          "description": "Guarantor's social security number",
+          "schema": "Text"
+        },
+        {
+          "name": "guar_relation",
+          "description": "Guarantor's relationship to patient",
+          "schema": "Text"
+        },
+        {
+          "name": "guar_employer",
+          "description": "Guarantor's employer",
+          "schema": "Text"
+        },
+        {
+          "name": "guar_employer_addr",
+          "description": "Guarantor's employer address",
+          "schema": "Text"
+        },
+        {
+          "name": "guar_employer_city",
+          "description": "Guarantor's employer city",
+          "schema": "Text"
+        },
+        {
+          "name": "guar_employer_state",
+          "description": "Guarantor's employer state",
+          "schema": "Text"
+        },
+        {
+          "name": "guar_employer_zip",
+          "description": "Guarantor's employer zip code",
+          "schema": "Text"
+        }
+      ]
+    },
+    {
+      "name": "patient_letters",
+      "description": "Letters written by the clinic that are associated with the patient",
+      "fields": [
+        {
+          "name": "firstname",
+          "description": "Patient first name"
+        },
+        {
+          "name": "lastname",
+          "description": "Patient last name"
+        },
+        {
+          "name": "chartnumber",
+          "description": "Patient chart number"
+        },
+        {
+          "name": "ssn",
+          "description": "Patient social security number"
+        },
+        {
+          "name": "dob",
+          "description": "Patient Date of birth"
+        },
+        {
+          "name": "doctype",
+          "description": "LETTER"
+        },
+        {
+          "name": "date",
+          "description": "Date of letter"
+        },
+        {
+          "name": "filename",
+          "description": "Name of associated PDF file"
+        }
+      ]
+    },
+    {
+      "name": "patient_pmp",
+      "description": "Prescription monitoring program database results for the patient.",
+      "fields": [
+        {
+          "name": "patient_pmp_id",
+          "description": "identifier of this particular log/row in the table",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "patientid",
+          "description": "identifier of the patient",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "narc_score",
+          "description": "Narcotics Score",
+          "schema": "Number"
+        },
+        {
+          "name": "stim_score",
+          "description": "Stimulant Score",
+          "schema": "Number"
+        },
+        {
+          "name": "sed_score",
+          "description": "Sedatives Score",
+          "schema": "Number"
+        },
+        {
+          "name": "over_score",
+          "description": "Overall Score",
+          "schema": "Number"
+        },
+        {
+          "name": "url",
+          "description": "URL to view entire report (accessible only by provider)",
+          "schema": "Text"
+        },
+        {
+          "name": "message",
+          "description": "Error Message",
+          "schema": "Text"
+        },
+        {
+          "name": "exp",
+          "description": "Date the url expires",
+          "schema": "Y-m-d"
+        },
+        {
+          "name": "time_last_modified",
+          "description": "date/time when row was last modified",
+          "schema": "Y-m-d H:i:s"
+        }
+      ]
+    },
+    {
+      "name": "patient_referrals",
+      "description": "Referrals sent out to other providers on behalf of the patient",
+      "fields": [
+        {
+          "name": "firstname",
+          "description": "Patient first name"
+        },
+        {
+          "name": "lastname",
+          "description": "Patient last name"
+        },
+        {
+          "name": "chartnumber",
+          "description": "Patient chart number"
+        },
+        {
+          "name": "ssn",
+          "description": "Patient social security number"
+        },
+        {
+          "name": "dob",
+          "description": "Patient Date of birth"
+        },
+        {
+          "name": "doctype",
+          "description": "REFERRAL"
+        },
+        {
+          "name": "date",
+          "description": "Date of referral created"
+        },
+        {
+          "name": "filename",
+          "description": "Name of associated PDF file"
+        },
+        {
+          "name": "from_provider",
+          "description": "Name of referring provider"
+        },
+        {
+          "name": "to_provider",
+          "description": "Name of provider referral sent to"
+        },
+        {
+          "name": "referral_reason",
+          "description": "Reason for referral"
+        },
+        {
+          "name": "ccda_id",
+          "description": "Identifier of ccda, can match to ccda_[ccda_id].xml file inside folder"
+        }
+      ]
+    },
+    {
+      "name": "ptinr",
+      "description": "For patient requires periodic prothrombin time(PT) and international normalized ratio(INR) tests, this documents the reason for the test and the frequency decided by the provider",
+      "fields": [
+        {
+          "name": "ptinrid",
+          "description": "identifier of this particular log/row in the table",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "patientid",
+          "description": "identifier of the patient",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "diagnosis",
+          "description": "Diagnosis that warrants PT/INR tracking",
+          "schema": "Text"
+        },
+        {
+          "name": "inr_range",
+          "description": "Provider selected ideal range of INR result",
+          "schema": "Number"
+        },
+        {
+          "name": "date_stop",
+          "description": "Date to end PT/INR tracking",
+          "schema": "date as Y-m-d"
+        },
+        {
+          "name": "comments",
+          "description": "Comments",
+          "schema": "Text"
+        },
+        {
+          "name": "inactive",
+          "description": "if ptinr is active for patient",
+          "schema": "integer",
+          "value_set": "0=active, 1=inactive"
+        },
+        {
+          "name": "time_last_modified",
+          "description": "date/time when row last modified",
+          "schema": "timestamp as Y-m-d H:i:s"
+        }
+      ]
+    },
+    {
+      "name": "ptinr_log",
+      "description": "Logs all pt/inr test results for the patient; Connected to ptinr table.",
+      "fields": [
+        {
+          "name": "ptinr_logid",
+          "description": "identifier of this particular log/row in the table",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "ptinrid",
+          "description": "identifier of the patient's PT/INR plan found as a row in the ptinr table",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "date_entered",
+          "description": "Date results entered",
+          "schema": "date as Y-m-d"
+        },
+        {
+          "name": "date_drawn",
+          "description": "Date test drawn",
+          "schema": "date as Y-m-d"
+        },
+        {
+          "name": "tab_strength_old",
+          "description": "Strength of warfarin/coumadin",
+          "schema": "Number"
+        },
+        {
+          "name": "doseage_old",
+          "description": "Dose of warfarin/coumadin",
+          "schema": "Number"
+        },
+        {
+          "name": "dose_instr_old",
+          "description": "Instructions given about dosage",
+          "schema": "Text"
+        },
+        {
+          "name": "value_pt",
+          "description": "Numerical value of PT result",
+          "schema": "Number or Text"
+        },
+        {
+          "name": "value_inr",
+          "description": "Numerical value of INR result",
+          "schema": "Number or Text"
+        },
+        {
+          "name": "next_log",
+          "description": "date of next PT/INR appointment",
+          "schema": "Text"
+        },
+        {
+          "name": "notes",
+          "description": "User inputted log notes",
+          "schema": "Text"
+        },
+        {
+          "name": "status",
+          "description": "log status",
+          "schema": "integer (0 or 1)",
+          "value_set": "0=active log, 1=inactive/deleted log"
+        },
+        {
+          "name": "status_userid",
+          "description": "identifier of user who last updated the status",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "userid",
+          "description": "identifier of user who created the log",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "time_last_modified",
+          "description": "date/time when log last modified",
+          "schema": "timestamp as Y-m-d H:i:s"
+        }
+      ]
+    },
+    {
+      "name": "schedules",
+      "description": "Scheduled appointments associated with the patient.",
+      "fields": [
+        {
+          "name": "scheduleid",
+          "description": "unique identifier of the item",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "patientid",
+          "description": "EHR patient identifier",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "doctorid",
+          "description": "identifier of the appointment provider",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "ob_pregid",
+          "description": "if a pregnancy visit, identifier of the pregnancy",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "date",
+          "description": "date of the appointment",
+          "schema": "date as Y-m-d"
+        },
+        {
+          "name": "time",
+          "description": "time of the appointment",
+          "schema": "time as H:i:s"
+        },
+        {
+          "name": "end",
+          "description": "end time of appointment",
+          "schema": "time as H:i:s"
+        },
+        {
+          "name": "location",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "checkin_time",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "checkin",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "roomno",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "firstname",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "lastname",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "middlename",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "chartnumber",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "cancelled",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "copay",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "balance",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "todays_charges",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "notes",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "internal_notes",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "loc",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "payment_type",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "payment_type1",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "payment_type2",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "check_num",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "check_num1",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "check_num2",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "acs_resource_id",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "qsi_visit_no",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "schedule_integrationid",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "muerror",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "visit_number",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "time_last_modified",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "referring_providerid",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "summary_received",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "confirmed",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "confirmed_by",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "soc_status",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "routing_notes",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "virtual_visit",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "virtual_visit_url",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "reg_complete",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "payment_complete",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "visit_copay",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "visit_balance",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "facility_id",
+          "description": "(no description in source)"
+        },
+        {
+          "name": "waitlist",
+          "description": "(no description in source)"
+        }
+      ]
+    },
+    {
+      "name": "surgerymemo",
+      "description": "Surgical documentation for patient. Custom function for specific clinic. Most clinics will have blank table.",
+      "fields": [
+        {
+          "name": "surgerymemo_id",
+          "description": "unique identifier of the item",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "patientid",
+          "description": "EHR patient identifier",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "date",
+          "description": "date of the surgery",
+          "schema": "date as Y-m-d"
+        },
+        {
+          "name": "description",
+          "description": "description input by provider or user",
+          "schema": "Text"
+        },
+        {
+          "name": "location",
+          "description": "location of the surgery",
+          "schema": "Text"
+        },
+        {
+          "name": "physician",
+          "description": "identifier of provider that performed the surgery",
+          "schema": "32 digit GUID"
+        },
+        {
+          "name": "date_entered",
+          "description": "date surgery memo entered into system",
+          "schema": "date as Y-m-d"
+        },
+        {
+          "name": "userid",
+          "description": "identifier of user who created the surgery memo",
+          "schema": "32 digit GUID"
+        }
+      ]
+    }
+  ],
+  "stats": {
+    "total_tables": 15,
+    "total_fields": 248,
+    "tables_with_schema": 11,
+    "tables_without_schema": 4
+  }
+}
