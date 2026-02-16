@@ -1,0 +1,1294 @@
+<html><head></head><body><p>EyeMD EMR Health Care Systems Inc.<br>27300 Riverview Center Blvd<br>Suite 100<br>Bonita Springs, FL 34134</p>
+<p>Toll Free: (877) 2 EYE EMR | (877) 239-3367<br>Local: (239) 829-5959<br>Fax: (239) 949-5959</p>
+<h1 id="overview">Overview</h1>
+<p>The EyeMD EMR FHIR API enables connection to customer systems using the FHIR (Fast Healthcare Interoperability Resources) standard for healthcare resources. This standard allows application developers to securely create products and exchange clinical data in a consistent, flexible, and easy-to-implement manner.</p>
+<p>The FHIR API is available for customers using EyeMD EMR version 2.0 or later. It supports FHIR Release 4 (R4) and adheres to the United States Core Data for Interoperability (US Core) v1 guidelines and requirements for data sharing.</p>
+<h1 id="general-information">General Information</h1>
+<h2 id="smart-on-fhir">SMART on FHIR</h2>
+<p>The API meets the requirements of the Standardized API for Patient and Population Services criterion §170.315(g)(10) in the 2015 Edition Cures Update. The API supports both SMART App Launch and SMART Backend Services v2.0.0. For more information, please visit <a href="https://hl7.org/fhir/smart-app-launch/">https://hl7.org/fhir/smart-app-launch/</a>.</p>
+<h3 id="supported-application-types">Supported Application Types</h3>
+<ol>
+<li><p>Patient Apps</p>
+</li>
+<li><p>Practitioner Apps (for Healthcare Providers / Practices)</p>
+</li>
+<li><p>Backend System Apps</p>
+</li>
+</ol>
+<h3 id="fhir-server-capability-metadata">FHIR Server Capability Metadata</h3>
+<p>Capability metadata can be queried by appending "/metadata" to the Endpoint Service Base URL.</p>
+<h2 id="patients">Patients</h2>
+<p>Patients interested in connecting to the API using a SMART on FHIR capable app can do so by logging in to their provider's patient portal, scrolling down to the "API Access" section, and clicking the "Request Access" button. They will then be prompted to authenticate using a Microsoft Live account. If the patient does not have a Microsoft Live account, they will be prompted to enter a code sent to the email they provide in the authentication form.</p>
+<h2 id="healthcare-providers--practices">Healthcare Providers / Practices</h2>
+<p>To make patient data accessible via the FHIR API, some setup is required. First, your IT team must configure a port forward on your router to the EMR Gateway Server port. After this is done, EyeMD EMR will configure the FHIR API server to communicate with your Gateway server. To initiate this process, please contact Customer Service.</p>
+<h2 id="application-vendors"><strong>Application Vendors</strong></h2>
+<p>Third-party application vendors interested in accessing the API must first complete a one-time <a href="https://www.eyemdemr.com/fhir-app-registration/">Application Registration Request</a>. Once the registration request is received, it will be processed within 10 days.</p>
+<p>To register your App:</p>
+<ol>
+<li><p>Navigate to <a href="https://www.eyemdemr.com/fhir">https://www.eyemdemr.com/fhir</a></p>
+</li>
+<li><p>Review the API Documentation and agree to the Terms and Conditions.</p>
+</li>
+<li><p>Complete the SMART on FHIR Application Registration Request form.</p>
+</li>
+</ol>
+<p>Once your registration request is processed, we will send an email response to the supplied email address within 5 days. If your registration request is approved, your app will be registered and enabled, and you will receive an email that includes your credentials and configuration details. If your registration request is denied, you will receive an email with the stated reason for denial. If your request is denied more than 5 times for any reason, further requests will no longer be processed and will be discarded.</p>
+<p>For more information, see the Application Registration Requirement section below.</p>
+<h1 id="fees">Fees</h1>
+<p><strong>Patients:</strong> Patients are not charged any fees to access their data using the FHIR API.</p>
+<p><strong>Practice:</strong> Practices using EyeMD EMR are charged a one-time FHIR setup fee of $300 to recover costs associated with integrating their local EMR instance to the FHIR API server. Ongoing throttled access to the API is included as part of the Patient Portal Subscription.</p>
+<p><strong>Application Vendors:</strong> Application vendors are charged a one-time setup fee of $3,000 to recover costs associated with identity verification and registering the vendor as an approved application vendor. Vendors can request live API support for an additional $2,000. Once approved, the application vendor can make up to 300 API requests per endpoint per day for data authorized by any EyeMD EMR provider or patient. Requests exceeding this limit may be denied or rate-limited. Additional transactions are available on a quoted basis.</p>
+<h1 id="setup-instructions">Setup Instructions</h1>
+<p><strong>Patients:</strong></p>
+<p>1. Login in to your EyeMD EMR Patient Web Portal.</p>
+<p>2. Scroll down to the bottom of the Page and press the button "Request Access".</p>
+<img src="https://content.pstmn.io/f61d32fc-a8a6-4354-aab0-6be313ffe526/aW1hZ2UucG5n" width="1137" height="185">
+
+<p>3. You will then see the following message that indicates your are now ready to start using Smart Apps.</p>
+<img src="https://content.pstmn.io/f0535211-720f-4ca4-9a2f-f76ca002102b/aW1hZ2UucG5n" width="1138" height="128">
+
+<p><strong>Practices:</strong></p>
+<p>1. First, you must be logged in the EMR as an Administrator or Doctor to the practice.</p>
+<p>2. At the main patient flow select the menu button.</p>
+<img src="https://content.pstmn.io/3c99b315-e631-4861-8f78-98a823e474b5/aW1hZ2UucG5n" width="414" height="202">
+
+<p>3. Then select the menu choices as shown below, Options - Integration - Interface Options.</p>
+<img src="https://content.pstmn.io/956887a0-1170-4816-9e98-23b160115e6b/aW1hZ2UucG5n" width="517" height="605">
+
+<p>4. Scroll to the bottom of the screen and press the + sign to add an app.</p>
+<img src="https://content.pstmn.io/2fed200d-d178-4e61-8b86-c6c1aaeb004a/aW1hZ2UucG5n" width="985" height="82">
+
+<p>5. Fill in the fields as described below, and select the checkbox for "Practitioner" (used for an app that presents the data for all patients) or select the checkbox for "Patient" (used for an app that presents data for a specific patient). Then press save.</p>
+<img src="https://content.pstmn.io/f9c539d9-44d5-4bf8-ad77-deaef11e96cb/aW1hZ2UucG5n" width="524" height="339">
+
+<p>6. The smart app will now be listed in the screen where you originally added it with the + sign. Press save and then at the main patient flow screen you will see a FHIR icon and you are now done.</p>
+<img src="https://content.pstmn.io/28568ba1-ba00-4c5b-8f0f-b30defed2076/aW1hZ2UucG5n" width="657" height="89">
+
+<img src="https://content.pstmn.io/6ca2265d-0e75-4e3c-b6de-4ccdc5a262c4/aW1hZ2UucG5n" width="716" height="185">
+
+<h1 id="fhir-endpoints">FHIR Endpoints</h1>
+<p>Since each EyeMD EMR customer operates in a partitioned and isolated data environment, a unique service base URL endpoint is assigned to each customer. EyeMD EMR supports various data hosting options, necessitating setup for each customer before their FHIR API access is activated and listed.</p>
+<p>If a customer's endpoint is not listed, please reach out to the practice you wish to connect with and encourage them to contact Customer Service to initiate the FHIR API Configuration Setup process.</p>
+<p>Below is an example list of activated FHIR endpoints. The Endpoint Identifier can be obtained by contacting the practice you intend to connect with. This identifier is located at the bottom right of the main EMR application screen. For a complete list, please refer to the "Download Endpoints as FHIR Bundle" feature.</p>
+<img src="https://content.pstmn.io/825c7035-4c26-4c6e-a4c2-91b54ed8ebf7/U2NyZWVuc2hvdCAyMDIyLTEyLTA4IDEzMjA1NS5wbmc=">
+
+<div class="click-to-expand-wrapper is-table-wrapper"><table>
+<thead>
+<tr>
+<th><strong>Endpoint Identifier</strong></th>
+<th><strong>Status</strong></th>
+<th><strong>Service Base URL</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADV289115</td>
+<td>active</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/fhir/ADV289115">https://smartonfhir.myeyecarerecords.com/fhir/ADV289115</a></td>
+</tr>
+<tr>
+<td>ALT227916</td>
+<td>active</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/fhir/ALT227916">https://smartonfhir.myeyecarerecords.com/fhir/ALT227916</a></td>
+</tr>
+<tr>
+<td>CHA227610</td>
+<td>active</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/fhir/EYE227254">https://smartonfhir.myeyecarerecords.com/fhir/CHA227610</a></td>
+</tr>
+<tr>
+<td>CHO227259</td>
+<td>active</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/fhir/EYE227392">https://smartonfhir.myeyecarerecords.com/fhir/CHO227259</a></td>
+</tr>
+<tr>
+<td>EYE227239</td>
+<td>active</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/fhir/EYE227904">https://smartonfhir.myeyecarerecords.com/fhir/EYE227239</a></td>
+</tr>
+<tr>
+<td>EYE227254</td>
+<td>active</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/fhir/EYE227931">https://smartonfhir.myeyecarerecords.com/fhir/EYE227254</a></td>
+</tr>
+<tr>
+<td>EYE227309</td>
+<td>active</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/fhir/EYE289101">https://smartonfhir.myeyecarerecords.com/fhir/EYE227309</a></td>
+</tr>
+<tr>
+<td>EYE227331</td>
+<td>active</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/fhir/EYE414105">https://smartonfhir.myeyecarerecords.com/fhir/EYE227331</a></td>
+</tr>
+<tr>
+<td>EYE227530</td>
+<td>active</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/fhir/TAD187564">https://smartonfhir.myeyecarerecords.com/fhir/227530</a></td>
+</tr>
+<tr>
+<td>EYE93613</td>
+<td>active</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/fhir/ALT227916">https://smartonfhir.myeyecarerecords.com/fhir/EYE93613</a></td>
+</tr>
+<tr>
+<td>HOU227765</td>
+<td>active</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/fhir/HOU227765">https://smartonfhir.myeyecarerecords.com/fhir/HOU227765</a></td>
+</tr>
+<tr>
+<td>HUG289117</td>
+<td>active</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/fhir/HUG289117">https://smartonfhir.myeyecarerecords.com/fhir/HUG289117</a></td>
+</tr>
+<tr>
+<td>MEL172432</td>
+<td>active</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/fhir/MEL172432">https://smartonfhir.myeyecarerecords.com/fhir/MEL172432</a></td>
+</tr>
+<tr>
+<td>MIA172243</td>
+<td>active</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/fhir/MIA172243">https://smartonfhir.myeyecarerecords.com/fhir/MIA172243</a></td>
+</tr>
+<tr>
+<td>NAS227941</td>
+<td>active</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/fhir/NAS227941">https://smartonfhir.myeyecarerecords.com/fhir/NAS227941</a></td>
+</tr>
+<tr>
+<td>OCE227581</td>
+<td>active</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/fhir/OCE227581">https://smartonfhir.myeyecarerecords.com/fhir/OCE227581</a></td>
+</tr>
+<tr>
+<td>OPH227456</td>
+<td>active</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/fhir/OPH227456">https://smartonfhir.myeyecarerecords.com/fhir/OPH227456</a></td>
+</tr>
+<tr>
+<td>PLE172984</td>
+<td>active</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/fhir/PLE172984">https://smartonfhir.myeyecarerecords.com/fhir/PLE172984</a></td>
+</tr>
+<tr>
+<td>ROB227951</td>
+<td>active</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/fhir/ROB227951">https://smartonfhir.myeyecarerecords.com/fhir/ROB227951</a></td>
+</tr>
+<tr>
+<td>SOM227540</td>
+<td>active</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/fhir/SOM227540">https://smartonfhir.myeyecarerecords.com/fhir/SOM227540</a></td>
+</tr>
+<tr>
+<td>TAD187564</td>
+<td>active</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/fhir/TAD187564">https://smartonfhir.myeyecarerecords.com/fhir/TAD187564</a></td>
+</tr>
+<tr>
+<td>WAS227347</td>
+<td>active</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/fhir/WAS227347">https://smartonfhir.myeyecarerecords.com/fhir/WAS227347</a></td>
+</tr>
+<tr>
+<td>WIN227241</td>
+<td>active</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/fhir/WIN227241">https://smartonfhir.myeyecarerecords.com/fhir/WIN227241</a></td>
+</tr>
+</tbody>
+</table>
+</div><p><a href="https://smartonfhir.myeyecarerecords.com/fhir/Endpoint?_format=application/fhir+json&amp;status=active&amp;_count=1000">Download Endpoints as FHIR Bundle</a></p>
+<h2 id="authentication-endpoints">Authentication Endpoints</h2>
+<div class="click-to-expand-wrapper is-table-wrapper"><table>
+<thead>
+<tr>
+<th><strong>Description</strong></th>
+<th><strong>URL</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Authorization Endpoint</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/oauth2/authorize">https://smartonfhir.myeyecarerecords.com/oauth2/authorize</a></td>
+</tr>
+<tr>
+<td>Token Endpoint</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/oauth2/token">https://smartonfhir.myeyecarerecords.com/oauth2/token</a></td>
+</tr>
+<tr>
+<td>Token Introspection</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/oauth2/introspect">https://smartonfhir.myeyecarerecords.com/oauth2/introspect</a></td>
+</tr>
+<tr>
+<td>Token Revocation</td>
+<td><a href="https://smartonfhir.myeyecarerecords.com/oauth2/revoke">https://smartonfhir.myeyecarerecords.com/oauth2/revoke</a></td>
+</tr>
+</tbody>
+</table>
+</div><h1 id="authorization">Authorization</h1>
+<p>The EyeMD EMR FHIR API supports the HL7® SMART Application Launch Framework Implementation Guide Release 2.0.0 implementation specification, a profile of the OAuth 2.0 specification. Additionally, the FHIR API supports OpenID Connect Core 1.0. For further details on these specifications, please visit <a href="https://www.hl7.org/fhir/smart-app-launch/">https://www.hl7.org/fhir/smart-app-launch/</a>.</p>
+<h1 id="terms-of-use">Terms of Use</h1>
+<h2 id="api-usage-terms--conditions">API Usage Terms &amp; Conditions</h2>
+<p>By accessing or using our APIs, you agree to the terms outlined below. In the event of any conflict between these terms and other terms provided by us, the other terms will take precedence over these. Collectively, these terms, any additional terms, terms within the accompanying API documentation, and any applicable policies and guidelines are referred to as the "Terms". You agree to abide by these Terms, which govern your relationship with us and/or our clients. Therefore, it is essential to carefully review all the Terms.</p>
+<p>Under these Terms, "EyeMD EMR" refers to EyeMD EMR Healthcare Systems, Inc., located at 27300 Riverview Center Blvd Suite 100, Bonita Springs, Florida, U.S.A. Throughout the Terms, "EyeMD EMR" may be referred to as "we", "our", or "us". "API" encompasses the FHIR API system and any endpoints or subsystems referenced in this API documentation.</p>
+<p>Furthermore, within these Terms, "our clients" or "Healthcare Provider" denotes any licensed active user of EyeMD EMR. The term "You" or "Your" includes anyone acting on your behalf, company employees, contractors, and any individuals who may directly or indirectly access and/or use the API or view information originating from the API.</p>
+<h2 id="restrictions">Restrictions</h2>
+<p>You are prohibited from using the API if: (a) you are not of legal age to enter into a binding contract with EyeMD EMR, (b) you are barred from using or receiving APIs under the laws of the United States, your country of residence, or any other applicable jurisdiction, or (c) you are an Application Vendor that has not received an Application Registration approval.</p>
+<h2 id="application-registration-requirement">Application Registration Requirement</h2>
+<p>To gain access to the API, application vendors must submit specific information during the registration approval process. This requirement aims to enhance security and prevent misuse. It's crucial that any registration information provided to EyeMD EMR or our Clients is accurate, complete, and regularly updated.</p>
+<p>The Application Registration approval process includes:</p>
+<ul>
+<li><p>Ensuring all supplied information is accurate and complete.</p>
+</li>
+<li><p>Ensuring all requested scopes are supported and appropriate for the stated use.</p>
+</li>
+<li><p>Confirming the request originated from a valid business entity.</p>
+</li>
+<li><p>Verifying that the supplied email and URL domain owners match business entity public records. (Email addresses from public/free email provider domains will not be accepted.)</p>
+</li>
+<li><p>Ensuring the vendor has not previously been banned for violating these Terms.</p>
+</li>
+<li><p>Confirming the request did not originate from a blacklisted IP or domain address.</p>
+</li>
+<li><p>Ensuring the request did not originate from a U.S. embargoed or sanctioned country.</p>
+</li>
+<li><p>Verifying that the stated reason for the connectivity request is legitimate and healthcare-oriented, serving the needs of patients, practitioners, researchers, or payers.</p>
+</li>
+</ul>
+<p>Other Reasons for Registration Denial:</p>
+<p>• No valid business entity identifiers (EIN/TIN).<br>• Vendor is a data aggregator that does not provide useful apps for patients/practitioners.<br>• Non-payment of fees.</p>
+<p>Failure to comply with the Terms outlined in this agreement may lead to the revocation of Application Registration privileges and may also result in IP bans as a consequence.</p>
+<h2 id="compliance-with-law-third-party-rights-and-other-eyemd-emr-terms-of-service">Compliance with Law, Third-Party Rights, and Other EyeMD EMR Terms of Service</h2>
+<p>You must adhere to all applicable laws, regulations, and third-party rights when using the API. It is prohibited to use the API to facilitate, promote, or engage in any illegal activities or infringements upon third-party rights. Additionally, you are not permitted to use the API in a manner that contravenes any other terms of service with EyeMD EMR or our clients.</p>
+<h2 id="your-companies-employees-affiliates-and-contractors">Your Companies Employee's, Affiliates and Contractors</h2>
+<p>You are required to ensure that your company's employees, affiliates, contractors, and anyone acting on your behalf, including those who may access information provided by the EyeMD EMR API directly or indirectly, comply with (and do not knowingly enable them to violate) applicable laws, regulations, and these Terms.</p>
+<h2 id="permitted-access">Permitted Access</h2>
+<p>You should only access the API by the methods described in its documentation. Any assigned credentials should only be used for their intended purposes and should only be used to access records within the assigned access scopes. You must not hide, misrepresent, mask, or spoof your identity or your API Client's identity when using the API.</p>
+<h2 id="api-limitations">API Limitations</h2>
+<p>EyeMD EMR, our clients, and affiliates may set and enforce limits on your use of the API (e.g., limiting the number of API requests you may make or the number of users you may serve), at their sole discretion. You agree not to attempt to circumvent these limitations as documented with each API. If you wish to use any API beyond these limits, you must obtain express consent from EyeMD EMR, which may decline your request or condition acceptance on your agreement to additional terms and/or charges for that use.</p>
+<h2 id="security">Security</h2>
+<p>You shall use commercially reasonable efforts to protect information accessed by your API Client, including personally identifiable information (PII), from unauthorized access or use. You agree to promptly report any unauthorized access or use of such information to our clients, EyeMD EMR, and any required regulatory agency as required by law. Application vendors should evaluate their applications for the top 10 security vulnerabilities listed at <a href="https://owasp.org/www-project-top-ten/">https://owasp.org/www-project-top-ten/</a> and ensure their internal systems are patched, scanned for vulnerabilities, and monitored for suspicious activity.</p>
+<h2 id="ownership">Ownership</h2>
+<p>By using our API, you do not acquire ownership of any rights for our API or the content that is accessed through our API.</p>
+<h2 id="api-prohibitions">API Prohibitions</h2>
+<p>When using the APIs, you may not (nor allow those acting on your behalf to):</p>
+<ul>
+<li><p>Sublicense an API for use by a third party. Consequently, you will not create an API Client that functions substantially the same as the API and offer it for use by third parties.</p>
+</li>
+<li><p>Perform any action with the intent of introducing to EyeMD EMR products and services any viruses, worms, defects, Trojan horses, malware, or any items of a destructive nature.</p>
+</li>
+<li><p>Defame, abuse, harass, stalk, or threaten others.</p>
+</li>
+<li><p>Interfere with, overburden, or disrupt the API or the servers or networks providing the API.</p>
+</li>
+<li><p>Promote or facilitate unlawful online gambling or disruptive commercial messages or advertisements.</p>
+</li>
+<li><p>Remove, obscure, or alter any EyeMD EMR terms of service or any links to or notices of those terms.</p>
+</li>
+</ul>
+<p>Unless otherwise specified in writing by us, EyeMD EMR does not intend the use of the API to create obligations under the Health Insurance Portability and Accountability Act, as amended ("HIPAA"), and makes no representations that the APIs satisfy HIPAA requirements. If you are (or become) a "covered entity" or "business associate" as defined in HIPAA, you will not use the API for any purpose or in any manner involving transmitting protected health information to any other party unless you have received prior written consent to such use from us or our clients.</p>
+<h2 id="confidentiality">Confidentiality</h2>
+<p>Access credentials (such as passwords, keys, and client IDs) shall only be used by you to identify your API Client and access information intended for you. You will keep your credentials confidential and make commercially reasonable efforts to prevent others from using your credentials. Access credentials shall not be embedded in source code as plain text and shall be encrypted at rest and during transit.</p>
+<p>Our communications to you and our APIs may contain patient confidential information. Patient confidential information includes any materials, communications, and information that are marked confidential or that would normally be considered confidential under the circumstances or by HIPAA standards. If you receive any such information, you shall not disclose it to any third party without the patient's prior written consent or approval.</p>
+<h2 id="representation">Representation</h2>
+<p>You shall not make any statement regarding your use of our API which suggests partnership with, sponsorship by, or endorsement by EyeMD EMR without our prior written approval.</p>
+<h2 id="use-of-logo-and-trademarks">Use of Logo and Trademarks.</h2>
+<p>EyeMD EMR retains exclusive ownership of the trademarks represented by its company name, logo, products, and software. You shall use the name, logo, and trademarks of EyeMD EMR only in a manner approved in writing by EyeMD EMR. You shall not use the term "EyeMD" alone to describe any products or services provided by EyeMD EMR Healthcare Systems.</p>
+<p>When referencing our company or product names in integration literature or any type of written communication, you must use "EyeMD EMR Healthcare Systems" or "EyeMD Electronic Medical Records" fully spelled out as the first and most prominent use in any context. After this initial use, you may use the abbreviation "EyeMD EMR". The words "EMR," "EMR Healthcare Systems," or "Electronic Medical Records" must be at least 75% of the size of "EyeMD" when used together in written or printed form.</p>
+<p>You shall not challenge the American Academy of Ophthalmology’s registered trademark of the word "EyeMD" and will comply with any and all requests made by the American Academy of Ophthalmology regarding the term "EyeMD" and its related use with our company, products, and services.</p>
+<h2 id="limitation-of-liability">Limitation of Liability</h2>
+<p>When permitted by law, EyeMD EMR and our clients will not be responsible for the loss of profits, revenues, or data, financial losses, or indirect, special, consequential, exemplary, or punitive damages. To the extent permitted by law, the total liability of EyeMD EMR and our clients for any claim under these Terms, including any implied warranties, is limited to the amount you paid us or our clients to use the applicable API. In all cases, EyeMD EMR and our clients will not be liable for any expense, loss, or damage that is not reasonably foreseeable.</p>
+<h2 id="indemnification">Indemnification</h2>
+<p>Unless prohibited by applicable law, if you are a business, you will defend, indemnify, and hold harmless EyeMD EMR and our clients, directors, officers, employees, and users against all liabilities, damages, losses, costs, fees (including legal fees), and expenses relating to any allegation or third-party legal proceeding to the extent arising from:</p>
+<ul>
+<li><p>Your misuse, your end user's misuse, your contractor's misuse, or anyone acting on your behalf's misuse of the APIs;</p>
+</li>
+<li><p>Your violation, your end user's violation, your contractor's violation, or anyone acting on your behalf's violation of the Terms; or</p>
+</li>
+<li><p>Any content or data routed into or used with the APIs by you, those acting on your behalf, or your end users.</p>
+</li>
+</ul>
+<h1 id="exceptions-and-errors">Exceptions and Errors</h1>
+<p>Standard http response codes are being used for exceptions. Additional details might be provided by the API in the body of the response.</p>
+<div class="click-to-expand-wrapper is-table-wrapper"><table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>OK - Successful request</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request - The request is missing information or is malformed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden - The request is valid, but the server is refusing action</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found - The requested resource cannot be found</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error - We had a problem with our server</td>
+</tr>
+</tbody>
+</table>
+</div><h4 id="failed-authentication-error-response-example">Failed Authentication Error Response Example:</h4>
+<pre class="click-to-expand-wrapper is-snippet-wrapper"><code class="language-json">{
+    "resourceType": "OperationOutcome",
+    "id": "025e8d2b-83c4-4087-a614-a174a46dbdb2",
+    "issue": [
+        {
+            "severity": "error",
+            "code": "login",
+            "diagnostics": "Authentication failed."
+        }
+    ]
+}
+
+</code></pre>
+<h4 id="data-not-found-error-response-example">Data Not Found Error Response Example</h4>
+<pre class="click-to-expand-wrapper is-snippet-wrapper"><code class="language-json">{
+    "resourceType": "OperationOutcome",
+    "id": "c7b21816-987a-4fd3-b2e2-234ac04d58da",
+    "issue": [
+        {
+            "severity": "error",
+            "code": "not-found",
+            "diagnostics": "Resource type 'Patient' with id '60' couldn't be found."
+        }
+    ]
+}
+
+</code></pre>
+<h3 id="pagination">Pagination</h3>
+<p>The API defaults to returning 10 records at a time. If more records are available, a url will be included in the response which can be used to retrieve the next set of records. The url can be found in the link array and is identified with the relation of "next".</p>
+<pre class="click-to-expand-wrapper is-snippet-wrapper"><code class="language-json">{
+    "resourceType": "Bundle",
+    "id": "d3ef8d63-f034-4bd1-889b-8dbd20ebae71",
+    "meta": {
+        "lastUpdated": "2020-12-14T12:42:31.9869576+00:00"
+    },
+    "type": "searchset",
+    "total": 42,
+    "link": [
+        {
+            "relation": "next",
+            "url": "https://fhir.myeyecarerecords.com/Patient?ct=MTA="
+        },
+        {
+            "relation": "self",
+            "url": "https://fhir.myeyecarerecords.com/Patient"
+        }
+    ],
+
+</code></pre>
+<h4 id="changing-the-default-record-count">Changing the Default Record Count</h4>
+<p>You can change the amount of returned records by defining the<code>_count</code> property as a parameter.</p>
+<p>{{base}}/Patient?_count=30</p>
+<h3 id="search">Search</h3>
+<h4 id="search-parameter-types">Search Parameter Types</h4>
+<p>Each search parameter is defined by a type that specifies how the search parameter behaves. These are the defined parameter types:</p>
+<div class="click-to-expand-wrapper is-table-wrapper"><table>
+<thead>
+<tr>
+<th><a href="https://www.hl7.org/fhir/search.html#number">number</a></th>
+<th>Search parameter SHALL be a number (a whole number, or a decimal).</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.hl7.org/fhir/search.html#date">date</a></td>
+<td>Search parameter is on a date/time. The date format is the standard XML format, though other formats may be supported.</td>
+</tr>
+<tr>
+<td><a href="https://www.hl7.org/fhir/search.html#string">string</a></td>
+<td>Search parameter is a simple string, like a name part. Search is case-insensitive and accent-insensitive. May match just the start of a string. String parameters may contain spaces.</td>
+</tr>
+<tr>
+<td><a href="https://www.hl7.org/fhir/search.html#token">token</a></td>
+<td>Search parameter on a coded element or identifier. May be used to search through the text, display, code and code/codesystem (for codes) and label, system and key (for identifier). Its value is either a string or a pair of namespace and value, separated by a "</td>
+</tr>
+<tr>
+<td><a href="https://www.hl7.org/fhir/search.html#reference">reference</a></td>
+<td>A reference to another resource (Reference or canonical).</td>
+</tr>
+<tr>
+<td><a href="https://www.hl7.org/fhir/search.html#composite">composite</a></td>
+<td>A composite search parameter that combines a search on two values together.</td>
+</tr>
+<tr>
+<td><a href="https://www.hl7.org/fhir/search.html#quantity">quantity</a></td>
+<td>A search parameter that searches on a quantity.</td>
+</tr>
+<tr>
+<td><a href="https://www.hl7.org/fhir/search.html#uri">uri</a></td>
+<td>A search parameter that searches on a URI (RFC 3986).</td>
+</tr>
+<tr>
+<td><a href="https://www.hl7.org/fhir/search.html#special">special</a></td>
+<td>Special logic applies to this parameter per the description of the search parameter.</td>
+</tr>
+</tbody>
+</table>
+</div><h1 id="uscdi-mappings">USCDI Mappings</h1>
+<h2 id="allergies-and-intolerances">Allergies and Intolerances</h2>
+<div class="click-to-expand-wrapper is-table-wrapper"><table>
+<thead>
+<tr>
+<th>USCDI v3 Data Class / Data Element</th>
+<th>US Core Profile</th>
+<th>FHIR Resource</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Allergies and Intolerances</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-allergyintolerance.html">US Core AllergyIntolerance Profile</a></td>
+<td>AllergyIntolerance</td>
+</tr>
+<tr>
+<td>Substance (Medication)</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-allergyintolerance.html">US Core AllergyIntolerance Profile</a></td>
+<td>AllergyIntolerance</td>
+</tr>
+<tr>
+<td>Substance (Drug Class)</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-allergyintolerance.html">US Core AllergyIntolerance Profile</a></td>
+<td>AllergyIntolerance</td>
+</tr>
+<tr>
+<td>Reaction</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-allergyintolerance.html">US Core AllergyIntolerance Profile</a></td>
+<td>AllergyIntolerance</td>
+</tr>
+</tbody>
+</table>
+</div><hr>
+<h2 id="assessment-and-plan-of-treatment">Assessment and Plan of Treatment</h2>
+<div class="click-to-expand-wrapper is-table-wrapper"><table>
+<thead>
+<tr>
+<th>USCDI v3 Data Class / Data Element</th>
+<th>US Core Profile</th>
+<th>FHIR Resource</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Assessment and Plan of Treatment</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-careplan.html">US Core CarePlan Profile</a></td>
+<td>CarePlan</td>
+</tr>
+<tr>
+<td>Assessment</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-careplan.html">US Core CarePlan Profile</a></td>
+<td>CarePlan</td>
+</tr>
+<tr>
+<td>Plan of Treatment</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-careplan.html">US Core CarePlan Profile</a></td>
+<td>CarePlan</td>
+</tr>
+<tr>
+<td>SDOH Assessment</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-simple-observation.html">US Core Simple Observation Profile<br></a><a href="https://hl7.org/fhir/us/core/StructureDefinition-us-core-observation-screening-assessment.html">US Core Observation Screening Assessment Profile</a>  <br><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-questionnaireresponse.html">US Core QuestionnaireResponse Profile</a></td>
+<td>Observation  <br>QuestionnaireResponse</td>
+</tr>
+</tbody>
+</table>
+</div><hr>
+<h2 id="care-team-members">Care Team Members</h2>
+<div class="click-to-expand-wrapper is-table-wrapper"><table>
+<thead>
+<tr>
+<th>USCDI v3 Data Class / Data Element</th>
+<th>US Core Profile</th>
+<th>FHIR Resource</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Care Team Members</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-careteam.html">US Core CareTeam Profile</a></td>
+<td>CareTeam</td>
+</tr>
+<tr>
+<td>Name</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-careteam.html">US Core CareTeam Profile</a></td>
+<td>CareTeam</td>
+</tr>
+<tr>
+<td>Role</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-careteam.html">US Core CareTeam Profile</a></td>
+<td>CareTeam</td>
+</tr>
+<tr>
+<td>Location</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-careteam.html">US Core CareTeam Profile</a></td>
+<td>CareTeam</td>
+</tr>
+<tr>
+<td>Telecom</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-careteam.html">US Core CareTeam Profile</a></td>
+<td>CareTeam</td>
+</tr>
+<tr>
+<td>Identifier</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-careteam.html">US Core CareTeam Profile</a></td>
+<td>CareTeam</td>
+</tr>
+</tbody>
+</table>
+</div><hr>
+<h2 id="clinical-notes">Clinical Notes</h2>
+<div class="click-to-expand-wrapper is-table-wrapper"><table>
+<thead>
+<tr>
+<th>USCDI v3 Data Class / Data Element</th>
+<th>US Core Profile</th>
+<th>FHIR Resource</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Clinical Notes</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-documentreference.html">US Core DocumentReference Profile</a></td>
+<td>DocumentReference</td>
+</tr>
+<tr>
+<td>Consultation Note</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-documentreference.html">US Core DocumentReference Profile</a></td>
+<td>DocumentReference</td>
+</tr>
+<tr>
+<td>Discharge Summary Note</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-documentreference.html">US Core DocumentReference Profile</a></td>
+<td>DocumentReference</td>
+</tr>
+<tr>
+<td>History &amp; Physical</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-documentreference.html">US Core DocumentReference Profile</a></td>
+<td>DocumentReference</td>
+</tr>
+<tr>
+<td>Procedure Note</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-documentreference.html">US Core DocumentReference Profile</a></td>
+<td>DocumentReference</td>
+</tr>
+<tr>
+<td>Progress Note</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-documentreference.html">US Core DocumentReference Profile</a></td>
+<td>DocumentReference</td>
+</tr>
+</tbody>
+</table>
+</div><hr>
+<h2 id="clinical-tests">Clinical Tests</h2>
+<div class="click-to-expand-wrapper is-table-wrapper"><table>
+<thead>
+<tr>
+<th>USCDI v3 Data Class / Data Element</th>
+<th>US Core Profile</th>
+<th>FHIR Resource</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Clinical Tests</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-observation-clinical-result.html">US Core Observation Clinical Result Profile</a></td>
+<td>Observation</td>
+</tr>
+<tr>
+<td>Clinical Test</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-observation-clinical-result.html">US Core Observation Clinical Result Profile</a></td>
+<td>Observation</td>
+</tr>
+<tr>
+<td>Clinical Test Result / Report</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-observation-clinical-result.html">US Core Observation Clinical Result Profile<br></a><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-diagnosticreport-note.html">US Core DiagnosticReport Profile – Notes</a></td>
+<td>Observation  <br>DiagnosticReport</td>
+</tr>
+</tbody>
+</table>
+</div><hr>
+<h2 id="diagnostic-imaging">Diagnostic Imaging</h2>
+<div class="click-to-expand-wrapper is-table-wrapper"><table>
+<thead>
+<tr>
+<th>USCDI v3 Data Class / Data Element</th>
+<th>US Core Profile</th>
+<th>FHIR Resource</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Diagnostic Imaging</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-observation-clinical-result.html">US Core Observation Clinical Result Profile</a></td>
+<td>Observation</td>
+</tr>
+<tr>
+<td>Diagnostic Imaging Test</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-observation-clinical-result.html">US Core Observation Clinical Result Profile</a></td>
+<td>Observation</td>
+</tr>
+<tr>
+<td>Diagnostic Imaging Result / Report</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-diagnosticreport-note.html">US Core DiagnosticReport Profile – Notes</a></td>
+<td>DiagnosticReport</td>
+</tr>
+</tbody>
+</table>
+</div><hr>
+<h2 id="encounter">Encounter</h2>
+<div class="click-to-expand-wrapper is-table-wrapper"><table>
+<thead>
+<tr>
+<th>USCDI v3 Data Class / Data Element</th>
+<th>US Core Profile</th>
+<th>FHIR Resource</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Encounter</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-encounter.html">US Core Encounter Profile</a></td>
+<td>Encounter</td>
+</tr>
+<tr>
+<td>Type</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-encounter.html">US Core Encounter Profile</a></td>
+<td>Encounter</td>
+</tr>
+<tr>
+<td>Diagnosis</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-condition-encounter-diagnosis.html">US Core Condition Encounter Diagnosis Profile</a></td>
+<td>Condition</td>
+</tr>
+<tr>
+<td>Time</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-encounter.html">US Core Encounter Profile</a></td>
+<td>Encounter</td>
+</tr>
+<tr>
+<td>Location</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-encounter.html">US Core Encounter Profile</a></td>
+<td>Encounter</td>
+</tr>
+<tr>
+<td>Disposition</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-encounter.html">US Core Encounter Profile</a></td>
+<td>Encounter</td>
+</tr>
+</tbody>
+</table>
+</div><hr>
+<h2 id="goals">Goals</h2>
+<div class="click-to-expand-wrapper is-table-wrapper"><table>
+<thead>
+<tr>
+<th>USCDI v3 Data Class / Data Element</th>
+<th>US Core Profile</th>
+<th>FHIR Resource</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Goals</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-goal.html">US Core Goal Profile</a></td>
+<td>Goal</td>
+</tr>
+<tr>
+<td>Patient Goals</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-goal.html">US Core Goal Profile</a></td>
+<td>Goal</td>
+</tr>
+<tr>
+<td>SDOH Goals</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-goal.html">US Core Goal Profile</a></td>
+<td>Goal</td>
+</tr>
+</tbody>
+</table>
+</div><hr>
+<h2 id="health-insurance-information">Health Insurance Information</h2>
+<div class="click-to-expand-wrapper is-table-wrapper"><table>
+<thead>
+<tr>
+<th>USCDI v3 Data Class / Data Element</th>
+<th>US Core Profile</th>
+<th>FHIR Resource</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Health Insurance Information</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-coverage.html">US Core Coverage Profile</a></td>
+<td>Coverage</td>
+</tr>
+<tr>
+<td>Coverage Status</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-coverage.html">US Core Coverage Profile</a></td>
+<td>Coverage</td>
+</tr>
+<tr>
+<td>Coverage Type</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-coverage.html">US Core Coverage Profile</a></td>
+<td>Coverage</td>
+</tr>
+<tr>
+<td>Relationship to Subscriber</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-coverage.html">US Core Coverage Profile</a></td>
+<td>Coverage</td>
+</tr>
+<tr>
+<td>Member Identifier</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-coverage.html">US Core Coverage Profile</a></td>
+<td>Coverage</td>
+</tr>
+<tr>
+<td>Subscriber Identifier</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-coverage.html">US Core Coverage Profile</a></td>
+<td>Coverage</td>
+</tr>
+<tr>
+<td>Group Number</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-coverage.html">US Core Coverage Profile</a></td>
+<td>Coverage</td>
+</tr>
+<tr>
+<td>Payer Identifier</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-coverage.html">US Core Coverage Profile</a></td>
+<td>Coverage</td>
+</tr>
+</tbody>
+</table>
+</div><hr>
+<h2 id="health-status--assessments">Health Status / Assessments</h2>
+<div class="click-to-expand-wrapper is-table-wrapper"><table>
+<thead>
+<tr>
+<th>USCDI v3 Data Class / Data Element</th>
+<th>US Core Profile</th>
+<th>FHIR Resource</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Health Status / Assessments</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-simple-observation.html">US Core Simple Observation Profile</a></td>
+<td>Observation</td>
+</tr>
+<tr>
+<td>Health Concerns</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-condition-problems-health-concerns.html">US Core Condition Problems and Health Concerns Profile</a></td>
+<td>Condition</td>
+</tr>
+<tr>
+<td>Functional Status</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-simple-observation.html">US Core Simple Observation Profile</a></td>
+<td>Observation</td>
+</tr>
+<tr>
+<td>Disability Status</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-simple-observation.html">US Core Simple Observation Profile</a></td>
+<td>Observation</td>
+</tr>
+<tr>
+<td>Mental Status</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-simple-observation.html">US Core Simple Observation Profile</a></td>
+<td>Observation</td>
+</tr>
+<tr>
+<td>Cognitive Status</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-simple-observation.html">US Core Simple Observation Profile</a></td>
+<td>Observation</td>
+</tr>
+<tr>
+<td>Pregnancy Status</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-observation-pregnancy-status.html">US Core Observation Pregnancy Status Profile</a></td>
+<td>Observation</td>
+</tr>
+<tr>
+<td>Pregnancy Intent</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-observation-pregnancy-intent.html">US Core Observation Pregnancy Intent Profile</a></td>
+<td>Observation</td>
+</tr>
+<tr>
+<td>Smoking Status</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-smokingstatus.html">US Core Smoking Status Observation Profile</a></td>
+<td>Observation</td>
+</tr>
+</tbody>
+</table>
+</div><hr>
+<h2 id="immunizations">Immunizations</h2>
+<div class="click-to-expand-wrapper is-table-wrapper"><table>
+<thead>
+<tr>
+<th>USCDI v3 Data Class / Data Element</th>
+<th>US Core Profile</th>
+<th>FHIR Resource</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Immunizations</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-immunization.html">US Core Immunization Profile</a></td>
+<td>Immunization</td>
+</tr>
+</tbody>
+</table>
+</div><hr>
+<h2 id="laboratory">Laboratory</h2>
+<div class="click-to-expand-wrapper is-table-wrapper"><table>
+<thead>
+<tr>
+<th>USCDI v3 Data Class / Data Element</th>
+<th>US Core Profile</th>
+<th>FHIR Resource</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Laboratory</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-observation-lab.html">US Core Laboratory Result Observation Profile</a></td>
+<td>Observation</td>
+</tr>
+<tr>
+<td>Laboratory Test</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-observation-lab.html">US Core Laboratory Result Observation Profile</a></td>
+<td>Observation</td>
+</tr>
+<tr>
+<td>Laboratory Result</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-observation-lab.html">US Core Laboratory Result Observation Profile<br></a><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-diagnosticreport-lab.html">US Core DiagnosticReport Profile – Lab</a></td>
+<td>Observation  <br>DiagnosticReport</td>
+</tr>
+<tr>
+<td>Result Status</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-observation-lab.html">US Core Laboratory Result Observation Profile</a></td>
+<td>Observation</td>
+</tr>
+<tr>
+<td>Specimen Type</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-specimen.html">US Core Specimen Profile</a></td>
+<td>Specimen</td>
+</tr>
+</tbody>
+</table>
+</div><hr>
+<h2 id="medications">Medications</h2>
+<div class="click-to-expand-wrapper is-table-wrapper"><table>
+<thead>
+<tr>
+<th>USCDI v3 Data Class / Data Element</th>
+<th>US Core Profile</th>
+<th>FHIR Resource</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Medications</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-medication.html">US Core Medication Profile</a></td>
+<td>Medication</td>
+</tr>
+<tr>
+<td>Dose</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-medicationrequest.html">US Core MedicationRequest Profile</a></td>
+<td>MedicationRequest</td>
+</tr>
+<tr>
+<td>Dose Unit of Measure</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-medicationrequest.html">US Core MedicationRequest Profile</a></td>
+<td>MedicationRequest</td>
+</tr>
+<tr>
+<td>Indication</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-medicationrequest.html">US Core MedicationRequest Profile</a></td>
+<td>MedicationRequest</td>
+</tr>
+<tr>
+<td>Fill Status</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-medicationdispense.html">US Core MedicationDispense Profile</a></td>
+<td>MedicationDispense</td>
+</tr>
+</tbody>
+</table>
+</div><hr>
+<h2 id="patient-demographics">Patient Demographics</h2>
+<div class="click-to-expand-wrapper is-table-wrapper"><table>
+<thead>
+<tr>
+<th>USCDI v3 Data Class / Data Element</th>
+<th>US Core Profile</th>
+<th>FHIR Resource</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Patient Demographics</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-patient.html">US Core Patient Profile</a></td>
+<td>Patient</td>
+</tr>
+<tr>
+<td>Name</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-patient.html">US Core Patient Profile</a></td>
+<td>Patient</td>
+</tr>
+<tr>
+<td>First Name</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-patient.html">US Core Patient Profile</a></td>
+<td>Patient</td>
+</tr>
+<tr>
+<td>Last Name</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-patient.html">US Core Patient Profile</a></td>
+<td>Patient</td>
+</tr>
+<tr>
+<td>Middle Name (Including middle initial)</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-patient.html">US Core Patient Profile</a></td>
+<td>Patient</td>
+</tr>
+<tr>
+<td>Name Suffix</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-patient.html">US Core Patient Profile</a></td>
+<td>Patient</td>
+</tr>
+<tr>
+<td>Previous Name</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-patient.html">US Core Patient Profile</a></td>
+<td>Patient</td>
+</tr>
+<tr>
+<td>Date of Birth</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-patient.html">US Core Patient Profile</a></td>
+<td>Patient</td>
+</tr>
+<tr>
+<td>Date of Death</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-patient.html">US Core Patient Profile</a></td>
+<td>Patient</td>
+</tr>
+<tr>
+<td>Sex</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-patient.html">US Core Patient Profile</a></td>
+<td>Patient</td>
+</tr>
+<tr>
+<td>Sexual Orientation</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-observation-sexual-orientation.html">US Core Observation Sexual Orientation Profile</a></td>
+<td>Observation</td>
+</tr>
+<tr>
+<td>Gender Identity</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-patient.html">US Core Patient Profile</a></td>
+<td>Patient</td>
+</tr>
+<tr>
+<td>Race</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-race.html">US Core Race Extension</a></td>
+<td>Patient</td>
+</tr>
+<tr>
+<td>Ethnicity</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-ethnicity.html">US Core Ethnicity Extension</a></td>
+<td>Patient</td>
+</tr>
+<tr>
+<td>Tribal Affiliation</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-patient.html">US Core Patient Profile</a></td>
+<td>Patient</td>
+</tr>
+<tr>
+<td>Preferred Language</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-patient.html">US Core Patient Profile</a></td>
+<td>Patient</td>
+</tr>
+<tr>
+<td>Current Address</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-patient.html">US Core Patient Profile</a></td>
+<td>Patient</td>
+</tr>
+<tr>
+<td>Previous Address</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-patient.html">US Core Patient Profile</a></td>
+<td>Patient</td>
+</tr>
+<tr>
+<td>Phone Number</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-patient.html">US Core Patient Profile</a></td>
+<td>Patient</td>
+</tr>
+<tr>
+<td>Phone Number Type</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-patient.html">US Core Patient Profile</a></td>
+<td>Patient</td>
+</tr>
+<tr>
+<td>Email Address</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-patient.html">US Core Patient Profile</a></td>
+<td>Patient</td>
+</tr>
+<tr>
+<td>Related Person's Name</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-relatedperson.html">US Core RelatedPerson Profile</a></td>
+<td>RelatedPerson</td>
+</tr>
+<tr>
+<td>Related Person's Relationship</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-relatedperson.html">US Core RelatedPerson Profile</a></td>
+<td>RelatedPerson</td>
+</tr>
+<tr>
+<td>Occupation</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-observation-occupation.html">US Core Observation Occupation Profile</a></td>
+<td>Observation</td>
+</tr>
+<tr>
+<td>Occupation Industry</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-observation-occupation.html">US Core Observation Occupation Profile</a></td>
+<td>Observation</td>
+</tr>
+</tbody>
+</table>
+</div><hr>
+<h2 id="problems">Problems</h2>
+<div class="click-to-expand-wrapper is-table-wrapper"><table>
+<thead>
+<tr>
+<th>USCDI v3 Data Class / Data Element</th>
+<th>US Core Profile</th>
+<th>FHIR Resource</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Problems</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-condition-problems-health-concerns.html">US Core Condition Problems and Health Concerns Profile</a></td>
+<td>Condition</td>
+</tr>
+<tr>
+<td>Problem</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-condition-problems-health-concerns.html">US Core Condition Problems and Health Concerns Profile</a></td>
+<td>Condition</td>
+</tr>
+<tr>
+<td>Date of Diagnosis</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-condition-problems-health-concerns.html">US Core Condition Problems and Health Concerns Profile</a></td>
+<td>Condition</td>
+</tr>
+<tr>
+<td>Date of Resolution</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-condition-problems-health-concerns.html">US Core Condition Problems and Health Concerns Profile</a></td>
+<td>Condition</td>
+</tr>
+<tr>
+<td>SDOH Problems / Health Concerns</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-condition-problems-health-concerns.html">US Core Condition Problems and Health Concerns Profile</a></td>
+<td>Condition</td>
+</tr>
+</tbody>
+</table>
+</div><hr>
+<h2 id="procedures">Procedures</h2>
+<div class="click-to-expand-wrapper is-table-wrapper"><table>
+<thead>
+<tr>
+<th>USCDI v3 Data Class / Data Element</th>
+<th>US Core Profile</th>
+<th>FHIR Resource</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Procedures</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-procedure.html">US Core Procedure Profile</a></td>
+<td>Procedure</td>
+</tr>
+<tr>
+<td>Procedure</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-procedure.html">US Core Procedure Profile</a></td>
+<td>Procedure</td>
+</tr>
+<tr>
+<td>Reason for Referral</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-servicerequest.html">US Core ServiceRequest Profile</a></td>
+<td>ServiceRequest</td>
+</tr>
+<tr>
+<td>SDOH Interventions</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-servicerequest.html">US Core ServiceRequest Profile</a></td>
+<td>ServiceRequest</td>
+</tr>
+</tbody>
+</table>
+</div><hr>
+<h2 id="provenance">Provenance</h2>
+<div class="click-to-expand-wrapper is-table-wrapper"><table>
+<thead>
+<tr>
+<th>USCDI v3 Data Class / Data Element</th>
+<th>US Core Profile</th>
+<th>FHIR Resource</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Provenance</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-provenance.html">US Core Provenance Profile</a></td>
+<td>Provenance</td>
+</tr>
+<tr>
+<td>Author Time Stamp</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-provenance.html">US Core Provenance Profile</a></td>
+<td>Provenance</td>
+</tr>
+<tr>
+<td>Author Organization</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-provenance.html">US Core Provenance Profile</a></td>
+<td>Provenance</td>
+</tr>
+</tbody>
+</table>
+</div><hr>
+<h2 id="unique-device-identifiers">Unique Device Identifiers</h2>
+<div class="click-to-expand-wrapper is-table-wrapper"><table>
+<thead>
+<tr>
+<th>USCDI v3 Data Class / Data Element</th>
+<th>US Core Profile</th>
+<th>FHIR Resource</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unique Device Identifiers</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-implantable-device.html">US Core Implantable Device Profile</a></td>
+<td>Device</td>
+</tr>
+<tr>
+<td>UDI for Patient Implantable Device</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-implantable-device.html">US Core Implantable Device Profile</a></td>
+<td>Device</td>
+</tr>
+</tbody>
+</table>
+</div><hr>
+<h2 id="vital-signs">Vital Signs</h2>
+<div class="click-to-expand-wrapper is-table-wrapper"><table>
+<thead>
+<tr>
+<th>USCDI v3 Data Class / Data Element</th>
+<th>US Core Profile</th>
+<th>FHIR Resource</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vital Signs</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-vital-signs.html">US Core Vital Signs Profile</a></td>
+<td>Observation</td>
+</tr>
+<tr>
+<td>Systolic Blood Pressure</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-blood-pressure.html">US Core Blood Pressure Profile</a></td>
+<td>Observation</td>
+</tr>
+<tr>
+<td>Diastolic Blood Pressure</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-blood-pressure.html">US Core Blood Pressure Profile</a></td>
+<td>Observation</td>
+</tr>
+<tr>
+<td>Body Height</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-body-height.html">US Core Body Height Profile</a></td>
+<td>Observation</td>
+</tr>
+<tr>
+<td>Body Weight</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-body-weight.html">US Core Body Weight Profile</a></td>
+<td>Observation</td>
+</tr>
+<tr>
+<td>Body Temperature</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-body-temperature.html">US Core Body Temperature Profile</a></td>
+<td>Observation</td>
+</tr>
+<tr>
+<td>Heart Rate</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-heart-rate.html">US Core Heart Rate Profile</a></td>
+<td>Observation</td>
+</tr>
+<tr>
+<td>Respiratory Rate</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-respiratory-rate.html">US Core Respiratory Rate Profile</a></td>
+<td>Observation</td>
+</tr>
+<tr>
+<td>Pulse Oximetry</td>
+<td><a href="https://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-pulse-oximetry.html">US Core Pulse Oximetry Profile</a></td>
+<td>Observation</td>
+</tr>
+</tbody>
+</table>
+</div><h1 id="detailed-change-log">Detailed Change Log</h1>
+<h2 id="new-in-uscdi-v3-not-present-in-v1">New in USCDI v3 (not present in v1)</h2>
+<div class="click-to-expand-wrapper is-table-wrapper"><table>
+<thead>
+<tr>
+<th>USCDI v3 Data Class</th>
+<th>New Data Elements</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Health Status / Assessments</strong></td>
+<td>Functional Status  <br>Disability Status  <br>Mental Status  <br>Cognitive Status</td>
+</tr>
+<tr>
+<td><strong>Health Status / Assessments</strong></td>
+<td>Pregnancy Intent</td>
+</tr>
+<tr>
+<td><strong>Problems</strong></td>
+<td>SDOH Problems / Health Concerns</td>
+</tr>
+<tr>
+<td><strong>Goals</strong></td>
+<td>SDOH Goals</td>
+</tr>
+<tr>
+<td><strong>Procedures</strong></td>
+<td>SDOH Interventions</td>
+</tr>
+<tr>
+<td><strong>Assessment and Plan of Treatment</strong></td>
+<td>SDOH Assessment</td>
+</tr>
+<tr>
+<td><strong>Unique Device Identifiers</strong></td>
+<td>UDI for Patient Implantable Devices</td>
+</tr>
+</tbody>
+</table>
+</div><h1 id="api-implementation-requirements">API Implementation requirements</h1>
+<ol>
+<li><p>Client must support FHIR version 4.</p>
+</li>
+<li><p>Client must support TLS 1.2.</p>
+</li>
+<li><p>Client must acquire access tokens using the OpenID Connect standard and provided credentials (when applicable).</p>
+</li>
+</ol>
+<h1 id="api-syntax-functions-responses">API Syntax, Functions, Responses</h1>
+</body></html>
