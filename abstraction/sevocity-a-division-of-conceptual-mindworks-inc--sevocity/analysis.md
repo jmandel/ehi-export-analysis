@@ -61,7 +61,7 @@ The export documentation points to the Sevocity FHIR API documentation (an OpenA
 
 From parsing all 52 schema YAML files (`analysis/parse_schemas.py`):
 
-- **27 FHIR resource types** with schema definitions (excluding Group, which is the $export trigger, not a data resource)
+- **28 FHIR resource types** with schema definitions (excluding Group, which is the $export trigger, not a data resource; including Endpoint as an infrastructure reference resource)
 - **242 top-level fields** across all resource types
 - **670 total fields** including nested sub-properties
 - **0 fields with semantic descriptions** — all fields have JSON types (string, integer, object, array) but no human-readable descriptions
@@ -117,7 +117,7 @@ The vendor organizes resources by FHIR resource type. The OpenAPI tags distingui
 | PatientsDemographics.csv | No | CSV with patient demographics, maps patients to internal IDs |
 | DocumentData (files) | Partial (folder structure described) | PDFs, JPEGs, PNGs organized by patient, includes chart summaries |
 
-Full field-level inventory: `analysis/entity-inventory-full.json` (670 field definitions across 27 resource types)
+Full field-level inventory: `analysis/entity-inventory-full.json` (670 field definitions across 28 resource types)
 
 ## 5. Coverage Assessment
 
@@ -216,7 +216,7 @@ This is clearly more than a relabeled (g)(10) API. The vendor has invested effor
 
 2. **Billing data completely absent despite Premier tier**: No Claim, ExplanationOfBenefit, ChargeItem, or payment resources are in the export. For Sevocity Premier customers with integrated billing, this is a significant gap in EHI completeness.
 
-3. **Zero field descriptions in the data dictionary**: All 670 fields across 27 resource types have JSON types but no semantic descriptions or value set bindings. The documentation implicitly relies on the reader knowing FHIR R4 and US Core STU6.1.0.
+3. **Zero field descriptions in the data dictionary**: All 670 fields across 28 resource types have JSON types but no semantic descriptions or value set bindings. The documentation implicitly relies on the reader knowing FHIR R4 and US Core STU6.1.0.
 
 4. **Strong document export**: The DocumentData folder with physical files (PDFs, images) organized by patient and document type, linked via FHIR DocumentReference resources, captures clinical documents that pure FHIR exports typically miss.
 
@@ -228,7 +228,7 @@ This is clearly more than a relabeled (g)(10) API. The vendor has invested effor
 Coverage:        Partial
 Approach:        Purpose-built EHI export
 Export format:   FHIR R4 NDJSON + document files (PDF/JPEG/PNG) + CSV, delivered as encrypted RAR
-Entities:        27 FHIR resource types + 2 non-FHIR components (CSV, document files)
+Entities:        28 FHIR resource types + 2 non-FHIR components (CSV, document files)
 Fields:          670 (including nested); 242 top-level
 Descriptions:    0% (0/670 fields have descriptions)
 Sample data:     Yes (26 example files with realistic test data)
