@@ -33,8 +33,11 @@ Captured viewport and full-page screenshots of the export process page.
 - **FHIR R4 Endpoints Bundle** (`/Fhir/DownloadBundle`): Downloaded JSON Bundle with FHIR endpoint URLs.
 - **Developer Portal Terms PDF** (`/Interoperability/MicroFourDeveloperPortalTermsOfUseAndFhirApiLicenseAgreement.pdf`): Returned HTML instead of PDF (appears to require authentication or is broken).
 
-### 5. Wayback Machine
-No archived captures found for the export process page.
+### 5. Additional verification
+- **Wayback Machine**: No archived captures found for the export process page.
+- **Web search**: Searched for `site:practicestudio.net EHI export data dictionary` and `MicroFour PracticeStudio "b(10)" OR "170.315(b)(10)" export CCD` — no additional EHI export documentation found. Web results confirm the product is certified for (b)(10) but reveal no technical documentation beyond the ExportProcess.aspx page.
+- **micro4.com**: Checked the parent company site (`micro4.com/ProductsServices/PracticeStudio`) — marketing content only, no export documentation.
+- **support.practicestudio.net**: Support portal exists but requires authentication — no public-facing export documentation.
 
 ## What Was Found
 
