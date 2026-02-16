@@ -57,6 +57,9 @@ for results_dir in "$ROOT_DIR"/results/*/; do
   # Must have chpl-metadata and downloads
   [[ -f "$results_dir/chpl-metadata.json" ]] || continue
 
+  # Skip if collection is still in progress (no ehi-export-report.md yet)
+  [[ -f "$results_dir/ehi-export-report.md" ]] || continue
+
   # Apply filter if set
   if [[ -n "$FILTER" ]]; then
     # shellcheck disable=SC2254
