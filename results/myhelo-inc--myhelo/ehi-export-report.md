@@ -1,6 +1,6 @@
 # myhELO, Inc. — EHI Export Documentation
 
-Collected: 2026-02-15
+Collected: 2026-02-15 (updated 2026-02-16)
 
 ## Source
 - Registered URL: https://www.myhelo.com/api_export_format/
@@ -36,6 +36,8 @@ Collected: 2026-02-15
 6. **Machine-readable artifacts downloaded**:
    - `curl -sL "https://provider.myhelo.com/fhir/.well-known/fhir.json"` — 98KB JSON file containing the full API specification with example responses (the same data rendered on the API Docs page)
    - `curl -sL "https://provider.myhelo.com/fhir/metadata" -H 'Accept: application/fhir+json'` — FHIR CapabilityStatement (JSON) documenting all supported resources, interactions, and search parameters. Reports FHIR version 4.0.1, software name "myhELO" version 3.14, release date 2022-12-15.
+
+7. **JavaScript bundle data extraction**: Discovered that the 3.3MB `/js.php` bundle embeds all page data as JSON objects within JavaScript prototype methods `get_summary_contents_json()` (overview metadata) and `get_data_json()` (full FHIR StructureDefinitions). Extracted all 17 StructureDefinitions and dataset summaries via regex parsing of the minified JS source. This yielded machine-readable data far richer than the rendered HTML pages.
 
 ## What Was Found
 
@@ -88,6 +90,12 @@ Each dataset page provides element-level definitions following the FHIR R4 struc
 - **Detailed definitions**: Per-element description, cardinality, type, binding (with strength), comments, and requirements
 - **USCDI tagging**: Elements marked with "(USCDI)" indicating US Core Data for Interoperability coverage
 - **Value set bindings**: Standard FHIR value sets referenced with binding strength (required, extensible, preferred, example)
+
+The v2 enrichment script parsed all 17 StructureDefinitions and found:
+- **921 total element definitions** across 17 resources
+- **196 elements** flagged as USCDI (via mustSupport)
+- **203 elements** with value set bindings
+- **105 required elements** (min > 0)
 
 ### Example Data
 
@@ -149,6 +157,7 @@ The vendor's statement that they export data "for convenience" in FHIR format is
 - Example FHIR JSON responses for nearly all resources
 - Machine-readable CapabilityStatement and API spec available
 - USCDI elements explicitly tagged in the definitions
+- Full FHIR StructureDefinitions embedded in the JS bundle, providing computable element-level metadata
 
 **Weaknesses**:
 - All pages are JavaScript-rendered (SPA) — content is not accessible to screen readers or simple HTTP clients
@@ -184,3 +193,4 @@ For a product that bills itself as a "Healthcare Operating System" with integrat
 - The FHIR well-known endpoint (`provider.myhelo.com/fhir/.well-known/fhir.json`) returns the full API spec as structured JSON — this was the most valuable machine-readable artifact found.
 - No downloadable files (PDF, ZIP, CSV, schema) were found anywhere on the site.
 - The API Docs page footer links to the same `/api/` URL as the footer of the EHI export pages, suggesting these are part of the same documentation site.
+- All 17 FHIR StructureDefinitions were successfully extracted from the embedded JS bundle data using regex parsing, yielding computable metadata more useful than the rendered HTML pages.
