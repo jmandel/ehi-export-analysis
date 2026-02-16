@@ -1,0 +1,1619 @@
+{
+  "vendor": "AssureCare LLC",
+  "product": "iPatientCare",
+  "versions": [
+    "18.0",
+    "22.5",
+    "23.0"
+  ],
+  "ehi_export": {
+    "documented_formats": [
+      {
+        "format": "C-CDA XML",
+        "standard": "HL7 CDA R2 Consolidated CDA",
+        "uscdi_version": "v1",
+        "scope": "single_patient_and_population"
+      },
+      {
+        "format": "FHIR R4 Bulk Data",
+        "standard": "HL7 FHIR US Core STU 3.1.1",
+        "fhir_version": "4.0.1",
+        "scope": "single_patient_and_population"
+      }
+    ],
+    "documentation_pages": 3,
+    "has_data_dictionary": false,
+    "has_export_instructions": false,
+    "has_sample_data": false,
+    "has_schema": false,
+    "has_field_definitions": false
+  },
+  "fhir_server": {
+    "base_url": "https://fhir.ipatientcare.net:9443/fhirserver/fhir/",
+    "fhir_version": "4.0.1",
+    "implementation_description": "Inferno Reference Server for US Core, Bulk Data, and SMART App Launch Implementation Guides based on HAPI FHIR R4 Server",
+    "instantiates": [
+      "http://hl7.org/fhir/us/core/CapabilityStatement/us-core-server",
+      "http://hl7.org/fhir/uv/bulkdata/CapabilityStatement/bulk-data"
+    ],
+    "resource_types": [
+      {
+        "type": "AllergyIntolerance",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-allergyintolerance"
+        ],
+        "interactions": [
+          "search-type",
+          "read",
+          "vread",
+          "history-instance"
+        ],
+        "searchParams": [
+          {
+            "name": "clinical-status",
+            "type": "token"
+          },
+          {
+            "name": "patient",
+            "type": "reference"
+          }
+        ]
+      },
+      {
+        "type": "CarePlan",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careplan"
+        ],
+        "interactions": [
+          "search-type",
+          "read",
+          "vread",
+          "history-instance"
+        ],
+        "searchParams": [
+          {
+            "name": "category",
+            "type": "token"
+          },
+          {
+            "name": "date",
+            "type": "date"
+          },
+          {
+            "name": "patient",
+            "type": "reference"
+          },
+          {
+            "name": "status",
+            "type": "token"
+          }
+        ]
+      },
+      {
+        "type": "CareTeam",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careteam"
+        ],
+        "interactions": [
+          "search-type",
+          "read",
+          "vread",
+          "history-instance"
+        ],
+        "searchParams": [
+          {
+            "name": "patient",
+            "type": "reference"
+          },
+          {
+            "name": "status",
+            "type": "token"
+          }
+        ]
+      },
+      {
+        "type": "Condition",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition-encounter-diagnosis",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition-problems-health-concerns"
+        ],
+        "interactions": [
+          "search-type",
+          "read",
+          "vread",
+          "history-instance"
+        ],
+        "searchParams": [
+          {
+            "name": "category",
+            "type": "token"
+          },
+          {
+            "name": "clinical-status",
+            "type": "token"
+          },
+          {
+            "name": "patient",
+            "type": "reference"
+          },
+          {
+            "name": "onset-date",
+            "type": "date"
+          },
+          {
+            "name": "code",
+            "type": "token"
+          }
+        ]
+      },
+      {
+        "type": "Coverage",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-coverage"
+        ],
+        "interactions": [
+          "search-type",
+          "read"
+        ],
+        "searchParams": [
+          {
+            "name": "patient",
+            "type": "reference"
+          }
+        ]
+      },
+      {
+        "type": "Device",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-implantable-device"
+        ],
+        "interactions": [
+          "search-type",
+          "read",
+          "vread",
+          "history-instance"
+        ],
+        "searchParams": [
+          {
+            "name": "patient",
+            "type": "reference"
+          },
+          {
+            "name": "type",
+            "type": "token"
+          }
+        ]
+      },
+      {
+        "type": "DiagnosticReport",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"
+        ],
+        "interactions": [
+          "create",
+          "search-type",
+          "read",
+          "vread",
+          "history-instance"
+        ],
+        "searchParams": [
+          {
+            "name": "status",
+            "type": "token"
+          },
+          {
+            "name": "patient",
+            "type": "reference"
+          },
+          {
+            "name": "category",
+            "type": "token"
+          },
+          {
+            "name": "code",
+            "type": "token"
+          },
+          {
+            "name": "date",
+            "type": "date"
+          }
+        ]
+      },
+      {
+        "type": "DocumentReference",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"
+        ],
+        "interactions": [
+          "create",
+          "search-type",
+          "read",
+          "vread",
+          "history-instance"
+        ],
+        "searchParams": [
+          {
+            "name": "_id",
+            "type": "token"
+          },
+          {
+            "name": "status",
+            "type": "token"
+          },
+          {
+            "name": "patient",
+            "type": "reference"
+          },
+          {
+            "name": "category",
+            "type": "token"
+          },
+          {
+            "name": "type",
+            "type": "token"
+          },
+          {
+            "name": "date",
+            "type": "date"
+          },
+          {
+            "name": "period",
+            "type": "date"
+          }
+        ]
+      },
+      {
+        "type": "Encounter",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
+        ],
+        "interactions": [
+          "search-type",
+          "read",
+          "vread",
+          "history-instance"
+        ],
+        "searchParams": [
+          {
+            "name": "_id",
+            "type": "token"
+          },
+          {
+            "name": "class",
+            "type": "token"
+          },
+          {
+            "name": "date",
+            "type": "date"
+          },
+          {
+            "name": "identifier",
+            "type": "token"
+          },
+          {
+            "name": "patient",
+            "type": "reference"
+          },
+          {
+            "name": "status",
+            "type": "token"
+          },
+          {
+            "name": "type",
+            "type": "token"
+          }
+        ]
+      },
+      {
+        "type": "Goal",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-goal"
+        ],
+        "interactions": [
+          "search-type",
+          "read",
+          "vread",
+          "history-instance"
+        ],
+        "searchParams": [
+          {
+            "name": "lifecycle-status",
+            "type": "token"
+          },
+          {
+            "name": "patient",
+            "type": "reference"
+          },
+          {
+            "name": "target-date",
+            "type": "date"
+          }
+        ]
+      },
+      {
+        "type": "Group",
+        "profiles": [],
+        "interactions": [],
+        "searchParams": []
+      },
+      {
+        "type": "Immunization",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization"
+        ],
+        "interactions": [
+          "search-type",
+          "read",
+          "vread",
+          "history-instance"
+        ],
+        "searchParams": [
+          {
+            "name": "patient",
+            "type": "reference"
+          },
+          {
+            "name": "status",
+            "type": "token"
+          },
+          {
+            "name": "date",
+            "type": "date"
+          }
+        ]
+      },
+      {
+        "type": "Location",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-location"
+        ],
+        "interactions": [
+          "search-type",
+          "read",
+          "vread",
+          "history-instance"
+        ],
+        "searchParams": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "type": "string"
+          },
+          {
+            "name": "address-city",
+            "type": "string"
+          },
+          {
+            "name": "address-state",
+            "type": "string"
+          },
+          {
+            "name": "address-postalcode",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "type": "Medication",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medication"
+        ],
+        "interactions": [
+          "read",
+          "vread",
+          "history-instance"
+        ],
+        "searchParams": []
+      },
+      {
+        "type": "MedicationDispense",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationdispense"
+        ],
+        "interactions": [
+          "search-type",
+          "read"
+        ],
+        "searchParams": [
+          {
+            "name": "status",
+            "type": "token"
+          },
+          {
+            "name": "type",
+            "type": "token"
+          },
+          {
+            "name": "patient",
+            "type": "reference"
+          }
+        ]
+      },
+      {
+        "type": "MedicationRequest",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationrequest"
+        ],
+        "interactions": [
+          "search-type",
+          "read",
+          "vread",
+          "history-instance"
+        ],
+        "searchParams": [
+          {
+            "name": "status",
+            "type": "token"
+          },
+          {
+            "name": "intent",
+            "type": "token"
+          },
+          {
+            "name": "patient",
+            "type": "reference"
+          },
+          {
+            "name": "encounter",
+            "type": "reference"
+          },
+          {
+            "name": "authoredon",
+            "type": "date"
+          }
+        ]
+      },
+      {
+        "type": "Observation",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-smokingstatus",
+          "http://hl7.org/fhir/us/core/StructureDefinition/pediatric-weight-for-height",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab",
+          "http://hl7.org/fhir/us/core/StructureDefinition/pediatric-bmi-for-age",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-pulse-oximetry",
+          "http://hl7.org/fhir/us/core/StructureDefinition/head-occipital-frontal-circumference-percentile",
+          "http://hl7.org/fhir/StructureDefinition/bp",
+          "http://hl7.org/fhir/StructureDefinition/bodyheight",
+          "http://hl7.org/fhir/StructureDefinition/bodyweight",
+          "http://hl7.org/fhir/StructureDefinition/heartrate",
+          "http://hl7.org/fhir/StructureDefinition/resprate",
+          "http://hl7.org/fhir/StructureDefinition/bodytemp",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-vital-signs",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-blood-pressure",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-bmi",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-body-height",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-body-temperature",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-body-weight",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-head-circumference",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-heart-rate",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-respiratory-rate",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-imaging",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-survey",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-sexual-orientation",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-sdoh-assessment",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-clinical-test",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-social-history",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-pregnancystatus",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-pregnancyintent",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-occupation",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-simple-observation",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-screening-assessment",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-clinical-result",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-treatment-intervention-preference",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-care-experience-preference",
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-average-blood-pressure"
+        ],
+        "interactions": [
+          "search-type",
+          "read",
+          "vread",
+          "history-instance"
+        ],
+        "searchParams": [
+          {
+            "name": "status",
+            "type": "token"
+          },
+          {
+            "name": "category",
+            "type": "token"
+          },
+          {
+            "name": "code",
+            "type": "token"
+          },
+          {
+            "name": "date",
+            "type": "date"
+          },
+          {
+            "name": "patient",
+            "type": "reference"
+          }
+        ]
+      },
+      {
+        "type": "Organization",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
+        ],
+        "interactions": [
+          "search-type",
+          "read",
+          "vread",
+          "history-instance"
+        ],
+        "searchParams": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "type": "Patient",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+        ],
+        "interactions": [
+          "search-type",
+          "read",
+          "vread",
+          "history-instance"
+        ],
+        "searchParams": [
+          {
+            "name": "_id",
+            "type": "token"
+          },
+          {
+            "name": "birthdate",
+            "type": "date"
+          },
+          {
+            "name": "family",
+            "type": "string"
+          },
+          {
+            "name": "gender",
+            "type": "token"
+          },
+          {
+            "name": "given",
+            "type": "string"
+          },
+          {
+            "name": "identifier",
+            "type": "token"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "type": "Practitioner",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+        ],
+        "interactions": [
+          "search-type",
+          "read",
+          "vread",
+          "history-instance"
+        ],
+        "searchParams": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "identifier",
+            "type": "token"
+          }
+        ]
+      },
+      {
+        "type": "PractitionerRole",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole"
+        ],
+        "interactions": [
+          "search-type",
+          "read",
+          "vread",
+          "history-instance"
+        ],
+        "searchParams": [
+          {
+            "name": "specialty",
+            "type": "token"
+          },
+          {
+            "name": "practitioner",
+            "type": "reference"
+          }
+        ]
+      },
+      {
+        "type": "Procedure",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"
+        ],
+        "interactions": [
+          "search-type",
+          "read",
+          "vread",
+          "history-instance"
+        ],
+        "searchParams": [
+          {
+            "name": "status",
+            "type": "token"
+          },
+          {
+            "name": "patient",
+            "type": "reference"
+          },
+          {
+            "name": "date",
+            "type": "date"
+          },
+          {
+            "name": "code",
+            "type": "token"
+          }
+        ]
+      },
+      {
+        "type": "Provenance",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+        ],
+        "interactions": [
+          "read",
+          "vread",
+          "history-instance"
+        ],
+        "searchParams": []
+      },
+      {
+        "type": "ServiceRequest",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-servicerequest"
+        ],
+        "interactions": [
+          "read"
+        ],
+        "searchParams": [
+          {
+            "name": "status",
+            "type": "token"
+          },
+          {
+            "name": "patient",
+            "type": "reference"
+          },
+          {
+            "name": "category",
+            "type": "token"
+          },
+          {
+            "name": "code",
+            "type": "token"
+          },
+          {
+            "name": "authored",
+            "type": "date"
+          },
+          {
+            "name": "_id",
+            "type": "token"
+          }
+        ]
+      },
+      {
+        "type": "Specimen",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-specimen"
+        ],
+        "interactions": [
+          "search-type",
+          "read"
+        ],
+        "searchParams": [
+          {
+            "name": "_id",
+            "type": "token"
+          },
+          {
+            "name": "patient",
+            "type": "reference"
+          }
+        ]
+      },
+      {
+        "type": "RelatedPerson",
+        "profiles": [
+          "http://hl7.org/fhir/us/core/StructureDefinition/us-core-relatedperson"
+        ],
+        "interactions": [
+          "search-type",
+          "read"
+        ],
+        "searchParams": [
+          {
+            "name": "_id",
+            "type": "token"
+          },
+          {
+            "name": "patient",
+            "type": "reference"
+          }
+        ]
+      }
+    ],
+    "resource_type_count": 26,
+    "smart_capabilities": [
+      "launch-ehr",
+      "launch-standalone",
+      "client-public",
+      "client-confidential-asymmetric",
+      "client-confidential-symmetric",
+      "sso-openid-connect",
+      "context-banner",
+      "context-style",
+      "context-ehr-patient",
+      "context-ehr-encounter",
+      "context-standalone-patient",
+      "context-standalone-encounter",
+      "permission-offline",
+      "permission-patient",
+      "permission-user",
+      "permission-v1",
+      "permission-v2",
+      "authorize-post"
+    ],
+    "grant_types": [
+      "authorization_code",
+      "client_credentials"
+    ],
+    "auth_endpoint": "https://oauth.ipatientcare.net/oauth/authorize",
+    "token_endpoint": "https://oauth.ipatientcare.net/oauth/token"
+  },
+  "tenant_summary": {
+    "total_endpoints": 107,
+    "total_organizations": 107,
+    "active_endpoints": 107,
+    "active_organizations": 0,
+    "states_represented": [
+      "AL",
+      "AZ",
+      "CA",
+      "CO",
+      "DC",
+      "FL",
+      "GA",
+      "IA",
+      "ID",
+      "IL",
+      "IN",
+      "LA",
+      "MA",
+      "MI",
+      "MN",
+      "MO",
+      "MS",
+      "MT",
+      "NC",
+      "NJ",
+      "NV",
+      "NY",
+      "OH",
+      "SC",
+      "SD",
+      "TN",
+      "TX",
+      "VA",
+      "WI"
+    ],
+    "organizations": [
+      {
+        "name": "Charles G. Godoshian, MD PC",
+        "active": false,
+        "npi": "1215133673",
+        "city": "SOUTHFIELD",
+        "state": "MI"
+      },
+      {
+        "name": "Arcadia Chiropractic & Wellness Inc.",
+        "active": false,
+        "npi": "1730547621",
+        "city": "ARCADIA",
+        "state": "WI"
+      },
+      {
+        "name": "David Milbauer, M.D., P.A.",
+        "active": false,
+        "npi": "1649412958",
+        "city": "LAKE WORTH",
+        "state": "FL"
+      },
+      {
+        "name": "Happy Kids Pediatrics",
+        "active": false,
+        "npi": "1568056372",
+        "city": "LAS VEGAS",
+        "state": "NV"
+      },
+      {
+        "name": "J Shafai M.D. Inc. S Corporation",
+        "active": false,
+        "npi": "1467633586",
+        "city": "CUDAHY",
+        "state": "CA"
+      },
+      {
+        "name": "Oakton Medical Associate",
+        "active": false,
+        "npi": "1780668244",
+        "city": "HANOVER PARK",
+        "state": "IL"
+      },
+      {
+        "name": "Kyu Hyun Kim, M.D. Inc",
+        "active": false,
+        "npi": "1114007754",
+        "city": "Van Nuys",
+        "state": "CA"
+      },
+      {
+        "name": "Hirata Pediatrics LLC DBA La Canada Pediatrics",
+        "active": false,
+        "npi": "1548424583",
+        "city": "LAS VEGAS",
+        "state": "NV"
+      },
+      {
+        "name": "John M. Pramenko, MD, P.C",
+        "active": false,
+        "npi": "1821293309",
+        "city": "NISKAYUNA",
+        "state": "NY"
+      },
+      {
+        "name": "Moksha Derm",
+        "active": false,
+        "npi": "1063031409",
+        "city": "Cincinnati",
+        "state": "OH"
+      },
+      {
+        "name": "165 SUMMIT INTERNAL MEDICINE CLINIC PA",
+        "active": false,
+        "npi": "1558690446",
+        "city": "HACKENSACK",
+        "state": "NJ"
+      },
+      {
+        "name": "Brosnan Chiropractic, LLC",
+        "active": false,
+        "npi": "1447604053",
+        "city": "SHAWANO",
+        "state": "WI"
+      },
+      {
+        "name": "Dr. Maureen E. Gormley",
+        "active": false,
+        "npi": "1336141480",
+        "city": "ARLINGTON",
+        "state": "MA"
+      },
+      {
+        "name": "Healing Touch Chiropractic PLC",
+        "active": false,
+        "npi": "1962794693",
+        "city": "BATTLE CREEK",
+        "state": "MI"
+      },
+      {
+        "name": "Hansen Chiropractic INC",
+        "active": false,
+        "npi": "1629448436",
+        "city": "Wausau",
+        "state": "WI"
+      },
+      {
+        "name": "James Glazier, M. D.",
+        "active": false,
+        "npi": "1346280260",
+        "city": "DETROIT",
+        "state": "MI"
+      },
+      {
+        "name": "John H. Choie, M.D., P.C.",
+        "active": false,
+        "npi": "1497768683",
+        "city": "UPLAND",
+        "state": "CA"
+      },
+      {
+        "name": "M&M CHIROPRACTIC AND WELLNESS PLC",
+        "active": false,
+        "npi": "1841669223",
+        "city": "MENOMINEE",
+        "state": "MI"
+      },
+      {
+        "name": "Medical Direct Care, PLC",
+        "active": false,
+        "npi": "1104253327",
+        "city": "CLARKSVILLE",
+        "state": "TN"
+      },
+      {
+        "name": "Michael G. Taylor, MD PLC",
+        "active": false,
+        "npi": "1902070014",
+        "city": "ST CLAIR SHORES",
+        "state": "MI"
+      },
+      {
+        "name": "Northwest Medical Care SC",
+        "active": false,
+        "npi": "1447277447",
+        "city": "BLOOMINGDALE",
+        "state": "IL"
+      },
+      {
+        "name": "Roanoke Medical Associates",
+        "active": false,
+        "npi": "1124188651",
+        "city": "WILLIAMSTON",
+        "state": "NC"
+      },
+      {
+        "name": "Thomas E Dobyns MD",
+        "active": false,
+        "npi": "1336127323",
+        "city": "MADISON HEIGHTS",
+        "state": "VA"
+      },
+      {
+        "name": "Vinay K. Buttan MD, Inc.",
+        "active": false,
+        "npi": "1699840728",
+        "city": "PORTERVILLE",
+        "state": "CA"
+      },
+      {
+        "name": "Vincent R. C. Maribao, M.D., P.C.",
+        "active": false,
+        "npi": "1902835168",
+        "city": "ST CLAIR SHORES",
+        "state": "MI"
+      },
+      {
+        "name": "Y N PAKKALA MD PC",
+        "active": false,
+        "npi": "1841555141",
+        "city": "BOLIVAR",
+        "state": "TN"
+      },
+      {
+        "name": "Abdul Kabir,M. D.",
+        "active": false,
+        "npi": "1194997130",
+        "city": "MONROE",
+        "state": "MI"
+      },
+      {
+        "name": "Amari Health",
+        "active": false,
+        "npi": "1326135690",
+        "city": "SCARSDALE",
+        "state": "NY"
+      },
+      {
+        "name": "Trinity Allergy Asthma and Immunology Care, P.C.",
+        "active": false,
+        "npi": "1265550321",
+        "city": "KINGMAN",
+        "state": "AZ"
+      },
+      {
+        "name": "Capital Heart Associates PC",
+        "active": false,
+        "npi": "1104039650",
+        "city": "WASHINGTON",
+        "state": "DC"
+      },
+      {
+        "name": "Chiropractic Place LLC",
+        "active": false,
+        "npi": "1427457514",
+        "city": "SPARTA",
+        "state": "WI"
+      },
+      {
+        "name": "BARR CHIROPRACTIC INC",
+        "active": false,
+        "npi": "1982073763",
+        "city": "RHINELANDER",
+        "state": "WI"
+      },
+      {
+        "name": "My Chiropractic Prof.,LLC",
+        "active": false,
+        "npi": "1285198259",
+        "city": "BROOKINGS",
+        "state": "SD"
+      },
+      {
+        "name": "Decaturville Family Practice",
+        "active": false,
+        "npi": "1730610452",
+        "city": "Decaturville",
+        "state": "TN"
+      },
+      {
+        "name": "Hart Mart Medical Services, PLLC",
+        "active": false,
+        "npi": "1588746291",
+        "city": "BROOKLYN",
+        "state": "NY"
+      },
+      {
+        "name": "Kinetic Wellness Center, Dr. George Chiro Corp",
+        "active": false,
+        "npi": "1548668528",
+        "city": "SAN JOSE",
+        "state": "CA"
+      },
+      {
+        "name": "Logan Student Center",
+        "active": false,
+        "npi": "1194765941",
+        "city": "CHESTERFIELD",
+        "state": "MO"
+      },
+      {
+        "name": "LUBOVICH CHIROPRACTIC, P.A.",
+        "active": false,
+        "npi": "1831211473",
+        "city": "LAKEVILLE",
+        "state": "MN"
+      },
+      {
+        "name": "Monroe Chiropractic",
+        "active": false,
+        "npi": "1720276934",
+        "city": "MONROE",
+        "state": "OH"
+      },
+      {
+        "name": "Mid Cities Psychiatry",
+        "active": false,
+        "npi": "1023423514",
+        "city": "Euless",
+        "state": "TX"
+      },
+      {
+        "name": "ChiMedical Management Group",
+        "active": false,
+        "npi": "1962082677",
+        "city": "PHENIXCITY",
+        "state": "AL"
+      },
+      {
+        "name": "Savage Chiropractic, PC",
+        "active": false,
+        "npi": "1154075984",
+        "city": "CANOGA PARK",
+        "state": "CA"
+      },
+      {
+        "name": "Sudan Medical Clinic LLC",
+        "active": false,
+        "npi": "1215942073",
+        "city": "SUDAN",
+        "state": "TX"
+      },
+      {
+        "name": "Tri-County Primary Care, INC",
+        "active": false,
+        "npi": "1437225067",
+        "city": "CROSS CITY",
+        "state": "FL"
+      },
+      {
+        "name": "Three Rivers Clinic, LLC",
+        "active": false,
+        "npi": "1003466822",
+        "city": "THREE FORKS",
+        "state": "MT"
+      },
+      {
+        "name": "MARTIN A. V. TUMA,M.D,RVT,RPVI,FACS,VASCULAR SURGERY",
+        "active": false,
+        "npi": "1154331858",
+        "city": "SOUTHFIELD",
+        "state": "MI"
+      },
+      {
+        "name": "We Care Chiropractic, L.L.C.",
+        "active": false,
+        "npi": "1750433413",
+        "city": "CLEAR LAKE",
+        "state": "IA"
+      },
+      {
+        "name": "Affinity Heart Care",
+        "active": false,
+        "npi": "1457759771",
+        "city": "Coppell",
+        "state": "TX"
+      },
+      {
+        "name": "A Wahid MD INC",
+        "active": false,
+        "npi": "1861734436",
+        "city": "Patterson",
+        "state": "CA"
+      },
+      {
+        "name": "Devang V. Gandhi, M.D., S.C.",
+        "active": false,
+        "npi": "1841254232",
+        "city": "MILWAUKEE",
+        "state": "WI"
+      },
+      {
+        "name": "First Care Family Clinic, SC",
+        "active": false,
+        "npi": "1992092753",
+        "city": "KANKAKEE",
+        "state": "IL"
+      },
+      {
+        "name": "Family Care Medical Center",
+        "active": false,
+        "npi": "1114514809",
+        "city": "ARCADIA",
+        "state": "FL"
+      },
+      {
+        "name": "Mathers Clinic LLC",
+        "active": false,
+        "npi": "1316237530",
+        "city": "CRYSTAL LAKE",
+        "state": "IL"
+      },
+      {
+        "name": "Highlands Interventional Pain Management LLC",
+        "active": false,
+        "npi": "1528164258",
+        "city": "CLIFTON",
+        "state": "NJ"
+      },
+      {
+        "name": "Logan University Health Centers",
+        "active": false,
+        "npi": "1194765941",
+        "city": "CHESTERFIELD",
+        "state": "MO"
+      },
+      {
+        "name": "Monroe Health Center LLC",
+        "active": false,
+        "npi": "1740216837",
+        "city": "MONROE",
+        "state": "MI"
+      },
+      {
+        "name": "Mid-Michigan Pediatric Cardiology, PC",
+        "active": false,
+        "npi": "1841463577",
+        "city": "Saginaw",
+        "state": "MI"
+      },
+      {
+        "name": "MOTI TIKU MD PA",
+        "active": false,
+        "npi": "1780758763",
+        "city": "EDISON",
+        "state": "NJ"
+      },
+      {
+        "name": "Metro Detroit Kidney Associates, P.C.",
+        "active": false,
+        "npi": "1538392378",
+        "city": "ST CLAIR SHORES",
+        "state": "MI"
+      },
+      {
+        "name": "Physicians Family Health Services",
+        "active": false,
+        "npi": "1053656215",
+        "city": "NEW YORK",
+        "state": "NY"
+      },
+      {
+        "name": "Rajesh Patel, MD",
+        "active": false,
+        "npi": "1396837191",
+        "city": "BRONX",
+        "state": "NY"
+      },
+      {
+        "name": "Roseville Medical, PC",
+        "active": false,
+        "npi": "1700917291",
+        "city": "ROSEVILLE",
+        "state": "MI"
+      },
+      {
+        "name": "Daisy Mae Family Medicine PLLC",
+        "active": false,
+        "npi": "1043971922",
+        "city": "ST CLAIR SHORES",
+        "state": "MI"
+      },
+      {
+        "name": "Samaritan Health Care, PC",
+        "active": false,
+        "npi": "1598234056",
+        "city": "Greenville",
+        "state": "MI"
+      },
+      {
+        "name": "SOUTHSIDE PEDIATRICS",
+        "active": false,
+        "npi": "1659580215",
+        "city": "STOCKBRIDGE",
+        "state": "GA"
+      },
+      {
+        "name": "Thornton Family Chiropractic LLC",
+        "active": false,
+        "npi": "1598235517",
+        "city": "IDAHOFALLS",
+        "state": "ID"
+      },
+      {
+        "name": "Westwind Womens Service",
+        "active": false,
+        "npi": "1245389287",
+        "city": "WEST HILLS",
+        "state": "CA"
+      },
+      {
+        "name": "Winner Surgery Clinic, P.C.",
+        "active": false,
+        "npi": "1730586736",
+        "city": "WINNER",
+        "state": "SD"
+      },
+      {
+        "name": "Zaheer Pediatric Associates, SC",
+        "active": false,
+        "npi": "1215110515",
+        "city": "KANKAKEE",
+        "state": "IL"
+      },
+      {
+        "name": "Abbot Healthcare Services",
+        "active": false,
+        "npi": "1518658327",
+        "city": "LYNWOOD",
+        "state": "IL"
+      },
+      {
+        "name": "Beaver Island Rural Health Center",
+        "active": false,
+        "npi": "140782808",
+        "city": "BEAVER ISLAND",
+        "state": "MI"
+      },
+      {
+        "name": "Denver Regenerative Health Institute PC",
+        "active": false,
+        "npi": "1639610397",
+        "city": "GREENWOOD VILLAGE",
+        "state": "CO"
+      },
+      {
+        "name": "Evolve Health",
+        "active": false,
+        "npi": "1083385181",
+        "city": "BLUE ASH",
+        "state": "OH"
+      },
+      {
+        "name": "Monroe Pediatrics PLLC",
+        "active": false,
+        "npi": "1861967630",
+        "city": "Monroe",
+        "state": "MI"
+      },
+      {
+        "name": "Jonna L. Schmidt, M.D., P.C.",
+        "active": false,
+        "npi": "1568630804",
+        "city": "HUDSON",
+        "state": "MI"
+      },
+      {
+        "name": "Jersey Shore Medical and Pediatric Associates ,LLC",
+        "active": false,
+        "npi": "1073642401",
+        "city": "LAKEWOOD",
+        "state": "NJ"
+      },
+      {
+        "name": "Klein and Birns, PLLC",
+        "active": false,
+        "npi": "1679784177",
+        "city": "Nyc",
+        "state": "NY"
+      },
+      {
+        "name": "Legacy Chiropractic, PLLC",
+        "active": false,
+        "npi": "1245836436",
+        "city": "ABERDEEN",
+        "state": "SD"
+      },
+      {
+        "name": "Palm Beach Pediatric Hematology Oncology",
+        "active": false,
+        "npi": "1154852143",
+        "city": "LOXAHATCHEE",
+        "state": "FL"
+      },
+      {
+        "name": "Pediatric Care Physicians, LLC",
+        "active": false,
+        "npi": "1790814127",
+        "city": "BRICK",
+        "state": "NJ"
+      },
+      {
+        "name": "Prospect Family Medicine, INC",
+        "active": false,
+        "npi": "1487895967",
+        "city": "PROSPECT",
+        "state": "OH"
+      },
+      {
+        "name": "PLATINUM HEALTH REGENERATIVE SOLUTIONS, PA",
+        "active": false,
+        "npi": "1649743220",
+        "city": "ROSEVILLE",
+        "state": "MN"
+      },
+      {
+        "name": "Quality Care Chiropractic and Wellness",
+        "active": false,
+        "npi": "1518730076",
+        "city": "MEDFORD",
+        "state": "WI"
+      },
+      {
+        "name": "ReNu Health LLC",
+        "active": false,
+        "npi": "1932573797",
+        "city": "Columbia",
+        "state": "SC"
+      },
+      {
+        "name": "SOUTHERN REGIONAL CHIROPRACTIC AND REHABILITATION CENTER",
+        "active": false,
+        "npi": "1134635360",
+        "city": "DIBERVILLE",
+        "state": "MS"
+      },
+      {
+        "name": "Tanvir I. Qureshi, M.D.  PC",
+        "active": false,
+        "npi": "1730464041",
+        "city": "MONROE",
+        "state": "MI"
+      },
+      {
+        "name": "Arthritis & Osteoporosis Treatment Center, PA",
+        "active": false,
+        "npi": "1508853797",
+        "city": "ORANGE PARK",
+        "state": "FL"
+      },
+      {
+        "name": "WAHID  MEDICAL CORPORATION",
+        "active": false,
+        "npi": "1710254313",
+        "city": "PATTERSON",
+        "state": "CA"
+      },
+      {
+        "name": "Center For Arthritis & Rheumatism, LLC",
+        "active": false,
+        "npi": "1710048905",
+        "city": "EDISON",
+        "state": "NJ"
+      },
+      {
+        "name": "Northern Pines Health Center",
+        "active": false,
+        "npi": "1578547071",
+        "city": "BUCKLEY",
+        "state": "MI"
+      },
+      {
+        "name": "Redwood Chiropractic",
+        "active": false,
+        "npi": "1154196681",
+        "city": "COOKEVILLE",
+        "state": "TN"
+      },
+      {
+        "name": "Davuluri Children Clinic",
+        "active": false,
+        "npi": "1043363260",
+        "city": "Houma",
+        "state": "LA"
+      },
+      {
+        "name": "Arrowhead Management, Inc",
+        "active": false,
+        "npi": "1003835224",
+        "city": "PEACHTREE CITY",
+        "state": "GA"
+      },
+      {
+        "name": "Arunavathi Sangisetty MD APMC",
+        "active": false,
+        "npi": "1205852746",
+        "city": "Houma",
+        "state": "LA"
+      },
+      {
+        "name": "609 FULTON PEDIATRICS PC",
+        "active": false,
+        "npi": "1922393321",
+        "city": "HEMPSTEAD",
+        "state": "NY"
+      },
+      {
+        "name": "ABC Pediatrics of Kankakee County",
+        "active": false,
+        "npi": "1831205194",
+        "city": "BOURBONNAIS",
+        "state": "IL"
+      },
+      {
+        "name": "Alliance Internal Medicine",
+        "active": false,
+        "npi": "1710120696",
+        "city": "Bourbonnais",
+        "state": "IL"
+      },
+      {
+        "name": "Reddy Family Medical Clinic",
+        "active": false,
+        "npi": "1073639084",
+        "city": "DONALDSONVILLE",
+        "state": "LA"
+      },
+      {
+        "name": "Corinth Family Medical Center, PC",
+        "active": false,
+        "npi": "1326239278",
+        "city": "CORINTH",
+        "state": "MS"
+      },
+      {
+        "name": "Health Resource Integration",
+        "active": false,
+        "npi": "UNK",
+        "city": "LEBANON",
+        "state": "TN"
+      },
+      {
+        "name": "Macomb Physicians Group, PLLC",
+        "active": false,
+        "npi": "1255388898",
+        "city": "STERLING HEIGHTS",
+        "state": "MI"
+      },
+      {
+        "name": "Munster Orthopedic Institute, LLC",
+        "active": false,
+        "npi": "UNK",
+        "city": "MUNSTER",
+        "state": "IN"
+      },
+      {
+        "name": "Redfield Medical Clinic",
+        "active": false,
+        "npi": "1194737254",
+        "city": "REDFIELD",
+        "state": "IA"
+      },
+      {
+        "name": "Ridgeview Internal Medicine",
+        "active": false,
+        "npi": "1861437139",
+        "city": "WOODBRIDGE",
+        "state": "VA"
+      },
+      {
+        "name": "Woodbridge Primary Care",
+        "active": false,
+        "npi": "1043699168",
+        "city": "WOODBRIDGE",
+        "state": "VA"
+      },
+      {
+        "name": "South Branch Family Practice",
+        "active": false,
+        "npi": "1174570774",
+        "city": "BRANCHBURG",
+        "state": "NJ"
+      },
+      {
+        "name": "Yonsei Pain Clinic",
+        "active": false,
+        "npi": "1245545789",
+        "city": "LOS ANGELES",
+        "state": "CA"
+      }
+    ]
+  },
+  "coverage_assessment": {
+    "covered_domains": [
+      "demographics",
+      "problems_conditions",
+      "medications",
+      "allergies",
+      "lab_results",
+      "vital_signs",
+      "immunizations",
+      "procedures",
+      "care_plans",
+      "clinical_notes",
+      "implantable_devices",
+      "goals",
+      "smoking_status",
+      "insurance_coverage",
+      "encounters",
+      "provenance"
+    ],
+    "likely_missing_domains": [
+      "billing_claims_charges",
+      "payment_posting_remittances",
+      "accounts_receivable",
+      "denial_management",
+      "e_prescribing_workflow",
+      "scanned_documents_attachments",
+      "secure_messages",
+      "specialty_clinical_data",
+      "referral_management",
+      "quality_measures_mips",
+      "telehealth_metadata",
+      "revenue_cycle_data",
+      "custom_templates_assessments"
+    ],
+    "assessment": "Classic (b)(10) vs (g)(10) confusion. Export covers only USCDI clinical data via C-CDA and FHIR US Core, missing billing, specialty, and operational patient data."
+  }
+}
