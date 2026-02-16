@@ -1,0 +1,6079 @@
+IPClinical (g)(10) API Documentation
+
+
+
+
+Contents
+Terms and Conditions of Use.................................................................................................................................. 3
+Intellectual Property ...................................................................................................................................................... 3
+Fees ........................................................................................................................................................................................ 3
+Introduction ...................................................................................................................................................................... 4
+FHIR Server Endpoint ................................................................................................................................................... 4
+Types of SMART-On-FHIR applications supported ....................................................................................... 4
+Types of Supported Authentications.................................................................................................................... 4
+Steps for Smart App Launch ..................................................................................................................................... 4
+Interoperability requirements with IPClinical for Native Applications ............................................... 5
+Client APP Registration ............................................................................................................................................... 5
+Components and Configurations ........................................................................................................................... 7
+Capability Statement .................................................................................................................................................... 8
+Patient ................................................................................................................................................................................ 26
+Allergy Intolerance ...................................................................................................................................................... 29
+Care Plan ........................................................................................................................................................................... 31
+Care Team ......................................................................................................................................................................... 33
+Conditions ........................................................................................................................................................................ 37
+Implantable Device ...................................................................................................................................................... 40
+Diagnostic Report for Report and Note exchange ...................................................................................... 42
+Diagnostic Report for Laboratory Results Reporting................................................................................. 45
+Document Reference .................................................................................................................................................. 47
+
+
+                                                                          Version 2.1                                                                                      P a g e |1
+                            © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+Goal ...................................................................................................................................................................................... 58
+Immunization.................................................................................................................................................................. 60
+MedicationRequest ...................................................................................................................................................... 62
+Smoking Status Observation .................................................................................................................................. 64
+Pediatric Weight for Height Observation ........................................................................................................ 66
+Laboratory Result Observation .............................................................................................................................. 69
+Pediatric BMI for Age Observation...................................................................................................................... 71
+Pulse Oximetry ............................................................................................................................................................... 74
+Pediatric Head Occipital-frontal Circumference Percentile .................................................................... 78
+Observation Body Height ......................................................................................................................................... 81
+Observation Body Temperature ............................................................................................................................ 84
+Observation Blood Pressure .................................................................................................................................... 87
+Observation Body Weight ........................................................................................................................................ 91
+Observation Heart Rate ............................................................................................................................................. 94
+Observation Respiratory Rate ................................................................................................................................ 97
+Procedure ...................................................................................................................................................................... 100
+Encounter....................................................................................................................................................................... 102
+Organization................................................................................................................................................................. 105
+Practitioner ................................................................................................................................................................... 107
+Provenance ................................................................................................................................................................... 109
+Clinical Notes Guidance.......................................................................................................................................... 111
+
+
+
+
+                                                                         Version 2.1                                                                                      P a g e |2
+                           © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+
+Terms and Conditions of Use
+
+The terms and conditions beneath oversee your utilization of application programming interface (API)
+provided by IPClinical.
+
+    •   By retaining or using this document, you represent that you are a client or an authorized
+        representative of a client of Company who is authorized to use this document, and that you will
+        use this document and the information it contains solely as and to the extent it permits.
+    •   Developers are permitted to keep the copies of the documentation; however, it must not be
+        distributed. Those willing to share the documentation, may do as such by sharing the link to
+        CHPL.
+    •   Developers are responsible for their products using IPClinical API and PHI must not be
+        shared outside the expressed conventions.
+    •   If a developer is utilizing the API for their employer, they should maintain the terms and
+        conditions and that the employer will be at risk to repay IPClinical in the event of
+        infringement.
+    •   You should not use the API to, or in the manner that allows the transmission of any virus, or
+        other unauthorized or malicious code.
+    •   You should not attempt to reverse engineer or derive source code, translate, record, trade or
+        create derivative works based on IPClinical API or API Materials.
+    •   You are not allowed to sell, rent, lease, sublicense or redistribute access to the IPClinical API
+        or API Materials to any third party without getting an approval from IPClinical.
+    •   IPClinical will inform you with a prior notice as it may alter or suspend the IPClinical API or a
+        part or property thereof, or refresh and change these terms and conditions.
+    •   The sole reason of this API will be to acquire the protected health information (PHI) of patients
+        and by accessing or utilizing the material on this API, you agree to bound by these terms and
+        conditions.
+
+Intellectual Property
+
+IPClinical exclusively own all right, title and interest in and to all the trademarks, documentation,
+software, contents, graphics, designs, data, computer code, application program interfaces,
+patents, works, ideas (whether or not patentable), know-how, trade secrets, "look and feel,"
+compilations, magnetic translations, digital conversions and other materials, and all intellectual
+property rights related thereto (the "Intellectual Property") included within or related to the API
+or the API Materials.
+
+Fees
+
+IPClinical does not currently charge any fees for the use of the API. IPClinical reserves the right
+to charge fees for future use of or access to the API. Should we exercise our right to charge fees
+in the future, we will provide you with advance notice of this decision, and will describe any and
+all such fees in detailed plain language.
+
+
+
+
+                                                               Version 2.1                                             P a g e |3
+                 © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+
+Introduction
+
+In this documentation we will list all the steps required to access Protected Health Information (PHI)
+based on the documentation of an open API. The API makes health information broadly available using
+FHIR®, a set of clinical interoperability resources under the umbrella of the HL7 standards organization.
+FHIR is based on common web standards that can be reached through a RESTful protocol in which each
+FHIR resource has a known URL.
+
+
+
+FHIR Server Endpoint
+
+FHIR: https://staging.pemr.com:93/api
+
+Authentication Server: https://staging.pemr.com:93/api/authorize/authorize
+
+
+Types of SMART-On-FHIR applications supported
+
+Standalone App: SMART on FHIR confidential client with a patient context, refresh token, and OpenID
+Connect (OIDC) identity token.
+EHR Embedded app: Demonstrate the ability to perform an EHR launch to a SMART on FHIR.
+Smart Backend Services App (Multi-patient authorization and API): These are server-to-server backend
+applications e.g., Export clinical data for multiple patients in a group. This app is system level app without
+any UI.
+
+
+Types of Supported Authentications
+
+Symmetric (“client secret”) authentication (HL7.FHIR.UV.SMART-APP-LAUNCH\Example App Launch for
+Symmetric Client Auth - FHIR v3.1.1)
+Asymmetric (“private key JWT”) authentication (HL7.FHIR.UV.SMART-APP-LAUNCH\Example App Launch
+for Asymmetric Client Auth – FHIR v3.1.1)
+Public Clients (HL7.FHIR.UV.SMART-APP-LAUNCH\Example App Launch for Public Client - FHIR v3.1.1)
+
+
+Steps for Smart App Launch
+
+    •   Client App Registration
+    •   Retrieve. well-known/smart-configuration
+    •   Obtain authorization code
+    •   Obtain access token
+    •   Access FHIR API
+    •   Refresh Token to obtain new access token
+
+
+
+
+                                                               Version 2.1                                             P a g e |4
+                 © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+
+Interoperability requirements with IPClinical for Native Applications
+
+    •   Native applications MUST be capable of storing the refresh token in a secure manner similar to the
+        requirements of storing a secret for confidential apps.
+    •   Native applications must request the offline_scope in their initial API request in order to receive a
+        refresh token
+    •   Native application refresh tokens are valid for 3 months before they must be renewed.
+    •   Native applications can only communicate with IPClinical over a TLS secured channel in order to
+        ensure the safe transmission of the refresh token.
+    •   Native applications must use the Authorization Code grant flow in order to receive a refresh token.
+
+
+Client APP Registration
+
+Before a SMART app can run against an EHR, the app must be registered with that EHR’s authorization
+service. We are using JWT Client Request process. Third-party applications must contact with the following
+info to register their apps:
+    • The app name
+    • The necessary APIs / Scopes
+    • Any redirect URIs
+    • Launch_URL (optional)
+    • URL to JWK Set (Only for apps supporting asymmetric client authentication)
+The application is created by the EHR admin after confirming the app’s registration parameters and
+communicates a client_id to the app. FHIR APIs (of any supported version) listed within the USCDI v1 core
+data set will support only reads data from FHIR server.
+
+
+Retrieve. well-known/smart-configuration:
+
+In order to obtain launch context and request authorization to access FHIR resources, the app
+discovers the EHR FHIR server’s SMART configuration metadata, including OAuth authorization_endpoint
+and token_endpoint URLs. FHIR server makes SMART configuration available from well-known endpoint.
+You can get Authorization end point and token endpoint
+
+SMART Configuration can be retrieved from:
+https://staging.pemr.com:93/api/.well-known/smart-configuration
+
+METADATA CONFORMANCE and Supported Operations can be retrieved from:
+https://staging.pemr.com:93/api/metadata
+
+Obtain Authorization Code, Code Request:
+
+https://staging.pemr.com:93/api/authorize/authorize?response_type=code&client_id=<CLIENT_ID>&redir
+ect_uri=<REFIRECT_URI>&scope=....
+
+Obtain Access Token:
+https://staging.pemr.com:93/api/authorize/authorize?code=<CODE>&grant_type=authorization_code&re
+direct_uri=<REDIRECT_URI>
+
+
+                                                              Version 2.1                                             P a g e |5
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+
+Token Response:
+{
+"id_token":"eyJ0eXAiOiJKV1QiLCJhbG....."
+"patient":"...",
+"access_token":"..."
+"need_patient_banner": true,
+"smart_style_url":"https://staging.pemr.com:93/api/smart-styles/smart-light",
+"token_type":"Bearer",
+"expires_in":3600,
+"refresh_token":".... ", //NOTE ONLY AVAILABLE WITH OFFLINE SCOPE
+"scope":" launch/patient openid fhirUser offline_access patient/Medication.read
+patient/AllergyIntolerance.read patient/CarePlan.read patient/CareTeam.read
+patient/Condition.read patient/Device.read patient/DiagnosticReport.read
+patient/DocumentReference.read patient/Encounter.read patient/Goal.read
+patient/Immunization.read patient/Location.read patient/MedicationRequest.read
+patient/Observation.read patient/Organization.read patient/Patient.read patient/Practitioner.read
+patient/Procedure.read patient/Provenance.read patient/PractitionerRole.read"
+}
+
+Access FHIR APIs
+
+Please Refer to http://hl7.org/fhir/us/core/STU3.1.1/ for more information for FHIR Structures.
+
+
+Supported FHIR resources are:
+
+    •   AllergyIntolerance
+            o US Core AllergyIntolerance Profile
+    •   CarePlan
+            o US Core CarePlan Profile
+    •   CareTeam
+            o US Core CareTeam Profile
+    •   Condition
+            o US Core Condition Encounter Diagnosis Profile
+            o US Core Condition Problems and Health Concerns Profile
+    •   Device
+            o US Core Implantable Device Profile
+    •   DiagnosticReport
+            o US Core DiagnosticReport Profile for Laboratory Results Reporting
+            o US Core DiagnosticReport Profile for Report and Note Exchange
+    •   DocumentReference
+            o US Core DocumentReference Profile
+    •   Encounter
+            o US Core Encounter Profile
+    •   Goal
+            o US Core Goal Profile
+    •   Immunization
+            o US Core Immunization Profile
+    •   Location
+
+
+                                                              Version 2.1                                             P a g e |6
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+           o US Core Location Profile
+   •   Medication
+           o US Core Medication Profile
+   •   MedicationRequest
+           o US Core MedicationRequest Profile
+   •   Observation
+           o US Core Observation Clinical Test Result Profile
+           o US Core Observation Imaging Result Profile
+           o US Core Laboratory Result Observation Profile
+           o US Core Observation Social History Profile
+           o US Core Smoking Status Observation Profile
+           o US Core Vital Signs Profile
+                     US Core Pediatric Head Occipital-frontal Circumference Percentile Profile
+                     US Core Pediatric Head Occipital-frontal Circumference Percentile Profile
+                     US Core Blood Pressure Profile
+                     US Core BMI Profile
+                     US Core Body Height Profile
+                     US Core Body Temperature Profile
+                     US Core Body Weight Profile
+                     US Core Head Circumference Profile
+                     US Core Heart Rate Profile
+                     US Core Pediatric BMI for Age Observation Profile
+                     US Core Pediatric Weight for Height Observation Profile
+                     US Core Pulse Oximetry ProfileUS Core Respiratory Rate Profile
+   •   Organization
+           o US Core Organization Profile
+   •   Patient
+           o US Core Patient Profile
+   •   Practitioner
+           o US Core Practitioner Profile
+   •   PractitionerRole
+           o US Core PractitionerRole Profile
+   •   Procedure
+           o US Core Procedure Profile
+   •   Provenance
+           o US Core Provenance Profile
+
+
+Components and Configurations
+
+   •   Confidential Clients: To be registered as a confidential client, the client must be capable of storing
+       a client secret.
+   •   Bulk Export: Clients using the Bulk Export API must support authorization using the Client
+       Credentials Flow with JWT Credential.
+   •   Standalone Launch: Standalone Launch is currently supported for patient-facing 3rd-party
+       applications. These Apps must support the Authorization Code Flow as outlined in the SMART App
+       Launch IG 1.0.0.
+   •   EHR Launch: EHR Launch is currently supported for provider-facing applications that are integrated
+       with the EHR. These Apps must support the Authorization Code Flow as outlined in the SMART App
+       Launch IG 1.0.0.
+
+
+                                                              Version 2.1                                             P a g e |7
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+
+Capability Statement
+
+Sample Request: https://staging.pemr.com:93/api/metadata
+
+Sample Response:
+
+{
+"resourceType": "CapabilityStatement",
+"status": "active",
+"date": "2022-10-31T18:03:00+00:00",
+"publisher": "IPClinical",
+"kind": "instance",
+"implementation": {
+"description": " IPClinical FHIR Server US Core R4 Profile",
+"url": "https://staging.pemr.com:93/api"
+},
+"fhirVersion": "4.0.1",
+"format": [
+"application/fhir+xml",
+"application/fhir+json"
+],
+"implementationGuide": [
+"http://hl7.org/fhir/us/core/ImplementationGuide/hl7.fhir.us.core|3.1.1"
+],
+"rest": [
+ {
+  "mode": "server",
+  "security": {
+   "extension": [
+    {
+     "url": "http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris",
+     "extension": [
+    {
+     "url": "token",
+     "valueUri": "https://staging.pemr.com:93/api/authorize/authorize"
+    },
+    {
+     "url": "authorize",
+     "valueUri": "https://staging.pemr.com:90/login.aspx"
+    },
+    {
+     "url": "revoke",
+     "valueUri": "https://staging.pemr.com:93/api/login/revoke"
+    }
+   ]
+  }
+],
+"service": [
+  {
+   "coding": [
+
+                                                               Version 2.1                                             P a g e |8
+                 © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+    {
+     "system": "http://terminology.hl7.org/CodeSystem/restful-security-service",
+     "code": "SMART-on-FHIR"
+    }
+   ],
+   "text": "OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)"
+  }
+ ]
+},
+"resource": [
+   {
+    "type": "AllergyIntolerance",
+    "supportedProfile": [
+     "http://hl7.org/fhir/us/core/StructureDefinition/us-core-allergyintolerance"
+],
+"interaction": [
+   {
+     "code": "search-type"
+   },
+   {
+     "code": "read"
+   },
+   {
+     "code": "vread"
+   },
+   {
+     "code": "history-instance"
+   }
+  ],
+  "searchRevInclude": [
+   "Provenance:target"
+  ],
+  "searchParam": [
+    {
+     "name": "clinical-status",
+     "type": "token"
+    },
+    {
+     "name": "patient",
+     "type": "reference"
+    }
+  ]
+},
+{
+  "type": "CarePlan",
+  "supportedProfile": [
+   "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careplan"
+],
+"interaction": [
+   {
+     "code": "search-type"
+
+                                                              Version 2.1                                             P a g e |9
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+ },
+ {
+   "code": "read"
+ },
+ {
+   "code": "vread"
+ },
+ {
+   "code": "history-instance"
+}
+],
+"searchRevInclude": [
+  "Provenance:target"
+],
+"searchParam": [
+   {
+    "name": "category",
+    "type": "token"
+   },
+   {
+    "name": "date",
+    "type": "date"
+   },
+   {
+    "name": "patient",
+    "type": "reference"
+   },
+   {
+    "name": "status",
+    "type": "token"
+   }
+  ]
+},
+{
+    "type": "CareTeam",
+    "supportedProfile": [
+     "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careteam"
+],
+"interaction": [
+   {
+    "code": "search-type"
+   },
+   {
+    "code": "read"
+   },
+   {
+    "code": "vread"
+   },
+   {
+    "code": "history-instance"
+   }
+
+                                                              Version 2.1                                             P a g e | 10
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+ ],
+  "searchRevInclude": [
+  "Provenance:target"
+ ],
+ "searchParam": [
+  {
+   "name": "patient",
+   "type": "reference"
+  },
+  {
+   "name": "status",
+   "type": "token"
+   }
+ ]
+},
+{
+  "type": "Condition",
+  "supportedProfile": [
+   "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition"
+  ],
+  "interaction": [
+    {
+     "code": "search-type"
+    },
+    {
+     "code": "read"
+    },
+    {
+     "code": "vread"
+    },
+    {
+     "code": "history-instance"
+    }
+  ],
+  "searchRevInclude": [
+   "Provenance:target"
+  ],
+   "searchParam": [
+    {
+     "name": "category",
+     "type": "token"
+    },
+    {
+     "name": "clinical-status",
+     "type": "token"
+    },
+    {
+     "name": "patient",
+     "type": "reference"
+    },
+    {
+
+                                                              Version 2.1                                             P a g e | 11
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+   "name": "onset-date",
+   "type": "date"
+  },
+  {
+   "name": "code",
+   "type": "token"
+  }
+  ]
+},
+{
+  "type": "Device",
+  "supportedProfile": [
+   "http://hl7.org/fhir/us/core/StructureDefinition/us-core-implantable-device"
+  ],
+  "interaction": [
+    {
+     "code": "search-type"
+    },
+    {
+     "code": "read"
+    },
+    {
+     "code": "vread"
+    },
+    {
+     "code": "history-instance"
+    }
+  ],
+  "searchRevInclude": [
+   "Provenance:target"
+  ],
+  "searchParam": [
+    {
+     "name": "patient",
+     "type": "reference"
+    },
+    {
+     "name": "type",
+     "type": "token"
+    }
+]
+},
+{
+  "type": "DiagnosticReport",
+  "supportedProfile": [
+   "http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab",
+   "http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"
+],
+"interaction": [
+    {
+     "code": "create"
+
+                                                              Version 2.1                                             P a g e | 12
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+    },
+    {
+     "code": "search-type"
+    },
+    {
+     "code": "read"
+    },
+    {
+     "code": "vread"
+    },
+    {
+     "code": "history-instance"
+     }
+  ],
+  "searchRevInclude": [
+  "Provenance:target"
+  ],
+  "searchParam": [
+    {
+     "name": "status",
+     "type": "token"
+    },
+    {
+     "name": "patient",
+     "type": "reference"
+    },
+    {
+     "name": "category",
+     "type": "token"
+    },
+    {
+     "name": "code",
+     "type": "token"
+    },
+    {
+     "name": "date",
+     "type": "date"
+    }
+  ]
+},
+{
+  "type": "DocumentReference",
+  "supportedProfile": [
+   "http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"
+  ],
+  "interaction": [
+    {
+     "code": "create"
+    },
+    {
+     "code": "search-type"
+
+                                                              Version 2.1                                             P a g e | 13
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+    },
+    {
+     "code": "read"
+    },
+    {
+     "code": "vread"
+    },
+    {
+     "code": "history-instance"
+    }
+  ],
+  "searchRevInclude": [
+  "Provenance:target"
+  ],
+  "searchParam": [
+    {
+     "name": "_id",
+     "type": "token"
+    },
+    {
+     "name": "status",
+     "type": "token"
+    },
+    {
+     "name": "patient",
+     "type": "reference"
+    },
+    {
+     "name": "category",
+     "type": "token"
+    },
+    {
+     "name": "type",
+     "type": "token"
+    },
+    {
+     "name": "date",
+     "type": "date"
+    },
+    {
+     "name": "period",
+     "type": "date"
+    }
+  ]
+},
+{
+  "type": "Encounter",
+  "supportedProfile": [
+   "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
+  ],
+  "interaction": [
+
+                                                              Version 2.1                                             P a g e | 14
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+    {
+     "code": "search-type"
+    },
+    {
+     "code": "read"
+    },
+    {
+     "code": "vread"
+    },
+    {
+     "code": "history-instance"
+    }
+  ],
+  "searchRevInclude": [
+   "Provenance:target"
+  ],
+  "searchParam": [
+    {
+     "name": "_id",
+     "type": "token"
+    },
+    {
+     "name": "class",
+     "type": "token"
+    },
+    {
+     "name": "date",
+     "type": "date"
+    },
+    {
+     "name": "identifier",
+     "type": "token"
+    },
+    {
+     "name": "patient",
+     "type": "reference"
+    },
+    {
+     "name": "status",
+     "type": "token"
+    },
+    {
+     "name": "type",
+     "type": "token"
+    }
+  ]
+},
+  {
+  "type": "Goal",
+  "supportedProfile": [
+   "http://hl7.org/fhir/us/core/StructureDefinition/us-core-goal"
+
+                                                               Version 2.1                                             P a g e | 15
+                 © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+  ],
+  "interaction": [
+    {
+     "code": "search-type"
+    },
+    {
+     "code": "read"
+    },
+    {
+     "code": "vread"
+    },
+    {
+     "code": "history-instance"
+    }
+  ],
+  "searchRevInclude": [
+   "Provenance:target"
+  ],
+  "searchParam": [
+    {
+     "name": "lifecycle-status",
+     "type": "token"
+    },
+    {
+     "name": "patient",
+     "type": "reference"
+    },
+    {
+     "name": "target-date",
+     "type": "date"
+    }
+  ]
+},
+{
+  "type": "Group",
+  "operation": [
+  {
+   "extension": [
+    {
+     "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+     "valueCode": "SHOULD"
+    }
+   ],
+   "name": "group-export",
+   "definition": "http://hl7.org/fhir/uv/bulkdata/OperationDefinition/group-export"
+  }
+ ]
+},
+{
+  "type": "Immunization",
+  "supportedProfile": [
+
+                                                               Version 2.1                                             P a g e | 16
+                 © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+   "http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization"
+  ],
+  "interaction": [
+    {
+     "code": "search-type"
+    },
+    {
+     "code": "read"
+    },
+    {
+     "code": "vread"
+    },
+    {
+     "code": "history-instance"
+    }
+  ],
+  "searchRevInclude": [
+   "Provenance:target"
+  ],
+  "searchParam": [
+    {
+     "name": "patient",
+     "type": "reference"
+    },
+    {
+     "name": "status",
+     "type": "token"
+    },
+    {
+     "name": "date",
+     "type": "date"
+    }
+  ]
+},
+{
+  "type": "Location",
+  "supportedProfile": [
+   "http://hl7.org/fhir/us/core/StructureDefinition/us-core-location"
+  ],
+  "interaction": [
+    {
+     "code": "search-type"
+    },
+    {
+     "code": "read"
+    },
+    {
+     "code": "vread"
+    },
+    {
+     "code": "history-instance"
+
+                                                              Version 2.1                                             P a g e | 17
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+    }
+  ],
+  "searchParam": [
+    {
+     "name": "name",
+     "type": "string"
+    },
+    {
+     "name": "address",
+     "type": "string"
+    },
+    {
+     "name": "address-city",
+     "type": "string"
+    },
+    {
+     "name": "address-state",
+     "type": "string"
+    },
+    {
+     "name": "address-postalcode",
+     "type": "string"
+    }
+  ]
+},
+{
+  "type": "Medication",
+  "supportedProfile": [
+   "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medication"
+  ],
+  "interaction": [
+    {
+     "code": "read"
+    },
+    {
+     "code": "vread"
+    },
+    {
+     "code": "history-instance"
+    }
+  ]
+},
+{
+  "type": "MedicationRequest",
+  "supportedProfile": [
+   "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationrequest"
+  ],
+  "interaction": [
+    {
+     "code": "search-type"
+    },
+
+                                                              Version 2.1                                             P a g e | 18
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+    {
+     "code": "read"
+    },
+    {
+     "code": "vread"
+    },
+    {
+     "code": "history-instance"
+    }
+  ],
+  "searchInclude": [
+   "MedicationRequest:medication"
+  ],
+  "searchRevInclude": [
+   "Provenance:target"
+  ],
+  "searchParam": [
+    {
+     "name": "status",
+     "type": "token"
+    },
+    {
+     "name": "intent",
+     "type": "token"
+    },
+    {
+     "name": "patient",
+     "type": "reference"
+    },
+    {
+     "name": "encounter",
+     "type": "reference"
+    },
+    {
+     "name": "authoredon",
+     "type": "date"
+    }
+  ]
+},
+{
+  "type": "Observation",
+  "supportedProfile": [
+    "http://hl7.org/fhir/us/core/StructureDefinition/us-core-smokingstatus",
+    "http://hl7.org/fhir/us/core/StructureDefinition/pediatric-weight-for-height",
+    "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab",
+    "http://hl7.org/fhir/us/core/StructureDefinition/pediatric-bmi-for-age",
+    "http://hl7.org/fhir/us/core/StructureDefinition/us-core-pulse-oximetry",
+    "http://hl7.org/fhir/us/core/StructureDefinition/us-core-pulse-oximetry",
+
+"http://hl7.org/fhir/us/core/StructureDefinition/head-occipital-frontal-circumference-percentile",
+  "http://hl7.org/fhir/StructureDefinition/bp",
+
+                                                               Version 2.1                                             P a g e | 19
+                 © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+    "http://hl7.org/fhir/StructureDefinition/bodyheight",
+    "http://hl7.org/fhir/StructureDefinition/bodyweight",
+    "http://hl7.org/fhir/StructureDefinition/heartrate",
+    "http://hl7.org/fhir/StructureDefinition/resprate",
+    "http://hl7.org/fhir/StructureDefinition/bodytemp"
+  ],
+  "interaction": [
+    {
+     "code": "search-type"
+    },
+    {
+     "code": "read"
+    },
+    {
+     "code": "vread"
+    },
+    {
+     "code": "history-instance"
+    }
+  ],
+  "searchRevInclude": [
+   "Provenance:target"
+  ],
+  "searchParam": [
+    {
+     "name": "status",
+     "type": "token"
+    },
+    {
+     "name": "category",
+     "type": "token"
+    },
+    {
+     "name": "code",
+     "type": "token"
+    },
+    {
+     "name": "date",
+     "type": "date"
+    },
+    {
+     "name": "patient",
+     "type": "reference"
+    }
+  ]
+},
+{
+  "type": "Organization",
+  "supportedProfile": [
+   "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
+  ],
+
+                                                              Version 2.1                                             P a g e | 20
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+  "interaction": [
+    {
+     "code": "search-type"
+    },
+    {
+     "code": "read"
+    },
+    {
+     "code": "vread"
+    },
+    {
+     "code": "history-instance"
+    }
+  ],
+  "searchParam": [
+    {
+     "name": "name",
+     "type": "string"
+    },
+    {
+     "name": "address",
+     "type": "string"
+    }
+  ]
+},
+{
+  "type": "Patient",
+  "supportedProfile": [
+   "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+  ],
+  "interaction": [
+    {
+     "code": "search-type"
+    },
+    {
+     "code": "read"
+    },
+    {
+     "code": "vread"
+    },
+    {
+     "code": "history-instance"
+    }
+  ],
+  "searchRevInclude": [
+   "Provenance:target"
+  ],
+  "searchParam": [
+    {
+     "name": "_id",
+     "type": "token"
+
+                                                              Version 2.1                                             P a g e | 21
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+  },
+  {
+   "name": "birthdate",
+   "type": "date"
+  },
+  {
+   "name": "family",
+   "type": "string"
+  },
+  {
+   "name": "gender",
+   "type": "token"
+  },
+  {
+   "name": "given",
+   "type": "string"
+  },
+  {
+   "name": "identifier",
+   "type": "token"
+  },
+  {
+   "name": "name",
+   "type": "string"
+  }
+  ]
+},
+{
+  "type": "Practitioner",
+  "supportedProfile": [
+   "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+  ],
+  "interaction": [
+    {
+     "code": "search-type"
+    },
+    {
+     "code": "read"
+    },
+    {
+     "code": "vread"
+    },
+    {
+     "code": "history-instance"
+    }
+  ],
+  "searchParam": [
+    {
+     "name": "name",
+     "type": "string"
+    },
+
+                                                               Version 2.1                                             P a g e | 22
+                 © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+    {
+     "name": "identifier",
+     "type": "token"
+    }
+  ],
+  "operation": [
+    {
+     "extension": [
+    {
+     "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+     "valueCode": "SHOULD"
+    }
+   ],
+   "name": "patient-export",
+   "definition": "http://hl7.org/fhir/uv/bulkdata/OperationDefinition/patient-export"
+  }
+ ]
+},
+{
+  "type": "PractitionerRole",
+  "supportedProfile": [
+   "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole"
+  ],
+  "interaction": [
+    {
+     "code": "search-type"
+    },
+    {
+     "code": "read"
+    },
+    {
+     "code": "vread"
+    },
+    {
+     "code": "history-instance"
+    }
+  ],
+  "searchInclude": [
+    "PractitionerRole:endpoint",
+    "PractitionerRole:practitioner"
+  ],
+  "searchParam": [
+    {
+     "name": "specialty",
+     "type": "token"
+    },
+    {
+     "name": "practitioner",
+     "type": "reference"
+    }
+  ]
+
+                                                               Version 2.1                                             P a g e | 23
+                 © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+},
+{
+  "type": "Procedure",
+  "supportedProfile": [
+   "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"
+  ],
+  "interaction": [
+    {
+     "code": "search-type"
+    },
+    {
+     "code": "read"
+    },
+    {
+     "code": "vread"
+    },
+    {
+     "code": "history-instance"
+    }
+  ],
+  "searchRevInclude": [
+  "Provenance:target"
+  ],
+  "searchParam": [
+    {
+     "name": "status",
+     "type": "token"
+    },
+    {
+     "name": "patient",
+     "type": "reference"
+    },
+    {
+     "name": "date",
+     "type": "date"
+    },
+    {
+     "name": "code",
+     "type": "token"
+    }
+  ]
+},
+{
+  "type": "Provenance",
+  "supportedProfile": [
+     "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+  ],
+  "interaction": [
+    {
+     "code": "read"
+    },
+
+                                                              Version 2.1                                             P a g e | 24
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+  {
+   "code": "vread"
+  },
+  {
+   "code": "history-instance"
+  }
+  ]
+ }
+],
+"operation": [
+  {
+   "name": "get-resource-counts",
+   "definition":
+"https://inferno.healthit.gov/reference-server/OperationDefinition/-s-get-resource-counts"
+  },
+  {
+   "extension": [
+    {
+     "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+     "valueCode": "SHOULD"
+    }
+    ],
+    "name": "export",
+    "definition": "http://hl7.org/fhir/uv/bulkdata/OperationDefinition/export"
+    }
+   ]
+  }
+ ]
+}
+
+EXCEPTIONS
+
+200: Ok
+500: Internal Server Error
+
+
+
+
+                                                               Version 2.1                                             P a g e | 25
+                 © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+
+Patient
+
+Parameters
+
+ Parameter                                                           Data Type
+ Patient Id                                                          String
+
+ Parameters/Parameters Combinations                                  Support as per US Core
+ id (string)                                                         Required
+ identifier (code)                                                   Required
+ name (string)                                                       Required
+ birthdate (date) and name (date)                                    Required
+ gender (code) and name (string)                                     Required
+ birthdate (date) and family (string)                                Optional
+ family (string) and gender (code)                                   Optional
+
+Example for Getting Patient # 18 Data
+Sample Request
+https://staging.pemr.com:93/api/Patient?_id=18
+HEADER
+authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG….
+Default response is the FHIR Bundle in JSON Optionally
+Header Accept can be sent as XML to get Data in XML Format
+
+Sample Response:
+{
+  "resourceType": "Bundle",
+  "id": "patient-bundle",
+  "type": "searchset",
+  "total": 1,
+  "entry": [
+   {
+    "resource": {
+     "resourceType": "Patient",
+     "id": "31",
+     "extension": [
+      {
+       "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+       "extension": [
+         {
+          "url": "text",
+          "valueString": "American Indian or Alaska Native"
+         }
+       ]
+      },
+      {
+       "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+       "extension": [
+         {
+
+
+                                                               Version 2.1                                             P a g e | 26
+                 © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+     "url": "text",
+     "valueString": "Not Hispanic or Latino"
+    }
+    ]
+   },
+   {
+    "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex",
+    "valueCode": "M"
+   }
+  ],
+  "identifier": [
+    {
+     "type": {
+      "coding": [
+        {
+         "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+         "code": "MR",
+         "display": "Medical Record Number"
+        }
+      ]
+    },
+    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+    "value": "31"
+   }
+  ],
+  "name": [
+    {
+     "use": "official",
+     "family": "Gibbs",
+     "given": [
+      "Dawn"
+     ]
+   }
+  ],
+  "telecom": [
+    {
+      "system": "phone",
+      "value": "(406) 555-7960",
+      "use": "home"
+     }
+   ],
+   "gender": "male",
+   "birthDate": "2015-04-15",
+   "address": [
+     {
+      "use": "home",
+      "line": [
+       "543 Blount Dr"
+      ],
+      "city": "BOZEMAN",
+      "state": "MT",
+
+                                                              Version 2.1                                             P a g e | 27
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+        "postalCode": "59715",
+        "country": "US",
+        "period": {
+        "start": "2022-11-23T01:12:17-05:00"
+         }
+        }
+       ],
+       "contact": [
+        {
+         "telecom": [
+           {
+             "system": "phone",
+             "value": "(406) 555-7960",
+             "use": "home"
+           }
+          ]
+        }
+       ],
+       "communication": [
+         {
+          "language": {
+          "coding": [
+           {
+            "system": "urn:ietf:bcp:47",
+            "code": "en",
+            "display": "English"
+           }
+          ]
+         }
+        }
+       ]
+      }
+     }
+    ]
+}
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                                   Version 2.1                                             P a g e | 28
+                     © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+
+Allergy Intolerance
+
+Parameters
+
+ Parameter                                                          Data Type
+ Patient Id                                                         String
+
+ Parameters/Parameters Combinations                                 Support as per US Core
+ patient (reference)                                                Required
+ clinical-status (code)                                             Required
+
+Sample Request:
+
+https://staging.pemr.com:93/api/AllergyIntolerance?patient=18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response: {
+ "resourceType": "Bundle",
+ "id": "allergy-bundle",
+ "type": "searchset",
+ "total": 1,
+ "entry": [
+  {
+    "resource": {
+     "resourceType": "AllergyIntolerance",
+     "id": "1612",
+     "clinicalStatus": {
+       "coding": [
+         {
+           "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+           "code": "active",
+           "display": "Active"
+         }
+       ],
+       "text": "active"
+     },
+     "verificationStatus": {
+       "coding": [
+         {
+           "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification",
+           "code": "confirmed",
+           "display": "confirmed"
+         }
+       ]
+     },
+     "type": "allergy",
+     "code": {
+
+
+                                                              Version 2.1                                             P a g e | 29
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+                  "coding": [
+                    {
+                      "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                      "code": "733",
+                      "display": "RXNORM"
+                    }
+                  ],
+                  "text": "Ampicillin"
+                },
+                "patient": {
+                  "reference": "Patient/18"
+                },
+                "onsetDateTime": "1980-05-10T00:00:00-04:00",
+                "reaction": [
+                  {
+                    "manifestation": [
+                      {
+                        "coding": [
+                          {
+                            "system": "http://snomed.info/sct",
+                            "code": "247472004",
+                            "display": "Snomed"
+                          }
+                        ],
+                        "text": "Hives"
+                      }
+                    ]
+                  }
+                ]
+            }
+        }
+    ]
+}
+
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                                         Version 2.1                                             P a g e | 30
+                           © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+Care Plan
+
+Parameters
+
+    Parameter                                                           Data Type
+    Patient Id                                                          String
+
+    Parameters/Parameters Combinations                                  Support as per US Core
+    patient (reference) and category (code)                             Required
+    patient (reference)and category (code) and date                     Optional
+    (date)
+    patient (reference) and category (code) and status                  Optional
+    (code)
+    patient (reference) and category (code) and status                  Optional
+    (code) and date (date)
+
+Sample Request:
+
+https://staging.pemr.com:93/api/CarePlan?category=assess-plan&patient=18
+
+authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+ "resourceType": "Bundle",
+ "id": "careplan-bundle",
+ "type": "searchset",
+ "total": 1,
+ "entry": [
+  {
+    "resource": {
+     "resourceType": "CarePlan",
+     "id": "149",
+     "text": {
+      "status": "additional",
+      "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Care Plan<br/>i. Get an EKG done
+on 6/23/2015.\nii. Take Clindamycin 300mg three times a day as needed if pain does not
+subside/\niii. Schedule follow on visit with Neighborhood Physicians Practice
+on\n7/1/2015.\n\nPlanned Observation\nUrinanalysis macro LOINC 24357-6
+6/22/2015\nUrinanalysis macro LOINC 24357-6 6/29/2015</div>"
+      },
+      "status": "active",
+      "intent": "plan",
+      "category": [
+        {
+          "coding": [
+           {
+
+
+                                                                  Version 2.1                                             P a g e | 31
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+               "system": "http://hl7.org/fhir/us/core/CodeSystem/careplan-category",
+               "code": "assess-plan",
+               "display": "assess-plan"
+           }
+       ]
+            }
+          ],
+          "description": "i. Get an EKG done on 6/23/2015.\nii. Take Clindamycin 300mg three times
+a day as needed if pain does not subside/\niii. Schedule follow on visit with Neighborhood
+Physicians Practice on\n7/1/2015.\n\nPlanned Observation\nUrinanalysis macro LOINC
+24357-6 6/22/2015\nUrinanalysis macro LOINC 24357-6 6/29/2015",
+          "subject": {
+          "reference": "Patient/18"
+        },
+        "encounter": {
+          "reference": "Encounter/32"
+        }
+      }
+    }
+  ]
+}
+
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                                   Version 2.1                                             P a g e | 32
+                     © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+
+Care Team
+
+Parameters
+
+ Parameter                                                           Data Type
+ Patient Id                                                          String
+
+ Parameters/Parameters Combinations                                  Support as per US Core
+ patient (reference) and status (code)                               Required
+
+Sample Request:
+
+https://staging.pemr.com:93/api/CareTeam?patient=18&status=active
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+"resourceType": "Bundle",
+"id": "carteam-bundle",
+"type": "searchset",
+"total": 1,
+"entry": [
+{
+   "resource": {
+     "resourceType": "CareTeam",
+     "id": "2",
+     "status": "active",
+     "subject": {
+        32 "reference": "Patient/18"
+     },
+     "encounter": {
+        "reference": "Encounter/32"
+     },
+     "period": {
+        "start": "2022-11-23T13:06:07-05:00"
+     },
+     "participant": [
+        {
+             "role": [
+               {
+               "coding": [
+                  {
+                  "system": "http://snomed.info/sct",
+                  "code": "116154003",
+                  "display": "Patient"
+               }
+                                                                        ]
+
+                                                               Version 2.1                                             P a g e | 33
+                 © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+             }
+                                                               ],
+             "member": {
+               "reference": "Patient/18"
+             }
+        },
+        {
+             "role": [
+               {
+               "coding": [
+                  {
+                  "system": "http://snomed.info/sct",
+                  "code": "223366009",
+                  "display": "Heathcare Provider"
+               }
+             ]
+             }
+        ],
+             "member": {
+               "reference": "Practitioner/1"
+             }
+        },
+        {
+             "role": [
+               {
+"coding": [
+    {
+"system": "http://snomed.info/sct",
+"code": "224891009",
+"display": "Heathcare Services"
+}
+ ]
+  }
+   ],
+"member": {
+    "reference": "Organization/1"
+  }
+   }
+    ],
+"managingOrganization": [{
+    "reference": "Organization/1"
+}
+ ]
+  }
+   },
+    {
+    "resource": {
+       "resourceType": "CareTeam",
+       "id": "2",
+       "status": "active",
+       "subject": {
+
+                                                                 Version 2.1                                             P a g e | 34
+                   © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+       "reference": "Patient/18"
+    },
+    "encounter": {
+       "reference": "Encounter/32"
+    },
+    "period": {
+       "start": "2022-11-23T13:06:07-05:00"
+    },
+    "participant": [
+    {
+         "role": [
+            {
+             "coding": [
+              {
+              "system": "http://snomed.info/sct",
+              "code": "116154003",
+              "display": "Patient"
+}
+ ]
+  }
+   ],
+    "member": {
+    "reference": "Patient/18"
+}
+ },
+  {
+   "role": [
+        {
+        "coding": [
+           {
+           "system": "http://snomed.info/sct",
+           "code": "223366009",
+           "display": "Heathcare Provider"
+        }
+         ]
+    }
+     ],
+      "member": {
+        "reference": "Practitioner/11"
+    }
+}, {
+    "role": [
+        {
+        "coding": [
+           {
+           "system": "http://snomed.info/sct",
+           "code": "224891009",
+           "display": "Heathcare Services"
+        }
+         ]
+    }
+
+                                                                Version 2.1                                             P a g e | 35
+                  © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+   ],
+  "member": {
+      "reference": "Organization/1"
+  }
+}
+],
+"managingOrganization": [
+       {
+        "reference": "Organization/1"
+}
+ ]
+  }
+   }
+    ]
+     }
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                                Version 2.1                                             P a g e | 36
+                  © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+Conditions
+
+Parameters
+
+    Parameter                                                           Data Type
+    Patient Id                                                          String
+
+    Parameters/Parameters Combinations                                  Support as per US Core
+    patient (reference)                                                 Required
+    patient (reference) and clinical-status (code)                      Optional
+    patient (reference) and category (code)                             Optional
+    patient (reference) and code (code)                                 Optional
+    patient (reference) and onset (code)                                Optional
+
+Sample Request:
+
+https://staging.pemr.com:93/api/Condition?patient=18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+     "resourceType": "Bundle",
+     "id": "condition-bundle",
+     "type": "searchset",
+     "total": 6,
+     "entry": [
+        {
+        "resource": {
+          "resourceType": "Condition",
+          "id": "22",
+          "clinicalStatus": {
+             "coding": [
+                {
+                   "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                   "code": "active"
+                }
+                 ]
+             },
+             "verificationStatus": {
+                "coding": [
+                   {
+                     "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                     "code": "confirmed",
+                     "display": "confirmed"
+                   }
+                ]
+
+
+                                                                  Version 2.1                                             P a g e | 37
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+             },
+             "category": [
+                {
+                   "extension": [
+                     {
+                       "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                       "valueCode": "unknown"
+                     }
+                   ]
+                }
+             ],
+             "code": {
+                "coding": [
+                   {
+                     "system": "http://snomed.info/sct",
+                     "code": "386661006",
+                     "display": "Fever"
+                   }
+                ],
+                "text": "Fever"
+             },
+             "subject": {
+                "reference": "Patient/18"
+             },
+             "onsetDateTime": "2015-06-22T00:00:00-04:00"
+         }
+    },
+    {
+         "resource": {
+           "resourceType": "Condition",
+           "id": "22",
+           "clinicalStatus": {
+              "coding": [
+                {
+"system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+"code": "active"
+}
+ ]
+  },
+  "verificationStatus": {
+  "coding": [
+  {
+  "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+  "code": "confirmed",
+  "display": "confirmed"
+    }
+     ]
+      },
+      "category": [
+{
+"coding": [
+
+                                                                  Version 2.1                                             P a g e | 38
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+{
+     "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+     "code": "problem-list-item",
+     "display": "Problem List Item"
+}
+ ],
+"text": "Problem"
+  }
+   ],
+    "code": {
+      "coding": [
+    {
+     "system": "http://snomed.info/sct",
+     "code": "386661006",
+     "display": "Fever"
+ }
+  ],
+  "text": "Fever"
+   },
+    "subject": {
+    "reference": "Patient/18"
+    },
+     "onsetDateTime": "2015-06-22T00:00:00-04:00"
+      }
+       }
+        ]
+         }
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                                  Version 2.1                                             P a g e | 39
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+Implantable Device
+
+Parameters
+
+    Parameter                                                           Data Type
+    Patient Id                                                          String
+
+    Parameters/Parameters Combinations                                  Support as per US Core
+    patient (reference)                                                 Required
+    patient (reference) and type (code)                                 Support
+
+Sample Request:
+
+https://staging.pemr.com:93/api/Device?patient=18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+    "resourceType": "Bundle",
+    "id": "device-bundle",
+    "type": "searchset",
+    "total": 1,
+    "entry": [
+     {
+       "resource": {
+        "resourceType": "Device",
+        "id": "11",
+        "udiCarrier": [
+          {
+            "deviceIdentifier": "00643169007222",
+            "carrierHRF": "(01)00643169007222(17)160128(21)BLC200461H"
+          }
+        ],
+        "status": "active",
+        "distinctIdentifier": "(01)00643169007222(17)160128(21)BLC200461H",
+        "manufacturer": "MEDTRONIC, INC.",
+        "manufactureDate": "2020-01-15T00:00:00-05:00",
+        "expirationDate": "2099-12-31T00:00:00-05:00",
+        "lotNumber": "12345u57r8575",
+        "serialNumber": "BLC200461H",
+        "deviceName": [
+          {
+            "name": "CRT-D DTBA1QQ VIVA QUAD XT US IS4/DF4",
+            "type": "udi-label-name"
+          }
+        ],
+
+
+                                                                  Version 2.1                                             P a g e | 40
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://snomed.info/sct",
+                      "code": "704708004",
+                      "display": "Cardiac resynchronization therapy implantable defibrillator (physical object)"
+                    }
+                  ]
+                },
+                "patient": {
+                  "reference": "Patient/18"
+                }
+            }
+        }
+    ]
+}
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                                          Version 2.1                                             P a g e | 41
+                            © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+Diagnostic Report for Report and Note exchange
+
+Parameters
+
+    Parameter                                                           Data Type
+    Patient Id                                                          String
+
+    Parameters/Parameters Combinations                                  Support as per US Core
+    patient (reference)                                                 Required
+    patient (reference) and category (uri)                              Required
+    patient (reference) and code (code)                                 Required
+    patient (reference) and category (uri) and date                     Required
+    (date)
+    patient (reference) status (string)                                 Optional
+    patient (reference) and code (code) and date(date)                  Optional
+
+Sample Request:
+
+https://staging.pemr.com:93/api/DiagnosticReport?category=LP29684-5&patient=18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+     "resourceType": "Bundle",
+     "id": "diagnostic-bundle",
+     "type": "searchset",
+     "total": 1,
+     "entry": [
+        {
+          "resource": {
+            "resourceType": "DiagnosticReport",
+            "id": "1",
+            "status": "final",
+            "category": [
+               {
+                 "coding": [
+                    {
+                       "system": "http://loinc.org",
+                       "code": "LP29684-5",
+                       "display": "Radiology"
+                    }
+                 ],
+                 "text": "Radiology"
+               }
+            ],
+            "code": {
+
+
+                                                                  Version 2.1                                             P a g e | 42
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "57133-1",
+              "display": "Referral note"
+            }
+          ]
+        },
+        "subject": {
+           "reference": "Patient/18"
+        },
+        "encounter": {
+           "reference": "Encounter/32"
+        },
+        "effectiveDateTime": "2022-01-15T00:00:00-05:00",
+        "issued": "2022-01-15T00:00:00.000-05:00",
+        "performer": [
+           {
+             "reference": "Practitioner/1"
+           }
+        ],
+        "presentedForm": [
+           {
+             "contentType": "text/plain",
+             "data":
+ "Q2pFNU5UZ3RNRFV0TWpNS0NpTWdRMmhwWldZZ1EyOXRjR3hoYVc1MENrNXZJR052Yl
+ hCc1lXbHVkSE11Q2dvaklFaHBjM1J2Y25rZ2IyWWdVSEpsYzJWdWRDQkpiR3h1WlhOekNreD
+ FZMmxsYmpRd09DQnBjeUJoSURFNElIbGxZWEl0YjJ4a0lHNXZiaTFvYVhOd1lXNXBZeUIzYU
+ dsMFpTQnRZV3hsTGlCUVlYUnBaVzUwSUdoaGN5QmhJR2hwYzNSdmNua2diMllnYjNScGR
+ HbHpJRzFsWkdsaExDQmhZM1YwWlNCMmFYSmhiQ0J3YUdGeWVXNW5hWFJwY3lBb1pHb
+ HpiM0prWlhJcExDQm1jbUZqZEhWeVpTQnZaaUJqYkdGMmFXTnNaU3dnZG1seVlXd2djMmx
+ 1ZFhOcGRHbHpJQ2hrYVhOdmNtUmxjaWt1Q2dvaklGTnZZMmxoYkNCSWFYTjBiM0o1Q2lCU
+ VlYUnBaVzUwSUdseklHRnVJR0ZqZEdsMlpTQnpiVzlyWlhJZ1lXNWtJR2x6SUdGdUlHRnNZMjl
+ vYjJ4cFl5NGdVR0YwYVdWdWRDQnBaR1Z1ZEdsbWFXVnpJR0Z6SUdobGRHVnliM05sZUhW
+ aGJDNEtDbEJoZEdsbGJuUWdZMjl0WlhNZ1puSnZiU0JoSUdocFoyZ2djMjlqYVc5bFkyOXViMj
+ FwWXlCaVlXTnJaM0p2ZFc1a0xpQlFZWFJwWlc1MElHaGhjeUJqYjIxd2JHVjBaV1FnYzI5dFpT
+ QmpiMnhzWldkbElHTnZkWEp6WlhNdUlGQmhkR2xsYm5RZ1kzVnljbVZ1ZEd4NUlHaGhjeUJD
+ YkhWbElFTnliM056SUVKc2RXVWdVMmhwWld4a0xnb0tJeUJCYkd4bGNtZHBaWE1LVG04Z1
+ MyNXZkMjRnUVd4c1pYSm5hV1Z6TGdvS0l5Qk5aV1JwWTJGMGFXOXVjd3B3Wlc1cFkybHNi
+ R2x1SUdjZ016YzFJRzFuTDIxc0lHbHVhbVZqZEdGaWJHVWdjMjlzZFhScGIyNDdJR0Z6Y0dse
+ WFXNGdPREVnYldjZ2IzSmhiQ0IwWVdKc1pYUTdJR0Z0YjNocFkybHNiR2x1SURJMU1DQnR
+ aeUF2SUdOc1lYWjFiR0Z1WVhSbElERXlOU0J0WnlCdmNtRnNJSFJoWW14bGRBb0tJeUJCY
+ zNObGMzTnRaVzUwSUdGdVpDQlFiR0Z1Q2dvS0l5TWdVR3hoYmdwUVlYUnBaVzUwSUhka
+ GN5Qm5hWFpsYmlCMGFHVWdabTlzYkc5M2FXNW5JR2x0YlhWdWFYcGhkR2x2Ym5NNklH
+ bHVabXgxWlc1NllTd2djMlZoYzI5dVlXd3NJR2x1YW1WamRHRmliR1VzSUhCeVpYTmxjblpoZE
+ dsMlpTQm1jbVZsTGlBS1ZHaGxJR1p2Ykd4dmQybHVaeUJ3Y205alpXUjFjbVZ6SUhkbGNtVW
+ dZMjl1WkhWamRHVmtPZ290SUcxbFpHbGpZWFJwYjI0Z2NtVmpiMjVqYVd4cFlYUnBiMjRnS0
+ hCeWIyTmxaSFZ5WlNrSw=="
+           }
+        ]
+      }
+
+                                                              Version 2.1                                             P a g e | 43
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+         }
+     ]
+}
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                                  Version 2.1                                             P a g e | 44
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+Diagnostic Report for Laboratory Results Reporting
+
+Parameters
+
+    Parameter                                                           Data Type
+    Patient Id                                                          String
+
+    Parameters/Parameters Combinations                                  Support as per US Core
+    patient (reference)                                                 Required
+    patient (reference) and category (uri)                              Required
+    patient (reference) and code (code)                                 Required
+    patient (reference) and category (uri) and date                     Required
+    (date)
+    patient (reference) status (string)                                 Optional
+    patient (reference) and code (code) and date(date)                  Optional
+
+Sample Request:
+
+https://staging.pemr.com:93/api/DiagnosticReport?category=LAB&patient=18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+     "resourceType": "Bundle",
+     "id": "diagnostic-bundle",
+     "type": "searchset",
+     "total": 1,
+     "entry": [
+        {
+          "resource": {
+            "resourceType": "DiagnosticReport",
+            "id": "LAB-2094",
+            "status": "final",
+            "category": [
+               {
+                 "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                      "code": "LAB",
+                      "display": "Laboratory"
+                    }
+                 ]
+               }
+            ],
+            "code": {
+               "coding": [
+
+
+                                                                  Version 2.1                                             P a g e | 45
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+                     {
+                         "system": "http://loinc.org",
+                         "code": "57021-8",
+                         "display": "CBC W Auto Differential panel - Blood (57021-8) "
+                      }
+                   ],
+                   "text": " CBC W Auto Differential panel - Blood (57021-8) "43
+                 },
+                 "subject": {
+                    "reference": "Patient/18"
+                 },
+                 "encounter": {
+                    "reference": "Encounter/32"
+                 },
+                 "effectiveDateTime": "2015-06-22T00:00:00-04:00",
+                 "issued": "2015-06-22T00:00:00.000-04:00",
+                 "performer": [
+                    {
+                       "reference": "Practitioner/1"
+                    }
+                 ],
+                 "result": [
+                    {
+                       "reference": "Observation/13"
+                       "display": "Hemoglobin [Mass/volume] in Arterial blood (30313-1)"
+                    },
+                    {
+                       "reference": "Observation/14"
+                       "display": "Leukocytes [#/volume] in Blood Product unit.platelet pheresis by Automated
+                                   count (33765-9)"
+                    },
+                    {
+                       "reference": "Observation/15"
+                       "display": "Platelets [#/volume] in Blood (26515-7)"
+                    },
+                    {
+                       "reference": "Observation/16"
+                       "display": "Everolimus [Mass/volume] in Blood (50544-6)"
+                 ]
+             }
+         }
+     ]
+}
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+                                                                        Version 2.1                                             P a g e | 46
+                          © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+Document Reference
+
+Parameters
+
+    Parameter                                                           Data Type
+    Patient Id                                                          String
+
+    Parameters/Parameters Combinations                                  Support as per US Core
+    id (string)                                                         Required
+    patient (reference)                                                 Required
+    patient (reference) and category (uri)                              Required
+    patient (reference) and code (code)                                 Required
+    patient (reference) and category (uri) and date                     Required
+    (date)
+    patient (reference) status (string)                                 Optional
+    patient (reference) and type (uri) and period (date)                Optional
+
+Sample Request:
+
+https://staging.pemr.com:93/api/DocumentReference?patient=18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+     "resourceType": "Bundle",
+     "id": "document-bundle",
+     "type": "searchset",
+     "total": 7,
+     "entry": [
+        {
+          "resource": {
+            "resourceType": "DocumentReference",
+            "id": "143",
+            "identifier": [
+                {
+                  "system": "urn:ietf:rfc:3986",
+                  "value": "urn:uuid:acc9d16d-da9b-9dc9-fbb4-9e6f950b11e6"
+                }
+             ],
+            "status": "superseded",
+            "type": {
+                "coding": [
+                  {
+                    "system": "http://loinc.org",
+                    "code": "11506-3",
+                    "display": "Progress note"
+
+
+                                                                  Version 2.1                                             P a g e | 47
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+              }
+          ]
+        },
+        "category": [
+           {
+              "coding": [
+                 {
+                   "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-
+category",
+                   "code": "clinical-note",
+                   "display": "clinical note"
+                 }
+              ]
+           }
+        ],
+        "subject": {
+           "reference": "Patient/18"
+        },
+        "date": "2021-10-08T00:00:00.000-04:00",
+        "author": [
+           {
+              "reference": "Practitioner/1"
+           }
+        ],
+        "custodian": {
+           "reference": "Organization/1"
+        },
+        "content": [
+           {
+              "attachment": {
+                 "contentType": "text/plain",
+                 "data":
+  "VUhKbmNtVnpjeUJPYjNSbENrTm9hV1ZtSUVOdmJYQnNZV2x1ZERvZ1RtOGdZMjl0Y0d4aG
+  FXNTBjeTRLU0ZCSk9pQlFZWFJwWlc1MElIQnlaWE5sYm5RZ2RHOWtZWGtnWm05eUlFWnZ
+  iR3h2ZDNWd0NsTnZZMmxoYkNCSWFYTjBiM0o1T2lCT0wwRUtRV3hzWlhKbmFXVnpPaUJP
+  UzBSQkNsQnNZVzQ2SUZKVVR5QXlJSGRsWld0eg=="
+              },
+              "format": {
+                 "system": "http://ihe.net/fhir/ValueSet/IHE.FormatCode.codesystem",
+                 "code": "urn:ihe:iti:xds:2017:mimeTypeSufficient",
+                 "display": "Mimetype Sufficient"
+              }
+           }
+        ],
+        "context": {
+           "encounter": [
+              {
+                 "reference": "Encounter/32"
+              }
+           ],
+           "period": {
+
+                                                                Version 2.1                                             P a g e | 48
+                  © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+                     "start": "2021-10-08T00:00:00-04:00",
+                     "end": "2021-10-08T00:00:00-04:00"
+                 }
+             }
+         }
+    },
+    {
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "144",
+        "identifier": [
+           {
+             "system": "urn:ietf:rfc:3986",
+             "value": "urn:uuid:acc9d16d-da9b-9dc9-fbb4-9e6f950b11e6"
+           }
+        ],
+        "status": "superseded",
+        "type": {
+           "coding": [
+             {
+                "system": "http://loinc.org",
+                "code": "11506-3",
+                "display": "Progress note"
+             }
+           ]
+        },
+        "category": [
+           {
+             "coding": [
+                {
+                  "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-
+category",
+                  "code": "clinical-note",
+                  "display": "clinical note"
+                }
+             ]
+           }
+        ],
+        "subject": {
+           "reference": "Patient/18"
+        },
+        "date": "2022-10-08T00:00:00.000-04:00",
+        "author": [
+           {
+             "reference": "Practitioner/1"
+           }
+        ],
+        "custodian": {
+           "reference": "Organization/1"
+        },
+        "content": [
+
+                                                                      Version 2.1                                             P a g e | 49
+                        © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+          {
+              "attachment": {
+                 "contentType": "text/plain",
+                 "data":
+ "VUhKbmNtVnpjeUJPYjNSbENrTm9hV1ZtSUVOdmJYQnNZV2x1ZERvZ1RtOGdZMjl0Y0d4aG
+ FXNTBjeTRLU0ZCSk9pQlFZWFJwWlc1MElIQnlaWE5sYm5RZ2RHOWtZWGtnWm05eUlFWnZ
+ iR3h2ZDNWd0NsTnZZMmxoYkNCSWFYTjBiM0o1T2lCT0wwRUtRV3hzWlhKbmFXVnpPaUJP
+ UzBSQkNsQnNZVzQ2SUZKVVR5QXlJSGRsWld0eg=="
+              },
+              "format": {
+                 "system": "http://ihe.net/fhir/ValueSet/IHE.FormatCode.codesystem",
+                 "code": "urn:ihe:iti:xds:2017:mimeTypeSufficient",
+                 "display": "Mimetype Sufficient"
+              }
+           }
+        ],
+        "context": {
+           "encounter": [
+              {
+                 "reference": "Encounter/32"
+              }
+           ],
+           "period": {
+              "start": "2022-10-08T00:00:00-04:00",
+              "end": "2022-10-08T00:00:00-04:00"
+           }
+        }
+      }
+   },
+   {
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "145",
+        "identifier": [
+           {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:uuid:acc9d16d-da9b-9dc9-fbb4-9e6f950b11e6"
+           }
+        ],
+        "status": "superseded",
+        "type": {
+           "coding": [
+              {
+                 "system": "http://loinc.org",
+                 "code": "11488-4",
+                 "display": "Consult note"
+              }
+           ]
+        },
+        "category": [
+           {
+
+                                                              Version 2.1                                             P a g e | 50
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+                 "coding": [
+                   {
+                     "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-
+category",
+                          "code": "clinical-note",
+                          "display": "clinical note"
+                     }
+                 ]
+             }
+        ],
+        "subject": {
+           "reference": "Patient/18"
+        },
+        "date": "2018-10-23T00:00:00.000-04:00",
+        "author": [
+           {
+              "reference": "Practitioner/1"
+           }
+        ],
+        "custodian": {
+           "reference": "Organization/1"
+        },
+        "content": [
+           {
+              "attachment": {
+                 "contentType": "text/plain",
+                 "data":
+  "VUhKbmNtVnpjeUJPYjNSbENrTm9hV1ZtSUVOdmJYQnNZV2x1ZERvZ1RtOGdZMjl0Y0d4aG
+  FXNTBjeTRLU0ZCSk9pQlFZWFJwWlc1MElIQnlaWE5sYm5RZ2RHOWtZWGtnWm05eUlFWnZ
+  iR3h2ZDNWd0NsTnZZMmxoYkNCSWFYTjBiM0o1T2lCT0wwRUtRV3hzWlhKbmFXVnpPaUJP
+  UzBSQkNsQnNZVzQ2SUZKVVR5QXlJSGRsWld0eg=="
+              },
+              "format": {
+                 "system": "http://ihe.net/fhir/ValueSet/IHE.FormatCode.codesystem",
+                 "code": "urn:ihe:iti:xds:2017:mimeTypeSufficient",
+                 "display": "Mimetype Sufficient"
+              }
+           }
+        ],
+        "context": {
+           "encounter": [
+              {
+                 "reference": "Encounter/32"
+              }
+           ],
+           "period": {
+              "start": "2018-10-23T00:00:00-04:00",
+              "end": "2018-10-23T00:00:00-04:00"
+           }
+        }
+      }
+
+                                                                       Version 2.1                                             P a g e | 51
+                         © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+    },
+    {
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "146",
+        "identifier": [
+           {
+             "system": "urn:ietf:rfc:3986",
+             "value": "urn:uuid:acc9d16d-da9b-9dc9-fbb4-9e6f950b11e6"
+           }
+        ],
+        "status": "superseded",
+        "type": {
+           "coding": [
+             {
+                "system": "http://loinc.org",
+                "code": "18842-5",
+                "display": "Discharge summary"
+             }
+           ]
+        },
+        "category": [
+           {
+             "coding": [
+                {
+                  "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-
+category",
+                  "code": "clinical-note",
+                  "display": "clinical note"
+                }
+             ]
+           }
+        ],
+        "subject": {
+           "reference": "Patient/18"
+        },
+        "date": "2018-10-25T00:00:00.000-04:00",
+        "author": [
+           {
+             "reference": "Practitioner/1"
+           }
+        ],
+        "custodian": {
+           "reference": "Organization/1"
+        },
+        "content": [
+           {
+             "attachment": {
+                "contentType": "text/plain",
+                "data":
+  "VUhKbmNtVnpjeUJPYjNSbENrTm9hV1ZtSUVOdmJYQnNZV2x1ZERvZ1RtOGdZMjl0Y0d4aG
+
+                                                              Version 2.1                                             P a g e | 52
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+  FXNTBjeTRLU0ZCSk9pQlFZWFJwWlc1MElIQnlaWE5sYm5RZ2RHOWtZWGtnWm05eUlFWnZ
+  iR3h2ZDNWd0NsTnZZMmxoYkNCSWFYTjBiM0o1T2lCT0wwRUtRV3hzWlhKbmFXVnpPaUJP
+  UzBSQkNsQnNZVzQ2SUZKVVR5QXlJSGRsWld0eg=="
+               },
+               "format": {
+                  "system": "http://ihe.net/fhir/ValueSet/IHE.FormatCode.codesystem",
+                  "code": "urn:ihe:iti:xds:2017:mimeTypeSufficient",
+                  "display": "Mimetype Sufficient"
+               }
+            }
+         ],
+         "context": {
+            "encounter": [
+               {
+                  "reference": "Encounter/32"
+               }
+            ],
+            "period": {
+               "start": "2018-10-25T00:00:00-04:00",
+               "end": "2018-10-25T00:00:00-04:00"
+            }
+         }
+       }
+    },
+    {
+       "resource": {
+         "resourceType": "DocumentReference",
+         "id": "147",
+         "identifier": [
+            {
+               "system": "urn:ietf:rfc:3986",
+               "value": "urn:uuid:acc9d16d-da9b-9dc9-fbb4-9e6f950b11e6"
+            }
+         ],
+         "status": "superseded",
+         "type": {
+            "coding": [
+               {
+                  "system": "http://loinc.org",
+                  "code": "34117-2",
+                  "display": "History and physical note"
+               }
+            ]
+         },
+         "category": [
+            {
+               "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-
+category",
+                    "code": "clinical-note",
+
+                                                              Version 2.1                                             P a g e | 53
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+                      "display": "clinical note"
+                 }
+             ]
+           }
+        ],
+        "subject": {
+           "reference": "Patient/18"
+        },
+        "date": "2020-10-23T00:00:00.000-04:00",
+        "author": [
+           {
+              "reference": "Practitioner/1"
+           }
+        ],
+        "custodian": {
+           "reference": "Organization/1"
+        },
+        "content": [
+           {
+              "attachment": {
+                 "contentType": "text/plain",
+                 "data":
+ "VUhKbmNtVnpjeUJPYjNSbENrTm9hV1ZtSUVOdmJYQnNZV2x1ZERvZ1RtOGdZMjl0Y0d4aG
+ FXNTBjeTRLU0ZCSk9pQlFZWFJwWlc1MElIQnlaWE5sYm5RZ2RHOWtZWGtnWm05eUlFWnZ
+ iR3h2ZDNWd0NsTnZZMmxoYkNCSWFYTjBiM0o1T2lCT0wwRUtRV3hzWlhKbmFXVnpPaUJP
+ UzBSQkNsQnNZVzQ2SUZKVVR5QXlJSGRsWld0eg=="
+              },
+              "format": {
+                 "system": "http://ihe.net/fhir/ValueSet/IHE.FormatCode.codesystem",
+                 "code": "urn:ihe:iti:xds:2017:mimeTypeSufficient",
+                 "display": "Mimetype Sufficient"
+              }
+           }
+        ],
+        "context": {
+           "encounter": [
+              {
+                 "reference": "Encounter/32"
+              }
+           ],
+           "period": {
+              "start": "2020-10-23T00:00:00-04:00",
+              "end": "2020-10-23T00:00:00-04:00"
+           }
+        }
+      }
+   },
+   {
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "148",
+
+                                                                   Version 2.1                                             P a g e | 54
+                     © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+        "identifier": [
+           {
+             "system": "urn:ietf:rfc:3986",
+             "value": "urn:uuid:acc9d16d-da9b-9dc9-fbb4-9e6f950b11e6"
+           }
+        ],
+        "status": "superseded",
+        "type": {
+           "coding": [
+             {
+                "system": "http://loinc.org",
+                "code": "28570-0",
+                "display": "Procedure note"
+             }
+           ]
+        },
+        "category": [
+           {
+             "coding": [
+                {
+                  "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-
+category",
+                  "code": "clinical-note",
+                  "display": "clinical note"
+                }
+             ]
+           }
+        ],
+        "subject": {
+           "reference": "Patient/18"
+        },
+        "date": "2010-10-23T00:00:00.000-04:00",
+        "author": [
+           {
+             "reference": "Practitioner/1"
+           }
+        ],
+        "custodian": {
+           "reference": "Organization/1"
+        },
+        "content": [
+           {
+             "attachment": {
+                "contentType": "text/plain",
+                "data":
+  "VUhKbmNtVnpjeUJPYjNSbENrTm9hV1ZtSUVOdmJYQnNZV2x1ZERvZ1RtOGdZMjl0Y0d4aG
+  FXNTBjeTRLU0ZCSk9pQlFZWFJwWlc1MElIQnlaWE5sYm5RZ2RHOWtZWGtnWm05eUlFWnZ
+  iR3h2ZDNWd0NsTnZZMmxoYkNCSWFYTjBiM0o1T2lCT0wwRUtRV3hzWlhKbmFXVnpPaUJP
+  UzBSQkNsQnNZVzQ2SUZKVVR5QXlJSGRsWld0eg=="
+             },
+             "format": {
+
+                                                              Version 2.1                                             P a g e | 55
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+                       "system": "http://ihe.net/fhir/ValueSet/IHE.FormatCode.codesystem",
+                       "code": "urn:ihe:iti:xds:2017:mimeTypeSufficient",
+                       "display": "Mimetype Sufficient"
+                   }
+               }
+             ],
+             "context": {
+                "encounter": [
+                   {
+                     "reference": "Encounter/32"
+                   }
+                ],
+                "period": {
+                   "start": "2010-10-23T00:00:00-04:00",
+                   "end": "2010-10-23T00:00:00-04:00"
+                }
+             }
+         }
+    },
+    {
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "149",
+        "identifier": [
+           {
+             "system": "urn:ietf:rfc:3986",
+             "value": "urn:uuid:acc9d16d-da9b-9dc9-fbb4-9e6f950b11e6"
+           }
+        ],
+        "status": "superseded",
+        "type": {
+           "coding": [
+             {
+                "system": "http://loinc.org",
+                "code": "11506-3",
+                "display": "Progress note"
+             }
+           ]
+        },
+        "category": [
+           {
+             "coding": [
+                {
+                  "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-
+category",
+                  "code": "clinical-note",
+                  "display": "clinical note"
+                }
+             ]
+           }
+        ],
+
+                                                                      Version 2.1                                             P a g e | 56
+                        © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+           "subject": {
+              "reference": "Patient/18"
+           },
+           "date": "2022-10-23T00:00:00.000-04:00",
+           "author": [
+              {
+                 "reference": "Practitioner/1"
+              }
+           ],
+           "custodian": {
+              "reference": "Organization/1"
+           },
+           "content": [
+              {
+                 "attachment": {
+                    "contentType": "text/plain",
+                    "data":
+     "VUhKbmNtVnpjeUJPYjNSbENrTm9hV1ZtSUVOdmJYQnNZV2x1ZERvZ1RtOGdZMjl0Y0d4aG
+     FXNTBjeTRLU0ZCSk9pQlFZWFJwWlc1MElIQnlaWE5sYm5RZ2RHOWtZWGtnWm05eUlFWnZ
+     iR3h2ZDNWd0NsTnZZMmxoYkNCSWFYTjBiM0o1T2lCT0wwRUtRV3hzWlhKbmFXVnpPaUJP
+     UzBSQkNsQnNZVzQ2SUZKVVR5QXlJSGRsWld0eg=="
+                 },
+                 "format": {
+                    "system": "http://ihe.net/fhir/ValueSet/IHE.FormatCode.codesystem",
+                    "code": "urn:ihe:iti:xds:2017:mimeTypeSufficient",
+                    "display": "Mimetype Sufficient"
+                 }
+              }
+           ],
+           "context": {
+              "encounter": [
+                 {
+                    "reference": "Encounter/32"
+                 }
+              ],
+              "period": {
+                 "start": "2022-10-23T00:00:00-04:00",
+                 "end": "2022-10-23T00:00:00-04:00"
+              }
+           }
+         }
+       }
+     ]
+}
+
+EXCEPTIONS
+JSON response is returned from the FHIR Server along with the code
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+                                                                  Version 2.1                                             P a g e | 57
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+Goal
+
+Parameters
+
+    Parameter                                                           Data Type
+    Patient Id                                                          String
+
+    Parameters/Parameters Combinations                                  Support as per US Core
+    patient (reference)                                                 Required
+    patient (reference) and type (code)                                 Support
+
+Sample Request:
+
+https://staging.pemr.com:93/api/Goal?patient=18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+     "resourceType": "Bundle",
+     "id": "goals-bundle",
+     "type": "searchset",
+     "total": 1,
+     "entry": [
+        {
+          "resource": {
+             "resourceType": "Goal",
+             "id": "24",
+             "lifecycleStatus": "active",
+             "category": [
+                {
+                  "coding": [
+                     {
+                       "system": "http://snomed.info/sct",
+                       "code": "129688005",
+                       "display": "Goals"
+                     }
+                  ],
+                  "text": "Disturbed energy field"
+                }
+             ],
+             "description": {
+                "coding": [
+                  {
+                     "system": " http://snomed.info/sct ",
+                     "code": "129688005",
+                     "display": "Goals"
+
+
+                                                                  Version 2.1                                             P a g e | 58
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+                      }
+                   ],
+                   "text": " Disturbed energy field"
+                 },
+                 "subject": {
+                    "reference": "Patient/18"
+                 },
+                 "target": [
+                    {
+                      "dueDate": "2019-09-04"
+                    }
+                 ]
+             }
+         }
+     ]
+}
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                                      Version 2.1                                             P a g e | 59
+                        © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+Immunization
+
+Parameters
+
+    Parameter                                                           Data Type
+    Patient Id                                                          String
+
+    Parameters/Parameters Combinations                                  Support as per US Core
+    patient (reference)                                                 Required
+    patient (reference) and date (date)                                 Optional
+    patient (reference) and status (code)                               Optional
+
+Sample Request:
+
+https://staging.pemr.com:93/api/Immunization?patient=18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+     "resourceType": "Bundle",
+     "id": "immunization-bundle",
+     "type": "searchset",
+     "total": 2,
+     "entry": [
+        {
+          "resource": {
+             "resourceType": "Immunization",
+             "id": "10014",
+             "status": "completed",
+             "vaccineCode": {
+                "coding": [
+                   {
+                     "system": "http://hl7.org/fhir/sid/cvx",
+                     "code": "88",
+                     "display": " Influenza, unspecified formulation "
+                   }
+                ],
+                "text": " Influenza, unspecified formulation "
+             },
+             "patient": {
+                "reference": "Patient/18"
+             },
+             "encounter": {
+                "reference": "Encounter/32"
+             },
+             "occurrenceDateTime": "2019-08-07T00:00:00-04:00",
+
+
+                                                                  Version 2.1                                             P a g e | 60
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+                  "primarySource": true,
+                  "lotNumber": "1"
+              }
+         },
+         {
+              "resource": {
+                "resourceType": "Immunization",
+                "id": "10015",
+                "status": "not-done",
+                "statusReason": {
+                   "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                        "code": "OSTOCK",
+                        "display": "product out of stock"
+                      }
+                   ]
+                },
+                "vaccineCode": {
+                   "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/sid/cvx",
+                        "code": "166",
+                        "display": "influenza, intradermal, quadrivalent, preservative free "
+                      }
+                   ],
+                   "text": "influenza, intradermal, quadrivalent, preservative free "
+                },
+                "patient": {
+                   "reference": "Patient/18"
+                },
+                "encounter": {
+                   "reference": "Encounter/32"
+                },
+                "occurrenceDateTime": "2015-06-22T00:00:00-04:00",
+                "recorded": "2015-06-22T00:00:00-04:00",
+                "primarySource": true,
+                "note": [
+                   {
+                      "text": "Immunization was not given - Patient rejected immunization"
+                   }
+                ]
+              }
+         }
+     ]
+}
+
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+
+                                                                       Version 2.1                                             P a g e | 61
+                         © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+MedicationRequest
+
+Parameters
+
+    Parameter                                                           Data Type
+    Patient Id                                                          String
+
+    Parameters/Parameters Combinations                                  Support as per US Core
+    patient (reference) and intent (code)                               Required
+    patient (reference) and intent (code) and status                    Required
+    (reference)
+    patient (reference) and intent (code) and                           Optional
+    encounter (code)
+    patient (reference) and intent (code) and                           Optional
+    authoredon (date)
+
+Sample Request:
+
+https://staging.pemr.com:93/api/MedicationRequest?intent=order&patient=18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+     "resourceType": "Bundle",
+     "id": "medicationRequest-bundle",
+     "type": "searchset",
+     "total": 2,
+     "entry": [
+        {
+          "resource": {
+            "resourceType": "MedicationRequest",
+            "id": "10059",
+            "status": "entered-in-error",
+            "intent": "plan",
+            "reportedBoolean": false,
+            "medicationCodeableConcept": {
+               "coding": [
+                 {
+                    "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                    "code": "209387",
+
+
+                                                                  Version 2.1                                             P a g e | 62
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+                    "display": "Tylenol 325MG TABS"
+                }
+              ],
+              "text": " Tylenol 325MG TABS "
+            },
+            "subject": {
+               "reference": "Patient/18"
+            },
+            "encounter": {
+               "reference": "Encounter/32"
+            },
+            "authoredOn": "2015-06-22T00:00:00-04:00",
+            "requester": {
+               "reference": "Practitioner/1"
+            },
+            "dosageInstruction": [
+               {
+                 "text": "As Needed"
+               }
+            ]
+        }
+   },
+   {
+        "resource": {
+          "resourceType": "MedicationRequest",
+          "id": "10060",
+          "status": "active",
+          "intent": "order",
+          "reportedBoolean": false,
+          "medicationCodeableConcept": {
+             "coding": [
+                {
+                  "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                  "code": "731241",
+                  "display": "Aranesp 0.5 MG/ML"
+                }
+             ],
+             "text": "Aranesp 0.5 MG/ML"
+          },
+          "subject": {
+             "reference": "Patient/18"
+          },
+          "encounter": {
+             "reference": "Encounter/32"
+          },
+          "authoredOn": "2015-02-22T00:00:00-05:00",
+          "requester": {
+             "reference": "Practitioner/1"
+          },
+          "dosageInstruction": [
+             {
+
+                                                                   Version 2.1                                             P a g e | 63
+                     © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+                         "text": "PRN"
+                     }
+                 ]
+             }
+         }
+     ]
+}
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+Smoking Status Observation
+
+Parameters
+
+    Parameter                                                                   Data Type
+    Patient Id                                                                  String
+
+    Parameters/Parameters Combinations                                          Support as per US Core
+    patient (reference) and code (code)                                         Required
+
+Sample Request:
+
+https://staging.pemr.com:93/api/Observation?code=72166-2&patient=18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+     "resourceType": "Bundle",
+     "id": "Observation-bundle",
+     "type": "searchset",
+     "total": 1,
+     "entry": [
+        {
+          "resource": {
+            "resourceType": "Observation",
+            "id": "10017",
+            "status": "final",
+            "category": [
+               {
+                 "coding": [
+
+                                                                          Version 2.1                                             P a g e | 64
+                            © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+                           {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "social-history"
+                           }
+                       ]
+                   }
+                 ],
+                 "code": {
+                    "coding": [
+                      {
+                         "system": "http://loinc.org",
+                         "code": "72166-2",
+                         "display": "72166-2"
+                      }
+                    ]
+                 },
+                 "subject": {
+                    "reference": "Patient/18"
+                 },
+                 "encounter": {
+                    "reference": "Encounter/32"
+                 },
+                 "effectiveDateTime": "2015-04-15",
+                 "issued": "2015-04-15T00:00:00.000-04:00",
+                 "valueCodeableConcept": {
+                    "coding": [
+                      {
+                         "system": "http://snomed.info/sct",
+                         "code": "266919005",
+                         "display": "Never smoker"
+                      }
+                    ]
+                 }
+             }
+         }
+     ]
+}
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                                             Version 2.1                                             P a g e | 65
+                               © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+Pediatric Weight for Height Observation
+
+Parameters
+
+    Parameter                                                           Data Type
+    Patient Id                                                          String
+
+    Parameters/Parameters Combinations                                  Support as per US Core
+    patient (reference) and category (uri)                              Required
+    patient (reference) and code (code)                                 Required
+    patient (reference) and category (uri) and date                     Required
+    (date)
+
+Sample Request:
+
+https://staging.pemr.com:93/api/Observation?code=77606-2&patient=18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+     "resourceType": "Bundle",
+     "id": "Observation-bundle",
+     "type": "searchset",
+     "total": 2,
+     "entry": [
+        {
+          "resource": {
+            "resourceType": "Observation",
+            "id": "50655",
+            "status": "final",
+            "category": [
+               {
+                 "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                      "code": "vital-signs",
+                      "display": "Vital Signs"
+                    }
+                 ]
+               }
+            ],
+            "code": {
+               "coding": [
+                 {
+                    "system": "http://loinc.org",
+                    "code": "77606-2",
+
+
+                                                                  Version 2.1                                             P a g e | 66
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+                      "display": "Weight-for-length Percentile\r\n(Birth - 36 months)"
+                  }
+              ]
+            },
+            "subject": {
+               "reference": "Patient/18"
+            },
+            "encounter": {
+               "reference": "Encounter/32"
+            },
+            "effectiveDateTime": "2021-10-08",
+            "issued": "2021-10-08T00:00:00.000-04:00",
+            "valueQuantity": {
+               "value": 89,
+               "unit": "%",
+               "system": "http://unitsofmeasure.org",
+               "code": "%"
+            }
+        }
+   },
+   {
+        "resource": {
+          "resourceType": "Observation",
+          "id": "50656",
+          "status": "final",
+          "category": [
+             {
+               "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "code": "vital-signs",
+                    "display": "Vital Signs"
+                  }
+               ]
+             }
+          ],
+          "code": {
+             "coding": [
+               {
+                  "system": "http://loinc.org",
+                  "code": "77606-2",
+                  "display": "Weight-for-length Percentile\r\n(Birth - 36 months)"
+               }
+             ]
+          },
+          "subject": {
+             "reference": "Patient/18"
+          },
+          "encounter": {
+             "reference": "Encounter/32"
+          },
+
+                                                                     Version 2.1                                             P a g e | 67
+                       © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+                 "effectiveDateTime": "2022-10-08",
+                 "issued": "2022-10-08T00:00:00.000-04:00",
+                 "valueQuantity": {
+                    "value": 89,
+                    "unit": "%",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "%"
+                 }
+             }
+         }
+     ]
+}
+
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                                      Version 2.1                                             P a g e | 68
+                        © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+Laboratory Result Observation
+
+Parameters
+
+    Parameter                                                           Data Type
+    Patient Id                                                          String
+
+    Parameters/Parameters Combinations                                  Support as per US Core
+    patient (reference) and category (uri)                              Required
+    patient (reference) and code (code)                                 Required
+    patient (reference) and category (uri) and date                     Required
+    (date)
+    patient (reference) and category (uri) and status                   Optional
+    (code)
+    patient (reference) and code (code) and date                        Optional
+    (date)
+
+Sample Request:
+
+https://staging.pemr.com:93/api/Observation?category=laboratory&patient=18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+     "resourceType": "Bundle",
+     "id": "Observation-bundle",
+     "type": "searchset",
+     "total": 1,
+     "entry": [
+        {
+          "resource": {
+            "resourceType": "Observation",
+            "id": "13",
+            "status": "final",
+            "category": [
+               {
+                 "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                      "code": "laboratory"
+                    }
+                 ]
+               }
+            ],
+            "code": {
+               "coding": [
+
+
+                                                                  Version 2.1                                             P a g e | 69
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+                       {
+                           "system": "http://loinc.org",
+                           "code": "30313-1",
+                           "display": " Hemoglobin [Mass/volume] in Arterial blood (30313-1) "
+                       }
+                   ]
+                 },
+                 "subject": {
+                    "reference": "Patient/18"
+                 },
+                 "encounter": {
+                    "reference": "Encounter/32"
+                 },
+                 "effectiveDateTime": "2019-08-07",
+                 "issued": "2019-08-07T00:00:00.000-04:00",
+                 "valueQuantity": {
+                    "value": 140,
+                    "unit": "g/dL",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "g/dL"
+                 }
+             }
+         }
+     ]
+}
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                                          Version 2.1                                             P a g e | 70
+                            © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+Pediatric BMI for Age Observation
+
+Parameters
+
+    Parameter                                                           Data Type
+    Patient Id                                                          String
+
+    Parameters/Parameters Combinations                                  Support as per US Core
+    patient (reference) and category (uri)                              Required
+    patient (reference) and code (code)                                 Required
+    patient (reference) and category (uri) and date                     Required
+    (date)
+
+Sample Request:
+
+https://staging.pemr.com:93/api/Observation?code=59576-9&patient=18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+     "resourceType": "Bundle",
+     "id": "Observation-bundle",
+     "type": "searchset",
+     "total": 2,
+     "entry": [
+        {
+          "resource": {
+            "resourceType": "Observation",
+            "id": "10119",
+            "status": "final",
+            "category": [
+               {
+                 "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                      "code": "vital-signs",
+                      "display": "Vital Signs"
+                    }
+                 ]
+               }
+            ],
+            "code": {
+               "coding": [
+                 {
+                    "system": "http://loinc.org",
+                    "code": "59576-9",
+
+
+                                                                  Version 2.1                                             P a g e | 71
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+                      "display": "BMI Percentile"
+                  }
+              ]
+            },
+            "subject": {
+               "reference": "Patient/18"
+            },
+            "encounter": {
+               "reference": "Encounter/32"
+            },
+            "effectiveDateTime": "2019-09-04",
+            "issued": "2019-09-04T00:00:00.000-04:00",
+            "valueQuantity": {
+               "value": 123,
+               "unit": "%",
+               "system": "http://unitsofmeasure.org",
+               "code": "%"
+            }
+        }
+   },
+   {
+        "resource": {
+          "resourceType": "Observation",
+          "id": "10120",
+          "status": "final",
+          "category": [
+             {
+               "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "code": "vital-signs",
+                    "display": "Vital Signs"
+                  }
+               ]
+             }
+          ],
+          "code": {
+             "coding": [
+               {
+                  "system": "http://loinc.org",
+                  "code": "59576-9",
+                  "display": "BMI Percentile"
+               }
+             ]
+          },
+          "subject": {
+             "reference": "Patient/18"
+          },
+          "encounter": {
+             "reference": "Encounter/32"
+          },
+
+                                                                     Version 2.1                                             P a g e | 72
+                       © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+                 "effectiveDateTime": "2019-09-04",
+                 "issued": "2019-09-04T00:00:00.000-04:00",
+                 "dataAbsentReason": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                        "code": "unknown",
+                        "display": "unknown"
+                      }
+                    ]
+                 }
+             }
+         }
+     ]
+}
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                                      Version 2.1                                             P a g e | 73
+                        © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+Pulse Oximetry
+
+Parameters
+
+    Parameter                                                           Data Type
+    Patient Id                                                          String
+
+    Parameters/Parameters Combinations                                  Support as per US Core
+    patient (reference) and category (uri)                              Required
+    patient (reference) and code (code)                                 Required
+    patient (reference) and category (uri) and date                     Required
+    (date)
+
+Sample Request:
+
+https://staging.pemr.com:93/api/Observation?code=2708-6&patient=18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+     "resourceType": "Bundle",
+     "id": "Observation-bundle",
+     "type": "searchset",
+     "total": 2,
+     "entry": [
+        {
+          "resource": {
+            "resourceType": "Observation",
+            "id": "50664",
+            "status": "final",
+            "category": [
+               {
+                 "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                      "code": "vital-signs",
+                      "display": "Vital Signs"
+                    }
+                 ]
+               }
+            ],
+            "code": {
+               "coding": [
+                 {
+                    "system": "http://loinc.org",
+                    "code": "2708-6",
+
+
+                                                                  Version 2.1                                             P a g e | 74
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+                   "display": "Oxygen saturation in Arterial blood"
+              },
+              {
+                   "system": "http://loinc.org",
+                   "code": "59408-5",
+                   "display": "Oxygen saturation in Arterial blood by Pulse oximetry"
+              }
+          ]
+        },
+        "subject": {
+           "reference": "Patient/18"
+        },
+        "encounter": {
+           "reference": “Encounter/32”
+        },
+        "effectiveDateTime": "2019-08-07",
+        "issued": "2019-08-07T00:00:00.000-04:00",
+        "valueQuantity": {
+           "value": 78,
+           "unit": "%",
+           "system": "http://unitsofmeasure.org",
+           "code": "%"
+        },
+        "component": [
+           {
+              "code": {
+                 "coding": [
+                   {
+                     "system": "http://loinc.org",
+                     "code": "3151-8",
+                     "display": "Inhaled oxygen flow rate"
+                   }
+                 ]
+              },
+              "dataAbsentReason": {
+                 "coding": [
+                   {
+                     "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                     "code": "unknown",
+                     "display": "unknown"
+                   }
+                 ]
+              }
+           },
+           {
+              "code": {
+                 "coding": [
+                   {
+                     "system": "http://loinc.org",
+                     "code": "3150-0",
+                     "display": "Inhaled oxygen concentration"
+
+                                                                  Version 2.1                                             P a g e | 75
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+                           }
+                      ]
+                    },
+                    "dataAbsentReason": {
+                       "coding": [
+                         {
+                           "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                           "code": "unknown",
+                           "display": "unknown"
+                         }
+                       ]
+                    }
+                }
+            ]
+        }
+   },
+   {
+        "resource": {
+          "resourceType": "Observation",
+          "id": "50665",
+          "status": "final",
+          "category": [
+             {
+               "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "code": "vital-signs",
+                    "display": "Vital Signs"
+                  }
+               ]
+             }
+          ],
+          "code": {
+             "coding": [
+               {
+                  "system": "http://loinc.org",
+                  "code": "2708-6",
+                  "display": " Oxygen saturation in Arterial blood"
+               },
+               {
+                  "system": "http://loinc.org",
+                  "code": "59408-5",
+                  "display": " Oxygen saturation in Arterial blood by Pulse oximetry"
+               }
+             ]
+          },
+          "subject": {
+             "reference": "Patient/18"
+          },
+          "encounter": {
+             "reference": “Encounter/32”
+
+                                                                        Version 2.1                                             P a g e | 76
+                          © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+                 },
+                 "effectiveDateTime": "2019-08-07",
+                 "issued": "2019-08-07T00:00:00.000-04:00",
+                 "valueQuantity": {
+                    "value": 78,
+                    "unit": "%",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "%"
+                 },
+                 "component": [
+                    {
+                       "code": {
+                          "coding": [
+                            {
+                               "system": "http://loinc.org",
+                               "code": "3151-8",
+                               "display": " Inhaled oxygen flow rate"
+                            }
+                          ]
+                       },
+                       "valueQuantity": {
+                          "value": 89,
+                          "unit": "L/min",
+                          "system": "http://unitsofmeasure.org",
+                          "code": "L/min"
+                       }
+                    },
+                    {
+                       "code": {
+                          "coding": [
+                            {
+                               "system": "http://loinc.org",
+                               "code": "3150-0",
+                               "display": "Inhaled oxygen concentration"
+                            }
+                          ]
+                       },
+                       "valueQuantity": {
+                          "value": 78,
+                          "unit": "%",
+                          "system": "http://unitsofmeasure.org",
+                          "code": "%"
+                       }
+                    }
+                 ]
+             }
+         }
+     ]
+}
+
+EXCEPTIONS
+
+                                                                       Version 2.1                                             P a g e | 77
+                         © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+JSON response is returned from the FHIR Server along with the code
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+Pediatric Head Occipital-frontal Circumference Percentile
+
+Parameters
+
+    Parameter                                                           Data Type
+    Patient Id                                                          String
+
+    Parameters/Parameters Combinations                                  Support as per US Core
+    patient (reference) and category (uri)                              Required
+    patient (reference) and code (code)                                 Required
+    patient (reference) and category (uri) and date                     Required
+    (date)
+
+Sample Request:
+
+https://staging.pemr.com:93/api/Observation?code=8289-1&patient=18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+     "resourceType": "Bundle",
+     "id": "Observation-bundle",
+     "type": "searchset",
+     "total": 2,
+     "entry": [
+        {
+          "resource": {
+            "resourceType": "Observation",
+            "id": "50654",
+            "status": "final",
+            "category": [
+               {
+                 "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                      "code": "vital-signs",
+                      "display": "Vital Signs"
+                    }
+                 ]
+
+
+                                                                  Version 2.1                                             P a g e | 78
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+               }
+            ],
+            "code": {
+               "coding": [
+                 {
+                    "system": "http://loinc.org",
+                    "code": "8289-1",
+                    "display": "Head Circumference Percentile (Birth - 36 months)"
+                 }
+               ]
+            },
+            "subject": {
+               "reference": "Patient/18"
+            },
+            "encounter": {
+               "reference": “Encounter/32”
+            },
+            "effectiveDateTime": "2019-09-04",
+            "issued": "2019-09-04T00:00:00.000-04:00",
+            "valueQuantity": {
+               "value": 19,
+               "unit": "%",
+               "system": "http://unitsofmeasure.org",
+               "code": "%"
+            }
+        }
+   },
+   {
+        "resource": {
+          "resourceType": "Observation",
+          "id": "50666",
+          "status": "final",
+          "category": [
+             {
+               "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "code": "vital-signs",
+                    "display": "Vital Signs"
+                  }
+               ]
+             }
+          ],
+          "code": {
+             "coding": [
+               {
+                  "system": "http://loinc.org",
+                  "code": "8289-1",
+                  "display": "Head Circumference Percentile (Birth - 36 months)"
+               }
+             ]
+
+                                                                 Version 2.1                                             P a g e | 79
+                   © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+                 },
+                 "subject": {
+                    "reference": "Patient/18"
+                 },
+                 "encounter": {
+                    "reference": “Encounter/32”
+                 },
+                 "effectiveDateTime": "2019-09-04",
+                 "issued": "2019-09-04T00:00:00.000-04:00",
+                 "valueQuantity": {
+                    "value": 89,
+                    "unit": "%",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "%"
+                 }
+             }
+         }
+     ]
+}
+
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                                      Version 2.1                                             P a g e | 80
+                        © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+Observation Body Height
+
+Parameters
+
+    Parameter                                                           Data Type
+    Patient Id                                                          String
+
+    Parameters/Parameters Combinations                                  Support as per US Core
+    patient (reference) and category (uri)                              Required
+    patient (reference) and code (code)                                 Required
+    patient (reference) and category (uri) and date                     Required
+    (date)
+
+Sample Request:
+
+https://staging.pemr.com:93/api/Observation?code=8302-2&patient=18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+     "resourceType": "Bundle",
+     "id": "Observation-bundle",
+     "type": "searchset",
+     "total": 2,
+     "entry": [
+        {
+          "resource": {
+            "resourceType": "Observation",
+            "id": "50",
+            "status": "final",
+            "category": [
+               {
+                 "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                      "code": "vital-signs",
+                      "display": "Vital Signs"
+                    }
+                 ]
+               }
+            ],
+            "code": {
+               "coding": [
+                 {
+                    "system": "http://loinc.org",
+                    "code": "8302-2",
+
+
+                                                                  Version 2.1                                             P a g e | 81
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+                      "display": "Height"
+                  }
+              ]
+            },
+            "subject": {
+               "reference": "Patient/18"
+            },
+            "encounter": {
+               "reference": “Encounter/32”
+            },
+            "effectiveDateTime": "2019-08-07",
+            "issued": "2019-08-07T00:00:00.000-04:00",
+            "valueQuantity": {
+               "value": 177,
+               "unit": "cm",
+               "system": "http://unitsofmeasure.org",
+               "code": "cm"
+            }
+        }
+   },
+   {
+        "resource": {
+          "resourceType": "Observation",
+          "id": "10090",
+          "status": "final",
+          "category": [
+             {
+               "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "code": "vital-signs",
+                    "display": "Vital Signs"
+                  }
+               ]
+             }
+          ],
+          "code": {
+             "coding": [
+               {
+                  "system": "http://loinc.org",
+                  "code": "8302-2",
+                  "display": "Height"
+               }
+             ]
+          },
+          "subject": {
+             "reference": "Patient/18"
+          },
+          "encounter": {
+             "reference": “Encounter/32”
+          },
+
+                                                                     Version 2.1                                             P a g e | 82
+                       © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+                 "effectiveDateTime": "2019-09-04",
+                 "issued": "2019-09-04T00:00:00.000-04:00",
+                 "valueQuantity": {
+                    "value": 177,
+                    "unit": "cm",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "cm"
+                 }
+             }
+         }
+     ]
+}
+
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                                      Version 2.1                                             P a g e | 83
+                        © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+Observation Body Temperature
+
+Parameters
+
+    Parameter                                                           Data Type
+    Patient Id                                                          String
+
+    Parameters/Parameters Combinations                                  Support as per US Core
+    patient (reference) and category (uri)                              Required
+    patient (reference) and code (code)                                 Required
+    patient (reference) and category (uri) and date                     Required
+    (date)
+
+Sample Request:
+
+https://staging.pemr.com:93/api/Observation?code=8310-5&patient=18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+     "resourceType": "Bundle",
+     "id": "Observation-bundle",
+     "type": "searchset",
+     "total": 2,
+     "entry": [
+        {
+          "resource": {
+            "resourceType": "Observation",
+            "id": "53",
+            "status": "final",
+            "category": [
+               {
+                 "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                      "code": "vital-signs",
+                      "display": "Vital Signs"
+                    }
+                 ]
+               }
+            ],
+            "code": {
+               "coding": [
+                 {
+                    "system": "http://loinc.org",
+                    "code": "8310-5",
+
+
+                                                                  Version 2.1                                             P a g e | 84
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+                      "display": "Temperature"
+                  }
+              ]
+            },
+            "subject": {
+               "reference": "Patient/18"
+            },
+            "encounter": {
+               "reference": “Encounter/32”
+            },
+            "effectiveDateTime": "2019-08-07",
+            "issued": "2019-08-07T00:00:00.000-04:00",
+            "valueQuantity": {
+               "value": 38,
+               "unit": "Cel",
+               "system": "http://unitsofmeasure.org",
+               "code": "Cel"
+            }
+        }
+   },
+   {
+        "resource": {
+          "resourceType": "Observation",
+          "id": "10095",
+          "status": "final",
+          "category": [
+             {
+               "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "code": "vital-signs",
+                    "display": "Vital Signs"
+                  }
+               ]
+             }
+          ],
+          "code": {
+             "coding": [
+               {
+                  "system": "http://loinc.org",
+                  "code": "8310-5",
+                  "display": "Temperature"
+               }
+             ]
+          },
+          "subject": {
+             "reference": "Patient/18"
+          },
+          "encounter": {
+             "reference": “Encounter/32”
+          },
+
+                                                                     Version 2.1                                             P a g e | 85
+                       © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+                 "effectiveDateTime": "2019-09-04",
+                 "issued": "2019-09-04T00:00:00.000-04:00",
+                 "valueQuantity": {
+                    "value": 38,
+                    "unit": "Cel",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "Cel"
+                 }
+             }
+         }
+     ]
+}
+
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                                      Version 2.1                                             P a g e | 86
+                        © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+Observation Blood Pressure
+
+Parameters
+
+    Parameter                                                           Data Type
+    Patient Id                                                          String
+
+    Parameters/Parameters Combinations                                  Support as per US Core
+    patient (reference) and category (uri)                              Required
+    patient (reference) and code (code)                                 Required
+    patient (reference) and category (uri) and date                     Required
+    (date)
+
+Sample Request:
+
+https://staging.pemr.com:93/api/Observation?code=85354-9&patient=18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+     "resourceType": "Bundle",
+     "id": "Observation-bundle",
+     "type": "searchset",
+     "total": 2,
+     "entry": [
+        {
+          "resource": {
+            "resourceType": "Observation",
+            "id": "54",
+            "status": "final",
+            "category": [
+               {
+                 "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                      "code": "vital-signs",
+                      "display": "Vital Signs"
+                    }
+                 ]
+               }
+            ],
+            "code": {
+               "coding": [
+                 {
+                    "system": "http://loinc.org",
+                    "code": "85354-9",
+
+
+                                                                  Version 2.1                                             P a g e | 87
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+                      "display": "Blood Pressure"
+                  }
+              ]
+            },
+            "subject": {
+               "reference": "Patient/18"
+            },
+            "encounter": {
+               "reference": “Encounter/32”
+            },
+            "effectiveDateTime": "2019-08-07",
+            "issued": "2019-08-07T00:00:00.000-04:00",
+            "component": [
+               {
+                  "code": {
+                     "coding": [
+                       {
+                          "system": "http://loinc.org",
+                          "code": "8462-4",
+                          "display": "Diastolic Blood Pressure"
+                       }
+                     ]
+                  },
+                  "valueQuantity": {
+                     "value": 77,
+                     "unit": "mm[Hg]",
+                     "system": "http://unitsofmeasure.org",
+                     "code": "mm[Hg]"
+                  }
+               },
+               {
+                  "code": {
+                     "coding": [
+                       {
+                          "system": "http://loinc.org",
+                          "code": "8480-6",
+                          "display": Systolic Blood Pressure"
+                       }
+                     ]
+                  },
+                  "valueQuantity": {
+                     "value": 120,
+                     "unit": "mm[Hg]",
+                     "system": "http://unitsofmeasure.org",
+                     "code": "mm[Hg]"
+                  }
+               }
+            ]
+        }
+   },
+   {
+
+                                                                     Version 2.1                                             P a g e | 88
+                       © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+      "resource": {
+        "resourceType": "Observation",
+        "id": "10093",
+        "status": "final",
+        "category": [
+           {
+              "coding": [
+                 {
+                   "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                   "code": "vital-signs",
+                   "display": "Vital Signs"
+                 }
+              ]
+           }
+        ],
+        "code": {
+           "coding": [
+              {
+                 "system": "http://loinc.org",
+                 "code": "85354-9",
+                 "display": " Blood Pressure"
+              }
+           ]
+        },
+        "subject": {
+           "reference": "Patient/18"
+        },
+        "encounter": {
+           "reference": "Encounter/32"
+        },
+        "effectiveDateTime": "2019-09-04",
+        "issued": "2019-09-04T00:00:00.000-04:00",
+        "component": [
+           {
+              "code": {
+                 "coding": [
+                   {
+                      "system": "http://loinc.org",
+                      "code": "8462-4",
+                      "display": "Diastolic Blood Pressure"
+                   }
+                 ]
+              },
+              "valueQuantity": {
+                 "value": 80,
+                 "unit": "mm[Hg]",
+                 "system": "http://unitsofmeasure.org",
+                 "code": "mm[Hg]"
+              }
+           },
+           {
+
+                                                              Version 2.1                                             P a g e | 89
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+                         "code": {
+                            "coding": [
+                              {
+                                 "system": "http://loinc.org",
+                                 "code": "8480-6",
+                                 "display": "Systolic Blood Pressure"
+                              }
+                            ]
+                         },
+                         "valueQuantity": {
+                            "value": 120,
+                            "unit": "mm[Hg]",
+                            "system": "http://unitsofmeasure.org",
+                            "code": "mm[Hg]"
+                         }
+                     }
+                 ]
+             }
+         }
+     ]
+}
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                                          Version 2.1                                             P a g e | 90
+                            © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+Observation Body Weight
+
+Parameters
+
+    Parameter                                                           Data Type
+    Patient Id                                                          String
+
+    Parameters/Parameters Combinations                                  Support as per US Core
+    patient (reference) and category (uri)                              Required
+    patient (reference) and code (code)                                 Required
+    patient (reference) and category (uri) and date                     Required
+    (date)
+
+Sample Request:
+
+https://staging.pemr.com:93/api/Observation?code=29463-7&patient=18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+     "resourceType": "Bundle",
+     "id": "Observation-bundle",
+     "type": "searchset",
+     "total": 2,
+     "entry": [
+        {
+          "resource": {
+            "resourceType": "Observation",
+            "id": "51",
+            "status": "final",
+            "category": [
+               {
+                 "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                      "code": "vital-signs",
+                      "display": "Vital Signs"
+                    }
+                 ]
+               }
+            ],
+            "code": {
+               "coding": [
+                 {
+                    "system": "http://loinc.org",
+                    "code": "29463-7",
+
+
+                                                                  Version 2.1                                             P a g e | 91
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+                      "display": "Weight"
+                  }
+              ]
+            },
+            "subject": {
+               "reference": "Patient/18"
+            },
+            "encounter": {
+               "reference": “Encounter/32”
+            },
+            "effectiveDateTime": "2019-08-07",
+            "issued": "2019-08-07T00:00:00.000-04:00",
+            "valueQuantity": {
+               "value": 120,
+               "unit": "kg",
+               "system": "http://unitsofmeasure.org",
+               "code": "kg"
+            }
+        }
+   },
+   {
+        "resource": {
+          "resourceType": "Observation",
+          "id": "10091",
+          "status": "final",
+          "category": [
+             {
+               "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "code": "vital-signs",
+                    "display": "Vital Signs"
+                  }
+               ]
+             }
+          ],
+          "code": {
+             "coding": [
+               {
+                  "system": "http://loinc.org",
+                  "code": "29463-7",
+                  "display": "Weight"
+               }
+             ]
+          },
+          "subject": {
+             "reference": "Patient/18"
+          },
+          "encounter": {
+             "reference": “Encounter/32”
+          },
+
+                                                                     Version 2.1                                             P a g e | 92
+                       © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+                 "effectiveDateTime": "2019-09-04",
+                 "issued": "2019-09-04T00:00:00.000-04:00",
+                 "valueQuantity": {
+                    "value": 0,
+                    "unit": "kg",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "kg"
+                 }
+             }
+         }
+     ]
+}
+
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                                      Version 2.1                                             P a g e | 93
+                        © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+Observation Heart Rate
+
+Parameters
+
+    Parameter                                                           Data Type
+    Patient Id                                                          String
+
+    Parameters/Parameters Combinations                                  Support as per US Core
+    patient (reference) and category (uri)                              Required
+    patient (reference) and code (code)                                 Required
+    patient (reference) and category (uri) and date                     Required
+    (date)
+
+Sample Request:
+
+https://staging.pemr.com:93/api/Observation?code=8867-4&patient=18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+     "resourceType": "Bundle",
+     "id": "Observation-bundle",
+     "type": "searchset",
+     "total": 2,
+     "entry": [
+        {
+          "resource": {
+            "resourceType": "Observation",
+            "id": "55",
+            "status": "final",
+            "category": [
+               {
+                 "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                      "code": "vital-signs",
+                      "display": "Vital Signs"
+                    }
+                 ]
+               }
+            ],
+            "code": {
+               "coding": [
+                 {
+                    "system": "http://loinc.org",
+                    "code": "8867-4",
+
+
+                                                                  Version 2.1                                             P a g e | 94
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+                      "display": "Heart rate"
+                  }
+              ]
+            },
+            "subject": {
+               "reference": "Patient/18"
+            },
+            "encounter": {
+               "reference": “Encounter/32”
+            },
+            "effectiveDateTime": "2019-08-07",
+            "issued": "2019-08-07T00:00:00.000-04:00",
+            "valueQuantity": {
+               "value": 89,
+               "unit": "/min",
+               "system": "http://unitsofmeasure.org",
+               "code": "/min"
+            }
+        }
+   },
+   {
+        "resource": {
+          "resourceType": "Observation",
+          "id": "10094",
+          "status": "final",
+          "category": [
+             {
+               "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "code": "vital-signs",
+                    "display": "Vital Signs"
+                  }
+               ]
+             }
+          ],
+          "code": {
+             "coding": [
+               {
+                  "system": "http://loinc.org",
+                  "code": "8867-4",
+                  "display": "Heart rate"
+               }
+             ]
+          },
+          "subject": {
+             "reference": "Patient/18"
+          },
+          "encounter": {
+             "reference": “Encounter/32”
+          },
+
+                                                                     Version 2.1                                             P a g e | 95
+                       © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+                 "effectiveDateTime": "2019-09-04",
+                 "issued": "2019-09-04T00:00:00.000-04:00",
+                 "valueQuantity": {
+                    "value": 88,
+                    "unit": "/min",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "/min"
+                 }
+             }
+         }
+     ]
+}
+
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                                      Version 2.1                                             P a g e | 96
+                        © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+Observation Respiratory Rate
+
+Parameters
+
+    Parameter                                                           Data Type
+    Patient Id                                                          String
+
+    Parameters/Parameters Combinations                                  Support as per US Core
+    patient (reference) and category (uri)                              Required
+    patient (reference) and code (code)                                 Required
+    patient (reference) and category (uri) and date                     Required
+    (date)
+
+Sample Request:
+
+https://staging.pemr.com:93/api//Observation?code=9279-1&patient=18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+     "resourceType": "Bundle",
+     "id": "Observation-bundle",
+     "type": "searchset",
+     "total": 2,
+     "entry": [
+        {
+          "resource": {
+            "resourceType": "Observation",
+            "id": "56",
+            "status": "final",
+            "category": [
+               {
+                 "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                      "code": "vital-signs",
+                      "display": "Vital Signs"
+                    }
+                 ]
+               }
+            ],
+            "code": {
+               "coding": [
+                 {
+                    "system": "http://loinc.org",
+                    "code": "9279-1",
+
+
+                                                                  Version 2.1                                             P a g e | 97
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+                      "display": "Respiratory rate"
+                  }
+              ]
+            },
+            "subject": {
+               "reference": "Patient/18"
+            },
+            "encounter": {
+               "reference": "Encounter/32"
+            },
+            "effectiveDateTime": "2019-08-07",
+            "issued": "2019-08-07T00:00:00.000-04:00",
+            "valueQuantity": {
+               "value": 76,
+               "unit": "/min",
+               "system": "http://unitsofmeasure.org",
+               "code": "/min"
+            }
+        }
+   },
+   {
+        "resource": {
+          "resourceType": "Observation",
+          "id": "144T9279-1",
+          "status": "final",
+          "category": [
+             {
+               "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "code": "vital-signs",
+                    "display": "Vital Signs"
+                  }
+               ]
+             }
+          ],
+          "code": {
+             "coding": [
+               {
+                  "system": "http://loinc.org",
+                  "code": "9279-1",
+                  "display": "Respiratory rate"
+               }
+             ]
+          },
+          "subject": {
+             "reference": "Patient/18"
+          },
+          "encounter": {
+             "reference": "Encounter/32"
+          },
+
+                                                                     Version 2.1                                             P a g e | 98
+                       © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+                 "effectiveDateTime": "2019-09-04",
+                 "issued": "2019-09-04T00:00:00.000-04:00",
+                 "valueQuantity": {
+                    "value": 89,
+                    "unit": "/min",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "/min"
+                 }
+             }
+         }
+     ]
+}
+
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                                      Version 2.1                                             P a g e | 99
+                        © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+Procedure
+
+Parameters
+
+    Parameter                                                           Data Type
+    Patient Id                                                          String
+
+    Parameters/Parameters Combinations                                  Support as per US Core
+    patient (reference)                                                 Required
+    patient (reference) and date (date)                                 Required
+    patient (reference) and status (code)                               Optional
+    patient (reference) and code (code) and date                        Optional
+    (date)
+
+Sample Request:
+
+https://staging.pemr.com:93/api/Procedure?patient=18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+     "resourceType": "Bundle",
+     "id": "Procedure-bundle",
+     "type": "searchset",
+     "total": 2,
+     "entry": [
+        {
+          "resource": {
+             "resourceType": "Procedure",
+             "id": "12",
+             "status": "completed",
+             "code": {
+                "coding": [
+                   {
+                     "system": "http://snomed.info/sct",
+                     "code": "56251003",
+                     "display": "Nebulizer "
+                   }
+                ],
+                "text": "Nebulizer "
+             },
+             "subject": {
+                "reference": "Patient/18"
+             },
+             "performedDateTime": "2015-06-22T00:00:00-04:00",
+             "location": {
+
+
+                                                                  Version 2.1                                             P a g e | 100
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+                      "reference": "Location/1"
+                  }
+              }
+         },
+         {
+              "resource": {
+                "resourceType": "Procedure",
+                "id": "13",
+                "status": "completed",
+                "code": {
+                   "coding": [
+                      {
+                        "system": "http://snomed.info/sct",
+                        "code": "175135009",
+                        "display": "Introduction of cardiac pacemaker system via vein"
+                      }
+                   ],
+                   "text": "Introduction of cardiac pacemaker system via vein"
+                },
+                "subject": {
+                   "reference": "Patient/18"
+                },
+                "performedDateTime": "2011-10-05T00:00:00-04:00",
+                "location": {
+                   "reference": "Location/1"
+                }
+              }
+         }
+     ]
+}
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                                         Version 2.1                                             P a g e | 101
+                           © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+Encounter
+
+Parameters
+
+    Parameter                                                           Data Type
+    Patient Id                                                          String
+
+    Parameters/Parameters Combinations                                  Support as per US Core
+    id (string)                                                         Required
+    patient (reference)                                                 Required
+    patient (reference) and date (date)                                 Required
+    identifier (code)                                                   Optional
+    patient (reference) and class (code)                                Optional
+    patient (reference) and status (code)                               Optional
+
+Sample Request:
+
+https://staging.pemr.com:93/api/Encounter/18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+     "resourceType": "Encounter",
+     "id": "32",
+     "identifier": [
+        {
+          "system": "https://github.com/synthetichealth/synthea",
+          "value": "32"
+        }
+     ],
+     "status": "finished",
+     "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "AMB"
+     },
+     "type": [
+        {
+          "coding": [
+             {
+                "system": "http://snomed.info/sct",
+                "code": "162673000",
+                "display": "General examination of patient (procedure)"
+             }
+          ]
+        }
+
+
+                                                                  Version 2.1                                             P a g e | 102
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+ ],
+ "subject": {
+    "reference": "Patient/18"
+ },
+ "participant": [
+    {
+      "type": [
+         {
+           "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                "code": "PRPF",
+                "display": "Primary Performer"
+              }
+           ]
+         }
+      ],
+      "period": {
+         "start": "2019-08-07T00:00:00-04:00",
+         "end": "2019-08-07T00:00:00-04:00"
+      },
+      "individual": {
+         "reference": "Practitioner/1"
+      }
+    }
+ ],
+ "period": {
+    "start": "2019-08-07T00:00:00-04:00",
+    "end": "2019-08-07T00:00:00-04:00"
+ },
+ "reasonCode": [
+    {
+      "coding": [
+         {
+           "system": "http://snomed.info/sct",
+           "code": "162673000",
+           "display": "General examination of patient (procedure)"
+         }
+      ]
+    }
+ ],
+ "hospitalization": {
+    "dischargeDisposition": {
+      "coding": [
+         {
+           "system": "http://terminology.hl7.org/CodeSystem/discharge-disposition",
+           "code": "oth",
+           "display": "Other"
+         }
+      ]
+    }
+
+                                                              Version 2.1                                             P a g e | 103
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+     },
+     "location": [
+        {
+          "location": {
+             "reference": "Location/1"
+          }
+        }
+     ],
+     "serviceProvider": {
+        "reference": "Organization/1"
+     }
+}
+
+
+
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                                  Version 2.1                                             P a g e | 104
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+
+Organization
+
+Parameters
+
+ Parameter                                                           Data Type
+ Id                                                                  String
+
+ Parameters/Parameters Combinations                                  Support as per US Core
+ name (string)                                                       Required
+ address (string)                                                    Required
+
+Sample Request:
+
+https://staging.pemr.com:93/api/Organization/1
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+Sample Response:
+{
+  "resourceType": "Organization",
+  "id": "1",
+  "identifier": [
+     {
+       "system": "http://hl7.org/fhir/sid/us-npi",
+       "value": "1235323023"
+     }
+  ],
+  "active": true,
+  "name": "Neighborhood Physicians Practice",
+  "alias": [
+     "Neighborhood Physicians Practice"
+  ],
+  "telecom": [
+     {
+       "system": "phone",
+       "value": "555-555-1002"
+     }
+  ],
+  "address": [
+     {
+       "line": [
+          "2472, Rocky place"
+       ],
+       "city": "Beaverton",
+       "state": "OR",
+       "postalCode": "97006",
+       "country": "US"
+     }
+  ]
+
+
+                                                               Version 2.1                                             P a g e | 105
+                 © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+}
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                                  Version 2.1                                             P a g e | 106
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+Practitioner
+
+Parameters
+
+    Parameter                                                           Data Type
+    Id                                                                  String
+
+    Parameters/Parameters Combinations                                  Support as per US Core
+    name (string)                                                       Required
+    identifier (string)                                                 Required
+
+Sample Request:
+
+https://staging.pemr.com:93/api/Practitioner/1
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+     "resourceType": "Practitioner",
+     "id": "1",
+     "identifier": [
+        {
+          "system": "http://hl7.org/fhir/sid/us-npi",
+          "value": "1437237468"
+        }
+     ],
+     "active": true,
+     "name": [
+        {
+          "family": "TEHRANI",
+          "given": [
+             "ALI"
+          ]
+        }
+     ],
+     "address": [
+        {
+          "line": [
+             "9801 GEORGIA AVE SUITE 3-41"
+          ],
+          "city": "SILVER SPRING",
+          "state": "MD",
+          "postalCode": "20902-5276"
+        }
+     ]
+}
+
+
+                                                                  Version 2.1                                             P a g e | 107
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                               Version 2.1                                             P a g e | 108
+                 © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+Provenance
+
+Parameters
+
+    Parameter                                                           Data Type
+    Patient Id                                                          String
+
+    Parameters/Parameters Combinations                                                   Support as per US Core
+    patient id (string) and _revinclude=Provenance:target                                Required
+    id of [Resource] (string) and _revinclude=Provenance:target                          Required
+
+Sample Request:
+
+https://staging.pemr.com:93/api/Provenance/18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+     "resourceType": "Provenance",
+     "id": "18",
+     "target": [
+        {
+           "reference": "Patient/18"
+        },
+        {
+           "reference": "Location/1"
+        },
+        {
+           "reference": "Organization/1"
+        },
+        {
+           "reference": "Practitioner/1"
+        }
+     ],
+     "recorded": "1969-12-31T19:00:00.000-05:00",
+     "agent": [
+        {
+           "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                  "code": "author",
+                  "display": "Author"
+                }
+              ]
+           },
+
+
+                                                                  Version 2.1                                             P a g e | 109
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+              "who": {
+                 "reference": "Practitioner/1"
+              },
+              "onBehalfOf": {
+                 "reference": "Organization/1"
+              }
+         },
+         {
+              "type": {
+                 "coding": [
+                   {
+                      "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-provenance-participant-type",
+                     "code": "transmitter",
+                     "display": "Transmitter"
+                   }
+                 ]
+              },
+              "who": {
+                 "reference": "Practitioner/1"
+              },
+              "onBehalfOf": {
+                 "reference": "Organization/1"
+              }
+         }
+     ]
+}
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                                      Version 2.1                                             P a g e | 110
+                        © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+
+Clinical Notes Guidance
+
+Parameters
+
+    Parameter                                                           Data Type
+    Patient Id                                                          String
+
+    Parameters/Parameters Combinations                                                   Support as per US Core
+    patient id (string)                                                                  Required
+    Category (string)                                                                    Required
+
+Sample Request:
+
+https://staging.pemr.com:93/api/DocumentReference?patient=18
+
+authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG…..
+
+
+Sample Response:
+
+{
+     "resourceType": "Bundle",
+     "id": "document-bundle",
+     "type": "searchset",
+     "total": 7,
+     "entry": [
+        {
+          "resource": {
+            "resourceType": "DocumentReference",
+            "id": "143",
+            "identifier": [
+                {
+                  "system": "urn:ietf:rfc:3986",
+                  "value": "urn:uuid:acc9d16d-da9b-9dc9-fbb4-9e6f950b11e6"
+                }
+             ],
+            "status": "superseded",
+            "type": {
+                "coding": [
+                  {
+                    "system": "http://loinc.org",
+                    "code": "11506-3",
+                    "display": "Progress note"
+                  }
+                ]
+            },
+            "category": [
+                {
+                  "coding": [
+
+
+                                                                  Version 2.1                                             P a g e | 111
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+                     {
+                          "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-
+category",
+                          "code": "clinical-note",
+                          "display": "clinical note"
+                     }
+                 ]
+             }
+         ],
+         "subject": {
+            "reference": "Patient/18"
+         },
+         "date": "2021-10-08T00:00:00.000-04:00",
+         "author": [
+            {
+               "reference": "Practitioner/1"
+            }
+         ],
+         "custodian": {
+            "reference": "Organization/1"
+         },
+         "content": [
+            {
+               "attachment": {
+                  "contentType": "text/plain",
+                  "data":
+  "VUhKbmNtVnpjeUJPYjNSbENrTm9hV1ZtSUVOdmJYQnNZV2x1ZERvZ1RtOGdZMjl0Y0d4aG
+  FXNTBjeTRLU0ZCSk9pQlFZWFJwWlc1MElIQnlaWE5sYm5RZ2RHOWtZWGtnWm05eUlFWnZ
+  iR3h2ZDNWd0NsTnZZMmxoYkNCSWFYTjBiM0o1T2lCT0wwRUtRV3hzWlhKbmFXVnpPaUJP
+  UzBSQkNsQnNZVzQ2SUZKVVR5QXlJSGRsWld0eg=="
+               },
+               "format": {
+                  "system": "http://ihe.net/fhir/ValueSet/IHE.FormatCode.codesystem",
+                  "code": "urn:ihe:iti:xds:2017:mimeTypeSufficient",
+                  "display": "Mimetype Sufficient"
+               }
+            }
+         ],
+         "context": {
+            "encounter": [
+               {
+                  "reference": "Encounter/32"
+               }
+            ],
+            "period": {
+               "start": "2021-10-08T00:00:00-04:00",
+               "end": "2021-10-08T00:00:00-04:00"
+            }
+         }
+       }
+    },
+
+                                                                       Version 2.1                                             P a g e | 112
+                         © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+    {
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "144",
+        "identifier": [
+           {
+             "system": "urn:ietf:rfc:3986",
+             "value": "urn:uuid:acc9d16d-da9b-9dc9-fbb4-9e6f950b11e6"
+           }
+        ],
+        "status": "superseded",
+        "type": {
+           "coding": [
+             {
+                "system": "http://loinc.org",
+                "code": "11506-3",
+                "display": "Progress note"
+             }
+           ]
+        },
+        "category": [
+           {
+             "coding": [
+                {
+                  "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-
+category",
+                  "code": "clinical-note",
+                  "display": "clinical note"
+                }
+             ]
+           }
+        ],
+        "subject": {
+           "reference": "Patient/18"
+        },
+        "date": "2022-10-08T00:00:00.000-04:00",
+        "author": [
+           {
+             "reference": "Practitioner/1"
+           }
+        ],
+        "custodian": {
+           "reference": "Organization/1"
+        },
+        "content": [
+           {
+             "attachment": {
+                "contentType": "text/plain",
+                "data":
+  "VUhKbmNtVnpjeUJPYjNSbENrTm9hV1ZtSUVOdmJYQnNZV2x1ZERvZ1RtOGdZMjl0Y0d4aG
+  FXNTBjeTRLU0ZCSk9pQlFZWFJwWlc1MElIQnlaWE5sYm5RZ2RHOWtZWGtnWm05eUlFWnZ
+
+                                                              Version 2.1                                             P a g e | 113
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+  iR3h2ZDNWd0NsTnZZMmxoYkNCSWFYTjBiM0o1T2lCT0wwRUtRV3hzWlhKbmFXVnpPaUJP
+  UzBSQkNsQnNZVzQ2SUZKVVR5QXlJSGRsWld0eg=="
+               },
+               "format": {
+                  "system": "http://ihe.net/fhir/ValueSet/IHE.FormatCode.codesystem",
+                  "code": "urn:ihe:iti:xds:2017:mimeTypeSufficient",
+                  "display": "Mimetype Sufficient"
+               }
+            }
+         ],
+         "context": {
+            "encounter": [
+               {
+                  "reference": "Encounter/32"
+               }
+            ],
+            "period": {
+               "start": "2022-10-08T00:00:00-04:00",
+               "end": "2022-10-08T00:00:00-04:00"
+            }
+         }
+       }
+    },
+    {
+       "resource": {
+         "resourceType": "DocumentReference",
+         "id": "145",
+         "identifier": [
+            {
+               "system": "urn:ietf:rfc:3986",
+               "value": "urn:uuid:acc9d16d-da9b-9dc9-fbb4-9e6f950b11e6"
+            }
+         ],
+         "status": "superseded",
+         "type": {
+            "coding": [
+               {
+                  "system": "http://loinc.org",
+                  "code": "11488-4",
+                  "display": "Consult note"
+               }
+            ]
+         },
+         "category": [
+            {
+               "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-
+category",
+                    "code": "clinical-note",
+                    "display": "clinical note"
+
+                                                              Version 2.1                                             P a g e | 114
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+                  }
+              ]
+          }
+        ],
+        "subject": {
+           "reference": "Patient/18"
+        },
+        "date": "2018-10-23T00:00:00.000-04:00",
+        "author": [
+           {
+              "reference": "Practitioner/1"
+           }
+        ],
+        "custodian": {
+           "reference": "Organization/1"
+        },
+        "content": [
+           {
+              "attachment": {
+                 "contentType": "text/plain",
+                 "data":
+ "VUhKbmNtVnpjeUJPYjNSbENrTm9hV1ZtSUVOdmJYQnNZV2x1ZERvZ1RtOGdZMjl0Y0d4aG
+ FXNTBjeTRLU0ZCSk9pQlFZWFJwWlc1MElIQnlaWE5sYm5RZ2RHOWtZWGtnWm05eUlFWnZ
+ iR3h2ZDNWd0NsTnZZMmxoYkNCSWFYTjBiM0o1T2lCT0wwRUtRV3hzWlhKbmFXVnpPaUJP
+ UzBSQkNsQnNZVzQ2SUZKVVR5QXlJSGRsWld0eg=="
+              },
+              "format": {
+                 "system": "http://ihe.net/fhir/ValueSet/IHE.FormatCode.codesystem",
+                 "code": "urn:ihe:iti:xds:2017:mimeTypeSufficient",
+                 "display": "Mimetype Sufficient"
+              }
+           }
+        ],
+        "context": {
+           "encounter": [
+              {
+                 "reference": "Encounter/32"
+              }
+           ],
+           "period": {
+              "start": "2018-10-23T00:00:00-04:00",
+              "end": "2018-10-23T00:00:00-04:00"
+           }
+        }
+      }
+   },
+   {
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "146",
+        "identifier": [
+
+                                                                    Version 2.1                                             P a g e | 115
+                      © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+          {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:uuid:acc9d16d-da9b-9dc9-fbb4-9e6f950b11e6"
+           }
+        ],
+        "status": "superseded",
+        "type": {
+           "coding": [
+             {
+                "system": "http://loinc.org",
+                "code": "18842-5",
+                "display": "Discharge summary"
+             }
+           ]
+        },
+        "category": [
+           {
+             "coding": [
+                {
+                  "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-
+category",
+                  "code": "clinical-note",
+                  "display": "clinical note"
+                }
+             ]
+           }
+        ],
+        "subject": {
+           "reference": "Patient/18"
+        },
+        "date": "2018-10-25T00:00:00.000-04:00",
+        "author": [
+           {
+             "reference": "Practitioner/1"
+           }
+        ],
+        "custodian": {
+           "reference": "Organization/1"
+        },
+        "content": [
+           {
+             "attachment": {
+                "contentType": "text/plain",
+                "data":
+  "VUhKbmNtVnpjeUJPYjNSbENrTm9hV1ZtSUVOdmJYQnNZV2x1ZERvZ1RtOGdZMjl0Y0d4aG
+  FXNTBjeTRLU0ZCSk9pQlFZWFJwWlc1MElIQnlaWE5sYm5RZ2RHOWtZWGtnWm05eUlFWnZ
+  iR3h2ZDNWd0NsTnZZMmxoYkNCSWFYTjBiM0o1T2lCT0wwRUtRV3hzWlhKbmFXVnpPaUJP
+  UzBSQkNsQnNZVzQ2SUZKVVR5QXlJSGRsWld0eg=="
+             },
+             "format": {
+                "system": "http://ihe.net/fhir/ValueSet/IHE.FormatCode.codesystem",
+
+                                                               Version 2.1                                             P a g e | 116
+                 © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+                     "code": "urn:ihe:iti:xds:2017:mimeTypeSufficient",
+                     "display": "Mimetype Sufficient"
+                 }
+                }
+             ],
+             "context": {
+                "encounter": [
+                   {
+                     "reference": "Encounter/32"
+                   }
+                ],
+                "period": {
+                   "start": "2018-10-25T00:00:00-04:00",
+                   "end": "2018-10-25T00:00:00-04:00"
+                }
+             }
+         }
+    },
+    {
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "147",
+        "identifier": [
+           {
+             "system": "urn:ietf:rfc:3986",
+             "value": "urn:uuid:acc9d16d-da9b-9dc9-fbb4-9e6f950b11e6"
+           }
+        ],
+        "status": "superseded",
+        "type": {
+           "coding": [
+             {
+                "system": "http://loinc.org",
+                "code": "34117-2",
+                "display": "History and physical note"
+             }
+           ]
+        },
+        "category": [
+           {
+             "coding": [
+                {
+                  "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-
+category",
+                  "code": "clinical-note",
+                  "display": "clinical note"
+                }
+             ]
+           }
+        ],
+        "subject": {
+
+                                                                    Version 2.1                                             P a g e | 117
+                      © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+           "reference": "Patient/18"
+        },
+        "date": "2020-10-23T00:00:00.000-04:00",
+        "author": [
+           {
+              "reference": "Practitioner/1"
+           }
+        ],
+        "custodian": {
+           "reference": "Organization/1"
+        },
+        "content": [
+           {
+              "attachment": {
+                 "contentType": "text/plain",
+                 "data":
+ "VUhKbmNtVnpjeUJPYjNSbENrTm9hV1ZtSUVOdmJYQnNZV2x1ZERvZ1RtOGdZMjl0Y0d4aG
+ FXNTBjeTRLU0ZCSk9pQlFZWFJwWlc1MElIQnlaWE5sYm5RZ2RHOWtZWGtnWm05eUlFWnZ
+ iR3h2ZDNWd0NsTnZZMmxoYkNCSWFYTjBiM0o1T2lCT0wwRUtRV3hzWlhKbmFXVnpPaUJP
+ UzBSQkNsQnNZVzQ2SUZKVVR5QXlJSGRsWld0eg=="
+              },
+              "format": {
+                 "system": "http://ihe.net/fhir/ValueSet/IHE.FormatCode.codesystem",
+                 "code": "urn:ihe:iti:xds:2017:mimeTypeSufficient",
+                 "display": "Mimetype Sufficient"
+              }
+           }
+        ],
+        "context": {
+           "encounter": [
+              {
+                 "reference": "Encounter/32"
+              }
+           ],
+           "period": {
+              "start": "2020-10-23T00:00:00-04:00",
+              "end": "2020-10-23T00:00:00-04:00"
+           }
+        }
+      }
+   },
+   {
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "148",
+        "identifier": [
+           {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:uuid:acc9d16d-da9b-9dc9-fbb4-9e6f950b11e6"
+           }
+        ],
+
+                                                              Version 2.1                                             P a g e | 118
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+        "status": "superseded",
+        "type": {
+           "coding": [
+             {
+                "system": "http://loinc.org",
+                "code": "28570-0",
+                "display": "Procedure note"
+             }
+           ]
+        },
+        "category": [
+           {
+             "coding": [
+                {
+                  "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-
+category",
+                  "code": "clinical-note",
+                  "display": "clinical note"
+                }
+             ]
+           }
+        ],
+        "subject": {
+           "reference": "Patient/18"
+        },
+        "date": "2010-10-23T00:00:00.000-04:00",
+        "author": [
+           {
+             "reference": "Practitioner/1"
+           }
+        ],
+        "custodian": {
+           "reference": "Organization/1"
+        },
+        "content": [
+           {
+             "attachment": {
+                "contentType": "text/plain",
+                "data":
+  "VUhKbmNtVnpjeUJPYjNSbENrTm9hV1ZtSUVOdmJYQnNZV2x1ZERvZ1RtOGdZMjl0Y0d4aG
+  FXNTBjeTRLU0ZCSk9pQlFZWFJwWlc1MElIQnlaWE5sYm5RZ2RHOWtZWGtnWm05eUlFWnZ
+  iR3h2ZDNWd0NsTnZZMmxoYkNCSWFYTjBiM0o1T2lCT0wwRUtRV3hzWlhKbmFXVnpPaUJP
+  UzBSQkNsQnNZVzQ2SUZKVVR5QXlJSGRsWld0eg=="
+             },
+             "format": {
+                "system": "http://ihe.net/fhir/ValueSet/IHE.FormatCode.codesystem",
+                "code": "urn:ihe:iti:xds:2017:mimeTypeSufficient",
+                "display": "Mimetype Sufficient"
+             }
+           }
+        ],
+
+                                                              Version 2.1                                             P a g e | 119
+                © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+IPClinical (g)(10) API Documentation
+             "context": {
+               "encounter": [
+                  {
+                    "reference": "Encounter/32"
+                  }
+               ],
+               "period": {
+                  "start": "2010-10-23T00:00:00-04:00",
+                  "end": "2010-10-23T00:00:00-04:00"
+               }
+             }
+         }
+    },
+    {
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "149",
+        "identifier": [
+           {
+             "system": "urn:ietf:rfc:3986",
+             "value": "urn:uuid:acc9d16d-da9b-9dc9-fbb4-9e6f950b11e6"
+           }
+        ],
+        "status": "superseded",
+        "type": {
+           "coding": [
+             {
+                "system": "http://loinc.org",
+                "code": "11506-3",
+                "display": "Progress note"
+             }
+           ]
+        },
+        "category": [
+           {
+             "coding": [
+                {
+                  "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-
+category",
+                  "code": "clinical-note",
+                  "display": "clinical note"
+                }
+             ]
+           }
+        ],
+        "subject": {
+           "reference": "Patient/18"
+        },
+        "date": "2022-10-23T00:00:00.000-04:00",
+        "author": [
+           {
+
+                                                                  Version 2.1                                             P a g e | 120
+                    © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+    IPClinical (g)(10) API Documentation
+                  "reference": "Practitioner/1"
+              }
+           ],
+           "custodian": {
+              "reference": "Organization/1"
+           },
+           "content": [
+              {
+                 "attachment": {
+                    "contentType": "text/plain",
+                    "data":
+     "VUhKbmNtVnpjeUJPYjNSbENrTm9hV1ZtSUVOdmJYQnNZV2x1ZERvZ1RtOGdZMjl0Y0d4aG
+     FXNTBjeTRLU0ZCSk9pQlFZWFJwWlc1MElIQnlaWE5sYm5RZ2RHOWtZWGtnWm05eUlFWnZ
+     iR3h2ZDNWd0NsTnZZMmxoYkNCSWFYTjBiM0o1T2lCT0wwRUtRV3hzWlhKbmFXVnpPaUJP
+     UzBSQkNsQnNZVzQ2SUZKVVR5QXlJSGRsWld0eg=="
+                 },
+                 "format": {
+                    "system": "http://ihe.net/fhir/ValueSet/IHE.FormatCode.codesystem",
+                    "code": "urn:ihe:iti:xds:2017:mimeTypeSufficient",
+                    "display": "Mimetype Sufficient"
+                 }
+              }
+           ],
+           "context": {
+              "encounter": [
+                 {
+                    "reference": "Encounter/32"
+                 }
+              ],
+              "period": {
+                 "start": "2022-10-23T00:00:00-04:00",
+                 "end": "2022-10-23T00:00:00-04:00"
+              }
+           }
+         }
+       }
+     ]
+}
+
+EXCEPTIONS
+
+JSON response is returned from the FHIR Server along with the code
+
+200: Ok
+401: Unauthorized
+400: Bad Request
+500: Internal Server Error
+
+
+
+
+                                                                   Version 2.1                                             P a g e | 121
+                     © 2023 IPClinical. All Right Reserved. No reproduction or redistribution without written permission
+

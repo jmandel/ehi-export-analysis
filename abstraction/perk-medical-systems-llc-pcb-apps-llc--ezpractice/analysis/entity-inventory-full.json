@@ -1,0 +1,102 @@
+{
+  "product": "ezPractice V15.1",
+  "vendor": "Perk Medical Systems LLC (PCB Apps LLC)",
+  "chpl_id": "15.07.04.2154.Ezpr.15.01.1.230208",
+  "pdf_pages": 7,
+  "pdf_date": "2023-12-20",
+  "total_export_components": 3,
+  "total_fields_with_product_specific_documentation": 7,
+  "components_with_product_specific_dictionary": 1,
+  "components_relying_on_external_spec": 2,
+  "export_info": {
+    "mechanism": "User-initiated export within ezPractice application",
+    "output_format": "ZIP file(s)",
+    "scope": "Single patient or full collection of patients",
+    "fees": "No fees if performed by user. Fees may apply if vendor performs the export.",
+    "access_requirements": "Valid user subscription required"
+  },
+  "entities": [
+    {
+      "name": "Patient Demographics and Clinical Data",
+      "format": "C-CDA R2.1 XML + HTML",
+      "description": "Patient demographics and clinical records in HL7 C-CDA R2.1 format. Paired XML and HTML files. No product-specific data dictionary provided; vendor references external C-CDA R2.1 specification.",
+      "file_pattern": "PID_INTERNALNUMBERING.xml / .html",
+      "fields": [],
+      "field_count": 0,
+      "has_product_specific_dictionary": false,
+      "external_spec_references": [
+        "https://www.hl7.org/implement/standards/product_brief.cfm?product_id=447",
+        "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1380194/"
+      ],
+      "notes": "Relies entirely on standard C-CDA R2.1 spec. No vendor-specific extensions, mappings, or field documentation provided."
+    },
+    {
+      "name": "Adhoc Patient Notes",
+      "format": "CSV",
+      "description": "Telephone calls, adhoc notes related to the patient via the Patient Notes feature. This is the only component with a product-specific data dictionary.",
+      "file_pattern": "PID_INTERNALNUMBERING_patNotes.csv",
+      "fields": [
+        {
+          "column_number": 1,
+          "name": "PID",
+          "description": "Data reflected under this column are patient IDs. These are unique.",
+          "type": "identifier"
+        },
+        {
+          "column_number": 2,
+          "name": "Patient Notes ID",
+          "description": "Data reflected under this column are patient note IDs. These are unique.",
+          "type": "identifier"
+        },
+        {
+          "column_number": 3,
+          "name": "Username",
+          "description": "Data reflected under this column refer to the user who documented the note",
+          "type": "string"
+        },
+        {
+          "column_number": 4,
+          "name": "Subject",
+          "description": "Data reflected under this column refer to the subject of the note. This field maybe blank",
+          "type": "string"
+        },
+        {
+          "column_number": 5,
+          "name": "Patient Notes Category",
+          "description": "Data reflected under this column refers to the category associated with the note. These categories are user defined but available from a pick list for the user.",
+          "type": "string"
+        },
+        {
+          "column_number": 6,
+          "name": "Patient Notes Date",
+          "description": "Data reflected under this column refer to the date the note was created.",
+          "type": "date"
+        },
+        {
+          "column_number": 7,
+          "name": "Patient Notes",
+          "description": "Data reflected under this column refers to documented details of the patient note.",
+          "type": "text"
+        }
+      ],
+      "field_count": 7,
+      "has_product_specific_dictionary": true,
+      "external_spec_references": [],
+      "notes": "7 fields documented with descriptions. Column numbering in PDF has an error (column 3 listed twice)."
+    },
+    {
+      "name": "Scanned Records",
+      "format": "CDA XML (Base64-encoded documents)",
+      "description": "All patient scanned and uploaded documents, encoded using Base64 within CDA XML files.",
+      "file_pattern": "PID_INTERNALNUMBERING_Echart.xml",
+      "fields": [],
+      "field_count": 0,
+      "has_product_specific_dictionary": false,
+      "external_spec_references": [
+        "https://www.hl7.org/implement/standards/product_brief.cfm?product_id=447",
+        "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1380194/"
+      ],
+      "notes": "Base64-encoded scanned documents wrapped in CDA XML. No field-level documentation."
+    }
+  ]
+}
