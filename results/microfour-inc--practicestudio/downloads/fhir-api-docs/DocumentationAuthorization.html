@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title>DocumentationAuthorization - PracticeStudio FHIR Authenticator</title>
+    <link href="/Content/css" rel="stylesheet"/>
+
+    <script src="/bundles/modernizr?v=inCVuEFe6J4Q07A0AcRsbJic_UE5MwpRMNGcOtk94TE1"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,400i,500" rel="stylesheet">
+    <link href="/Content/socicon.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/Content/entypo.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/Content/theme.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/Content/custom.css" rel="stylesheet" type="text/css" media="all" />
+</head>
+<body>
+    <div class="navbar-container">
+    </div>
+    <div class="main-container">
+        
+
+
+
+
+<head>
+    <style>
+        pre.codeLanguage {
+            background: #272822;
+            padding: 1em;
+            overflow: auto;
+            margin: 0.5em 0;
+            border-radius: 0.3em;
+        }
+    </style>
+</head>
+
+<div class="main-container">
+    <section class="bg-primary text-light p-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <div class="space-lg pb-0">
+                        <h1 class="display-4">
+
+                            <img alt="Image" src="/Content/Images/Logo_64.png" />
+                            Authorization
+                        </h1>
+                        <span class="lead">
+                            Using OAuth 2.0 for Authorization.
+                        </span>
+                    </div>
+                </div>
+                <!--end of col-->
+            </div>
+            <!--end of row-->
+        </div>
+        <!--end of container-->
+        <svg class="decorative-divider" preserveAspectRatio="none" viewbox="0 0 100 100">
+            <polygon fill="#F8F9FB" points="0 100 100 100 100 0"></polygon>
+        </svg>
+    </section>
+    <!--end of section-->
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-2 mb-5">
+                    <nav class="nav flex-md-column">
+                        <a class="nav-link">Changelog <span class="badge badge-secondary">v20.22.0.x</span></a>
+                    </nav>
+                    <hr class="short">
+                    <nav class="nav flex-md-column mb-2">
+
+                        <a href="/Fhir/Documentation" class="nav-link">Getting Started</a>
+
+                        <a href="/Fhir/DocumentationAuthorization" class="active nav-link">Authorization</a>
+
+                        <a href="/Fhir/DocumentationAllergyIntolerance" class="nav-link">Allergy Intolerance</a>
+
+                        <a href="/Fhir/DocumentationCarePlan" class="nav-link">Care Plan</a>
+
+                        <a href="/Fhir/DocumentationCareTeam" class="nav-link">Care Team</a>
+
+                        <a href="/Fhir/DocumentationCondition" class="nav-link">Condition</a>
+
+                        <a href="/Fhir/DocumentationDiagnosticReport" class="nav-link">Diagnostic Report</a>
+
+                        <a href="/Fhir/DocumentationDocumentReference" class="nav-link">Document Reference</a>
+
+                        <a href="/Fhir/DocumentationEncounter" class="nav-link">Encounter</a>
+
+                        <a href="/Fhir/DocumentationGoals" class="nav-link">Goals</a>
+
+                        <a href="/Fhir/DocumentationImmunization" class="nav-link">Immunization</a>
+
+                        <a href="/Fhir/DocumentationMedication" class="nav-link">Medication</a>
+
+                        <a href="/Fhir/DocumentationObservation" class="nav-link">Observation</a>
+
+                        <a href="/Fhir/DocumentationOrganization" class="nav-link">Organization</a>
+
+                        <a href="/Fhir/DocumentationPatient" class="nav-link">Patient</a>
+
+                        <a href="/Fhir/DocumentationPractitioner" class="nav-link">Practitioner</a>
+
+                        <a href="/Fhir/DocumentationProcedure" class="nav-link">Procedure</a>
+
+                        <a href="/Fhir/DocumentationProvenance" class="nav-link">Provenance</a>
+                    </nav>
+
+                </div>
+                <!--end of col-->
+                <div class="col-12 col-md-8">
+
+                    <article id="authorization">
+                        <h3>
+                            <p>Authorization</p>
+                        </h3>
+                        <div>
+                            <p>
+                                The application will need to follow OAuth 2.0 protocols for authentication. You will need to follow the below instructions to receive
+                                an authorization code and a token.
+                            </p>
+
+                        </div>
+                    </article>
+
+                    <article id="authCode">
+                        <h3>
+                            <p>Getting an Authorization Code</p>
+                        </h3>
+                        <div>
+                            <p>A POST request to the following end point.</p>
+                            <pre class="codeLanguage"><code class="language-bash">POST: 'https://api.practicestudio.net/patientportal/fhir/authorize'</code></pre>
+                            <p>The authorization server will ensure that the user can log into the patient portal. A response will be returned containing the authorization code and state. See example response:</p>
+                            <pre class="codeLanguage"><code class="language-bash">RESPONSE: 'https://example.net/example/redirect?code=cc5a8ff74b374bc989a9e5c6fe0582cc&state=23e9e993-d703-432e-8572-3c76080fca35'</code></pre>
+                            <p>The authorization code can then be exchanged for an access token.</p>
+                        </div>
+                    </article>
+
+
+                    <article id="accessToken">
+                        <h3>
+                            <p>Getting an Access Token</p>
+                        </h3>
+                        <div>
+                            <p>A POST request to the following end point.</p>
+                            <pre class="codeLanguage"><code class="language-bash">POST: 'https://api.practicestudio.net/patientportal/fhir/token' <br /> header: 'Authorization: Basic base64({client_id}:{client_secret})' <br /> header: 'Content-Type: application/x-www-form-urlencoded'<br /> body: 'code={authorization code}'<br /> body: 'grant_type=authorization_code'<br /> body: 'redirect_uri={redirect_uri}'</code></pre>
+                            <p>Example JSON Response from authorization server:</p>
+                            <pre class="codeLanguage"><code class="language-bash">{<br /> "access_token": "09d7f206933e46a1b141a02817be5e1c",<br /> "token_type": "bearer", <br /> "expires_in": "1799",<br /> "refresh_token": "2de33753-680a-4b3c-98b6-48d99f0402e5",<br /> "scope": "launch/patient openid fhirUser offline_access patient/Medication.read patient/AllergyIntolerance.read patient/CarePlan.read patient/CareTeam.read patient/Condition.read patient/Device.read patient/DiagnosticReport.read patient/DocumentReference.read patient/Encounter.read patient/Goal.read patient/Immunization.read patient/Location.read patient/MedicationRequest.read patient/Observation.read patient/Organization.read patient/Patient.read patient/Practitioner.read patient/Procedure.read patient/Provenance.read patient/PractitionerRole.read patient/ServiceRequest.read patient/Coverage.read patient/MedicationDispense.read",<br /> "patient": "000034",<br /> "smart_style_url": "https://downloads.practicestudio.net/SmartStyle/smart_v1.json",<br /> "need_patient_banner": "false",<br /> "id_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYXR0am9yZGFuaWxlckBob3RtYWlsLmNvbSIsImZoaXJVc2VyIjoiYXBpLnByYWN0aWNlc3R1ZGlvLm5ldC9wYXRpZW50cG9ydGFsL2ZoaXIvUGF0aWVudC8wMDAwMzQiLCJleHAiOjE2NjA4MzMxMTYsImlhdCI6MTY2MDIyODMxNiwiaXNzIjoiaHR0cHM6Ly9hcGkucHJhY3RpY2VzdHVkaW8ubmV0L3BhdGllbnRwb3J0YWwvZmhpciIsImF1ZCI6InRlc3QifQ.jKWxxXvVwnR5R1fg8NbcTXmpBC_P31FvTMiAx5bFiB00nmVn9-lUyihHgO6PSl_-avEqqpCtBJERjmR9kz--wAoxOAx5y0Bxt4hpjLm2qGP_OV-k7mh8VrT4GL2WMsfnhCvWRy24KY2XI2ZCvpBeAqT6jRBN7BbwMTEI96XoAO6pc3ZFyysszHbt1Z1RlrimgNNOneQEemF-U4Ke955RBvnq2DxsFJrxCFA2X-kpx3nrvzXJJ_005FvL8t_BCSInD6AqEPSFHR7Ta9aCD_aAkbU0W8nlRF9dqV_oB5fEreD5hwVgT9zUgwnaaqI6k0yDtg8QTQRTuJE8L5AXc796lw"<br />}</code></pre>
+                        </div>
+                    </article>
+
+                    <article id="refreshToken">
+                        <h3>
+                            <p>Getting a Refresh Token</p>
+                        </h3>
+                        <div>
+                            <p>A POST request to the following end point.</p>
+                            <pre class="codeLanguage"><code class="language-bash">POST: 'https://api.practicestudio.net/patientportal/fhir/token' <br /> header: 'Authorization: Basic base64({client_id}:{client_secret})' <br /> header: 'Content-Type: application/x-www-form-urlencoded'<br /> body: 'refresh_token={refresh token}'<br /> body: 'grant_type=refresh_token'</code></pre>
+                            <p>Example JSON Response from authorization server:</p>
+                            <pre class="codeLanguage"><code class="language-bash">{<br /> "access_token": "4d94e5eed44b4e8b830d0315d76f901",<br /> "token_type": "bearer", <br /> "expires_in": "1799",<br /> "refresh_token": "fb4fd155-05ef-4be9-bd03-88f7ff1af0d8",<br /> "scope": "launch/patient openid fhirUser offline_access patient/Medication.read patient/AllergyIntolerance.read patient/CarePlan.read patient/CareTeam.read patient/Condition.read patient/Device.read patient/DiagnosticReport.read patient/DocumentReference.read patient/Encounter.read patient/Goal.read patient/Immunization.read patient/Location.read patient/MedicationRequest.read patient/Observation.read patient/Organization.read patient/Patient.read patient/Practitioner.read patient/Procedure.read patient/Provenance.read patient/PractitionerRole.read patient/ServiceRequest.read patient/Coverage.read patient/MedicationDispense.read",<br /> "patient": "000034",<br /> "smart_style_url": "https://downloads.practicestudio.net/SmartStyle/smart_v1.json",<br /> "need_patient_banner": "false",<br /> "id_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYXR0am9yZGFuaWxlckBob3RtYWlsLmNvbSIsImZoaXJVc2VyIjoiYXBpLnByYWN0aWNlc3R1ZGlvLm5ldC9wYXRpZW50cG9ydGFsL2ZoaXIvUGF0aWVudC8wMDAwMzQiLCJleHAiOjE2NjA4MzMxMTYsImlhdCI6MTY2MDIyODMxNiwiaXNzIjoiaHR0cHM6Ly9hcGkucHJhY3RpY2VzdHVkaW8ubmV0L3BhdGllbnRwb3J0YWwvZmhpciIsImF1ZCI6InRlc3QifQ.jKWxxXvVwnR5R1fg8NbcTXmpBC_P31FvTMiAx5bFiB00nmVn9-lUyihHgO6PSl_-avEqqpCtBJERjmR9kz--wAoxOAx5y0Bxt4hpjLm2qGP_OV-k7mh8VrT4GL2WMsfnhCvWRy24KY2XI2ZCvpBeAqT6jRBN7BbwMTEI96XoAO6pc3ZFyysszHbt1Z1RlrimgNNOneQEemF-U4Ke955RBvnq2DxsFJrxCFA2X-kpx3nrvzXJJ_005FvL8t_BCSInD6AqEPSFHR7Ta9aCD_aAkbU0W8nlRF9dqV_oB5fEreD5hwVgT9zUgwnaaqI6k0yDtg8QTQRTuJE8L5AXc796lw"<br />}</code></pre>
+                        </div>
+                    </article>
+
+
+                </div>
+                <div class="col">
+                    <nav id="nav-components" class="nav flex-md-column" data-sticky="below-nav">
+
+                        <a data-smooth-scroll href="#authorization" class="nav-link text-small">Authorization</a>
+
+                        <a data-smooth-scroll href="#authCode" class="nav-link text-small">Getting an Authorization Code</a>
+
+                        <a data-smooth-scroll href="#accessToken" class="nav-link text-small">Getting an Access Token</a>
+
+                        <a data-smooth-scroll href="#refreshToken" class="nav-link text-small">Getting a Refresh Token</a>
+
+                    </nav>
+                </div>
+            </div>
+            <!--end of row-->
+        </div>
+        <!--end of container-->
+    </section>
+    <!--end of section-->
+    <!--end of section-->
+
+</div>
+
+
+    </div>
+
+
+    
+
+    <!-- Required vendor scripts (Do not remove) -->
+    <script type="text/javascript" src="/Scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="/Scripts/popper.min.js"></script>
+    <script type="text/javascript" src="/Scripts/bootstrap.js"></script>
+
+    <!-- Optional Vendor Scripts (Remove the plugin script here and comment initializer script out of index.js if site does not use that feature) -->
+    <!-- AOS (Animate On Scroll - animates elements into view while scrolling down) -->
+    <!--<script type="text/javascript" src="~/Scripts/aos.js"></script>-->
+    <!-- Flatpickr (calendar/date/time picker UI) -->
+    <!--<script type="text/javascript" src="~/Scripts/flatpickr.min.js"></script>-->
+    <!-- Flickity (handles touch enabled carousels and sliders) -->
+    <!--<script type="text/javascript" src="~/Scripts/flickity.pkgd.min.js"></script>-->
+    <!-- jarallax (parallax effect and video backgrounds) -->
+    <!--<script type="text/javascript" src="~/Scripts/jarallax.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jarallax-video.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jarallax-element.min.js"></script>-->
+    <!-- ScrollMonitor (manages events for elements scrolling in and out of view) -->
+    <!--<script type="text/javascript" src="~/Scripts/scrollMonitor.js"></script>-->
+    <!-- jQuery smartWizard facilitates steppable wizard content -->
+    <!--<script type="text/javascript" src="~/Scripts/jquery.smartWizard.min.js"></script>-->
+    <!-- Smooth scroll (animation to links in-page)-->
+    <!--<script type="text/javascript" src="~/Scripts/smooth-scroll.polyfills.min.js"></script>-->
+    <!-- Prism (displays formatted code boxes) -->
+    <!--<script type="text/javascript" src="~/Scripts/prism.js"></script>
+    <script type="text/javascript" src="~/Scripts/zoom.min.js"></script>-->
+
+    <!-- Required theme scripts (Do not remove) -->
+    <script type="text/javascript" src="/Scripts/theme.js"></script>
+
+    
+</body>
+</html>

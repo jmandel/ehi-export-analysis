@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title>DocumentationObservation - PracticeStudio FHIR Authenticator</title>
+    <link href="/Content/css" rel="stylesheet"/>
+
+    <script src="/bundles/modernizr?v=inCVuEFe6J4Q07A0AcRsbJic_UE5MwpRMNGcOtk94TE1"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,400i,500" rel="stylesheet">
+    <link href="/Content/socicon.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/Content/entypo.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/Content/theme.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/Content/custom.css" rel="stylesheet" type="text/css" media="all" />
+</head>
+<body>
+    <div class="navbar-container">
+    </div>
+    <div class="main-container">
+        
+
+
+
+<head>
+    <style>
+        pre.codeLanguage {
+            background: #272822;
+            padding: 1em;
+            overflow: auto;
+            margin: 0.5em 0;
+            border-radius: 0.3em;
+        }
+    </style>
+</head>
+
+<div class="main-container">
+    <section class="bg-primary text-light p-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <div class="space-lg pb-0">
+                        <h1 class="display-4">
+
+                            <img alt="Image" src="/Content/Images/Logo_64.png" />
+                            Observation
+                        </h1>
+                        <span class="lead">
+                            Observation requests and examples
+                        </span>
+                    </div>
+                </div>
+                <!--end of col-->
+            </div>
+            <!--end of row-->
+        </div>
+        <!--end of container-->
+        <svg class="decorative-divider" preserveAspectRatio="none" viewbox="0 0 100 100">
+            <polygon fill="#F8F9FB" points="0 100 100 100 100 0"></polygon>
+        </svg>
+    </section>
+    <!--end of section-->
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-2 mb-5">
+                    <nav class="nav flex-md-column">
+                        <a class="nav-link">Changelog <span class="badge badge-secondary">v20.22.0.x</span></a>
+                    </nav>
+                    <hr class="short">
+                    <nav class="nav flex-md-column mb-2">
+
+                        <a href="/Fhir/Documentation" class="nav-link">Getting Started</a>
+
+                        <a href="/Fhir/DocumentationAuthorization" class="nav-link">Authorization</a>
+
+                        <a href="/Fhir/DocumentationAllergyIntolerance" class="nav-link">Allergy Intolerance</a>
+
+                        <a href="/Fhir/DocumentationCarePlan" class="nav-link">Care Plan</a>
+
+                        <a href="/Fhir/DocumentationCareTeam" class="nav-link">Care Team</a>
+
+                        <a href="/Fhir/DocumentationCondition" class="nav-link">Condition</a>
+
+                        <a href="/Fhir/DocumentationDiagnosticReport" class="nav-link">Diagnostic Report</a>
+
+                        <a href="/Fhir/DocumentationDocumentReference" class="nav-link">Document Reference</a>
+
+                        <a href="/Fhir/DocumentationEncounter" class="nav-link">Encounter</a>
+
+                        <a href="/Fhir/DocumentationGoals" class="nav-link">Goals</a>
+
+                        <a href="/Fhir/DocumentationImmunization" class="nav-link">Immunization</a>
+
+                        <a href="/Fhir/DocumentationMedication" class="nav-link">Medication</a>
+
+                        <a href="/Fhir/DocumentationObservation" class="active nav-link">Observation</a>
+
+                        <a href="/Fhir/DocumentationOrganization" class="nav-link">Organization</a>
+
+                        <a href="/Fhir/DocumentationPatient" class="nav-link">Patient</a>
+
+                        <a href="/Fhir/DocumentationPractitioner" class="nav-link">Practitioner</a>
+
+                        <a href="/Fhir/DocumentationProcedure" class="nav-link">Procedure</a>
+
+                        <a href="/Fhir/DocumentationProvenance" class="nav-link">Provenance</a>
+                    </nav>
+
+                </div>
+                <!--end of col-->
+                <div class="col-12 col-md-8">
+
+                    <article id="terminology">
+                        <h3>
+                            <p>Terminology Bindings</p>
+                        </h3>
+                        <div>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Terminology</th>
+                                        <th scope="col">Detail</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row"><a href="https://hl7.org/fhir/R4/observation-definitions.html#Observation.category">Observation.category</a></th>
+                                        <td>A code that classifies the general type of observation being made.</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><a href="https://hl7.org/fhir/R4/observation-definitions.html#Observation.code">Observation.code</a></th>
+                                        <td>Describes what was observed. Sometimes this is called the observation "name".</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><a href="https://hl7.org/fhir/R4/observation-definitions.html#Observation.component">Observation.component</a></th>
+                                        <td>Some observations have multiple component observations.</td>
+                                    </tr>
+                            </table>
+                        </div>
+                    </article>
+
+                    <article id="parms">
+                        <h3>
+                            <p>Parameters</p>
+                        </h3>
+                        <div>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Parameter</th>
+                                        <th scope="col">Is Required</th>
+                                        <th scope="col">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Id</th>
+                                        <td>This, or patient.</td>
+                                        <td>The logical resource ID associated with the resource.</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">patient</th>
+                                        <td>This plus code, or ID</td>
+                                        <td>The patient who has the immunization.</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">code</th>
+                                        <td>This plus patient</td>
+                                        <td>The observations code. Example: <i>code=72166-2</i></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">category</th>
+                                        <td>This plus patient</td>
+                                        <td>The observations report's category</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">date</th>
+                                        <td>No</td>
+                                        <td>Date range into which the observation falls. Example: <i>date=gt2014-09-24</i></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">_revinclude</th>
+                                        <td>No</td>
+                                        <td>A request to include any Provenance resource in the bundle.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </article>
+
+                    <article id="smokingStatusRequest">
+                        <h3>
+                            <p>Smoking Status Requests</p>
+                        </h3>
+                        <div>
+                            <p>Smoking Status by Patient and Code</p>
+                            <pre class="codeLanguage"><code class="language-bash">GET: 'https://api.practicestudio.net/patientportal/fhir/Observation?code=72166-2&patient={Patient_ID}'</code></pre>
+                        </div>
+
+                        <div>
+                            <p>Smoking Status by Resource ID</p>
+                            <pre class="codeLanguage"><code class="language-bash">GET: 'https://api.practicestudio.net/patientportal/fhir/Observation/SmokingStatus-{Resource_ID}'</code></pre>
+                        </div>
+                    </article>
+
+
+                    <article id="smokingStatusResponse">
+                        <h3>
+                            <p>Smoking Status Example Response</p>
+                        </h3>
+                        <div>
+                            <p>Example Smoking Status JSON Response:</p>
+                            <pre class="codeLanguage"><code class="language-json">
+{
+  "resourceType": "Bundle",
+  "meta": {
+    "lastUpdated": "2022-08-11T14:48:35.7522978-05:00"
+  },
+  "type": "searchset",
+  "total": 1,
+  "link": [
+    {
+      "relation": "self"
+    }
+  ],
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "SmokingStatus-10121698",
+        "meta": {
+          "lastUpdated": "0001-01-01T00:00:00-06:00",
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-smokingstatus"
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+            "valueCode": "unknown"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/observation-category",
+                "code": "social-history",
+                "display": "Social History",
+                "userSelected": false
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "72166-2",
+              "display": "Tobacco smoking status",
+              "userSelected": false
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/000034"
+        },
+        "issued": "2022-08-11T14:48:35.753299-05:00",
+        "valueCodeableConcept": {
+          "extension": [
+            {
+              "url": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+              "valueCode": "unknown"
+            }
+          ],
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                  "valueCode": "unknown"
+                }
+              ],
+              "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+              "code": "unknown",
+              "display": "Unknown",
+              "userSelected": false
+            }
+          ]
+        }
+      },
+      "search": {
+        "mode": "match",
+        "score": 1
+      }
+    }
+  ]
+}
+</code></pre>
+                        </div>
+                    </article>
+
+                    <article id="labRequest">
+                        <h3>
+                            <p>Lab Requests</p>
+                        </h3>
+                        <div>
+                            <p>Lab by Patient, Category, Date, and Code</p>
+                            <pre class="codeLanguage">
+<code class="language-bash">Patient and Category:
+ GET: 'https://api.practicestudio.net/patientportal/fhir/Observation?category=laboratory&patient={Patient_ID}'
+
+Patient, Category, and Date:
+ GET: 'https://api.practicestudio.net/patientportal/fhir/Observation?category=laboratory&date=2011-06-10&patient={Patient_ID}'
+
+Patient and Code:
+ GET: 'https://api.practicestudio.net/patientportal/fhir/Observation?code=UNK&patient={Patient_ID}'
+</code></pre>
+                        </div>
+
+                        <div>
+                            <p>Lab by Resource ID</p>
+                            <pre class="codeLanguage"><code class="language-bash">GET: 'https://api.practicestudio.net/patientportal/fhir/Observation/Lab-{Resource_ID}'
+</code></pre>
+                        </div>
+                    </article>
+
+
+                    <article id="labResponse">
+                        <h3>
+                            <p>Lab Example Response</p>
+                        </h3>
+                        <div>
+                            <p>Example Lab JSON Response:</p>
+                            <pre class="codeLanguage"><code class="language-json">
+{
+  "resourceType": "Bundle",
+  "meta": {
+    "lastUpdated": "2022-08-11T14:48:54.7349291-05:00"
+  },
+  "type": "searchset",
+  "total": 15,
+  "link": [
+    {
+      "relation": "self"
+    }
+  ],
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "Lab-10000114",
+        "meta": {
+          "lastUpdated": "0001-01-01T00:00:00-06:00",
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ]
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory",
+                "userSelected": false
+              }
+            ],
+            "text": "Laboratory"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/v3/NullFlavor",
+              "code": "UNK",
+              "display": "unknown",
+              "userSelected": false
+            }
+          ],
+          "text": "Hematocrit"
+        },
+        "subject": {
+          "reference": "Patient/000034"
+        },
+        "effectiveDateTime": "2011-06-10",
+        "valueQuantity": {
+          "value": 100,
+          "unit": "mg/dL",
+          "system": "http://unitsofmeasure.org",
+          "code": "mg/dL"
+        }
+      },
+      "search": {
+        "mode": "match",
+        "score": 1
+      }
+    }
+  ]
+}
+</code></pre>
+                        </div>
+                    </article>
+
+                    <article id="vitalsRequest">
+                        <h3>
+                            <p>Vitals Requests</p>
+                        </h3>
+                        <div>
+                            <p>Vitals by Patient</p>
+                            <pre class="codeLanguage">
+<code class="language-bash">GET: 'https://api.practicestudio.net/patientportal/fhir/Observation?category=vital-signs&patient={Patient_ID}'</code></pre>
+                        </div>
+                    </article>
+
+
+                    <article id="vitalsResponse">
+                        <h3>
+                            <p>Vitals Example Response</p>
+                        </h3>
+                        <div>
+                            <p>Example Vitals JSON Response:</p>
+                            <pre class="codeLanguage"><code class="language-json">
+{
+  "resourceType": "Bundle",
+  "meta": {
+    "lastUpdated": "2022-08-11T14:48:54.7349291-05:00"
+  },
+  "type": "searchset",
+  "total": 15,
+  "link": [
+    {
+      "relation": "self"
+    }
+  ],
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "Lab-10000114",
+        "meta": {
+          "lastUpdated": "0001-01-01T00:00:00-06:00",
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ]
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory",
+                "userSelected": false
+              }
+            ],
+            "text": "Laboratory"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/v3/NullFlavor",
+              "code": "UNK",
+              "display": "unknown",
+              "userSelected": false
+            }
+          ],
+          "text": "Hematocrit"
+        },
+        "subject": {
+          "reference": "Patient/000034"
+        },
+        "effectiveDateTime": "2011-06-10",
+        "valueQuantity": {
+          "value": 100,
+          "unit": "mg/dL",
+          "system": "http://unitsofmeasure.org",
+          "code": "mg/dL"
+        }
+      },
+      "search": {
+        "mode": "match",
+        "score": 1
+      }
+    }
+  ]
+}
+</code></pre>
+                        </div>
+                    </article>
+
+                </div>
+                <div class="col">
+                    <nav id="nav-components" class="nav flex-md-column" data-sticky="below-nav">
+
+                        <a data-smooth-scroll href="#terminology" class="nav-link text-small">Terminology</a>
+
+                        <a data-smooth-scroll href="#parms" class="nav-link text-small">Parameters</a>
+
+                        <a data-smooth-scroll href="#smokingStatusRequest" class="nav-link text-small">Smoking Status Requests</a>
+
+                        <a data-smooth-scroll href="#smokingStatusResponse" class="nav-link text-small">Smoking Status Response</a>
+
+                        <a data-smooth-scroll href="#labRequest" class="nav-link text-small">Lab Requests</a>
+
+                        <a data-smooth-scroll href="#labResponse" class="nav-link text-small">Lab Response</a>
+
+                        <a data-smooth-scroll href="#vitalsRequest" class="nav-link text-small">Vitals Requests</a>
+
+                        <a data-smooth-scroll href="#vitalsResponse" class="nav-link text-small">Vitals Response</a>
+
+                    </nav>
+                </div>
+            </div>
+            <!--end of row-->
+        </div>
+        <!--end of container-->
+    </section>
+    <!--end of section-->
+    <!--end of section-->
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+
+    
+
+    <!-- Required vendor scripts (Do not remove) -->
+    <script type="text/javascript" src="/Scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="/Scripts/popper.min.js"></script>
+    <script type="text/javascript" src="/Scripts/bootstrap.js"></script>
+
+    <!-- Optional Vendor Scripts (Remove the plugin script here and comment initializer script out of index.js if site does not use that feature) -->
+    <!-- AOS (Animate On Scroll - animates elements into view while scrolling down) -->
+    <!--<script type="text/javascript" src="~/Scripts/aos.js"></script>-->
+    <!-- Flatpickr (calendar/date/time picker UI) -->
+    <!--<script type="text/javascript" src="~/Scripts/flatpickr.min.js"></script>-->
+    <!-- Flickity (handles touch enabled carousels and sliders) -->
+    <!--<script type="text/javascript" src="~/Scripts/flickity.pkgd.min.js"></script>-->
+    <!-- jarallax (parallax effect and video backgrounds) -->
+    <!--<script type="text/javascript" src="~/Scripts/jarallax.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jarallax-video.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jarallax-element.min.js"></script>-->
+    <!-- ScrollMonitor (manages events for elements scrolling in and out of view) -->
+    <!--<script type="text/javascript" src="~/Scripts/scrollMonitor.js"></script>-->
+    <!-- jQuery smartWizard facilitates steppable wizard content -->
+    <!--<script type="text/javascript" src="~/Scripts/jquery.smartWizard.min.js"></script>-->
+    <!-- Smooth scroll (animation to links in-page)-->
+    <!--<script type="text/javascript" src="~/Scripts/smooth-scroll.polyfills.min.js"></script>-->
+    <!-- Prism (displays formatted code boxes) -->
+    <!--<script type="text/javascript" src="~/Scripts/prism.js"></script>
+    <script type="text/javascript" src="~/Scripts/zoom.min.js"></script>-->
+
+    <!-- Required theme scripts (Do not remove) -->
+    <script type="text/javascript" src="/Scripts/theme.js"></script>
+
+    
+</body>
+</html>
