@@ -16,6 +16,8 @@ summary.
 as electronic protected health information (ePHI) to the extent it would be
 included in a
 [HIPAA Designated Record Set](https://www.hhs.gov/hipaa/for-professionals/faq/2042/what-personal-health-information-do-individuals/index.html).
+In other words, EHI is the subset of the Designated Record Set that a system
+**stores electronically** — which, for a modern EHR, is nearly everything.
 
 The **Designated Record Set** (defined at
 [45 CFR 164.501](https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-C/part-164/subpart-E/section-164.501))
@@ -36,7 +38,11 @@ Under HIPAA, patients have a
 to their full Designated Record Set — not just the subset of data that fits
 into standardized exchange formats like C-CDA or FHIR US Core. The ONC's
 (b)(10) regulation extends this principle to certified health IT: systems must
-be able to export EHI in a computable electronic format.
+be able to export EHI in a **computable electronic format** — meaning
+machine-readable data, not just a human-readable printout. ONC has
+[clarified](https://www.healthit.gov/wp-content/uploads/2023/02/b10_EHI_Export_Factsheet_FINAL.pdf)
+that if data is stored in structured form, converting it to an unstructured
+format like PDF does not satisfy the requirement.
 
 ### What EHI includes (and what it doesn't)
 

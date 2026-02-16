@@ -3,9 +3,9 @@
 ## Quick Start: Run the Collection Loop
 
 ```bash
-# 1. Generate family-expanded targets + phase files
-#    (first time, or after editing product-families.json)
-bun run scripts/expand-targets-by-family.ts
+# 1. Build family targets using bottom-up methodology
+#    (first time, or after editing url-group-merges.json)
+bun run scripts/build-phase-families.ts
 
 # 2. Start collection on phase 1 families (research + download)
 nohup env LLM_BACKEND=claude CLAUDE_MODEL=opus TIMEOUT=1800 STALE_TIMEOUT=300 \
@@ -23,10 +23,10 @@ already-completed targets.
 
 | File | Description | Families |
 |------|-------------|----------|
-| `work/phases/phase-1-comprehensive-ehrs.json` | CPOE + FHIR API (g)(10) — full EHRs | 217 |
-| `work/phases/phase-2-cpoe-no-fhir.json` | CPOE without FHIR API | 99 |
-| `work/phases/phase-3-other.json` | Everything else | 170 |
-| `work/family-targets.json` | All families combined | 486 |
+| `work/phases/phase-1-comprehensive-ehrs.json` | CPOE + FHIR API (g)(10) — full EHRs | 216 |
+| `work/phases/phase-2-cpoe-no-fhir.json` | CPOE without FHIR API | 107 |
+| `work/phases/phase-3-other.json` | Everything else | 212 |
+| `work/family-targets.json` | All families combined | 535 |
 
 ## Loop Flags
 
@@ -169,10 +169,36 @@ Options for `run-all-summaries.sh`:
 
 ## How It All Fits Together
 
+### Family generation (bottom-up methodology)
+
 ```
-work/targets.json          448 URL-level targets from CHPL
-        ↓  expand-targets-by-family.ts + work/product-families.json
-work/family-targets.json   486 per-family targets (one per product family)
+chpl-data/all-active-listings.json    696 CHPL product listings
+        ↓  Step 1: each product = own family
+        ↓  Step 2: merge by (developer, product_name, url) — version dedup
+        ↓  Step 3: apply work/url-group-merges.json — content-verified merges
+        ↓  scripts/build-phase-families.ts
+work/family-targets.json              535 per-family targets
+work/phases/phase-{N}-{slug}.json     per-phase target lists
+```
+
+**Step 1**: Every CHPL product matching a phase's criteria starts as its own family.
+**Step 2**: Products with the same developer + product name + EHI URL are merged
+(this is just version deduplication — "Product X v1" and "Product X v2" become one).
+**Step 3**: Products sharing a developer + URL but with *different* product names
+are candidates for merging. `url-group-merges.json` encodes decisions made by
+actually reading EHI documentation at each URL to determine whether products
+share an EHI approach (merge) or have distinct approaches (keep separate).
+
+Key files:
+- `scripts/naming.ts` — shared slugify + resultDirName (single source of truth)
+- `work/url-group-merges.json` — merge/no-merge rules with rationale
+- `scripts/build-phase-families.ts` — generates family targets
+- `scripts/migrate-family-names.sh` — one-time migration of old dir names
+
+### Collection and analysis pipeline
+
+```
+work/phases/phase-1-comprehensive-ehrs.json
         ↓  wiggum/loop.ts
 results/<vendor>--<family>/
   chpl-metadata.json       CHPL data filtered to this family
@@ -190,11 +216,18 @@ abstraction/<vendor>--<family>/
 
 ### Directory naming
 
-All dirs use `<vendor-slug>--<family-slug>`. Multi-product vendors are split by
-family per `work/product-families.json`. Single-product vendors get
-`<vendor>--<product>` automatically.
+All dirs use `<vendor-slug>--<family-slug>`. The slugification and dir-name
+logic live in `scripts/naming.ts` (single source of truth, used by both
+`build-phase-families.ts` and `wiggum/loop.ts`). Family names come from the
+bottom-up methodology: each product's CHPL name is the default family name,
+modified by merge rules in `url-group-merges.json` where products share an
+EHI approach.
 
-### Agent phases
+### Target ordering
+
+Targets are sorted by CHPL product count descending (big vendors first in the
+list). Use `--reverse` to process small single-product vendors first, deferring
+complex multi-product vendors (Epic, MEDITECH, etc.) to the end.
 
 | Phase | Prompt | Completion marker |
 |-------|--------|-------------------|
@@ -228,8 +261,8 @@ mkdir -p chpl-data && curl -sL \
 ./wiggum/00-fetch-export-urls.sh
 bun run scripts/build-metadata.ts
 
-# 3. Generate family-expanded targets + phase files
-bun run scripts/expand-targets-by-family.ts
+# 3. Build family targets using bottom-up methodology
+bun run scripts/build-phase-families.ts
 ```
 
 ## Refreshing When New Products Appear
@@ -248,12 +281,11 @@ mkdir -p chpl-data && curl -sL \
 ./wiggum/00-fetch-export-urls.sh
 bun run scripts/build-metadata.ts
 
-# 3. Review product-families.json for any new multi-product vendors
-#    New vendors with multiple products need family groupings added manually.
-#    Products not in any defined family trigger a WARNING — fix before running.
+# 3. Review url-group-merges.json for any new multi-product vendors
+#    sharing a URL. Investigate content to decide merge vs. keep separate.
 
-# 4. Regenerate family targets + phase files
-bun run scripts/expand-targets-by-family.ts
+# 4. Regenerate family targets
+bun run scripts/build-phase-families.ts
 
 # 5. Run the loop with --resume (skips already-collected families)
 ```

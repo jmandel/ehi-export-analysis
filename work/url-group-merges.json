@@ -1,0 +1,153 @@
+{
+  "_description": "Merge rules for Phase 1 product families that share an EHI export URL. Products sharing a URL start as separate families (step 2). This file encodes step 3 decisions: which to merge based on content investigation, and which to keep separate despite sharing a URL. Products NOT mentioned here remain as standalone families.",
+  "_methodology": "Each rule covers one (developer, URL) group. 'families' defines the merged groupings. Products listed together in one family share a documented EHI approach. Products in separate families have distinct approaches. If a product from the URL group is not listed in any family here, it stays as its own standalone family (i.e., no merge).",
+  "merges": [
+    {
+      "developer": "Altera Digital Health Inc.",
+      "url": "https://www.alterahealth.com/legal/onc-reg-compliance/",
+      "rationale": "EHI Export Documentation accordion has 5 separate product-level doc sets. Paragon EHR and Paragon Denali share one FHIR Capability Statement. Sunrise Acute, Ambulatory, and Hospital-based share one HTML tree export definition. TouchWorks has its own HTML tree definition (stays standalone since it's only 1 product).",
+      "families": [
+        {
+          "name": "Altera Paragon",
+          "products": ["Paragon® Denali", "Paragon® EHR"]
+        },
+        {
+          "name": "Altera Sunrise",
+          "products": ["Sunrise Acute Care", "Sunrise Acute Care for Hospital-based Providers", "Sunrise Ambulatory Care"]
+        }
+      ]
+    },
+    {
+      "developer": "E*HealthLine.com, Inc.",
+      "url": "http://ehealthline.com/dev/pdf/Electronic%20Health%20Information%20Export.pdf",
+      "rationale": "Single PDF document covers both products.",
+      "families": [
+        {
+          "name": "E*HealthLine EHR",
+          "products": ["Phoenix© Integrated Electronic Health Records", "CARE© Integrated Hospital Information Management System"]
+        }
+      ]
+    },
+    {
+      "developer": "Epic Systems Corporation",
+      "url": "https://open.epic.com/EHITables",
+      "rationale": "Single EHI Tables export with unified TSV schema covering all products.",
+      "families": [
+        {
+          "name": "Epic EHR",
+          "products": ["EpicCare Ambulatory Base", "EpicCare Inpatient Base"]
+        }
+      ]
+    },
+    {
+      "developer": "Medical Information Technology, Inc. (MEDITECH)",
+      "url": "https://home.meditech.com/en/d/restapiresources/pages/ehiexport.htm",
+      "rationale": "Single EHI export page documents 2 configurations that apply across all products depending on site deployment. Config 1 (eChart/FHIR/C-CDA) covers Expanse, 6.15, and some older platforms in acute mode. Config 2 (CSV/FHIR/C-CDA) covers older platforms. Both configs documented together as one vendor approach.",
+      "families": [
+        {
+          "name": "MEDITECH EHR",
+          "products": [
+            "MEDITECH Expanse 2.2 Core HCIS",
+            "MEDITECH Expanse 2.2 Ambulatory",
+            "MEDITECH Expanse 2.2 Emergency Department Management",
+            "MEDITECH Expanse 2.1 Core HCIS",
+            "MEDITECH Expanse 2.1 Ambulatory",
+            "MEDITECH Expanse Emergency Department Management",
+            "MEDITECH 6.1 Electronic Health Record Core HCIS",
+            "MEDITECH 6.1 Ambulatory Electronic Health Record",
+            "MEDITECH 6.1 Emergency Department Management",
+            "MEDITECH 6.0 Electronic Health Record Core HCIS",
+            "MEDITECH 6.0 Emergency Department Management",
+            "MEDITECH Client/Server Electronic Health Record Core HCIS",
+            "MEDITECH Client/Server Emergency Department Management",
+            "MEDITECH MAGIC Electronic Health Record Core HCIS",
+            "MEDITECH MAGIC HCA Electronic Health Record Core HCIS (without PatientKeeper)",
+            "MEDITECH MAGIC Emergency Department Management"
+          ]
+        }
+      ]
+    },
+    {
+      "developer": "Nextech",
+      "url": "https://www.nextech.com/hubfs/Nextech%20Select_NexCloud%20EHI%20Export%20Documentation.pdf",
+      "rationale": "Same product with and without NewCropRx prescribing add-on. Single shared PDF.",
+      "families": [
+        {
+          "name": "Nextech Select/NexCloud",
+          "products": ["Nextech Select and NexCloud", "Nextech Select and NexCloud with NewCropRx"]
+        }
+      ]
+    },
+    {
+      "developer": "PointClickCare Technologies Inc.",
+      "url": "https://ehi-export.pointclickcare.com/site/index.html?_ga=2.54104619.209929156.1701272387-",
+      "rationale": "Single FHIR R4 Implementation Guide. Background section mentions both products as V4 certified modules sharing the same export.",
+      "families": [
+        {
+          "name": "PointClickCare",
+          "products": ["PointClickCare", "EHR for Practice Groups"]
+        }
+      ]
+    },
+    {
+      "developer": "PracticeSuite, Inc.",
+      "url": "https://academy.practicesuite.com/%c2%a7-170-315b10-electronic-health-information-ehi-export/",
+      "rationale": "Single page describes one CCDA-based export approach. No product-specific differentiation.",
+      "families": [
+        {
+          "name": "PracticeSuite",
+          "products": ["PracticeSuite", "FreeChiro"]
+        }
+      ]
+    },
+    {
+      "developer": "athenahealth, Inc.",
+      "url": "https://docs.athenahealth.com/athenaone-dataexports/",
+      "rationale": "Both products are 'athenaClinicals' variants (one adds 'for Hospitals and Health Systems'). JS-rendered page could not be fully verified, but product name overlap and shared URL strongly suggest shared approach.",
+      "confidence": "high",
+      "families": [
+        {
+          "name": "athenaClinicals",
+          "products": ["athenaClinicals", "athenaClinicals for Hospitals and Health Systems"]
+        }
+      ]
+    },
+    {
+      "developer": "athenahealth, Inc.",
+      "url": "https://docs.mydata.athenahealth.com/fhir-r4/ehiexport.html#electronic-health-information-",
+      "rationale": "Page explicitly states 'athenaPractice and athenaFlow support the export of electronic health information (EHI)' and documents a shared FHIR R4 + custom resource approach.",
+      "families": [
+        {
+          "name": "athenaPractice/Flow",
+          "products": ["athenaPractice", "athenaFlow"]
+        }
+      ]
+    }
+  ],
+  "no_merge": [
+    {
+      "developer": "Azalea Health",
+      "url": "https://www.azaleahealth.com/resources/onc-certification/",
+      "products": ["Azalea EHR", "ChartAccess ®"],
+      "rationale": "Page shows separate product sections with separate certifications, costs, and RWT plans. No EHI-specific documentation visible on page to confirm shared approach. Keep separate."
+    },
+    {
+      "developer": "Netsmart Technologies",
+      "url": "https://www.ntst.com/lp/certifications",
+      "products": ["myAvatar Certified Edition", "myEvolv Certified Edition", "myUnity", "TheraOffice"],
+      "rationale": "Each product has its own EHI documentation subpage (/ehi-all-data-myavatar, /ehi-all-data-myevolv, /ehi-all-data-myunity, /ehi-all-data-theraoffice). Separate EHI approaches per product."
+    },
+    {
+      "developer": "NextGen Healthcare",
+      "url": "https://www.nextgen.com/sldkjljieo0935jljsrnfkl",
+      "products": ["NextGen Enterprise EHR", "NextGen Office"],
+      "rationale": "Page documents completely different approaches: Enterprise EHR has a native database dictionary with 200+ tables; Office exports CCDA+CSV+binary. Also lists Direct Messaging (CDA) and Mirth Connect (XML) but those are not Phase 1."
+    },
+    {
+      "developer": "Veradigm",
+      "url": "https://veradigm.com/legal/onc-reg-compliance/",
+      "products": ["Veradigm EHR", "Veradigm View"],
+      "rationale": "Separate EHI documentation sets: Veradigm EHR has a single PDF (v1); Veradigm View has versioned HTML documentation (up to v6). Completely different export approaches and documentation quality."
+    }
+  ]
+}

@@ -28,13 +28,7 @@ import { mkdirSync } from "node:fs";
 
 const ROOT = join(dirname(new URL(import.meta.url).pathname), "..");
 
-function slugify(name: string): string {
-  return name
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "")
-    .slice(0, 60);
-}
+import { slugify } from "./naming.ts";
 
 // Parse args
 let targetsPath = join(ROOT, "work", "targets.json");

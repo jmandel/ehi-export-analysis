@@ -42,8 +42,9 @@ const RESULTS_DIR = join(ROOT, "results");
 const PROMPTS_DIR = join(ROOT, "wiggum", "prompts");
 const LOOP_LOG = join(ROOT, "wiggum", "logs", "loop-exit.log");
 
-const LLM_BACKEND = process.env.LLM_BACKEND ?? "shelley";
+const LLM_BACKEND = process.env.LLM_BACKEND ?? "claude";
 const CLAUDE_MODEL = process.env.CLAUDE_MODEL ?? "opus";
+const COPILOT_MODEL = process.env.COPILOT_MODEL ?? "claude-opus-4.6-fast";
 const SHELLEY_SERVER = process.env.SHELLEY_SERVER ?? "http://localhost:9999";
 const SHELLEY_MODEL = process.env.SHELLEY_MODEL ?? "claude-opus-4.6";
 const SHELLEY_USER = process.env.SHELLEY_USER ?? "wiggum";
@@ -103,8 +104,9 @@ Options:
   --only <N>         Run only target index N
 
 Environment:
-  LLM_BACKEND        claude | shelley | gemini (default: shelley)
+  LLM_BACKEND        claude | copilot | shelley | gemini (default: claude)
   CLAUDE_MODEL       Model for claude backend (default: opus)
+  COPILOT_MODEL      Model for copilot backend (default: claude-opus-4.6-fast)
   SHELLEY_SERVER     Shelley server URL (default: http://localhost:9999)
   SHELLEY_MODEL      Shelley model (default: claude-opus-4.6)
   GEMINI_MODEL       Gemini model (default: gemini-3-pro-preview)
@@ -132,13 +134,7 @@ Environment:
 
 // ── Utilities ──────────────────────────────────────────────────────────────────
 
-function slugify(name: string): string {
-  return name
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "")
-    .slice(0, 60);
-}
+import { slugify, resultDirName } from "../scripts/naming.ts";
 
 function log(msg: string) {
   const ts = new Date().toISOString().replace("T", " ").slice(0, 19);
@@ -472,6 +468,8 @@ async function runLlm(
   switch (LLM_BACKEND) {
     case "claude":
       return runClaude(prompt, logFile, cwd, signal, touchLog);
+    case "copilot":
+      return runCopilot(prompt, logFile, cwd, signal, touchLog);
     case "shelley":
       return runShelley(prompt, logFile, cwd, signal);
     case "gemini":
@@ -532,6 +530,47 @@ async function runClaude(
       logFd.write(lineBuf + "\n");
       const formatted = formatClaudeStreamLine(lineBuf);
       if (formatted) process.stdout.write(formatted + "\n");
+    }
+  } finally {
+    logFd.end();
+  }
+
+  const exitCode = await proc.exited;
+  return exitCode;
+}
+
+async function runCopilot(
+  prompt: string,
+  logFile: string,
+  cwd: string,
+  signal: AbortSignal,
+  touchLog: () => void,
+): Promise<number> {
+  const browserHint = "\n\nNote: If you need to use a real browser environment (e.g., to render JS-heavy pages), read `chrome-devtools-mcp/skills/chrome-devtools/SKILL.md` for instructions.\n";
+  const fullPrompt = prompt + browserHint;
+  const proc = Bun.spawn(
+    ["copilot", "-p", fullPrompt, "--model", COPILOT_MODEL,
+     "--yolo", "--no-ask-user", "--no-color", "--no-auto-update"],
+    {
+      cwd,
+      stdout: "pipe",
+      stderr: "pipe",
+      signal,
+    },
+  );
+
+  const logFd = Bun.file(logFile).writer();
+  const reader = proc.stdout.getReader();
+  const decoder = new TextDecoder();
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const text = decoder.decode(value, { stream: true });
+      logFd.write(text);
+      process.stdout.write(text);
+      touchLog();
     }
   } finally {
     logFd.end();
@@ -650,10 +689,7 @@ async function runTarget(
   const focusVersion = target.focus_version ?? "";
 
   // Slug: <vendor>--<family>
-  let vendorSlug = slugify(target.developers[0]);
-  if (target.developers.length > 1) vendorSlug = `${vendorSlug}-and-others-${idx}`;
-  const familySlug = slugify(family);
-  const slug = `${vendorSlug}--${familySlug}`;
+  const slug = resultDirName(target, idx);
 
   const outputDir = join(RESULTS_DIR, slug);
 
@@ -771,6 +807,7 @@ async function main() {
   // Banner
   const modelLabel =
     LLM_BACKEND === "claude" ? `claude-${CLAUDE_MODEL}` :
+    LLM_BACKEND === "copilot" ? COPILOT_MODEL :
     LLM_BACKEND === "shelley" ? SHELLEY_MODEL :
     LLM_BACKEND === "gemini" ? GEMINI_MODEL :
     LLM_BACKEND;

@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML>
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+    <title>Security - Implementation Guide v25.0.0</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="author" content="http://hl7.org/fhir"/>
+
+    <link href="fhir.css" rel="stylesheet"/>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap-fhir.css" rel="stylesheet"/>
+
+    <!-- Project extras -->
+    <link href="assets/css/project.css" rel="stylesheet"/>
+    <link href="assets/css/pygments-manni.css" rel="stylesheet"/>
+    <link href="assets/css/jquery-ui.css" rel="stylesheet"/>
+  	<link href="assets/css/prism.css" rel="stylesheet" />
+  	<link href="assets/css/cqf.css" rel="stylesheet" />
+    <!-- Placeholder for child template CSS declarations -->
+ <link href="assets/css/myproject.css" rel="stylesheet"/>
+
+    <script type="text/javascript" src="fhir-table-scripts.js"> </script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Favicons -->
+    <link rel="fhir-logo" sizes="144x144" href="assets/ico/icon-fhir-144.png"/>
+    <link rel="fhir-logo" sizes="114x114" href="assets/ico/icon-fhir-114.png"/>
+    <link rel="fhir-logo" sizes="72x72" href="assets/ico/icon-fhir-72.png"/>
+    <link rel="fhir-logo" href="assets/ico/icon-fhir-57.png"/>
+    <link rel="shortcut icon" href="assets/ico/favicon.png"/>
+  </head>
+  <body onload="document.body.style.opacity='1'">
+
+	  <script src="assets/js/prism.js"></script>
+    <script type="text/javascript" src="assets/js/mermaid.js"></script>
+    <script type="text/javascript" src="assets/js/mermaid-init.js"></script>
+    <style type="text/css">h2{--heading-prefix:"8"}
+    h3,h4,h5,h6{--heading-prefix:"8"}</style>
+    <div id="segment-header" class="segment">  <!-- segment-header -->
+      <div class="container">  <!-- container -->
+
+        <!-- Placeholder for child template header declarations -->
+
+  <!-- <div id="family-nav">
+      <a id="family-logo" no-external="true" href=""><img height="27" alt="athenahealth" src="assets/images/athena-logo.png"/> </a>
+    </div> -->
+
+        <div id="ig-status">
+          <p><span style="font-size:12pt;font-weight:bold">Implementation Guide</span>
+            <br/>
+            <span style="display:inline-block;">25.0.0 - R4 APIs
+
+
+
+  
+
+
+            </span>
+          </p>
+        </div>
+      </div> <!-- /container -->
+    </div>  <!-- /segment-header -->
+
+    <div id="segment-navbar" class="segment">  <!-- segment-navbar -->
+      <div id="stripe"> </div>
+      <div class="container">  <!-- container -->
+        <!-- HEADER CONTENT -->
+
+        <nav class="navbar navbar-inverse">
+          <!--status-bar-->
+          <div class="container">
+            <button data-target=".navbar-inverse-collapse" class="navbar-toggle" data-toggle="collapse" type="button">
+              <span class="icon-bar"> </span>
+              <span class="icon-bar"> </span>
+              <span class="icon-bar"> </span>
+            </button>
+            <a class="navbar-brand hidden" href="http://hl7.org/fhir/R4/index.html">FHIR</a>
+            <div class="nav-collapse collapse navbar-inverse-collapse">
+              <ul xmlns="http://www.w3.org/1999/xhtml" class="nav navbar-nav">
+  <li><a href="index.html">Home</a></li>
+  <li><a href="toc.html">Table of Contents</a></li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">API Artifacts<b class="caret">
+      </b>
+    </a>
+    <ul class="dropdown-menu">
+		<li>
+        <a href="ehiexport.html">Electronic Health Information (EHI) Export<style="text-align: baseline"/></a>
+      </li>
+      <li>
+        <a href="operations.html">Operations<style="text-align: baseline"/></a>
+      </li>
+      <li>
+        <a href="security.html">Security</a>
+      </li>
+    </ul>
+  </li>
+  <li><a href="artifacts.html">Artifact Index</a></li>
+  <li><a href="restapi.html">RESTful API</a></li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">Support<b class="caret">
+      </b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a target="_blank" href="http://hl7.org/fhir/R4/index.html">FHIR Spec <img src="external.png" style="text-align: baseline"/></a>
+      </li>
+      <li>
+        <a href="downloads.html">Downloads</a>
+      </li>
+    </ul>
+  </li>
+</ul>      
+
+            </div>  <!-- /.nav-collapse -->
+          </div>  <!-- /.container -->
+        </nav>  <!-- /.navbar -->
+      <!-- /HEADER CONTENT -->
+      </div>  <!-- /container -->
+    </div>  <!-- /segment-navbar -->
+    <!--status-bar-->
+
+    <div id="segment-breadcrumb" class="segment">  <!-- segment-breadcrumb -->
+      <div class="container">  <!-- container -->
+        <ul class="breadcrumb">
+          <li><a href='toc.html'><b>Table of Contents</b></a></li><li><b>Security</b></li>
+
+        </ul>
+      </div>  <!-- /container -->
+    </div>  <!-- /segment-breadcrumb -->
+
+    <a name="top"> </a>
+    <div id="segment-content" class="segment">  <!-- segment-content -->
+      <div class="container">  <!-- container -->
+        <div class="row">
+          <div class="inner-wrapper">
+
+<style type="text/css">
+h2:before{color:silver;counter-increment:section;content:var(--heading-prefix) " ";}
+h3:before{color:silver;counter-increment:sub-section;content:var(--heading-prefix) "." counter(sub-section) " ";}
+h4:before{color:silver;counter-increment:composite;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) " ";}
+h5:before{color:silver;counter-increment:detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) " ";}
+h6:before{color:silver;counter-increment:more-detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) "." counter(more-detail)" ";}
+</style>
+<div class="col-12">
+  <!--ReleaseHeader--><p id="publish-box">Publish Box goes here</p><!--EndReleaseHeader-->
+  <h2>Security</h2>
+  
+  
+  
+  <div xmlns="http://www.w3.org/1999/xhtml"><div class="markdown-toc"><p>Contents:</p><ul><li><a href="#intro">Security</a></li><li><a href="#authentication">Authentication</a></li><li><a href="#staff_users">Provider and Staff User Authentication</a></li><li><a href="#patient-and-authorized-representative-user-authentication">Patient and Authorized Representative User Authentication</a></li><li><a href="#service_users"> Application Service Authentication  </a></li><li><a href="#authorization"> Authorization  </a></li><li><a href="#access_control"> Access Control  </a></li><li><a href="#audit"> Audit  </a></li><li><a href="#encryption"> Encryption  </a></li><li><a href="#credentials"> Obtaining Application Credentials  </a></li><li><a href="#sensitive_information_access"> Access to Sensitive Information  </a></li></ul></div>
+  <!-- The spaces between the open and close "a" tag are mandatory.  (Cuz HTML renderers are dumb...) -->
+  <a name="intro">  </a>
+      <h3>Security</h3>
+	        <p>
+             Security capabilities integrated in API Server include Authentication,
+             Authorization, Access Control, Auditing, and end-to-end encryption between applications
+            using the API services and the API Server.
+          </p>
+
+  <a name="authentication">  </a>
+		  <h3 id="authentication">Authentication</h3>
+          <p>The API Server supports end user authentication through integration with Microsoft Azure
+          Active Directory (AAD) services. Three classes of users are supported:</p>
+        <p>1. Providers and Staff</p>
+        <p>2. Patients and Authorized Representatives</p>
+        <p>3. Application Services</p>
+        <p>In addition to user authentication, applications using the APIs are also authenticated by
+          presenting their application identifier and an application secret to the API services
+          during the authorization process.</p>
+          
+	<a name="staff_users">  </a>	  
+            <h3 id="staff_users">Provider and Staff User Authentication</h3>
+            <p>Providers and staff can log in to a SMART on FHIR application that use the APIs
+            provided by the API Server using same login credentials as they would with either athenaPractice or
+            athenaFLow. These users are managed by the provider organization in their Business to Business
+            (B2B) AAD tenant. This method is intended to be used by applications which are
+            principally designed for use by providers and their staff, but can also be used by
+            applications designed for patient use.</p>
+
+  <a name="patient-and-authorized-representative-user-authentication">  </a>	  
+            <h3 id="patient-and-authorized-representative-user-authentication">Patient and Authorized Representative User Authentication</h3>
+            <p>Patients and their authorized representatives are granted access to use the APIs for a
+            given patients chart log using an Azure Active Directory Business to Consumer account
+            linked to their email address. They can log in to a SMART on FHIR application using the
+            email address authorized to access the chart using a singular Business to Consumer (B2C)
+            AAD tenant. This allows patients and their authorized
+            representatives to maintain a single user identity across multiple organizations using
+            the athenaPractice or athenaFLow product. Applications designed for patient access should account for the
+            case that a single individual may have access to records for more than one patient
+            within a given organization. For example, an individual may have access to his or her
+            own records, those of his or her children, and those of his or her spouse, parents or
+            other persons for whom he or she has been authorized to access. Applications should not
+            assume that an individual may only be accessing his or her own records.</p>
+
+<a name="service_users">  </a>	  
+<h3 id="service_users"> Application Service Authentication  </h3>
+          <p>Some applications log in to the API server directly to support their operations. The
+            API provides servers such as these the capability to use a single login to manage the
+            information they need to access through athenaPractice or athenaFlow with minimal application changes.
+            This method may be used by applications providing portal services, secure messaging,
+            patient facing registration or scheduling capabilities, et cetera.</p>
+
+<a name="authorization">  </a>	
+            <h3 id="authorization"> Authorization  </h3>
+        <p>Authorization services use the OAuth 2.0 protocol as defined by <a href="https://tools.ietf.org/html/rfc6749" target="_blank">RFC 6749 </a> . Users accessing the system as a
+          provider, staff, patient or authorized representatives are authorized via the <a href="https://docs.smarthealthit.org/authorization/" target="_blank">SMART on FHIR</a>  protocol. When the
+          user is authenticated as a provider, staff, patient or authorized representative, they
+          must provide authorization for the application to use APIs using the SMART on FHIR
+          Protocol. Only after the user authorizes access is access granted to the application
+          requesting API access. A successful authorization provides the application with a code it
+          can use for a preset period (usually an hour) before it must request a new code. If the
+          application fails to request a new code before expiration of the previous code, it must
+          request a new authorization from the user.</p>
+        <p>Service Applications are authorized by <a href="https://datatracker.ietf.org/doc/html/rfc6749#section-4.3" target="_blank">Resource Owner Password Credentials Grant</a> defined in OAuth 2.0. 
+        The authorization process for the application is handled offline by the provider organization. The following steps must be completed.</p>
+        <ul>
+        <li>Provider organization must create a login with the API Server User role enabling the application to be authorized to the system. The provider organization must share the credentials created for that service application user with the application developer/owner.</li>
+        <li>Service Application owner/developer must register the application at the <a href="https://mydata.athenahealth.com" target="_blank">Developer Portal</a> and safely store the assigned client id and client secret. </li>
+        <li>Service Application must be configured to use the client id, client secret, service application user and password.  All 4 of these items are required for successful authorization requests to the API Server.</li>
+        </ul>
+        <p>Authorization by <a href="https://datatracker.ietf.org/doc/html/rfc6749#section-4.4" target="_blank">Client Credentials Grant</a> has been deprecated and will be discontinued in the future.  The password credentials grant is more secure and enables API Server to include identity of the Service Application in audit logs.</p>	  
+
+<a name="access_control">  </a>	
+<h3 id="access_control"> Access Control  </h3>
+        <p>All access controls are managed using the athenaPractice or athenaFLow application. Individual provider or
+          staff users are granted API access only to those resources reflecting information they
+          otherwise have access to through using the athenaPractice or athenaFLow product. For example, a user that
+          has access to registration information in the product, but does not have access to chart
+          access will not be able to access resources in the patient chart such as medications,
+          conditions, allergies, vital signs or lab results, but will be able to view and possibly
+          change the resource associated with the patient.</p>
+        <p>Patient access controls are governed by the Patient role in athenaPractice or athenaFLow. When the API
+          server is first installed, this role is configured to allow patients to access only
+          certain APIs. For example, the user can read chart and practice management resources
+          associated with the patient, but will not be able to update or create new resources
+          associated with the patient chart. The default configuration for the patient role also
+          prohibits patient access to sensitive documents. Access controls can be changed by
+          updating the access for the Patient role in the athenaPractice or athenaFLow product. All patient or
+          authorized representative users are given the same access to each chart to for which they
+          are approved. One cannot grant or revoke access to specific capabilities for an individual
+          user at this time.</p>
+        <p>To create a service user and grant them access, the provider organization must create a
+          new user to athenaPractice or athenaFLow and assign them to the API Server User role. By default, these
+          users will be given the access associated with that role. Access permissions may be
+          granted or revoked for that specific user to provide more fine-grained access control,
+          allowing for example, one service user to access only practice management resources, and
+          another access to both practice management and clinical resources. </p>
+<div>
+<a name="any_user">  </a>	
+<h4 id="any_user"> Resources Available to Any User  </h4>
+          <p>All users can access the following resources. These resources can only be read, they
+            cannot be created or updated through the API Server. </p>
+          <ul>
+            <li><a href="">CapabilityStatement</a> </li>
+            <li><a href="StructureDefinition-athena-conceptmap-profile.html">ConceptMap</a> </li>
+            <li><a href="StructureDefinition-athena-list-profile.html">List</a></li>
+            <li><a href="StructureDefinition-athena-medication-profile.html">Medication</a> </li>
+            <li><a href="StructureDefinition-athena-namingsystem-profile.html">NamingSystem</a> </li>
+            <li><a href="">OperationDefinition</a> </li>
+            <li><a href="StructureDefinition-athena-valueset-profile.html">ValueSet</a> </li>
+          </ul>
+          <p>Access control requirements for each resource are described in more detail in the
+            overview for that resource.</p>
+
+<a name="chart_user">  </a>         
+<h4 id="chart_user"> Resources Requiring View Charts Permission to Read  </h4>
+          <p>The following resources require the View Charts permission in athenaPractice or athenaFLow:</p>
+          <ul>
+            <li>
+              <a href="StructureDefinition-athena-allergy-profile.html">AllergyIntolerance</a> 
+            </li>
+            <li>
+              <a href="StructureDefinition-athena-careplan-profile.html">CarePlan</a> 
+            </li>
+            <li>
+               <a href="StructureDefinition-athena-careteam-profile.html">CareTeam</a>
+            </li>
+            <li>
+              <a href="StructureDefinition-athena-condition-profile.html">Condition</a> 
+            </li>
+            <li>
+              <a href="StructureDefinition-athena-device-profile.html">Device</a> 
+            </li>
+            <li>
+              <a href="StructureDefinition-athena-documentref-profile.html">DocumentReference</a> 
+            </li>
+            <li>
+              <a href="StructureDefinition-athena-encounter-profile.html">Encounter</a> 
+            </li>
+            <li>
+              <a href="StructureDefinition-athena-familyhistory-profile.html">FamilyMemberHistory</a> 
+            </li>
+            <li>
+              <a href="StructureDefinition-athena-goal-profile.html">Goal</a> 
+            </li>
+            <li>
+              <a href="StructureDefinition-athena-immunization-profile.html">Immunization</a> 
+            </li>
+            <li>
+              <a href="StructureDefinition-athena-medicationadmin-profile.html">MedicationAdministration</a> 
+            </li>
+            <li>
+              <a href="ig-ge-medicationorder.html">MedicationOrder</a> 
+            </li>
+            <li>
+              <a href="StructureDefinition-athena-medstatement-profile.html">MedicationStatement</a> 
+            </li>
+            <li>
+              <a href="StructureDefinition-athena-organization-profile.html">Observation</a> 
+            </li>
+            <li>
+              <a href="StructureDefinition-athena-procedure-profile.html">Procedure</a> 
+            </li>
+            <li>
+              <a href="ig-ge-procedurerequest.html">ProcedureRequest</a> 
+            </li>
+            <li>
+              <a href="ig-ge-referralrequest.html">ReferralRequest</a> 
+            </li>
+            <li>
+              <a href="StructureDefinition-athena-servicerequest-profile.html">ServiceRequest</a>
+            </li>
+          </ul>
+
+<a name="registration_user">  </a>
+<h4 id="registration_user"> Resources Requiring Registration Permission  </h4>
+          <p>The following resources require the Registration permission in athenaPractice or View Patient
+            Registration permission in athenaFLow.</p>
+          <ul>
+            <li>
+              <a href="StructureDefinition-athena-coverage-profile.html">Coverage</a> 
+            </li>
+            <li>
+              <a href="StructureDefinition-athena-organization-profile.html">Organization</a> 
+            </li>
+            <li>
+              <a href="StructureDefinition-athena-patient-profile.html">Patient</a> 
+            </li>
+            <li>
+              <a href="StructureDefinition-athena-practitioner-profile.html">Practitioner</a> 
+            </li>
+            <li>
+              <a href="StructureDefinition-athena-practitionerrole-profile.html">PractitionerRole</a>
+            </li>
+            <li>
+              <a href="StructureDefinition-athena-relatedperson-profile.html">RelatedPerson</a> 
+            </li>
+          </ul>
+
+<a name="schedule_user">  </a>
+<h4 id="schedule_user"> Resources Requiring Schedule Permission  </h4>
+          <p>The following resources require the Schedule permission in athenaPractice and the View Patient Appointments permission in athenaFlow, Note: Schedule and Slot are supported by only athenaPractice.</p>
+          <ul>
+            <li>
+              <a href="StructureDefinition-athena-appointment-profile.html">Appointment</a> </li>
+            <li>
+              <a href="StructureDefinition-athena-schedule-profile.html">Schedule</a> </li>
+            <li>
+              <a href="StructureDefinition-athena-slot-profile.html">Slot</a> </li>
+          </ul> 
+
+<a name="other_user">  </a>
+<h4 id="other_user"> Other Permission Requirements  </h4>
+          <p>Access to the <a href="StructureDefinition-athena-location-profile.html">Location</a>  requires the permission View System Settings</p>
+          <p>Binary resources are used by other resources to store binary content (blobs). Access
+            to these resources is controlled by access to the controlling resource. For example, to
+            access the photograph referenced by the Patient resource, one must have access to the
+            Patient resource.</p>
+
+</div>
+<a name="audit">  </a>
+<h3 id="audit"> Audit  </h3>
+        <p>API accesses are audited in theathenaPracticeand athenaFLow audit logs, and are also recorded in the
+          Meaningful Use activity log for use with quality measures. The first access to each type
+          of resource for each authorization grant is recorded in the audit log during the period
+          over which the access code is valid. Audit information is available to authorized users
+          with System configuration permission via the <a href="StructureDefinition-athena-auditevent-profile.html">AuditEvent</a> 
+          resource.</p>
+
+<a name="encryption">  </a>
+<h3 id="encryption"> Encryption  </h3>
+        <p>When installed or updated, the API Server is configured to only allow access via
+          encrypted protocols. The API server requires that information access be encrypted using
+          <a href="https://tools.ietf.org/html/rfc5246" target="_blank">Transport Layer Security <img src="images/external.png" style="text-align: baseline"/></a>  version 1.1 or higher. TLS Version 1.2 is strongly recommended.</p> 
+
+<a name="credentials">  </a>
+<h3 id="credentials"> Obtaining Application Credentials  </h3>
+        <p>Prior to using the APIs, an application must first be configured with its application
+          credentials. Obtaining these credentials is a simple process that can be performed over
+          the web by accessing <a href="https://mydata.athenahealth.com" target="_blank">https://mydata.athenahealth.com <img src="images/external.png" style="text-align: baseline"/></a> . Two credentials are provided: The application
+          identifier, and the application secret. Both are stored in the form of a JSON Web Token
+          that has been digitally signed by a certificate owned by Athenahealth. The application
+          secret must be kept secure and should only be accessible to application developers. It
+          should not be embedded within the application directly, but may be stored in secure
+          storage on the system where the application itself is stored. This is to ensure that other
+          parties cannot create applications that masquerade as those of someone else.</p>
+
+<a name="sensitive_information_access">  </a>
+<h3 id="sensitive_information_access"> Access to Sensitive Information  </h3>
+        <p>Clinical resources can be marked as sensitive by identifying that the patient has a sensitive 
+          chart, or by including this information in a document that is configured to be a sensitive 
+          document.  These markings in the product database manifest themselves in FHIR Resources
+          as security tags.
+        </p>
+        <p>Resources for patients whose charts are marked as sensitive will include a security tag
+          containing the restricted (R) code from the HL7 Version 3 
+          <a href="https://hl7.org/fhir/R4/v3/Confidentiality/cs.html" target="_blank">Confidentiality</a>  vocabulary.  Resources for patients 
+          whose charts are not marked in this fashion will include a security tag using the normal (N) code
+          from that vocabulary.  The system will not show users restricted resources unless they have been
+          given access to sensitive charts.  There is no break glass capability.
+        </p>
+        <p>Resources created in the context of a sensitive document will include a security tag using a code
+        from a site specific vocabulary created from the confidential document type code list.  Users without
+        access to confidential documents of the specified type will not be able to access those restricted
+        resources.</p>
+        <p>Patient and authorized representative users will be assigned the security restrictions associated
+        with the 'Patient' role in athenaPractice and athenaFlow.  The initial product configuration does not grant access to 
+        any information marked as sensitive to patients or their authorized representatives (via senstive chart 
+        flags or confidential document types).  Organizations must determine what sensitive content will be 
+        available to these users after the API Server is installed.</p>                                
+</div>
+</div>
+        </div>  <!-- /inner-wrapper -->
+      </div>  <!-- /row -->
+    </div>  <!-- /container -->
+  </div>  <!-- /segment-content -->
+
+  <script type="text/javascript" src="assets/js/jquery.js"> </script>     <!-- note keep space here, otherwise it will be transformed to empty tag -> fails -->
+  <script type="text/javascript" src="assets/js/jquery-ui.min.js"> </script>
+
+  <script type="text/javascript" src="assets/js/window-hash.js"> </script>
+  <a name="bottom"> </a>
+  <div id="segment-footer" igtool="footer" class="segment">  <!-- segment-footer -->
+    <div class="container">  <!-- container -->
+
+      <div class="inner-wrapper">
+        <p>
+          IG &#169; 2022+ <a style="color:var(--footer-hyperlink-text-color)" href="http://athenahealth.com">athenahealth</a>.  Package athenahealth#25.0.0 based on <a style="color: var(--footer-hyperlink-text-color)" href="http://hl7.org/fhir/R4/">FHIR 4.0.1</a>. Generated <span title="Thu, Apr 10, 2025 10:06-0700">2025-04-10</span>
+          <br/>
+          <span style="color: var(--footer-highlight-text-color)">
+                      Links: <a style="color: var(--footer-hyperlink-text-color)" href="toc.html">Table of Contents</a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" href="qa.html">QA Report</a>
+                 
+                
+          </span>
+        </p>
+      </div>  <!-- /inner-wrapper -->
+    </div>  <!-- /container -->
+  </div>  <!-- /segment-footer -->
+  
+  <div id="segment-post-footer" class="segment hidden">  <!-- segment-post-footer -->
+    <div class="container">  <!-- container -->
+    </div>  <!-- /container -->
+  </div>  <!-- /segment-post-footer -->
+
+  <!-- JS and analytics only. -->
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script type="text/javascript" src="assets/js/bootstrap.min.js"> </script>
+  <script type="text/javascript" src="assets/js/respond.min.js"> </script>
+  <script type="text/javascript" src="assets/js/anchor.min.js"> </script>
+  <script type="text/javascript" src="assets/js/clipboard.min.js"> </script>
+  <script type="text/javascript" src="assets/js/clipboard-btn.js"> </script>
+  <script type="text/javascript" src="assets/js/anchor-hover.js"> </script>
+  <!-- Analytics Below
+  ================================================== -->
+  </body>
+</html>
+
