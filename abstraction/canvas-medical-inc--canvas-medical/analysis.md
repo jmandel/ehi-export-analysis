@@ -147,7 +147,7 @@ Canvas's EHI export includes 29 FHIR R4 resources covering clinical, financial, 
 | Care plans / goals | ✅ Covered | `CarePlan` (28), `Goal` (35) | Good |
 | Orders / referrals | ✅ Covered | `ServiceRequest` (33 fields) | Moderate — SDK has Referral (21 fields), ReferralReport (19), ReferralReview (13) with more tracking detail |
 | Insurance / coverage | ✅ Covered | `Coverage` (48), `CoverageEligibilityResponse` (34) | Good — 82 fields total; SDK Coverage page has 93 fields across 5 models |
-| Claims / billing | ⚠️ Partial | `Claim` (47 fields) | Product has deep billing: SDK has 12 claim models (210 fields) + 10 posting models (78 fields) = 288 fields. FHIR Claim captures claim structure but likely loses payment posting, remittance, adjustments, write-offs, transactor details |
+| Claims / billing | ⚠️ Partial | `Claim` (47 fields) | Product has deep billing: SDK has 28 billing/payment models with 376 fields. FHIR Claim captures claim structure but likely loses payment posting, remittance, adjustments, write-offs, transactor details |
 | Payments | ⚠️ Partial | No dedicated payment resource | SDK has PaymentCollection, BasePosting, CoveragePosting, PatientPosting, BulkPatientPosting, NewLineItemPayment, NewLineItemAdjustment, LineItemTransfer — 78 fields across 10 models. These are likely flattened into Claim or lost |
 | Consents / directives | ✅ Covered | `Consent` (29 fields) | Good — SDK has PatientConsent (9 fields) |
 | Patient communications | ✅ Covered | `Communication` (26 fields) | Moderate — SDK also has Message, Letter, BannerAlert models |
@@ -181,7 +181,7 @@ Canvas's EHI export includes 29 FHIR R4 resources covering clinical, financial, 
 
 **Axis 1 — Coverage breadth: Partial (strong)**
 
-Canvas's export covers 29 FHIR resources spanning clinical, financial, administrative, and communication domains. This goes meaningfully beyond USCDI — Claim, Appointment, Communication, Consent, CoverageEligibilityResponse, Media, MedicationStatement, and Task are all non-USCDI resources. The Claim resource with 47 fields demonstrates genuine billing coverage. However, the SDK reveals that Canvas internally stores 288 fields across 22 billing/payment models, while the FHIR export compresses this to a single 47-field Claim resource. Payment postings, remittance advices, line-item adjustments, write-offs, and transactor details — all present in the SDK — likely do not survive the FHIR mapping. Similarly, imaging detail (3 SDK models, 48 fields) is compressed into DiagnosticReport, and lab detail (8 models, 123 fields) into Observation/DiagnosticReport. The export covers ~60% of the internal data model's breadth meaningfully, which is strong for a FHIR-based export but not comprehensive.
+Canvas's export covers 29 FHIR resources spanning clinical, financial, administrative, and communication domains. This goes meaningfully beyond USCDI — Claim, Appointment, Communication, Consent, CoverageEligibilityResponse, Media, MedicationStatement, and Task are all non-USCDI resources. The Claim resource with 47 fields demonstrates genuine billing coverage. However, the SDK reveals that Canvas internally stores 376 fields across 28 billing/payment models, while the FHIR export compresses this to a single 47-field Claim resource. Payment postings, remittance advices, line-item adjustments, write-offs, and transactor details — all present in the SDK — likely do not survive the FHIR mapping. Similarly, imaging detail (3 SDK models, 48 fields) is compressed into DiagnosticReport, and lab detail (8 models, 123 fields) into Observation/DiagnosticReport. The export covers ~60% of the internal data model's breadth meaningfully, which is strong for a FHIR-based export but not comprehensive.
 
 **Axis 2 — Export approach: Purpose-built EHI export**
 
@@ -191,7 +191,7 @@ This is a purpose-built export, not a repackaged (g)(10) API. Evidence: (1) Canv
 
 1. **Purpose-built with billing coverage**: Canvas includes Claim, Coverage, and CoverageEligibilityResponse in the EHI export — genuine billing data that goes well beyond USCDI. The Claim resource includes line items, diagnosis codes, NDC codes, insurance references, and charges. This is not a repackaged clinical exchange.
 
-2. **SDK reveals deeper internal model**: Canvas's SDK documentation (134 models, 1,784 fields) shows the export compresses significant internal detail. Billing alone has 288 SDK fields mapped to 47 FHIR Claim fields. Payment posting/remittance (78 fields across 10 models) has no dedicated FHIR representation.
+2. **SDK reveals deeper internal model**: Canvas's SDK documentation (134 models, 1,784 fields) shows the export compresses significant internal detail. Billing alone has 376 SDK fields across 28 models mapped to 47 FHIR Claim fields. Payment posting/remittance (10 models, 78 fields) has no dedicated FHIR representation.
 
 3. **Strong documentation quality**: 98.7% of exported fields have descriptions, types are documented throughout, and Canvas-specific extensions are explained. The FHIR API pages are detailed and usable.
 
@@ -213,4 +213,4 @@ This is a purpose-built export, not a repackaged (g)(10) API. Evidence: (1) Canv
 
 ### Bottom Line
 
-Canvas Medical has built a genuine EHI export that goes meaningfully beyond USCDI, including billing claims, insurance coverage, appointments, communications, tasks, and consents — 8 resource types not required by standard clinical exchange. The export is well-documented (98.7% field descriptions) and uses standard FHIR R4 NDJSON format. The primary gap is depth in billing/payments: the SDK reveals 288 internal billing fields compressed to 47 in the FHIR Claim resource, meaning payment postings, remittance advices, and line-item adjustments likely lose fidelity in the export.
+Canvas Medical has built a genuine EHI export that goes meaningfully beyond USCDI, including billing claims, insurance coverage, appointments, communications, tasks, and consents — 8 resource types not required by standard clinical exchange. The export is well-documented (98.7% field descriptions) and uses standard FHIR R4 NDJSON format. The primary gap is depth in billing/payments: the SDK reveals 376 internal billing/payment fields across 28 models compressed to 47 in the FHIR Claim resource, meaning payment postings, remittance advices, and line-item adjustments likely lose fidelity in the export.
