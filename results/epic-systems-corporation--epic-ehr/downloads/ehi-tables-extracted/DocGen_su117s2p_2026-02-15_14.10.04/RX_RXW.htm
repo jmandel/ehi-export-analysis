@@ -1,0 +1,552 @@
+
+<!DOCTYPE html><HTML><HEAD>
+<META HTTP-EQUIV="X-UA-Compatible" CONTENT="IE=EDGE" />
+<LINK rel="stylesheet" href="CRStyleSheet.css"></LINK>
+</HEAD>
+<body id="theBody">
+<div id="oContextHTML" style="display: none;"></div>
+<div id="oContent">
+<table class="Header2"><tbody><tr><td>RX_RXW</td></tr></tbody></table>
+<table class="KeyValue"><tbody>
+<tr>
+<td width="10%" align="left" class="T1Head">Description: </td>
+<td class="T1Value" colspan="5">
+<table class="SubList"><tbody>
+<tr>
+<td class="T1Value" style="white-space: normal;">This table contains no add single response data for ambulatory pharmacy work requests. </td>
+</tr>
+<tr>
+<td class="T1Value" style="white-space: normal;"></td>
+</tr>
+<tr>
+<td class="T1Value" style="white-space: normal;">Each work request is associated with a set of fill requests. </td>
+</tr>
+<tr>
+<td class="T1Value" style="white-space: normal;"></td>
+</tr>
+<tr>
+<td class="T1Value" style="white-space: normal;">A fill request is a contact on the order record which contains information about the specific dispense of the attached order. The patient, the order, and the order DAT is stored on the order record of the work request, which also links the work request to its associated fill request. This value lives in table RX_RXW_ORDER_INFO. </td>
+</tr>
+<tr>
+<td class="T1Value" style="white-space: normal;"></td>
+</tr>
+<tr>
+<td class="T1Value" style="white-space: normal;">Each work request is also linked to a patient, for which the work request was originally created. Pickup priority and contact information is also stored in this record to assist in prescription filling and dispensing.</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+<br/>
+<table class="SubHeader3"><tbody><tr><td>Primary Key</td></tr></tbody></table>
+<table class="List"><tbody>
+<tr>
+<th>Column Name</th>
+<th>Ordinal Position</th>
+<th width="90%"/>
+</tr>
+<tr onmouseover="this.bgColor = '#FFFFD1'" onmouseout="this.bgColor='#FFFFFF'">
+<td>RECORD_ID</td>
+<td>1</td>
+<td width="90%"/>
+</tr>
+</tbody></table>
+<br/>
+<table class="SubHeader3"><tbody><tr><td>Column Information</td></tr></tbody></table>
+<table class="SubList List"><tbody>
+<tr>
+<th style="min-width: 0px;"/>
+<th>Name</th>
+<th>Type</th>
+<th>Discontinued?</th>
+<th width="90%"/>
+</tr>
+<tr>
+<td class="T1Head" style="padding: 5px;">1</td>
+<td class="T1Head" style="padding-right: 12px;">RECORD_ID</td>
+<td class="T1Head" style="padding-right: 12px;">NUMERIC</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr>
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> Work request ID. This is the primary key for the work request table.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td class="T1Head" style="padding: 5px;">2</td>
+<td class="T1Head" style="padding-right: 12px;">MASTER_PATIENT_ID</td>
+<td class="T1Head" style="padding-right: 12px;">VARCHAR</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The unique identifier for the main patient in a work request. Additional patients attached to the work request are reported in the RXW_ORDER_INFO table in association with the specific fill request for that patient. This column can be linked to the PATIENT table in order to report on any patient noadd information.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr>
+<td class="T1Head" style="padding: 5px;">3</td>
+<td class="T1Head" style="padding-right: 12px;">PLANNED_PICKUP_INST</td>
+<td class="T1Head" style="padding-right: 12px;">DATETIME (UTC) </td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr>
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The date and time the patient plans to pick up the fills associated with this work request. Used in conjunction with the fill priority to determine the overall priority of the work request for filling.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td class="T1Head" style="padding: 5px;">4</td>
+<td class="T1Head" style="padding-right: 12px;">WAITING_SINCE_DTTM</td>
+<td class="T1Head" style="padding-right: 12px;">DATETIME (UTC) </td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The instant when the work request was marked as waiting.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr>
+<td class="T1Head" style="padding: 5px;">5</td>
+<td class="T1Head" style="padding-right: 12px;">DELIVERY_METHOD_C_NAME</td>
+<td class="T1Head" style="padding-right: 12px;">VARCHAR</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr>
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The prescription delivery method for the work request. Pickup and mail order are two examples of this.</td>
+</tr>
+<tr>
+<td>May contain organization-specific values: Yes</td>
+</tr>
+<tr>
+<td> Category Entries: </td>
+</tr>
+<tr>
+<td style="padding-left: 100px;word-break: break-all;white-space: pre-wrap;overflow-wrap: anywhere;">Pickup</td>
+</tr>
+<tr>
+<td style="padding-left: 100px;word-break: break-all;white-space: pre-wrap;overflow-wrap: anywhere;">Mail</td>
+</tr>
+<tr>
+<td style="padding-left: 100px;word-break: break-all;white-space: pre-wrap;overflow-wrap: anywhere;">Courier</td>
+</tr>
+<tr>
+<td style="padding-left: 100px;word-break: break-all;white-space: pre-wrap;overflow-wrap: anywhere;">Room Delivery</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td class="T1Head" style="padding: 5px;">6</td>
+<td class="T1Head" style="padding-right: 12px;">DELIVERY_HOUSE_NUM</td>
+<td class="T1Head" style="padding-right: 12px;">VARCHAR</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The house number of the prescription delivery address.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr>
+<td class="T1Head" style="padding: 5px;">7</td>
+<td class="T1Head" style="padding-right: 12px;">DELIVERY_CITY</td>
+<td class="T1Head" style="padding-right: 12px;">VARCHAR</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr>
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The city of the prescription delivery address.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td class="T1Head" style="padding: 5px;">8</td>
+<td class="T1Head" style="padding-right: 12px;">DELIVERY_STATE_C_NAME</td>
+<td class="T1Head" style="padding-right: 12px;">VARCHAR</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The state of the prescription delivery address. </td>
+</tr>
+<tr>
+<td>May contain organization-specific values: Yes</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr>
+<td class="T1Head" style="padding: 5px;">9</td>
+<td class="T1Head" style="padding-right: 12px;">DELIVERY_ZIP</td>
+<td class="T1Head" style="padding-right: 12px;">VARCHAR</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr>
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The ZIP code of the prescription delivery address.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td class="T1Head" style="padding: 5px;">10</td>
+<td class="T1Head" style="padding-right: 12px;">DELIVERY_DIST_C_NAME</td>
+<td class="T1Head" style="padding-right: 12px;">VARCHAR</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The district of the prescription delivery address. </td>
+</tr>
+<tr>
+<td>May contain organization-specific values: Yes</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr>
+<td class="T1Head" style="padding: 5px;">11</td>
+<td class="T1Head" style="padding-right: 12px;">DELIVERY_COUNTY_C_NAME</td>
+<td class="T1Head" style="padding-right: 12px;">VARCHAR</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr>
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The county of the prescription delivery address. </td>
+</tr>
+<tr>
+<td>May contain organization-specific values: Yes</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td class="T1Head" style="padding: 5px;">12</td>
+<td class="T1Head" style="padding-right: 12px;">DELIVERY_COUNTRY_C_NAME</td>
+<td class="T1Head" style="padding-right: 12px;">VARCHAR</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The country of the prescription delivery address. </td>
+</tr>
+<tr>
+<td>May contain organization-specific values: Yes</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr>
+<td class="T1Head" style="padding: 5px;">13</td>
+<td class="T1Head" style="padding-right: 12px;">DELIVERY_ADDRTYP_C_NAME</td>
+<td class="T1Head" style="padding-right: 12px;">VARCHAR</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr>
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The type of address from the patient that is used for the prescription delivery address on the work request. For example, the patient's home address will commonly be used as the ship to address.</td>
+</tr>
+<tr>
+<td>May contain organization-specific values: No</td>
+</tr>
+<tr>
+<td> Category Entries: </td>
+</tr>
+<tr>
+<td style="padding-left: 100px;word-break: break-all;white-space: pre-wrap;overflow-wrap: anywhere;">Home Address</td>
+</tr>
+<tr>
+<td style="padding-left: 100px;word-break: break-all;white-space: pre-wrap;overflow-wrap: anywhere;">Temporary Address</td>
+</tr>
+<tr>
+<td style="padding-left: 100px;word-break: break-all;white-space: pre-wrap;overflow-wrap: anywhere;">Other Address</td>
+</tr>
+<tr>
+<td style="padding-left: 100px;word-break: break-all;white-space: pre-wrap;overflow-wrap: anywhere;">Single-Use Address</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td class="T1Head" style="padding: 5px;">14</td>
+<td class="T1Head" style="padding-right: 12px;">RX_PMT_GUARANTOR_ID</td>
+<td class="T1Head" style="padding-right: 12px;">NUMERIC</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> If Professional Billing integration is enabled, this contains the guarantor account associated with the sale of merchandise products.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr>
+<td class="T1Head" style="padding: 5px;">15</td>
+<td class="T1Head" style="padding-right: 12px;">DELIVERY_PAT_ENC_CSN_ID</td>
+<td class="T1Head" style="padding-right: 12px;">NUMERIC</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr>
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> This column contains the CSN of the patient encounter associated with a room delivery work request.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td class="T1Head" style="padding: 5px;">16</td>
+<td class="T1Head" style="padding-right: 12px;">DELIVERY_DEPARTMENT_ID_EXTERNAL_NAME</td>
+<td class="T1Head" style="padding-right: 12px;">VARCHAR</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The external name of the department record. This is often used in patient correspondence such as reminder letters.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr>
+<td class="T1Head" style="padding: 5px;">17</td>
+<td class="T1Head" style="padding-right: 12px;">DELIVERY_ROOM_RECORD_ID_ROOM_NAME</td>
+<td class="T1Head" style="padding-right: 12px;">VARCHAR</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr>
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The name of the Room record.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td class="T1Head" style="padding: 5px;">18</td>
+<td class="T1Head" style="padding-right: 12px;">DELIVERY_EXAM_ROOM_NUMBER</td>
+<td class="T1Head" style="padding-right: 12px;">VARCHAR</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The column contains the free-text room number that represents the exam room the patient occupied at the time of delivery of room delivery work request.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr>
+<td class="T1Head" style="padding: 5px;">19</td>
+<td class="T1Head" style="padding-right: 12px;">DELIVERY_BED_ID</td>
+<td class="T1Head" style="padding-right: 12px;">VARCHAR</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr>
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> This column contains the ADT bed (BED) record that represents the physical bed the patient occupied at the time of delivery of a room delivery work request.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td class="T1Head" style="padding: 5px;">20</td>
+<td class="T1Head" style="padding-right: 12px;">DELIVERY_BED_ID_BED_LABEL</td>
+<td class="T1Head" style="padding-right: 12px;">VARCHAR</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The name of the bed.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr>
+<td class="T1Head" style="padding: 5px;">21</td>
+<td class="T1Head" style="padding-right: 12px;">CREATION_USER_ID</td>
+<td class="T1Head" style="padding-right: 12px;">VARCHAR</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr>
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The user that created the work request.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td class="T1Head" style="padding: 5px;">22</td>
+<td class="T1Head" style="padding-right: 12px;">CREATION_USER_ID_NAME</td>
+<td class="T1Head" style="padding-right: 12px;">VARCHAR</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The name of the user record. This name may be hidden.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr>
+<td class="T1Head" style="padding: 5px;">23</td>
+<td class="T1Head" style="padding-right: 12px;">DELIVERY_TIMING_C_NAME</td>
+<td class="T1Head" style="padding-right: 12px;">VARCHAR</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr>
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> Describes when the work request should arrive at the patient if the delivery method is similar to mail or courier.</td>
+</tr>
+<tr>
+<td>May contain organization-specific values: No</td>
+</tr>
+<tr>
+<td> Category Entries: </td>
+</tr>
+<tr>
+<td style="padding-left: 100px;word-break: break-all;white-space: pre-wrap;overflow-wrap: anywhere;">Deliver By</td>
+</tr>
+<tr>
+<td style="padding-left: 100px;word-break: break-all;white-space: pre-wrap;overflow-wrap: anywhere;">Deliver On</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td class="T1Head" style="padding: 5px;">24</td>
+<td class="T1Head" style="padding-right: 12px;">RX_DELIVERY_DATE</td>
+<td class="T1Head" style="padding-right: 12px;">DATETIME</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The date when the shipment is to arrive at the patient's address.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr>
+<td class="T1Head" style="padding: 5px;">25</td>
+<td class="T1Head" style="padding-right: 12px;">OTHER_AMOUNT_TOTAL</td>
+<td class="T1Head" style="padding-right: 12px;">NUMERIC</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr>
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> This item contains the total amount due for other items in this dispense transaction.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+</tbody></table>
+<br/><br/>
+<br/><br/>
+</div></body></HTML>

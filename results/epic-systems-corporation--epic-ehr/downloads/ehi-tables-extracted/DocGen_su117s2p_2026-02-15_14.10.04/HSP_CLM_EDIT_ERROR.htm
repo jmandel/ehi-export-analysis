@@ -1,0 +1,343 @@
+
+<!DOCTYPE html><HTML><HEAD>
+<META HTTP-EQUIV="X-UA-Compatible" CONTENT="IE=EDGE" />
+<LINK rel="stylesheet" href="CRStyleSheet.css"></LINK>
+</HEAD>
+<body id="theBody">
+<div id="oContextHTML" style="display: none;"></div>
+<div id="oContent">
+<table class="Header2"><tbody><tr><td>HSP_CLM_EDIT_ERROR</td></tr></tbody></table>
+<table class="KeyValue"><tbody>
+<tr>
+<td width="10%" align="left" class="T1Head">Description: </td>
+<td class="T1Value" colspan="5">
+<table class="SubList"><tbody>
+<tr>
+<td class="T1Value" style="white-space: normal;">The HSP_CLM_EDIT_ERROR table contains information about your Hospital Billing claim edit errors. This table will have one row for each error that is on the claim print record (CLP) at the time of the extract. For each daily extract, the data will be appended on to the existing data in this table and this historical data will be preserved. So, if a claim had two errors and was in the claim error pool for three days, there will be six rows for that claim in this table (two rows for each of the three days that the claim had errors).</td>
+</tr>
+<tr>
+<td class="T1Value" style="white-space: normal;"></td>
+</tr>
+<tr>
+<td class="T1Value" style="white-space: normal;">The EXTRACT_DT column can be used to restrict your results to claim errors on a specific day. To see the errors in the claim error pool as of the last extract use EXTRACT_DT = today's date. This assumes the last extract for HSP_CLM_EDIT_ERROR was today.</td>
+</tr>
+<tr>
+<td class="T1Value" style="white-space: normal;"></td>
+</tr>
+<tr>
+<td class="T1Value" style="white-space: normal;">Historical data for this table cannot be rebuilt, so full extracts should not be performed on this table.</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+<br/>
+<table class="SubHeader3"><tbody><tr><td>Primary Key</td></tr></tbody></table>
+<table class="List"><tbody>
+<tr>
+<th>Column Name</th>
+<th>Ordinal Position</th>
+<th width="90%"/>
+</tr>
+<tr onmouseover="this.bgColor = '#FFFFD1'" onmouseout="this.bgColor='#FFFFFF'">
+<td>CLAIM_PRINT_ID</td>
+<td>1</td>
+<td width="90%"/>
+</tr>
+<tr onmouseover="this.bgColor = '#FFFFD1'" onmouseout="this.bgColor='#FFFFFF'">
+<td>EXTRACT_DT</td>
+<td>2</td>
+<td width="90%"/>
+</tr>
+<tr onmouseover="this.bgColor = '#FFFFD1'" onmouseout="this.bgColor='#FFFFFF'">
+<td>OVERALL_LINE</td>
+<td>3</td>
+<td width="90%"/>
+</tr>
+</tbody></table>
+<br/>
+<table class="SubHeader3"><tbody><tr><td>Column Information</td></tr></tbody></table>
+<table class="SubList List"><tbody>
+<tr>
+<th style="min-width: 0px;"/>
+<th>Name</th>
+<th>Type</th>
+<th>Discontinued?</th>
+<th width="90%"/>
+</tr>
+<tr>
+<td class="T1Head" style="padding: 5px;">1</td>
+<td class="T1Head" style="padding-right: 12px;">CLAIM_PRINT_ID</td>
+<td class="T1Head" style="padding-right: 12px;">NUMERIC</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr>
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The unique ID of the claim record that entered the claim edit workqueue.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td class="T1Head" style="padding: 5px;">2</td>
+<td class="T1Head" style="padding-right: 12px;">EXTRACT_DT</td>
+<td class="T1Head" style="padding-right: 12px;">DATETIME (Local) </td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The instant at which the extract occurred (date and time).</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr>
+<td class="T1Head" style="padding: 5px;">3</td>
+<td class="T1Head" style="padding-right: 12px;">OVERALL_LINE</td>
+<td class="T1Head" style="padding-right: 12px;">INTEGER</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr>
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> This column tracks the overall number of lines in the table for the CLP_ID for the date it was extracted. This produces a unique number for a single CLP_ID for a single extract date. This allows the selection of a single CLP_ID for reporting on total number of CLP's errored in a given day. For any given date, set the report to select on an overall line = 1 to pull a single CLP_ID for each errored CLP into the report. This reduces the chance for record duplication in the report. You are not able to report on the errors on the CLP_ID.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td class="T1Head" style="padding: 5px;">4</td>
+<td class="T1Head" style="padding-right: 12px;">SERV_AREA_ID_LOC_NAME</td>
+<td class="T1Head" style="padding-right: 12px;">VARCHAR</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The name of the revenue location.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr>
+<td class="T1Head" style="padding: 5px;">5</td>
+<td class="T1Head" style="padding-right: 12px;">LOC_ID_LOC_NAME</td>
+<td class="T1Head" style="padding-right: 12px;">VARCHAR</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr>
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The name of the revenue location.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td class="T1Head" style="padding: 5px;">6</td>
+<td class="T1Head" style="padding-right: 12px;">GUARANTOR_ID</td>
+<td class="T1Head" style="padding-right: 12px;">NUMERIC</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The guarantor ID that appears on the claim.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr>
+<td class="T1Head" style="padding: 5px;">7</td>
+<td class="T1Head" style="padding-right: 12px;">HSP_ACCOUNT_ID</td>
+<td class="T1Head" style="padding-right: 12px;">NUMERIC</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr>
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The ID of the hospital account that appears on this claim.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td class="T1Head" style="padding: 5px;">8</td>
+<td class="T1Head" style="padding-right: 12px;">BUCKET_ID</td>
+<td class="T1Head" style="padding-right: 12px;">NUMERIC</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The ID of the hospital liability bucket that appears on this claim.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr>
+<td class="T1Head" style="padding: 5px;">9</td>
+<td class="T1Head" style="padding-right: 12px;">COVERAGE_ID</td>
+<td class="T1Head" style="padding-right: 12px;">NUMERIC</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr>
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The coverage ID that appears on the claim.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td class="T1Head" style="padding: 5px;">10</td>
+<td class="T1Head" style="padding-right: 12px;">PAYOR_ID_PAYOR_NAME</td>
+<td class="T1Head" style="padding-right: 12px;">VARCHAR</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The name of the payor.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr>
+<td class="T1Head" style="padding: 5px;">11</td>
+<td class="T1Head" style="padding-right: 12px;">BENEFIT_PLAN_ID_BENEFIT_PLAN_NAME</td>
+<td class="T1Head" style="padding-right: 12px;">VARCHAR</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr>
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The name of the benefit plan record.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td class="T1Head" style="padding: 5px;">12</td>
+<td class="T1Head" style="padding-right: 12px;">PROV_ID_PROV_NAME</td>
+<td class="T1Head" style="padding-right: 12px;">VARCHAR</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The name of the service provider. This item may be hidden in a public view of the CLARITY_SER table.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr>
+<td class="T1Head" style="padding: 5px;">13</td>
+<td class="T1Head" style="padding-right: 12px;">TOTAL_CHARGES</td>
+<td class="T1Head" style="padding-right: 12px;">NUMERIC</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr>
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The dollar amount of charges on the claim.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td class="T1Head" style="padding: 5px;">14</td>
+<td class="T1Head" style="padding-right: 12px;">TOTAL_PAYMENTS</td>
+<td class="T1Head" style="padding-right: 12px;">NUMERIC</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The dollar amount in payments that appear on the claim. This applies to claims that have already had payments made on them.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr>
+<td class="T1Head" style="padding: 5px;">15</td>
+<td class="T1Head" style="padding-right: 12px;">AMOUNT_DUE</td>
+<td class="T1Head" style="padding-right: 12px;">NUMERIC</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr>
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The dollar amount due from the claim. For cancel claims, the amount due is always zero. For other claims, this is the amount of charges on the bucket minus any payments, adjustments, or previous credits. In cases where a payment, adjustment, or previous credit could be applied to more than one claim, the amount is prorated based on the ratio of the claim charge amount to the total charge amount of all applicable claims on that bucket.</td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td class="T1Head" style="padding: 5px;">16</td>
+<td class="T1Head" style="padding-right: 12px;">INVOICE_NUMBER</td>
+<td class="T1Head" style="padding-right: 12px;">VARCHAR</td>
+<td>No</td>
+<td width="90%"/>
+</tr>
+<tr style="background-color: rgb(238, 238, 238);">
+<td style="min-width: 0px;"/>
+<td colspan="10"><table class="SubList List"><tbody>
+<tr><td></td></tr>
+<tr>
+<td style="white-space: normal;"> The invoice number that appears on the claim. </td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr style="border-bottom-width: 1px;"><td colspan="10"/></tr>
+</tbody></table>
+<br/><br/>
+<br/><br/>
+</div></body></HTML>
