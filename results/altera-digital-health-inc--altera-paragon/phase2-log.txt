@@ -1,0 +1,260 @@
+
+
+
+
+● Read CHPL metadata
+  $ cat /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-paragon/ch
+  pl-metadata.json 2>/dev/null | head -100
+  └ 101 lines...
+
+● Read product research
+  $ cat /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-paragon/pr
+  oduct-research.md 2>/dev/null | head -200
+  └ 117 lines...
+
+● Probe target URL
+  $ curl -sI -L "https://www.alterahealth.com/legal/onc-reg-compliance/" -H 'User-Agent: Mozilla/5.0
+   (X11; Linux x86_64) AppleWebKit/537.36' 2>&1
+  └ 24 lines...
+
+● Fetch and examine page
+  $ curl -sL "https://www.alterahealth.com/legal/onc-reg-compliance/" -H 'User-Agent: Mozilla/5.0
+  (X11; Linux x86_64) AppleWebKit/537.36' -o /tmp/altera-page.html && wc -c /tmp/altera-page.html &&
+   grep -oiE 'href="[^"]*\.(pdf|zip|xlsx|xls|csv|json|doc|docx|yaml|yml)[^"]*"'
+  /tmp/altera-page.html | head -30
+  └ 32 lines...
+
+● Search page text for EHI
+  $ # Search for EHI content in the page text
+  cat /tmp/altera-page.html | sed 's/<[^>]*>/ /g' | tr -s ' \n' | grep -iE 'ehi|electronic health
+  information|b\(10\)|b\.10|export' | head -30
+  └ 31 lines...
+
+● Search for EHI links
+  $ # Search for EHI/b(10)/export-related links
+  grep -oiE 'href="[^"]*"' /tmp/altera-page.html | grep -iE
+  'ehi|export|data.dictionary|b.10|bulk|paragon.*doc' | head -30
+  └ 23 lines...
+
+● Get Paragon EHI context
+  $ # Get surrounding context for Paragon EHI links
+  grep -B5 -A5 'paragon.*ehi\|paragon.*denali' /tmp/altera-page.html | sed 's/<[^>]*>/ /g' | tr -s '
+   \n' | head -50
+  └ 51 lines...
+
+● Find Paragon-specific content
+  $ # Get the Paragon-specific links and surrounding context
+  grep -iE 'paragon' /tmp/altera-page.html | sed 's/<[^>]*>/ /g' | tr -s ' ' | head -30
+  └ 26 lines...
+
+● Extract Paragon download URLs
+  $ # Get the exact Paragon download URLs
+  grep -oiE 'href="[^"]*"' /tmp/altera-page.html | grep -iE
+  'paragon|capabilitystatement|extension-details' | sort -u
+  └ 17 lines...
+
+Now I can see the key Paragon EHI export files. Let me download them.
+
+● Create downloads dir
+  $ mkdir -p /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-parag
+  on/downloads
+  └ 1 line...
+
+● Download Paragon EHI docs
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-paragon/d
+  ownloads && \
+  curl -sL -o capabilitystatement.json -D /tmp/cs-headers.txt \
+    "https://www.alterahealth.com/download/204/ehi-documentation/11851/capabilitystatement.json"
+   \...
+  └ 27 lines...
+
+● Extract ZIP files
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-paragon/d
+  ownloads && \
+  mkdir -p paragon-25-1 paragon-24-1 && \
+  unzip -o paragon-ehr-25-1-denali-1.zip -d paragon-25-1/ 2>&1 | tail -5 && \
+  unzip -o paragon-ehr-24-1-denali-1.zip -d paragon-24-1/ 2>&1 | tail -5 && \...
+  └ 21 lines...
+
+● Examine CapabilityStatement
+  $ # Examine the CapabilityStatement to understand the EHI export
+  cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-paragon/downl
+  oads
+  head -c 2000 paragon-25-1/CapabilityStatement.json | python3 -m json.tool 2>/dev/null | head -60
+  └ 1 line...
+
+● Parse CapabilityStatement
+  $ # Check what resources/profiles are in the CapabilityStatement
+  cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-paragon/d
+  ownloads
+  python3 -c "
+  import json...
+  └ 71 lines...
+
+● Examine Extension Details xlsx
+  $ # Check the extension details xlsx
+  cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-paragon/d
+  ownloads
+  python3 -c "
+  import openpyxl...
+  └ 17 lines...
+
+● Analyze CS extensions
+  $ # Get detailed info about the CapabilityStatement - extensions, search params, etc.
+  cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-paragon/d
+  ownloads
+  python3 -c "
+  import json...
+  └ 77 lines...
+
+● Examine Extension Details xlsx
+  $ pip install openpyxl -q && cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-h
+  ealth-inc--altera-paragon/downloads && python3 -c "
+  import openpyxl
+  wb = openpyxl.load_workbook('paragon-25-1/Extension-Details.xlsx')
+  for sheet_name in wb.sheetnames:...
+  └ 13 lines...
+
+● Install openpyxl and examine xlsx
+  $ pip3 install openpyxl -q 2>&1 | tail -3 && cd /home/jmandel/hobby/ehi-export-analysis/results/
+  altera-digital-health-inc--altera-paragon/downloads && python3 -c "
+  import openpyxl
+  wb = openpyxl.load_workbook('paragon-25-1/Extension-Details.xlsx')
+  for sheet_name in wb.sheetnames:...
+  └ 16 lines...
+
+● Install pip then openpyxl
+  $ python3 -m ensurepip --upgrade 2>&1 | tail -2 && python3 -m pip install openpyxl -q 2>&1 | tail
+  -2
+  └ 4 lines...
+
+● Check bun availability
+  $ # Use bun/node instead for xlsx parsing
+  which bun && bun --version
+  └ 3 lines...
+
+● Parse xlsx with bun
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-paragon/d
+  ownloads && \
+  bun add xlsx 2>&1 | tail -3 && \
+  bun -e "
+  const XLSX = require('xlsx');...
+  └ 30 lines...
+
+● Count extensions per resource
+  $ # Count extensions per resource in the xlsx
+  cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-paragon/d
+  ownloads && \
+  bun -e "
+  const XLSX = require('xlsx');...
+  └ 49 lines...
+
+● Compare versions
+  $ # Check for differences between 24-1 and 25-1
+  cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-paragon/d
+  ownloads && \
+  diff <(python3 -c "
+  import json...
+  └ 12 lines...
+
+Same resources. Now let me look more deeply at the CapabilityStatement to understand what fields/elements it documents per resource, then check the page for any additional Paragon-specific docs.
+
+● Examine Patient resource detail
+  $ # Deep dive into one resource to understand the structure of the CS
+  cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-paragon/d
+  ownloads && \
+  python3 -c "
+  import json...
+  └ 89 lines...
+
+● Save page, compare CS files
+  $ # Save the page for reference
+  cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-paragon/d
+  ownloads && \
+  cp /tmp/altera-page.html compliance-page.html && \
+  # Check the older CS at root level vs the 25-1 version...
+  └ 7 lines...
+
+● Compare root vs versioned CS
+  $ # Check the root-level CS - what version is it?
+  cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-paragon/d
+  ownloads && \
+  python3 -c "
+  import json...
+  └ 14 lines...
+
+● Examine root CS
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-paragon/d
+  ownloads && \
+  python3 -c "
+  import json
+  with open('capabilitystatement.json') as f:...
+  └ 27 lines...
+
+● Compare extension details files
+  $ # The root-level CS is the older 23.2 version (bundle format from a dev server)
+  # The 25-1 version is the latest. Let me also check the extension-details at root
+  cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-paragon/d
+  ownloads && \
+  diff <(md5sum extension-details.xlsx | cut -d' ' -f1) <(md5sum ...
+  └ 6 lines...
+
+Good - the 25-1 versions are the latest. Now let me create the enrichment scripts and outputs.
+
+● Create enrichment dir
+  $ mkdir -p /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-parag
+  on/downloads/enrichment
+  └ 1 line...
+
+● Create results/altera-digital-health-inc--altera-paragon/downloads/enrichment/extract-capability-st
+  atement.ts (+234)
+
+● Run enrichment script
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-paragon/dow
+  nloads/enrichment && bun run extract-capability-statement.ts
+  └ 9 lines...
+
+● Create results/altera-digital-health-inc--altera-paragon/downloads/enrichment/README.md (+26)
+
+Now let me take a screenshot of the page to capture the EHI section, and prepare the final report.
+
+● Get Paragon EHI section detail
+  $ # Get the full EHI section context from the page
+  grep -A200 'EHI Export Documentation' /tmp/altera-page.html | grep -B2 -A2 -iE
+  'paragon|capability|extension' | sed 's/<[^>]*>/ /g' | tr -s ' \n' | head -40
+  └ 41 lines...
+
+● Get file sizes
+  $ # Get file sizes for manifest
+  cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-paragon/d
+  ownloads && \
+  stat -c '%n %s' capabilitystatement.json extension-details.xlsx paragon-ehr-25-1-denali-1.zip
+  paragon-ehr-24-1-denali-1.zip compliance-page.html paragon-25-1/CapabilityStatement.json ...
+  └ 19 lines...
+
+Now let me write the report and manifest.
+
+● Create results/altera-digital-health-inc--altera-paragon/ehi-export-report.md (+155)
+
+● Create results/altera-digital-health-inc--altera-paragon/files.json (+107)
+
+● Clean up npm artifacts
+  $ # Clean up npm artifacts from the downloads dir
+  rm -rf /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-paragon/d
+  ownloads/node_modules /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--a
+  ltera-paragon/downloads/package.json /home/jmandel/hobby/ehi-export-analysis/results/altera-digita
+  l-health-inc--altera-paragon/downloads/bun.lock
+  └ 1 line...
+
+● Verify enrichment still works
+  $ # Verify the enrichment script still runs (it needs xlsx)
+  cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-paragon/downl
+  oads/enrichment && bun run extract-capability-statement.ts 2>&1
+  └ 9 lines...
+
+● Final file listing
+  $ # Final listing
+  find /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-paragon
+  -type f | sort
+  └ 22 lines...
+
