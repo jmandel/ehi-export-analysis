@@ -1,0 +1,267 @@
+[
+  {
+    "name": "Patient Demographics",
+    "category": "Demographics",
+    "description": "Basic identifying information about the patient",
+    "fields": [
+      {
+        "name": "patient_id",
+        "type": "GUID",
+        "description": "Unique identifier for the patient in the system"
+      },
+      {
+        "name": "first_name",
+        "type": "String",
+        "description": "Patient's first name"
+      },
+      {
+        "name": "last_name",
+        "type": "String",
+        "description": "Patient's last name"
+      },
+      {
+        "name": "date_of_birth",
+        "type": "String",
+        "description": "Patient's date of birth in YYYY-MM-DD format"
+      },
+      {
+        "name": "gender",
+        "type": "String",
+        "description": "Patient's gender"
+      },
+      {
+        "name": "address",
+        "type": "Object",
+        "description": "Object containing address details for the patient"
+      },
+      {
+        "name": "email",
+        "type": "String",
+        "description": "Patient's email address"
+      }
+    ]
+  },
+  {
+    "name": "Address",
+    "category": "Demographics",
+    "description": "Sub-object of Patient Demographics containing address details",
+    "is_sub_object": true,
+    "parent": "Patient Demographics",
+    "fields": [
+      {
+        "name": "street",
+        "type": "String",
+        "description": "Street address of the patient"
+      },
+      {
+        "name": "city",
+        "type": "String",
+        "description": "City of the patient's residence"
+      },
+      {
+        "name": "state",
+        "type": "String",
+        "description": "State of the patient's residence"
+      },
+      {
+        "name": "zip_code",
+        "type": "String",
+        "description": "Postal or ZIP code of the patient's address"
+      },
+      {
+        "name": "home_phone",
+        "type": "String",
+        "description": "Patient's home phone number"
+      },
+      {
+        "name": "work_phone",
+        "type": "String",
+        "description": "Patient's work phone number"
+      }
+    ]
+  },
+  {
+    "name": "Health Summary",
+    "category": "Clinical",
+    "description": "High-level overview of the patient's current and past health conditions",
+    "fields": [
+      {
+        "name": "chronic_conditions",
+        "type": "Array of Problem",
+        "description": "List of Patient's Current Chronic Conditions"
+      },
+      {
+        "name": "diagnosis",
+        "type": "Array of Problem",
+        "description": "List of Patient's Diagnosis"
+      },
+      {
+        "name": "family_history",
+        "type": "Array of String",
+        "description": "List of family history"
+      }
+    ]
+  },
+  {
+    "name": "Problem",
+    "category": "Clinical",
+    "description": "Sub-object used in Health Summary for conditions and diagnoses",
+    "is_sub_object": true,
+    "parent": "Health Summary",
+    "fields": [
+      {
+        "name": "problem",
+        "type": "String",
+        "description": "Problem Name"
+      },
+      {
+        "name": "icd_10",
+        "type": "String",
+        "description": "Corresponding ICD-10"
+      }
+    ]
+  },
+  {
+    "name": "Medications",
+    "category": "Clinical",
+    "description": "Current medications prescribed to the patient",
+    "fields": [
+      {
+        "name": "medication",
+        "type": "Array of Object",
+        "description": "Name of the Medication"
+      },
+      {
+        "name": "dosage",
+        "type": "String",
+        "description": "Dosage Information for the medication"
+      },
+      {
+        "name": "frequency",
+        "type": "String",
+        "description": "Frequency of administration"
+      },
+      {
+        "name": "start_date",
+        "type": "DateTime",
+        "description": "Date the medication was started"
+      },
+      {
+        "name": "end_date",
+        "type": "DateTime",
+        "description": "Date the medication was ended"
+      }
+    ]
+  },
+  {
+    "name": "Allergies",
+    "category": "Clinical",
+    "description": "Known allergies the patient has",
+    "fields": [
+      {
+        "name": "allergy",
+        "type": "String",
+        "description": "Name of Allergy"
+      },
+      {
+        "name": "type",
+        "type": "String",
+        "description": "Type of Allergy (Ex. Drug)"
+      },
+      {
+        "name": "reaction",
+        "type": "String",
+        "description": "Allergy Reactions"
+      }
+    ]
+  },
+  {
+    "name": "Encounters",
+    "category": "Clinical",
+    "description": "Healthcare visits or interactions with the patient",
+    "fields": [
+      {
+        "name": "encounter_date",
+        "type": "DateTime",
+        "description": "The date of the encounter, formatted as YYYY-MM-DD."
+      },
+      {
+        "name": "chief_complaint",
+        "type": "String",
+        "description": "The primary reason for the encounter."
+      },
+      {
+        "name": "diagnosis",
+        "type": "Array of Problem",
+        "description": "Contains details of the diagnosis, including the condition and ICD-10 code."
+      },
+      {
+        "name": "treatment",
+        "type": "String",
+        "description": "Summary of the treatment provided during the encounter."
+      },
+      {
+        "name": "care_plan_goals",
+        "type": "Array of String",
+        "description": "List of specific health goals set for the patient."
+      },
+      {
+        "name": "care_plan_actions",
+        "type": "Array of String",
+        "description": "List of actions or recommendations for the patient."
+      },
+      {
+        "name": "care_plan_followup",
+        "type": "String",
+        "description": "Instructions for follow-up or reassessment."
+      },
+      {
+        "name": "provider_id",
+        "type": "GUID",
+        "description": "ID of the provider"
+      },
+      {
+        "name": "provider_name",
+        "type": "String",
+        "description": "Name of the provider responsible for the encounter"
+      },
+      {
+        "name": "notes",
+        "type": "String",
+        "description": "Additional comments or observations from the provider"
+      }
+    ]
+  },
+  {
+    "name": "RPM Data",
+    "category": "Remote Monitoring",
+    "description": "Data collected from remote patient monitoring devices",
+    "fields": [
+      {
+        "name": "recorded_time",
+        "type": "DateTime",
+        "description": "Recorded time of the RPM Data"
+      },
+      {
+        "name": "data_type",
+        "type": "String",
+        "description": "Type of recorded data (Ex. blood_pressure)"
+      },
+      {
+        "name": "attribute_type",
+        "type": "String",
+        "description": "Type of attribute for the specific data type (ex. systolic)"
+      },
+      {
+        "name": "value",
+        "type": "Float",
+        "description": "Value of the recorded data"
+      },
+      {
+        "name": "unit",
+        "type": "String",
+        "description": "Unit of the recorded data"
+      }
+    ]
+  }
+]
