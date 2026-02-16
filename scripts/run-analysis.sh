@@ -162,18 +162,18 @@ echo ""
 set +e
 case "$BACKEND" in
   copilot)
+    cd "$OUTPUT_DIR"
     "$CLI_BIN" \
       --yolo \
       --model "$MODEL" \
-      --add-dir "$ROOT_DIR" \
       -p "$(cat "$PROMPT_FILE")"
     ;;
   codex)
+    cd "$OUTPUT_DIR"
     "$CLI_BIN" exec \
       --full-auto \
       --sandbox danger-full-access \
       --model "$MODEL" \
-      --cd "$ROOT_DIR" \
       - < "$PROMPT_FILE"
     ;;
 esac

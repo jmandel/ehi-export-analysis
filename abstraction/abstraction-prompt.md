@@ -6,20 +6,18 @@ in the results folder and produce a rigorous, evidence-backed analysis.
 
 ## Your inputs
 
-- **Results directory**: `{{RESULTS_DIR}}`
 - **Product**: {{PRODUCT_NAME}}
-- **Output directory**: `{{OUTPUT_DIR}}`
+- **Working directory**: Your current working directory is `{{OUTPUT_DIR}}`
 
-Your output directory already contains:
-- `metadata.json` — pre-populated with developer info, certified products, and `ehi_documentation_url` (the vendor's EHI export page from CHPL)
-
-The results directory contains:
+Your working directory contains symlinks to the collected results, so you can
+access everything directly:
+- `downloads/` — the actual artifacts: PDFs, HTML pages, JSON schemas, sample data, etc.
 - `product-research.md` — prior research on what this vendor/product does and stores
 - `ehi-export-report.md` — prior agent's narrative about the export documentation
 - `sources.json` — URLs visited during research
 - `files.json` — manifest of downloaded artifacts
 - `chpl-metadata.json` — CHPL certification details
-- `downloads/` — the actual artifacts: PDFs, HTML pages, JSON schemas, sample data, etc.
+- `metadata.json` — pre-populated with developer info, certified products, and `ehi_documentation_url`
 
 **The `downloads/` folder is your primary source of truth.** The markdown reports
 are useful for orientation but may be incomplete or wrong. Do your own work.
@@ -72,14 +70,35 @@ just because it uses a proprietary format.
 
 ## All EHI vs USCDI
 
-USCDI v3 defines the data classes and elements that (g)(10) FHIR APIs and C-CDA
-documents are required to support. In FHIR terms (US Core 6.1.0), this maps to
-roughly 20 resource types: Patient, AllergyIntolerance, CarePlan, CareTeam,
-Condition, Coverage, DiagnosticReport, DocumentReference, Encounter, Goal,
-Immunization, Location, MedicationRequest, Observation, Practitioner,
-PractitionerRole, Procedure, Provenance, RelatedPerson, ServiceRequest, and
-Specimen. Clinical Notes includes 8 note types (Consultation, Discharge Summary,
-H&P, Imaging Narrative, Procedure Note, Progress Note, Operative Note, ED Note).
+USCDI v3 (mandatory for certified systems as of Jan 2026) defines 22 data classes
+with ~94 data elements — the regulatory floor for clinical exchange. In FHIR
+terms (US Core 6.1.0), these map to ~26 base resource types via 47+ profiles:
+
+| USCDI Data Class | FHIR Resources |
+|---|---|
+| Allergies & Intolerances | AllergyIntolerance |
+| Assessment & Plan of Treatment | CarePlan, Observation, QuestionnaireResponse |
+| Care Team Members | CareTeam, Practitioner, PractitionerRole, RelatedPerson |
+| Clinical Notes (8 types: Consult, Discharge Summary, H&P, Imaging Narrative, Procedure, Progress, Operative, ED) | DocumentReference, DiagnosticReport |
+| Clinical Tests | Observation, DiagnosticReport |
+| Diagnostic Imaging | Observation, DiagnosticReport |
+| Encounters | Encounter, Condition |
+| Facility Information | Location |
+| Family Health History | FamilyMemberHistory |
+| Goals & Preferences | Goal, Observation, DocumentReference |
+| Health Insurance Information | Coverage, Organization |
+| Health Status Assessments (health concerns, functional/disability/mental status, pregnancy, smoking, SDOH) | Observation, Condition, QuestionnaireResponse |
+| Immunizations | Immunization |
+| Laboratory | Observation, DiagnosticReport, Specimen |
+| Medical Devices | Device |
+| Medications | Medication, MedicationRequest, MedicationDispense |
+| Orders | MedicationRequest, ServiceRequest, DocumentReference |
+| Patient Demographics | Patient, RelatedPerson, Observation |
+| Problems | Condition |
+| Procedures | Procedure, ServiceRequest |
+| Provenance | Provenance |
+| Vital Signs (13 profiles: BP, height, weight, HR, RR, temp, SpO2, BMI, etc.) | Observation |
+
 A (b)(10) export that covers only these USCDI-scope resources is the vendor's
 existing clinical exchange surface rebranded — it represents the regulatory
 floor, not the designated record set.
@@ -108,7 +127,7 @@ assessments and healing trajectories, correctional/institutional health records,
 durable medical equipment orders, patient-reported outcomes, and
 demographic/social history details beyond USCDI fields. The more of these
 non-USCDI designated-record-set domains an export includes — and the more
-completely it exports fields within USCDI domains — the more seriously the vendor
+completely it exports fields within USCDI domains — the more credibly the vendor
 has engaged with (b)(10).
 
 ## How to work
@@ -139,7 +158,7 @@ Then go through `downloads/` systematically:
 
 **Write scripts when it helps.** If there's a data dictionary in HTML or JSON or
 XLSX, don't just eyeball it — write a script to parse it and produce hard numbers.
-Save scripts and their outputs to `{{OUTPUT_DIR}}/analysis/` so the work is
+Save scripts and their outputs to `./analysis/` so the work is
 reproducible.
 
 ### Scripting setup
@@ -148,7 +167,7 @@ Use **Python** or **Bun (TypeScript)** for scripts. Set up dependencies properly
 
 **Python**: Create a virtual environment in the analysis folder:
 ```bash
-cd {{OUTPUT_DIR}}/analysis
+cd ./analysis
 uv venv && source .venv/bin/activate
 uv pip install openpyxl   # or whatever you need
 python parse_dictionary.py
@@ -156,7 +175,7 @@ python parse_dictionary.py
 
 **Bun**: Initialize a local package.json in the analysis folder:
 ```bash
-cd {{OUTPUT_DIR}}/analysis
+cd ./analysis
 bun init -y
 bun add xlsx cheerio      # or whatever you need
 bun run parse_dictionary.ts
@@ -205,7 +224,7 @@ With the evidence in hand, assess the export along these dimensions:
 
 ### Phase 4: Write the analysis
 
-Write `{{OUTPUT_DIR}}/analysis.md` with the structure described below.
+Write `./analysis.md` with the structure described below.
 
 ## Output: `analysis.md`
 
@@ -425,12 +444,12 @@ their data from this export? What's the single biggest gap or strength?
 
 ## Output: `analysis/` directory
 
-Save scripts you wrote and their outputs to `{{OUTPUT_DIR}}/analysis/`. Include:
+Save scripts you wrote and their outputs to `./analysis/`. Include:
 - Scripts used to parse artifacts (with comments explaining what they do)
-  These should rely on results/:slug/downloads content, but not directly
-  rely on /enrichment content (read and re-implement where helpful)
+  These should rely on ./downloads/ content, but not directly
+  rely on ./downloads/enrichment/ content (read and re-implement where helpful)
 - Extracted data (e.g., parsed data dictionary as JSON, field counts as text)
-  * includes `entity-inventory-full.json` and `summary-entity-inventory.json`
+  * includes `entity-inventory-full.json` and `entity-inventory-summary.json`
 - Any other intermediate artifacts that make the analysis reproducible
 
 Every hard number in the analysis.md should be traceable to a file in `analysis/`.
