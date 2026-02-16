@@ -1,0 +1,235 @@
+{
+  "source": "MD Logic B10 Export Documentation",
+  "source_url": "https://www.mdlogic.com/solutions/b10-export-documentation",
+  "source_file": "downloads/b10-export-documentation.html",
+  "export_type": "document_dump_with_json_manifest",
+  "prose_summary": {
+    "total_paragraphs": 10,
+    "total_word_count": 475,
+    "paragraphs": [
+      "MD Logic export will be in the following format.",
+      "Upon requesting details on a patient you will be sent an email that contains a direct link to download the requested data.",
+      "Upon clicking on this link you will be directed to a page where you can download a zip file. This zip file will contain all the documents in the requested patient's record.",
+      "Included in this export file there will be a file with the name \"manifest.json\"",
+      "This file will be a standard JSON File that follows the following schema",
+      "{ \"$schema\": \"https://json-schema.org/draft/2019-09/schema\", \"$id\": \"http://example.com/example.json\", \"title\": \"Root Schema\", \"type\": \"array\", \"default\": [], \"items\": { \"title\": \"A Schema\", \"type\": \"object\", \"required\": [ \"Descripton\", \"FileName\", \"FileType\", \"DateCreated\" ], \"properties\": { \"Descripton\": { \"title\": \"The Descripton Schema\", \"type\": \"string\", \"examples\": [ \"MRI Spine\", \"MRI Hip\", \"Registration Form\", \"Progress Notes\" ] }, \"FileName\": { \"title\": \"The FileName Schema\", \"type\": \"string\", \"examples\": [ \"testFile_51.pdf\", \"testFile_3304.pdf\", \"testFile_3305.doc\", \"testFile_3305.xml\", \"testFile_3305.jpg\" ] }, \"FileType\": { \"title\": \"The FileType Schema\", \"type\": \"string\", \"examples\": [ \"Word\", \"PDF\", \"CCDA\", \"JPEG\" ] }, \"DateCreated\": { \"title\": \"The DateCreated Schema\", \"type\": \"string\", \"examples\": [ \"8/25/2020\", \"8/24/2020\", \"8/20/2020\" ] } }, \"examples\": [] }, \"examples\": [] }",
+      "If you need a full export of all, please contact mdlogic support. As this can be an extremely large amount of data, special arrangements will need to be made to deliver the data.",
+      "You will recive a collection of ZipFiles, each of these is structurally identical to the individual patient export.",
+      "Allong with the zip files you will provided with a manifest file. This manifest file includes demographic information about each patient along with information as to which zip file belongs to each patient. It will follow the schema below.",
+      "{ \"$schema\": \"https://json-schema.org/draft/2019-09/schema\", \"$id\": \"http://example.com/example.json\", \"title\": \"Root Schema\", \"type\": \"array\", \"default\": [], \"items\": { \"title\": \"A Schema\", \"type\": \"object\", \"required\": [ \"FirstName\", \"LastName\", \"MiddleName\", \"Suffix\", \"Address\", \"Address2\", \"City\", \"State\", \"Zip\", \"Gender\", \"DOB\", \"PatientFileName\" ], \"properties\": { \"FirstName\": { \"type\": \"string\", \"examples\": [ \"John\", \"Jane\", ] }, \"LastName\": { \"title\": \"The LastName Schema\", \"type\": \"string\", \"examples\": [ \"Doe\" ] }, \"MiddleName\": { \"title\": \"The MiddleName Schema\", \"type\": \"string\", \"examples\": [ \"Q\", \"James\" ] }, \"Suffix\": { \"title\": \"The Suffix Schema\", \"type\": \"string\", \"examples\": [ \"Jr\", \"Sr\", \"III\" ] }, \"Address1\": { \"title\": \"The Address1 Schema\", \"type\": \"string\", \"examples\": [ \"143 Main Street\" ] }, \"Address2\": { \"title\": \"The Address2 Schema\", \"type\": \"string\", \"examples\": [ \"Suite 100\" ] }, \"City\": { \"title\": \"The City Schema\", \"type\": \"string\", \"examples\": [ \"Atlanta\", \"Houston\" ] }, \"State\": { \"title\": \"The State Schema\", \"type\": \"string\", \"examples\": [ \"GA\", \"TX\", \"NY\" ] }, \"Zip\": { \"title\": \"The Zip Schema\", \"type\": \"string\", \"examples\": [ \"30097\" ] }, \"DOB\": { \"title\": \"The DOB Schema\", \"type\": \"string\", \"examples\": [ \"01/01/1980\" ] }, \"PatientFileName\": { \"title\": \"The PatientFileName Schema\", \"type\": \"string\", \"examples\": [ \"5125.zip\" ] } }, \"examples\": [] }, \"examples\": [] }"
+    ]
+  },
+  "schemas": [
+    {
+      "name": "Per-Patient Manifest (manifest.json)",
+      "description": "Index of documents in a patient's export ZIP file",
+      "schema_file": "downloads/patient-manifest-schema.json",
+      "type": "array",
+      "fields": [
+        {
+          "name": "Descripton",
+          "type": "string",
+          "description": "The Descripton Schema",
+          "examples": [
+            "MRI Spine",
+            "MRI Hip",
+            "Registration Form",
+            "Progress Notes"
+          ],
+          "required": true,
+          "has_description": false
+        },
+        {
+          "name": "FileName",
+          "type": "string",
+          "description": "The FileName Schema",
+          "examples": [
+            "testFile_51.pdf",
+            "testFile_3304.pdf",
+            "testFile_3305.doc",
+            "testFile_3305.xml",
+            "testFile_3305.jpg"
+          ],
+          "required": true,
+          "has_description": false
+        },
+        {
+          "name": "FileType",
+          "type": "string",
+          "description": "The FileType Schema",
+          "examples": [
+            "Word",
+            "PDF",
+            "CCDA",
+            "JPEG"
+          ],
+          "required": true,
+          "has_description": false
+        },
+        {
+          "name": "DateCreated",
+          "type": "string",
+          "description": "The DateCreated Schema",
+          "examples": [
+            "8/25/2020",
+            "8/24/2020",
+            "8/20/2020"
+          ],
+          "required": true,
+          "has_description": false
+        }
+      ]
+    },
+    {
+      "name": "Bulk Export Manifest",
+      "description": "Index of all patients in a bulk export, with demographics and ZIP file references",
+      "schema_file": "downloads/bulk-export-manifest-schema.json",
+      "type": "array",
+      "fields": [
+        {
+          "name": "FirstName",
+          "type": "string",
+          "description": "",
+          "examples": [
+            "John",
+            "Jane"
+          ],
+          "required": true,
+          "has_description": false
+        },
+        {
+          "name": "LastName",
+          "type": "string",
+          "description": "The LastName Schema",
+          "examples": [
+            "Doe"
+          ],
+          "required": true,
+          "has_description": false
+        },
+        {
+          "name": "MiddleName",
+          "type": "string",
+          "description": "The MiddleName Schema",
+          "examples": [
+            "Q",
+            "James"
+          ],
+          "required": true,
+          "has_description": false
+        },
+        {
+          "name": "Suffix",
+          "type": "string",
+          "description": "The Suffix Schema",
+          "examples": [
+            "Jr",
+            "Sr",
+            "III"
+          ],
+          "required": true,
+          "has_description": false
+        },
+        {
+          "name": "Address1",
+          "type": "string",
+          "description": "The Address1 Schema",
+          "examples": [
+            "143 Main Street"
+          ],
+          "required": false,
+          "has_description": false
+        },
+        {
+          "name": "Address2",
+          "type": "string",
+          "description": "The Address2 Schema",
+          "examples": [
+            "Suite 100"
+          ],
+          "required": true,
+          "has_description": false
+        },
+        {
+          "name": "City",
+          "type": "string",
+          "description": "The City Schema",
+          "examples": [
+            "Atlanta",
+            "Houston"
+          ],
+          "required": true,
+          "has_description": false
+        },
+        {
+          "name": "State",
+          "type": "string",
+          "description": "The State Schema",
+          "examples": [
+            "GA",
+            "TX",
+            "NY"
+          ],
+          "required": true,
+          "has_description": false
+        },
+        {
+          "name": "Zip",
+          "type": "string",
+          "description": "The Zip Schema",
+          "examples": [
+            "30097"
+          ],
+          "required": true,
+          "has_description": false
+        },
+        {
+          "name": "DOB",
+          "type": "string",
+          "description": "The DOB Schema",
+          "examples": [
+            "01/01/1980"
+          ],
+          "required": true,
+          "has_description": false
+        },
+        {
+          "name": "PatientFileName",
+          "type": "string",
+          "description": "The PatientFileName Schema",
+          "examples": [
+            "5125.zip"
+          ],
+          "required": true,
+          "has_description": false
+        }
+      ]
+    }
+  ],
+  "schema_bugs": {
+    "patient_manifest": {
+      "typo_in_field_name": "'Descripton' missing letter 'i' (should be 'Description')"
+    },
+    "bulk_manifest": {
+      "required_not_in_properties": [
+        "Address",
+        "Gender"
+      ],
+      "defined_not_in_required": [
+        "Address1"
+      ],
+      "gender_missing": "Gender is listed as required but has no property definition",
+      "address_mismatch": "'Address' in required array but property is 'Address1'"
+    },
+    "both": {
+      "placeholder_id": "$id is 'http://example.com/example.json' (placeholder)"
+    }
+  },
+  "total_entities": 2,
+  "total_fields": 15,
+  "fields_with_descriptions": 0,
+  "fields_with_types": 15,
+  "sample_data_provided": false,
+  "data_dictionary_provided": false,
+  "native_database_model": false
+}

@@ -1,0 +1,137 @@
+============================================================
+SMARTMD Palliative EHI Export - Field Inventory Summary
+============================================================
+Total entities:              8
+  Documented:                5
+  Undocumented (sample only):3
+Total fields:                91
+  With descriptions:         48 (52.7%)
+  With types:                91
+  Found in sample JSON:      88
+Value sets documented:       0
+Foreign keys documented:     0
+Relationships:               implicit via PatientId only
+
+
+--- ExportRoot (⚠️ Undocumented) ---
+    Top-level export wrapper (inferred from sample JSON)
+    Fields: 2 | Described: 0 | Typed: 2
+    ❓ PracticeName                   string          sample:✓  (no description)
+    ❓ PatientList                    array           sample:✓  (no description)
+
+--- Patient (✅ Documented) ---
+    Demographic details regarding the patient
+    Fields: 15 | Described: 14 | Typed: 15
+    📝 PatientId                      string          sample:✓  Universally unique identifier for this patient
+    📝 PatientName                    string          sample:✓  Formatted as lastname, firstname middle initial
+    📝 ChartID                        string          sample:✓  Human readable unique identifier for the patient chart
+    📝 DOB                            date            sample:✓  Patient's date of birth "m/d/yyyy"
+    📝 Case                           string          sample:✓  Service line (ex: hospice, palliative)
+    📝 Address1                       string          sample:✓  Patient's residence
+    📝 City                           string          sample:✓  Patient's residence
+    📝 State                          string          sample:✓  Patient's residence
+    📝 Zip                            string          sample:✓  Either 5 or 9 digit zip code (with "-" separator)
+    📝 Country                        string          sample:✓  Country of patient's residence (typically "USA")
+    📝 HomePhone                      string          sample:✓  Formatted patient's home number (ex: 888-555-1212)
+    📝 WorkPhone                      string          sample:✓  Formatted patient's work number (ex: 888-555-1212)
+    📝 MobilePhone                    string          sample:✓  Formatted patient's mobile number (ex: 888-555-1212)
+    📝 Email                          string          sample:✓  Patient's email address
+    ❓ AccountId                      int             sample:✓  (no description)
+
+--- KinList (✅ Documented) ---
+    A set of caregivers or relatives of the patient, along with their contact details
+    Fields: 11 | Described: 10 | Typed: 11
+    📝 PatientId                      string          sample:✓  Universally unique identifier for this patient
+    📝 KinId                          string          sample:✓  Universally unique identifier for this kin
+    📝 FirstName                      string          sample:✓  Kin's first name
+    📝 LastName                       date            sample:✓  Kin's last name
+    📝 MobilePhone                    string          sample:✓  Formatted contact mobile number (ex: 888-555-1212)
+    📝 Email                          string          sample:✓  Kin's email address
+    📝 DeceasedFlag                   bool            sample:✓  Flag that indicates alive or dead
+    📝 Decisional                     bool            sample:✓  Flag that indicates if this kin can make healthcare decision
+    📝 Country                        string          sample:✓  Not used
+    📝 RelationshipList               string          sample:✓  Comma separated list of relationship descriptors between kin
+    ❓ AccountId                      int             sample:✓  (no description)
+
+--- Meds (✅ Documented) ---
+    A list of medications the patient is actively taking
+    Fields: 16 | Described: 13 | Typed: 16
+    📝 Strength                       string          sample:✓  Drug strength (without units)
+    📝 StrengthUnit                   string          sample:✓  Relevant drug strength unit
+    📝 Form                           string          sample:✓  Packaging of the drug (ex: tablet, capsule, etc)
+    📝 DoseQuantity                   string          sample:✗  Amount of the drug given per dose
+    📝 StrengthForm                   string          sample:✓  Concatenation of strength, strength units and form. Typicall
+    📝 StartDate                      date            sample:✓  Date patient started taking drug
+    📝 EndDate                        date            sample:✗  (optional) Date patient was ordered to discontinue taking dr
+    📝 DoseUnit                       string          sample:✓  Units for dosage
+    📝 Drug                           string          sample:✓  Name of drug. (ex: "Lipitor")
+    📝 DrugId                         int             sample:✓  Unique internal serial number for the drug
+    📝 DrugInstructions               string          sample:✓  Patient instructions for taking the drug (ex: "with meal")
+    📝 WrittenAs                      string          sample:✓  Human readable description of the medication order
+    📝 Status                         string          sample:✓  Current status (active or inactive)
+    ❓ DoseQuanity                    string          sample:✓  (no description)
+    ❓ RxNtCode                       string          sample:✓  (no description)
+    ❓ IsDiscontinued                 bool            sample:✓  (no description)
+
+--- Allergies (✅ Documented) ---
+    A list of the patient allergies (drug, food and environmental)
+    Fields: 4 | Described: 4 | Typed: 4
+    📝 Allergen                       string          sample:✓  Drug, food, or environmental factor the patient is allergic 
+    📝 Reaction                       string          sample:✓  Patient's reaction to allergen
+    📝 WrittenAs                      string          sample:✓  Human readable description of allergy
+    📝 Status                         string          sample:✓  Current status (active or inactive)
+
+--- ClinicalSummaryProblemDetailsList (✅ Documented) ---
+    A list of active diseases diagnosed by the provider (also known as Problems)
+    Fields: 7 | Described: 7 | Typed: 7
+    📝 DictionaryCode                 string          sample:✓  ICD10 code of the disease
+    📝 Problems                       string          sample:✓  ICD10 description of the disease
+    📝 ActiveDate                     date            sample:✓  Date on onset for the disease
+    📝 ResolvedDate                   date            sample:✗  Date disease was resolved (optional)
+    📝 ProblemId                      string          sample:✓  Universally unique identifier for this problem related to th
+    📝 isResolved                     bool            sample:✓  Indicator of whether the disease is resolved (true or false)
+    📝 isPrimaryDx                    bool            sample:✓  Indicator of whether this disease is the primary reason for 
+
+--- CaseList (⚠️ Undocumented) ---
+    Case/service line information (NOT documented in field tables, found only in sample JSON)
+    Fields: 30 | Described: 0 | Typed: 30
+    ❓ Notes                          string          sample:✓  (no description)
+    ❓ ProviderId                     uuid/string     sample:✓  (no description)
+    ❓ AddressId                      uuid/string     sample:✓  (no description)
+    ❓ Address1                       string          sample:✓  (no description)
+    ❓ City                           string          sample:✓  (no description)
+    ❓ State                          string          sample:✓  (no description)
+    ❓ Zip                            string          sample:✓  (no description)
+    ❓ Country                        string          sample:✓  (no description)
+    ❓ HomePhone                      string          sample:✓  (no description)
+    ❓ MobilePhone                    string          sample:✓  (no description)
+    ❓ EMail                          string          sample:✓  (no description)
+    ❓ CaseProvider                   object          sample:✓  (no description)
+    ❓ PatientId                      uuid/string     sample:✓  (no description)
+    ❓ PatientLocationId              uuid/string     sample:✓  (no description)
+    ❓ FullName                       string          sample:✓  (no description)
+    ❓ LastName                       string          sample:✓  (no description)
+    ❓ FirstName                      string          sample:✓  (no description)
+    ❓ Middle                         string          sample:✓  (no description)
+    ❓ ChartId                        string          sample:✓  (no description)
+    ❓ DOB                            datetime        sample:✓  (no description)
+    ❓ CreatedOn                      datetime        sample:✓  (no description)
+    ❓ DOBStr                         string          sample:✓  (no description)
+    ❓ CaseClosedFlag                 bool            sample:✓  (no description)
+    ❓ CaseDescription                string          sample:✓  (no description)
+    ❓ Diagnosis1                     string          sample:✓  (no description)
+    ❓ CaseId                         uuid/string     sample:✓  (no description)
+    ❓ Score                          int             sample:✓  (no description)
+    ❓ InsuranceList                  array           sample:✓  (no description)
+    ❓ ExternalContactList            array           sample:✓  (no description)
+    ❓ InternalContactList            array           sample:✓  (no description)
+
+--- CaseList.CaseProvider (⚠️ Undocumented) ---
+    Provider assigned to a case (NOT documented, found only in sample JSON as nested object within CaseList)
+    Fields: 6 | Described: 0 | Typed: 6
+    ❓ ResourceId                     uuid/string     sample:✓  (no description)
+    ❓ ProviderId                     uuid/string     sample:✓  (no description)
+    ❓ ProviderName                   string          sample:✓  (no description)
+    ❓ ProviderNameFML                string          sample:✓  (no description)
+    ❓ FirstName                      string          sample:✓  (no description)
+    ❓ LastName                       string          sample:✓  (no description)

@@ -1,0 +1,107 @@
+{
+  "extraction_source": "COMPULINK-PHIEXPORT-DOCUMENTATION.pdf",
+  "extraction_date": "2026-02-16",
+  "extraction_notes": "This PDF contains NO data dictionary, NO complete table listing, and NO field-level documentation. The inventory below captures only the tables and fields explicitly mentioned in the document as examples. The vendor states that actual field descriptions are provided via .FLD files generated dynamically with each export, and are not published separately.",
+  "total_entities_mentioned": 5,
+  "total_fields_mentioned": 3,
+  "total_key_identifiers": 4,
+  "entities": [
+    {
+      "name": "PATIENT",
+      "category": "Demographics/Billing",
+      "description": "Key demographic information table. Linked by PATUNIQUE.",
+      "mentioned_as": "primary table for demographics (*_PATIENT.csv)",
+      "fields": [
+        {
+          "name": "PATUNIQUE",
+          "description": "Patient Identifier Number",
+          "type": null,
+          "is_key": true
+        },
+        {
+          "name": "ERXCONSENT",
+          "description": "E-Rx History Consent",
+          "type": null,
+          "is_key": false,
+          "source": "FLD file snippet example"
+        },
+        {
+          "name": "GENDERIDENTITYNOTE",
+          "description": "Gender Identity Note",
+          "type": null,
+          "is_key": false,
+          "source": "FLD file snippet example"
+        },
+        {
+          "name": "SEXUALORIENTATIONNOTE",
+          "description": "Sexual Orientation Note",
+          "type": null,
+          "is_key": false,
+          "source": "FLD file snippet example"
+        }
+      ]
+    },
+    {
+      "name": "EXAM",
+      "category": "Exam",
+      "description": "Prominent exam table. All EXAM sub-tables link back to it via EXAMUNIQUE.",
+      "mentioned_as": "primary exam table (*_EXAM.csv)",
+      "fields": [
+        {
+          "name": "EXAMUNIQUE",
+          "description": "Exam Identification Number",
+          "type": null,
+          "is_key": true
+        },
+        {
+          "name": "PATUNIQUE",
+          "description": "Patient Identifier Number (implied foreign key to PATIENT)",
+          "type": null,
+          "is_key": true
+        }
+      ]
+    },
+    {
+      "name": "EXAMDIAG",
+      "category": "Exam",
+      "description": "Exam Diagnosis table, links to EXAM via EXAMUNIQUE.",
+      "mentioned_as": "example sub-table of EXAM (*_EXAMDIAG.csv)",
+      "fields": [
+        {
+          "name": "EXAMUNIQUE",
+          "description": "Exam Identification Number (foreign key to EXAM)",
+          "type": null,
+          "is_key": true
+        }
+      ]
+    },
+    {
+      "name": "DOCUMENT",
+      "category": "Demographics/Billing",
+      "description": "Demographics document metadata. DOCUNIQUE links to demographics image files.",
+      "mentioned_as": "table for linking demographics images",
+      "fields": [
+        {
+          "name": "DOCUNIQUE",
+          "description": "Document unique identifier, matches demographics image file IDs",
+          "type": null,
+          "is_key": true
+        }
+      ]
+    },
+    {
+      "name": "EXAMIMAG",
+      "category": "Exam",
+      "description": "Exam image metadata. IMAGUNIQUE links to exam image files.",
+      "mentioned_as": "table for linking exam images",
+      "fields": [
+        {
+          "name": "IMAGUNIQUE",
+          "description": "Image unique identifier, matches exam image file IDs",
+          "type": null,
+          "is_key": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2498 @@
+{
+  "source_file": "openapiServices.json",
+  "openapi_version": "3.0.1",
+  "title": "RevolutionEHR Patient Export",
+  "version": "1.0",
+  "export_endpoint": "patient/export",
+  "export_method": "POST",
+  "schemas": [
+    {
+      "name": "Address",
+      "description": "Address",
+      "field_count": 5,
+      "required_count": 0,
+      "fields": [
+        {
+          "name": "address1",
+          "type": "string",
+          "description": "Address1",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "address2",
+          "type": "string",
+          "description": "Address2",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "city",
+          "type": "string",
+          "description": "City",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "state",
+          "type": "string",
+          "description": "State",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "zip",
+          "type": "string",
+          "description": "Zip",
+          "required": false,
+          "description_is_trivial": true
+        }
+      ]
+    },
+    {
+      "name": "Allergy",
+      "description": "Allergies of a patient",
+      "field_count": 7,
+      "required_count": 2,
+      "fields": [
+        {
+          "name": "startDate",
+          "type": "string",
+          "description": "Start date of the `Allergy`",
+          "required": false,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "endDate",
+          "type": "string",
+          "description": "End date of the `Allergy`",
+          "required": false,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "severity",
+          "type": "string",
+          "description": "Severity of the `Allergy`.",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "reactions",
+          "type": "array",
+          "description": "Reactions for this `Allergy`.",
+          "required": false,
+          "is_array": true,
+          "item_type": "string",
+          "description_is_trivial": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "The description of the `Allergy`",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "treatment",
+          "type": "string",
+          "description": "The treatment of the `Allergy`",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "The allergy Name",
+          "required": true,
+          "description_is_trivial": false
+        }
+      ]
+    },
+    {
+      "name": "CarePlanItem",
+      "description": "Care Plan Item",
+      "field_count": 4,
+      "required_count": 2,
+      "fields": [
+        {
+          "name": "type",
+          "type": "string",
+          "description": "Care Plan Item Type",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "startDate",
+          "type": "string",
+          "description": "Care Plan Item Start Date",
+          "required": false,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "stopDate",
+          "type": "string",
+          "description": "Care Plan Item Stop Date",
+          "required": false,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "Care Plan Item Description",
+          "required": true,
+          "description_is_trivial": false
+        }
+      ]
+    },
+    {
+      "name": "Claim",
+      "description": "Invoice Claim History",
+      "field_count": 5,
+      "required_count": 1,
+      "fields": [
+        {
+          "name": "claimDate",
+          "type": "string",
+          "description": "Claim date",
+          "required": true,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "externalMessage",
+          "type": "string",
+          "description": "External message",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "submitDate",
+          "type": "string",
+          "description": "Submit date",
+          "required": false,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "submitMethod",
+          "type": "string",
+          "description": "Submit method",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "statusMessages",
+          "type": "array",
+          "description": "Status messages",
+          "required": false,
+          "is_array": true,
+          "item_type": "string",
+          "description_is_trivial": false
+        }
+      ]
+    },
+    {
+      "name": "ClinicalDecisionSupport",
+      "description": "Clinical Decision Support History",
+      "field_count": 8,
+      "required_count": 5,
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Rule name",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "results",
+          "type": "string",
+          "description": "Results",
+          "required": true,
+          "description_is_trivial": true
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "description": "Type",
+          "required": true,
+          "description_is_trivial": true
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "Description",
+          "required": true,
+          "description_is_trivial": true
+        },
+        {
+          "name": "confirmationStatus",
+          "type": "string",
+          "description": "Confirmation status",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "exceptionComments",
+          "type": "string",
+          "description": "Exception comments",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "exceptionSnomedCode",
+          "type": "integer",
+          "description": "Exception SNOMED code",
+          "required": false,
+          "format": "int64",
+          "description_is_trivial": false
+        },
+        {
+          "name": "exceptionSnomedDescription",
+          "type": "string",
+          "description": "Exception SNOMED description",
+          "required": false,
+          "description_is_trivial": false
+        }
+      ]
+    },
+    {
+      "name": "Contact",
+      "description": "Patient Contact",
+      "field_count": 4,
+      "required_count": 0,
+      "fields": [
+        {
+          "name": "firstName",
+          "type": "string",
+          "description": "Contact first name",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "lastName",
+          "type": "string",
+          "description": "Contact last name",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "middleName",
+          "type": "string",
+          "description": "Contact middle name",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "role",
+          "type": "string",
+          "description": "Contact role",
+          "required": false,
+          "description_is_trivial": true
+        }
+      ]
+    },
+    {
+      "name": "Demographics",
+      "description": "Demographics of a patient",
+      "field_count": 17,
+      "required_count": 3,
+      "fields": [
+        {
+          "name": "firstName",
+          "type": "string",
+          "description": "First name",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "lastName",
+          "type": "string",
+          "description": "Last name",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "middleName",
+          "type": "string",
+          "description": "Middle name",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "suffix",
+          "type": "string",
+          "description": "Suffix",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "previousFirstName",
+          "type": "string",
+          "description": "Previous first name",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "previousLastName",
+          "type": "string",
+          "description": "Previous last name",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "previousMiddleName",
+          "type": "string",
+          "description": "Previous middle name",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "dob",
+          "type": "string",
+          "description": "Date of birth",
+          "required": false,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "races",
+          "type": "array",
+          "description": "Races",
+          "required": false,
+          "is_array": true,
+          "item_type": "string",
+          "description_is_trivial": true
+        },
+        {
+          "name": "ethnicities",
+          "type": "array",
+          "description": "Ethnicities",
+          "required": false,
+          "is_array": true,
+          "item_type": "string",
+          "description_is_trivial": true
+        },
+        {
+          "name": "sex",
+          "type": "string",
+          "description": "Sex",
+          "required": true,
+          "description_is_trivial": true
+        },
+        {
+          "name": "language",
+          "type": "string",
+          "description": "Language",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "address",
+          "type": "Address",
+          "description": "",
+          "required": false,
+          "ref_schema": "Address",
+          "description_is_trivial": true
+        },
+        {
+          "name": "preferredPhoneNumber",
+          "type": "string",
+          "description": "Preferred phone number",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "phoneNumberType",
+          "type": "string",
+          "description": "Preferred phone type",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "description": "Email",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "employment",
+          "type": "Employment",
+          "description": "",
+          "required": false,
+          "ref_schema": "Employment",
+          "description_is_trivial": true
+        }
+      ]
+    },
+    {
+      "name": "Diagnosis",
+      "description": "Diagnosis History",
+      "field_count": 7,
+      "required_count": 1,
+      "fields": [
+        {
+          "name": "code",
+          "type": "string",
+          "description": "Diagnosis Code",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "diagnosisDate",
+          "type": "string",
+          "description": "Diagnosis Date",
+          "required": true,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "resolutionDate",
+          "type": "string",
+          "description": "Diagnosis Resolution Date",
+          "required": false,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "eyeLocation",
+          "type": "string",
+          "description": "Diagnosis Eye Location",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "qualifier",
+          "type": "string",
+          "description": "Diagnosis Qualifier",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "description": "Diagnosis Reason",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "encounterDateTime",
+          "type": "string",
+          "description": "Diagnosis Encounter Date And Time",
+          "required": false,
+          "format": "date-time",
+          "description_is_trivial": false
+        }
+      ]
+    },
+    {
+      "name": "DiagnosisCarePlanItem",
+      "description": "History of Diagnosis and related Care Plan Item",
+      "field_count": 2,
+      "required_count": 0,
+      "fields": [
+        {
+          "name": "diagnosis",
+          "type": "Diagnosis",
+          "description": "",
+          "required": false,
+          "ref_schema": "Diagnosis",
+          "description_is_trivial": true
+        },
+        {
+          "name": "carePlanItem",
+          "type": "CarePlanItem",
+          "description": "",
+          "required": false,
+          "ref_schema": "CarePlanItem",
+          "description_is_trivial": true
+        }
+      ]
+    },
+    {
+      "name": "Employment",
+      "description": "An Employment",
+      "field_count": 4,
+      "required_count": 0,
+      "fields": [
+        {
+          "name": "status",
+          "type": "string",
+          "description": "Status",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "employer",
+          "type": "string",
+          "description": "Employer",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "position",
+          "type": "string",
+          "description": "Position",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "address",
+          "type": "Address",
+          "description": "",
+          "required": false,
+          "ref_schema": "Address",
+          "description_is_trivial": true
+        }
+      ]
+    },
+    {
+      "name": "Encounter",
+      "description": "Patient Encounter",
+      "field_count": 19,
+      "required_count": 3,
+      "fields": [
+        {
+          "name": "encounterDate",
+          "type": "string",
+          "description": "Encounter date",
+          "required": true,
+          "format": "date-time",
+          "description_is_trivial": false
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "description": "Encounter location",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "description": "Encounter type",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "category",
+          "type": "string",
+          "description": "Encounter category",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "provider",
+          "type": "string",
+          "description": "Encounter provider",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "employee",
+          "type": "string",
+          "description": "Encounter employee",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "signed",
+          "type": "boolean",
+          "description": "Is the encounter signed",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "description": "Encounter status",
+          "required": true,
+          "description_is_trivial": true
+        },
+        {
+          "name": "diagnoses",
+          "type": "array",
+          "description": "Encounter diagnoses",
+          "required": false,
+          "is_array": true,
+          "item_ref": "EncounterDiagnosis",
+          "item_type": "EncounterDiagnosis",
+          "description_is_trivial": true
+        },
+        {
+          "name": "familyHistory",
+          "type": "FamilyHistory",
+          "description": "",
+          "required": false,
+          "ref_schema": "FamilyHistory",
+          "description_is_trivial": true
+        },
+        {
+          "name": "socialHistory",
+          "type": "SocialHistory",
+          "description": "",
+          "required": false,
+          "ref_schema": "SocialHistory",
+          "description_is_trivial": true
+        },
+        {
+          "name": "reasonForVisit",
+          "type": "ReasonForVisit",
+          "description": "",
+          "required": false,
+          "ref_schema": "ReasonForVisit",
+          "description_is_trivial": true
+        },
+        {
+          "name": "services",
+          "type": "array",
+          "description": "Encounter performed service",
+          "required": false,
+          "is_array": true,
+          "item_ref": "Service",
+          "item_type": "Service",
+          "description_is_trivial": false
+        },
+        {
+          "name": "vitalSigns",
+          "type": "VitalSigns",
+          "description": "",
+          "required": false,
+          "ref_schema": "VitalSigns",
+          "description_is_trivial": true
+        },
+        {
+          "name": "professionalTimeSeconds",
+          "type": "integer",
+          "description": "Encounter professional time",
+          "required": false,
+          "format": "int32",
+          "description_is_trivial": false
+        },
+        {
+          "name": "refractions",
+          "type": "array",
+          "description": "Refractions",
+          "required": false,
+          "is_array": true,
+          "item_ref": "Refraction",
+          "item_type": "Refraction",
+          "description_is_trivial": true
+        },
+        {
+          "name": "tests",
+          "type": "array",
+          "description": "Tests",
+          "required": false,
+          "is_array": true,
+          "item_ref": "Test",
+          "item_type": "Test",
+          "description_is_trivial": true
+        },
+        {
+          "name": "clinicalDecisionSupports",
+          "type": "array",
+          "description": "Clinical decision supports",
+          "required": false,
+          "is_array": true,
+          "item_ref": "ClinicalDecisionSupport",
+          "item_type": "ClinicalDecisionSupport",
+          "description_is_trivial": false
+        },
+        {
+          "name": "orientationMood",
+          "type": "OrientationMood",
+          "description": "",
+          "required": false,
+          "ref_schema": "OrientationMood",
+          "description_is_trivial": true
+        }
+      ]
+    },
+    {
+      "name": "EncounterDiagnosis",
+      "description": "Encounter Diagnosis",
+      "field_count": 3,
+      "required_count": 0,
+      "fields": [
+        {
+          "name": "code",
+          "type": "string",
+          "description": "Diagnosis Code",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "Diagnosis Description",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "carePlanItems",
+          "type": "array",
+          "description": "Care Plan Items",
+          "required": false,
+          "is_array": true,
+          "item_ref": "CarePlanItem",
+          "item_type": "CarePlanItem",
+          "description_is_trivial": false
+        }
+      ]
+    },
+    {
+      "name": "FamilyHealthHistory",
+      "description": "Family Health History",
+      "field_count": 11,
+      "required_count": 8,
+      "fields": [
+        {
+          "name": "date",
+          "type": "string",
+          "description": "Family Health History Date",
+          "required": true,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "code",
+          "type": "integer",
+          "description": "Family Health History SNOMED Code",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "Family Health History Description",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "comments",
+          "type": "string",
+          "description": "Family Health History Comments",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "relationshipFather",
+          "type": "string",
+          "description": "Family Health History Relationship Father",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "relationshipMother",
+          "type": "string",
+          "description": "Family Health History Relationship Mother",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "relationshipBrother",
+          "type": "string",
+          "description": "Family Health History Relationship Brother",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "relationshipSister",
+          "type": "string",
+          "description": "Family Health History Relationship Sister",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "relationshipSon",
+          "type": "string",
+          "description": "Family Health History Relationship Son",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "relationshipDaughter",
+          "type": "string",
+          "description": "Family Health History Relationship Daughter",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "conditionType",
+          "type": "string",
+          "description": "Family Health History Condition Type",
+          "required": false,
+          "description_is_trivial": false
+        }
+      ]
+    },
+    {
+      "name": "FamilyHistory",
+      "description": "Family History",
+      "field_count": 3,
+      "required_count": 0,
+      "fields": [
+        {
+          "name": "medical",
+          "type": "array",
+          "description": "Medical conditions",
+          "required": false,
+          "is_array": true,
+          "item_type": "string",
+          "description_is_trivial": false
+        },
+        {
+          "name": "ocular",
+          "type": "array",
+          "description": "Ocular conditions",
+          "required": false,
+          "is_array": true,
+          "item_type": "string",
+          "description_is_trivial": false
+        },
+        {
+          "name": "comments",
+          "type": "string",
+          "description": "Comments",
+          "required": false,
+          "description_is_trivial": true
+        }
+      ]
+    },
+    {
+      "name": "FamilyMember",
+      "description": "Patient Family Account Member",
+      "field_count": 4,
+      "required_count": 0,
+      "fields": [
+        {
+          "name": "firstName",
+          "type": "string",
+          "description": "First name",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "lastName",
+          "type": "string",
+          "description": "Last name",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "middleName",
+          "type": "string",
+          "description": "Middle name",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "role",
+          "type": "string",
+          "description": "Role",
+          "required": false,
+          "description_is_trivial": true
+        }
+      ]
+    },
+    {
+      "name": "HealthConcern",
+      "description": "A Health Concern",
+      "field_count": 6,
+      "required_count": 4,
+      "fields": [
+        {
+          "name": "date",
+          "type": "string",
+          "description": "Date",
+          "required": true,
+          "format": "date",
+          "description_is_trivial": true
+        },
+        {
+          "name": "concern",
+          "type": "string",
+          "description": "Concern",
+          "required": true,
+          "description_is_trivial": true
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "description": "Health concern type",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "reporter",
+          "type": "string",
+          "description": "Health concern reporter",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "description": "Health concern status",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "inactiveDate",
+          "type": "string",
+          "description": "Health concern inactive date",
+          "required": false,
+          "format": "date",
+          "description_is_trivial": false
+        }
+      ]
+    },
+    {
+      "name": "HealthGoal",
+      "description": "A Health Goal",
+      "field_count": 5,
+      "required_count": 4,
+      "fields": [
+        {
+          "name": "goal",
+          "type": "string",
+          "description": "Health goal",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "description": "Health goal value",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "date",
+          "type": "string",
+          "description": "Health goal date reported",
+          "required": true,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "description": "Health goal status",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "inactiveDate",
+          "type": "string",
+          "description": "Health goal inactive date",
+          "required": false,
+          "format": "date",
+          "description_is_trivial": false
+        }
+      ]
+    },
+    {
+      "name": "Immunization",
+      "description": "An Immunization",
+      "field_count": 16,
+      "required_count": 1,
+      "fields": [
+        {
+          "name": "cvxCode",
+          "type": "string",
+          "description": "CVX code",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "cvxCodeName",
+          "type": "string",
+          "description": "CVX short name",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "description": "Administered amount",
+          "required": false,
+          "format": "double",
+          "description_is_trivial": false
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "description": "Administered amount units",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "administeredOn",
+          "type": "string",
+          "description": "Administered on",
+          "required": false,
+          "format": "date-time",
+          "description_is_trivial": false
+        },
+        {
+          "name": "endDate",
+          "type": "string",
+          "description": "End date",
+          "required": false,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "administeredAt",
+          "type": "string",
+          "description": "Administered at location",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "administeredBy",
+          "type": "string",
+          "description": "Administered by",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "site",
+          "type": "string",
+          "description": "Administered site",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "route",
+          "type": "string",
+          "description": "Administered route",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "manufacturer",
+          "type": "string",
+          "description": "Substance manufacturer",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "substanceLot",
+          "type": "string",
+          "description": "Substance lot",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "substanceExpirationDate",
+          "type": "string",
+          "description": "Substance expire date",
+          "required": false,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "orderedBy",
+          "type": "string",
+          "description": "Ordered by provider",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "comments",
+          "type": "string",
+          "description": "Comments",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "description": "Status",
+          "required": true,
+          "description_is_trivial": true
+        }
+      ]
+    },
+    {
+      "name": "ImplantableDevice",
+      "description": "An Implantable Device",
+      "field_count": 7,
+      "required_count": 2,
+      "fields": [
+        {
+          "name": "date",
+          "type": "string",
+          "description": "Date",
+          "required": false,
+          "format": "date",
+          "description_is_trivial": true
+        },
+        {
+          "name": "estimated",
+          "type": "boolean",
+          "description": "Installed date estimated",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "udi",
+          "type": "string",
+          "description": "Unique device identifier",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "description": "Body location",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "surgeon",
+          "type": "string",
+          "description": "Surgeon name",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "comments",
+          "type": "string",
+          "description": "Comments",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "description": "Status",
+          "required": true,
+          "description_is_trivial": true
+        }
+      ]
+    },
+    {
+      "name": "Insurance",
+      "description": "An Insurance",
+      "field_count": 6,
+      "required_count": 3,
+      "fields": [
+        {
+          "name": "companyName",
+          "type": "string",
+          "description": "Company name",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "coverageType",
+          "type": "string",
+          "description": "Coverage type",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "relationship",
+          "type": "string",
+          "description": "Policy holder relationship",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "policy",
+          "type": "string",
+          "description": "Policy #",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "group",
+          "type": "string",
+          "description": "Group #",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "payerId",
+          "type": "string",
+          "description": "Payer ID",
+          "required": false,
+          "description_is_trivial": false
+        }
+      ]
+    },
+    {
+      "name": "Invoice",
+      "description": "Patient Invoice",
+      "field_count": 7,
+      "required_count": 5,
+      "fields": [
+        {
+          "name": "billTo",
+          "type": "string",
+          "description": "Bill to payer name",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "invoiceDate",
+          "type": "string",
+          "description": "Invoice date",
+          "required": true,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "serviceDate",
+          "type": "string",
+          "description": "Service date",
+          "required": false,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "description": "Status",
+          "required": true,
+          "description_is_trivial": true
+        },
+        {
+          "name": "items",
+          "type": "array",
+          "description": "Invoice items",
+          "required": true,
+          "is_array": true,
+          "item_ref": "InvoiceItem",
+          "item_type": "InvoiceItem",
+          "description_is_trivial": true
+        },
+        {
+          "name": "payments",
+          "type": "array",
+          "description": "Payments",
+          "required": true,
+          "is_array": true,
+          "item_ref": "Payment",
+          "item_type": "Payment",
+          "description_is_trivial": true
+        },
+        {
+          "name": "claims",
+          "type": "array",
+          "description": "Claim history",
+          "required": false,
+          "is_array": true,
+          "item_ref": "Claim",
+          "item_type": "Claim",
+          "description_is_trivial": false
+        }
+      ]
+    },
+    {
+      "name": "InvoiceItem",
+      "description": "Patient Invoice Item",
+      "field_count": 12,
+      "required_count": 12,
+      "fields": [
+        {
+          "name": "postDate",
+          "type": "string",
+          "description": "Post date",
+          "required": true,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "description": "Code",
+          "required": true,
+          "description_is_trivial": true
+        },
+        {
+          "name": "modifiers",
+          "type": "array",
+          "description": "Modifiers",
+          "required": true,
+          "is_array": true,
+          "item_type": "string",
+          "description_is_trivial": true
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "Description",
+          "required": true,
+          "description_is_trivial": true
+        },
+        {
+          "name": "quantity",
+          "type": "integer",
+          "description": "Quantity",
+          "required": true,
+          "description_is_trivial": true
+        },
+        {
+          "name": "unitPrice",
+          "type": "number",
+          "description": "Unit price",
+          "required": true,
+          "format": "double",
+          "description_is_trivial": false
+        },
+        {
+          "name": "discounts",
+          "type": "number",
+          "description": "Discounts",
+          "required": true,
+          "format": "double",
+          "description_is_trivial": true
+        },
+        {
+          "name": "tax",
+          "type": "number",
+          "description": "Tax",
+          "required": true,
+          "format": "double",
+          "description_is_trivial": true
+        },
+        {
+          "name": "extendedPrice",
+          "type": "number",
+          "description": "Extended price",
+          "required": true,
+          "format": "double",
+          "description_is_trivial": false
+        },
+        {
+          "name": "adjustments",
+          "type": "number",
+          "description": "Adjustments",
+          "required": true,
+          "format": "double",
+          "description_is_trivial": true
+        },
+        {
+          "name": "paid",
+          "type": "number",
+          "description": "Paid",
+          "required": true,
+          "format": "double",
+          "description_is_trivial": true
+        },
+        {
+          "name": "balance",
+          "type": "number",
+          "description": "Balance",
+          "required": true,
+          "format": "double",
+          "description_is_trivial": true
+        }
+      ]
+    },
+    {
+      "name": "MedicalOrder",
+      "description": "Medical Order",
+      "field_count": 30,
+      "required_count": 4,
+      "fields": [
+        {
+          "name": "loincCode",
+          "type": "string",
+          "description": "Order LOINC code",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "loincName",
+          "type": "string",
+          "description": "Order LOINC name",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "Description",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "orderDate",
+          "type": "string",
+          "description": "Order Date",
+          "required": false,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "originatedWithoutCpoe",
+          "type": "boolean",
+          "description": "Originated without CPOE value",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "startDate",
+          "type": "string",
+          "description": "Start date",
+          "required": false,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "endDate",
+          "type": "string",
+          "description": "End date",
+          "required": false,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "orderedBy",
+          "type": "string",
+          "description": "Ordered by",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "labName",
+          "type": "string",
+          "description": "Lab name",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "frequency",
+          "type": "string",
+          "description": "Frequency",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "description": "Type",
+          "required": true,
+          "description_is_trivial": true
+        },
+        {
+          "name": "instructions",
+          "type": "string",
+          "description": "Instructions",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "orderComments",
+          "type": "string",
+          "description": "Order comments",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "reportDate",
+          "type": "string",
+          "description": "Report date",
+          "required": false,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "labTestType",
+          "type": "string",
+          "description": "Lab test type",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "testName",
+          "type": "string",
+          "description": "Test name",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "resultType",
+          "type": "string",
+          "description": "Result type",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "labResultValue",
+          "type": "string",
+          "description": "Result value",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "labResultUnit",
+          "type": "string",
+          "description": "Result unit",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "labResultStatus",
+          "type": "string",
+          "description": "Result status",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "normals",
+          "type": "string",
+          "description": "Normals",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "specimenSource",
+          "type": "string",
+          "description": "Specimen source",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "disposition",
+          "type": "string",
+          "description": "Disposition",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "labNote",
+          "type": "string",
+          "description": "Lab note",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "resultComments",
+          "type": "string",
+          "description": "Result comments",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "testPerformedDate",
+          "type": "string",
+          "description": "Test performed date",
+          "required": false,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "interpretationAndReport",
+          "type": "string",
+          "description": "Interpretation and report",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "interpretationLabResult",
+          "type": "string",
+          "description": "Interpretation lab result",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "interpretationComments",
+          "type": "string",
+          "description": "Lab interpretation comments",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "encounterDate",
+          "type": "string",
+          "description": "Encounter date",
+          "required": false,
+          "format": "date-time",
+          "description_is_trivial": false
+        }
+      ]
+    },
+    {
+      "name": "OrientationMood",
+      "description": "Orientation Mood",
+      "field_count": 6,
+      "required_count": 2,
+      "fields": [
+        {
+          "name": "orientation",
+          "type": "string",
+          "description": "Orientation to time/person/place",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "orientationComments",
+          "type": "string",
+          "description": "Orientation to time/person/place comments",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "mood",
+          "type": "string",
+          "description": "Assessment of mood affect",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "moodComments",
+          "type": "string",
+          "description": "Assessment of mood affect comments",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "mentalStatusComments",
+          "type": "string",
+          "description": "Mental Status comments",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "functionalStatusComments",
+          "type": "string",
+          "description": "Functional status comments",
+          "required": false,
+          "description_is_trivial": false
+        }
+      ]
+    },
+    {
+      "name": "Patient",
+      "description": "Patient export results",
+      "field_count": 17,
+      "required_count": 0,
+      "fields": [
+        {
+          "name": "exportTimestamp",
+          "type": "string",
+          "description": "Export time stamp",
+          "required": false,
+          "format": "date-time",
+          "description_is_trivial": false
+        },
+        {
+          "name": "demographics",
+          "type": "Demographics",
+          "description": "",
+          "required": false,
+          "ref_schema": "Demographics",
+          "description_is_trivial": true
+        },
+        {
+          "name": "healthGoals",
+          "type": "array",
+          "description": "Health goals",
+          "required": false,
+          "is_array": true,
+          "item_ref": "HealthGoal",
+          "item_type": "HealthGoal",
+          "description_is_trivial": false
+        },
+        {
+          "name": "healthConcerns",
+          "type": "array",
+          "description": "Health concerns",
+          "required": false,
+          "is_array": true,
+          "item_ref": "HealthConcern",
+          "item_type": "HealthConcern",
+          "description_is_trivial": false
+        },
+        {
+          "name": "immunizations",
+          "type": "array",
+          "description": "Immunizations",
+          "required": false,
+          "is_array": true,
+          "item_ref": "Immunization",
+          "item_type": "Immunization",
+          "description_is_trivial": true
+        },
+        {
+          "name": "implantableDevices",
+          "type": "array",
+          "description": "Implantable devices",
+          "required": false,
+          "is_array": true,
+          "item_ref": "ImplantableDevice",
+          "item_type": "ImplantableDevice",
+          "description_is_trivial": false
+        },
+        {
+          "name": "allergies",
+          "type": "array",
+          "description": "Allergies",
+          "required": false,
+          "is_array": true,
+          "item_ref": "Allergy",
+          "item_type": "Allergy",
+          "description_is_trivial": true
+        },
+        {
+          "name": "encounters",
+          "type": "array",
+          "description": "Encounters",
+          "required": false,
+          "is_array": true,
+          "item_ref": "Encounter",
+          "item_type": "Encounter",
+          "description_is_trivial": true
+        },
+        {
+          "name": "medicalOrders",
+          "type": "array",
+          "description": "Medical orders",
+          "required": false,
+          "is_array": true,
+          "item_ref": "MedicalOrder",
+          "item_type": "MedicalOrder",
+          "description_is_trivial": false
+        },
+        {
+          "name": "insurances",
+          "type": "array",
+          "description": "Insurance",
+          "required": false,
+          "is_array": true,
+          "item_ref": "Insurance",
+          "item_type": "Insurance",
+          "description_is_trivial": false
+        },
+        {
+          "name": "invoices",
+          "type": "array",
+          "description": "Invoices",
+          "required": false,
+          "is_array": true,
+          "item_ref": "Invoice",
+          "item_type": "Invoice",
+          "description_is_trivial": true
+        },
+        {
+          "name": "diagnoses",
+          "type": "array",
+          "description": "Diagnosis history",
+          "required": false,
+          "is_array": true,
+          "item_ref": "Diagnosis",
+          "item_type": "Diagnosis",
+          "description_is_trivial": false
+        },
+        {
+          "name": "familyHealthHistories",
+          "type": "array",
+          "description": "Family health history",
+          "required": false,
+          "is_array": true,
+          "item_ref": "FamilyHealthHistory",
+          "item_type": "FamilyHealthHistory",
+          "description_is_trivial": false
+        },
+        {
+          "name": "referrals",
+          "type": "array",
+          "description": "Referrals",
+          "required": false,
+          "is_array": true,
+          "item_ref": "Referral",
+          "item_type": "Referral",
+          "description_is_trivial": true
+        },
+        {
+          "name": "contacts",
+          "type": "array",
+          "description": "Contacts",
+          "required": false,
+          "is_array": true,
+          "item_ref": "Contact",
+          "item_type": "Contact",
+          "description_is_trivial": true
+        },
+        {
+          "name": "statements",
+          "type": "array",
+          "description": "Statement history",
+          "required": false,
+          "is_array": true,
+          "item_ref": "Statement",
+          "item_type": "Statement",
+          "description_is_trivial": false
+        },
+        {
+          "name": "familyMembers",
+          "type": "array",
+          "description": "Family Members",
+          "required": false,
+          "is_array": true,
+          "item_ref": "FamilyMember",
+          "item_type": "FamilyMember",
+          "description_is_trivial": false
+        }
+      ]
+    },
+    {
+      "name": "Payment",
+      "description": "Patient Invoice Payment",
+      "field_count": 3,
+      "required_count": 3,
+      "fields": [
+        {
+          "name": "date",
+          "type": "string",
+          "description": "Date",
+          "required": true,
+          "format": "date",
+          "description_is_trivial": true
+        },
+        {
+          "name": "method",
+          "type": "string",
+          "description": "Method",
+          "required": true,
+          "description_is_trivial": true
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "description": "Amount",
+          "required": true,
+          "format": "double",
+          "description_is_trivial": true
+        }
+      ]
+    },
+    {
+      "name": "ReasonForVisit",
+      "description": "Reason For Visit",
+      "field_count": 3,
+      "required_count": 0,
+      "fields": [
+        {
+          "name": "patientReasonForVisit",
+          "type": "string",
+          "description": "Patient reason for visit",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "providerReasonForVisit",
+          "type": "string",
+          "description": "Provider reason for visit",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "diagnosisCarePlanItems",
+          "type": "array",
+          "description": "Diagnosis/Care Plan Item list",
+          "required": false,
+          "is_array": true,
+          "item_ref": "DiagnosisCarePlanItem",
+          "item_type": "DiagnosisCarePlanItem",
+          "description_is_trivial": false
+        }
+      ]
+    },
+    {
+      "name": "Referral",
+      "description": "Referral",
+      "field_count": 13,
+      "required_count": 2,
+      "fields": [
+        {
+          "name": "referralDate",
+          "type": "string",
+          "description": "Referral date",
+          "required": true,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "referredTo",
+          "type": "string",
+          "description": "Referred to",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "referredBy",
+          "type": "string",
+          "description": "Referred by",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "description": "Reason",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "toBeSeen",
+          "type": "string",
+          "description": "To be seen",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "appointmentBooked",
+          "type": "boolean",
+          "description": "Appointment booked",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "appointmentDateTime",
+          "type": "string",
+          "description": "Appointment date & time",
+          "required": false,
+          "format": "date-time",
+          "description_is_trivial": false
+        },
+        {
+          "name": "comments",
+          "type": "string",
+          "description": "Comments",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "confirmationOfReceipt",
+          "type": "boolean",
+          "description": "Confirmation of receipt",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "responseRequestedDate",
+          "type": "string",
+          "description": "Response requested date",
+          "required": false,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "responseDate",
+          "type": "string",
+          "description": "Response date",
+          "required": false,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "responseComments",
+          "type": "string",
+          "description": "Response comments",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "reportReceived",
+          "type": "boolean",
+          "description": "Report received",
+          "required": true,
+          "description_is_trivial": false
+        }
+      ]
+    },
+    {
+      "name": "Refraction",
+      "description": "Refraction",
+      "field_count": 19,
+      "required_count": 1,
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Test name",
+          "required": true,
+          "description_is_trivial": false
+        },
+        {
+          "name": "odSphere",
+          "type": "number",
+          "description": "OD Sphere",
+          "required": false,
+          "format": "double",
+          "description_is_trivial": false
+        },
+        {
+          "name": "odCylinder",
+          "type": "number",
+          "description": "OD Cylinder",
+          "required": false,
+          "format": "double",
+          "description_is_trivial": false
+        },
+        {
+          "name": "odAxis",
+          "type": "integer",
+          "description": "OD Axis",
+          "required": false,
+          "format": "int32",
+          "description_is_trivial": false
+        },
+        {
+          "name": "odHorizontalPrism",
+          "type": "number",
+          "description": "OD Horizontal Prism",
+          "required": false,
+          "format": "double",
+          "description_is_trivial": false
+        },
+        {
+          "name": "odHorizontalPrismOrientation",
+          "type": "string",
+          "description": "OD Horizontal Prism Orientation",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "odVerticalPrism",
+          "type": "number",
+          "description": "OD Vertical Prism",
+          "required": false,
+          "format": "double",
+          "description_is_trivial": false
+        },
+        {
+          "name": "odVerticalPrismOrientation",
+          "type": "string",
+          "description": "OD Vertical Prism Orientation",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "odIntermediateAdd",
+          "type": "number",
+          "description": "OD Intermediate Add",
+          "required": false,
+          "format": "double",
+          "description_is_trivial": false
+        },
+        {
+          "name": "odNearAdd",
+          "type": "number",
+          "description": "OD Near Add",
+          "required": false,
+          "format": "double",
+          "description_is_trivial": false
+        },
+        {
+          "name": "osSphere",
+          "type": "number",
+          "description": "OS Sphere",
+          "required": false,
+          "format": "double",
+          "description_is_trivial": false
+        },
+        {
+          "name": "osCylinder",
+          "type": "number",
+          "description": "OS Cylinder",
+          "required": false,
+          "format": "double",
+          "description_is_trivial": false
+        },
+        {
+          "name": "osAxis",
+          "type": "integer",
+          "description": "OS Axis",
+          "required": false,
+          "format": "int32",
+          "description_is_trivial": false
+        },
+        {
+          "name": "osHorizontalPrism",
+          "type": "number",
+          "description": "OS Horizontal Prism",
+          "required": false,
+          "format": "double",
+          "description_is_trivial": false
+        },
+        {
+          "name": "osHorizontalPrismOrientation",
+          "type": "string",
+          "description": "OS Horizontal Prism Orientation",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "osVerticalPrism",
+          "type": "number",
+          "description": "OS Vertical Prism",
+          "required": false,
+          "format": "double",
+          "description_is_trivial": false
+        },
+        {
+          "name": "osVerticalPrismOrientation",
+          "type": "string",
+          "description": "OS Vertical Prism Orientation",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "osIntermediateAdd",
+          "type": "number",
+          "description": "OS Intermediate Add",
+          "required": false,
+          "format": "double",
+          "description_is_trivial": false
+        },
+        {
+          "name": "osNearAdd",
+          "type": "number",
+          "description": "OS Near Add",
+          "required": false,
+          "format": "double",
+          "description_is_trivial": false
+        }
+      ]
+    },
+    {
+      "name": "Service",
+      "description": "Service History",
+      "field_count": 3,
+      "required_count": 0,
+      "fields": [
+        {
+          "name": "code",
+          "type": "string",
+          "description": "Code",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "Description",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "diagnosis",
+          "type": "array",
+          "description": "Diagnosis",
+          "required": false,
+          "is_array": true,
+          "item_type": "string",
+          "description_is_trivial": true
+        }
+      ]
+    },
+    {
+      "name": "SocialHistory",
+      "description": "Social History",
+      "field_count": 6,
+      "required_count": 0,
+      "fields": [
+        {
+          "name": "drinking",
+          "type": "string",
+          "description": "Drinking status",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "drinkingAmount",
+          "type": "string",
+          "description": "Drinking amount",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "tobaccoUse",
+          "type": "string",
+          "description": "Tobacco use",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "tobaccoPreference",
+          "type": "string",
+          "description": "Tobacco preference",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "tobaccoAmount",
+          "type": "string",
+          "description": "Tobacco amount",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "smokingStatus",
+          "type": "string",
+          "description": "Smoking status",
+          "required": false,
+          "description_is_trivial": false
+        }
+      ]
+    },
+    {
+      "name": "Statement",
+      "description": "Statement",
+      "field_count": 4,
+      "required_count": 2,
+      "fields": [
+        {
+          "name": "printDate",
+          "type": "string",
+          "description": "Print date",
+          "required": true,
+          "format": "date",
+          "description_is_trivial": false
+        },
+        {
+          "name": "dueDate",
+          "type": "string",
+          "description": "Due date",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "message",
+          "type": "string",
+          "description": "Message",
+          "required": false,
+          "description_is_trivial": true
+        },
+        {
+          "name": "statementBalance",
+          "type": "number",
+          "description": "Statement balance",
+          "required": true,
+          "format": "double",
+          "description_is_trivial": false
+        }
+      ]
+    },
+    {
+      "name": "Test",
+      "description": "Encounter Test",
+      "field_count": 2,
+      "required_count": 2,
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Test name",
+          "required": true,
+          "description_is_trivial": true
+        },
+        {
+          "name": "values",
+          "type": "array",
+          "description": "Test values",
+          "required": true,
+          "is_array": true,
+          "item_ref": "TestValue",
+          "item_type": "TestValue",
+          "description_is_trivial": true
+        }
+      ]
+    },
+    {
+      "name": "TestValue",
+      "description": "Encounter Test Value",
+      "field_count": 2,
+      "required_count": 0,
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Field name",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "description": "Field value",
+          "required": false,
+          "description_is_trivial": false
+        }
+      ]
+    },
+    {
+      "name": "VitalSigns",
+      "description": "Vital Signs",
+      "field_count": 9,
+      "required_count": 0,
+      "fields": [
+        {
+          "name": "systolic",
+          "type": "number",
+          "description": "Systolic blood pressure",
+          "required": false,
+          "format": "double",
+          "description_is_trivial": false
+        },
+        {
+          "name": "diastolic",
+          "type": "number",
+          "description": "Diastolic blood pressure",
+          "required": false,
+          "format": "double",
+          "description_is_trivial": false
+        },
+        {
+          "name": "pressureArm",
+          "type": "string",
+          "description": "Pressure arm",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "pulse",
+          "type": "number",
+          "description": "Pulse",
+          "required": false,
+          "format": "double",
+          "description_is_trivial": true
+        },
+        {
+          "name": "testType",
+          "type": "string",
+          "description": "Test type",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "description": "Height",
+          "required": false,
+          "format": "double",
+          "description_is_trivial": true
+        },
+        {
+          "name": "heightUnit",
+          "type": "string",
+          "description": "Height Unit",
+          "required": false,
+          "description_is_trivial": false
+        },
+        {
+          "name": "weight",
+          "type": "number",
+          "description": "Weight",
+          "required": false,
+          "format": "double",
+          "description_is_trivial": true
+        },
+        {
+          "name": "weightUnit",
+          "type": "string",
+          "description": "Weight Unit",
+          "required": false,
+          "description_is_trivial": false
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_schemas": 35,
+    "total_fields": 279,
+    "fields_with_descriptions": 268,
+    "fields_with_nontrivial_descriptions": 191,
+    "fields_with_types": 279,
+    "fields_required": 72,
+    "fields_with_format": 67,
+    "fields_with_references": 37,
+    "description_coverage_pct": 96.1,
+    "nontrivial_description_pct": 68.5,
+    "type_coverage_pct": 100.0
+  },
+  "domain_breakdown": {
+    "Demographics": {
+      "schemas": 5,
+      "fields": 34
+    },
+    "Clinical - Allergies": {
+      "schemas": 1,
+      "fields": 7
+    },
+    "Clinical - Care Plans": {
+      "schemas": 3,
+      "fields": 15
+    },
+    "Financial - Billing": {
+      "schemas": 5,
+      "fields": 31
+    },
+    "Clinical - CDS": {
+      "schemas": 1,
+      "fields": 8
+    },
+    "Clinical - Diagnoses": {
+      "schemas": 2,
+      "fields": 9
+    },
+    "Clinical - Encounters": {
+      "schemas": 5,
+      "fields": 34
+    },
+    "Clinical - Family History": {
+      "schemas": 2,
+      "fields": 14
+    },
+    "Clinical - Immunizations": {
+      "schemas": 1,
+      "fields": 16
+    },
+    "Clinical - Devices": {
+      "schemas": 1,
+      "fields": 7
+    },
+    "Financial - Insurance": {
+      "schemas": 1,
+      "fields": 6
+    },
+    "Clinical - Orders/Labs": {
+      "schemas": 1,
+      "fields": 30
+    },
+    "Root": {
+      "schemas": 1,
+      "fields": 17
+    },
+    "Clinical - Referrals": {
+      "schemas": 1,
+      "fields": 13
+    },
+    "Specialty - Optometry": {
+      "schemas": 3,
+      "fields": 23
+    },
+    "Clinical - Social History": {
+      "schemas": 1,
+      "fields": 6
+    },
+    "Clinical - Vitals": {
+      "schemas": 1,
+      "fields": 9
+    }
+  }
+}
