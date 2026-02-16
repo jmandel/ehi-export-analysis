@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import type { Vendor } from "./types";
-import { FacetSidebar, toBin } from "./Histogram";
+import { FacetSidebar, gradeBucket } from "./Histogram";
 import { VendorList } from "./VendorList";
 import { DetailView } from "./DetailView";
 import { MdViewer } from "./MdViewer";
@@ -36,9 +36,10 @@ function toggle<T>(set: Set<T>, val: T): Set<T> {
 
 export function App() {
   const [vendors, setVendors] = useState<Vendor[]>([]);
-  const [gradeFilter, setGradeFilter] = useState<Set<number>>(new Set());
+  const [gradeFilter, setGradeFilter] = useState<Set<string>>(new Set());
   const [route, setRoute] = useState<Route>(() => parseHash(window.location.hash));
-  const [fidelityFilter, setFidelityFilter] = useState<Set<string>>(new Set());
+  const [coverageFilter, setCoverageFilter] = useState<Set<string>>(new Set());
+  const [approachFilter, setApproachFilter] = useState<Set<string>>(new Set());
   const [commsFilter, setCommsFilter] = useState<Set<string>>(new Set());
 
   useEffect(() => {
@@ -52,10 +53,6 @@ export function App() {
     window.addEventListener("hashchange", onHash);
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
-
-  const scores = vendors.map((v) => v.holistic_score);
-  const min = Math.min(...scores, 0);
-  const max = Math.max(...scores, 1);
 
   if (route.page === "about") {
     return <Shell><MdViewer src="about.md" /></Shell>;
@@ -79,15 +76,15 @@ export function App() {
       <Shell>
         <DetailView
           vendor={vendor ?? null}
-          scoreRange={[min, max]}
         />
       </Shell>
     );
   }
 
   const displayed = vendors
-    .filter((v) => gradeFilter.size === 0 || gradeFilter.has(toBin(v.holistic_score, min, max)))
-    .filter((v) => fidelityFilter.size === 0 || fidelityFilter.has(v.export_fidelity || ""))
+    .filter((v) => gradeFilter.size === 0 || gradeFilter.has(gradeBucket(v.grade)))
+    .filter((v) => coverageFilter.size === 0 || coverageFilter.has(v.coverage || ""))
+    .filter((v) => approachFilter.size === 0 || approachFilter.has(v.approach || ""))
     .filter((v) => commsFilter.size === 0 || commsFilter.has(v.patient_communications || ""));
 
   return (
@@ -96,24 +93,25 @@ export function App() {
         <div className="main-layout">
           <FacetSidebar
             vendors={vendors}
-            scoreRange={[min, max]}
             gradeFilter={gradeFilter}
-            fidelityFilter={fidelityFilter}
+            coverageFilter={coverageFilter}
+            approachFilter={approachFilter}
             commsFilter={commsFilter}
             onToggleGrade={(g) => setGradeFilter(toggle(gradeFilter, g))}
-            onToggleFidelity={(f) => setFidelityFilter(toggle(fidelityFilter, f))}
+            onToggleCoverage={(c) => setCoverageFilter(toggle(coverageFilter, c))}
+            onToggleApproach={(a) => setApproachFilter(toggle(approachFilter, a))}
             onToggleComms={(c) => setCommsFilter(toggle(commsFilter, c))}
             onClearGrade={() => setGradeFilter(new Set())}
-            onClearFidelity={() => setFidelityFilter(new Set())}
+            onClearCoverage={() => setCoverageFilter(new Set())}
+            onClearApproach={() => setApproachFilter(new Set())}
             onClearComms={() => setCommsFilter(new Set())}
-            onClearAll={() => { setGradeFilter(new Set()); setFidelityFilter(new Set()); setCommsFilter(new Set()); }}
+            onClearAll={() => { setGradeFilter(new Set()); setCoverageFilter(new Set()); setApproachFilter(new Set()); setCommsFilter(new Set()); }}
           />
           <div className="main-content">
             <VendorList
               vendors={displayed}
-              scoreRange={[min, max]}
-              hasFilters={gradeFilter.size > 0 || fidelityFilter.size > 0 || commsFilter.size > 0}
-              onClearFilters={() => { setGradeFilter(new Set()); setFidelityFilter(new Set()); setCommsFilter(new Set()); }}
+              hasFilters={gradeFilter.size > 0 || coverageFilter.size > 0 || approachFilter.size > 0 || commsFilter.size > 0}
+              onClearFilters={() => { setGradeFilter(new Set()); setCoverageFilter(new Set()); setApproachFilter(new Set()); setCommsFilter(new Set()); }}
             />
           </div>
         </div>

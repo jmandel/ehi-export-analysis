@@ -1,10 +1,17 @@
 import type { Vendor } from "./types";
-import { toBin, toGrade, BIN_COLORS, BIN_GRADES } from "./Histogram";
+import { gradeBucket, gradeColor } from "./Histogram";
 
-const FIDELITY_LABELS: Record<string, string> = {
+const COVERAGE_LABELS: Record<string, string> = {
+  comprehensive: "Comprehensive",
+  partial: "Partial coverage",
+  minimal_stub_unclear: "Minimal/Stub",
+};
+
+const APPROACH_LABELS: Record<string, string> = {
   native: "Native export",
-  summary_with_supplements: "Summary with supplements",
-  summary_only: "Summary only",
+  standards_based: "Standards-based",
+  hybrid: "Hybrid",
+  unclear: "Unclear approach",
 };
 
 const COMMS_LABELS: Record<string, string> = {
@@ -15,9 +22,14 @@ const COMMS_LABELS: Record<string, string> = {
   unclear: "Messaging unclear",
 };
 
-function fidelityPill(value: string) {
+function coveragePill(value: string) {
   if (!value) return null;
-  return <span className={`pill fidelity-${value}`}>{FIDELITY_LABELS[value] ?? value}</span>;
+  return <span className={`pill coverage-${value}`}>{COVERAGE_LABELS[value] ?? value}</span>;
+}
+
+function approachPill(value: string) {
+  if (!value) return null;
+  return <span className={`pill approach-${value}`}>{APPROACH_LABELS[value] ?? value}</span>;
 }
 
 function commsPill(value: string) {
@@ -25,9 +37,16 @@ function commsPill(value: string) {
   return <span className={`pill comms-${value}`}>{COMMS_LABELS[value] ?? value}</span>;
 }
 
-function scoreBadge(bin: number, grade: string) {
+// Grade sort order: A, A-, B+, B, B-, C+, C, C-, D+, D, D-, F
+const GRADE_ORDER = ["A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"];
+function gradeRank(grade: string): number {
+  const idx = GRADE_ORDER.indexOf(grade);
+  return idx >= 0 ? idx : GRADE_ORDER.length;
+}
+
+function scoreBadge(grade: string) {
   return (
-    <span className="score-badge" style={{ backgroundColor: BIN_COLORS[bin] }}>
+    <span className="score-badge" style={{ backgroundColor: gradeColor(grade) }}>
       {grade}
     </span>
   );
@@ -35,16 +54,14 @@ function scoreBadge(bin: number, grade: string) {
 
 export function VendorList({
   vendors,
-  scoreRange,
   hasFilters,
   onClearFilters,
 }: {
   vendors: Vendor[];
-  scoreRange: [number, number];
   hasFilters: boolean;
   onClearFilters: () => void;
 }) {
-  const sorted = [...vendors].sort((a, b) => b.holistic_score - a.holistic_score);
+  const sorted = [...vendors].sort((a, b) => gradeRank(a.grade) - gradeRank(b.grade));
 
   return (
     <section className="vendor-list">
@@ -69,7 +86,7 @@ export function VendorList({
             className="vendor-card"
             href={`#vendor/${v.slug}`}
           >
-            {scoreBadge(toBin(v.holistic_score, scoreRange[0], scoreRange[1]), toGrade(v.holistic_score, scoreRange[0], scoreRange[1]))}
+            {scoreBadge(v.grade)}
             <div className="vendor-info">
               <div className="vendor-name">
                 {v.developer} — {v.family}
@@ -78,7 +95,8 @@ export function VendorList({
               <div className="vendor-summary">
                 {v.summary}
                 <span className="vendor-pills">
-                  {fidelityPill(v.export_fidelity)}
+                  {coveragePill(v.coverage)}
+                  {approachPill(v.approach)}
                   {commsPill(v.patient_communications)}
                 </span>
               </div>

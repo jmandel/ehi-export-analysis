@@ -24,8 +24,15 @@ interface Vendor {
   family: string;
   product_name: string;
   summary: string;
-  holistic_score: number;
-  export_fidelity: string;
+  grade: string;
+  coverage: string;
+  approach: string;
+  export_formats: string[];
+  entity_count: number | null;
+  field_count: number | null;
+  has_data_dictionary: boolean;
+  has_sample_data: boolean;
+  billing_included: boolean | null;
   patient_communications: string;
   chpl_ids: number[];
   ehi_documentation_url: string;
@@ -136,8 +143,15 @@ for (const slug of absDirs) {
     family,
     product_name: summary.product_name ?? "",
     summary: summary.summary ?? "",
-    holistic_score: summary.holistic_score ?? 0,
-    export_fidelity: summary.export_fidelity ?? "",
+    grade: summary.grade ?? "F",
+    coverage: summary.coverage ?? "",
+    approach: summary.approach ?? "",
+    export_formats: summary.export_formats ?? [],
+    entity_count: summary.entity_count ?? null,
+    field_count: summary.field_count ?? null,
+    has_data_dictionary: summary.has_data_dictionary ?? false,
+    has_sample_data: summary.has_sample_data ?? false,
+    billing_included: summary.billing_included ?? null,
     patient_communications: summary.patient_communications ?? "",
     chpl_ids: chplIds,
     ehi_documentation_url: ehiDocUrl,
@@ -151,8 +165,13 @@ for (const slug of absDirs) {
   });
 }
 
-// Sort by score ascending
-vendors.sort((a, b) => a.holistic_score - b.holistic_score);
+// Sort by grade (A first)
+const GRADE_ORDER = ["A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"];
+vendors.sort((a, b) => {
+  const ai = GRADE_ORDER.indexOf(a.grade);
+  const bi = GRADE_ORDER.indexOf(b.grade);
+  return (ai >= 0 ? ai : GRADE_ORDER.length) - (bi >= 0 ? bi : GRADE_ORDER.length);
+});
 
 await Bun.write(join(DATA, "vendors.json"), JSON.stringify(vendors, null, 2));
 

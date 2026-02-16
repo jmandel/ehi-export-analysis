@@ -3,13 +3,20 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import type { Vendor } from "./types";
-import { toBin, toGrade, BIN_COLORS } from "./Histogram";
+import { gradeColor } from "./Histogram";
 import { Footer } from "./App";
 
-const FIDELITY_LABELS: Record<string, string> = {
+const COVERAGE_LABELS: Record<string, string> = {
+  comprehensive: "Comprehensive",
+  partial: "Partial coverage",
+  minimal_stub_unclear: "Minimal/Stub",
+};
+
+const APPROACH_LABELS: Record<string, string> = {
   native: "Native export",
-  summary_with_supplements: "Summary with supplements",
-  summary_only: "Summary only",
+  standards_based: "Standards-based",
+  hybrid: "Hybrid",
+  unclear: "Unclear approach",
 };
 
 const COMMS_LABELS: Record<string, string> = {
@@ -22,10 +29,8 @@ const COMMS_LABELS: Record<string, string> = {
 
 export function DetailView({
   vendor,
-  scoreRange,
 }: {
   vendor: Vendor | null;
-  scoreRange: [number, number];
 }) {
   const [analysisContent, setAnalysisContent] = useState<string>("");
 
@@ -44,9 +49,7 @@ export function DetailView({
     );
   }
 
-  const bin = toBin(vendor.holistic_score, scoreRange[0], scoreRange[1]);
-  const grade = toGrade(vendor.holistic_score, scoreRange[0], scoreRange[1]);
-  const scoreColor = BIN_COLORS[bin];
+  const scoreColor = gradeColor(vendor.grade);
   const baseUrl = `${window.location.origin}${window.location.pathname}`;
 
   return (
@@ -58,22 +61,45 @@ export function DetailView({
               className="score-badge large"
               style={{ backgroundColor: scoreColor }}
             >
-              {grade}
+              {vendor.grade}
             </span>
             {vendor.developer} — {vendor.family}
           </h1>
           <p className="detail-product">{vendor.product_name}</p>
           <p className="detail-summary">{vendor.summary}</p>
           <div className="detail-pills">
-            {vendor.export_fidelity && (
-              <span className={`pill fidelity-${vendor.export_fidelity}`}>
-                {FIDELITY_LABELS[vendor.export_fidelity] ?? vendor.export_fidelity}
+            {vendor.coverage && (
+              <span className={`pill coverage-${vendor.coverage}`}>
+                {COVERAGE_LABELS[vendor.coverage] ?? vendor.coverage}
+              </span>
+            )}
+            {vendor.approach && (
+              <span className={`pill approach-${vendor.approach}`}>
+                {APPROACH_LABELS[vendor.approach] ?? vendor.approach}
               </span>
             )}
             {vendor.patient_communications && (
               <span className={`pill comms-${vendor.patient_communications}`}>
                 {COMMS_LABELS[vendor.patient_communications] ?? vendor.patient_communications}
               </span>
+            )}
+            {vendor.export_formats && vendor.export_formats.length > 0 && (
+              <span className="pill format">{vendor.export_formats.join(", ")}</span>
+            )}
+            {vendor.entity_count != null && (
+              <span className="pill stat">{vendor.entity_count} entities</span>
+            )}
+            {vendor.field_count != null && (
+              <span className="pill stat">{vendor.field_count} fields</span>
+            )}
+            {vendor.has_data_dictionary && (
+              <span className="pill stat">Data dictionary</span>
+            )}
+            {vendor.billing_included === true && (
+              <span className="pill stat">Billing included</span>
+            )}
+            {vendor.billing_included === false && (
+              <span className="pill stat warning">No billing</span>
             )}
           </div>
         </div>
