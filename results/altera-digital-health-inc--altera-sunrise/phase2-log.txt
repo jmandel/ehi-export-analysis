@@ -1,0 +1,423 @@
+
+
+
+
+● Read product research
+  $ cat /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/pr
+  oduct-research.md 2>/dev/null | head -200
+  └ 186 lines...
+
+● Create output directories
+  $ mkdir -p /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunri
+  se/downloads/enrichment
+  └ 1 line...
+
+● Read CHPL metadata
+  $ cat /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/ch
+  pl-metadata.json 2>/dev/null | head -100
+  └ 101 lines...
+
+● Probe target URL
+  $ curl -sI -L "https://www.alterahealth.com/legal/onc-reg-compliance/" -H 'User-Agent: Mozilla/5.0
+   (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' 2>&1
+  └ 24 lines...
+
+Good — the page is live and returning 200 with ~200KB of HTML. Let me fetch and examine it.
+
+● Fetch page HTML
+  $ curl -sL "https://www.alterahealth.com/legal/onc-reg-compliance/" -H 'User-Agent: Mozilla/5.0
+  (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' -o
+  /tmp/altera-page.html && wc -c /tmp/altera-page.html
+  └ 2 lines...
+
+● Find document links
+  $ # Look for document links
+  grep -oiE 'href="[^"]*\.(pdf|zip|xlsx|xls|csv|json|doc|docx|yaml|yml)[^"]*"' /tmp/altera-page.html
+   | head -30
+  └ 31 lines...
+
+● Find EHI-related links
+  $ # Look for EHI/export related links
+  grep -oiE 'href="[^"]*"' /tmp/altera-page.html | grep -iE
+  'ehi|export|data.dictionary|b.10|bulk|sunrise' | head -30
+  └ 31 lines...
+
+● Find EHI text content
+  $ # Extract text from the page to understand structure
+  cat /tmp/altera-page.html | sed 's/<[^>]*>/ /g' | tr -s ' \n' | grep -iE
+  'ehi|export|b\(10\)|b\.10|electronic health information|data dictionary|bulk' | head -30
+  └ 31 lines...
+
+Excellent! Found Sunrise EHI export documentation — multiple ZIP files with export definitions and Weber diagrams. Let me download all Sunrise-relevant files.
+
+● Download PR27 export definition
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/d
+  ownloads && \
+  curl -sL -H 'User-Agent: Mozilla/5.0' -o sunrise-ehi-export-definition-22-1-pr27.zip
+  "https://www.alterahealth.com/download/204/ehi-documentation/13254/sunrise-ehi-export-definiti
+  on-22-1-pr27.zip" && \...
+  └ 5 lines...
+
+● Download PR24 Weber diagram
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/d
+  ownloads && \
+  curl -sL -H 'User-Agent: Mozilla/5.0' -o sunrise-ehi-weberdiagram-22-1-pr24-1.zip
+  "https://www.alterahealth.com/download/204/ehi-documentation/12043/sunrise-ehi-weberdiagram-22
+  -1-pr24-1.zip" && \...
+  └ 5 lines...
+
+● Download PR28 Weber diagram
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/dow
+  nloads && \
+  curl -sL -H 'User-Agent: Mozilla/5.0' -o ehi-weberdiagram-22-1-pr28.zip
+  "https://www.alterahealth.com/download/204/ehi-documentation/13340/ehi-weberdiagram-22-1-pr28.zip"
+   && \
+  file ehi-weberdiagram-22-1-pr28.zip && wc -c ehi-weberdiagram-22-1-pr28.zip
+  └ 3 lines...
+
+● Download PR38 Weber diagram
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/d
+  ownloads && \
+  curl -sL -H 'User-Agent: Mozilla/5.0' -o ehi-weberdiagram-22-1-pr38.zip
+  "https://www.alterahealth.com/download/204/ehi-documentation/15816/ehi-weberdiagram-22-1-pr38"
+   && \...
+  └ 4 lines...
+
+● Download PR23 export definition
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/d
+  ownloads && \
+  curl -sL -H 'User-Agent: Mozilla/5.0' -o sunrise-ehi-export-definition-22-1pr23.zip
+  "https://www.alterahealth.com/download/204/ehi-documentation/11963/sunrise-ehi-export-definiti
+  on-22-1pr23.zip" && \...
+  └ 5 lines...
+
+All 5 ZIP files downloaded successfully. Now let me also grab the CapabilityStatement and extension-details files, and check what the page sections look like more carefully.
+
+● Check context of these files
+  $ # Look at the page more carefully for what sections the capabilitystatement and
+  extension-details fall under
+  grep -B5 -A5 -i 'capabilitystatement\|extension-details' /tmp/altera-page.html | sed 's/<[^>]*>/
+  /g' | tr -s ' \n' | head -30
+  └ 13 lines...
+
+● Download extension details
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/d
+  ownloads && \
+  curl -sL -H 'User-Agent: Mozilla/5.0' -o extension-details.xlsx
+  "https://www.alterahealth.com/download/204/ehi-documentation/11954/extension-details.xlsx" &&
+  \...
+  └ 4 lines...
+
+● Download CapabilityStatement
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/d
+  ownloads && \
+  curl -sL -H 'User-Agent: Mozilla/5.0' -o capabilitystatement.json
+  "https://www.alterahealth.com/download/204/ehi-documentation/11851/capabilitystatement.json"
+  && \...
+  └ 21 lines...
+
+The CapabilityStatement and extension-details are for Paragon, not Sunrise — I'll remove them and focus on the Sunrise ZIPs. Let me extract the latest versions to examine.
+
+● Remove non-Sunrise files
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/dow
+  nloads && \
+  rm capabilitystatement.json extension-details.xlsx
+  └ 1 line...
+
+● Extract PR27 export definition
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/d
+  ownloads && \
+  mkdir -p extracted/pr27-export-definition && \
+  unzip -q -o sunrise-ehi-export-definition-22-1-pr27.zip -d extracted/pr27-export-definition &&
+   \...
+  └ 38 lines...
+
+● Extract PR38 Weber diagram
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/d
+  ownloads && \
+  mkdir -p extracted/pr38-weberdiagram && \
+  unzip -q -o ehi-weberdiagram-22-1-pr38.zip -d extracted/pr38-weberdiagram && \
+  echo "--- PR38 contents ---" && \...
+  └ 37 lines...
+
+Massive documentation — 5490+ files in PR27, 6114+ in PR38. These are HTML ER diagram data dictionaries. Let me examine the structure.
+
+● Find PR27 index files
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/dow
+  nloads/extracted/pr27-export-definition && \
+  find . -name "index.htm*" -o -name "main.htm*" | head -10
+  └ 2 lines...
+
+● Find index files
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/dow
+  nloads/extracted/pr38-weberdiagram && \
+  find . -name "index.htm*" -o -name "main.htm*" | head -10
+  └ 5 lines...
+
+● Examine PR38 structure
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/dow
+  nloads/extracted/pr38-weberdiagram && \
+  ls "EHI WebERDiagram 22.1 PR38/" && echo "---" && \
+  ls "EHI WebERDiagram 22.1 PR38/FS WebERDiagram 22.1 PR38/" | head -20
+  └ 12 lines...
+
+● Count files per subdirectory
+  $ # Count files per subdirectory in PR38
+  for dir in FS IMG MNC SCM; do
+    echo "$dir: $(find "/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-in
+  c--altera-sunrise/downloads/extracted/pr38-weberdiagram/EHI WebERDiagram 22.1 PR38/$dir
+  WebERDiagram 22.1 PR38" -type f 2>/dev/null | wc -l) files"...
+  └ 6 lines...
+
+● Examine PR38 subdirectories
+  $ # Look at the top-level structure of PR38 — has 4 sub-diagrams: FS, IMG, MNC, SCM
+  ls -la "/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/
+  downloads/extracted/pr38-weberdiagram/EHI WebERDiagram 22.1 PR38/"
+  └ 8 lines...
+
+● Examine tree structure
+  $ # Examine the TreeNodes.js to understand the table tree structure (PR38 FS)
+  head -100 "/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunri
+  se/downloads/extracted/pr38-weberdiagram/EHI WebERDiagram 22.1 PR38/FS WebERDiagram 22.1
+  PR38/TreeNodes.js"
+  └ 36 lines...
+
+● Examine sample table page
+  $ # Look at a sample table definition page
+  find "/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/do
+  wnloads/extracted/pr38-weberdiagram/EHI WebERDiagram 22.1 PR38/SCM WebERDiagram 22.1 PR38/Content"
+   -name "Tbl_*.htm" | head -3 | xargs -I{} sh -c 'echo "=== {} ===" && head -50 "{}"'
+  └ 154 lines...
+
+● Check SCM tree structure
+  $ # FS=Financial System, IMG=Imaging, MNC=???, SCM=Sunrise Clinical Manager
+  # Let me check the main TreeNodes.js for SCM which has the most tables
+  head -200 "/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunri
+  se/downloads/extracted/pr38-weberdiagram/EHI WebERDiagram 22.1 PR38/SCM WebERDiagram 22.1
+  PR38/TreeNodes.js"
+  └ 36 lines...
+
+This is a comprehensive database schema data dictionary with table definitions, column details, data types, and field descriptions. Let me count tables and examine the entity list.
+
+● View SCM entity list
+  $ # Look at the entity list for SCM to see table names
+  head -200 "/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunri
+  se/downloads/extracted/pr38-weberdiagram/EHI WebERDiagram 22.1 PR38/SCM WebERDiagram 22.1
+  PR38/Content/Sub_6ce78c092c134b7fb0f9f94ed8a395d4_EntList.htm"
+  └ 12 lines...
+
+● Count tables per schema
+  $ # Count actual table files (Tbl_ without _Attr) across PR38
+  for dir in FS IMG MNC SCM; do
+    count=$(find "/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--alt
+  era-sunrise/downloads/extracted/pr38-weberdiagram/EHI WebERDiagram 22.1 PR38/$dir WebERDiagram
+   22.1 PR38/Content" -name "Tbl_*.htm" ! -name "*_Attr*" 2>/dev/null | wc -l)...
+  └ 7 lines...
+
+● Extract table names from entity list
+  $ # Extract table names from the SCM entity list
+  grep -oP '<TITLE>[^<]+</TITLE>' "/home/jmandel/hobby/ehi-export-analysis/results/altera-digita
+  l-health-inc--altera-sunrise/downloads/extracted/pr38-weberdiagram/EHI WebERDiagram 22.1
+  PR38/SCM WebERDiagram 22.1 PR38/Content/Sub_6ce78c092c134b7fb0f9f94ed8a395d4_EntList.htm"
+  2>/dev/null || \...
+  └ 54 lines...
+
+● Extract actual table names
+  $ # Extract all table names from Tbl_*.htm files using their TITLE tags
+  find "/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/do
+  wnloads/extracted/pr38-weberdiagram/EHI WebERDiagram 22.1 PR38/SCM WebERDiagram 22.1 PR38/Content"
+   -name "Tbl_*.htm" ! -name "*_Attr*" -exec grep -oP '<TITLE>[^<]+</TITLE>' {} \; | sed
+  's/<\/?TITLE>//g' | sort | head -50
+  └ 51 lines...
+
+This is an impressively comprehensive data dictionary. 2,728+ tables in SCM alone, with column-level details. Let me also check the PR27 structure to understand how it differs from PR38.
+
+● Count PR27 tables
+  $ # Count tables in PR27
+  find "/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/do
+  wnloads/extracted/pr27-export-definition/EHI WebERDiagram 22.1 PR27/Content" -name "Tbl_*.htm" !
+  -name "*_Attr*" | wc -l
+  └ 2 lines...
+
+● Check PR27 structure
+  $ # Check PR27 structure - does it have FS, IMG, MNC, SCM subdirs?
+  ls "/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/down
+  loads/extracted/pr27-export-definition/EHI WebERDiagram 22.1 PR27/"
+  └ 2 lines...
+
+● Check PR23 structure
+  $ # Check PR23 structure
+  mkdir -p /tmp/pr23-peek && unzip -l sunrise-ehi-export-definition-22-1pr23.zip -d
+  /tmp/pr23-peek 2>/dev/null | head -30
+  cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/d
+  ownloads && unzip -l sunrise-ehi-export-definition-22-1pr23.zip | head -20 && echo "..." && ...
+  └ 28 lines...
+
+PR38 is the latest and most comprehensive (4 schemas: FS, IMG, MNC, SCM). Now let me build the enrichment scripts to extract structured data from these HTML files.
+
+● Full sample table page
+  $ # Get a fuller sample of a table page to understand the HTML structure for parsing
+  cat "/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/dow
+  nloads/extracted/pr38-weberdiagram/EHI WebERDiagram 22.1 PR38/SCM WebERDiagram 22.1
+  PR38/Content/Tbl_000a7df0b6fe42c2958e957751a67bf7.htm"
+  └ 140 lines...
+
+● Get all non-SCM table names
+  $ # Check what table names look like across the FS, IMG, MNC schemas
+  echo "=== FS ===" && find "/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-heal
+  th-inc--altera-sunrise/downloads/extracted/pr38-weberdiagram/EHI WebERDiagram 22.1 PR38/FS
+  WebERDiagram 22.1 PR38/Content" -name "Tbl_*.htm" ! -name "*_Attr*" -exec grep -oP
+  '<TITLE>[^<]+</TITLE>' {} \; | sed 's/<\/?TITLE>//g'...
+  └ 31 lines...
+
+Now let me check for relationship data and then build the enrichment script.
+
+● Check Bun availability
+  $ # Check which Bun version is available
+  bun --version 2>/dev/null || echo "bun not found"
+  └ 2 lines...
+
+● Check relationship data
+  $ # Check relationship pages
+  head -100 "/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunri
+  se/downloads/extracted/pr38-weberdiagram/EHI WebERDiagram 22.1 PR38/SCM WebERDiagram 22.1
+  PR38/Content/Submodel_6ce78c092c134b7fb0f9f94ed8a395d4_Rel.htm" | head -80
+  └ 5 lines...
+
+Relationship file is empty. Let me now create the enrichment script to parse all table definitions into queryable JSON.
+
+● Create results/altera-digital-health-inc--altera-sunrise/downloads/enrichment/extract-tables.ts
+  (+259)
+
+● Run extraction script
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/dow
+  nloads/enrichment && bun run extract-tables.ts
+  └ 12 lines...
+
+Tables parsed but columns are 0 — the regex needs fixing. Let me debug.
+
+● Debug column HTML structure
+  $ # Let me look at the actual HTML more carefully for column structure
+  cat "/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/dow
+  nloads/extracted/pr38-weberdiagram/EHI WebERDiagram 22.1 PR38/SCM WebERDiagram 22.1
+  PR38/Content/Tbl_000a7df0b6fe42c2958e957751a67bf7.htm" | cat -A | head -80
+  └ 81 lines...
+
+The HTML has Windows-style `\r\n` line endings. Let me fix the script to handle that.
+
+● Edit results/altera-digital-health-inc--altera-sunrise/downloads/enrichment/extract-tables.ts (+2
+  -1)
+
+● Re-run extraction
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/dow
+  nloads/enrichment && bun run extract-tables.ts
+  └ 12 lines...
+
+Still 0 columns. Let me debug the regex more carefully.
+
+● Debug column regex
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/d
+  ownloads/enrichment && cat > debug-parse.ts << 'SCRIPT'
+  import { readFile } from "fs/promises";
+  const html = (await readFile("../extracted/pr38-weberdiagram/EHI WebERDiagram 22.1 PR38/SCM
+  WebERDiagram 22.1 PR38/Content/Tbl_000a7df0b6fe42c2958e957751a67bf7.htm", ...
+  └ 26 lines...
+
+● Debug regex with [\s\S]
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/d
+  ownloads/enrichment && cat > debug-parse.ts << 'SCRIPT'
+  import { readFile } from "fs/promises";
+  const html = (await readFile("../extracted/pr38-weberdiagram/EHI WebERDiagram 22.1 PR38/SCM
+  WebERDiagram 22.1 PR38/Content/Tbl_000a7df0b6fe42c2958e957751a67bf7.htm", ...
+  └ 36 lines...
+
+The fix is using `[\s\S]` instead of `.*` for the column section match. Let me update the script.
+
+● Edit results/altera-digital-health-inc--altera-sunrise/downloads/enrichment/extract-tables.ts (+1
+  -1)
+
+● Re-run extraction
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/dow
+  nloads/enrichment && bun run extract-tables.ts
+  └ 12 lines...
+
+42,849 columns extracted across 2,747 tables. Let me also fix the `&nbsp;` issue in the extracted values and verify quality.
+
+● Verify extraction quality
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/d
+  ownloads/enrichment && \
+  # Check quality of extracted data
+  python3 -c "
+  import json...
+  └ 45 lines...
+
+Clean extraction — all 2,747 tables have columns, no `&nbsp;` contamination. Let me check file sizes and do some more quality checks.
+
+● Check file sizes and table prefixes
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/d
+  ownloads/enrichment && \
+  ls -lh tables.json tables-summary.csv columns.csv && \
+  head -5 tables-summary.csv && echo "---" && \
+  head -5 columns.csv && echo "---" && \...
+  └ 65 lines...
+
+Excellent data. Now let me clean up the debug file and create the enrichment README.
+
+● Create results/altera-digital-health-inc--altera-sunrise/downloads/enrichment/README.md (+47)
+
+● Clean up debug file
+  $ rm /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/dow
+  nloads/enrichment/debug-parse.ts
+  └ 1 line...
+
+Now let me get the file sizes for the manifest and then write the final report.
+
+● Get file sizes for manifest
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/d
+  ownloads && \
+  echo "=== ZIP files ===" && \
+  for f in *.zip; do echo "$f: $(wc -c < "$f") bytes"; done && \
+  echo "=== Enrichment ===" && \...
+  └ 15 lines...
+
+● Create results/altera-digital-health-inc--altera-sunrise/files.json (+79)
+
+Now let me do some final analysis for the report — understand what data domains are covered by looking at table name patterns and definitions.
+
+● Categorize tables by data domain
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise/d
+  ownloads/enrichment && \
+  python3 << 'PY'
+  import json, re
+  with open('tables.json') as f:...
+  └ 148 lines...
+
+Now let me write the comprehensive report.
+
+● Create results/altera-digital-health-inc--altera-sunrise/ehi-export-report.md (+217)
+
+Now let me verify the final output directory structure and ensure everything is in order.
+
+● Verify output structure
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise
+  && \
+  echo "=== Top level ===" && ls -la *.json *.md && \
+  echo "=== Downloads ===" && ls -lh downloads/*.zip && \
+  echo "=== Enrichment ===" && ls -lh downloads/enrichment/ && \...
+  └ 24 lines...
+
+● Validate JSON outputs
+  $ # Validate JSON files are valid
+  cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise
+  && \
+  python3 -c "import json; json.load(open('files.json')); print('files.json: valid')" && \
+  python3 -c "import json; d=json.load(open('downloads/enrichment/tables.json')); ...
+  └ 4 lines...
+
+Everything is valid and complete. Let me clean up the extracted directory since it's 156MB and the ZIP files are the primary artifacts.
+
+● Clean up extracted files
+  $ rm -rf /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--altera-sunrise
+  /downloads/extracted
+  └ 1 line...
+
