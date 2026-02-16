@@ -111,6 +111,9 @@ fail_list=()
 run_one() {
   local idx=$1 cmd=$2 stream=${3:-false}
   local logfile="$LOG_DIR/job-$idx.log"
+  # Extract slug from command for persistent error log
+  local slug
+  slug=$(echo "$cmd" | grep -oP '(?<=--dir ")[^"]+')
   echo "[$(date +%H:%M:%S)] START ($((idx+1))/$queued): $cmd" >&2
   if [[ "$stream" == true ]]; then
     if eval "$cmd" 2>&1 | tee "$logfile"; then
@@ -118,6 +121,11 @@ run_one() {
       return 0
     else
       echo "[$(date +%H:%M:%S)] FAIL  ($((idx+1))/$queued): $cmd" >&2
+      if [[ -n "$slug" ]]; then
+        mkdir -p "$ROOT_DIR/abstraction/$slug"
+        cp "$logfile" "$ROOT_DIR/abstraction/$slug/analysis-error.log"
+        echo "  Error log: abstraction/$slug/analysis-error.log" >&2
+      fi
       return 1
     fi
   elif eval "$cmd" > "$logfile" 2>&1; then
@@ -126,6 +134,11 @@ run_one() {
   else
     echo "[$(date +%H:%M:%S)] FAIL  ($((idx+1))/$queued): $cmd" >&2
     tail -5 "$logfile" >&2
+    if [[ -n "$slug" ]]; then
+      mkdir -p "$ROOT_DIR/abstraction/$slug"
+      cp "$logfile" "$ROOT_DIR/abstraction/$slug/analysis-error.log"
+      echo "  Error log: abstraction/$slug/analysis-error.log" >&2
+    fi
     return 1
   fi
 }

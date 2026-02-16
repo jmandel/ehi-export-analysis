@@ -1,0 +1,312 @@
+#!/usr/bin/env python3
+"""Generate the full entity inventory from verified manual extraction of TenzingEHIFormatInfo.pdf.
+
+The PDF has 28 VistA C-CDA sections and 4 McKesson Series sections.
+Multi-line section names in the PDF caused automated parsing to split entries;
+this script uses verified data directly from the PDF text.
+"""
+
+import json
+from pathlib import Path
+
+OUTPUT_DIR = Path(__file__).resolve().parent
+
+vista_sections = [
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Care Team",
+        "template_id": "/ClinicalDocument/recordTarget/patientRole/documentationOf/serviceEvent/performer",
+        "description": "Ordering providers, clinical care team",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Problems",
+        "template_id": "2.16.840.1.113883.10.20.22.2.5.1",
+        "description": "Clinical problem list",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Vitals",
+        "template_id": "2.16.840.1.113883.10.20.22.2.4.1",
+        "description": "Vital signs (eg blood pressure, heart rate, pulse, blood ox, etc.)",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Medications",
+        "template_id": "2.16.840.1.113883.10.20.22.2.1.1",
+        "description": "Active and pertinent medication history.",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Admission Medications",
+        "template_id": "2.16.840.1.113883.10.20.22.2.44",
+        "description": "Medications administered during an inpatient stay",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Ambulatory Medications",
+        "template_id": "2.16.840.1.113883.10.20.22.2.38",
+        "description": "Medications administered during a clinical visit.",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Discharge Medications",
+        "template_id": "2.16.840.1.113883.10.20.22.2.11.1",
+        "description": "Medications ordered upon discharge.",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Allergies and Intolerances",
+        "template_id": "2.16.840.1.113883.10.20.22.2.6.1",
+        "description": "Active and pertinent allergy list.",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Social History / Smoking Status",
+        "template_id": "2.16.840.1.113883.10.20.22.2.17",
+        "description": "Relevant social history and smoking status.",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Assessments",
+        "template_id": "2.16.840.1.113883.10.20.22.2.8",
+        "description": "Impressions/diagnoses guiding treatment.",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Encounter Diagnosis",
+        "template_id": "2.16.840.1.113883.10.20.22.2.22.1",
+        "description": "Relevant problems or diagnoses at the close of a visit w/ visit location and timeframes included.",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Procedures",
+        "template_id": "2.16.840.1.113883.10.20.22.2.7.1",
+        "description": "Interventional, surgical, diagnostic, and therapeutic procedures or treatments",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Diagnostic Results",
+        "template_id": "2.16.840.1.113883.10.20.22.2.3.1",
+        "description": "Laboratory, radiological, and procedural results.",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Plan of Treatment",
+        "template_id": "2.16.840.1.113883.10.20.22.2.10",
+        "description": "Pending orders, interventions, encounters, services.",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Immunizations",
+        "template_id": "2.16.840.1.113883.10.20.22.2.2.1",
+        "description": "Current and pertinent immunization history.",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Reason For Referral",
+        "template_id": "1.3.6.1.4.1.19376.1.5.3.1.3.1",
+        "description": "Notes related to outside referrals",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Chief Complaint",
+        "template_id": "2.16.840.1.113883.10.20.22.2.13",
+        "description": "Patient's own description of complaint",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Admit Diagnosis",
+        "template_id": "2.16.840.1.113883.10.20.22.2.43",
+        "description": "Diagnosis at the time of inpatient admission.",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Discharge Diagnosis",
+        "template_id": None,
+        "description": "Diagnosis at the time of inpatient discharge.",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Instructions",
+        "template_id": "2.16.840.1.113883.10.20.22.2.45",
+        "description": "Provider notes directed to the patient.",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Functional Status",
+        "template_id": "2.16.840.1.113883.10.20.22.2.14",
+        "description": "Observations and assessments of a patient's physical abilities.",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Mental Status",
+        "template_id": "2.16.840.1.113883.10.20.22.2.56",
+        "description": "Observations and evaluations related to patients psychological and mental competency and deficits.",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Notes",
+        "template_id": "2.16.840.1.113883.10.20.22.2.65",
+        "description": "Free text based clinical documentation.",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Discharge Instructions",
+        "template_id": "2.16.840.1.113883.10.20.22.2.41",
+        "description": "Instruction at discharge",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Medical Equipment",
+        "template_id": "2.16.840.1.113883.10.20.22.2.23",
+        "description": "Implanted and external health and medical devices and equipment.",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Health Concerns",
+        "template_id": "2.16.840.1.113883.10.20.22.2.58",
+        "description": "SDOH-related conditions",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Goals",
+        "template_id": "2.16.840.1.113883.10.20.22.2.60",
+        "description": "Defined outcome or condition to be achieved in the process of patient care.",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Payers/Insurance",
+        "template_id": "2.16.840.1.113883.10.20.22.2.18",
+        "description": "Insurance and payer information",
+        "type": "C-CDA Section"
+    },
+    {
+        "system": "Tenzing VistA",
+        "section_name": "Family History",
+        "template_id": "2.16.840.1.113883.10.20.22.2.15",
+        "description": "Data related to patient's genetic relatives in terms of possible or relevant health risks/factors.",
+        "type": "C-CDA Section"
+    }
+]
+
+series_sections = [
+    {
+        "system": "McKesson Series",
+        "section_name": "Patient",
+        "path": "/Patient",
+        "description": "Patient demographics",
+        "type": "Delimited Data Section"
+    },
+    {
+        "system": "McKesson Series",
+        "section_name": "Payer/Insurance",
+        "path": "/Patient/Payer",
+        "description": "Insurance, payer information",
+        "type": "Delimited Data Section"
+    },
+    {
+        "system": "McKesson Series",
+        "section_name": "Enrollment/Account Information",
+        "path": "/Patient/Account",
+        "description": "Enrollment, account information",
+        "type": "Delimited Data Section"
+    },
+    {
+        "system": "McKesson Series",
+        "section_name": "Billing History",
+        "path": "/Patient/Billing",
+        "description": "Billing history, adjudication, etc.",
+        "type": "Delimited Data Section"
+    }
+]
+
+# Count sections with template IDs
+sections_with_template_id = sum(1 for s in vista_sections if s["template_id"])
+
+inventory = {
+    "source_file": "TenzingEHIFormatInfo.pdf",
+    "source_pages": 3,
+    "source_created": "2023-11-14",
+    "export_guide_file": "ElectronicHealthInformationExport.pdf",
+    "export_guide_pages": 4,
+    "export_guide_created": "2023-07-10",
+    "vista_sections": vista_sections,
+    "vista_section_count": len(vista_sections),
+    "vista_sections_with_template_id": sections_with_template_id,
+    "series_sections": series_sections,
+    "series_section_count": len(series_sections),
+    "total_sections": len(vista_sections) + len(series_sections),
+    "summary_statistics": {
+        "total_documentation_pages": 7,
+        "total_sections_documented": len(vista_sections) + len(series_sections),
+        "field_level_documentation": False,
+        "field_count": "N/A - no field-level documentation provided",
+        "descriptions_provided": True,
+        "description_detail": "One-line descriptions per section only",
+        "sample_data_provided": False,
+        "schema_provided": False,
+        "value_sets_documented": False,
+        "relationships_documented": False,
+        "machine_readable_artifacts": False
+    },
+    "format_details": {
+        "vista": {
+            "format": "C-CDA R2.1 XML",
+            "standard": "HL7 C-CDA, USCDI v2",
+            "granularity": "One XML document per patient",
+            "selection": "User selects sections, date ranges, and hospital locations",
+            "batch_capable": True,
+            "export_mechanisms": [
+                "VGTM EHI EXPORT (interactive)",
+                "VGTM AUTO CCDA EXPORT (scheduled batch via Taskman)"
+            ]
+        },
+        "series": {
+            "format": "Structured delimited format",
+            "delimiter": "Not specified",
+            "encoding": "Not specified",
+            "selection": "Individual or batch, with date ranges",
+            "schema_provided": False
+        }
+    }
+}
+
+output_path = OUTPUT_DIR / "full-entity-inventory.json"
+with open(output_path, 'w') as f:
+    json.dump(inventory, f, indent=2)
+
+print(f"VistA C-CDA sections: {len(vista_sections)} ({sections_with_template_id} with template IDs)")
+print(f"McKesson Series sections: {len(series_sections)}")
+print(f"Total sections: {len(vista_sections) + len(series_sections)}")
+print(f"Field-level documentation: No")
+print(f"Sample data: No")
+print(f"Schema artifacts: No")
+print(f"\nOutput: {output_path}")

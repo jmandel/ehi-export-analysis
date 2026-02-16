@@ -10,6 +10,9 @@ in the results folder and produce a rigorous, evidence-backed analysis.
 - **Product**: {{PRODUCT_NAME}}
 - **Output directory**: `{{OUTPUT_DIR}}`
 
+Your output directory already contains:
+- `metadata.json` — pre-populated with developer info, certified products, and `ehi_documentation_url` (the vendor's EHI export page from CHPL)
+
 The results directory contains:
 - `product-research.md` — prior research on what this vendor/product does and stores
 - `ehi-export-report.md` — prior agent's narrative about the export documentation

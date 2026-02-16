@@ -1,0 +1,112 @@
+{
+  "source_file": "downloads/ehi-export-doc.txt",
+  "source_size_bytes": 808,
+  "source_format": "plain text (exported from Google Doc)",
+  "pdf_pages": 2,
+  "pdf_title": "Simplify EMR b(10) Export Format",
+  "has_data_dictionary": false,
+  "has_field_definitions": false,
+  "has_sample_data": false,
+  "has_schema": false,
+  "export_modes": [
+    {
+      "name": "All Patient Mode",
+      "description": "ZIP file containing one folder per patient in single-patient format",
+      "output_format": "ZIP file",
+      "naming_convention": "Patient_export_{date}.zip"
+    },
+    {
+      "name": "Single Patient Mode",
+      "description": "Folder containing C-CDA XML, encounter notes subfolder, and patient documents subfolder",
+      "output_format": "folder",
+      "naming_convention": "Lastname_FirstName_patientId_Date"
+    }
+  ],
+  "export_components": [
+    {
+      "name": "C-CDA XML",
+      "type": "standard_document",
+      "standard": "USCDI v1 C-CDA",
+      "format": "XML",
+      "naming_convention": "Lastname_FirstName_ccda.xml",
+      "description": "CCDA File Conformant to USCDI v1",
+      "reference": "USCDI-Version-1-July-2020-Errata-Final_0.pdf",
+      "data_classes_covered": [
+        "Patient Demographics/Information",
+        "Allergies and Intolerances",
+        "Assessment and Plan of Treatment",
+        "Care Team Members",
+        "Clinical Notes",
+        "Goals",
+        "Health Concerns",
+        "Immunizations",
+        "Laboratory (Results/Reports)",
+        "Medications",
+        "Problems (Conditions/Diagnoses)",
+        "Procedures",
+        "Provenance",
+        "Smoking Status",
+        "Unique Device Identifier(s) for Implantable Devices",
+        "Vital Signs"
+      ],
+      "field_count": "N/A - no vendor-specific field documentation",
+      "fields_documented": 0
+    },
+    {
+      "name": "Encounters",
+      "type": "document_dump",
+      "format": "PDF or HTML",
+      "naming_convention": "{encounterId}_{date}.pdf or .html",
+      "description": "All Visit Notes in PDF or HTML Format (0 to many)",
+      "cardinality": "0 to many per patient",
+      "field_count": "N/A - unstructured documents",
+      "fields_documented": 0
+    },
+    {
+      "name": "Patient Documents",
+      "type": "document_dump",
+      "format": "PDF or HTML",
+      "naming_convention": "{documentId}_{date}.pdf or .html",
+      "description": "Other Documents in PDF Format or HTML Format (0 to many)",
+      "cardinality": "0 to many per patient",
+      "field_count": "N/A - unstructured documents",
+      "fields_documented": 0
+    }
+  ],
+  "artifacts_reviewed": [
+    {
+      "filename": "ehi-export-doc.docx",
+      "size_bytes": 7838
+    },
+    {
+      "filename": "ehi-export-doc.pdf",
+      "size_bytes": 39194
+    },
+    {
+      "filename": "ehi-export-doc.txt",
+      "size_bytes": 831
+    },
+    {
+      "filename": "google-doc-screenshot-page2.png",
+      "size_bytes": 131491
+    },
+    {
+      "filename": "google-doc-screenshot.png",
+      "size_bytes": 70721
+    }
+  ],
+  "summary_statistics": {
+    "total_entities": 3,
+    "total_fields_documented": 0,
+    "fields_with_descriptions": 0,
+    "fields_with_types": 0,
+    "data_dictionary_present": false,
+    "sample_data_present": false,
+    "schema_present": false,
+    "documentation_text_bytes": 808,
+    "documentation_pages": 2,
+    "export_format": "C-CDA XML + PDF/HTML documents",
+    "model_type": "standard projection (USCDI v1 C-CDA) + document dump"
+  },
+  "raw_documentation_text": "\ufeffSimplify EMR\nExport Format\n________________\n\n\nAll Patient Mode\n\n\n1. Zip File Naming Convention: Patient_export_{date}.zip\n   1. Each Patient with a  folder with the single format (as described below) \nSingle Patient Mode\n\n\n1. Folder with the naming convention Lastname_FirstName_patientId_Date\n   1. Folder Contains\n      1. Lastname_FirstName_ccda.xml \n         1. CCDA File Conformant to USCDI v1. Please Refer to USCDI-Version-1-July-2020-Errata-Final_0.pdf for CCDA Specifications\n      2. Sub Folders\n         1. Encounters - All Visit Notes in PDF or HTML Format (0 to many)\n            1. {encounterId}_{date}.pdf or {encounterId}_{date}.html\n         2. Patient Documents - Other Documents in PDF Format  or HTML Format  (0 to many)\n            1. {documentId}_{date}.pdf or {documentId}_{date}.html"
+}

@@ -1,0 +1,371 @@
+Version: V9.1
+
+
+
+
+§170.315(b)(10) Electronic Health Information
+Export- Documentation
+
+This document describes the details for §170.315(b)(10) Electronic Health Information export
+
+
+
+
+                                                                                   Page 1 of 11
+                                                                   §170.315(b)(10) Electronic Health
+                                                                 Information Export – Documentation
+
+
+Contents
+Overview ...................................................................................................................................................... 3
+   Clinical Data – Single Patient Export......................................................................................................... 4
+   Clinical Data – Bulk Patient Export ........................................................................................................... 5
+CCD Output Format ...................................................................................................................................... 6
+   Standard Referenced:............................................................................................................................... 6
+   Sections in the CCD output....................................................................................................................... 6
+Patient Demographic/Insurance ................................................................................................................ 11
+Advance Directive....................................................................................................................................... 11
+Appointments............................................................................................................................................. 11
+Provider-to-Patient Messages .................................................................................................................... 11
+Billing Data (Claim) ..................................................................................................................................... 11
+Documents ................................................................................................................................................. 11
+Organizational Structure ............................................................................................................................ 11
+FHIR Data Export ........................................................................................................................................ 11
+
+
+
+
+                                                                                                                                              Page 2 of 11
+                                           §170.315(b)(10) Electronic Health
+                                         Information Export – Documentation
+
+Overview
+VertexDr support §170.315(b)(10) Electronic Health Information export by using CCD Export for Single
+Patient and Bulk Export as per the standards specified in § 170.205(a)(4) HL7® Implementation Guide for
+CDA® Release 2: Consolidated CDA Templates for Clinical Notes (US Realm) and Patient
+demographic/insurance, appointments, Billing information and documents export in pdf format.
+
+Here are the detailed formats and structures we offer
+
+   •   Clinical Data (Single Patient Export and Bulk Patient Export in the xml/html format)
+   •   Patient Demographic, Insurance, Appointments, Provider-to-patient messages, and Billing Data in
+       pdf format
+   •   Documents (signed progress notes, available lab results, radiology reports, and any other scanned
+       or uploaded document export in pdf format)
+
+
+
+
+                                                                                           Page 3 of 11
+                                              §170.315(b)(10) Electronic Health
+                                            Information Export – Documentation
+
+Clinical Data – Single Patient Export
+Steps to Export CCDA for Single Patient:-
+
+    •   In the patient’s chart, File Menu and select Export CCD…
+    •   In the Patient Continuity of Care Export window select the requested sections and options and
+        choose OK
+
+
+
+
+                                                                                           Page 4 of 11
+                                           §170.315(b)(10) Electronic Health
+                                         Information Export – Documentation
+
+Clinical Data – Bulk Patient Export
+Steps to Export CCDA for Patient Population:
+
+   •   From the Main window of VertexDr, Navigate to the File Menu and navigate to Export CCD(s) for
+       Patients
+   •   Fill out the entries for Output Options and any other desired options
+   •   Click the OK button
+   •   A ZIP file will be downloaded with CCDA in XML format.
+
+
+
+
+                                                                                        Page 5 of 11
+                                                               §170.315(b)(10) Electronic Health
+                                                             Information Export – Documentation
+
+      CCD Output Format
+      Standard Referenced:
+            •   § 170.205(a)(4) HL7® Implementation Guide for CDA® Release 2: Consolidated CDA Templates
+                for Clinical Notes (US Realm), Draft Standard for Trial Use Release 2.1, August 2015
+
+      Sections in the CCD output
+       Data Elements                         XPATH / Entry                        Code System          Code System Name
+Patient Demographics/Information
+Patient Name                       patient/name                                                    -
+
+Sex                                patient/administrativeGenderCode       2.16.840.1.113883.5.1    AdministrativeGender
+
+Date of Birth                      patient/birthTime
+                                                                          2.16.840.1.113883.6.23   Race & Ethnicity -
+Race                               patient/raceCode
+                                                                          8                        CDC
+                                   patient/ethnicGroupCo                  2.16.840.1.113883.6.23   Race & Ethnicity -
+Ethnicity
+                                   de                                     8                        CDC
+                                   patient/languageComm
+Preferred Language                 unication/languageCode
+
+Provider's name and office contact information
+
+                                   documentationOf/servic
+Performer                          eEvent/performer
+                                   /assignedEntity/assignedPerson/name
+
+
+                                   documentationOf/servic
+Performer                          eEvent/performer/assig
+                                   nedEntity/telecom
+                                   documentationOf/servic
+Performer                          eEvent/performer/assig
+                                   nedEntity/addr
+
+Date and Location of visit [2.16.840.1.113883.10.20.22.2.22.1 : 2015-08-01]
+Encounter                          entry/encounter/effectiveTime/@value
+                                   entry/encounter/partici
+Encounter
+                                   pant/participantRole/addr
+Chief Complaint and Reason for visit [2.16.840.1.113883.10.20.22.2.13 : 2014-06-09]
+Patient visit details/complaints
+Encounters [2.16.840.1.113883.10.20.22.2.22.1 : 2015-08-01]
+Encounter Code and Code            2.16.840.1.113883.10.2
+Description                                                               2.16.840.1.113883.6.12         CPT
+                                   0.22.4.49: 2015-08-01
+Performer
+
+
+
+
+                                                                                                            Page 6 of 11
+              Data Elements                            XPATH / Entry                         Code System              Code System Name
+                                                                                     2.16.840.1.113883.6.96
+Diagnosis                                                                            and 2.16.840.1.113883.6.3       SNOMED and ICD10
+                                                                                     (translation code)
+Location
+Date
+
+Immunizations [2.16.840.1.113883.10.20.22.2.2.1 : 2015-08-01]
+                                                                                     2.16.840.1.113883.12.2
+                                                2.16.840.1.113883.10.2               92 and
+Vaccine                                                                                                              CVX and CPT-4
+                                                0.22.4.52: 2015-08-01                2.16.840.1.113883.6.12
+                                                                                     (translation code)
+Date
+Status
+                                                                                                                     National Cancer
+                                                                                     2.16.840.1.113883.3.26.         Institute (NCI)
+Route
+                                                                                     1.1                             Thesaurus
+Site                                                                                 2.16.840.1.113883.6.96          SNOMED
+Manufacturer
+Dose
+Lot Number
+Notes
+
+Instructions [2.16.840.1.113883.10.20.22.2.45 : 2014-06-09]
+
+Patient Instructions/FollowupReasons            2.16.840.1.113883.10.2
+                                                                                     2.16.840.1.113883.6.96          SNOMED
+                                                0.22.4.20: 2014-06-09
+
+Treatment Plan [2.16.840.1.113883.10.20.22.2.10 : 2014-06-09]
+(Diagnostic tests pending, Future appointments, Referrals to other providers, Future scheduled tests,
+Recommended patient decision aids)
+                                                2.16.840.1.113883.10.2
+Planned Observation                                                                  2.16.840.1.113883.6.1           LOINC
+                                                0.22.4.44: 2014-06-09
+                                                2.16.840.1.113883.10.2
+                                                0.22.4.40: 2014-06-09
+Planned Date                                    2.16.840.1.113883.10.2
+                                                0.22.4.39: 2014-06-09
+                                                2.16.840.1.113883.10.2
+                                                0.22.4.121
+
+Social History [2.16.840.1.113883.10.20.22.2.17 : 2015-08-01]
+                                                2.16.840.1.113883.10.2
+Social History Observation                                                           2.16.840.1.113883.6.1                    LOINC
+                                                0.22.4.78: 2014-06-09
+Description                                                                          2.16.840.1.113883.6.96                   SNOMED
+Dates Observed                                                                                 -                 -
+
+
+
+
+                                                                                                                              Page 7 of 11
+              Data Elements                XPATH / Entry                 Code System            Code System Name
+Problems [2.16.840.1.113883.10.20.22.2.5.1 : 2015-08-01]
+                                                                  2.16.840.1.113883.6.96
+                                     2.16.840.1.113883.10.2
+Problem                                                           and 2.16.840.1.113883.6.3    SNOMED and ICD10
+                                     0.22.4.3: 2015-08-01
+                                                                  (translation code)
+Status
+
+Active date
+
+Medications [2.16.840.1.113883.10.20.22.2.1.1 : 2014-06-09]
+                                                                  2.16.840.1.113883.6.88
+                                     2.16.840.1.113883.10.2
+Medication                                                        and 2.16.840.1.113883.6.69   RxNorm and NDC
+                                     0.22.4.16: 2014-06-09
+                                                                  (translation code)
+Directions
+Start Date
+End Date
+
+Status
+
+Medication Allergies [2.16.840.1.113883.10.20.22.2.6.1 : 2015-08-01]
+                                     2.16.840.1.113883.10.2
+Substance                                                         2.16.840.1.113883.6.88       RxNorm
+                                     0.22.4.30: 2015-08-01
+
+Reaction                                                          2.16.840.1.113883.6.96       SNOMED
+Severity                                                          2.16.840.1.113883.6.96       SNOMED
+Status                                                            2.16.840.1.113883.6.96       SNOMED
+
+Laboratory Tests
+Test Code
+Code System                                                       2.16.840.1.113883.6.1        LOINC
+Name
+Date
+
+Laboratory Information
+Lab Name
+Lab Address
+Test Report Date
+Test Performed
+Specimen Source
+Laboratory value(s)/result(s) [2.16.840.1.113883.10.20.22.2.3.1 : 2015-08-01]
+                                     2.16.840.1.113883.10.2
+Result Type                                                       2.16.840.1.113883.6.1        LOINC
+                                     0.22.4.1: 2015-08-01
+Result Value
+Relevant Reference Range
+Interpretation
+Date
+
+
+
+
+                                                                                                        Page 8 of 11
+             Data Elements                  XPATH / Entry                 Code System               Code System Name
+Vitals [2.16.840.1.113883.10.20.22.2.4.1 : 2015-08-01]
+                                      2.16.840.1.113883.10.2
+Observation                                                        2.16.840.1.113883.6.1           LOINC
+                                      0.22.4.26: 2015-08-01
+Observation Date/Time
+Goal [2.16.840.1.113883.10.20.22.2.60]
+                                      2.16.840.1.113883.10.2
+Goal                                                                                           -
+                                      0.22.4.121
+Value
+Date
+Procedures [2.16.840.1.113883.10.20.22.2.7.1 : 2014-06-09
+                                                                   2.16.840.1.113883.6.12
+                                      2.16.840.1.113883.10.2       or 2.16.840.1.113883.6.96       CPT-4 or SNOMED orHCPCS
+Procedure
+                                      0.22.4.14: 2014-06-09
+                                                                   or 2.16.840.1.113883.6.13
+Date
+Care team member(s) [2.16.840.1.113883.10.20.22.2.500 : 2019-07-01]
+                                      2.16.840.1.113883.10.2
+Care Giver Name
+                                      0.22.4.500: 2019-07-01
+Specialty
+Date
+Reason for Referral [1.3.6.1.4.1.19376.1.5.3.1.3.1 : 2014-06-09]
+                                      2.16.840.1.113883.10.2
+Reason for visit                                                   2.16.840.1.113883.6.96          SNOMED
+                                      0.22.4.140
+Medical Equipment [2.16.840.1.113883.10.20.22.2.23 : 2014-06-09]
+                                      2.16.840.1.113883.10.2
+Implanted Device                                                   2.16.840.1.113883.6.96          SNOMED
+                                      0.22.4.14: 2014-06-09
+GMDN PT Description
+Mental Status [2.16.840.1.113883.10.20.22.2.56 : 2015-08-01]
+                                      2.16.840.1.113883.10.2
+Assessment
+                                      0.22.4.74: 2015-08-01
+Assessment Date
+Results                                                            2.16.840.1.113883.6.96            SNOMED
+Comments
+
+Functional Status [2.16.840.1.113883.10.20.22.2.14 : 2014-06-09]
+                                      2.16.840.1.113883.10.2
+Assessment
+                                      0.22.4.67: 2014-06-09
+Assessment Date
+Results                                                            2.16.840.1.113883.6.96            SNOMED
+Comments
+
+
+
+
+                                                                                                            Page 9 of 11
+           Data Elements                 XPATH / Entry                 Code System       Code System Name
+Health Concern [2.16.840.1.113883.10.20.22.2.58 : 2015-08-01]
+                                   2.16.840.1.113883.10.2
+Concern / Observation                                           2.16.840.1.113883.6.96    SNOMED
+                                   0.22.4.132: 2015-08-01
+
+Status
+Date
+
+
+
+
+                                                                                             Page 10 of 11
+                                             §170.315(b)(10) Electronic Health
+                                           Information Export – Documentation
+
+Patient Demographic/Insurance
+PDF format - This file offers a comprehensive view of demographics and insurance details, structured for
+clarity and ease of access
+
+
+Advance Directive
+PDF format - This file offers a comprehensive view of Advance Directive, structured for clarity and ease
+of access
+
+
+Appointments
+PDF format - This file offers a comprehensive view of appointments, structured for clarity and ease of
+access
+
+
+Provider-to-Patient Messages
+PDF format - This file offers a comprehensive view of messages, structured for clarity and ease of access
+
+
+Billing Data (Claim)
+PDF format - This file offers a comprehensive view of billing data (CPT, ICD, Modifier), structured for
+clarity and ease of access
+
+Within the application's 'Reports' section, clients have the option to export Appointments, Patients
+Demos, and Insurance details, patient messages and claim data in pdf Format.
+
+
+Documents
+This includes signed progress notes, available lab results, radiology reports, and any other scanned or
+uploaded document in the patient's record. They can exported in PDF format
+
+
+Organizational Structure
+The files created by the export are saved to a folder specified by the user. Documents can be sorted and
+categorized as per their Type, e.g., Lab Reports and Imaging etc. Each type of document can further be
+sorted into its respective sub-types.
+
+
+FHIR Data Export
+VertexDr FHIR server creates a single-patient FHIR resource Document Reference and supports FHIR Bulk
+Data EHI Export for patient population as described in § 170.315(b)(10)(ii).
+
+                                                                                             Page 11 of 11
+

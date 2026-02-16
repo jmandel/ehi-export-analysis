@@ -1,0 +1,169 @@
+{
+  "vendor": "Prime Clinical Systems, Inc.",
+  "product": "Patient Chart Manager",
+  "version": "7.1.1877",
+  "document_date": "12/23/2025",
+  "pdf_pages": 3,
+  "pdf_size_bytes": 4300225,
+  "pdf_creator": "PDFium",
+  "export_location": "\\\\SERVERNAME\\BarcodeScans\\HL7ExportFiles\\CDAexports_#",
+  "export_formats": [
+    "Microsoft ADO XML Recordsets (VB6)",
+    "C-CDA R2.1"
+  ],
+  "export_components": [
+    {
+      "component": "XMLDATAExport_#.zip",
+      "format": "Microsoft ADO XML Recordsets (VB6 adPersistXML)",
+      "description": "Core data export - database tables serialized as ADO XML",
+      "tables_visible": 5,
+      "table_names": [
+        "CHART_DOCS",
+        "CHART_STORE",
+        "PATIENT",
+        "PT_ALLERGIES",
+        "PT_COMPLAINTS"
+      ],
+      "conditions": "Default export (no checkboxes needed)"
+    },
+    {
+      "component": "CDAXMLExport_#.zip",
+      "format": "C-CDA R2.1",
+      "description": "C-CDA documents (clinical summaries)",
+      "conditions": "Included only with Bulk CCDA Export option"
+    },
+    {
+      "component": "CDAXMLDOC.Zip",
+      "format": "C-CDA R2.1 with embedded PDF",
+      "description": "Chart documents (scanned papers, faxes, etc.) exported as embedded PDFs in C-CDA XML",
+      "conditions": "Per-patient chart documents"
+    }
+  ],
+  "data_tables_in_export": [
+    {
+      "name": "CHART_DOCS",
+      "file": "CHART_DOCS;DataTable.xml",
+      "location": "XMLDATAExport_#.zip",
+      "description": "Contains all chart docs details for the exported date and Medical Record Number (MR) range",
+      "compressed_size": "2 KB",
+      "uncompressed_size": "10 KB",
+      "source": "PDF page 1 text + screenshot"
+    },
+    {
+      "name": "CHART_STORE",
+      "file": "CHART_STORE;DataTable.xml",
+      "location": "XMLDATAExport_#.zip",
+      "description": "Contains all chart store details for the exported date and MR number range",
+      "compressed_size": "1 KB",
+      "uncompressed_size": "7 KB",
+      "source": "PDF page 1 text + screenshot"
+    },
+    {
+      "name": "PATIENT",
+      "file": "PATIENT;DataTable.xml",
+      "location": "XMLDATAExport_#.zip",
+      "description": "Contains all patient data table details for the exported date and MR number range. All patient data tables included (except those hidden via HIDE option).",
+      "compressed_size": "4 KB",
+      "uncompressed_size": "39 KB",
+      "source": "PDF page 1 text + screenshot"
+    },
+    {
+      "name": "PT_ALLERGIES",
+      "file": "PT_ALLERGIES;DataTable.xml",
+      "location": "XMLDATAExport_#.zip",
+      "description": "Patient allergies data table",
+      "compressed_size": "2 KB",
+      "uncompressed_size": "11 KB",
+      "source": "PDF page 1 screenshot"
+    },
+    {
+      "name": "PT_COMPLAINTS",
+      "file": "PT_COMPLAINTS;DataTable.xml",
+      "location": "XMLDATAExport_#.zip",
+      "description": "Patient complaints/problems data table",
+      "compressed_size": "1 KB",
+      "uncompressed_size": "6 KB",
+      "source": "PDF page 1 screenshot"
+    }
+  ],
+  "ccda_components": [
+    {
+      "name": "CDAFULSUM",
+      "file": "CDAFULSUM.xml",
+      "location": "CDASUMDATA.Zip (inside CDAXMLExport_#.zip)",
+      "description": "C-CDA full summary document for a patient",
+      "compressed_size": "6 KB",
+      "uncompressed_size": null,
+      "source": "PDF page 2 screenshot (visible as 303735,9,9,129,CDAFULSUM.xml)"
+    }
+  ],
+  "chart_document_export": {
+    "name": "CDAXMLDOC",
+    "file_pattern": "[MRN,PCM_LOGON_CLINIC,PATIENT-CLINIC,PATIENT-ACCOUNT,Chart_DOC_ID,CDADOCID.xml]",
+    "location": "CDAXMLDOC.Zip",
+    "description": "Chart documents exported as embedded PDFs in C-CDA format. Fields reference Patient table (pa_clinic, pa_account), chart_store table (cs_mr_num, cs_cl_key), and pt_chart_docs (cdview_cddocid).",
+    "example_files_visible": [
+      {
+        "name": "286715,9,9,88,20405,CDADOCID.xml",
+        "compressed": "7 KB",
+        "size": "16 KB"
+      },
+      {
+        "name": "286715,9,9,88,204540,CDADOCID.xml",
+        "compressed": "132 KB",
+        "size": "185 KB"
+      },
+      {
+        "name": "286715,9,9,88,20630B,CDADOCID.xml",
+        "compressed": "76 KB",
+        "size": "107 KB"
+      }
+    ],
+    "source": "PDF page 2 screenshot"
+  },
+  "referenced_tables": [
+    {
+      "name": "pt_chart_docs",
+      "context": "Referenced in chart document naming - field cdview_cddocid",
+      "source": "PDF page 2 text"
+    },
+    {
+      "name": "chart_store",
+      "context": "Referenced in naming conventions - fields cs_mr_num, cs_cl_key",
+      "source": "PDF page 2 text"
+    },
+    {
+      "name": "Patient",
+      "context": "Referenced in naming conventions - fields pa_clinic, pa_account",
+      "source": "PDF page 2 text"
+    }
+  ],
+  "total_named_tables": 5,
+  "total_fields_documented": 0,
+  "fields_with_descriptions": 0,
+  "fields_with_types": 0,
+  "data_dictionary_exists": false,
+  "sample_data_provided": false,
+  "schema_documentation_provided": false,
+  "relationship_documentation": false,
+  "value_set_documentation": false,
+  "field_names_mentioned": [
+    "pa_clinic",
+    "pa_account",
+    "cs_mr_num",
+    "cs_cl_key",
+    "cdview_cddocid",
+    "CD_DOC_ID"
+  ],
+  "documentation_gaps": [
+    "No data dictionary - zero field definitions provided",
+    "No table schema documentation",
+    "No relationship/foreign key documentation",
+    "No value set or coded value documentation",
+    "No sample data or example exports",
+    "Referenced companion document 'Including and Excluding Data' not available online",
+    "No documentation of which patient data tables are included beyond the 5 visible in screenshots",
+    "No billing/PM data tables mentioned despite product having full PM capabilities",
+    "No medication, lab, immunization, vital signs, or procedure tables mentioned"
+  ]
+}

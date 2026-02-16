@@ -106,6 +106,7 @@ jq -n \
   --arg product_name "$PRODUCT_NAME" \
   --arg results_dir "results/$TARGET_DIRNAME" \
   --arg created_at "$(date -Iseconds)" \
+  --arg ehi_documentation_url "$(jq -r '.url // empty' "$RESULTS_DIR/chpl-metadata.json" 2>/dev/null || true)" \
   --argjson products "$(jq '.products // []' "$RESULTS_DIR/chpl-metadata.json" 2>/dev/null || echo '[]')" \
   --argjson developer "$(jq '.developer // {}' "$RESULTS_DIR/chpl-metadata.json" 2>/dev/null || echo '{}')" \
   '{
@@ -113,6 +114,7 @@ jq -n \
     product_name: $product_name,
     results_dir: $results_dir,
     created_at: $created_at,
+    ehi_documentation_url: $ehi_documentation_url,
     developer: $developer,
     certified_products: $products
   }' > "$OUTPUT_DIR/metadata.json"
