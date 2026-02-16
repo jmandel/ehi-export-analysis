@@ -1,445 +1,1596 @@
 {
   "product": "iCare EHR",
   "version": "Version 2",
+  "chpl_id": "15.04.04.2617.iCar.02.00.1.200220",
+  "analysis_date": "2026-02-16",
+  "sources": {
+    "ehi_export_page": {
+      "url": "https://icare.com/developers/ehi_export/",
+      "last_modified": "2025-10-18",
+      "description": "Single HTML page describing 3 export methods and 13 FHIR resource types"
+    },
+    "api_guide_pdf": {
+      "url": "https://icare.com/wp-content/uploads/2023/09/iCare.com-Application-Programming-Interface-Guide.pdf",
+      "pages": 67,
+      "copyright": 2020,
+      "description": "Proprietary REST API guide with 16 data categories, input/output examples"
+    },
+    "fhir_capability_statement": {
+      "url": "https://sandbox-r4.interopengine.com/fhir/r4/icare/metadata",
+      "software": "EMR Direct Interoperability Engine",
+      "fhir_version": "4.0.1",
+      "description": "CapabilityStatement from EMR Direct sandbox - only declares Group/$export"
+    }
+  },
   "export_methods": [
     {
-      "method": "CCD/HIM Export",
-      "type": "single_patient",
-      "format": "C-CDA",
-      "description": "Generate CCD from patient chart or export via HIM Request"
+      "name": "CCD/HIM Export",
+      "scope": "single_patient",
+      "format": "C-CDA / HIM records",
+      "mechanism": "In-app UI (Reports > Clinical Summary)",
+      "documentation_depth": "minimal - just navigation instructions"
     },
     {
-      "method": "CSC Request",
-      "type": "population",
-      "format": "unknown (data files with data dictionary)",
-      "description": "Full data export via SFTP with data dictionary"
+      "name": "CSC Request for Full Data Export",
+      "scope": "population",
+      "format": "Unknown (data files + data dictionary provided with export)",
+      "mechanism": "Contact vendor (CSC request), delivery via SFTP",
+      "documentation_depth": "none - no format spec, no data dictionary, no samples publicly available"
     },
     {
-      "method": "FHIR REST API",
-      "type": "single_patient, population, group",
-      "format": "FHIR R4 JSON (Bulk Data)",
-      "description": "FHIR Bulk Data Export via EMR Direct Interoperability Engine"
+      "name": "FHIR REST API",
+      "scope": "single_patient, population, group",
+      "format": "FHIR R4 JSON (Bulk Data Export)",
+      "mechanism": "REST API via EMR Direct Interoperability Engine",
+      "documentation_depth": "moderate - 13 resource types listed with example URIs but no field-level docs"
     }
   ],
-  "fhir_capability": {
-    "fhir_version": "4.0.1",
-    "software": "EMR Direct Interoperability Engine",
-    "software_version": "2026",
-    "instantiates": [
-      "http://hl7.org/fhir/us/core/CapabilityStatement/us-core-server",
-      "http://hl7.org/fhir/uv/bulkdata/CapabilityStatement/bulk-data"
-    ],
-    "resources": [
-      {
-        "type": "Group",
-        "operations": [
-          "export"
-        ],
-        "interactions": []
-      },
-      {
-        "type": "SearchParameter",
-        "operations": [],
-        "interactions": [
-          "read",
-          "search-type"
-        ]
-      }
-    ]
-  },
+  "ehi_page_fhir_resources": [
+    "CarePlan",
+    "AllergyIntolerance",
+    "CareTeam",
+    "Condition",
+    "Device",
+    "DiagnosticReport",
+    "DocumentReference",
+    "Goal",
+    "Immunization",
+    "MedicationRequest",
+    "Observation",
+    "Procedure",
+    "Encounter"
+  ],
   "psychotherapy_exclusion": true,
   "entities": [
     {
       "entity_name": "patient",
-      "fhir_resource_type": "Patient",
-      "source": "iCare-API-Guide.pdf + EHI Export page",
-      "category": "Demographics",
-      "field_count": 6,
+      "description": "Patient demographics",
+      "fhir_resource_types": [
+        "Patient"
+      ],
+      "output_description": "A FHIR Bundle resource is returned that contains a Patient resource, which has individual attributes name, gender, date of birth, preferred language, ethnicity, race and granular race, address and phone numbers listed. The patient category call is the only one across all categories where data is not listed under an encounter date. (See below sections for an explanation of how data for other categories are grouped under encounter dates.)",
+      "field_count": 25,
       "fields": [
         {
+          "name": "address",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
           "name": "birthDate",
-          "type": "varies (FHIR)",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "city",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "code",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "coding",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "communication",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "contact",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "extension",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "family",
+          "type": "FHIR (inferred from example)",
           "description": "",
           "has_description": false
         },
         {
           "name": "gender",
-          "type": "varies (FHIR)",
+          "type": "FHIR (inferred from example)",
           "description": "",
           "has_description": false
         },
         {
-          "name": "id",
-          "type": "varies (FHIR)",
+          "name": "given",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "language",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "line",
+          "type": "FHIR (inferred from example)",
           "description": "",
           "has_description": false
         },
         {
           "name": "name",
-          "type": "varies (FHIR)",
+          "type": "FHIR (inferred from example)",
           "description": "",
           "has_description": false
         },
         {
-          "name": "name.text",
-          "type": "varies (FHIR)",
+          "name": "postalCode",
+          "type": "FHIR (inferred from example)",
           "description": "",
           "has_description": false
         },
         {
-          "name": "resourceType",
-          "type": "varies (FHIR)",
+          "name": "state",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "suffix",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "system",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "telecom",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "text",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "url",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "use",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "value",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "valueCodeableConcept",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "valueString",
+          "type": "FHIR (inferred from example)",
           "description": "",
           "has_description": false
         }
       ],
-      "description": "A FHIR Bundle resource is returned that contains a Patient resource, which has individual",
-      "response_format": "FHIR R4 JSON"
+      "fields_with_descriptions": 0,
+      "source": "iCare-API-Guide.pdf",
+      "category": "Demographics"
     },
     {
       "entity_name": "smokingStatus",
-      "fhir_resource_type": "Observation (Social History)",
-      "source": "iCare-API-Guide.pdf + EHI Export page",
-      "category": "Social History",
-      "field_count": 4,
+      "description": "Smoking status / social history",
+      "fhir_resource_types": [
+        "Composition"
+      ],
+      "output_description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter that has its start date occurring in the range specified by startDate, endDate parameters, or start date occurring on the date specified by date parameter. Inside each Bundle corresponding to an encounter, a Composition resource consists of a section named Social History, that lists smoking status. The onset date of the status is given inside the section.text.div attribute and the particular code is given inside section.coding attribute.",
+      "field_count": 9,
       "fields": [
         {
-          "name": "id",
-          "type": "varies (FHIR)",
+          "name": "code",
+          "type": "FHIR (inferred from example)",
           "description": "",
           "has_description": false
         },
         {
-          "name": "note",
-          "type": "varies (FHIR)",
+          "name": "coding",
+          "type": "FHIR (inferred from example)",
           "description": "",
           "has_description": false
         },
         {
-          "name": "note.text",
-          "type": "varies (FHIR)",
+          "name": "display",
+          "type": "FHIR (inferred from example)",
           "description": "",
           "has_description": false
         },
         {
-          "name": "resourceType",
-          "type": "varies (FHIR)",
+          "name": "div",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "section",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "system",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "text",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "timestamp",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "title",
+          "type": "FHIR (inferred from example)",
           "description": "",
           "has_description": false
         }
       ],
-      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
-      "response_format": "FHIR R4 JSON"
+      "fields_with_descriptions": 0,
+      "source": "iCare-API-Guide.pdf",
+      "category": "Social History"
     },
     {
       "entity_name": "problem",
-      "fhir_resource_type": "Condition",
-      "source": "iCare-API-Guide.pdf + EHI Export page",
-      "category": "Problems / Conditions",
-      "field_count": 0,
-      "fields": [],
-      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
-      "response_format": "FHIR R4 JSON"
+      "description": "Problems / conditions / diagnoses",
+      "fhir_resource_types": [
+        "Composition",
+        "Condition"
+      ],
+      "output_description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter that has its start date occurring in the range specified by startDate, endDate parameters, or start date occurring on the date specified by date parameter. Inside each Bundle corresponding to an encounter, a Composition resource consists of Condition resources, where each Condition corresponds to a problem. Status and onset date/time of the problem are given in clinicalStatus and onsetDateTime attributes, respectively, and the problem description and its SNOMED CT code are listed in coding attribute. Note that if the problem is completed, i.e. resolved status, clinicalStatus.coding.code attribute will read resolved and abatementString attribute will give the problem resolution date, if available.",
+      "field_count": 13,
+      "fields": [
+        {
+          "name": "abatementString",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "clinicalStatus",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "code",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "coding",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "contained",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "display",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "id",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "onsetDateTime",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "reference",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "section",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "system",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "timestamp",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "title",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        }
+      ],
+      "fields_with_descriptions": 0,
+      "source": "iCare-API-Guide.pdf",
+      "category": "Problems / Conditions"
     },
     {
       "entity_name": "medication",
-      "fhir_resource_type": "MedicationRequest",
-      "source": "iCare-API-Guide.pdf + EHI Export page",
-      "category": "Medications",
-      "field_count": 0,
-      "fields": [],
-      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
-      "response_format": "FHIR R4 JSON"
+      "description": "Medications / prescriptions",
+      "fhir_resource_types": [
+        "Composition",
+        "MedicationStatement"
+      ],
+      "output_description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter that has its start date occurring in the range specified by startDate, endDate parameters, or start date occurring on the date specified by date parameter. Inside each Bundle corresponding to an encounter, a Composition resource consists of MedicationStatement resources, where each MedicationStatement corresponds to an ordered medication. The display name and RXNORM code of a medication is given via the MedicationStatement.medicationCodeableConcept.coding attribute. The start date of the medication is given by MedicationStatement.effectiveDateTime attribute and the end date of the medication is given via a MedicationStatement.note attribute. Particular instructions associated with the medication including frequency and route are also given via a MedicationStatement.note attribute. The dosage of the medication is described via the MedicationStatement.dosage attribute.",
+      "field_count": 15,
+      "fields": [
+        {
+          "name": "code",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "coding",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "contained",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "display",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "dosage",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "effectiveDateTime",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "id",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "medicationCodeableConcept",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "note",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "reference",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "section",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "system",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "text",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "timestamp",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "title",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        }
+      ],
+      "fields_with_descriptions": 0,
+      "source": "iCare-API-Guide.pdf",
+      "category": "Medications"
     },
     {
       "entity_name": "medAllergy",
-      "fhir_resource_type": "AllergyIntolerance",
-      "source": "iCare-API-Guide.pdf + EHI Export page",
-      "category": "Allergies",
-      "field_count": 0,
-      "fields": [],
-      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
-      "response_format": "FHIR R4 JSON"
+      "description": "Medication allergies",
+      "fhir_resource_types": [
+        "AllergyIntolerance",
+        "Composition"
+      ],
+      "output_description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter that has its start date occurring in the range specified by startDate, endDate parameters, or start date occurring on the date specified by date parameter. Inside each Bundle corresponding to an encounter, a Composition resource consists of AllergyIntolerance resources, where each AllergyIntolerance corresponds to an allergy. The status of an allergy is given by the AllergyIntolerance.status attribute, display name and RXNORM code of the allergy is given by the AllergyIntolerance.code attribute, the onset date of the allergy is given by the AllergyIntolerance.onsetDateTime attribute and the display name and SNOMED CT code of the corresponding reaction is given by the AllergyIntolerance.reaction attribute.",
+      "field_count": 15,
+      "fields": [
+        {
+          "name": "clinicalStatus",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "code",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "coding",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "contained",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "description",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "display",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "id",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "onsetDateTime",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "reaction",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "reference",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "section",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "severity",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "system",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "timestamp",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "title",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        }
+      ],
+      "fields_with_descriptions": 0,
+      "source": "iCare-API-Guide.pdf",
+      "category": "Allergies"
     },
     {
       "entity_name": "labTest",
-      "fhir_resource_type": "DiagnosticReport",
-      "source": "iCare-API-Guide.pdf + EHI Export page",
-      "category": "Laboratory",
-      "field_count": 0,
-      "fields": [],
-      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
-      "response_format": "FHIR R4 JSON"
+      "description": "Lab tests / diagnostic reports",
+      "fhir_resource_types": [
+        "CarePlan"
+      ],
+      "output_description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter that has its start date occurring in the range specified by startDate, endDate parameters, or start date occurring on the date specified by date parameter. Inside each Bundle corresponding to an encounter, a CarePlan resource describes the planned lab tests. Each entry in the CarePlan.activity array corresponds to a planned test. The activity.detail.code.coding attribute further describes the test with a SNOMED CT code and description. The activity.detail.scheduledString attribute describes when the test was scheduled.",
+      "field_count": 10,
+      "fields": [
+        {
+          "name": "activity",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "code",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "coding",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "description",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "detail",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "display",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "kind",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "scheduledString",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "system",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "timestamp",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        }
+      ],
+      "fields_with_descriptions": 0,
+      "source": "iCare-API-Guide.pdf",
+      "category": "Laboratory"
     },
     {
       "entity_name": "labResult",
-      "fhir_resource_type": "Observation (Laboratory)",
-      "source": "iCare-API-Guide.pdf + EHI Export page",
-      "category": "Laboratory",
-      "field_count": 4,
+      "description": "Lab results / observations",
+      "fhir_resource_types": [
+        "Composition",
+        "DiagnosticReport",
+        "Observation",
+        "Organization"
+      ],
+      "output_description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter that has its start date occurring in the range specified by startDate, endDate parameters, or start date occurring on the date specified by date parameter. Inside each Bundle corresponding to an  38  encounter, a Composition resource consists of DiagnosticReport, Observation and Organization resources. \u25cf There are an equal number of DiagnosticReport and Observation resources as each distinct DiagnosticReport references a unique Observation resource. Each of such pairs corresponds to a lab test result. The DiagnosticReport.code attribute gives the lab test name and its LOINC code. The DiagnosticReport.effectiveDateTime describes when the test was performed. The Observation.note attribute describes the results of the test. \u25cf The Organization resource describes the laboratory that performed the tests.",
+      "field_count": 21,
       "fields": [
         {
+          "name": "address",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "category",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "city",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "code",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "coding",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "contained",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "display",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "effectiveDateTime",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
           "name": "id",
-          "type": "varies (FHIR)",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "line",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "name",
+          "type": "FHIR (inferred from example)",
           "description": "",
           "has_description": false
         },
         {
           "name": "note",
-          "type": "varies (FHIR)",
+          "type": "FHIR (inferred from example)",
           "description": "",
           "has_description": false
         },
         {
-          "name": "note.text",
-          "type": "varies (FHIR)",
+          "name": "postalCode",
+          "type": "FHIR (inferred from example)",
           "description": "",
           "has_description": false
         },
         {
-          "name": "resourceType",
-          "type": "varies (FHIR)",
+          "name": "reference",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "result",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "section",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "state",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "system",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "text",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "timestamp",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "title",
+          "type": "FHIR (inferred from example)",
           "description": "",
           "has_description": false
         }
       ],
-      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
-      "response_format": "FHIR R4 JSON"
+      "fields_with_descriptions": 0,
+      "source": "iCare-API-Guide.pdf",
+      "category": "Laboratory"
     },
     {
       "entity_name": "vital",
-      "fhir_resource_type": "Observation (Vital Signs)",
-      "source": "iCare-API-Guide.pdf + EHI Export page",
-      "category": "Vitals",
-      "field_count": 4,
+      "description": "Vital signs",
+      "fhir_resource_types": [
+        "Composition",
+        "Observation"
+      ],
+      "output_description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter that has its start date occurring in the range specified by startDate, endDate parameters, or start date occurring on the date specified by date parameter. Inside each Bundle corresponding to an encounter, a Composition resource consists of Observation resources. The Observation.code attribute gives name and LOINC code of the vital, the Observation.issued attribute states when observation was made, and Observation.note.text attribute gives the measured value and unit of the vital.",
+      "field_count": 13,
       "fields": [
         {
+          "name": "code",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "coding",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "contained",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "display",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
           "name": "id",
-          "type": "varies (FHIR)",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "issued",
+          "type": "FHIR (inferred from example)",
           "description": "",
           "has_description": false
         },
         {
           "name": "note",
-          "type": "varies (FHIR)",
+          "type": "FHIR (inferred from example)",
           "description": "",
           "has_description": false
         },
         {
-          "name": "note.text",
-          "type": "varies (FHIR)",
+          "name": "reference",
+          "type": "FHIR (inferred from example)",
           "description": "",
           "has_description": false
         },
         {
-          "name": "resourceType",
-          "type": "varies (FHIR)",
+          "name": "section",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "system",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "text",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "timestamp",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "title",
+          "type": "FHIR (inferred from example)",
           "description": "",
           "has_description": false
         }
       ],
-      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
-      "response_format": "FHIR R4 JSON"
+      "fields_with_descriptions": 0,
+      "source": "iCare-API-Guide.pdf",
+      "category": "Vitals"
     },
     {
       "entity_name": "procedure",
-      "fhir_resource_type": "Procedure",
-      "source": "iCare-API-Guide.pdf + EHI Export page",
-      "category": "Procedures",
-      "field_count": 0,
-      "fields": [],
-      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
-      "response_format": "FHIR R4 JSON"
-    },
-    {
-      "entity_name": "careTeam",
-      "fhir_resource_type": "CareTeam",
-      "source": "iCare-API-Guide.pdf + EHI Export page",
-      "category": "Care Team",
-      "field_count": 0,
-      "fields": [],
-      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
-      "response_format": "FHIR R4 JSON"
-    },
-    {
-      "entity_name": "immunization",
-      "fhir_resource_type": "Immunization",
-      "source": "iCare-API-Guide.pdf + EHI Export page",
-      "category": "Immunizations",
-      "field_count": 0,
-      "fields": [],
-      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
-      "response_format": "FHIR R4 JSON"
-    },
-    {
-      "entity_name": "device",
-      "fhir_resource_type": "Device",
-      "source": "iCare-API-Guide.pdf + EHI Export page",
-      "category": "Devices",
-      "field_count": 5,
+      "description": "Procedures",
+      "fhir_resource_types": [
+        "Composition",
+        "Procedure"
+      ],
+      "output_description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter that has its start date occurring in the range specified by startDate, endDate parameters, or start date occurring on the date specified by date parameter. Inside each Bundle corresponding to an encounter, a Composition resource consists of Procedure resources. The Procedure.coding attribute describes the procedure. The Procedure.status attribute gives the procedure status and Procedure.performedDateTime gives when procedure was performed. The Procedure.performer describes the provider who performed the procedure. If available, the Procedure.bodySite attribute describes the body site where the procedure was performed.",
+      "field_count": 17,
       "fields": [
         {
-          "name": "id",
-          "type": "varies (FHIR)",
+          "name": "actor",
+          "type": "FHIR (inferred from example)",
           "description": "",
           "has_description": false
         },
         {
-          "name": "resourceType",
-          "type": "varies (FHIR)",
+          "name": "bodySite",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "code",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "coding",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "contained",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "display",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "id",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "note",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "performedDateTime",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "performer",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "reference",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "section",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "status",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "system",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "text",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "timestamp",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "title",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        }
+      ],
+      "fields_with_descriptions": 0,
+      "source": "iCare-API-Guide.pdf",
+      "category": "Procedures"
+    },
+    {
+      "entity_name": "careTeam",
+      "description": "Care team members",
+      "fhir_resource_types": [
+        "CareTeam"
+      ],
+      "output_description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter that has its start date occurring in the range specified by startDate, endDate parameters, or start date occurring on the date specified by date parameter. Inside each Bundle corresponding to an encounter, a CareTeam resource describes care team members. Each member is described as a member attribute inside CareTeam.participant array. The member.display attribute details the member as: <first name> <last name> <addr1> <addr2> <addr3> <city> <state> <zip> Phone 1: <phone1> Phone 2: <phone2>",
+      "field_count": 6,
+      "fields": [
+        {
+          "name": "display",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "member",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "note",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "participant",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "text",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "timestamp",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        }
+      ],
+      "fields_with_descriptions": 0,
+      "source": "iCare-API-Guide.pdf",
+      "category": "Care Team"
+    },
+    {
+      "entity_name": "immunization",
+      "description": "Immunizations",
+      "fhir_resource_types": [
+        "Composition",
+        "Immunization"
+      ],
+      "output_description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter that has its start date occurring in the range specified by startDate, endDate parameters, or start date occurring on the date specified by date parameter. Inside each Bundle corresponding to an encounter, a Composition resource consists of Immunization resources. The Immunization.status  50  attribute gives status of the immunization and the Immunization.vaccineCode attribute gives the vaccine CVX code and description. If Immunization.status equals completed, the Immunization.occurrenceDateTime describes when immunization was performed. If immunization was not completed, e.g. because the patient refused it, the Immunization.occurrenceDateTime describes when the unsuccessful attempt was made.",
+      "field_count": 15,
+      "fields": [
+        {
+          "name": "code",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "coding",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "contained",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "display",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "id",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "note",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "occurrenceDateTime",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "reference",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "section",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "status",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "system",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "text",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "timestamp",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "title",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "vaccineCode",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        }
+      ],
+      "fields_with_descriptions": 0,
+      "source": "iCare-API-Guide.pdf",
+      "category": "Immunizations"
+    },
+    {
+      "entity_name": "device",
+      "description": "Implanted devices",
+      "fhir_resource_types": [
+        "Composition",
+        "Device"
+      ],
+      "output_description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter that has its start date occurring in the range specified by startDate, endDate parameters, or start date occurring on the date specified by date parameter. Inside each Bundle corresponding to an encounter, a Composition resource consists of Device resources. The Device.udiCarrier.deviceIdentifier attribute gives UDI of the device and the Device.udiCarrier.issuer attribute gives the name of the assigning authority. \"resourceType\": \"Bundle\", \"type\": \"searchset\", \"entry\": [  53",
+      "field_count": 9,
+      "fields": [
+        {
+          "name": "contained",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "deviceIdentifier",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "id",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "issuer",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "reference",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "section",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "timestamp",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "title",
+          "type": "FHIR (inferred from example)",
           "description": "",
           "has_description": false
         },
         {
           "name": "udiCarrier",
-          "type": "varies (FHIR)",
-          "description": "",
-          "has_description": false
-        },
-        {
-          "name": "udiCarrier.deviceIdentifier",
-          "type": "varies (FHIR)",
-          "description": "",
-          "has_description": false
-        },
-        {
-          "name": "udiCarrier.issuer",
-          "type": "varies (FHIR)",
+          "type": "FHIR (inferred from example)",
           "description": "",
           "has_description": false
         }
       ],
-      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
-      "response_format": "FHIR R4 JSON"
+      "fields_with_descriptions": 0,
+      "source": "iCare-API-Guide.pdf",
+      "category": "Devices"
     },
     {
       "entity_name": "planOfTreatment",
-      "fhir_resource_type": "CarePlan",
-      "source": "iCare-API-Guide.pdf + EHI Export page",
-      "category": "Care Plans",
-      "field_count": 0,
-      "fields": [],
-      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
-      "response_format": "FHIR R4 JSON"
-    },
-    {
-      "entity_name": "assessment",
-      "fhir_resource_type": "DocumentReference / Assessment",
-      "source": "iCare-API-Guide.pdf + EHI Export page",
-      "category": "Clinical Notes / Documents",
-      "field_count": 0,
-      "fields": [],
-      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
-      "response_format": "FHIR R4 JSON"
-    },
-    {
-      "entity_name": "goal",
-      "fhir_resource_type": "Goal",
-      "source": "iCare-API-Guide.pdf + EHI Export page",
-      "category": "Goals",
-      "field_count": 0,
-      "fields": [],
-      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
-      "response_format": "FHIR R4 JSON"
-    },
-    {
-      "entity_name": "healthConcern",
-      "fhir_resource_type": "Condition (Health Concern)",
-      "source": "iCare-API-Guide.pdf + EHI Export page",
-      "category": "Health Concerns",
-      "field_count": 0,
-      "fields": [],
-      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
-      "response_format": "FHIR R4 JSON"
-    },
-    {
-      "entity_name": "allCriteria",
-      "fhir_resource_type": "C-CDA Document (all above)",
-      "source": "iCare-API-Guide.pdf + EHI Export page",
-      "category": "All Clinical (C-CDA)",
-      "field_count": 0,
-      "fields": [],
-      "description": "Returns all clinical data as a C-CDA XML document",
-      "response_format": "C-CDA XML"
-    },
-    {
-      "entity_name": "Encounter",
-      "fhir_resource_type": "Encounter",
-      "source": "EHI Export page",
-      "category": "Encounters",
-      "field_count": 3,
+      "description": "Plan of treatment / care plans",
+      "fhir_resource_types": [
+        "CarePlan"
+      ],
+      "output_description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter that has its start date occurring in the range specified by startDate, endDate parameters, or start date occurring on the date specified by date parameter. Inside each Bundle corresponding to an encounter, a CarePlan resource describes the care plan. The CarePlan.activity array consists of specific activities planned. A planned activity could be a medication, lab test, procedure or a general task. If the planned activity is one of medication, lab test or procedure the activity.detail.kind attribute is set to ServiceRequest. If the planned activity is a general task, the activity.detail.kind attribute is set to Task. If activity.detail.kind equals ServiceRequest, activity.detail.code.coding further describes the activity with a SNOMED CT code and description. The activity.detail.description is also set to one of Medication, Laboratory Test or Procedure depending on type of the planned activity. The activity.detail.scheduledString attribute describes when the planned activity was scheduled. If activity.detail.kind equals Task, activity.detail.description gives a textual description of the task.",
+      "field_count": 10,
       "fields": [
         {
-          "name": "period",
-          "type": "varies (FHIR)",
+          "name": "activity",
+          "type": "FHIR (inferred from example)",
           "description": "",
           "has_description": false
         },
         {
-          "name": "period.start",
-          "type": "varies (FHIR)",
+          "name": "code",
+          "type": "FHIR (inferred from example)",
           "description": "",
           "has_description": false
         },
         {
-          "name": "resourceType",
-          "type": "varies (FHIR)",
+          "name": "coding",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "description",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "detail",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "display",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "kind",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "scheduledString",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "system",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "timestamp",
+          "type": "FHIR (inferred from example)",
           "description": "",
           "has_description": false
         }
       ],
-      "description": "FHIR Encounter resource accessible via REST API",
-      "response_format": "FHIR R4 JSON"
+      "fields_with_descriptions": 0,
+      "source": "iCare-API-Guide.pdf",
+      "category": "Care Plans"
+    },
+    {
+      "entity_name": "assessment",
+      "description": "Assessments / clinical notes",
+      "fhir_resource_types": [
+        "CarePlan",
+        "RiskAssessment"
+      ],
+      "output_description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter that has its start date occurring in the range specified by startDate, endDate parameters, or start date occurring on the date specified by date parameter. Inside each Bundle corresponding to an encounter, a RiskAssessment resource provides the assessment in note.text attribute.",
+      "field_count": 12,
+      "fields": [
+        {
+          "name": "activity",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "code",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "coding",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "description",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "detail",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "display",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "kind",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "note",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "scheduledString",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "system",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "text",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "timestamp",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        }
+      ],
+      "fields_with_descriptions": 0,
+      "source": "iCare-API-Guide.pdf",
+      "category": "Clinical Notes / Documents"
+    },
+    {
+      "entity_name": "goal",
+      "description": "Goals",
+      "fhir_resource_types": [
+        "Goal"
+      ],
+      "output_description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter that has its start date occurring in the range specified by startDate, endDate parameters, or start date occurring on the date specified by date parameter. Inside each Bundle corresponding to an encounter, a Goal resource provides goals set for the patient. In particular, Goal.description.coding.display attribute gives goals as free form text.",
+      "field_count": 7,
+      "fields": [
+        {
+          "name": "coding",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "description",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "display",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "lifecycleStatus",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "note",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "text",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "timestamp",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        }
+      ],
+      "fields_with_descriptions": 0,
+      "source": "iCare-API-Guide.pdf",
+      "category": "Goals"
+    },
+    {
+      "entity_name": "healthConcern",
+      "description": "Health concerns",
+      "fhir_resource_types": [
+        "Composition"
+      ],
+      "output_description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter that has its start date occurring in the range specified by startDate, endDate parameters, or start date occurring on the date specified by date parameter. Inside each Bundle corresponding to an encounter, a Composition resource lists health concerns. For that purpose, a section is created inside the Composition resource, entitled \"Health Concern\". Each health concern could be a \u2018complaint\u2019 or \u2018observation\u2019. For health concerns of type \u2018complaint\u2019, a HealthConcern.Complaints section is created that consists of individual complaints each entitled Complaint. Each such section has Status, Description, Start Date and Comment sections, describing status of the complaint (one of active, inactive, resolved), description of the complaint, start date of the complaint, and any comments, respectively. Similarly, for health concerns of type \u2018observation\u2019, a HealthConcern.Observations section is created that consists of individual observations in separate sections, each entitled Observation. Each such section has Status, Description, Start Date and Comment sections, describing status  62  of the observation (one of active, inactive, resolved), description of the observation, start date of the observation, and any comments, respectively.",
+      "field_count": 5,
+      "fields": [
+        {
+          "name": "div",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "section",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "text",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "timestamp",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "title",
+          "type": "FHIR (inferred from example)",
+          "description": "",
+          "has_description": false
+        }
+      ],
+      "fields_with_descriptions": 0,
+      "source": "iCare-API-Guide.pdf",
+      "category": "Health Concerns"
+    },
+    {
+      "entity_name": "allCriteria (C-CDA)",
+      "description": "All clinical data as a C-CDA XML document combining all 16 categories above",
+      "fhir_resource_types": [],
+      "output_description": "CCDA compliant XML document containing all clinical data categories",
+      "field_count": 0,
+      "fields": [],
+      "fields_with_descriptions": 0,
+      "source": "iCare-API-Guide.pdf",
+      "category": "All Clinical (C-CDA)"
     }
   ],
-  "total_entities": 18,
-  "total_fields": 26,
+  "total_entities": 17,
+  "total_fields_in_examples": 202,
   "fields_with_descriptions": 0,
-  "example_fields_by_resource": {
-    "Patient": [
-      "birthDate",
-      "gender",
-      "id",
-      "name",
-      "name.text",
-      "resourceType"
-    ],
-    "Bundle": [
-      "resourceType",
-      "type"
-    ],
-    "Encounter": [
-      "period",
-      "period.start",
-      "resourceType"
-    ],
-    "Observation": [
-      "id",
-      "note",
-      "note.text",
-      "resourceType"
-    ],
-    "Organization": [
-      "address",
-      "address.city",
-      "address.line",
-      "address.postalCode",
-      "address.state",
-      "id",
-      "name",
-      "resourceType"
-    ],
-    "Device": [
-      "id",
-      "resourceType",
-      "udiCarrier",
-      "udiCarrier.deviceIdentifier",
-      "udiCarrier.issuer"
-    ],
-    "RiskAssessment": [
-      "note",
-      "note.text",
-      "resourceType"
-    ]
-  }
+  "domain_summary": {
+    "Demographics": {
+      "entity_count": 1,
+      "total_fields": 25
+    },
+    "Social History": {
+      "entity_count": 1,
+      "total_fields": 9
+    },
+    "Problems / Conditions": {
+      "entity_count": 1,
+      "total_fields": 13
+    },
+    "Medications": {
+      "entity_count": 1,
+      "total_fields": 15
+    },
+    "Allergies": {
+      "entity_count": 1,
+      "total_fields": 15
+    },
+    "Laboratory": {
+      "entity_count": 2,
+      "total_fields": 31
+    },
+    "Vitals": {
+      "entity_count": 1,
+      "total_fields": 13
+    },
+    "Procedures": {
+      "entity_count": 1,
+      "total_fields": 17
+    },
+    "Care Team": {
+      "entity_count": 1,
+      "total_fields": 6
+    },
+    "Immunizations": {
+      "entity_count": 1,
+      "total_fields": 15
+    },
+    "Devices": {
+      "entity_count": 1,
+      "total_fields": 9
+    },
+    "Care Plans": {
+      "entity_count": 1,
+      "total_fields": 10
+    },
+    "Clinical Notes / Documents": {
+      "entity_count": 1,
+      "total_fields": 12
+    },
+    "Goals": {
+      "entity_count": 1,
+      "total_fields": 7
+    },
+    "Health Concerns": {
+      "entity_count": 1,
+      "total_fields": 5
+    },
+    "All Clinical (C-CDA)": {
+      "entity_count": 1,
+      "total_fields": 0
+    }
+  },
+  "data_dictionary_exists": false,
+  "sample_data_exists": false,
+  "schema_exists": false
 }
