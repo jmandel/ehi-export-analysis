@@ -100,6 +100,14 @@ esac
 
 mkdir -p "$OUTPUT_DIR"
 
+# Symlink results artifacts into the output dir so the agent can use ./downloads,
+# ./product-research.md, etc. instead of navigating ../../results/<slug>/
+for item in "$RESULTS_DIR"/downloads "$RESULTS_DIR"/*.md "$RESULTS_DIR"/*.json; do
+  [ -e "$item" ] || continue
+  linkname="$OUTPUT_DIR/$(basename "$item")"
+  [ -e "$linkname" ] || ln -s "$item" "$linkname"
+done
+
 # Write metadata.json for traceability — chpl-metadata is already family-filtered
 jq -n \
   --arg dir_slug "$TARGET_DIRNAME" \
