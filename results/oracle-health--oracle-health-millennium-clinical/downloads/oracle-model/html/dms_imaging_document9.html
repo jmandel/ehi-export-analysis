@@ -1,0 +1,1101 @@
+ 
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<link rel="stylesheet" href="../css/model.css" type="text/css" />
+<title>2025.4.01Data Models:Table Name Index</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<div id="wrapper">
+   <div id="logo">
+     <img src="../images/Oracle_Cerner Horizontal_RGB.png" alt="Cerner Logo" height="42" width="163"  />
+     <h1>Millennium Data Model Reports - 2025.4.01</h1>
+   </div>
+   <div id="nav">
+   <ul>
+     <li>  <a href="../start_cerner_millennium_data_model_reports.html">Home</a></li>
+     <li>|</li>
+     <li><a href="dm_a.html">Reports by Table</a></li>
+     <li>|</li>
+     <li><a href="data_model_table_report_help.html">Table Report Help</a></li>
+</ul>
+   </div>
+ 
+<div id="main-info">
+<h2>Table Detail Report</h2>
+<h2><a id="CDI_MIGRATION">CDI_MIGRATION                 </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#CDI_MIGRATION_col">Column Section</a></td>
+<td><a href="dms_imaging_document9.html              ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+cdi_migration
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This table contains identifiers of objects that need to be migrated from CAMM 6 to CAMM 7 as well as its status (ready, migrated, deleted)
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "CDI_MIGRATION_col"></a>
+Column Detail - <a href ="dms_imaging_document9.html#CDI_MIGRATION">CDI_MIGRATION</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AX_APPID                      </td>
+<td class="data-type">FLOAT          </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The applicationxtender application ID that corresponded to this CAMM Archive object identifier. This is used to track where to restart the migration fill if it is stopped.</td>
+</tr>
+<tr>
+<td>AX_OBJECTID                   </td>
+<td class="data-type">FLOAT          </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The applicationxtender object ID that corresponded to this CAMM Archive object identifier. This is used to track where to restart the migration fill if it is stopped.</td>
+</tr>
+<tr>
+<td>AX_PAGE                       </td>
+<td class="data-type">FLOAT          </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The applicationxtender page ID that corresponds to this CAMM Archive object identifier. This is used to track where to restart the migration fill if it is stopped.</td>
+</tr>
+<tr>
+<td>AX_PATHID                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The path id in ApplicationXtender that was used to create this row.</td>
+</tr>
+<tr>
+<td>BLOB_HANDLE                   </td>
+<td class="data-type">VC2(255)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Allows system engineer running migrations to more easily correlate documents failing migration to affected patients, if a document should fail to migrate. In support of Cures All Patient Export PN 10531824, requirement for CAMM 7 for all-patient export.</td>
+</tr>
+<tr>
+<td>CDI_MIGRATION_ID              </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Unique generated number that identifies a single row on the cdi_migration table.</td>
+</tr>
+<tr>
+<td>DELETED_ID                    </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Indicates if an object identified by the object_ident column has been deleted from CAMM. A null value indicates that this object has not been deleted. If the object has been deleted from CAMM, this must match the value of the cdi_migration_ID column. This column is designed so that in the case that the application must restart, the application can quickly find its position in the deleting queue.</td>
+</tr>
+<tr>
+<td>DELETED_TS                    </td>
+<td class="data-type">TIMESTAMP(9)   </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Indicates when this object was deleted from CAMM 6. This is used for troubleshooting purposes.</td>
+</tr>
+<tr>
+<td>ENQUEUED_TS                   </td>
+<td class="data-type">TIMESTAMP(9)   </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Indicates when this object was enqueued in this table to be migrated. This is used for troubleshooting purposes.</td>
+</tr>
+<tr>
+<td>FROM_LOCATION                 </td>
+<td class="data-type">VC2(128)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The base URL of the CAMM 6 archive that the object was copied from.</td>
+</tr>
+<tr>
+<td>MIGRATED_ID                   </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Indicates if an object identified by the object_ident column has been migrated from CAMM 6 to CAMM 7. A null value indicates that this object has not been migrated. If the object has been migrated from CAMM 6 to CAMM 7, this must match the value of the cdi_migration_ID column. This column is designed so that in the case that the application must restart, the application can quickly find its position in the migrating queue.</td>
+</tr>
+<tr>
+<td>MIGRATED_TS                   </td>
+<td class="data-type">TIMESTAMP(9)   </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Indicates when this object was migrated from CAMM 6 to CAMM 7. This is used for troubleshooting purposes.</td>
+</tr>
+<tr>
+<td>OBJECT_IDENT                  </td>
+<td class="data-type">VC2(128)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The unique identifier that identifies this object.</td>
+</tr>
+<tr>
+<td>STATUS_FLAG                   </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Indicates the status of the migration. The Migration status could have one of the following values:0 - Ready to migrate1 - Successfully migrated2 - Failure migrating3 - Successfully deleted</td>
+</tr>
+<tr>
+<td>TO_LOCATION                   </td>
+<td class="data-type">VC2(128)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The base URL of the CAMM 7 archive that the object was copied to.</td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="CDI_PENDING_BATCH">CDI_PENDING_BATCH             </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#CDI_PENDING_BATCH_col">Column Section</a></td>
+<td><a href="#CDI_PENDING_BATCH_reltn">Relationship Section</a></td>
+<td><a href="dms_imaging_document9.html              ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+CDI Pending Batch
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This table represents a CPDI Batch within the batch capture process and contains information about the batch.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "CDI_PENDING_BATCH_col"></a>
+Column Detail - <a href ="dms_imaging_document9.html#CDI_PENDING_BATCH">CDI_PENDING_BATCH</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BATCH_CREATE_DT_TM            </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">Date the CDI Batch was created.</td>
+</tr>
+<tr>
+<td>BATCH_NAME                    </td>
+<td class="data-type">VC2(255)       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The name of the CDI Batch.</td>
+</tr>
+<tr>
+<td>BATCH_PRIORITY_NBR            </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Specifies the priority of the batch.  Batches are sorted and processed in priority order.  Suggested values are 1 = High, 5 = Medium and 10 = Low.</td>
+</tr>
+<tr>
+<td>CDI_AC_BATCHCLASS_ID          </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Foreign key to the CDI_AC_BATCHCLASS table.</td>
+</tr>
+<tr>
+<td>CDI_PENDING_BATCH_ID          </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The unique primary key of this table.</td>
+</tr>
+<tr>
+<td>EXTERNAL_BATCH_IDENT          </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Batch identifier from the external system.</td>
+</tr>
+<tr>
+<td>LOGICAL_DOMAIN_ID             </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The unique identifier for a logical domain. This identifier allows the data to be grouped by logical domain. For example, If you assign clients a logical_domain_id this would allow you to store data for multiple clients on this table.</td>
+</tr>
+<tr>
+<td>ORGANIZATION_ID               </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Used for filtering in cer_batchindexing at the user level.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="CDI_PENDING_BATCH_reltn"></a>
+Relationship Detail - <a href = "#CDI_PENDING_BATCH">CDI_PENDING_BATCH</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in CDI_PENDING_BATCH(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>CDI_AC_BATCHCLASS_ID          </td>
+<td><a href="dms_imaging_document1.html#CDI_AC_BATCHCLASS             " title = "Table Report">CDI_AC_BATCHCLASS             </a></td>
+<td>CDI_AC_BATCHCLASS_ID          </td>
+</tr>
+<tr>
+<td></td>
+<td>LOGICAL_DOMAIN_ID             </td>
+<td><a href="dms_logical_domain1.html#LOGICAL_DOMAIN                " title = "Table Report">LOGICAL_DOMAIN                </a></td>
+<td>LOGICAL_DOMAIN_ID             </td>
+</tr>
+<tr>
+<td></td>
+<td>ORGANIZATION_ID               </td>
+<td><a href="dms_organization1.html#ORGANIZATION                  " title = "Table Report">ORGANIZATION                  </a></td>
+<td>ORGANIZATION_ID               </td>
+</tr>
+</tbody></table><br/><br/>
+<br/><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Parent Column in CDI_PENDING_BATCH             (PK)</th>
+<th class="item-table">Child Table Name</th>
+<th class="item-column">Child Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Children:</b></td>
+<td>CDI_PENDING_BATCH_ID          </td>
+<td><a href="dms_imaging_document9.html#CDI_PENDING_DOCUMENT" title = "Table Report">CDI_PENDING_DOCUMENT</a></td>
+<td>CDI_PENDING_BATCH_ID</td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="CDI_PENDING_DOCUMENT">CDI_PENDING_DOCUMENT          </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#CDI_PENDING_DOCUMENT_col">Column Section</a></td>
+<td><a href="#CDI_PENDING_DOCUMENT_reltn">Relationship Section</a></td>
+<td><a href="dms_imaging_document9.html              ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+CDI Pending Document
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This table represents a CPDI Document within the batch capture process and contains information about the document in the 3rd party imaging system. While a document is pending validation, values shall be as sent from external feeds and may not be consistent with each other (eg, encntr_id or person_id values may be invalid).
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "CDI_PENDING_DOCUMENT_col"></a>
+Column Detail - <a href ="dms_imaging_document9.html#CDI_PENDING_DOCUMENT">CDI_PENDING_DOCUMENT</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACTIVE_IND                    </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The table row is active or inactive.  A row is generally active unless it is in an inactive state such as logically deleted, combined away, pending purge, etc.</td>
+</tr>
+<tr>
+<td>AX_APP_IDENT                  </td>
+<td class="data-type">FLOAT          </td>
+<td class="nullable">N</td>
+<td class="defn-text">Identifier for the AX (3rd party) application in which the document is stored.</td>
+</tr>
+<tr>
+<td>AX_DOC_IDENT                  </td>
+<td class="data-type">FLOAT          </td>
+<td class="nullable">N</td>
+<td class="defn-text">Document identifier within the AX (3rd party) system.</td>
+</tr>
+<tr>
+<td>BIRTH_DT_TM                   </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Birth date of the patient this document should be attached to.  Used in batch indexing to help identify the correct patient.</td>
+</tr>
+<tr>
+<td>BLOB_HANDLE                   </td>
+<td class="data-type">VC2(128)       </td>
+<td class="nullable">N</td>
+<td class="defn-text">Globally unique identifier for the document in the external system.  Multiple rows with the same Blob Handle represent different versions of the document.  Only the most recent row should be active.</td>
+</tr>
+<tr>
+<td>CAPTURE_LOC_NAME              </td>
+<td class="data-type">VC2(50)        </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Location where the document was scanned.</td>
+</tr>
+<tr>
+<td>CDI_FORM_ID                   </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Foreign Key to the CDI_FORM table. The ID of the form the document is associated to.</td>
+</tr>
+<tr>
+<td>CDI_PENDING_BATCH_ID          </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Foreign key to the CDI_PENDING_BATCH table.</td>
+</tr>
+<tr>
+<td>CDI_PENDING_DOCUMENT_ID       </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The unique primary key of this table. It is internally generated by Cerner.</td>
+</tr>
+<tr>
+<td>CONTRIBUTOR_SYSTEM_ALIAS      </td>
+<td class="data-type">VC2(50)        </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Alias for contributor_system_cd for documents from external feeds.</td>
+</tr>
+<tr>
+<td>DOC_TYPE_ALIAS                </td>
+<td class="data-type">VC2(255)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Alias for the document type for this document.  Used in batch indexing to help identify the correct document type.</td>
+</tr>
+<tr>
+<td>DOC_TYPE_NAME                 </td>
+<td class="data-type">VC2(50)        </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Display value for the document type for this document.  Used in batch indexing to help identify the correct document type.</td>
+</tr>
+<tr>
+<td>DOC_UPDT_DT_TM                </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">For documents from external feeds, (external system) time the document was last updated.</td>
+</tr>
+<tr>
+<td>ENCNTR_ID                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Identifies the encounter the document should be attached to. (Not necessarily a foreign key; may be invalid prior to validation.)</td>
+</tr>
+<tr>
+<td>EVENT_CD                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Specifies the code value of the document type for this document.The code set for this column can be either 72 or 26820. The codeset value will be stored in column EVENT_CODESET.</td>
+</tr>
+<tr>
+<td>EVENT_CODESET                 </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Identifies the codeset for the event_cd field.  Codeset 72 is used for clinical document, 26820 for non-clinical.</td>
+</tr>
+<tr>
+<td>INDEX_LOCATION_VC             </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Specifies the document's location within the batch indexing process, for active document rows in locations to be indexed. See PROCESS_LOCATION_FLAG for definition of valid flag values.</td>
+</tr>
+<tr>
+<td>LOCATION_CD                   </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Pending document location code.</td>
+</tr>
+<tr>
+<td>PAGE_CNT                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Specifies the number of pages in the document.</td>
+</tr>
+<tr>
+<td>PARENT_ENTITY_ID              </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Identifier in the table specified by the parent_entity_name field: the parent the document should be attached to. (Not necessarily a foreign key; may be invalid prior to validation.)</td>
+</tr>
+<tr>
+<td>PARENT_ENTITY_NAME            </td>
+<td class="data-type">VC2(30)        </td>
+<td class="nullable">N</td>
+<td class="defn-text">Identifies the table representing the parent this document should be attached to.</td>
+</tr>
+<tr>
+<td>PARENT_LEVEL_FLAG             </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Specifies the parent level for the document (0=default, 1=person level, 2=encounter level).</td>
+</tr>
+<tr>
+<td>PATIENT_NAME                  </td>
+<td class="data-type">VC2(100)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Name of the patient this document should be attached to.  Used in batch indexing to help identify the correct patient.</td>
+</tr>
+<tr>
+<td>PERFORMING_PROVIDER_ALIAS     </td>
+<td class="data-type">VC2(200)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Organization Doctor Number alias specifying the provider who performed this document.</td>
+</tr>
+<tr>
+<td>PERFORMING_PROVIDER_ID        </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">ID of the provider who performed this document.</td>
+</tr>
+<tr>
+<td>PERSON_ID                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Identifies the person the document should be attached to. (Not necessarily a foreign key; may be invalid prior to validation.)</td>
+</tr>
+<tr>
+<td>PROCESS_LOCATION_FLAG         </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Specifies the document's location within the batch indexing process.  0=Complete, 1=Batch Indexing, 2=Manual Indexing, 3=Pharmacy, 4=Deleted, 5=Registration, 6 = Work Queue, 7 - Non-Clinical Batch Indexing, 8 - Non-Clinical Manual Indexing.</td>
+</tr>
+<tr>
+<td>REFERENCE_NBR_TEXT            </td>
+<td class="data-type">VC2(100)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">With contributor system, uniquely identifies a document from an external feed.</td>
+</tr>
+<tr>
+<td>RESULT_STATUS_ALIAS           </td>
+<td class="data-type">VC2(50)        </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Alias for the documents result status code.</td>
+</tr>
+<tr>
+<td>RESULT_STATUS_CD              </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Code value for the documents results status.</td>
+</tr>
+<tr>
+<td>RX_PRIORITY_TEXT              </td>
+<td class="data-type">VC2(40)        </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Priority value for pharmacy images.</td>
+</tr>
+<tr>
+<td>SCAN_DT_TM                    </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Date and time specifying when the document was scanned.</td>
+</tr>
+<tr>
+<td>SERVICE_DT_TM                 </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Date and time specifying when the document was performed.</td>
+</tr>
+<tr>
+<td>SOURCE_FLAG                   </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Specifies the source of the document (0 = Batch Capture; 1 = Millennium Registration; 2 = 3rd Party Registration).</td>
+</tr>
+<tr>
+<td>STATUS_FLAG                   </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Indicates the status of the document.  0 - Pending, 1- In Progress, 2 - Complete.</td>
+</tr>
+<tr>
+<td>SUBJECT_TEXT                  </td>
+<td class="data-type">VC2(255)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Subject for this document.</td>
+</tr>
+<tr>
+<td>SUBMIT_DT_TM                  </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Specifies the date the document was submitted to the current processing location.</td>
+</tr>
+<tr>
+<td>TRACKING_NBR_TEXT             </td>
+<td class="data-type">VC2(50)        </td>
+<td class="nullable">Y</td>
+<td class="defn-text">External tracking number for this document.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="CDI_PENDING_DOCUMENT_reltn"></a>
+Relationship Detail - <a href = "#CDI_PENDING_DOCUMENT">CDI_PENDING_DOCUMENT</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in CDI_PENDING_DOCUMENT(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>CDI_FORM_ID                   </td>
+<td><a href="dms_imaging_document6.html#CDI_FORM                      " title = "Table Report">CDI_FORM                      </a></td>
+<td>CDI_FORM_ID                   </td>
+</tr>
+<tr>
+<td></td>
+<td>CDI_PENDING_BATCH_ID          </td>
+<td><a href="dms_imaging_document9.html#CDI_PENDING_BATCH             " title = "Table Report">CDI_PENDING_BATCH             </a></td>
+<td>CDI_PENDING_BATCH_ID          </td>
+</tr>
+<tr>
+<td></td>
+<td>LOCATION_CD                   </td>
+<td><a href="dms_service_resource_loc2.html#LOCATION                      " title = "Table Report">LOCATION                      </a></td>
+<td>LOCATION_CD                   </td>
+</tr>
+<tr>
+<td></td>
+<td>PERFORMING_PROVIDER_ID        </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+</tbody></table><br/><br/>
+<br/><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Parent Column in CDI_PENDING_DOCUMENT          (PK)</th>
+<th class="item-table">Child Table Name</th>
+<th class="item-column">Child Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Children:</b></td>
+<td>CDI_PENDING_DOCUMENT_ID       </td>
+<td><a href="dms_imaging_document5.html#CDI_DOC_DYN_METADATA" title = "Table Report">CDI_DOC_DYN_METADATA</a></td>
+<td>CDI_PENDING_DOCUMENT_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_imaging_document5.html#CDI_DOC_ENTITY_RELTN" title = "Table Report">CDI_DOC_ENTITY_RELTN</a></td>
+<td>CDI_PENDING_DOCUMENT_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_imaging_document11.html#CDI_TRANS_LOG" title = "Table Report">CDI_TRANS_LOG</a></td>
+<td>CDI_PENDING_DOCUMENT_ID</td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="CDI_PURGE_DOCUMENT">CDI_PURGE_DOCUMENT            </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#CDI_PURGE_DOCUMENT_col">Column Section</a></td>
+<td><a href="#CDI_PURGE_DOCUMENT_reltn">Relationship Section</a></td>
+<td><a href="dms_imaging_document9.html              ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Cerner Document Imaging Purge Document
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+Stores information about documents that require deletion and the status of previous deletion attempts
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "CDI_PURGE_DOCUMENT_col"></a>
+Column Detail - <a href ="dms_imaging_document9.html#CDI_PURGE_DOCUMENT">CDI_PURGE_DOCUMENT</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BLOB_HANDLE                   </td>
+<td class="data-type">VC2(128)       </td>
+<td class="nullable">N</td>
+<td class="defn-text">Globally unique identifier for the document in the external system.</td>
+</tr>
+<tr>
+<td>CDI_PURGE_DOCUMENT_ID         </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">PRIMARY KEY</td>
+</tr>
+<tr>
+<td>FAILURE_CNT                   </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">A count of how many prior failed attempts there have been to delete this document.</td>
+</tr>
+<tr>
+<td>IN_PROGRESS_IND               </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Indicates if this document is in the process of being deleted.</td>
+</tr>
+<tr>
+<td>LOGICAL_DOMAIN_ID             </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The unique identifier for a logical domain. This identifier allows the data to be grouped by logical domain. For example, If you assign clients a logical_domain_id this would allow you to store data for multiple clients on this table.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="CDI_PURGE_DOCUMENT_reltn"></a>
+Relationship Detail - <a href = "#CDI_PURGE_DOCUMENT">CDI_PURGE_DOCUMENT</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in CDI_PURGE_DOCUMENT(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>LOGICAL_DOMAIN_ID             </td>
+<td><a href="dms_logical_domain1.html#LOGICAL_DOMAIN                " title = "Table Report">LOGICAL_DOMAIN                </a></td>
+<td>LOGICAL_DOMAIN_ID             </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="CDI_REJECT_LOG">CDI_REJECT_LOG                </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#CDI_REJECT_LOG_col">Column Section</a></td>
+<td><a href="#CDI_REJECT_LOG_reltn">Relationship Section</a></td>
+<td><a href="dms_imaging_document9.html              ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+CDI Reject Log
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This table contains documents rejected by CPDI batch versioning.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "CDI_REJECT_LOG_col"></a>
+Column Detail - <a href ="dms_imaging_document9.html#CDI_REJECT_LOG">CDI_REJECT_LOG</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CDI_REJECT_LOG_ID             </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The unique identifier for this table.</td>
+</tr>
+<tr>
+<td>CONTRIBUTOR_SYSTEM_CD         </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Contributor system identifies the source feed of data from which a row was populated.  This is mainly used to determine how to update a set of data that may have originated from more than one source feed.</td>
+</tr>
+<tr>
+<td>MATCH_EVENT_ID                </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The event id of the matching clinical event. It is a foreign key to the clinical_event table.</td>
+</tr>
+<tr>
+<td>MATCH_STATUS_CD               </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The status code of the matching clinical event.</td>
+</tr>
+<tr>
+<td>MATCH_UPDT_DT_TM              </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The update date and time of the matching clinical event.</td>
+</tr>
+<tr>
+<td>REFERENCE_NBR                 </td>
+<td class="data-type">VC2(100)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The reference number of hte rejected document.</td>
+</tr>
+<tr>
+<td>REJECT_BIRTH_DT_TM            </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The birth date specified for the rejected document.</td>
+</tr>
+<tr>
+<td>REJECT_DOC_TYPE               </td>
+<td class="data-type">VC2(50)        </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The document type specified for the rejected document.</td>
+</tr>
+<tr>
+<td>REJECT_DT_TM                  </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The date and time the document was rejected.</td>
+</tr>
+<tr>
+<td>REJECT_FIN                    </td>
+<td class="data-type">VC2(200)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The FIN number alias specified for the rejected document.</td>
+</tr>
+<tr>
+<td>REJECT_MRN                    </td>
+<td class="data-type">VC2(200)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The MRN alias specified for the rejected document.</td>
+</tr>
+<tr>
+<td>REJECT_PATIENT_NAME           </td>
+<td class="data-type">VC2(100)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The patient name specified for the rejected document.</td>
+</tr>
+<tr>
+<td>REJECT_PROVIDER               </td>
+<td class="data-type">VC2(200)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The provider specified for the rejected document.</td>
+</tr>
+<tr>
+<td>REJECT_SERVICE_DT_TM          </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The service date and time specified for the rejected document.</td>
+</tr>
+<tr>
+<td>REJECT_STATUS                 </td>
+<td class="data-type">VC2(255)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The status specified for the rejected document.</td>
+</tr>
+<tr>
+<td>REJECT_SUBJECT                </td>
+<td class="data-type">VC2(255)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The subject specified for the rejected document.</td>
+</tr>
+<tr>
+<td>REJECT_UPDT_DT_TM             </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The update date specified for the rejected document.</td>
+</tr>
+<tr>
+<td>REJECT_USER_ID                </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The identifier of the user who manually rejected the document.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="CDI_REJECT_LOG_reltn"></a>
+Relationship Detail - <a href = "#CDI_REJECT_LOG">CDI_REJECT_LOG</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in CDI_REJECT_LOG(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>REJECT_USER_ID                </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+ 
+</div>
+<div id="footer">
+Copyright &copy; 2025 Oracle and/or its affiliates. This document may not be reproduced or transmitted in any form or by any means, electronic or mechanical, for any purpose, without our prior written permission. <br/> <br/>
+Materials in this document pertain to Oracle Health, Oracle, Oracle Cerner, and Cerner Enviza which are all wholly-owned subsidiaries of Oracle Corporation. <br/>
+Nothing in this document should be taken as indicating that any decisions regarding the integration of any EMEA Cerner and/or Enviza entities have been made where an integration has not already occurred. <br/>
+Last Updated:
+<!-- #BeginDate format:Am1 -->January 16, 2025<!-- #EndDate -->
+<br/>
+	</div>
+</div>
+</body>
+</html>

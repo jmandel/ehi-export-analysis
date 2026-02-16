@@ -1,0 +1,1151 @@
+ 
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<link rel="stylesheet" href="../css/model.css" type="text/css" />
+<title>2025.4.01Data Models:Table Name Index</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<div id="wrapper">
+   <div id="logo">
+     <img src="../images/Oracle_Cerner Horizontal_RGB.png" alt="Cerner Logo" height="42" width="163"  />
+     <h1>Millennium Data Model Reports - 2025.4.01</h1>
+   </div>
+   <div id="nav">
+   <ul>
+     <li>  <a href="../start_cerner_millennium_data_model_reports.html">Home</a></li>
+     <li>|</li>
+     <li><a href="dm_a.html">Reports by Table</a></li>
+     <li>|</li>
+     <li><a href="data_model_table_report_help.html">Table Report Help</a></li>
+</ul>
+   </div>
+ 
+<div id="main-info">
+<h2>Table Detail Report</h2>
+<h2><a id="CDI_TRANS_LOG">CDI_TRANS_LOG                 </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#CDI_TRANS_LOG_col">Column Section</a></td>
+<td><a href="#CDI_TRANS_LOG_reltn">Relationship Section</a></td>
+<td><a href="dms_imaging_document11.html             ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+CDI Transaction log.
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This table holds the transaction rows of an indexed document submittal, failure, delete, and send to service for CDI applications and components.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "CDI_TRANS_LOG_col"></a>
+Column Detail - <a href ="dms_imaging_document11.html#CDI_TRANS_LOG">CDI_TRANS_LOG</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACTION_DT_TM                  </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">Date and time the action occurred.</td>
+</tr>
+<tr>
+<td>ACTION_TYPE_FLAG              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Description of the action.  Submit = 0, Failed = 1, Send to service = 2, Delete =3, Modify = 4, Single document capture = 5, Receive = 6, Validate Manually = 7, Migrate = 8, Update Metadata = 9, Print = 10, Combine = 11, Split = 12, Copy = 13.</td>
+</tr>
+<tr>
+<td>ACTIVE_IND                    </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The table row is active or inactive.  A row is generally active unless it is in an inactive state such as logically deleted, combined away, pending purge, etc.</td>
+</tr>
+<tr>
+<td>AX_APPID                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The Application Identification from the OTG database for this document.</td>
+</tr>
+<tr>
+<td>AX_DOCID                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The document Identification from the OTG database for this document.</td>
+</tr>
+<tr>
+<td>BATCH_NAME                    </td>
+<td class="data-type">VARCHAR(255)   </td>
+<td class="nullable">N</td>
+<td class="defn-text">Batch name from the document index.</td>
+</tr>
+<tr>
+<td>BATCH_NAME_KEY                </td>
+<td class="data-type">VARCHAR(255)   </td>
+<td class="nullable">N</td>
+<td class="defn-text">Batch Name converted to upper case for case-insensitive indexed queries.</td>
+</tr>
+<tr>
+<td>BLOB_HANDLE                   </td>
+<td class="data-type">VARCHAR(255)   </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Handle to the image stored in OTG DB.</td>
+</tr>
+<tr>
+<td>BLOB_REF_ID                   </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Foreign key to the BLOB_REFERENCE table.</td>
+</tr>
+<tr>
+<td>BLOB_TYPE_FLAG                </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Indicates if image is a clinical event (0 - event id is valid), non-clinical event (1 - blob ref id is valid), or neither (2 - additional info store on ext table).</td>
+</tr>
+<tr>
+<td>CDI_FORM_ID                   </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Foreign key to the cdi_form table. Only populated if an action is performed on a patient form.</td>
+</tr>
+<tr>
+<td>CDI_PENDING_DOCUMENT_ID       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The ID of the pending document that the log row is related to.</td>
+</tr>
+<tr>
+<td>CDI_QUEUE_CD                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Queue the document was in prior to the transaction.</td>
+</tr>
+<tr>
+<td>CDI_TRANS_LOG_ID              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Unique identifier generated for each row of data.</td>
+</tr>
+<tr>
+<td>COPY_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The number of copies printed.</td>
+</tr>
+<tr>
+<td>CREATE_DT_TM                  </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time when the batch was created.</td>
+</tr>
+<tr>
+<td>DEVICE_NAME                   </td>
+<td class="data-type">VARCHAR(200)   </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The name of the device that performed the action, such as the printer name.</td>
+</tr>
+<tr>
+<td>DOCUMENT_TYPE_ALIAS           </td>
+<td class="data-type">VARCHAR(255)   </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Alias for this document type's event code.</td>
+</tr>
+<tr>
+<td>DOC_TYPE                      </td>
+<td class="data-type">VARCHAR(50)    </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Document type alias or value used to index the document.</td>
+</tr>
+<tr>
+<td>ENCNTR_ID                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This is the value of the unique primary identifier of the encounter table.  It is an internal system assigned number.</td>
+</tr>
+<tr>
+<td>EVENT_CD                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Event code for the document.</td>
+</tr>
+<tr>
+<td>EVENT_ID                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Foreign key to the Clinical Event Table</td>
+</tr>
+<tr>
+<td>EXTERNAL_BATCH_IDENT          </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The identifier of the external batch.</td>
+</tr>
+<tr>
+<td>FINANCIAL_NBR                 </td>
+<td class="data-type">VARCHAR(200)   </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The enctr_nbr field from the document index.  A financial_nbr in Cerner.</td>
+</tr>
+<tr>
+<td>MAN_QUEUE_CAT_CD              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Manual queue category code indicating high level reason doc sent to manual queue.</td>
+</tr>
+<tr>
+<td>MAN_QUEUE_ERR_CD              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Manual queue error code indicating specific error that send doc to manual queue.</td>
+</tr>
+<tr>
+<td>MRN                           </td>
+<td class="data-type">VARCHAR(200)   </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The MRN from the document index.</td>
+</tr>
+<tr>
+<td>PAGE_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Number of pages in the document</td>
+</tr>
+<tr>
+<td>PAGE_DELETED_CNT              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Number of pages deleted in the document before transaction.</td>
+</tr>
+<tr>
+<td>PARENT_ENTITY_ALIAS           </td>
+<td class="data-type">VARCHAR(200)   </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field contains the parent alias that was used to index the associated document.</td>
+</tr>
+<tr>
+<td>PARENT_ENTITY_ID              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field contrains the unique primary identifier for the row from the parent table identified in field parent_entity_name.</td>
+</tr>
+<tr>
+<td>PARENT_ENTITY_NAME            </td>
+<td class="data-type">VARCHAR(32)    </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field contains the name of the table that this cdi_trans_log row is associated to.</td>
+</tr>
+<tr>
+<td>PATIENT_NAME                  </td>
+<td class="data-type">VARCHAR(255)   </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The patient name index information from the document index.</td>
+</tr>
+<tr>
+<td>PERF_PRSNL_ID                 </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Personnel Id of the person that performed the document activity.</td>
+</tr>
+<tr>
+<td>PERSON_ID                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This is the value of the unique primary identifier of the person table.  It is an internal system assigned number.</td>
+</tr>
+<tr>
+<td>REASON_CD                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Indicates the reason for the transaction.</td>
+</tr>
+<tr>
+<td>SUBJECT                       </td>
+<td class="data-type">VARCHAR(255)   </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Free text subject of the document used in indexing.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="CDI_TRANS_LOG_reltn"></a>
+Relationship Detail - <a href = "#CDI_TRANS_LOG">CDI_TRANS_LOG</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in CDI_TRANS_LOG(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>BLOB_REF_ID                   </td>
+<td><a href="dms_imaging_document1.html#BLOB_REFERENCE                " title = "Table Report">BLOB_REFERENCE                </a></td>
+<td>BLOB_REF_ID                   </td>
+</tr>
+<tr>
+<td></td>
+<td>CDI_FORM_ID                   </td>
+<td><a href="dms_imaging_document6.html#CDI_FORM                      " title = "Table Report">CDI_FORM                      </a></td>
+<td>CDI_FORM_ID                   </td>
+</tr>
+<tr>
+<td></td>
+<td>CDI_PENDING_DOCUMENT_ID       </td>
+<td><a href="dms_imaging_document9.html#CDI_PENDING_DOCUMENT          " title = "Table Report">CDI_PENDING_DOCUMENT          </a></td>
+<td>CDI_PENDING_DOCUMENT_ID       </td>
+</tr>
+<tr>
+<td></td>
+<td>ENCNTR_ID                     </td>
+<td><a href="dms_encounter17.html#ENCOUNTER                     " title = "Table Report">ENCOUNTER                     </a></td>
+<td>ENCNTR_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>PERSON_ID                     </td>
+<td><a href="dms_person3.html#PERSON                        " title = "Table Report">PERSON                        </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>PERF_PRSNL_ID                 </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+</tbody></table><br/><br/>
+<br/><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Parent Column in CDI_TRANS_LOG                 (PK)</th>
+<th class="item-table">Child Table Name</th>
+<th class="item-column">Child Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Children:</b></td>
+<td>CDI_TRANS_LOG_ID              </td>
+<td><a href="dms_imaging_document11.html#CDI_TRANS_MOD_DETAIL" title = "Table Report">CDI_TRANS_MOD_DETAIL</a></td>
+<td>CDI_TRANS_LOG_ID</td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="CDI_TRANS_MOD_DETAIL">CDI_TRANS_MOD_DETAIL          </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#CDI_TRANS_MOD_DETAIL_col">Column Section</a></td>
+<td><a href="#CDI_TRANS_MOD_DETAIL_reltn">Relationship Section</a></td>
+<td><a href="dms_imaging_document11.html             ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+cdi rans mod detail
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This table tracks details for CPDI image modifications.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "CDI_TRANS_MOD_DETAIL_col"></a>
+Column Detail - <a href ="dms_imaging_document11.html#CDI_TRANS_MOD_DETAIL">CDI_TRANS_MOD_DETAIL</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACTION_SEQUENCE               </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Action sequence column</td>
+</tr>
+<tr>
+<td>ACTION_TYPE_FLAG              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Description of the modification.  (1=rotate, 2=delete, 3=add, 4=reorder, 5=cut, 6=copy, 7=annotate, 8=rollback, 9=add version, 10=ocr (optical character recognition), 11=modify text), 12 - resume checkout.</td>
+</tr>
+<tr>
+<td>CDI_TRANS_LOG_ID              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">ID of the parent cdi_trans_log row.</td>
+</tr>
+<tr>
+<td>CDI_TRANS_MOD_DETAIL_ID       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Unique ID for each image modification detail.</td>
+</tr>
+<tr>
+<td>END_PAGE                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Last page of the document affected.</td>
+</tr>
+<tr>
+<td>POSITION                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">New position of the pages in the document for reorder action.</td>
+</tr>
+<tr>
+<td>START_PAGE                    </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">First page of the document affected.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="CDI_TRANS_MOD_DETAIL_reltn"></a>
+Relationship Detail - <a href = "#CDI_TRANS_MOD_DETAIL">CDI_TRANS_MOD_DETAIL</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in CDI_TRANS_MOD_DETAIL(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>CDI_TRANS_LOG_ID              </td>
+<td><a href="dms_imaging_document11.html#CDI_TRANS_LOG                 " title = "Table Report">CDI_TRANS_LOG                 </a></td>
+<td>CDI_TRANS_LOG_ID              </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="CDI_USER_FILTER">CDI_USER_FILTER               </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#CDI_USER_FILTER_col">Column Section</a></td>
+<td><a href="#CDI_USER_FILTER_reltn">Relationship Section</a></td>
+<td><a href="dms_imaging_document11.html             ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+CDI User Filter
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This table stores user defined filters that can be applied to filter the document list within the Document Library.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+REFERENCE
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "CDI_USER_FILTER_col"></a>
+Column Detail - <a href ="dms_imaging_document11.html#CDI_USER_FILTER">CDI_USER_FILTER</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BEGIN_DT_TM                   </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">Specifies the beginning date when filtering documents by date range (date range must be zero).</td>
+</tr>
+<tr>
+<td>CDI_USER_FILTER_ID            </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The unique primary key of this table. It is internally generated by Millennium.</td>
+</tr>
+<tr>
+<td>DATE_RANGE_MONTHS             </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Specifies the number of months worth of data should be displayed.  If this field is set to zero the begin and end date range will be used instead.</td>
+</tr>
+<tr>
+<td>DOCUMENT_COUNT                </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Specifies the maximum number of documents to be displayed.</td>
+</tr>
+<tr>
+<td>END_DT_TM                     </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">Specifies the end date when filtering documents by date range (date range must be zero).</td>
+</tr>
+<tr>
+<td>FILTER_NAME                   </td>
+<td class="data-type">VARCHAR(100)   </td>
+<td class="nullable">N</td>
+<td class="defn-text">The name of the filter.</td>
+</tr>
+<tr>
+<td>PERSON_ID                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Identifies the user this filter belongs to.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="CDI_USER_FILTER_reltn"></a>
+Relationship Detail - <a href = "#CDI_USER_FILTER">CDI_USER_FILTER</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in CDI_USER_FILTER(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>PERSON_ID                     </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="CDI_WORK_ITEM">CDI_WORK_ITEM                 </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#CDI_WORK_ITEM_col">Column Section</a></td>
+<td><a href="#CDI_WORK_ITEM_reltn">Relationship Section</a></td>
+<td><a href="dms_imaging_document11.html             ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+CDI Work Item
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This table represents a CPDI Work Item within the routing and queuing process.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "CDI_WORK_ITEM_col"></a>
+Column Detail - <a href ="dms_imaging_document11.html#CDI_WORK_ITEM">CDI_WORK_ITEM</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AUTO_DIAL_IND                 </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Indicates whether or not this workitem is an auto dial.</td>
+</tr>
+<tr>
+<td>BEG_EFFECTIVE_DT_TM           </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The date and time for which this table row becomes effective.  Normally, this will be the date and time the row is added, but could be a past or future date and time.</td>
+</tr>
+<tr>
+<td>CATEGORY_CD                   </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The generic category of the work item. Category is a generic concept that allows clients to define their own list of descriptors for a work item. Clients might have their own configurable codeset so it is documented as 0,</td>
+</tr>
+<tr>
+<td>CDI_WORK_ITEM_ID              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The unique primary key of this table. It is internally assigned.</td>
+</tr>
+<tr>
+<td>CLARIFY_REASON_CD             </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The code value for the reason the work item was put in a clarify status.</td>
+</tr>
+<tr>
+<td>COMMENT_ID                    </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The link to the row on the long_text table which includes comments associated to the image.</td>
+</tr>
+<tr>
+<td>CREATE_DT_TM                  </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the work item was added into the system.</td>
+</tr>
+<tr>
+<td>END_EFFECTIVE_DT_TM           </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The date/time after which the row is no longer valid as active current data.  This may be valued with the date that the row became inactive.</td>
+</tr>
+<tr>
+<td>ORDERING_PROVIDER_ID          </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Person ID from the PRSNL table.</td>
+</tr>
+<tr>
+<td>OWNER_PRSNL_ID                </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The personnel identifier for the person who has ownership of the work item.  If valued, this field means this person has the work item locked.</td>
+</tr>
+<tr>
+<td>PARENT_ENTITY_ID              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field contains the identifier for the parent table row.</td>
+</tr>
+<tr>
+<td>PARENT_ENTITY_NAME            </td>
+<td class="data-type">VARCHAR(30)    </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field contains the name of table that this cdi_work_item row is associated to.</td>
+</tr>
+<tr>
+<td>PREV_CDI_WORK_ITEM_ID         </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Identifier of the currently effective row based off the begin/end effective date/time values</td>
+</tr>
+<tr>
+<td>PRIORITY_CD                   </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The priority of the work item.</td>
+</tr>
+<tr>
+<td>SCH_EVENT_ID                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The unique identifier for the requested/scheduled appointment.</td>
+</tr>
+<tr>
+<td>STATUS_CD                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The status of the work item.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="CDI_WORK_ITEM_reltn"></a>
+Relationship Detail - <a href = "#CDI_WORK_ITEM">CDI_WORK_ITEM</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in CDI_WORK_ITEM(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>PREV_CDI_WORK_ITEM_ID         </td>
+<td><a href="dms_imaging_document11.html#CDI_WORK_ITEM                 " title = "Table Report">CDI_WORK_ITEM                 </a></td>
+<td>CDI_WORK_ITEM_ID              </td>
+</tr>
+<tr>
+<td></td>
+<td>COMMENT_ID                    </td>
+<td><a href="dms_data_mgmt25.html#LONG_TEXT                     " title = "Table Report">LONG_TEXT                     </a></td>
+<td>LONG_TEXT_ID                  </td>
+</tr>
+<tr>
+<td></td>
+<td>ORDERING_PROVIDER_ID          </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>OWNER_PRSNL_ID                </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>SCH_EVENT_ID                  </td>
+<td><a href="dms_scheduling6.html#SCH_EVENT                     " title = "Table Report">SCH_EVENT                     </a></td>
+<td>SCH_EVENT_ID                  </td>
+</tr>
+</tbody></table><br/><br/>
+<br/><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Parent Column in CDI_WORK_ITEM                 (PK)</th>
+<th class="item-table">Child Table Name</th>
+<th class="item-column">Child Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Children:</b></td>
+<td>CDI_WORK_ITEM_ID              </td>
+<td><a href="dms_imaging_document11.html#CDI_WORK_ITEM" title = "Table Report">CDI_WORK_ITEM</a></td>
+<td>PREV_CDI_WORK_ITEM_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_imaging_document11.html#CDI_WORK_ITEM_ACTION" title = "Table Report">CDI_WORK_ITEM_ACTION</a></td>
+<td>CDI_WORK_ITEM_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_imaging_document12.html#CDI_WORK_ITEM_ATTRIBUTE" title = "Table Report">CDI_WORK_ITEM_ATTRIBUTE</a></td>
+<td>CDI_WORK_ITEM_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_imaging_document13.html#CDI_WORK_QUEUE_ITEM_RELTN" title = "Table Report">CDI_WORK_QUEUE_ITEM_RELTN</a></td>
+<td>CDI_WORK_ITEM_ID</td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="CDI_WORK_ITEM_ACTION">CDI_WORK_ITEM_ACTION          </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#CDI_WORK_ITEM_ACTION_col">Column Section</a></td>
+<td><a href="#CDI_WORK_ITEM_ACTION_reltn">Relationship Section</a></td>
+<td><a href="dms_imaging_document11.html             ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Work Item Action
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This table records actions taken while processing a work item.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "CDI_WORK_ITEM_ACTION_col"></a>
+Column Detail - <a href ="dms_imaging_document11.html#CDI_WORK_ITEM_ACTION">CDI_WORK_ITEM_ACTION</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACTION_DT_TM                  </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date & time of the action represented by this row.</td>
+</tr>
+<tr>
+<td>ACTION_PRSNL_ID               </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The personnel ID of the user performing the action represented by this row.</td>
+</tr>
+<tr>
+<td>ACTION_TYPE_FLAG              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Flag indicating what type of action was performed.  0 - Patient Contact,  1 - Fax Out</td>
+</tr>
+<tr>
+<td>CDI_WORK_ITEM_ACTION_ID       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Unique generated number that identifies a single row on the CDI_WORK_ITEM_ACTION table.</td>
+</tr>
+<tr>
+<td>CDI_WORK_ITEM_ID              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Foreign key to the work item table.</td>
+</tr>
+<tr>
+<td>COMMENT_CD                    </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Specifies any predefined comment selected by the user for this action.</td>
+</tr>
+<tr>
+<td>FOLLOW_UP_DT_TM               </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The date & time of the follow up action represented by this row.</td>
+</tr>
+<tr>
+<td>LONG_TEXT_ID                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Foreign key to the long_text table where the user entered comments are stored.</td>
+</tr>
+<tr>
+<td>OUTPUTCTX_HANDLE_ID           </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Identifies the output context for outbound fax actions (foreign key to the outputctx table)</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="CDI_WORK_ITEM_ACTION_reltn"></a>
+Relationship Detail - <a href = "#CDI_WORK_ITEM_ACTION">CDI_WORK_ITEM_ACTION</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in CDI_WORK_ITEM_ACTION(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>CDI_WORK_ITEM_ID              </td>
+<td><a href="dms_imaging_document11.html#CDI_WORK_ITEM                 " title = "Table Report">CDI_WORK_ITEM                 </a></td>
+<td>CDI_WORK_ITEM_ID              </td>
+</tr>
+<tr>
+<td></td>
+<td>LONG_TEXT_ID                  </td>
+<td><a href="dms_data_mgmt25.html#LONG_TEXT                     " title = "Table Report">LONG_TEXT                     </a></td>
+<td>LONG_TEXT_ID                  </td>
+</tr>
+<tr>
+<td></td>
+<td>OUTPUTCTX_HANDLE_ID           </td>
+<td><a href="dms_rrd3.html#OUTPUTCTX                     " title = "Table Report">OUTPUTCTX                     </a></td>
+<td>HANDLE_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>ACTION_PRSNL_ID               </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+ 
+</div>
+<div id="footer">
+Copyright &copy; 2025 Oracle and/or its affiliates. This document may not be reproduced or transmitted in any form or by any means, electronic or mechanical, for any purpose, without our prior written permission. <br/> <br/>
+Materials in this document pertain to Oracle Health, Oracle, Oracle Cerner, and Cerner Enviza which are all wholly-owned subsidiaries of Oracle Corporation. <br/>
+Nothing in this document should be taken as indicating that any decisions regarding the integration of any EMEA Cerner and/or Enviza entities have been made where an integration has not already occurred. <br/>
+Last Updated:
+<!-- #BeginDate format:Am1 -->January 16, 2025<!-- #EndDate -->
+<br/>
+	</div>
+</div>
+</body>
+</html>

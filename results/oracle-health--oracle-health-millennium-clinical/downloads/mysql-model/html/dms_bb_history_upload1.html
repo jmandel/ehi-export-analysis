@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<link rel="stylesheet" href="../css/model.css" type="text/css" />
+<title>2025.4.01Data Models:Table Name Index</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<div id="wrapper">
+   <div id="logo">
+     <img src="../images/Oracle_Cerner Horizontal_RGB.png" alt="Cerner Logo" height="42" width="163"  />
+     <h1>Millennium Data Model Reports - 2025.4.01</h1>
+   </div>
+   <div id="nav">
+   <ul>
+     <li>  <a href="../start_cerner_millennium_data_model_reports.html">Home</a></li>
+     <li>|</li>
+     <li><a href="dm_a.html">Reports by Table</a></li>
+     <li>|</li>
+     <li><a href="data_model_table_report_help.html">Table Report Help</a></li>
+</ul>
+   </div>
+ 
+<div id="main-info">
+<br/>
+<h2><a id="BBHIST_PRODUCT">BBHIST_PRODUCT                </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#BBHIST_PRODUCT_col">Column Section</a></td>
+<td><a href="#BBHIST_PRODUCT_reltn">Relationship Section</a></td>
+<td><a href="dms_bb_history_upload1.html             ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Blood Bank Historical Product
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This activity table is a smaller version of the Product table, and is intended to store products loaded in from previous systems.  It will also be used in the future to store purged products from thelive inventory.(from the Product table).
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "BBHIST_PRODUCT_col"></a>
+Column Detail - <a href ="dms_bb_history_upload1.html#BBHIST_PRODUCT">BBHIST_PRODUCT</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ABO_CD                        </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This number represents the ABO blood group of the product, ex. "O", "A", etc.  This column will be empty for derivative products.</td>
+</tr>
+<tr>
+<td>ACTIVE_IND                    </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The table row is active or inactive.  A row is generally active unless it is in an inactive state such as logically deleted, combined away, pending purge, etc.</td>
+</tr>
+<tr>
+<td>ACTIVE_STATUS_CD              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Indicates the status of the row itself (not the data in the row) such as active, inactive, combined away, pending purge, etc.</td>
+</tr>
+<tr>
+<td>ACTIVE_STATUS_DT_TM           </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The date and time that the active_status_cd was set.</td>
+</tr>
+<tr>
+<td>ACTIVE_STATUS_PRSNL_ID        </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person who caused the active_status_cd to be set or change.</td>
+</tr>
+<tr>
+<td>ALTERNATE_NBR                 </td>
+<td class="data-type">VARCHAR(20)    </td>
+<td class="nullable">Y</td>
+<td class="defn-text">This column can be used to record the original number labeled on the bag of blood, in the case of sites who choose to re-number blood products received from their supplier.  This way they can still track the product by its original number, which is important in the for look-backs.</td>
+</tr>
+<tr>
+<td>CONTRIBUTOR_SYSTEM_CD         </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Contributor system identifies the source feed of data from which a row was populated.  This is mainly used to determine how to update a set of data that may have originated from more than one source feed.</td>
+</tr>
+<tr>
+<td>CROSS_REFERENCE               </td>
+<td class="data-type">VARCHAR(40)    </td>
+<td class="nullable">Y</td>
+<td class="defn-text">This column is a free-text one that allows a history upload to fill this column with some value that cross-references it to a record on the previous system for the same blood product or derivative.  In the case of HNA Classic as the previous system, the unique unit number from the Blood Inventory file (BI01-unit-nbr1) would be in this column.</td>
+</tr>
+<tr>
+<td>DONOR_XREF_TXT                </td>
+<td class="data-type">VARCHAR(40)    </td>
+<td class="nullable">N</td>
+<td class="defn-text">This is a free-text column that allows a donor history upload to populate this column with a cross-reference value that uniquely identifies the donor in the previous contributor system.</td>
+</tr>
+<tr>
+<td>EXPIRE_DT_TM                  </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">Defines the date/time when the product expired.</td>
+</tr>
+<tr>
+<td>FLAG_CHARS                    </td>
+<td class="data-type">CHAR(2)        </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Stores the flag characters of an uploaded ISBT- 128 donation number. The flag characters are used to convey specific information other than the unique identification of the product.  The three provided types of flag characters represent process control (with ISBT 128-defined meaning), process control (with a local blood center-defined meaning), or data transmission check.</td>
+</tr>
+<tr>
+<td>INV_AREA_CD                   </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Identifies the code value for the current inventory area where the product resides.  This inventory area is any area that keeps blood products or derivatives in an inventory, from which the products are dispensed.  This means that the it could be the main blood bank, or a surgical area or emergency room that stocks blood for use in surgery.  This column is optional, ex. in the case of sites with only one blood bank on the system.</td>
+</tr>
+<tr>
+<td>MODIFIED_PRODUCT_ID           </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This column represents the PRODUCT_ID of the original product from which this product was created through product modification. The product_id is the primary key of the BBHIST_PRODUCT table.  It is an internal system-assigned number that uniquely identifies a product in the blood bank.</td>
+</tr>
+<tr>
+<td>MODIFIED_PRODUCT_IND          </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Indicates whether the product has been modified after it was received into the blood bank's inventory.  This indicator is only updated on the "parent" product, not the new "child" products created from the original parent product.</td>
+</tr>
+<tr>
+<td>OWNER_AREA_CD                 </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Identifies the code value for the blood bank owner area where the product resided.  This owner area is a fully-functioning blood bank that is responsible for the blood received or drawn there.  A blood bank owner area can have several inventory areas within it.  An example of an owner area would be "General Hospital North", with its inventory areas being "Main BB - GH North", "Surgery - GH North", and "ER - GH North"</td>
+</tr>
+<tr>
+<td>POOLED_PRODUCT_ID             </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This column represents the PRODUCT_ID of the new pooled product into which this product was pooled through the pooling process.  The product_id is the primary key of the BBHIST_PRODUCT table.  It is an internal system-assigned number that uniquely identifies a product in the blood bank.</td>
+</tr>
+<tr>
+<td>POOLED_PRODUCT_IND            </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Indicates whether the product is a pooled product, i.e.., a product that was created through the pooling process.  This indicator should only exist on the newly created product, not the products that were components within the pool.</td>
+</tr>
+<tr>
+<td>PRODUCT_CD                    </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The type of product (ex. "Fresh Frozen Plasma") which was on the label of the bag of blood.</td>
+</tr>
+<tr>
+<td>PRODUCT_CLASS_CD              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The class of products to which this specific type of product belongs.  Two classes of products may be used:  blood products and derivatives.</td>
+</tr>
+<tr>
+<td>PRODUCT_ID                    </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">An internal system-assigned number that ensures the uniqueness of every row on this table.</td>
+</tr>
+<tr>
+<td>PRODUCT_NBR                   </td>
+<td class="data-type">VARCHAR(20)    </td>
+<td class="nullable">N</td>
+<td class="defn-text">The number assigned to this product to identify it.  Also known as "unit number".  It is the number that is on the bag of blood products to identify it.   In the case of derivative products, it is the lot number from the batch of derivatives.</td>
+</tr>
+<tr>
+<td>PRODUCT_NBR_FORMAT_CD         </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Stores the uploaded product's number format (ISBT, Eurocode, None, etc.)</td>
+</tr>
+<tr>
+<td>PRODUCT_SUB_NBR               </td>
+<td class="data-type">CHAR(5)        </td>
+<td class="nullable">Y</td>
+<td class="defn-text">A letter or number assigned to each product with the same product number, in order to make them unique.  An example is splitting red blood cells into smaller bags of red cells.  The sub number is assigned as "1", "2", "3", etc. or as "A", "B", "C", etc.</td>
+</tr>
+<tr>
+<td>RH_CD                         </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The code value which represents the Rh for this blood product (ex. "Pos", "Neg").  This column will be empty for derivative products.</td>
+</tr>
+<tr>
+<td>SUPPLIER_ID                   </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This column represents an organization_ID, which is the primary key to the ORGANIZATION table.  It is an internal system-assigned number.  It identifies the supplier of this product, the organization who sent the product to the transfusion service, ex. "American Red Cross".</td>
+</tr>
+<tr>
+<td>SUPPLIER_PREFIX               </td>
+<td class="data-type">CHAR(5)        </td>
+<td class="nullable">Y</td>
+<td class="defn-text">This column may be empty.  It represents the FDA originating supplier prefix on this bag of blood, i.e., the donor center where the blood was originally drawn from the blood donor.  An example is "09", which becomes part of the product number, e.g., "09G12345".</td>
+</tr>
+<tr>
+<td>UNIT_MEAS_CD                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The unit of measure in which this product's volume was recorded, ex. "ML".</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+<tr>
+<td>UPLOAD_DT_TM                  </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the history product upload occurred.</td>
+</tr>
+<tr>
+<td>VOLUME                        </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Indicates the final volume for this blood product at the time it was disposed of.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="BBHIST_PRODUCT_reltn"></a>
+Relationship Detail - <a href = "#BBHIST_PRODUCT">BBHIST_PRODUCT</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in BBHIST_PRODUCT(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>MODIFIED_PRODUCT_ID           </td>
+<td><a href="dms_bb_history_upload1.html#BBHIST_PRODUCT                " title = "Table Report">BBHIST_PRODUCT                </a></td>
+<td>PRODUCT_ID                    </td>
+</tr>
+<tr>
+<td></td>
+<td>POOLED_PRODUCT_ID             </td>
+<td><a href="dms_bb_history_upload1.html#BBHIST_PRODUCT                " title = "Table Report">BBHIST_PRODUCT                </a></td>
+<td>PRODUCT_ID                    </td>
+</tr>
+<tr>
+<td></td>
+<td>SUPPLIER_ID                   </td>
+<td><a href="dms_organization1.html#ORGANIZATION                  " title = "Table Report">ORGANIZATION                  </a></td>
+<td>ORGANIZATION_ID               </td>
+</tr>
+</tbody></table><br/><br/>
+<br/><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Parent Column in BBHIST_PRODUCT                (PK)</th>
+<th class="item-table">Child Table Name</th>
+<th class="item-column">Child Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Children:</b></td>
+<td>PRODUCT_ID                    </td>
+<td><a href="dms_bb_history_upload1.html#BBHIST_PRODUCT" title = "Table Report">BBHIST_PRODUCT</a></td>
+<td>MODIFIED_PRODUCT_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_bb_history_upload1.html#BBHIST_PRODUCT" title = "Table Report">BBHIST_PRODUCT</a></td>
+<td>POOLED_PRODUCT_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_bb_product_demograph2.html#PRODUCT_NOTE" title = "Table Report">PRODUCT_NOTE</a></td>
+<td>BBHIST_PRODUCT_ID</td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="BBHIST_PRODUCT_EVENT">BBHIST_PRODUCT_EVENT          </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#BBHIST_PRODUCT_EVENT_col">Column Section</a></td>
+<td><a href="#BBHIST_PRODUCT_EVENT_reltn">Relationship Section</a></td>
+<td><a href="dms_bb_history_upload1.html             ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Blood Bank History Product Event
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This activity table is a smaller version of the Product_Event table, and is intended to store disposition information on products loaded in from previous systems.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "BBHIST_PRODUCT_EVENT_col"></a>
+Column Detail - <a href ="dms_bb_history_upload1.html#BBHIST_PRODUCT_EVENT">BBHIST_PRODUCT_EVENT</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACTIVE_IND                    </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The table row is active or inactive.  A row is generally active unless it is in an inactive state such as logically deleted, combined away, pending purge, etc.</td>
+</tr>
+<tr>
+<td>ACTIVE_STATUS_CD              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Indicates the status of the row itself (not the data in the row) such as active, inactive, combined away, pending purge, etc.</td>
+</tr>
+<tr>
+<td>ACTIVE_STATUS_DT_TM           </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time that the active_status_cd was set.</td>
+</tr>
+<tr>
+<td>ACTIVE_STATUS_PRSNL_ID        </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person who caused the active_status_cd to be set or change.</td>
+</tr>
+<tr>
+<td>BAG_RETURNED_IND              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Indicates whether or not the empty bag was returned to the blood bank from the patient's location after it was transfused.</td>
+</tr>
+<tr>
+<td>CONTRIBUTOR_SYSTEM_CD         </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Contributor system identifies the source feed of data from which a row was populated.  This is mainly used to determine how to update a set of data that may have originated from more than one source feed.</td>
+</tr>
+<tr>
+<td>ENCNTR_ID                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This is the value of the unique primary identifier of the encounter table.  It is an internal system assigned number.</td>
+</tr>
+<tr>
+<td>EVENT_DT_TM                   </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time when this event occurred.</td>
+</tr>
+<tr>
+<td>EVENT_TYPE_CD                 </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The type of event that occurred with the product.  Pre-defined values by Cerner.  Examples are:  crossmatched, assigned, dispensed, etc.</td>
+</tr>
+<tr>
+<td>INTERNATIONAL_UNIT            </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The number of international units associated with this event.</td>
+</tr>
+<tr>
+<td>PERSON_ID                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This is the value of the unique primary identifier of the person table.  It is an internal system assigned number.</td>
+</tr>
+<tr>
+<td>PRODUCT_EVENT_ID              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The primary key of this table.  An internal system-assigned number that makes each row unique.</td>
+</tr>
+<tr>
+<td>PRODUCT_ID                    </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The primary key of this table.  An internal system-assigned number that makes each row unique.</td>
+</tr>
+<tr>
+<td>PRSNL_ID                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Represents the person who updated this product to its final disposition state.</td>
+</tr>
+<tr>
+<td>QTY                           </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">This column applies only to derivative products.  It is the quantity of the derivative batch that was transfused.</td>
+</tr>
+<tr>
+<td>REASON_CD                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The reason this product was disposed of.</td>
+</tr>
+<tr>
+<td>TAG_RETURNED_IND              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Indicates whether the tag attached to the bag dispensed was returned to the blood bank following the transfusion.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+<tr>
+<td>VOLUME                        </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The volume of the product that was actually infused into the patient.  This amount may not be the entire volume that was in the bag.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="BBHIST_PRODUCT_EVENT_reltn"></a>
+Relationship Detail - <a href = "#BBHIST_PRODUCT_EVENT">BBHIST_PRODUCT_EVENT</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in BBHIST_PRODUCT_EVENT(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>ENCNTR_ID                     </td>
+<td><a href="dms_encounter17.html#ENCOUNTER                     " title = "Table Report">ENCOUNTER                     </a></td>
+<td>ENCNTR_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>PERSON_ID                     </td>
+<td><a href="dms_person3.html#PERSON                        " title = "Table Report">PERSON                        </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>PRSNL_ID                      </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="BBHIST_SPECIAL_TESTING">BBHIST_SPECIAL_TESTING        </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#BBHIST_SPECIAL_TESTING_col">Column Section</a></td>
+<td><a href="#BBHIST_SPECIAL_TESTING_reltn">Relationship Section</a></td>
+<td><a href="dms_bb_history_upload1.html             ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Blood Bank Special Testing History
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This table is used to store antigens from a product history upload.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "BBHIST_SPECIAL_TESTING_col"></a>
+Column Detail - <a href ="dms_bb_history_upload1.html#BBHIST_SPECIAL_TESTING">BBHIST_SPECIAL_TESTING</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACTIVE_IND                    </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The table row is active or inactive.  A row is generally active unless it is in an inactive state such as logically deleted, combined away, pending purge, etc.</td>
+</tr>
+<tr>
+<td>ACTIVE_STATUS_CD              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Indicates the status of the row itself (not the data in the row) such as active, inactive, combined away, pending purge, etc.</td>
+</tr>
+<tr>
+<td>ACTIVE_STATUS_DT_TM           </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The date and time that the active_status_cd was set.</td>
+</tr>
+<tr>
+<td>ACTIVE_STATUS_PRSNL_ID        </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person who caused the active_status_cd to be set or change.</td>
+</tr>
+<tr>
+<td>BBHIST_SPECIAL_TESTING_ID     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">An internal system-assigned number that ensures the uniqueness of each row.</td>
+</tr>
+<tr>
+<td>PRODUCT_ID                    </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The primary key to the bbhist_product table.  An internal system-assigned number.  On this table, it identifies the product for which special testing (antigens or attribute) has been recorded.</td>
+</tr>
+<tr>
+<td>SPECIAL_TESTING_CD            </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Defines the special testing item (antigen or attribute) that was recorded on the product from the upload.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="BBHIST_SPECIAL_TESTING_reltn"></a>
+Relationship Detail - <a href = "#BBHIST_SPECIAL_TESTING">BBHIST_SPECIAL_TESTING</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in BBHIST_SPECIAL_TESTING(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>SPECIAL_TESTING_CD            </td>
+<td><a href="dms_code_sets2.html#CODE_VALUE                    " title = "Table Report">CODE_VALUE                    </a></td>
+<td>CODE_VALUE                    </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="BB_UPLOAD_LONG_TEXT_R">BB_UPLOAD_LONG_TEXT_R         </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#BB_UPLOAD_LONG_TEXT_R_col">Column Section</a></td>
+<td><a href="#BB_UPLOAD_LONG_TEXT_R_reltn">Relationship Section</a></td>
+<td><a href="dms_bb_history_upload1.html             ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+BB Upload Long Text
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This table will be used in the case where multiple review documentation and actions are added to an upload review
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "BB_UPLOAD_LONG_TEXT_R_col"></a>
+Column Detail - <a href ="dms_bb_history_upload1.html#BB_UPLOAD_LONG_TEXT_R">BB_UPLOAD_LONG_TEXT_R</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACTION_CD                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This value is from a code value from the code set 27942 BB Review Queue action, which indicates the action taken by the reviewer</td>
+</tr>
+<tr>
+<td>ACTIVE_IND                    </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The table row is active or inactive.  A row is generally active unless it is in an inactive state such as logically deleted, combined away, pending purge, etc.</td>
+</tr>
+<tr>
+<td>ACTIVE_STATUS_CD              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Indicates the status of the row itself (not the data in the row) such as active, inactive, combined away, pending purge, etc.</td>
+</tr>
+<tr>
+<td>ACTIVE_STATUS_DT_TM           </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The date and time that the active_status_cd was set.</td>
+</tr>
+<tr>
+<td>ACTIVE_STATUS_PRSNL_ID        </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person who caused the active_status_cd to be set or change.</td>
+</tr>
+<tr>
+<td>BB_UPLOAD_LONG_TEXT_R_ID      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">An internal system-assigned number that ensures the uniqueness of each row</td>
+</tr>
+<tr>
+<td>BB_UPLOAD_REVIEW_ID           </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This is the value of the unique identifier to the bb_upload_review table</td>
+</tr>
+<tr>
+<td>LONG_TEXT_ID                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This is the value of the unique identifier for the long_text table.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="BB_UPLOAD_LONG_TEXT_R_reltn"></a>
+Relationship Detail - <a href = "#BB_UPLOAD_LONG_TEXT_R">BB_UPLOAD_LONG_TEXT_R</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in BB_UPLOAD_LONG_TEXT_R(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>BB_UPLOAD_REVIEW_ID           </td>
+<td><a href="dms_bb_history_upload2.html#BB_UPLOAD_REVIEW              " title = "Table Report">BB_UPLOAD_REVIEW              </a></td>
+<td>BB_UPLOAD_REVIEW_ID           </td>
+</tr>
+<tr>
+<td></td>
+<td>LONG_TEXT_ID                  </td>
+<td><a href="dms_data_mgmt25.html#LONG_TEXT                     " title = "Table Report">LONG_TEXT                     </a></td>
+<td>LONG_TEXT_ID                  </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="BB_UPLOAD_PERSON_ABORH_R">BB_UPLOAD_PERSON_ABORH_R      </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#BB_UPLOAD_PERSON_ABORH_R_col">Column Section</a></td>
+<td><a href="#BB_UPLOAD_PERSON_ABORH_R_reltn">Relationship Section</a></td>
+<td><a href="dms_bb_history_upload1.html             ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+BB Upload Person ABO/Rh
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This table will be used in the case where multiple, active ABO/Rh rows where found prior to an upload.  There will be one row per active ABO/Rh rows.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "BB_UPLOAD_PERSON_ABORH_R_col"></a>
+Column Detail - <a href ="dms_bb_history_upload1.html#BB_UPLOAD_PERSON_ABORH_R">BB_UPLOAD_PERSON_ABORH_R</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BB_UPLOAD_PERSON_ABORH_R_ID   </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">An internal system-assigned number that ensures the uniqueness of each row.</td>
+</tr>
+<tr>
+<td>BB_UPLOAD_REVIEW_ID           </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This is the value of the unique identifier to the bb_upload_review table.</td>
+</tr>
+<tr>
+<td>DEMOG_ABORH_DT_TM             </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">Tells when the demographic ABO/Rh was last resulted/uploaded.</td>
+</tr>
+<tr>
+<td>PERSON_ABORH_ID               </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This is the value of the unique identifier for a previously active ABO/Rh row.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="BB_UPLOAD_PERSON_ABORH_R_reltn"></a>
+Relationship Detail - <a href = "#BB_UPLOAD_PERSON_ABORH_R">BB_UPLOAD_PERSON_ABORH_R</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in BB_UPLOAD_PERSON_ABORH_R(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>BB_UPLOAD_REVIEW_ID           </td>
+<td><a href="dms_bb_history_upload2.html#BB_UPLOAD_REVIEW              " title = "Table Report">BB_UPLOAD_REVIEW              </a></td>
+<td>BB_UPLOAD_REVIEW_ID           </td>
+</tr>
+<tr>
+<td></td>
+<td>PERSON_ABORH_ID               </td>
+<td><a href="dms_bb_person_demographi2.html#PERSON_ABORH                  " title = "Table Report">PERSON_ABORH                  </a></td>
+<td>PERSON_ABORH_ID               </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+ 
+</div>
+<div id="footer">
+Copyright &copy; 2025 Oracle and/or its affiliates. This document may not be reproduced or transmitted in any form or by any means, electronic or mechanical, for any purpose, without our prior written permission. <br/> <br/>
+Materials in this document pertain to Oracle Health, Oracle, Oracle Cerner, and Cerner Enviza which are all wholly-owned subsidiaries of Oracle Corporation. <br/>
+Nothing in this document should be taken as indicating that any decisions regarding the integration of any EMEA Cerner and/or Enviza entities have been made where an integration has not already occurred. <br/>
+Last Updated:
+<!-- #BeginDate format:Am1 -->January 16, 2025<!-- #EndDate -->
+<br/>
+	</div>
+</div>
+</body>
+</html>

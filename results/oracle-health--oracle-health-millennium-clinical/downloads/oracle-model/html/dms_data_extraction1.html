@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<link rel="stylesheet" href="../css/model.css" type="text/css" />
+<title>2025.4.01Data Models:Table Name Index</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<div id="wrapper">
+   <div id="logo">
+     <img src="../images/Oracle_Cerner Horizontal_RGB.png" alt="Cerner Logo" height="42" width="163"  />
+     <h1>Millennium Data Model Reports - 2025.4.01</h1>
+   </div>
+   <div id="nav">
+   <ul>
+     <li>  <a href="../start_cerner_millennium_data_model_reports.html">Home</a></li>
+     <li>|</li>
+     <li><a href="dm_a.html">Reports by Table</a></li>
+     <li>|</li>
+     <li><a href="data_model_table_report_help.html">Table Report Help</a></li>
+</ul>
+   </div>
+ 
+<div id="main-info">
+<br/>
+<h2><a id="EXTRACTION_TRANS_LOG">EXTRACTION_TRANS_LOG          </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#EXTRACTION_TRANS_LOG_col">Column Section</a></td>
+<td><a href="dms_data_extraction1.html               ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Extraction Transaction Log
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This table is used to track processing status for each extraction request.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "EXTRACTION_TRANS_LOG_col"></a>
+Column Detail - <a href ="dms_data_extraction1.html#EXTRACTION_TRANS_LOG">EXTRACTION_TRANS_LOG</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ASYNC_PUSH_STATUS             </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">This flag indicates if the Async response is submitted to the client successfully or not.</td>
+</tr>
+<tr>
+<td>DEFAULT_CONSUMER_ROUTE        </td>
+<td class="data-type">VC2(10)        </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Dex Async request requires consumer routing information to be passed by the client. The first route id is considered as a default consumer route. In case of Async server crash, This route information will be used to post the failure response to the client.</td>
+</tr>
+<tr>
+<td>DEX_EXTERNAL_REF              </td>
+<td class="data-type">VC2(128)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">DEX can not return any ID when the request is submitted to Async API, so it expects the client to provide a unique ID for every request. The ID will be used by the client to Map the response with the request.</td>
+</tr>
+<tr>
+<td>END_DT_TM                     </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The date/time of when the extraction process was completed.</td>
+</tr>
+<tr>
+<td>ERROR_MESSAGE                 </td>
+<td class="data-type">LONG           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The detailed stack trace if there is an error during the extraction.</td>
+</tr>
+<tr>
+<td>EXTRACTION_TRANS_LOG_ID       </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The unique generated number that identifies a single row on the EXTRACTION_TRANS_LOG table.</td>
+</tr>
+<tr>
+<td>RUNNING_OPS                   </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">RUNNING_OPS is a virtual column and will be used only to assist with a query performance issue.   The following CASE determines its value:  ;           (CASE when nvl(status_flag,0) = 0 then 1 end); (if status_flag is null or 0 then RUNNING_OPS will be 1, otherwise it is null)</td>
+</tr>
+<tr>
+<td>START_DT_TM                   </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date/time of when the extraction process was initiated.</td>
+</tr>
+<tr>
+<td>STATUS_FLAG                   </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The status of this extraction.  0 = In Progress;  1 = Complete;  2 = Failed</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+ 
+</div>
+<div id="footer">
+Copyright &copy; 2025 Oracle and/or its affiliates. This document may not be reproduced or transmitted in any form or by any means, electronic or mechanical, for any purpose, without our prior written permission. <br/> <br/>
+Materials in this document pertain to Oracle Health, Oracle, Oracle Cerner, and Cerner Enviza which are all wholly-owned subsidiaries of Oracle Corporation. <br/>
+Nothing in this document should be taken as indicating that any decisions regarding the integration of any EMEA Cerner and/or Enviza entities have been made where an integration has not already occurred. <br/>
+Last Updated:
+<!-- #BeginDate format:Am1 -->January 16, 2025<!-- #EndDate -->
+<br/>
+	</div>
+</div>
+</body>
+</html>

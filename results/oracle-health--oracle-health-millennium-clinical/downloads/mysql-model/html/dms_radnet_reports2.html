@@ -1,0 +1,936 @@
+ 
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<link rel="stylesheet" href="../css/model.css" type="text/css" />
+<title>2025.4.01Data Models:Table Name Index</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<div id="wrapper">
+   <div id="logo">
+     <img src="../images/Oracle_Cerner Horizontal_RGB.png" alt="Cerner Logo" height="42" width="163"  />
+     <h1>Millennium Data Model Reports - 2025.4.01</h1>
+   </div>
+   <div id="nav">
+   <ul>
+     <li>  <a href="../start_cerner_millennium_data_model_reports.html">Home</a></li>
+     <li>|</li>
+     <li><a href="dm_a.html">Reports by Table</a></li>
+     <li>|</li>
+     <li><a href="data_model_table_report_help.html">Table Report Help</a></li>
+</ul>
+   </div>
+ 
+<div id="main-info">
+<h2>Table Detail Report</h2>
+<h2><a id="RAD_RPT_LOCK">RAD_RPT_LOCK                  </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#RAD_RPT_LOCK_col">Column Section</a></td>
+<td><a href="#RAD_RPT_LOCK_reltn">Relationship Section</a></td>
+<td><a href="dms_radnet_reports2.html                ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Rad Report Lock
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+The Rad_Rpt_Lock table is an extension of the order_radiology table.  It shows which orders have been locked in order to modify the associated report.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "RAD_RPT_LOCK_col"></a>
+Column Detail - <a href ="dms_radnet_reports2.html#RAD_RPT_LOCK">RAD_RPT_LOCK</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LOCK_TYPE_FLAG                </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Indicates the type of lock being held.  A 1 indicates a Radiologist Hold on a report to be completed later.  A 0 indicates a Regular lock of report that could occur by application access of the report.</td>
+</tr>
+<tr>
+<td>ORDER_ID                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This is a foreign key to the order_radiology table.  This table may not contain all of the order_id's on the order_radiology table.</td>
+</tr>
+<tr>
+<td>PS_RPT_LOCK_IND               </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Indicates that the report is currently being dictated by PowerScribe.</td>
+</tr>
+<tr>
+<td>RPT_LOCK_DT_TM                </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">This is the date and time that the report lock was created.</td>
+</tr>
+<tr>
+<td>RPT_LOCK_ID                   </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The rpt_lock_id is the person id of the personnel that has the report locked.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="RAD_RPT_LOCK_reltn"></a>
+Relationship Detail - <a href = "#RAD_RPT_LOCK">RAD_RPT_LOCK</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in RAD_RPT_LOCK(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>ORDER_ID                      </td>
+<td><a href="dms_radnet_order1.html#ORDER_RADIOLOGY               " title = "Table Report">ORDER_RADIOLOGY               </a></td>
+<td>ORDER_ID                      </td>
+</tr>
+<tr>
+<td></td>
+<td>RPT_LOCK_ID                   </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="RAD_RPT_PRSNL_HIST">RAD_RPT_PRSNL_HIST            </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#RAD_RPT_PRSNL_HIST_col">Column Section</a></td>
+<td><a href="#RAD_RPT_PRSNL_HIST_reltn">Relationship Section</a></td>
+<td><a href="dms_radnet_reports2.html                ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+This table contains a cumulative list of prsnl that have taken action on the rep
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+Radiology Report Personnel History
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "RAD_RPT_PRSNL_HIST_col"></a>
+Column Detail - <a href ="dms_radnet_reports2.html#RAD_RPT_PRSNL_HIST">RAD_RPT_PRSNL_HIST</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACTION_CD                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This column represents the action that the personnel took on a given radiology report.</td>
+</tr>
+<tr>
+<td>ACTION_DT_TM                  </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">This column contains the date and time that the prsnl took an action on a given radiology report.</td>
+</tr>
+<tr>
+<td>ACTION_TZ                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Time zone associated with the corresponding DT_TM column.</td>
+</tr>
+<tr>
+<td>PROXIED_FOR_ID                </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This column is only valued if the action was Proxy.  It indicates who was proxied for.</td>
+</tr>
+<tr>
+<td>RAD_REPORT_ID                 </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This column contains a foreign key to the Rad_Report table.  It uniquely identifies the report that the personnel are associated with.</td>
+</tr>
+<tr>
+<td>REPORT_PRSNL_ID               </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This column contains a foreign key to the Prsnl table.  It uniquely identifies the personnel that is associated with a given radiology report.</td>
+</tr>
+<tr>
+<td>RPT_PRSNL_HIST_ID             </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This column contains a meaningless number that only serves to uniquely identify a row on the rad_rpt_prsnl_hist table.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="RAD_RPT_PRSNL_HIST_reltn"></a>
+Relationship Detail - <a href = "#RAD_RPT_PRSNL_HIST">RAD_RPT_PRSNL_HIST</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in RAD_RPT_PRSNL_HIST(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>PROXIED_FOR_ID                </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>REPORT_PRSNL_ID               </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>RAD_REPORT_ID                 </td>
+<td><a href="dms_radnet_reports1.html#RAD_REPORT                    " title = "Table Report">RAD_REPORT                    </a></td>
+<td>RAD_REPORT_ID                 </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="RAD_STG_DATA">RAD_STG_DATA                  </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#RAD_STG_DATA_col">Column Section</a></td>
+<td><a href="#RAD_STG_DATA_reltn">Relationship Section</a></td>
+<td><a href="dms_radnet_reports2.html                ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Radiology Staging Data
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+To temporarily hold untrusted data that has come from an external source (e.g. FHIR).
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "RAD_STG_DATA_col"></a>
+Column Detail - <a href ="dms_radnet_reports2.html#RAD_STG_DATA">RAD_STG_DATA</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACTIVE_IND                    </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The table row is active or inactive.  A row is generally active unless it is in an inactive state such as logically deleted, combined away, pending purge, etc.</td>
+</tr>
+<tr>
+<td>AUTHORIZING_ORG_ID            </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Organisation id of the authorizing Organisation.</td>
+</tr>
+<tr>
+<td>CLIENT_IDENT                  </td>
+<td class="data-type">VARCHAR(80)    </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Represents the client who wrote the data to the system.</td>
+</tr>
+<tr>
+<td>CORRELATION_IDENT             </td>
+<td class="data-type">VARCHAR(80)    </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Uppercase, hyphenated GUID that identifies the transaction that updated this row.</td>
+</tr>
+<tr>
+<td>EFFECTIVE_DT_TM               </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The clinicaly significant date time of this document.</td>
+</tr>
+<tr>
+<td>ENCNTR_ID                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The encounter related to the external data.</td>
+</tr>
+<tr>
+<td>EVENT_CD                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Code value that represents the event code associated for the diagnostic report.</td>
+</tr>
+<tr>
+<td>EVENT_CD_STD_CD_ID            </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Unique identifier for the event code standard code.</td>
+</tr>
+<tr>
+<td>EVENT_ID                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The id of the clinical event associated to this radiology result.</td>
+</tr>
+<tr>
+<td>ISSUED_DT_TM                  </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The date and time this external document was reviewed or verified.</td>
+</tr>
+<tr>
+<td>JSON_VRSN_TXT                 </td>
+<td class="data-type">VARCHAR(20)    </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Stores the version of Json that is used in the CLOB column.</td>
+</tr>
+<tr>
+<td>LOGICAL_DOMAIN_ID             </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The unique identifier for a logical domain. This identifier allows the data to be grouped by logical domain. For example, If you assign clients a logical_domain_id this would allow you to store data for multiple clients on this table.</td>
+</tr>
+<tr>
+<td>PARENT_RAD_STG_DATA_ID        </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">This unique identifier is used to indicate the parent external data that groups this external data row is related to.</td>
+</tr>
+<tr>
+<td>PERSON_ID                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The person related to the external data;</td>
+</tr>
+<tr>
+<td>RAD_EXT_CLOB                  </td>
+<td class="data-type">LONGTEXT       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">External JSON content</td>
+</tr>
+<tr>
+<td>RAD_STG_DATA_ID               </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Unique, generated number that identifies a single row on the RAD_STG_DATA table.</td>
+</tr>
+<tr>
+<td>REPORT_STATUS_CD              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Code value that represents the status of the diagnostic report.</td>
+</tr>
+<tr>
+<td>REPORT_STATUS_STD_CD_ID       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Unique identifier for the report status standard code.</td>
+</tr>
+<tr>
+<td>STG_STATUS_CD                 </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Code value that represents the status of the imported document.</td>
+</tr>
+<tr>
+<td>TRANSMITTING_ORG_ID           </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Organisation id of the transmitting Organization.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The application context number from the record info block.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The date and time the row was last inserted or updated.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="RAD_STG_DATA_reltn"></a>
+Relationship Detail - <a href = "#RAD_STG_DATA">RAD_STG_DATA</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in RAD_STG_DATA(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>ENCNTR_ID                     </td>
+<td><a href="dms_encounter17.html#ENCOUNTER                     " title = "Table Report">ENCOUNTER                     </a></td>
+<td>ENCNTR_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>LOGICAL_DOMAIN_ID             </td>
+<td><a href="dms_logical_domain1.html#LOGICAL_DOMAIN                " title = "Table Report">LOGICAL_DOMAIN                </a></td>
+<td>LOGICAL_DOMAIN_ID             </td>
+</tr>
+<tr>
+<td></td>
+<td>AUTHORIZING_ORG_ID            </td>
+<td><a href="dms_organization1.html#ORGANIZATION                  " title = "Table Report">ORGANIZATION                  </a></td>
+<td>ORGANIZATION_ID               </td>
+</tr>
+<tr>
+<td></td>
+<td>TRANSMITTING_ORG_ID           </td>
+<td><a href="dms_organization1.html#ORGANIZATION                  " title = "Table Report">ORGANIZATION                  </a></td>
+<td>ORGANIZATION_ID               </td>
+</tr>
+<tr>
+<td></td>
+<td>PERSON_ID                     </td>
+<td><a href="dms_person3.html#PERSON                        " title = "Table Report">PERSON                        </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>PARENT_RAD_STG_DATA_ID        </td>
+<td><a href="dms_radnet_reports2.html#RAD_STG_DATA                  " title = "Table Report">RAD_STG_DATA                  </a></td>
+<td>RAD_STG_DATA_ID               </td>
+</tr>
+<tr>
+<td></td>
+<td>EVENT_CD_STD_CD_ID            </td>
+<td><a href="dms_radnet_reports2.html#RAD_STG_STANDARD_CODE         " title = "Table Report">RAD_STG_STANDARD_CODE         </a></td>
+<td>RAD_STG_STANDARD_CODE_ID      </td>
+</tr>
+<tr>
+<td></td>
+<td>REPORT_STATUS_STD_CD_ID       </td>
+<td><a href="dms_radnet_reports2.html#RAD_STG_STANDARD_CODE         " title = "Table Report">RAD_STG_STANDARD_CODE         </a></td>
+<td>RAD_STG_STANDARD_CODE_ID      </td>
+</tr>
+</tbody></table><br/><br/>
+<br/><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Parent Column in RAD_STG_DATA                  (PK)</th>
+<th class="item-table">Child Table Name</th>
+<th class="item-column">Child Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Children:</b></td>
+<td>RAD_STG_DATA_ID               </td>
+<td><a href="dms_radnet_reports2.html#RAD_STG_DATA" title = "Table Report">RAD_STG_DATA</a></td>
+<td>PARENT_RAD_STG_DATA_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_radnet_reports2.html#RAD_STG_EXT_IDENTIFIER" title = "Table Report">RAD_STG_EXT_IDENTIFIER</a></td>
+<td>RAD_STG_DATA_ID</td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="RAD_STG_EXT_IDENTIFIER">RAD_STG_EXT_IDENTIFIER        </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#RAD_STG_EXT_IDENTIFIER_col">Column Section</a></td>
+<td><a href="#RAD_STG_EXT_IDENTIFIER_reltn">Relationship Section</a></td>
+<td><a href="dms_radnet_reports2.html                ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Radiology Staging External Identifier
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This table holds the external identifiers for the document sent from external sources.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "RAD_STG_EXT_IDENTIFIER_col"></a>
+Column Detail - <a href ="dms_radnet_reports2.html#RAD_STG_EXT_IDENTIFIER">RAD_STG_EXT_IDENTIFIER</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACTIVE_IND                    </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The table row is active or inactive.  A row is generally active unless it is in an inactive state such as logically deleted, combined away, pending purge, etc.</td>
+</tr>
+<tr>
+<td>EVENT_ID                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The clinical event identifier of the document when it is added to patient chart.</td>
+</tr>
+<tr>
+<td>ORG_ID                        </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Identifier of the organization that issued/managed the external identifier.</td>
+</tr>
+<tr>
+<td>RAD_STG_DATA_ID               </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The unique id of the external document this external identifier is linked to.</td>
+</tr>
+<tr>
+<td>RAD_STG_EXT_IDENTIFIER_ID     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Unique generated number that identifies a single row on the RAD_STG_EXT_IDENTIFIER table.</td>
+</tr>
+<tr>
+<td>SYSTEM_URI                    </td>
+<td class="data-type">VARCHAR(100)   </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Namespace for the identifier value.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The application context number from the record info block.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The date and time the row was last inserted or updated.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>VALUE_TXT                     </td>
+<td class="data-type">VARCHAR(100)   </td>
+<td class="nullable">Y</td>
+<td class="defn-text">External identifier used for the Diagnostic report.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="RAD_STG_EXT_IDENTIFIER_reltn"></a>
+Relationship Detail - <a href = "#RAD_STG_EXT_IDENTIFIER">RAD_STG_EXT_IDENTIFIER</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in RAD_STG_EXT_IDENTIFIER(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>ORG_ID                        </td>
+<td><a href="dms_organization1.html#ORGANIZATION                  " title = "Table Report">ORGANIZATION                  </a></td>
+<td>ORGANIZATION_ID               </td>
+</tr>
+<tr>
+<td></td>
+<td>RAD_STG_DATA_ID               </td>
+<td><a href="dms_radnet_reports2.html#RAD_STG_DATA                  " title = "Table Report">RAD_STG_DATA                  </a></td>
+<td>RAD_STG_DATA_ID               </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="RAD_STG_STANDARD_CODE">RAD_STG_STANDARD_CODE         </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#RAD_STG_STANDARD_CODE_col">Column Section</a></td>
+<td><a href="#RAD_STG_STANDARD_CODE_reltn">Relationship Section</a></td>
+<td><a href="dms_radnet_reports2.html                ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+RadNet Staging Standard Code
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+Contains codified values from an external source like FHIR and association to the RadNet staged data.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "RAD_STG_STANDARD_CODE_col"></a>
+Column Detail - <a href ="dms_radnet_reports2.html#RAD_STG_STANDARD_CODE">RAD_STG_STANDARD_CODE</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACTIVE_IND                    </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The table row is active or inactive.  A row is generally active unless it is in an inactive state such as logically deleted, combined away, pending purge, etc.</td>
+</tr>
+<tr>
+<td>CODE_SYSTEM_TXT               </td>
+<td class="data-type">VARCHAR(100)   </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The standard code system that defines  the meaning of the symbol in the code.</td>
+</tr>
+<tr>
+<td>CODE_TXT                      </td>
+<td class="data-type">VARCHAR(80)    </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The standard code value which is a symbol in syntax defined by the system.</td>
+</tr>
+<tr>
+<td>DISPLAY_TXT                   </td>
+<td class="data-type">VARCHAR(255)   </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The display text of the standard code that represents the meaning of the code.</td>
+</tr>
+<tr>
+<td>RAD_STG_STANDARD_CODE_ID      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Unique generated number that identifies a single row on the RAD_STG_STANDARD_CODE table.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The application context number from the record info block.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The date and time the row was last inserted or updated.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>VERSION_TXT                   </td>
+<td class="data-type">VARCHAR(10)    </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The version of the standard code system.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="RAD_STG_STANDARD_CODE_reltn"></a>
+Relationship Detail - <a href = "#RAD_STG_STANDARD_CODE">RAD_STG_STANDARD_CODE</a></h4><br/>
+<br/><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Parent Column in RAD_STG_STANDARD_CODE         (PK)</th>
+<th class="item-table">Child Table Name</th>
+<th class="item-column">Child Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Children:</b></td>
+<td>RAD_STG_STANDARD_CODE_ID      </td>
+<td><a href="dms_radnet_reports2.html#RAD_STG_DATA" title = "Table Report">RAD_STG_DATA</a></td>
+<td>EVENT_CD_STD_CD_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_radnet_reports2.html#RAD_STG_DATA" title = "Table Report">RAD_STG_DATA</a></td>
+<td>REPORT_STATUS_STD_CD_ID</td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+ 
+</div>
+<div id="footer">
+Copyright &copy; 2025 Oracle and/or its affiliates. This document may not be reproduced or transmitted in any form or by any means, electronic or mechanical, for any purpose, without our prior written permission. <br/> <br/>
+Materials in this document pertain to Oracle Health, Oracle, Oracle Cerner, and Cerner Enviza which are all wholly-owned subsidiaries of Oracle Corporation. <br/>
+Nothing in this document should be taken as indicating that any decisions regarding the integration of any EMEA Cerner and/or Enviza entities have been made where an integration has not already occurred. <br/>
+Last Updated:
+<!-- #BeginDate format:Am1 -->January 16, 2025<!-- #EndDate -->
+<br/>
+	</div>
+</div>
+</body>
+</html>

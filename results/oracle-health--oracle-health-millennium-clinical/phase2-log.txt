@@ -1,0 +1,348 @@
+
+
+
+
+● Read CHPL metadata
+  $ cat /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clin
+  ical/chpl-metadata.json 2>/dev/null | head -100
+  └ 101 lines...
+
+● Read product research
+  $ cat /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clin
+  ical/product-research.md 2>/dev/null | head -200
+  └ 126 lines...
+
+● Probe target URL
+  $ curl -sI -L "https://www.oracle.com/health/regulatory/certified-health-it/" -H 'User-Agent:
+  Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36' 2>&1 | head -50
+  └ 51 lines...
+
+● Fetch main page
+  $ curl -sL "https://www.oracle.com/health/certified-health-it/" -H 'User-Agent: Mozilla/5.0 (X11;
+  Linux x86_64) AppleWebKit/537.36' -o /tmp/oracle-page.html && wc -c /tmp/oracle-page.html
+  └ 2 lines...
+
+● Search for EHI links
+  $ grep -oiE 'href="[^"]*"' /tmp/oracle-page.html | grep -iE
+  'ehi|export|b.10|bulk|data.dictionary|disclosure|mysql|model' | head -30
+  └ 9 lines...
+
+● Search for downloadable files
+  $ grep -oiE 'href="[^"]*\.(pdf|zip|xlsx|xls|csv|json|doc|docx|yaml|yml)[^"]*"'
+  /tmp/oracle-page.html | head -20
+  └ 21 lines...
+
+● Search for EHI text content
+  $ cat /tmp/oracle-page.html | sed 's/<[^>]*>/ /g' | tr -s ' \n' | grep -iE
+  'ehi|export|b.10|electronic health information|data dictionary|bulk' | head -30
+  └ 22 lines...
+
+● Create downloads directory
+  $ mkdir -p /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium
+  -clinical/downloads
+  └ 1 line...
+
+● Download all EHI export files
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-cli
+  nical/downloads && \
+  UA='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36' && \
+  curl -sL -H "User-Agent: $UA" -o single-patient-ehi-export-data-overview.pdf
+  "https://www.oracle.com/a/ocom/docs/industries/healthcare/cerner-corp-single-patient-ehi-expor...
+  └ 30 lines...
+
+● Verify downloads
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clini
+  cal/downloads && \
+  file *.pdf *.zip && echo "---" && \
+  for f in *.pdf; do echo "=== $f ===" && pdfinfo "$f" 2>&1 | head -5; done
+  └ 39 lines...
+
+Good - all files are valid. Let me extract the ZIPs and examine the contents.
+
+● Extract ZIP files
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-cli
+  nical/downloads && \
+  mkdir -p single-patient-format-specs patient-population-format-specs && \
+  unzip -o single-patient-ehi-export-data-format-specifications.zip -d
+  single-patient-format-specs/ 2>&1 | tail -5 && \...
+  └ 14 lines...
+
+● List extracted files
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clini
+  cal/downloads && \
+  echo "=== Single Patient ===" && find single-patient-format-specs/ -type f | sort && \
+  echo "=== Patient Population ===" && find patient-population-format-specs/ -type f | sort
+  └ 12 lines...
+
+This is rich documentation. Let me extract the nested MySQL and Oracle data model ZIPs.
+
+● Extract Oracle model ZIP
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-cli
+  nical/downloads && \
+  mkdir -p oracle-model && \
+  unzip -o
+  "patient-population-format-specs/patient-population-ehi-export-data-format-specifications/EHI ...
+  └ 15 lines...
+
+● Extract MySQL model ZIP
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-cli
+  nical/downloads && \
+  mkdir -p mysql-model && \
+  unzip -o "single-patient-format-specs/single-patient-ehi-export-data-format-specifications/EHI
+   MYSQL DATA MODEL 2025401.zip" -d mysql-model/ 2>&1 | head -10 && echo "..." && \...
+  └ 15 lines...
+
+● Count model files
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-cli
+  nical/downloads && \
+  find mysql-model/ -type f | wc -l && echo "MySQL files" && \
+  find oracle-model/ -type f | wc -l && echo "Oracle files" && \
+  find mysql-model/html/ -name '*.html' | wc -l && echo "MySQL HTML pages" && \...
+  └ 10 lines...
+
+Massive data model documentation. Let me examine the structure and key PDFs.
+
+● Read single patient overview
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clini
+  cal/downloads && \
+  pdftotext single-patient-ehi-export-data-overview.pdf - | head -80
+  └ 80 lines...
+
+● Read population overview
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clini
+  cal/downloads && \
+  pdftotext patient-population-ehi-export-data-overview.pdf - | head -150
+  └ 151 lines...
+
+● Examine MySQL model index
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clini
+  cal/downloads && \
+  head -100 mysql-model/start_cerner_millennium_data_model_reports.html
+  └ 44 lines...
+
+● Read HDI overview
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clini
+  cal/downloads && \
+  pdftotext health-data-intelligence-ehi-export-data-overview.pdf - | head -80
+  └ 81 lines...
+
+● Examine MySQL model index page
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clini
+  cal/downloads && \
+  head -50 mysql-model/html/dm_a.html
+  └ 51 lines...
+
+● Read Longitudinal Plan PDF
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clini
+  cal/downloads && \
+  pdftotext
+  "single-patient-format-specs/single-patient-ehi-export-data-format-specifications/Longitudinal
+  Plan EHI Export - Single Patient.pdf" - | head -80
+  └ 35 lines...
+
+● Read HDI format specs
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clini
+  cal/downloads && \
+  pdftotext health-data-intelligence-ehi-export-data-format-specifications.pdf - | head -100
+  └ 100 lines...
+
+● Examine MySQL model page structure
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clini
+  cal/downloads && \
+  # Look at a sample MySQL model page to understand data structure
+  cat mysql-model/html/dm_a.html | head -100
+  └ 101 lines...
+
+Let me examine a sample table report page to understand the HTML structure for the enrichment script.
+
+● Examine table report structure
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clini
+  cal/downloads && \
+  cat mysql-model/html/dms_medical_necessity_ch1.html | head -150
+  └ 151 lines...
+
+● Count tables in model
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-cli
+  nical/downloads && \
+  # Count total tables in the index
+  grep -c 'Table Report' mysql-model/html/dm_a.html mysql-model/html/dm_b.html
+  mysql-model/html/dm_c.html mysql-model/html/dm_d.html mysql-model/html/dm_e.html ...
+  └ 9 lines...
+
+6,628 tables in the MySQL data model. Now let me build the enrichment scripts. Let me also look at the unique "dms_" prefix pages to understand groupings.
+
+● List data model subject pages
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clini
+  cal/downloads && \
+  find mysql-model/html/ -name 'dms_*.html' -type f | sed 's|mysql-model/html/||' | sort | head -40
+  && echo "..." && \
+  find mysql-model/html/ -name 'dms_*.html' -type f | wc -l && echo "dms pages"
+  └ 44 lines...
+
+● List data model subject areas
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clini
+  cal/downloads && \
+  # Get unique dms prefixes (subject areas)
+  find mysql-model/html/ -name 'dms_*.html' | sed 's|mysql-model/html/dms_||;s|[0-9]*\.html||' |
+  sort -u | head -60
+  └ 61 lines...
+
+● List all subject areas
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-cli
+  nical/downloads && \
+  find mysql-model/html/ -name 'dms_*.html' | sed 's|mysql-model/html/dms_||;s|[0-9]*\.html||' |
+   sort -u | wc -l && echo "subject areas" && \
+  find mysql-model/html/ -name 'dms_*.html' | sed 's|mysql-model/html/dms_||;s|[0-9]*\.html||' |...
+  └ 246 lines...
+
+Excellent - 242 subject areas covering clinical, billing, pharmacy, lab, radiology, surgery, etc. Now let me create the enrichment scripts. I'll build a Bun TypeScript extractor.
+
+● Create enrichment directory
+  $ mkdir -p /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium
+  -clinical/downloads/enrichment
+  └ 1 line...
+
+● Create results/oracle-health--oracle-health-millennium-clinical/downloads/enrichment/extract-mysql-
+  model.ts (+161)
+
+● Run extraction script
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clini
+  cal/downloads/enrichment && bun run extract-mysql-model.ts
+  └ 7 lines...
+
+● Verify extraction quality
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-cli
+  nical/downloads/enrichment && \
+  cat mysql-model-coverage.json | python3 -c "import json,sys; d=json.load(sys.stdin);
+  print(f'Tables: {d[\"total_tables_extracted\"]}, Columns: {d[\"total_columns_extracted\"]},
+  Areas: {len(d[\"subject_areas\"])}, Failures: {len(d[\"parse_failures\"])}')" && \...
+  └ 53 lines...
+
+Extraction working well. Now let me create the enrichment README and the main reports.
+
+● Create results/oracle-health--oracle-health-millennium-clinical/downloads/enrichment/README.md
+  (+37)
+
+Now let me get some key stats for the report, then look at the remaining PDFs.
+
+● Read more of population overview
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clini
+  cal/downloads && \
+  pdftotext patient-population-ehi-export-data-overview.pdf - | tail -200 | head -100
+  └ 101 lines...
+
+● Read DICOM specs
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clini
+  cal/downloads && \
+  pdftotext
+  "patient-population-format-specs/patient-population-ehi-export-data-format-specifications/Oracle
+  Health Multimedia Storage DICOM Data Structure and Definitions.pdf" - | head -60
+  └ 61 lines...
+
+● Read XSD schema
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clini
+  cal/downloads && \
+  cat
+  "patient-population-format-specs/patient-population-ehi-export-data-format-specifications/Oracle
+  Health Document Imaging AxAnnotations.xsd" | head -60
+  └ 61 lines...
+
+Now let me check the referenced API docs in the Longitudinal Plan PDF to see if we need to follow those.
+
+● Check healtheintent API docs
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clini
+  cal/downloads && \
+  # Check docs.healtheintent.com links from the Longitudinal Plan PDF
+  curl -sI "https://docs.healtheintent.com/api/v1/longitudinal-plan" -H 'User-Agent: Mozilla/5.0'
+  2>&1 | head -5
+  └ 6 lines...
+
+● Get subject area stats
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-cli
+  nical/downloads && \
+  # Get key subject areas with table counts for report
+  python3 -c "
+  import json...
+  └ 43 lines...
+
+Now let me get file sizes for the manifest and write the final reports.
+
+● Get file sizes for manifest
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clini
+  cal/downloads && \
+  find . -type f -not -path './mysql-model/*' -not -path './oracle-model/*' -not -path
+  './single-patient-format-specs/*' -not -path './patient-population-format-specs/*' | sort | while
+  read f; do echo "$(stat -c%s "$f") $f"; done
+  └ 12 lines...
+
+● Get extracted file sizes
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-cli
+  nical/downloads && \
+  # Also get sizes of extracted zip contents
+  for d in single-patient-format-specs patient-population-format-specs mysql-model oracle-model;
+   do...
+  └ 9 lines...
+
+● Get key extracted file sizes
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clini
+  cal/downloads && \
+  # Just get key extracted files (not the 1400+ html files)
+  find single-patient-format-specs patient-population-format-specs -maxdepth 2 -type f | while read
+  f; do echo "$(stat -c%s "$f") $f"; done
+  └ 10 lines...
+
+Now let me write the report and manifest. Let me first read remaining PDFs for the report analysis.
+
+● Read Document Imaging schema
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clini
+  cal/downloads && \
+  pdftotext
+  "patient-population-format-specs/patient-population-ehi-export-data-format-specifications/Oracle
+  Health Document Imaging Content Management Database Schema.pdf" - | head -60
+  └ 61 lines...
+
+● Read Non-DICOM column defs
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clini
+  cal/downloads && \
+  pdftotext
+  "patient-population-format-specs/patient-population-ehi-export-data-format-specifications/Oracle
+  Health Multimedia Storage Non-DICOM Data Column Definitions.pdf" - | head -60
+  └ 25 lines...
+
+● Read HDI format specs end
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clini
+  cal/downloads && \
+  pdftotext health-data-intelligence-ehi-export-data-format-specifications.pdf - | wc -l && echo
+  "lines" && \
+  pdftotext health-data-intelligence-ehi-export-data-format-specifications.pdf - | tail -50
+  └ 51 lines...
+
+Now let me also look at what key billing/financial tables are present in the data model to assess coverage.
+
+● Check financial tables
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-cli
+  nical/downloads/enrichment && \
+  python3 -c "
+  import json
+  with open('mysql-model-coverage.json') as f:...
+  └ 28 lines...
+
+Now I have everything I need to write the report.
+
+● Create results/oracle-health--oracle-health-millennium-clinical/ehi-export-report.md (+226)
+
+Now the files manifest:
+
+● Create results/oracle-health--oracle-health-millennium-clinical/files.json (+121)
+
+Let me verify the output is valid JSON and the report reads well:
+
+● Verify outputs
+  $ cd
+  /home/jmandel/hobby/ehi-export-analysis/results/oracle-health--oracle-health-millennium-clinical
+  && \
+  python3 -c "import json; json.load(open('files.json')); print('files.json: valid')" && \
+  wc -l ehi-export-report.md && echo "report lines" && \
+  ls -la downloads/*.pdf downloads/*.zip
+  └ 11 lines...
+

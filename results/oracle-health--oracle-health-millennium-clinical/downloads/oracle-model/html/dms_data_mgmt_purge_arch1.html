@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<link rel="stylesheet" href="../css/model.css" type="text/css" />
+<title>2025.4.01Data Models:Table Name Index</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<div id="wrapper">
+   <div id="logo">
+     <img src="../images/Oracle_Cerner Horizontal_RGB.png" alt="Cerner Logo" height="42" width="163"  />
+     <h1>Millennium Data Model Reports - 2025.4.01</h1>
+   </div>
+   <div id="nav">
+   <ul>
+     <li>  <a href="../start_cerner_millennium_data_model_reports.html">Home</a></li>
+     <li>|</li>
+     <li><a href="dm_a.html">Reports by Table</a></li>
+     <li>|</li>
+     <li><a href="data_model_table_report_help.html">Table Report Help</a></li>
+</ul>
+   </div>
+ 
+<div id="main-info">
+<br/>
+<h2><a id="DM_PURGE_HISTORY">DM_PURGE_HISTORY              </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#DM_PURGE_HISTORY_col">Column Section</a></td>
+<td><a href="#DM_PURGE_HISTORY_reltn">Relationship Section</a></td>
+<td><a href="dms_data_mgmt_purge_arch1.html          ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+DM Purge History
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+Holds changes made to purge jobs like when it was activated and when answers to questions were changed.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "DM_PURGE_HISTORY_col"></a>
+Column Detail - <a href ="dms_data_mgmt_purge_arch1.html#DM_PURGE_HISTORY">DM_PURGE_HISTORY</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CHANGE_TYPE                   </td>
+<td class="data-type">VC2(12)        </td>
+<td class="nullable">N</td>
+<td class="defn-text">Which value changed regarding the purge job.  Must be one of the following:  'ACTIVE_FLAG', 'PURGE_FLAG', 'MAX_ROWS', or 'TOKEN'.</td>
+</tr>
+<tr>
+<td>DM_PURGE_HISTORY_ID           </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Primary Key from sequence DM_CLINICAL_SEQ</td>
+</tr>
+<tr>
+<td>JOB_ID                        </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The purge job ID that his change was made to.  FK from DM_PURGE_JOB</td>
+</tr>
+<tr>
+<td>NEW_TOKEN_STRING_VALUE        </td>
+<td class="data-type">VC2(255)       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The value of a character token after it was changed in Purge Job Manager.</td>
+</tr>
+<tr>
+<td>NEW_VALUE                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The value of a numeric token after it was changed in Purge Job Manager</td>
+</tr>
+<tr>
+<td>OLD_TOKEN_STRING_VALUE        </td>
+<td class="data-type">VC2(255)       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The value of a character token before it was changed in Purge Job Manager.</td>
+</tr>
+<tr>
+<td>OLD_VALUE                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The value of a numeric token before it was changed in Purge Job Manager</td>
+</tr>
+<tr>
+<td>TOKEN_STR                     </td>
+<td class="data-type">VC2(255)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">If the change type is 'TOKEN' this will be filled out with the token_str from DM_PURGE_JOB_TOKEN that is changing.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="DM_PURGE_HISTORY_reltn"></a>
+Relationship Detail - <a href = "#DM_PURGE_HISTORY">DM_PURGE_HISTORY</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in DM_PURGE_HISTORY(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>JOB_ID                        </td>
+<td><a href="dms_data_mgmt_purge_arch1.html#DM_PURGE_JOB                  " title = "Table Report">DM_PURGE_JOB                  </a></td>
+<td>JOB_ID                        </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="DM_PURGE_JOB">DM_PURGE_JOB                  </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#DM_PURGE_JOB_col">Column Section</a></td>
+<td><a href="#DM_PURGE_JOB_reltn">Relationship Section</a></td>
+<td><a href="dms_data_mgmt_purge_arch1.html          ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Purge Job
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This table holds the list of purge jobs that have been defined.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+REFERENCE
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "DM_PURGE_JOB_col"></a>
+Column Detail - <a href ="dms_data_mgmt_purge_arch1.html#DM_PURGE_JOB">DM_PURGE_JOB</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACTIVE_FLAG                   </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Defines the active status of the job - e.g. active, inactive, changed.  1 - Active;  2 - Inactive;  4 - Template Changed</td>
+</tr>
+<tr>
+<td>JOB_ID                        </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Unique identified for purge jobs.</td>
+</tr>
+<tr>
+<td>LAST_RUN_DT_TM                </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Last time this job was run whether successful or not.</td>
+</tr>
+<tr>
+<td>LAST_RUN_STATUS_FLAG          </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Status - e.g. success, failure - of the last time this job was run.  1 - Success;  2 - Failure</td>
+</tr>
+<tr>
+<td>MAX_ROWS                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Maximum number of top-level rows which should be deleted during any run of this job.</td>
+</tr>
+<tr>
+<td>PURGE_FLAG                    </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Mode to run the purge job in - e.g. audit, purge with high or low level logging.   1 - Job-level purging;  2 - Table-level purging;  3 - Audit mode</td>
+</tr>
+<tr>
+<td>TEMPLATE_NBR                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Number (id) of the purge template that this job uses.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="DM_PURGE_JOB_reltn"></a>
+Relationship Detail - <a href = "#DM_PURGE_JOB">DM_PURGE_JOB</a></h4><br/>
+<br/><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Parent Column in DM_PURGE_JOB                  (PK)</th>
+<th class="item-table">Child Table Name</th>
+<th class="item-column">Child Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Children:</b></td>
+<td>JOB_ID                        </td>
+<td><a href="dms_data_mgmt_purge_arch1.html#DM_PURGE_HISTORY" title = "Table Report">DM_PURGE_HISTORY</a></td>
+<td>JOB_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_data_mgmt_purge_arch1.html#DM_PURGE_JOB_LOG" title = "Table Report">DM_PURGE_JOB_LOG</a></td>
+<td>JOB_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_data_mgmt_purge_arch4.html#DM_XNT_JOB_LOG" title = "Table Report">DM_XNT_JOB_LOG</a></td>
+<td>JOB_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_data_mgmt_purge_arch5.html#DM_XNT_JOB_LOG_DTL" title = "Table Report">DM_XNT_JOB_LOG_DTL</a></td>
+<td>JOB_ID</td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="DM_PURGE_JOB_LOG">DM_PURGE_JOB_LOG              </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#DM_PURGE_JOB_LOG_col">Column Section</a></td>
+<td><a href="#DM_PURGE_JOB_LOG_reltn">Relationship Section</a></td>
+<td><a href="dms_data_mgmt_purge_arch1.html          ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Purge Job Log
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+Shows the execution log of purge jobs in the client's environment.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "DM_PURGE_JOB_LOG_col"></a>
+Column Detail - <a href ="dms_data_mgmt_purge_arch1.html#DM_PURGE_JOB_LOG">DM_PURGE_JOB_LOG</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CHILD_ROWS                    </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Number of child rows purged.</td>
+</tr>
+<tr>
+<td>END_DT_TM                     </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Date/time the job ended.</td>
+</tr>
+<tr>
+<td>ERR_CODE                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Error code for job failures.</td>
+</tr>
+<tr>
+<td>ERR_MSG                       </td>
+<td class="data-type">VC2(255)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Error message for job failures.</td>
+</tr>
+<tr>
+<td>JOB_ID                        </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Identifies the purge job that ran.</td>
+</tr>
+<tr>
+<td>LOG_ID                        </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Unique id for this run of this job.</td>
+</tr>
+<tr>
+<td>PARENT_ROWS                   </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Number of parent rows purged.</td>
+</tr>
+<tr>
+<td>PARENT_TABLE                  </td>
+<td class="data-type">VC2(30)        </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Top-level table which is being purged.</td>
+</tr>
+<tr>
+<td>PURGE_FLAG                    </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Mode to run the purge job in - e.g. audit, purge with high or low level logging.</td>
+</tr>
+<tr>
+<td>START_DT_TM                   </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Time the purge job started.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="DM_PURGE_JOB_LOG_reltn"></a>
+Relationship Detail - <a href = "#DM_PURGE_JOB_LOG">DM_PURGE_JOB_LOG</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in DM_PURGE_JOB_LOG(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>JOB_ID                        </td>
+<td><a href="dms_data_mgmt_purge_arch1.html#DM_PURGE_JOB                  " title = "Table Report">DM_PURGE_JOB                  </a></td>
+<td>JOB_ID                        </td>
+</tr>
+</tbody></table><br/><br/>
+<br/><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Parent Column in DM_PURGE_JOB_LOG              (PK)</th>
+<th class="item-table">Child Table Name</th>
+<th class="item-column">Child Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Children:</b></td>
+<td>LOG_ID                        </td>
+<td><a href="dms_data_mgmt_purge_arch1.html#DM_PURGE_JOB_LOG_TIMING" title = "Table Report">DM_PURGE_JOB_LOG_TIMING</a></td>
+<td>LOG_ID</td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="DM_PURGE_JOB_LOG_TAB">DM_PURGE_JOB_LOG_TAB          </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#DM_PURGE_JOB_LOG_TAB_col">Column Section</a></td>
+<td><a href="dms_data_mgmt_purge_arch1.html          ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+DM PURGE JOB LOG TAB
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+Table level logging information for purge job runs.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "DM_PURGE_JOB_LOG_TAB_col"></a>
+Column Detail - <a href ="dms_data_mgmt_purge_arch1.html#DM_PURGE_JOB_LOG_TAB">DM_PURGE_JOB_LOG_TAB</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_ID                        </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Unique id for this purge job.</td>
+</tr>
+<tr>
+<td>LOG_ID                        </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Unique id for purge job log.</td>
+</tr>
+<tr>
+<td>NUM_ROWS                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Number of rows purged in this table.</td>
+</tr>
+<tr>
+<td>PURGE_FLAG                    </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Mode to run the purge job in - e.g. audit, purge with high or low level logging.</td>
+</tr>
+<tr>
+<td>TABLE_NAME                    </td>
+<td class="data-type">VC2(30)        </td>
+<td class="nullable">N</td>
+<td class="defn-text">Name of table which was purged.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="DM_PURGE_JOB_LOG_TIMING">DM_PURGE_JOB_LOG_TIMING       </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#DM_PURGE_JOB_LOG_TIMING_col">Column Section</a></td>
+<td><a href="#DM_PURGE_JOB_LOG_TIMING_reltn">Relationship Section</a></td>
+<td><a href="dms_data_mgmt_purge_arch1.html          ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+DM_PURGE_JOB_LOG_TIMINGS
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+A table to store the timings of individual runs of purge templates
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "DM_PURGE_JOB_LOG_TIMING_col"></a>
+Column Detail - <a href ="dms_data_mgmt_purge_arch1.html#DM_PURGE_JOB_LOG_TIMING">DM_PURGE_JOB_LOG_TIMING</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_LOG_TIMING_ID             </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">A non-intelligent key for each row; populated from DM_CLINICAL_SEQ sequence</td>
+</tr>
+<tr>
+<td>LOG_ID                        </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Foreign key referencing DM_PURGE_JOB_LOG</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+<tr>
+<td>VALUE_KEY                     </td>
+<td class="data-type">VC2(40)        </td>
+<td class="nullable">N</td>
+<td class="defn-text">The text key which, in conjunction with the LOG_ID, can be used to determine a value stored for a particular purge template run</td>
+</tr>
+<tr>
+<td>VALUE_NBR                     </td>
+<td class="data-type">FLOAT          </td>
+<td class="nullable">N</td>
+<td class="defn-text">A value corresponding to the value key.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="DM_PURGE_JOB_LOG_TIMING_reltn"></a>
+Relationship Detail - <a href = "#DM_PURGE_JOB_LOG_TIMING">DM_PURGE_JOB_LOG_TIMING</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in DM_PURGE_JOB_LOG_TIMING(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>LOG_ID                        </td>
+<td><a href="dms_data_mgmt_purge_arch1.html#DM_PURGE_JOB_LOG              " title = "Table Report">DM_PURGE_JOB_LOG              </a></td>
+<td>LOG_ID                        </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+ 
+</div>
+<div id="footer">
+Copyright &copy; 2025 Oracle and/or its affiliates. This document may not be reproduced or transmitted in any form or by any means, electronic or mechanical, for any purpose, without our prior written permission. <br/> <br/>
+Materials in this document pertain to Oracle Health, Oracle, Oracle Cerner, and Cerner Enviza which are all wholly-owned subsidiaries of Oracle Corporation. <br/>
+Nothing in this document should be taken as indicating that any decisions regarding the integration of any EMEA Cerner and/or Enviza entities have been made where an integration has not already occurred. <br/>
+Last Updated:
+<!-- #BeginDate format:Am1 -->January 16, 2025<!-- #EndDate -->
+<br/>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,766 @@
+ 
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<link rel="stylesheet" href="../css/model.css" type="text/css" />
+<title>2025.4.01Data Models:Table Name Index</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<div id="wrapper">
+   <div id="logo">
+     <img src="../images/Oracle_Cerner Horizontal_RGB.png" alt="Cerner Logo" height="42" width="163"  />
+     <h1>Millennium Data Model Reports - 2025.4.01</h1>
+   </div>
+   <div id="nav">
+   <ul>
+     <li>  <a href="../start_cerner_millennium_data_model_reports.html">Home</a></li>
+     <li>|</li>
+     <li><a href="dm_a.html">Reports by Table</a></li>
+     <li>|</li>
+     <li><a href="data_model_table_report_help.html">Table Report Help</a></li>
+</ul>
+   </div>
+ 
+<div id="main-info">
+<h2>Table Detail Report</h2>
+<h2><a id="PN_RECOVERY">PN_RECOVERY                   </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#PN_RECOVERY_col">Column Section</a></td>
+<td><a href="#PN_RECOVERY_reltn">Relationship Section</a></td>
+<td><a href="dms_general_lab8.html                   ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+PathNet Result Recovery
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This table will serve as the parent table for PathNet recovery logic.  IT will be used to track items as they are processed and provide enough high-level data to rebuild a transaction for recovery in the case of a failure.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "PN_RECOVERY_col"></a>
+Column Detail - <a href ="dms_general_lab8.html#PN_RECOVERY">PN_RECOVERY</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EXPIRE_DT_TM                  </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">Date/time in which this row will expire.  This will be used to determine if an item/event has been "in process" too long, which might indicate a problem with processing.</td>
+</tr>
+<tr>
+<td>FAILURE_CNT                   </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Number of times this item has failed to be processed.</td>
+</tr>
+<tr>
+<td>FIRST_FAILURE_DT_TM           </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Date/Time of the first time this item failed to process.</td>
+</tr>
+<tr>
+<td>IN_PROCESS_FLAG               </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Indicates where this item is in the process:</td>
+</tr>
+<tr>
+<td>LAST_FAILURE_DT_TM            </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Date/Time of the last time this item failed to process.</td>
+</tr>
+<tr>
+<td>PARENT_ENTITY_ID              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Unique ID to the PARENT_ENTITY_NAME table.</td>
+</tr>
+<tr>
+<td>PARENT_ENTITY_NAME            </td>
+<td class="data-type">VARCHAR(32)    </td>
+<td class="nullable">N</td>
+<td class="defn-text">Table to which this row is linked.</td>
+</tr>
+<tr>
+<td>PN_RECOVERY_ID                </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Unique ID.</td>
+</tr>
+<tr>
+<td>RECOVERY_TYPE_CD              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Indicates the type of item.  References code set 28600.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="PN_RECOVERY_reltn"></a>
+Relationship Detail - <a href = "#PN_RECOVERY">PN_RECOVERY</a></h4><br/>
+<br/><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Parent Column in PN_RECOVERY                   (PK)</th>
+<th class="item-table">Child Table Name</th>
+<th class="item-column">Child Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Children:</b></td>
+<td>PN_RECOVERY_ID                </td>
+<td><a href="dms_general_lab8.html#PN_RECOVERY_CHILD" title = "Table Report">PN_RECOVERY_CHILD</a></td>
+<td>PN_RECOVERY_ID</td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="PN_RECOVERY_CHILD">PN_RECOVERY_CHILD             </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#PN_RECOVERY_CHILD_col">Column Section</a></td>
+<td><a href="#PN_RECOVERY_CHILD_reltn">Relationship Section</a></td>
+<td><a href="dms_general_lab8.html                   ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+PathNet Recovery Child
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This table will serve as a relation table for PathNet recovery logic.  It will be used to track children of items from the PN_RECOVERY table.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "PN_RECOVERY_CHILD_col"></a>
+Column Detail - <a href ="dms_general_lab8.html#PN_RECOVERY_CHILD">PN_RECOVERY_CHILD</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CHILD_ENTITY_ID               </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Unique ID to the CHILD_ENTITY_NAME table.</td>
+</tr>
+<tr>
+<td>CHILD_ENTITY_NAME             </td>
+<td class="data-type">VARCHAR(32)    </td>
+<td class="nullable">N</td>
+<td class="defn-text">Table to which this row is linked.</td>
+</tr>
+<tr>
+<td>PN_RECOVERY_CHILD_ID          </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Unique ID</td>
+</tr>
+<tr>
+<td>PN_RECOVERY_ID                </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Foreign key to the PN_RECOVERY table.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="PN_RECOVERY_CHILD_reltn"></a>
+Relationship Detail - <a href = "#PN_RECOVERY_CHILD">PN_RECOVERY_CHILD</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in PN_RECOVERY_CHILD(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>PN_RECOVERY_ID                </td>
+<td><a href="dms_general_lab8.html#PN_RECOVERY                   " title = "Table Report">PN_RECOVERY                   </a></td>
+<td>PN_RECOVERY_ID                </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="PN_RECOVERY_DETAIL">PN_RECOVERY_DETAIL            </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#PN_RECOVERY_DETAIL_col">Column Section</a></td>
+<td><a href="dms_general_lab8.html                   ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+PathNet Recovery Detail
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This table will serve as a detail table for PathNet recovery logic.  It will be used to track detailed items about either the PN_RECOVERY or PN_RECOVERY_CHILD rows.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "PN_RECOVERY_DETAIL_col"></a>
+Column Detail - <a href ="dms_general_lab8.html#PN_RECOVERY_DETAIL">PN_RECOVERY_DETAIL</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DETAIL_DESC                   </td>
+<td class="data-type">VARCHAR(250)   </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Stores a description (string) value if the detail requires.</td>
+</tr>
+<tr>
+<td>DETAIL_DT_TM                  </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Stores a date/time value if the detail requires.</td>
+</tr>
+<tr>
+<td>DETAIL_ID                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Stores an ID value if the detail requires.  Used for foreign key indexes.</td>
+</tr>
+<tr>
+<td>DETAIL_MEAN                   </td>
+<td class="data-type">VARCHAR(40)    </td>
+<td class="nullable">N</td>
+<td class="defn-text">Indicates the field that is being stored.</td>
+</tr>
+<tr>
+<td>DETAIL_VALUE                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Stores a generic number value if the detail requires.</td>
+</tr>
+<tr>
+<td>PARENT_ENTITY_ID              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Unique ID to the PARENT_ENTITY_NAME table.</td>
+</tr>
+<tr>
+<td>PARENT_ENTITY_NAME            </td>
+<td class="data-type">VARCHAR(32)    </td>
+<td class="nullable">N</td>
+<td class="defn-text">Table to which this row is linked.</td>
+</tr>
+<tr>
+<td>PN_RECOVERY_DETAIL_ID         </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Unique ID</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="QC_ALPHA_RESPONSES">QC_ALPHA_RESPONSES            </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#QC_ALPHA_RESPONSES_col">Column Section</a></td>
+<td><a href="#QC_ALPHA_RESPONSES_reltn">Relationship Section</a></td>
+<td><a href="dms_general_lab8.html                   ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Quality Control Alpha Responses
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+Defines the alpha response selection for a control and assay that will be allowed for QC result entry.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+REFERENCE
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "QC_ALPHA_RESPONSES_col"></a>
+Column Detail - <a href ="dms_general_lab8.html#QC_ALPHA_RESPONSES">QC_ALPHA_RESPONSES</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CONTROL_ID                    </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">A unique, internal, system-assigned number that identifies the specific control material associated with a quality control alpha response.</td>
+</tr>
+<tr>
+<td>DEFAULT_IND                   </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Indicates whether the quality control alpha response is the default result value.   A value of 0 indicates the response is not a default response.  A value of 1 indicates the response is a default response.</td>
+</tr>
+<tr>
+<td>NOMENCLATURE_ID               </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">A unique, internal, system-assigned number that identifies the specific alpha response nomenclature.  Creates a relationship to the nomenclature table.</td>
+</tr>
+<tr>
+<td>RESULT_PROCESS_CD             </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">A unique code value that identifies whether the alpha response is a normal or abnormal response.</td>
+</tr>
+<tr>
+<td>SERVICE_RESOURCE_CD           </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">A unique code value that identifies the specific service resource (i.e. instrument, bench) associated to the quality control alpha response.</td>
+</tr>
+<tr>
+<td>TASK_ASSAY_CD                 </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">A unique code value that identifies the specific discrete task assay  that will be resulted with the quality control alpha response.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="QC_ALPHA_RESPONSES_reltn"></a>
+Relationship Detail - <a href = "#QC_ALPHA_RESPONSES">QC_ALPHA_RESPONSES</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in QC_ALPHA_RESPONSES(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>CONTROL_ID                    </td>
+<td><a href="dms_general_lab4.html#CONTROL_MATERIAL              " title = "Table Report">CONTROL_MATERIAL              </a></td>
+<td>CONTROL_ID                    </td>
+</tr>
+<tr>
+<td></td>
+<td>TASK_ASSAY_CD                 </td>
+<td><a href="dms_pathnet_order_catalo2.html#DISCRETE_TASK_ASSAY           " title = "Table Report">DISCRETE_TASK_ASSAY           </a></td>
+<td>TASK_ASSAY_CD                 </td>
+</tr>
+<tr>
+<td></td>
+<td>SERVICE_RESOURCE_CD           </td>
+<td><a href="dms_service_resource_loc4.html#SERVICE_RESOURCE              " title = "Table Report">SERVICE_RESOURCE              </a></td>
+<td>SERVICE_RESOURCE_CD           </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="QC_COMMENT">QC_COMMENT                    </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#QC_COMMENT_col">Column Section</a></td>
+<td><a href="#QC_COMMENT_reltn">Relationship Section</a></td>
+<td><a href="dms_general_lab8.html                   ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Quality Control Comment
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+Stores the comment(s) for a control result.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "QC_COMMENT_col"></a>
+Column Detail - <a href ="dms_general_lab8.html#QC_COMMENT">QC_COMMENT</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACTION_SEQUENCE               </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Defines the sequence in which the quality control comments were entered.  Creates a unique value for multiple versions of a comment.</td>
+</tr>
+<tr>
+<td>COMMENT_DT_TM                 </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Defines the date and time the comment was entered into the system.</td>
+</tr>
+<tr>
+<td>COMMENT_TYPE_CD               </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">A unique code value that identifies the type of comment (i.e. footnote, review note) entered into the system.</td>
+</tr>
+<tr>
+<td>LONG_TEXT_ID                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">A unique, internal, system-assigned number that identifies the specific long text table row where the comment text is stored.  Creates a relationship to the long text table.</td>
+</tr>
+<tr>
+<td>PERFORM_PRSNL_ID              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">A unique, internal, system-assigned number that identifies the specific person who entered the QC comment into the system.  Creates a relationship to the person table.</td>
+</tr>
+<tr>
+<td>QC_RESULT_ID                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">A unique, internal, system-assigned number that identifies the quality control result with which the comment is associated.  Creates a relationship to the quality control result table.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="QC_COMMENT_reltn"></a>
+Relationship Detail - <a href = "#QC_COMMENT">QC_COMMENT</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in QC_COMMENT(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>PERFORM_PRSNL_ID              </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>QC_RESULT_ID                  </td>
+<td><a href="dms_general_lab9.html#QC_RESULT                     " title = "Table Report">QC_RESULT                     </a></td>
+<td>QC_RESULT_ID                  </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+ 
+</div>
+<div id="footer">
+Copyright &copy; 2025 Oracle and/or its affiliates. This document may not be reproduced or transmitted in any form or by any means, electronic or mechanical, for any purpose, without our prior written permission. <br/> <br/>
+Materials in this document pertain to Oracle Health, Oracle, Oracle Cerner, and Cerner Enviza which are all wholly-owned subsidiaries of Oracle Corporation. <br/>
+Nothing in this document should be taken as indicating that any decisions regarding the integration of any EMEA Cerner and/or Enviza entities have been made where an integration has not already occurred. <br/>
+Last Updated:
+<!-- #BeginDate format:Am1 -->January 16, 2025<!-- #EndDate -->
+<br/>
+	</div>
+</div>
+</body>
+</html>

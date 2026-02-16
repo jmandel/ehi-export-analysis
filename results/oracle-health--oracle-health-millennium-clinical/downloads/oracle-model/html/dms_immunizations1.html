@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<link rel="stylesheet" href="../css/model.css" type="text/css" />
+<title>2025.4.01Data Models:Table Name Index</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<div id="wrapper">
+   <div id="logo">
+     <img src="../images/Oracle_Cerner Horizontal_RGB.png" alt="Cerner Logo" height="42" width="163"  />
+     <h1>Millennium Data Model Reports - 2025.4.01</h1>
+   </div>
+   <div id="nav">
+   <ul>
+     <li>  <a href="../start_cerner_millennium_data_model_reports.html">Home</a></li>
+     <li>|</li>
+     <li><a href="dm_a.html">Reports by Table</a></li>
+     <li>|</li>
+     <li><a href="data_model_table_report_help.html">Table Report Help</a></li>
+</ul>
+   </div>
+ 
+<div id="main-info">
+<br/>
+<h2><a id="IMMUNIZATION_AUDIT">IMMUNIZATION_AUDIT            </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#IMMUNIZATION_AUDIT_col">Column Section</a></td>
+<td><a href="#IMMUNIZATION_AUDIT_reltn">Relationship Section</a></td>
+<td><a href="dms_immunizations1.html                 ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+IMMUNIZATION AUDIT
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This table stores immunization audit events
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "IMMUNIZATION_AUDIT_col"></a>
+Column Detail - <a href ="dms_immunizations1.html#IMMUNIZATION_AUDIT">IMMUNIZATION_AUDIT</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EVENT_ID                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">This would be an event_id from clinical_event table. This will be useful piece of detail when capturing the audit event using the Lights on timers network.  This would be only numerical value of double data type.;</td>
+</tr>
+<tr>
+<td>EVENT_TYPE_TFLG               </td>
+<td class="data-type">VC2(40)        </td>
+<td class="nullable">Y</td>
+<td class="defn-text">This would specify what kind of event this particular audit event is for. For example, if it is immunization administration or query for the registry etc. This column needs to be a flag. The possible values could be 'ADMIN_SUB_RES' or 'IIS_QUERY'.</td>
+</tr>
+<tr>
+<td>IMMUNIZATION_AUDIT_ID         </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text"> PRIMARY KEY</td>
+</tr>
+<tr>
+<td>MESSAGE_SENT_DT_TM            </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The Date and Time the message was sent</td>
+</tr>
+<tr>
+<td>PERSON_ID                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">This would be a person_id (foreign key) from the person table. This would be useful for the clients for reporting for the audit events of type queries. This would be only numerical value of double data type.;</td>
+</tr>
+<tr>
+<td>REGISTRY_IDENT                </td>
+<td class="data-type">VC2(255)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">This would be a unique identifier that identies a particular Immunization registry (i.e. IIS stands for Immunization Information System). FSI would be sending all this data. This detail will be captured as metadata on lights on so they could be sorted by IIS.</td>
+</tr>
+<tr>
+<td>RESPONSE_STATUS_DT_TM         </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text"> This is the date and time when an acknowledgement came back from IIS (Immunization registry) for the message sent earlier by FSI. As per FSI, it would always be in UTC. There will be some scenarios when the acknowledgement is lost (never received).</td>
+</tr>
+<tr>
+<td>RESPONSE_STATUS_TFLG          </td>
+<td class="data-type">VC2(30)        </td>
+<td class="nullable">Y</td>
+<td class="defn-text">This would specify what kind of response (or acknowledgement) was received for this particular audit event from IIS (Immunization Information System). For example, if it is successful or some kind of error. This column needs to be a flag.  The possible values could be 'NO_RESPONSE' or 'ADMIN_SUB_SUCCESS'.</td>
+</tr>
+<tr>
+<td>TRANSACTION_IDENT             </td>
+<td class="data-type">VC2(50)        </td>
+<td class="nullable">Y</td>
+<td class="defn-text">This would be a unique identifier that could be used the table lookups and then populate some of the missing fields later. FSI would be sending this value as their trigger id (a double value), appended with a fully qualified domain name and separated by some delimeter like colon, for example, ipmdvla.ip.devcerner.net:7592922910 for mdvla (dev) domain.;</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The application context number from the record info block.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The date and time the row was last inserted or updated.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="IMMUNIZATION_AUDIT_reltn"></a>
+Relationship Detail - <a href = "#IMMUNIZATION_AUDIT">IMMUNIZATION_AUDIT</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in IMMUNIZATION_AUDIT(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>PERSON_ID                     </td>
+<td><a href="dms_person3.html#PERSON                        " title = "Table Report">PERSON                        </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="IMMUNIZATION_EXT_CLOB">IMMUNIZATION_EXT_CLOB         </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#IMMUNIZATION_EXT_CLOB_col">Column Section</a></td>
+<td><a href="#IMMUNIZATION_EXT_CLOB_reltn">Relationship Section</a></td>
+<td><a href="dms_immunizations1.html                 ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+External staging table for data from an interface for the Immunizations concept
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+To temporarily hold untrusted data that has come from an external source (e.g. FHIR). This table will hold the actual data that came across the interface.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "IMMUNIZATION_EXT_CLOB_col"></a>
+Column Detail - <a href ="dms_immunizations1.html#IMMUNIZATION_EXT_CLOB">IMMUNIZATION_EXT_CLOB</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DATA_CLOB                     </td>
+<td class="data-type">LONG           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The data that has come from an external interface.</td>
+</tr>
+<tr>
+<td>IMMUNIZATION_EXT_CLOB_ID      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">PRIMARY KEY</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>VERSION_NBR                   </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The version of the external data.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="IMMUNIZATION_EXT_CLOB_reltn"></a>
+Relationship Detail - <a href = "#IMMUNIZATION_EXT_CLOB">IMMUNIZATION_EXT_CLOB</a></h4><br/>
+<br/><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Parent Column in IMMUNIZATION_EXT_CLOB         (PK)</th>
+<th class="item-table">Child Table Name</th>
+<th class="item-column">Child Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Children:</b></td>
+<td>IMMUNIZATION_EXT_CLOB_ID      </td>
+<td><a href="dms_immunizations1.html#IMMUNIZATION_EXT_DATA" title = "Table Report">IMMUNIZATION_EXT_DATA</a></td>
+<td>IMMUNIZATION_EXT_CLOB_ID</td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="IMMUNIZATION_EXT_DATA">IMMUNIZATION_EXT_DATA         </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#IMMUNIZATION_EXT_DATA_col">Column Section</a></td>
+<td><a href="#IMMUNIZATION_EXT_DATA_reltn">Relationship Section</a></td>
+<td><a href="dms_immunizations1.html                 ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+External staging data table for Immunizations concept
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+To temporarily hold untrusted data that has come from an external source (e.g. FHIR)
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "IMMUNIZATION_EXT_DATA_col"></a>
+Column Detail - <a href ="dms_immunizations1.html#IMMUNIZATION_EXT_DATA">IMMUNIZATION_EXT_DATA</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACTION_DT_TM                  </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The date and time of the action.</td>
+</tr>
+<tr>
+<td>ACTION_PRSNL_ID               </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The personnel who performed the action.</td>
+</tr>
+<tr>
+<td>ACTIVE_IND                    </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The table row is active or inactive.  A row is generally active unless it is in an inactive state such as logically deleted, combined away, pending purge, etc.</td>
+</tr>
+<tr>
+<td>ACTIVE_STATUS_CD              </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Indicates the status of the row itself (not the data in the row) such as active, inactive, combined away, pending purge, etc.</td>
+</tr>
+<tr>
+<td>ACTIVE_STATUS_DT_TM           </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time that the active_status_cd was set.</td>
+</tr>
+<tr>
+<td>ACTIVE_STATUS_PRSNL_ID        </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person who caused the active_status_cd to be set or change.</td>
+</tr>
+<tr>
+<td>ADMIN_DT_TM_TXT               </td>
+<td class="data-type">VC2(30)        </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time for the administrative action in ISO 8601 format.  Date and Time will be local.</td>
+</tr>
+<tr>
+<td>CLIENT_IDENT                  </td>
+<td class="data-type">VC2(255)       </td>
+<td class="nullable">N</td>
+<td class="defn-text">An unique string representing the registration information provided by the client</td>
+</tr>
+<tr>
+<td>CORRELATION_IDENT             </td>
+<td class="data-type">VC2(80)        </td>
+<td class="nullable">N</td>
+<td class="defn-text">Upper case hyphenated GUID that identifies the transaction that updated this row.</td>
+</tr>
+<tr>
+<td>DATA_STATUS_CD                </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Data status indicates a level of authenticity of the row data.</td>
+</tr>
+<tr>
+<td>ENCNTR_ID                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The encounter related to the external data.</td>
+</tr>
+<tr>
+<td>EVENT_CD                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The event code for the immunization.</td>
+</tr>
+<tr>
+<td>EVENT_ID                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">An EVENT_ID from tha CLINICAL_EVENT table.  Identifies the CLINICAL EVENT/s associated to this immunization</td>
+</tr>
+<tr>
+<td>IMMUNIZATION_EXT_CLOB_ID      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The associated data that came from an external interface.</td>
+</tr>
+<tr>
+<td>IMMUNIZATION_EXT_DATA_ID      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">PRIMARY KEY</td>
+</tr>
+<tr>
+<td>PERSONA_TXT                   </td>
+<td class="data-type">VC2(40)        </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The persona is part of the OAuth2 token, and indicates the type of user contacting the service.</td>
+</tr>
+<tr>
+<td>PERSON_ID                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The PERSON related to the external data</td>
+</tr>
+<tr>
+<td>REQUESTED_ACTION_CD           </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Action requested for the data.</td>
+</tr>
+<tr>
+<td>SUBMITTED_DT_TM               </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The date and time this external data was added to the staging tables.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="IMMUNIZATION_EXT_DATA_reltn"></a>
+Relationship Detail - <a href = "#IMMUNIZATION_EXT_DATA">IMMUNIZATION_EXT_DATA</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in IMMUNIZATION_EXT_DATA(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>ENCNTR_ID                     </td>
+<td><a href="dms_encounter17.html#ENCOUNTER                     " title = "Table Report">ENCOUNTER                     </a></td>
+<td>ENCNTR_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>IMMUNIZATION_EXT_CLOB_ID      </td>
+<td><a href="dms_immunizations1.html#IMMUNIZATION_EXT_CLOB         " title = "Table Report">IMMUNIZATION_EXT_CLOB         </a></td>
+<td>IMMUNIZATION_EXT_CLOB_ID      </td>
+</tr>
+<tr>
+<td></td>
+<td>PERSON_ID                     </td>
+<td><a href="dms_person3.html#PERSON                        " title = "Table Report">PERSON                        </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>ACTION_PRSNL_ID               </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="IMMUNIZATION_MODIFIER">IMMUNIZATION_MODIFIER         </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#IMMUNIZATION_MODIFIER_col">Column Section</a></td>
+<td><a href="#IMMUNIZATION_MODIFIER_reltn">Relationship Section</a></td>
+<td><a href="dms_immunizations1.html                 ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+IMMUNIZATION MODIFIER
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This is the list of modifiers to expectations and Immunization events.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "IMMUNIZATION_MODIFIER_col"></a>
+Column Detail - <a href ="dms_immunizations1.html#IMMUNIZATION_MODIFIER">IMMUNIZATION_MODIFIER</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BEG_EFFECTIVE_DT_TM           </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The date and time for which this table row becomes effective.  Normally, this will be the date and time the row is added, but could be a past or future date and time.</td>
+</tr>
+<tr>
+<td>CLINICAL_EVENT_ID             </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">THIS COLUMN NOT USED.    Clinical event identifier (from CLINICAL_EVENT) related to this modifier information.  This column is not used and will be made obsolete.  Use EVENT_ID instead.  6/25/03</td>
+</tr>
+<tr>
+<td>CONSENT_LONG_TEXT_ID          </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">OBSOLETE - ID to LONG_TEXT for comments related to the consent for the related Expectation.</td>
+</tr>
+<tr>
+<td>CONSENT_PERSON_ID             </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">OBSOLETE - ID from PERSON of the person giving consent for the Expectation.</td>
+</tr>
+<tr>
+<td>CONSENT_PERSON_REL_CD         </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">OBSOLETE - Value from CS40 to indicate the relationship of the person giving consent for the person identified by person_id.</td>
+</tr>
+<tr>
+<td>DEFAULT_EVENT_IND             </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Indicates whether the event for the immunization was selected by default.</td>
+</tr>
+<tr>
+<td>END_EFFECTIVE_DT_TM           </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The date/time after which the row is no longer valid as active current data.  This may be valued with the date that the row became inactive.</td>
+</tr>
+<tr>
+<td>EVENT_CD                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The event code  that corresponds to this modifier.</td>
+</tr>
+<tr>
+<td>EVENT_ID                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This value comes from the non-key EVENT_ID column in the CLINICAL_EVENT table.</td>
+</tr>
+<tr>
+<td>EXPECT_MEANING                </td>
+<td class="data-type">VC2(250)       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The Expectation meaning of the HM Expectation associated with the modifier.</td>
+</tr>
+<tr>
+<td>FUNDING_SOURCE_CD             </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The funding source code associated to this modifier.</td>
+</tr>
+<tr>
+<td>IMMUNIZATION_MODIFIER_ID      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Unique Identifier for the immunization_modifier table.</td>
+</tr>
+<tr>
+<td>ORGANIZATION_ID               </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Foreign Key from ORGANIZATION table</td>
+</tr>
+<tr>
+<td>PERSON_ID                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This is the value of the unique primary identifier of the person table.  It is an internal system assigned number.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+<tr>
+<td>VFC_STATUS_CD                 </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The Code that identifies the Vaccines For Children (VFC) status for the related Expectation.</td>
+</tr>
+<tr>
+<td>VIS_CD                        </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The Vaccine Information Statement code associated to this modifier</td>
+</tr>
+<tr>
+<td>VIS_DT_ISO                    </td>
+<td class="data-type">VC2(10)        </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Stores a string value of the Vaccine Information Statement (VIS) published on date in the following ISO supported formats:; YYYYMMDD</td>
+</tr>
+<tr>
+<td>VIS_DT_TM                     </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The version date printed on the Vaccine Information Sheet (VIS) for the related Expectation.</td>
+</tr>
+<tr>
+<td>VIS_GIVEN_ON_DT_ISO           </td>
+<td class="data-type">VC2(10)        </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Stores a string value of the Vaccine Information Statement (VIS) given on date in the following ISO supported format:; YYYYMMDD</td>
+</tr>
+<tr>
+<td>VIS_PROVIDED_ON_DT_TM         </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The date and time that the VIS was provided to the patient or their parent/guardian</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="IMMUNIZATION_MODIFIER_reltn"></a>
+Relationship Detail - <a href = "#IMMUNIZATION_MODIFIER">IMMUNIZATION_MODIFIER</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in IMMUNIZATION_MODIFIER(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>CONSENT_LONG_TEXT_ID          </td>
+<td><a href="dms_data_mgmt25.html#LONG_TEXT                     " title = "Table Report">LONG_TEXT                     </a></td>
+<td>LONG_TEXT_ID                  </td>
+</tr>
+<tr>
+<td></td>
+<td>ORGANIZATION_ID               </td>
+<td><a href="dms_organization1.html#ORGANIZATION                  " title = "Table Report">ORGANIZATION                  </a></td>
+<td>ORGANIZATION_ID               </td>
+</tr>
+<tr>
+<td></td>
+<td>CONSENT_PERSON_ID             </td>
+<td><a href="dms_person3.html#PERSON                        " title = "Table Report">PERSON                        </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>PERSON_ID                     </td>
+<td><a href="dms_person3.html#PERSON                        " title = "Table Report">PERSON                        </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="IMMUNIZATION_OBSERVATION">IMMUNIZATION_OBSERVATION      </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#IMMUNIZATION_OBSERVATION_col">Column Section</a></td>
+<td><a href="#IMMUNIZATION_OBSERVATION_reltn">Relationship Section</a></td>
+<td><a href="dms_immunizations1.html                 ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Immunization Observation
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+Documented patient observations that correspond to a codified Indication or Contraindication for Immunization Forecasting.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "IMMUNIZATION_OBSERVATION_col"></a>
+Column Detail - <a href ="dms_immunizations1.html#IMMUNIZATION_OBSERVATION">IMMUNIZATION_OBSERVATION</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACTIVE_IND                    </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The table row is active or inactive.  A row is generally active unless it is in an inactive state such as logically deleted, combined away, pending purge, etc.</td>
+</tr>
+<tr>
+<td>ACTIVE_STATUS_CD              </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Indicates the status of the row itself (not the data in the row) such as active, inactive, combined away, pending purge, etc.</td>
+</tr>
+<tr>
+<td>ACTIVE_STATUS_DT_TM           </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time that the active_status_cd was set.</td>
+</tr>
+<tr>
+<td>ACTIVE_STATUS_PRSNL_ID        </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person who caused the active_status_cd to be set or change.</td>
+</tr>
+<tr>
+<td>BEGIN_DT_TM                   </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Begin Date Time of the Observation</td>
+</tr>
+<tr>
+<td>BEG_EFFECTIVE_DT_TM           </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time for which this table row becomes effective.  Normally, this will be the date and time the row is added, but could be a past or future date and time.</td>
+</tr>
+<tr>
+<td>END_DT_TM                     </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">End Date Time of the Observation</td>
+</tr>
+<tr>
+<td>END_EFFECTIVE_DT_TM           </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date/time after which the row is no longer valid as active current data.  This may be valued with the date that the row became inactive.</td>
+</tr>
+<tr>
+<td>IMMUNIZATION_OBSERVATION_ID   </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">PRIMARY KEY</td>
+</tr>
+<tr>
+<td>OBSERVATION_CD                </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">observation code</td>
+</tr>
+<tr>
+<td>OBSERVATION_ID                </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">a grouper for history on the table and will reference the IMMUNIZATION_OBSERVATION_ID associated with the initial write to the table.</td>
+</tr>
+<tr>
+<td>PERSON_ID                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Foreign Key to the Patient Person</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>VACCINE_GROUP_CD              </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Code Value for the Vaccine Group</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="IMMUNIZATION_OBSERVATION_reltn"></a>
+Relationship Detail - <a href = "#IMMUNIZATION_OBSERVATION">IMMUNIZATION_OBSERVATION</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in IMMUNIZATION_OBSERVATION(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>OBSERVATION_ID                </td>
+<td><a href="dms_immunizations1.html#IMMUNIZATION_OBSERVATION      " title = "Table Report">IMMUNIZATION_OBSERVATION      </a></td>
+<td>IMMUNIZATION_OBSERVATION_ID   </td>
+</tr>
+<tr>
+<td></td>
+<td>PERSON_ID                     </td>
+<td><a href="dms_person3.html#PERSON                        " title = "Table Report">PERSON                        </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+</tbody></table><br/><br/>
+<br/><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Parent Column in IMMUNIZATION_OBSERVATION      (PK)</th>
+<th class="item-table">Child Table Name</th>
+<th class="item-column">Child Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Children:</b></td>
+<td>IMMUNIZATION_OBSERVATION_ID   </td>
+<td><a href="dms_immunizations1.html#IMMUNIZATION_OBSERVATION" title = "Table Report">IMMUNIZATION_OBSERVATION</a></td>
+<td>OBSERVATION_ID</td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+ 
+</div>
+<div id="footer">
+Copyright &copy; 2025 Oracle and/or its affiliates. This document may not be reproduced or transmitted in any form or by any means, electronic or mechanical, for any purpose, without our prior written permission. <br/> <br/>
+Materials in this document pertain to Oracle Health, Oracle, Oracle Cerner, and Cerner Enviza which are all wholly-owned subsidiaries of Oracle Corporation. <br/>
+Nothing in this document should be taken as indicating that any decisions regarding the integration of any EMEA Cerner and/or Enviza entities have been made where an integration has not already occurred. <br/>
+Last Updated:
+<!-- #BeginDate format:Am1 -->January 16, 2025<!-- #EndDate -->
+<br/>
+	</div>
+</div>
+</body>
+</html>

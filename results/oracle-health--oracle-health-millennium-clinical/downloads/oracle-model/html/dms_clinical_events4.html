@@ -1,0 +1,1091 @@
+ 
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<link rel="stylesheet" href="../css/model.css" type="text/css" />
+<title>2025.4.01Data Models:Table Name Index</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<div id="wrapper">
+   <div id="logo">
+     <img src="../images/Oracle_Cerner Horizontal_RGB.png" alt="Cerner Logo" height="42" width="163"  />
+     <h1>Millennium Data Model Reports - 2025.4.01</h1>
+   </div>
+   <div id="nav">
+   <ul>
+     <li>  <a href="../start_cerner_millennium_data_model_reports.html">Home</a></li>
+     <li>|</li>
+     <li><a href="dm_a.html">Reports by Table</a></li>
+     <li>|</li>
+     <li><a href="data_model_table_report_help.html">Table Report Help</a></li>
+</ul>
+   </div>
+ 
+<div id="main-info">
+<h2>Table Detail Report</h2>
+<h2><a id="CE_EVENT_NOTE">CE_EVENT_NOTE                 </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#CE_EVENT_NOTE_col">Column Section</a></td>
+<td><a href="#CE_EVENT_NOTE_reltn">Relationship Section</a></td>
+<td><a href="dms_clinical_events4.html               ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+ce event note
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+The Event Note table stores any comments associated with the event.  Typically this would include additional information about reference ranges, or notes indicating that the result value has been changed from a previous result.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "CE_EVENT_NOTE_col"></a>
+Column Detail - <a href ="dms_clinical_events4.html#CE_EVENT_NOTE">CE_EVENT_NOTE</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CE_EVENT_NOTE_ID              </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Unique identifier generated for each row of data</td>
+</tr>
+<tr>
+<td>CHECKSUM                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">A unique value, created by parsing the contents of the blob, used as a comparison to identify changes to the blob.</td>
+</tr>
+<tr>
+<td>COMPRESSION_CD                </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Specifies type of compression applied to the blob.</td>
+</tr>
+<tr>
+<td>ENTRY_METHOD_CD               </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Source of note. Ancillary/Owner application, Orderer/Provider, Medical Records ManagerCode.</td>
+</tr>
+<tr>
+<td>EVENT_ID                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Foreign key to the event table.</td>
+</tr>
+<tr>
+<td>EVENT_NOTE_ID                 </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Uniquely identifies a logical event note row.  There may be more than one row with the same event_note_id, but only one of those rows will be current as indicated by the valid_until_dt_tm field</td>
+</tr>
+<tr>
+<td>IMPORTANCE_FLAG               </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Indicates the importance of this note</td>
+</tr>
+<tr>
+<td>LONG_TEXT_ID                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Id of long text row containing note</td>
+</tr>
+<tr>
+<td>NON_CHARTABLE_FLAG            </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">If true, this event note is not chartable.</td>
+</tr>
+<tr>
+<td>NOTE_DT_TM                    </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">Date/Time of note entry.</td>
+</tr>
+<tr>
+<td>NOTE_FORMAT_CD                </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Indicates type of blob.  Note that a storage code doesn¿t exist - all blobs must exist on the long_blob table.  Thus only format codes that apply to the storage code BLOB are valid here.</td>
+</tr>
+<tr>
+<td>NOTE_PRSNL_ID                 </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Personnel id of person who wrote the note.  Foreign key to Personnel table.</td>
+</tr>
+<tr>
+<td>NOTE_TYPE_CD                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Type of notes:  7 Reason for insertion of an external apparatus  7 Reason for Deferring a medication administration  7 Complication Code  7 Cancel Reason  7 Delete Reason  7 Deferred Reason  7 Clinical Note  7 Instrument Flag for Lab  7 Complication Code for External Apparatus  7 Medication Administration Instruction.  7 Patient Follow-up/Reaction Comments.  We need to determine whether to have a general "Delete Reason" note type for all result type, or different ones .</td>
+</tr>
+<tr>
+<td>NOTE_TZ                       </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Time zone associated with the corresponding DT_TM column.</td>
+</tr>
+<tr>
+<td>RECORD_STATUS_CD              </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Record status code.   Values:  active, inactive, deleted combined away,  needs review.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+<tr>
+<td>VALID_FROM_DT_TM              </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">Contains the Beginning Point of when a row in the table is valid.</td>
+</tr>
+<tr>
+<td>VALID_UNTIL_DT_TM             </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">Contains the End Point of when a row in the table is valid.  Current version of the result has an open "Until Dt Tm" value.  We need to determine what that value is.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="CE_EVENT_NOTE_reltn"></a>
+Relationship Detail - <a href = "#CE_EVENT_NOTE">CE_EVENT_NOTE</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in CE_EVENT_NOTE(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>NOTE_PRSNL_ID                 </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="CE_EVENT_ORDER_LINK">CE_EVENT_ORDER_LINK           </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#CE_EVENT_ORDER_LINK_col">Column Section</a></td>
+<td><a href="#CE_EVENT_ORDER_LINK_reltn">Relationship Section</a></td>
+<td><a href="dms_clinical_events4.html               ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Clinical Event Order Link
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+Link table that has grouping between clinical events and orders
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "CE_EVENT_ORDER_LINK_col"></a>
+Column Detail - <a href ="dms_clinical_events4.html#CE_EVENT_ORDER_LINK">CE_EVENT_ORDER_LINK</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CATALOG_TYPE_CD               </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The order catalog for this order.</td>
+</tr>
+<tr>
+<td>CE_EVENT_ORDER_LINK_ID        </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Unique, generated number that identifies a single row on the CE_EVENT_ORDER_LINK table.</td>
+</tr>
+<tr>
+<td>ENCNTR_ID                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The encounter from the Clinical Event table.</td>
+</tr>
+<tr>
+<td>EVENT_END_DT_TM               </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">Clinical date time for the end of the event.</td>
+</tr>
+<tr>
+<td>EVENT_ID                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Key to clinical_event table.  This column is not the PK for Clinical_Event, so no FK can be created.</td>
+</tr>
+<tr>
+<td>ORDER_ACTION_SEQUENCE         </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">A sequence number used to identify the order of the actions.</td>
+</tr>
+<tr>
+<td>ORDER_ID                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Unique foreign key to Orders Table.  SEQUENCE NAME:ORDER_SEQ .</td>
+</tr>
+<tr>
+<td>PARENT_ORDER_IDENT            </td>
+<td class="data-type">FLOAT          </td>
+<td class="nullable">N</td>
+<td class="defn-text">Associated with the template_order_id on the Orders table.  If no template order id exists, this field will duplicate the order_id on this table.</td>
+</tr>
+<tr>
+<td>PERSON_ID                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person on the clinical event.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+<tr>
+<td>VALID_FROM_DT_TM              </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">Creation date for row.</td>
+</tr>
+<tr>
+<td>VALID_UNTIL_DT_TM             </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">Date row becomes historical.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="CE_EVENT_ORDER_LINK_reltn"></a>
+Relationship Detail - <a href = "#CE_EVENT_ORDER_LINK">CE_EVENT_ORDER_LINK</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in CE_EVENT_ORDER_LINK(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>ORDER_ID                      </td>
+<td><a href="dms_orders3.html#ORDERS                        " title = "Table Report">ORDERS                        </a></td>
+<td>ORDER_ID                      </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="CE_EVENT_PRSNL">CE_EVENT_PRSNL                </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#CE_EVENT_PRSNL_col">Column Section</a></td>
+<td><a href="#CE_EVENT_PRSNL_reltn">Relationship Section</a></td>
+<td><a href="dms_clinical_events4.html               ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+ce event prsnl
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+Tracks signatures and other relationships of personnel to events.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "CE_EVENT_PRSNL_col"></a>
+Column Detail - <a href ="dms_clinical_events4.html#CE_EVENT_PRSNL">CE_EVENT_PRSNL</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACTION_COMMENT                </td>
+<td class="data-type">VC2(255)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Comment/Annotation attached to the Action.</td>
+</tr>
+<tr>
+<td>ACTION_DT_TM                  </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Date & Time action was achieved.</td>
+</tr>
+<tr>
+<td>ACTION_ORGANIZATION_FT        </td>
+<td class="data-type">VC2(100)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The freetext form of the organization that performed the action.</td>
+</tr>
+<tr>
+<td>ACTION_ORGANIZATION_ID        </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The organization_id of the organization that performed the action.</td>
+</tr>
+<tr>
+<td>ACTION_PRSNL_FT               </td>
+<td class="data-type">VC2(100)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">If the action personnel is free text, this field will be filled with the formatted free text personnel, and action_prsnl_id will have the prsnl_id of the contributing system.</td>
+</tr>
+<tr>
+<td>ACTION_PRSNL_GROUP_ID         </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Action Personnel Group ID for Inbox Pooling.  FK from PRSNL_GROUP_ACCEPTED_TYPE table.</td>
+</tr>
+<tr>
+<td>ACTION_PRSNL_ID               </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Personnel ID of person who carried out the action.</td>
+</tr>
+<tr>
+<td>ACTION_STATUS_CD              </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Resultant status of the action.  Valid status are: cancelled;  completed; requested; deleted; refused.</td>
+</tr>
+<tr>
+<td>ACTION_TYPE_CD                </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Type of action. Valid types are:  author/creator; transcribe; cancel; verify; correct; review; sign; cosign; modify.</td>
+</tr>
+<tr>
+<td>ACTION_TZ                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Time zone associated with the corresponding DT_TM column.</td>
+</tr>
+<tr>
+<td>CE_EVENT_PRSNL_ID             </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Unique identifier generated for each row of data.</td>
+</tr>
+<tr>
+<td>CHANGE_SINCE_ACTION_FLAG      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This flag will be set if the information for the event has been modified since the action was performed.</td>
+</tr>
+<tr>
+<td>DIGITAL_SIGNATURE_IDENT       </td>
+<td class="data-type">VC2(60)        </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Identifier of digital signature stored in DMS.</td>
+</tr>
+<tr>
+<td>EVENT_ID                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Foreign key to the event table.</td>
+</tr>
+<tr>
+<td>EVENT_PRSNL_ID                </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Uniquely identifies a logical event prsnl row.  There may be more than one row with the same event_prsnl_id, but only one of those rows will be current as indicated by the valid_until_dt_tm field.</td>
+</tr>
+<tr>
+<td>LINKED_EVENT_ID               </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Stores EVENT_ID from the CLINICAL_EVENT Table  (not a Foreign Key).  A linked event is created by a provider to associate multiple results to a single specific result.</td>
+</tr>
+<tr>
+<td>LONG_TEXT_ID                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Id of the textual comments associated with this personnel event</td>
+</tr>
+<tr>
+<td>PERSON_ID                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This is the value of the unique primary identifier of the person table.  It is an internal system assigned number.</td>
+</tr>
+<tr>
+<td>PROXY_PRSNL_FT                </td>
+<td class="data-type">VC2(100)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">If the proxy personnel is free text, this field will be filled with the formatted free text personnel, and proxy_prsnl_id will have the prsnl_id of the contributing system.</td>
+</tr>
+<tr>
+<td>PROXY_PRSNL_ID                </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Personnel ID of person who carried out the action on behalf of the Action_Persnl_ID.</td>
+</tr>
+<tr>
+<td>RECEIVING_PERSON_FT           </td>
+<td class="data-type">VC2(100)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">If the receiving person/guardian is free text, then this field will be populated with the formatted free-text guardian.</td>
+</tr>
+<tr>
+<td>RECEIVING_PERSON_ID           </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The patient/guardian receiving documents in the mail.</td>
+</tr>
+<tr>
+<td>REQUEST_COMMENT               </td>
+<td class="data-type">VC2(255)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Comment/Annotation attached to the Request.</td>
+</tr>
+<tr>
+<td>REQUEST_DT_TM                 </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Date andTime action was requested.</td>
+</tr>
+<tr>
+<td>REQUEST_PRSNL_FT              </td>
+<td class="data-type">VC2(100)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">If the request personnel is free text, this field will be filled with the formatted free text personnel, and request_prsnl_id will have the prsnl_id of the contributing system.</td>
+</tr>
+<tr>
+<td>REQUEST_PRSNL_GROUP_ID        </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Request Personnel Group ID for Inbox Pooling.  FK from PRSNL_GROUP_ACCEPTED_TYPE table.</td>
+</tr>
+<tr>
+<td>REQUEST_PRSNL_ID              </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Persnl_ID of requester.</td>
+</tr>
+<tr>
+<td>REQUEST_TZ                    </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Time zone associated with the corresponding DT_TM column.</td>
+</tr>
+<tr>
+<td>SYSTEM_COMMENT                </td>
+<td class="data-type">VC2(255)       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Text field to hold the system generated comment.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>VALID_FROM_DT_TM              </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">Contains the Beginning Point of when a row in the table is valid.</td>
+</tr>
+<tr>
+<td>VALID_UNTIL_DT_TM             </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">Contains the "End Point" of when a row in the table is valid.  Current version of the result has an open "Until Dt Tm" value.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="CE_EVENT_PRSNL_reltn"></a>
+Relationship Detail - <a href = "#CE_EVENT_PRSNL">CE_EVENT_PRSNL</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in CE_EVENT_PRSNL(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>LONG_TEXT_ID                  </td>
+<td><a href="dms_data_mgmt25.html#LONG_TEXT                     " title = "Table Report">LONG_TEXT                     </a></td>
+<td>LONG_TEXT_ID                  </td>
+</tr>
+<tr>
+<td></td>
+<td>ACTION_ORGANIZATION_ID        </td>
+<td><a href="dms_organization1.html#ORGANIZATION                  " title = "Table Report">ORGANIZATION                  </a></td>
+<td>ORGANIZATION_ID               </td>
+</tr>
+<tr>
+<td></td>
+<td>PERSON_ID                     </td>
+<td><a href="dms_person3.html#PERSON                        " title = "Table Report">PERSON                        </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>RECEIVING_PERSON_ID           </td>
+<td><a href="dms_person3.html#PERSON                        " title = "Table Report">PERSON                        </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>ACTION_PRSNL_ID               </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>PROXY_PRSNL_ID                </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>REQUEST_PRSNL_ID              </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>ACTION_PRSNL_GROUP_ID         </td>
+<td><a href="dms_personnel2.html#PRSNL_GROUP                   " title = "Table Report">PRSNL_GROUP                   </a></td>
+<td>PRSNL_GROUP_ID                </td>
+</tr>
+<tr>
+<td></td>
+<td>REQUEST_PRSNL_GROUP_ID        </td>
+<td><a href="dms_personnel2.html#PRSNL_GROUP                   " title = "Table Report">PRSNL_GROUP                   </a></td>
+<td>PRSNL_GROUP_ID                </td>
+</tr>
+</tbody></table><br/><br/>
+<br/><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Parent Column in CE_EVENT_PRSNL                (PK)</th>
+<th class="item-table">Child Table Name</th>
+<th class="item-column">Child Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Children:</b></td>
+<td>CE_EVENT_PRSNL_ID             </td>
+<td><a href="dms_dictation_transcript1.html#DTS_RECIPIENT" title = "Table Report">DTS_RECIPIENT</a></td>
+<td>EVENT_PRSNL_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_profile10.html#HIM_EVENT_ALLOCATION" title = "Table Report">HIM_EVENT_ALLOCATION</a></td>
+<td>CE_EVENT_PRSNL_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_profile11.html#HIM_PV_DOCUMENT" title = "Table Report">HIM_PV_DOCUMENT</a></td>
+<td>CE_EVENT_PRSNL_ID</td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="CE_FLAGGED_RESULT">CE_FLAGGED_RESULT             </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#CE_FLAGGED_RESULT_col">Column Section</a></td>
+<td><a href="#CE_FLAGGED_RESULT_reltn">Relationship Section</a></td>
+<td><a href="dms_clinical_events4.html               ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Clinical Event Flagged Result
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+Stores flagged result information that will be related to a specific clinical event and a discipline or list of disciplines.  The event_id will identify the active clinical event row that this flagged result is associated with.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "CE_FLAGGED_RESULT_col"></a>
+Column Detail - <a href ="dms_clinical_events4.html#CE_FLAGGED_RESULT">CE_FLAGGED_RESULT</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CE_FLAGGED_RESULT_ID          </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">A unique, generated number that is used to identify an individual CE_FLAGGED_RESULT row.</td>
+</tr>
+<tr>
+<td>ENCNTR_ID                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The encounter of the clinical event that was flagged.</td>
+</tr>
+<tr>
+<td>EVENT_CD                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The code that identifies the most basic unit of storage, i.e. RBC, discharge summary, image.</td>
+</tr>
+<tr>
+<td>EVENT_END_DT_TM               </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Clinical date time for the end of the event.</td>
+</tr>
+<tr>
+<td>EVENT_ID                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The event that has been flagged.</td>
+</tr>
+<tr>
+<td>FLAGGED_DT_TM                 </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Date and time that the clinical event row became flagged.</td>
+</tr>
+<tr>
+<td>PERSON_ID                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person who's Clinical Event has been flagged.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="CE_FLAGGED_RESULT_reltn"></a>
+Relationship Detail - <a href = "#CE_FLAGGED_RESULT">CE_FLAGGED_RESULT</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in CE_FLAGGED_RESULT(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>ENCNTR_ID                     </td>
+<td><a href="dms_encounter17.html#ENCOUNTER                     " title = "Table Report">ENCOUNTER                     </a></td>
+<td>ENCNTR_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>PERSON_ID                     </td>
+<td><a href="dms_person3.html#PERSON                        " title = "Table Report">PERSON                        </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+</tbody></table><br/><br/>
+<br/><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Parent Column in CE_FLAGGED_RESULT             (PK)</th>
+<th class="item-table">Child Table Name</th>
+<th class="item-column">Child Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Children:</b></td>
+<td>CE_FLAGGED_RESULT_ID          </td>
+<td><a href="dms_clinical_events4.html#CE_FLAGGED_RESULT_ROLE" title = "Table Report">CE_FLAGGED_RESULT_ROLE</a></td>
+<td>CE_FLAGGED_RESULT_ID</td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="CE_FLAGGED_RESULT_ROLE">CE_FLAGGED_RESULT_ROLE        </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#CE_FLAGGED_RESULT_ROLE_col">Column Section</a></td>
+<td><a href="#CE_FLAGGED_RESULT_ROLE_reltn">Relationship Section</a></td>
+<td><a href="dms_clinical_events4.html               ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Clinical Event Flagged Result Role
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+Store flag discipline information that will be related to a specific clinical event and a specific flagged result.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "CE_FLAGGED_RESULT_ROLE_col"></a>
+Column Detail - <a href ="dms_clinical_events4.html#CE_FLAGGED_RESULT_ROLE">CE_FLAGGED_RESULT_ROLE</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CE_FLAGGED_RESULT_ID          </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Identifies the associated flagged clinical event.</td>
+</tr>
+<tr>
+<td>CE_FLAGGED_RESULT_ROLE_ID     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">A unique, generated number that is used to identify an individual ce_flagged_result_role row.</td>
+</tr>
+<tr>
+<td>EVENT_ID                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The event that has been flagged by this role.</td>
+</tr>
+<tr>
+<td>ROLE_TYPE_CD                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The role of the personnel that flagged this result.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATE           </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">NUMBER         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="CE_FLAGGED_RESULT_ROLE_reltn"></a>
+Relationship Detail - <a href = "#CE_FLAGGED_RESULT_ROLE">CE_FLAGGED_RESULT_ROLE</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in CE_FLAGGED_RESULT_ROLE(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>CE_FLAGGED_RESULT_ID          </td>
+<td><a href="dms_clinical_events4.html#CE_FLAGGED_RESULT             " title = "Table Report">CE_FLAGGED_RESULT             </a></td>
+<td>CE_FLAGGED_RESULT_ID          </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+ 
+</div>
+<div id="footer">
+Copyright &copy; 2025 Oracle and/or its affiliates. This document may not be reproduced or transmitted in any form or by any means, electronic or mechanical, for any purpose, without our prior written permission. <br/> <br/>
+Materials in this document pertain to Oracle Health, Oracle, Oracle Cerner, and Cerner Enviza which are all wholly-owned subsidiaries of Oracle Corporation. <br/>
+Nothing in this document should be taken as indicating that any decisions regarding the integration of any EMEA Cerner and/or Enviza entities have been made where an integration has not already occurred. <br/>
+Last Updated:
+<!-- #BeginDate format:Am1 -->January 16, 2025<!-- #EndDate -->
+<br/>
+	</div>
+</div>
+</body>
+</html>

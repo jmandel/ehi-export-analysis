@@ -1,0 +1,1271 @@
+ 
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<link rel="stylesheet" href="../css/model.css" type="text/css" />
+<title>2025.4.01Data Models:Table Name Index</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<div id="wrapper">
+   <div id="logo">
+     <img src="../images/Oracle_Cerner Horizontal_RGB.png" alt="Cerner Logo" height="42" width="163"  />
+     <h1>Millennium Data Model Reports - 2025.4.01</h1>
+   </div>
+   <div id="nav">
+   <ul>
+     <li>  <a href="../start_cerner_millennium_data_model_reports.html">Home</a></li>
+     <li>|</li>
+     <li><a href="dm_a.html">Reports by Table</a></li>
+     <li>|</li>
+     <li><a href="data_model_table_report_help.html">Table Report Help</a></li>
+</ul>
+   </div>
+ 
+<div id="main-info">
+<h2>Table Detail Report</h2>
+<h2><a id="ORDER_NOTIFICATION">ORDER_NOTIFICATION            </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#ORDER_NOTIFICATION_col">Column Section</a></td>
+<td><a href="#ORDER_NOTIFICATION_reltn">Relationship Section</a></td>
+<td><a href="dms_orders7.html                        ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Order Notification
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This table stores all Order Notifications for a user and the history of the notification.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "ORDER_NOTIFICATION_col"></a>
+Column Detail - <a href ="dms_orders7.html#ORDER_NOTIFICATION">ORDER_NOTIFICATION</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACTION_SEQUENCE               </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The order action that caused this notification to occur. An action_sequence = 0 signifies that should be applied to the order rather than the order action.</td>
+</tr>
+<tr>
+<td>ASSIGNED_PRSNL_ID             </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The identifier of the personnel who is assigned to the notification from within the personnel group context.</td>
+</tr>
+<tr>
+<td>CAUSED_BY_FLAG                </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Action that causes the notification to be created.  0 = New; 1 = Forward; 2 = Refuse</td>
+</tr>
+<tr>
+<td>FROM_PRSNL_GROUP_ID           </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The identifier of the personnel group which created the notification by forwarding or refusing the "parent" notification.  This field will be 0 when the original notification is created.</td>
+</tr>
+<tr>
+<td>FROM_PRSNL_ID                 </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The user that is responsible for forwarding or refusing the "parent" notification.  This field will be 0 when the original notification is created.</td>
+</tr>
+<tr>
+<td>NOTIFICATION_COMMENT          </td>
+<td class="data-type">VARCHAR(255)   </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The free text comment associated with the notification.</td>
+</tr>
+<tr>
+<td>NOTIFICATION_DISPLAY_DT_TM    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Stores the date on which a notification should be displayed.  For renewal notifications (notification_type_flag=1), this field will be set to projected_stop_dt_tm minus renewal period associated to order's policy and duration.  For other types of notifications, this field will be the date that the notification is created.</td>
+</tr>
+<tr>
+<td>NOTIFICATION_DISPLAY_TZ       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Time zone associated with the corresponding NOTIFICATION_DISPLAY_DT_TM column.</td>
+</tr>
+<tr>
+<td>NOTIFICATION_DT_TM            </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The time that the notification is created.</td>
+</tr>
+<tr>
+<td>NOTIFICATION_REASON_CD        </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The reason associated with the notification.</td>
+</tr>
+<tr>
+<td>NOTIFICATION_STATUS_FLAG      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The status of the notification.    1 = Pending; 2 = Completed; 3 = Refused; 4 = Forwarded; 5 = Admin-Cleared;  6 = No Longer Needed</td>
+</tr>
+<tr>
+<td>NOTIFICATION_TYPE_FLAG        </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The type of notification stored.    1 = Renew; 2 = Cosign; 3 = Med student; 4 = Incomplete Order;  5 = Refusal</td>
+</tr>
+<tr>
+<td>NOTIFICATION_TZ               </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Time zone associated with the corresponding DT_TM column.</td>
+</tr>
+<tr>
+<td>ORDER_ID                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The order that caused this notification to occur</td>
+</tr>
+<tr>
+<td>ORDER_NOTIFICATION_ID         </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Unique ID for Order_Notification.</td>
+</tr>
+<tr>
+<td>PARENT_ORDER_NOTIFICATION_ID  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The Link to a "parent " notification when it has been forwarded or refused.</td>
+</tr>
+<tr>
+<td>STATUS_CHANGE_DT_TM           </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The time that the status was updated on the notification.</td>
+</tr>
+<tr>
+<td>STATUS_CHANGE_TZ              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Time zone associated with the corresponding DT_TM column.</td>
+</tr>
+<tr>
+<td>TO_PRSNL_GROUP_ID             </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The identifier of the personnel group which the notification in intended for.</td>
+</tr>
+<tr>
+<td>TO_PRSNL_ID                   </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The user this notification is intended for. For renew notifications that are suppressed, this field will be 0.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="ORDER_NOTIFICATION_reltn"></a>
+Relationship Detail - <a href = "#ORDER_NOTIFICATION">ORDER_NOTIFICATION</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in ORDER_NOTIFICATION(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>ORDER_ID                      </td>
+<td><a href="dms_orders3.html#ORDERS                        " title = "Table Report">ORDERS                        </a></td>
+<td>ORDER_ID                      </td>
+</tr>
+<tr>
+<td></td>
+<td>PARENT_ORDER_NOTIFICATION_ID  </td>
+<td><a href="dms_orders7.html#ORDER_NOTIFICATION            " title = "Table Report">ORDER_NOTIFICATION            </a></td>
+<td>ORDER_NOTIFICATION_ID         </td>
+</tr>
+<tr>
+<td></td>
+<td>ASSIGNED_PRSNL_ID             </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>FROM_PRSNL_ID                 </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>TO_PRSNL_ID                   </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>FROM_PRSNL_GROUP_ID           </td>
+<td><a href="dms_personnel2.html#PRSNL_GROUP                   " title = "Table Report">PRSNL_GROUP                   </a></td>
+<td>PRSNL_GROUP_ID                </td>
+</tr>
+<tr>
+<td></td>
+<td>TO_PRSNL_GROUP_ID             </td>
+<td><a href="dms_personnel2.html#PRSNL_GROUP                   " title = "Table Report">PRSNL_GROUP                   </a></td>
+<td>PRSNL_GROUP_ID                </td>
+</tr>
+</tbody></table><br/><br/>
+<br/><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Parent Column in ORDER_NOTIFICATION            (PK)</th>
+<th class="item-table">Child Table Name</th>
+<th class="item-column">Child Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Children:</b></td>
+<td>ORDER_NOTIFICATION_ID         </td>
+<td><a href="dms_profile14.html#HIM_UNSIGNED_ORDERS" title = "Table Report">HIM_UNSIGNED_ORDERS</a></td>
+<td>ORDER_NOTIFICATION_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_orders7.html#ORDER_NOTIFICATION" title = "Table Report">ORDER_NOTIFICATION</a></td>
+<td>PARENT_ORDER_NOTIFICATION_ID</td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="ORDER_OPS">ORDER_OPS                     </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#ORDER_OPS_col">Column Section</a></td>
+<td><a href="#ORDER_OPS_reltn">Relationship Section</a></td>
+<td><a href="dms_orders7.html                        ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Order Operations
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+Contains all the orders that need to be affected by an orders operations job.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "ORDER_OPS_col"></a>
+Column Detail - <a href ="dms_orders7.html#ORDER_OPS">ORDER_OPS</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OPS_FLAG                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This tells us which operations job that will be updating the order.1 - ORM Continuing Order Update2 - ORM AUTO Complete Orders3 - ORM Cleanup Transfer/Canceled Orders</td>
+</tr>
+<tr>
+<td>ORDER_ID                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The is the primary key of the orders table that will help us have a direct link to the orders that we need to change in our operations job.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="ORDER_OPS_reltn"></a>
+Relationship Detail - <a href = "#ORDER_OPS">ORDER_OPS</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in ORDER_OPS(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>ORDER_ID                      </td>
+<td><a href="dms_orders3.html#ORDERS                        " title = "Table Report">ORDERS                        </a></td>
+<td>ORDER_ID                      </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="ORDER_ORDER_RELTN">ORDER_ORDER_RELTN             </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#ORDER_ORDER_RELTN_col">Column Section</a></td>
+<td><a href="#ORDER_ORDER_RELTN_reltn">Relationship Section</a></td>
+<td><a href="dms_orders7.html                        ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Order Order Relation
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This table stores the different types of relationships between two orders. For example, a relationship between an existing order and a  new order that is created by a reconciliation action on a new order.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "ORDER_ORDER_RELTN_col"></a>
+Column Detail - <a href ="dms_orders7.html#ORDER_ORDER_RELTN">ORDER_ORDER_RELTN</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ENTERED_BY_PRSNL_ID           </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The ID of the person who created the order to order relation. (a row in this table)</td>
+</tr>
+<tr>
+<td>ORDER_ORDER_RELTN_ID          </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The primary key of this table.</td>
+</tr>
+<tr>
+<td>RELATED_FROM_ACTION_SEQ       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The action sequence on the existing order  from which the relationship to another order has been created.   Along with order_ id, this field is a foreign key back to the order_action table.</td>
+</tr>
+<tr>
+<td>RELATED_FROM_ORDER_ID         </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The existing order _id  from which the relationship to another order has been created.  This field is a foreign key back to the orders table.</td>
+</tr>
+<tr>
+<td>RELATED_TO_ORDER_ID           </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The order to which the other existing order (related_from_order_id) is related to. This too is a foreign key back to the orders table.</td>
+</tr>
+<tr>
+<td>RELATION_CREATED_DT_TM        </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time when the relationship between the two orders was created.</td>
+</tr>
+<tr>
+<td>RELATION_CREATED_TZ           </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The time zone associated with the relation_created_dt_tm column. This is a user centric time zone.</td>
+</tr>
+<tr>
+<td>RELATION_TYPE_CD              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Codified value that indicates the type of relationship that exists between the two orders. For example, Covert, etc.</td>
+</tr>
+<tr>
+<td>RELTN_GROUP_ID                </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The relation group id for the order to order relationship grouping.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="ORDER_ORDER_RELTN_reltn"></a>
+Relationship Detail - <a href = "#ORDER_ORDER_RELTN">ORDER_ORDER_RELTN</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in ORDER_ORDER_RELTN(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>RELATED_FROM_ORDER_ID         </td>
+<td><a href="dms_orders3.html#ORDERS                        " title = "Table Report">ORDERS                        </a></td>
+<td>ORDER_ID                      </td>
+</tr>
+<tr>
+<td></td>
+<td>RELATED_TO_ORDER_ID           </td>
+<td><a href="dms_orders3.html#ORDERS                        " title = "Table Report">ORDERS                        </a></td>
+<td>ORDER_ID                      </td>
+</tr>
+<tr>
+<td></td>
+<td>RELTN_GROUP_ID                </td>
+<td><a href="dms_orders3.html#ORDERS                        " title = "Table Report">ORDERS                        </a></td>
+<td>ORDER_ID                      </td>
+</tr>
+<tr>
+<td></td>
+<td>ENTERED_BY_PRSNL_ID           </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="ORDER_PROPOSAL">ORDER_PROPOSAL                </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#ORDER_PROPOSAL_col">Column Section</a></td>
+<td><a href="#ORDER_PROPOSAL_reltn">Relationship Section</a></td>
+<td><a href="dms_orders7.html                        ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Order Proposal
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This table stores proposal to create new orders and proposals to change existing orders. For a proposal to create a new order, there is no corresponding row on the orders table until the proposal is accepted. For all other types of proposals, there will be a corresponding row on the orders table.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "ORDER_PROPOSAL_col"></a>
+Column Detail - <a href ="dms_orders7.html#ORDER_PROPOSAL">ORDER_PROPOSAL</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BILLING_PROVIDER_FLAG         </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Flag indicates which provider was specified as the billing provider. 0 - Not specified, 1 - Order provider, 2 - Supervising provider.</td>
+</tr>
+<tr>
+<td>CATALOG_CD                    </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The catalog code from the Order_Catalog table. For a proposal to alter an existing order, this field will be in sync with the Catalog_CD field on the Orders table.</td>
+</tr>
+<tr>
+<td>CLINICAL_DISPLAY_LINE         </td>
+<td class="data-type">VARCHAR(2000)  </td>
+<td class="nullable">Y</td>
+<td class="defn-text">A formatted display line of user selected order proposal details.  The field is truncated and will contain a maximum of 1999 characters.  When the field is truncated, it will be terminated with ellipsis.</td>
+</tr>
+<tr>
+<td>COMMUNICATION_TYPE_CD         </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Codified value that identifies the means of communication which was used to generate the order proposal (how it was communicated to the proposal creator).</td>
+</tr>
+<tr>
+<td>CREATED_DT_TM                 </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time when the proposal was entered into the system.</td>
+</tr>
+<tr>
+<td>CREATED_TZ                    </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Time zone associated with the created_dt_tm column.</td>
+</tr>
+<tr>
+<td>DOSING_METHOD_FLAG            </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Indicates the type of dosing that is applied to the order proposal. Values: 0 - No special dosing applies to this order proposal, 1 - variable dosing exists for the ingredients of this order proposal (which is only applicable for medication order proposals).</td>
+</tr>
+<tr>
+<td>ENCNTR_ID                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person's encounter id. If the proposal is not associated to an encounter, the field is set to 0. For a proposal to alter an existing order, this field will be in sync with the encntr_id field on the orders table.</td>
+</tr>
+<tr>
+<td>ENTERED_BY_PRSNL_ID           </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The ID of the person who created this proposal.</td>
+</tr>
+<tr>
+<td>FUTURE_LOCATION_FACILITY_CD   </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The future facility location that is proposed to be used for this order. The facility can change while the order is in a Future status; however, once the order is activated on an encounter, this field will retain its value and will not be altered.</td>
+</tr>
+<tr>
+<td>FUTURE_LOCATION_NURSE_UNIT_CD </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The future nurse unit location that is proposed to be used for this order. The nurse unit can change while the order is in a Future status; however, once the order is activated on an encounter, this field will retain its value and will not be altered.</td>
+</tr>
+<tr>
+<td>HNA_ORDER_MNEMONIC            </td>
+<td class="data-type">VARCHAR(1000)  </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The primary mnemonic of the orderable item from which the order proposal is created. This is the common name recognized by all clinicians who provide services to patients. For Pharmacy order proposals, this is the legal generic name. It normally is carried forward from primary_mnemonic field in order_catalog table.  The field is truncated and will contain a maximum of 999 characters.  Ellipses are not appended if the field is truncated.</td>
+</tr>
+<tr>
+<td>INCOMPLETE_PROPOSAL_BIT       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">A bitmask which indicates if an order proposal is incomplete in its composition.  If the mask is 0, the order proposal is complete in its initial state to represent a proposed action of an order.  If the mask is valued, it indicates aspects of the order proposal are incomplete and requires additional information at the time of accepting to complete its composition.  Each bitmask indicates a different aspect of the proposal is incomplete (meaning, multiple aspects could be incomplete).</td>
+</tr>
+<tr>
+<td>IV_SET_SYNONYM_ID             </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The ID that uniquely identifies the IV set used to place the proposed order action. This field may only be valued for a proposal to create a new order with an IV set or an existing order with an IV set already established.</td>
+</tr>
+<tr>
+<td>MED_ORDER_TYPE_CD             </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Codified value that categorizes a medication order. For example, IV, Intermittent. For a proposal to alter an existing order, this field will be in synch with the med_order_type_cd field on the Orders table (except for Sliding Scale orders, which is identified by the rx_mask field).</td>
+</tr>
+<tr>
+<td>OE_FORMAT_ID                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The ID of the order entry format that is associated to this proposal. For a proposal to alter an existing order, this field will be in sync with the OE_Format_ID field on the Orders table.</td>
+</tr>
+<tr>
+<td>ORDERED_AS_MNEMONIC           </td>
+<td class="data-type">VARCHAR(1000)  </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The mnemonic used by direct care providers (physicians, nurses, etc.) when they place orders in applications such as PowerOrders.  This field is important for free text orderables, since hna_order_mnemonic is a generic name and ordered_as_mnemonic carries specific information about the order.  The field is truncated and will contain a maximum of 999 characters.  Ellipses are not appended if the field is truncated.</td>
+</tr>
+<tr>
+<td>ORDER_ID                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The ID of the order associated with this proposal. If the proposal is to create a new order, the field will initially be 0 as the order does not yet exist. If the proposal is accepted, this field will be updated to the ID of the newly created order. A proposal to alter an existing order will always have a valued order id.</td>
+</tr>
+<tr>
+<td>ORDER_MNEMONIC                </td>
+<td class="data-type">VARCHAR(1000)  </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The mnemonic mostly used by department personnel, for example, Lab Technicians, Pharmacists. For Pharmacy orders, this field is not populated until product is assigned by Pharmacy Technician or Pharmacist.  The field is truncated and will contain a maximum of 999 characters.  Ellipses are not appended if the field is truncated.</td>
+</tr>
+<tr>
+<td>ORDER_PROPOSAL_ID             </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The primary key of this table.</td>
+</tr>
+<tr>
+<td>ORDER_PROPOSAL_STATUS_RSN_BIT </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Bitset describing why the proposal is in a given status: Bit 0 - Invalidated due to expiration agent processing.</td>
+</tr>
+<tr>
+<td>ORDER_SCHEDULE_PRECISION_BIT  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">A bitmask which indicates the precision of the order schedule (start and stop date/times). If this mask is 0, the start and stop date/time are precise. If the mask is valued, it indicates aspects of the order schedule are estimated (not precise). The 1st bit (2^0) indicates if the start date/time is estimated. The 2nd bit (2^1) indicates if the stop date/time is estimated.</td>
+</tr>
+<tr>
+<td>ORDER_STATUS_REASON_BIT       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">A bitmask which indicates additional reason details about the status of the proposed order. If this mask value is null, there are no additional details about the status. Bits are reserved for usage with various workflows or functionality defined below. The first bit (2^0) indicates if incomplete status has been resolved. The 2nd bit (2^1) indicates if incomplete status is due to no matching synonym. The 3rd bit (2^2) indicates if incomplete status is due to missing required details.</td>
+</tr>
+<tr>
+<td>ORIGINATING_ENCNTR_ID         </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">For future orders (used for requests for consultation), Meaningful Use requires documentation of the encounter that created the future order. Since encntr_id is null for future orders (because the order will be assigned to a future encounter), a new field to track the originating encounter is needed.</td>
+</tr>
+<tr>
+<td>ORIG_ORD_AS_FLAG              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This flag indicates how this order proposal was originally placed. For a proposal to alter an existing order, this field will be in synch with the orig_ord_as_flag on the orders table. 0 - Normal order, 1 - Prescription/Discharge order, 2 - Recorded/Home meds, 3 - Patient owns meds (this value is deprecated and will be removed in the future), 4 - Pharmacy charge only, 5 - Satellite (Super Bil) meds</td>
+</tr>
+<tr>
+<td>PERSON_ID                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The ID of the person for whom this proposal was made. For a proposal to alter an existing order, this field will be in sync with the person_id on the orders table.</td>
+</tr>
+<tr>
+<td>PROJECTED_CS_ORDER_ID         </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The projected ID of the parent Care Set order (valued if the proposed order is a Care Set child).  The ID is considered to be projected since the Care Set parent order does not have to exist in the system.</td>
+</tr>
+<tr>
+<td>PROJECTED_ORDER_ID            </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field is populated only for proposals to create new orders. If the proposal is accepted, the value from this field will become the order_id of the newly created order.</td>
+</tr>
+<tr>
+<td>PROPOSAL_FROM_ACTION_SEQ      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">If the proposal is to create a new order this field will be 0. For proposals to alter an existing order, this field is the order action sequence on which this proposal is based. This is the action from which this proposal is branching.</td>
+</tr>
+<tr>
+<td>PROPOSAL_GROUP_ID             </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field is a group ID assigned if two or more proposals were processed as a group. Obsolete column</td>
+</tr>
+<tr>
+<td>PROPOSAL_SOURCE_TYPE_CD       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Codified value that indicates by what work flow the proposal was created. For example, "PHONE MESSAGE".</td>
+</tr>
+<tr>
+<td>PROPOSAL_STATUS_CD            </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Codified value that indicates the status of the order proposal.</td>
+</tr>
+<tr>
+<td>PROPOSAL_TO_ACTION_SEQ        </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field will initially be set to 0. If the proposal is accepted, this field will be set to the order action sequence that is generated when the proposal is accepted. If the proposal is not accepted (rejected, withdrawn, invalidated, or never resolved) this field will remain 0.</td>
+</tr>
+<tr>
+<td>PROPOSED_ACTION_TYPE_CD       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Codified value that indicates what order action this proposal is intended to trigger.</td>
+</tr>
+<tr>
+<td>RELATED_ACTION_SEQ            </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The action sequence of the existing order from which the relationship was created. Along with order_id, this field is a foreign key back to the order_action table.</td>
+</tr>
+<tr>
+<td>RELATED_ORDER_ID              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The order_id of the existing order from which the relationship was created. This field is a foreign key back to the orders table.</td>
+</tr>
+<tr>
+<td>RELATED_TYPE_CD               </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Codified value that indicates the type of relationship that exists between the order and proposal. For example, Covert, etc.</td>
+</tr>
+<tr>
+<td>RELTN_GROUP_ID                </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The relation group id for the order related to the proposal.</td>
+</tr>
+<tr>
+<td>RESOLVED_BY_PRSNL_ID          </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The ID of the person who resolved the proposal.</td>
+</tr>
+<tr>
+<td>RESOLVED_DT_TM                </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">The date and time when a subsequent action was taken to resolve the proposal.</td>
+</tr>
+<tr>
+<td>RESOLVED_TZ                   </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Time zone associated with the resolved_dt_tm column.</td>
+</tr>
+<tr>
+<td>RESPONSIBLE_PRSNL_ID          </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The ID of the person who is targeted to act on the proposal.</td>
+</tr>
+<tr>
+<td>SIMPLIFIED_DISPLAY_LINE       </td>
+<td class="data-type">VARCHAR(1000)  </td>
+<td class="nullable">Y</td>
+<td class="defn-text">A simplified display line of user selected order proposal details. The information in this field will be hard coded and only written for pharmacy order proposals.  The field is truncated and will contain a maximum of 999 characters.  When the field is truncated, it will be terminated with ellipsis.</td>
+</tr>
+<tr>
+<td>SUPERVISING_PROVIDER_ID       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Unique identifier represents a physician in the system who is responsible for the proposal that is placed by the mid-level provider or resident.</td>
+</tr>
+<tr>
+<td>SYNONYM_ID                    </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The ID that uniquely identifies the orderable associated to this proposal. For a proposal to alter an existing order, this field will be in synch with the synonym_id field on the orders table.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.  The UPDT family of columns are typically used for housekeeping and external system process and should never be depended on for solution specific logic.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="ORDER_PROPOSAL_reltn"></a>
+Relationship Detail - <a href = "#ORDER_PROPOSAL">ORDER_PROPOSAL</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in ORDER_PROPOSAL(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>ENCNTR_ID                     </td>
+<td><a href="dms_encounter17.html#ENCOUNTER                     " title = "Table Report">ENCOUNTER                     </a></td>
+<td>ENCNTR_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>ORIGINATING_ENCNTR_ID         </td>
+<td><a href="dms_encounter17.html#ENCOUNTER                     " title = "Table Report">ENCOUNTER                     </a></td>
+<td>ENCNTR_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>ORDER_ID                      </td>
+<td><a href="dms_orders3.html#ORDERS                        " title = "Table Report">ORDERS                        </a></td>
+<td>ORDER_ID                      </td>
+</tr>
+<tr>
+<td></td>
+<td>RELTN_GROUP_ID                </td>
+<td><a href="dms_orders3.html#ORDERS                        " title = "Table Report">ORDERS                        </a></td>
+<td>ORDER_ID                      </td>
+</tr>
+<tr>
+<td></td>
+<td>CATALOG_CD                    </td>
+<td><a href="dms_orders_build6.html#ORDER_CATALOG                 " title = "Table Report">ORDER_CATALOG                 </a></td>
+<td>CATALOG_CD                    </td>
+</tr>
+<tr>
+<td></td>
+<td>IV_SET_SYNONYM_ID             </td>
+<td><a href="dms_orders_build6.html#ORDER_CATALOG_SYNONYM         " title = "Table Report">ORDER_CATALOG_SYNONYM         </a></td>
+<td>SYNONYM_ID                    </td>
+</tr>
+<tr>
+<td></td>
+<td>SYNONYM_ID                    </td>
+<td><a href="dms_orders_build6.html#ORDER_CATALOG_SYNONYM         " title = "Table Report">ORDER_CATALOG_SYNONYM         </a></td>
+<td>SYNONYM_ID                    </td>
+</tr>
+<tr>
+<td></td>
+<td>OE_FORMAT_ID                  </td>
+<td><a href="dms_orders_build8.html#ORDER_ENTRY_FORMAT_PARENT     " title = "Table Report">ORDER_ENTRY_FORMAT_PARENT     </a></td>
+<td>OE_FORMAT_ID                  </td>
+</tr>
+<tr>
+<td></td>
+<td>PERSON_ID                     </td>
+<td><a href="dms_person3.html#PERSON                        " title = "Table Report">PERSON                        </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>ENTERED_BY_PRSNL_ID           </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>RESOLVED_BY_PRSNL_ID          </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>RESPONSIBLE_PRSNL_ID          </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>SUPERVISING_PROVIDER_ID       </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+</tbody></table><br/><br/>
+<br/><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Parent Column in ORDER_PROPOSAL                (PK)</th>
+<th class="item-table">Child Table Name</th>
+<th class="item-column">Child Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Children:</b></td>
+<td>ORDER_PROPOSAL_ID             </td>
+<td><a href="dms_orders7.html#ORDER_PROPOSAL_ADHOC_TIME" title = "Table Report">ORDER_PROPOSAL_ADHOC_TIME</a></td>
+<td>ORDER_PROPOSAL_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_orders8.html#ORDER_PROPOSAL_COMMENT" title = "Table Report">ORDER_PROPOSAL_COMMENT</a></td>
+<td>ORDER_PROPOSAL_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_security_attributes1.html#ORDER_PROPOSAL_CONFID_LBL" title = "Table Report">ORDER_PROPOSAL_CONFID_LBL</a></td>
+<td>ORDER_PROPOSAL_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_orders8.html#ORDER_PROPOSAL_DETAIL" title = "Table Report">ORDER_PROPOSAL_DETAIL</a></td>
+<td>ORDER_PROPOSAL_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_orders8.html#ORDER_PROPOSAL_DIAG_RELTN" title = "Table Report">ORDER_PROPOSAL_DIAG_RELTN</a></td>
+<td>ORDER_PROPOSAL_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_orders8.html#ORDER_PROPOSAL_INGREDIENT" title = "Table Report">ORDER_PROPOSAL_INGREDIENT</a></td>
+<td>ORDER_PROPOSAL_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_orders9.html#ORDER_PROPOSAL_NOTIF" title = "Table Report">ORDER_PROPOSAL_NOTIF</a></td>
+<td>ORDER_PROPOSAL_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_orders9.html#ORDER_PROPOSAL_THER_SBSTTN" title = "Table Report">ORDER_PROPOSAL_THER_SBSTTN</a></td>
+<td>ORDER_PROPOSAL_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_order_reconciliation1.html#ORDER_RECON_DETAIL" title = "Table Report">ORDER_RECON_DETAIL</a></td>
+<td>ORDER_PROPOSAL_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_message_center3.html#TASK_SUBACTIVITY" title = "Table Report">TASK_SUBACTIVITY</a></td>
+<td>ORDER_PROPOSAL_ID</td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="ORDER_PROPOSAL_ADHOC_TIME">ORDER_PROPOSAL_ADHOC_TIME     </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#ORDER_PROPOSAL_ADHOC_TIME_col">Column Section</a></td>
+<td><a href="#ORDER_PROPOSAL_ADHOC_TIME_reltn">Relationship Section</a></td>
+<td><a href="dms_orders7.html                        ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Order Proposal Adhoc Time
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This table stores adhoc frequency times that are being proposed for a new or existing order.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "ORDER_PROPOSAL_ADHOC_TIME_col"></a>
+Column Detail - <a href ="dms_orders7.html#ORDER_PROPOSAL_ADHOC_TIME">ORDER_PROPOSAL_ADHOC_TIME</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADHOC_TIME_SEQUENCE           </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Signifies the order of the ad hoc frequency time supplied for a proposal.  This is assigned by the system.</td>
+</tr>
+<tr>
+<td>ORDER_PROPOSAL_ADHOC_TIME_ID  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The primary key of this table. It is internally assigned by the system.</td>
+</tr>
+<tr>
+<td>ORDER_PROPOSAL_ID             </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The order proposal ID associated to this ad hoc frequency time instance.</td>
+</tr>
+<tr>
+<td>TIME_OF_DAY                   </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Ad hoc time of day which is represented as the number of minutes within a day.  The valid range of values for this field is 0 to 1439 (inclusive).</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="ORDER_PROPOSAL_ADHOC_TIME_reltn"></a>
+Relationship Detail - <a href = "#ORDER_PROPOSAL_ADHOC_TIME">ORDER_PROPOSAL_ADHOC_TIME</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in ORDER_PROPOSAL_ADHOC_TIME(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>ORDER_PROPOSAL_ID             </td>
+<td><a href="dms_orders7.html#ORDER_PROPOSAL                " title = "Table Report">ORDER_PROPOSAL                </a></td>
+<td>ORDER_PROPOSAL_ID             </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+ 
+</div>
+<div id="footer">
+Copyright &copy; 2025 Oracle and/or its affiliates. This document may not be reproduced or transmitted in any form or by any means, electronic or mechanical, for any purpose, without our prior written permission. <br/> <br/>
+Materials in this document pertain to Oracle Health, Oracle, Oracle Cerner, and Cerner Enviza which are all wholly-owned subsidiaries of Oracle Corporation. <br/>
+Nothing in this document should be taken as indicating that any decisions regarding the integration of any EMEA Cerner and/or Enviza entities have been made where an integration has not already occurred. <br/>
+Last Updated:
+<!-- #BeginDate format:Am1 -->January 16, 2025<!-- #EndDate -->
+<br/>
+	</div>
+</div>
+</body>
+</html>

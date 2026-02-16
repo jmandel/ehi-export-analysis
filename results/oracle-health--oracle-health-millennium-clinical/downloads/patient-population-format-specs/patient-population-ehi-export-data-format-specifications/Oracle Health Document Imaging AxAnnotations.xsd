@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://www.emc.com/AxAnnotations.xsd" elementFormDefault="qualified" xmlns="http://www.emc.com/AxAnnotations.xsd" xmlns:mstns="http://www.emc.com/AxAnnotations.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:group name="topleft">
+    <xs:sequence>
+      <xs:element name="top" type="xs:int" />
+      <xs:element name="left" type="xs:int" />
+    </xs:sequence>
+  </xs:group>
+  <xs:group name="bottomright">
+    <xs:sequence>
+      <xs:element name="bottom" type="xs:int" />
+      <xs:element name="right" type="xs:int" />
+    </xs:sequence>
+  </xs:group>
+  <xs:group name="textattributes">
+    <xs:sequence>
+      <xs:element name="fontsize" type="xs:int" />
+      <xs:element name="bold" type="xs:boolean" />
+      <xs:element name="italic" type="xs:boolean" />
+      <xs:element name="underline" type="xs:boolean" />
+      <xs:element name="strikeout" type="xs:boolean" />
+      <xs:element name="orientation" type="xs:int" />
+    </xs:sequence>
+  </xs:group>
+  <xs:group name="colors">
+    <xs:sequence>
+      <xs:element name="forecolor" type="xs:int" />
+      <xs:element name="backcolor" type="xs:int" />
+    </xs:sequence>
+  </xs:group>
+  <xs:complexType name="AnnoUser">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="timestamp" type="xs:dateTime" use="required" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="AxAnnoBase" abstract="true">
+    <xs:sequence>
+      <xs:element name="index" type="xs:int" />
+      <xs:element name="creator" type="AnnoUser" />
+      <xs:element name="modifier" type="AnnoUser" minOccurs="0" />
+      <xs:element name="annogroup" type="xs:string" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AxAnnoRectBase" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="AxAnnoBase">
+        <xs:sequence>
+          <xs:element name="width" type="xs:int" />
+          <xs:group ref="colors" />
+          <xs:element name="fill" type="xs:boolean" />
+          <xs:element name="redaction" type="xs:boolean" />
+          <xs:group ref="topleft" />
+          <xs:group ref="bottomright" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AxAnnoLineBase" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="AxAnnoBase">
+        <xs:sequence>
+          <xs:element name="width" type="xs:int" />
+          <xs:element name="forecolor" type="xs:int" />
+          <xs:element name="redaction" type="xs:boolean" />
+          <xs:group ref="topleft" />
+          <xs:group ref="bottomright" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AxAnnoFreehandBase" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="AxAnnoBase">
+        <xs:sequence>
+          <xs:element name="width" type="xs:int" />
+          <xs:element name="forecolor" type="xs:int" />
+          <xs:element name="redaction" type="xs:boolean" />
+          <xs:element name="points" type="xs:hexBinary" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AxAnnoRubberStampBase" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="AxAnnoBase">
+        <xs:sequence>
+          <xs:element name="redaction" type="xs:boolean" />
+          <xs:group ref="topleft" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AxAnnoHighlighter">
+    <xs:complexContent>
+      <xs:extension base="AxAnnoRectBase">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AxAnnoRect">
+    <xs:complexContent>
+      <xs:extension base="AxAnnoRectBase">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AxAnnoRoundRect">
+    <xs:complexContent>
+      <xs:extension base="AxAnnoRectBase">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AxAnnoOval">
+    <xs:complexContent>
+      <xs:extension base="AxAnnoRectBase">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AxAnnoLine">
+    <xs:complexContent>
+      <xs:extension base="AxAnnoLineBase">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AxAnnoArrow">
+    <xs:complexContent>
+      <xs:extension base="AxAnnoLineBase">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AxAnnoFreehand">
+    <xs:complexContent>
+      <xs:extension base="AxAnnoFreehandBase">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AxAnnoPolyline">
+    <xs:complexContent>
+      <xs:extension base="AxAnnoFreehandBase">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AxAnnoPolygon">
+    <xs:complexContent>
+      <xs:extension base="AxAnnoFreehandBase">
+        <xs:sequence>
+          <xs:element name="backcolor" type="xs:int" />
+          <xs:element name="fill" type="xs:boolean" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AxAnnoText">
+    <xs:complexContent>
+      <xs:extension base="AxAnnoBase">
+        <xs:sequence>
+          <xs:group ref="colors" />
+          <xs:group ref="textattributes" />
+          <xs:element name="iconic" type="xs:boolean" />
+          <xs:element name="transparent" type="xs:boolean" />
+          <xs:group ref="topleft" />
+          <xs:element name="str" type="xs:string" />
+          <xs:element name="id" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AxAnnoTextNote">
+    <xs:complexContent>
+      <xs:extension base="AxAnnoText">
+        <xs:sequence>
+          <xs:group ref="bottomright" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AxAnnoTextRubberStamp">
+    <xs:complexContent>
+      <xs:extension base="AxAnnoRubberStampBase">
+        <xs:sequence>
+          <xs:element name="width" type="xs:int" />
+          <xs:group ref="colors" />
+          <xs:element name="borderstyle" type="xs:int" />
+          <xs:element name="fontname" type="xs:string" />
+          <xs:group ref="textattributes" />
+          <xs:element name="str" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AxAnnoImageRubberStamp">
+    <xs:complexContent>
+      <xs:extension base="AxAnnoRubberStampBase">
+        <xs:sequence>
+          <xs:element name="orientation" type="xs:int" />
+          <xs:element name="xres" type="xs:int" />
+          <xs:element name="yres" type="xs:int" />
+          <xs:element name="imagedata" type="xs:base64Binary" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="note" type="AxAnnoTextNote" />
+  <xs:element name="text" type="AxAnnoText" />
+  <xs:element name="highlighter" type="AxAnnoHighlighter" />
+  <xs:element name="rect" type="AxAnnoRect" />
+  <xs:element name="roundrect" type="AxAnnoRoundRect" />
+  <xs:element name="oval" type="AxAnnoOval" />
+  <xs:element name="line" type="AxAnnoLine" />
+  <xs:element name="arrow" type="AxAnnoArrow" />
+  <xs:element name="freehand" type="AxAnnoFreehand" />
+  <xs:element name="polyline" type="AxAnnoPolyline" />
+  <xs:element name="polygon" type="AxAnnoPolygon" />
+  <xs:element name="textrubberstamp" type="AxAnnoTextRubberStamp" />
+  <xs:element name="imagerubberstamp" type="AxAnnoImageRubberStamp" />
+  <xs:complexType name="AxAnnotations">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="note" />
+      <xs:element ref="text" />
+      <xs:element ref="highlighter" />
+      <xs:element ref="rect" />
+      <xs:element ref="roundrect" />
+      <xs:element ref="oval" />
+      <xs:element ref="line" />
+      <xs:element ref="arrow" />
+      <xs:element ref="freehand" />
+      <xs:element ref="polyline" />
+      <xs:element ref="polygon" />
+      <xs:element ref="textrubberstamp" />
+      <xs:element ref="imagerubberstamp" />
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name="AxAnnoPage">
+    <xs:sequence>
+      <xs:element name="axannotations" type="AxAnnotations" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:int" use="required" />
+  </xs:complexType>
+  <xs:complexType name="AxAnnoPages">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="page" type="AxAnnoPage" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="pages" type="AxAnnoPages" />
+</xs:schema>

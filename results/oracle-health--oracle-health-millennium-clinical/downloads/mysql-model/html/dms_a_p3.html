@@ -1,0 +1,930 @@
+ 
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<link rel="stylesheet" href="../css/model.css" type="text/css" />
+<title>2025.4.01Data Models:Table Name Index</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<div id="wrapper">
+   <div id="logo">
+     <img src="../images/Oracle_Cerner Horizontal_RGB.png" alt="Cerner Logo" height="42" width="163"  />
+     <h1>Millennium Data Model Reports - 2025.4.01</h1>
+   </div>
+   <div id="nav">
+   <ul>
+     <li>  <a href="../start_cerner_millennium_data_model_reports.html">Home</a></li>
+     <li>|</li>
+     <li><a href="dm_a.html">Reports by Table</a></li>
+     <li>|</li>
+     <li><a href="data_model_table_report_help.html">Table Report Help</a></li>
+</ul>
+   </div>
+ 
+<div id="main-info">
+<h2>Table Detail Report</h2>
+<h2><a id="AP_DC_EVENT">AP_DC_EVENT                   </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#AP_DC_EVENT_col">Column Section</a></td>
+<td><a href="#AP_DC_EVENT_reltn">Relationship Section</a></td>
+<td><a href="dms_a_p3.html                           ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Diagnostic Correlation Event
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This activity table includes an entry for every diagnostic correlation event that has been established, regardless of whether or not the evaluation has simply been initiated, is in process, is complete, or is canceled.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "AP_DC_EVENT_col"></a>
+Column Detail - <a href ="dms_a_p3.html#AP_DC_EVENT">AP_DC_EVENT</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ASSIGN_TO_GROUP_IND           </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">Y</td>
+<td class="defn-text">Indicates whether the correlation event is currently assigned to a group.</td>
+</tr>
+<tr>
+<td>CANCEL_DT_TM                  </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">If the correlation event was cancelled before the evaluation was completed, this field contains the date and time the event was cancelled.</td>
+</tr>
+<tr>
+<td>CANCEL_PRSNL_ID               </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">If the correlation event was cancelled before the evaluation was completed, this field contains the internal identification code associated with the user who completed the cancel request.  Information about the user can be obtained by joining to the PERSON and/or PRSNL tables.</td>
+</tr>
+<tr>
+<td>CASE_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field contains the internal identification code representing the case to which the diagnostic correlation event is assigned.  Information about the case can be obtained by joining to the PATHOLOGY_CASE activity table.</td>
+</tr>
+<tr>
+<td>COMPLETE_DT_TM                </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">If the correlation evaluation is complete, this field contains the date and time the event was completed.</td>
+</tr>
+<tr>
+<td>COMPLETE_PRSNL_ID             </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">If the correlation evaluation is complete, this field contains the internal identification code associated with the user who completed the event.  The event is considered "complete" when the final evaluation reason is entered and saved (and the final discrepancy reason, if required).  This is the user who was signed on to the system when the interaction occurred.  This is not necessarily the user who is actually associated with the evaluation process.</td>
+</tr>
+<tr>
+<td>CORRELATE_CASE_ID             </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">If the diagnostic correlation study is specified as an "across case" correlation, this field contains the internal identification code representing the other pathology case to which the initiated case is to be compared.  Information about this case can be obtained by joining to the PATHOLOGY_CASE activity table.  Information about the study itself can be obtained by viewing or joining to the information stored on the AP_DC_STUDY reference table.</td>
+</tr>
+<tr>
+<td>DISAGREE_REASON_CD            </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">If a disagreement reason was entered for the diagnostic correlation study event, this field contains the internal identification code assigned to the disagreement reason.  Disagreement reasons are stored on code_set 15429.</td>
+</tr>
+<tr>
+<td>EVENT_ID                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field contains the internal identification code that uniquely identifies this diagnostic correlation study event.  This field is referenced on other activity tables, such as the AP_DC_EVENT_PRSNL table.</td>
+</tr>
+<tr>
+<td>FINAL_DISCREP_TERM_ID         </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">If a final discrepancy evaluation term was entered for the diagnostic correlation study event, this field contains the internal identification code assigned to the discrepancy evaluation term.  Discrepancy evaluation terms are stored on the AP_DC_DISCREPANCY_TERM reference table.</td>
+</tr>
+<tr>
+<td>FINAL_EVAL_TERM_ID            </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">If a final evaluation term was entered for the diagnostic correlation study event, this field contains the internal identification code assigned to the evaluation term.  Evaluation terms are stored on the AP_DC_EVALUATION_TERM reference table.</td>
+</tr>
+<tr>
+<td>INITIATED_DT_TM               </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">Y</td>
+<td class="defn-text">This field contains the date and time the diagnostic correlation study event was initiated.</td>
+</tr>
+<tr>
+<td>INITIATED_PRSNL_ID            </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field contains the internal identification code associated with the user who initiated the diagnostic correlation study event.  This is the user who was signed on and actually completed the initiation conversation.  This may not be the actual user (users or user group) who is associated with the evaluation process.  Information about the user can be obtained by joining to the PERSON and/or PRSNL tables.</td>
+</tr>
+<tr>
+<td>INIT_DISCREP_TERM_ID          </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">If an initial discrepancy evaluation term was entered for the diagnostic correlation study event, this field contains the internal identification code assigned to the discrepancy evaluation term.  Discrepancy evaluation terms are stored on the AP_DC_DISCREPANCY_TERM reference table.</td>
+</tr>
+<tr>
+<td>INIT_EVAL_TERM_ID             </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">If an initial evaluation term was entered for the diagnostic correlation study event, this field contains the internal identification code assigned to the evaluation term.  Evaluation terms are stored on the AP_DC_EVALUATION_TERM reference table.</td>
+</tr>
+<tr>
+<td>INVESTIGATION_CD              </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">If an investigation value was entered for the diagnostic correlation study event, this field contains the internal identification code assigned to the investigation term.  Investigation terms are stored on code_set 15449.</td>
+</tr>
+<tr>
+<td>LONG_TEXT_ID                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">If a free-text comment was entered for the diagnostic correlation study event, this field contains the internal identification code representing the stored location of the comment text.  This text is stored on the LONG_TEXT table.</td>
+</tr>
+<tr>
+<td>PRSNL_GROUP_ID                </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">If the diagnostic correlation event was associated with a "group" rather than an individual (or multiple individuals), this field contains the internal identification code representing the group.  Members of the group associated with the specific diagnostic correlation event can be identified by viewing or joining to information stored on the AP_DC_EVENT_PRSNL activity table.</td>
+</tr>
+<tr>
+<td>REPORT_ISSUED_BY_PRSNL_ID     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field contains the internal identification of the person to which issued the report.  This field can be used to join to the PRSNL table.</td>
+</tr>
+<tr>
+<td>RESOLUTION_CD                 </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">If a resolution value was entered for the diagnostic correlation study event, this field contains the internal identification code assigned to the resolution term.  Resolution terms are stored on code_set 15450.</td>
+</tr>
+<tr>
+<td>SLIDE_COUNTS                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field contains the number of slides that were reviewed for a correlation event.</td>
+</tr>
+<tr>
+<td>STUDY_ID                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field contains the internal identification code for the correlation study to be initiated upon qualification.</td>
+</tr>
+<tr>
+<td>SYS_CORR_ID                   </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field contains the internal identification code to the AP_SYS_CORR table.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="AP_DC_EVENT_reltn"></a>
+Relationship Detail - <a href = "#AP_DC_EVENT">AP_DC_EVENT</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in AP_DC_EVENT(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>FINAL_DISCREP_TERM_ID         </td>
+<td><a href="dms_a_p2.html#AP_DC_DISCREPANCY_TERM        " title = "Table Report">AP_DC_DISCREPANCY_TERM        </a></td>
+<td>DISCREPANCY_TERM_ID           </td>
+</tr>
+<tr>
+<td></td>
+<td>INIT_DISCREP_TERM_ID          </td>
+<td><a href="dms_a_p2.html#AP_DC_DISCREPANCY_TERM        " title = "Table Report">AP_DC_DISCREPANCY_TERM        </a></td>
+<td>DISCREPANCY_TERM_ID           </td>
+</tr>
+<tr>
+<td></td>
+<td>FINAL_EVAL_TERM_ID            </td>
+<td><a href="dms_a_p2.html#AP_DC_EVALUATION_TERM         " title = "Table Report">AP_DC_EVALUATION_TERM         </a></td>
+<td>EVALUATION_TERM_ID            </td>
+</tr>
+<tr>
+<td></td>
+<td>INIT_EVAL_TERM_ID             </td>
+<td><a href="dms_a_p2.html#AP_DC_EVALUATION_TERM         " title = "Table Report">AP_DC_EVALUATION_TERM         </a></td>
+<td>EVALUATION_TERM_ID            </td>
+</tr>
+<tr>
+<td></td>
+<td>STUDY_ID                      </td>
+<td><a href="dms_a_p3.html#AP_DC_STUDY                   " title = "Table Report">AP_DC_STUDY                   </a></td>
+<td>STUDY_ID                      </td>
+</tr>
+<tr>
+<td></td>
+<td>SYS_CORR_ID                   </td>
+<td><a href="dms_a_p13.html#AP_SYS_CORR                   " title = "Table Report">AP_SYS_CORR                   </a></td>
+<td>SYS_CORR_ID                   </td>
+</tr>
+<tr>
+<td></td>
+<td>LONG_TEXT_ID                  </td>
+<td><a href="dms_data_mgmt25.html#LONG_TEXT                     " title = "Table Report">LONG_TEXT                     </a></td>
+<td>LONG_TEXT_ID                  </td>
+</tr>
+<tr>
+<td></td>
+<td>CASE_ID                       </td>
+<td><a href="dms_a_p19.html#PATHOLOGY_CASE                " title = "Table Report">PATHOLOGY_CASE                </a></td>
+<td>CASE_ID                       </td>
+</tr>
+<tr>
+<td></td>
+<td>CORRELATE_CASE_ID             </td>
+<td><a href="dms_a_p19.html#PATHOLOGY_CASE                " title = "Table Report">PATHOLOGY_CASE                </a></td>
+<td>CASE_ID                       </td>
+</tr>
+<tr>
+<td></td>
+<td>CANCEL_PRSNL_ID               </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>COMPLETE_PRSNL_ID             </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>INITIATED_PRSNL_ID            </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>REPORT_ISSUED_BY_PRSNL_ID     </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>PRSNL_GROUP_ID                </td>
+<td><a href="dms_personnel2.html#PRSNL_GROUP                   " title = "Table Report">PRSNL_GROUP                   </a></td>
+<td>PRSNL_GROUP_ID                </td>
+</tr>
+</tbody></table><br/><br/>
+<br/><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Parent Column in AP_DC_EVENT                   (PK)</th>
+<th class="item-table">Child Table Name</th>
+<th class="item-column">Child Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Children:</b></td>
+<td>EVENT_ID                      </td>
+<td><a href="dms_a_p3.html#AP_DC_EVENT_PRSNL" title = "Table Report">AP_DC_EVENT_PRSNL</a></td>
+<td>EVENT_ID</td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="AP_DC_EVENT_PRSNL">AP_DC_EVENT_PRSNL             </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#AP_DC_EVENT_PRSNL_col">Column Section</a></td>
+<td><a href="#AP_DC_EVENT_PRSNL_reltn">Relationship Section</a></td>
+<td><a href="dms_a_p3.html                           ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Diagnostic Correlation Event Personnel
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This activity table includes information about the individual user (or users) or user group members associated with a specific diagnostic correlation event.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+ACTIVITY
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "AP_DC_EVENT_PRSNL_col"></a>
+Column Detail - <a href ="dms_a_p3.html#AP_DC_EVENT_PRSNL">AP_DC_EVENT_PRSNL</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EVENT_ID                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field contains the internal identification code assigned to the diagnostic correlation event.  Information about the event can be obtained by viewing or joining to the AP_DC_EVENT table.</td>
+</tr>
+<tr>
+<td>PRSNL_GROUP_ID                </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">If the diagnostic correlation event was associated with a user group (rather than an individual or set of individuals), this field contains the reference back to the PRSNL_GROUP_ID value for the specific diagnostic correlation study event (as stored on the AP_DC_EVENT table).</td>
+</tr>
+<tr>
+<td>PRSNL_ID                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field contains the internal identification code assigned to the individual user, users, or group members assigned to the evaluation of the diagnostic correlation event.  Information about the user can be obtained by viewing or joining to the PERSON and/or PRSNL tables.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="AP_DC_EVENT_PRSNL_reltn"></a>
+Relationship Detail - <a href = "#AP_DC_EVENT_PRSNL">AP_DC_EVENT_PRSNL</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in AP_DC_EVENT_PRSNL(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>EVENT_ID                      </td>
+<td><a href="dms_a_p3.html#AP_DC_EVENT                   " title = "Table Report">AP_DC_EVENT                   </a></td>
+<td>EVENT_ID                      </td>
+</tr>
+<tr>
+<td></td>
+<td>PRSNL_ID                      </td>
+<td><a href="dms_personnel1.html#PRSNL                         " title = "Table Report">PRSNL                         </a></td>
+<td>PERSON_ID                     </td>
+</tr>
+<tr>
+<td></td>
+<td>PRSNL_GROUP_ID                </td>
+<td><a href="dms_personnel2.html#PRSNL_GROUP                   " title = "Table Report">PRSNL_GROUP                   </a></td>
+<td>PRSNL_GROUP_ID                </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="AP_DC_STUDY">AP_DC_STUDY                   </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#AP_DC_STUDY_col">Column Section</a></td>
+<td><a href="#AP_DC_STUDY_reltn">Relationship Section</a></td>
+<td><a href="dms_a_p3.html                           ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Diagnostic Correlation Study
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This reference table includes the parameters established for diagnostic correlation studies.  Every study contains parameters regarding a specific set of events or information to be evaluated and correlated.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+REFERENCE
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "AP_DC_STUDY_col"></a>
+Column Detail - <a href ="dms_a_p3.html#AP_DC_STUDY">AP_DC_STUDY</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACROSS_CASE_IND               </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field contains a value indicating that the study is defined as "within case" (value = "0") or "across case (value = "1").  Study elements to be evaluated for "within case" studies must reside on the same PathNet Anatomic Pathology case number (or must be associated with a case or accession that will not be tracked as an "across case" study).  Study elements to be evaluated for "across case" studies must reside on different PathNet Anatomic Pathology case numbers.</td>
+</tr>
+<tr>
+<td>ACTIVE_IND                    </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The table row is active or inactive.  A row is generally active unless it is in an inactive state such as logically deleted, combined away, pending purge, etc.</td>
+</tr>
+<tr>
+<td>DEFAULT_TO_GROUP_IND          </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field indicates whether assignment of new correlation events involving this study type will be defaulted to a group (value=1) or an individual (value=0).</td>
+</tr>
+<tr>
+<td>DESCRIPTION                   </td>
+<td class="data-type">VARCHAR(100)   </td>
+<td class="nullable">Y</td>
+<td class="defn-text">This field includes the long description, up-to-60 characters, defined for the diagnostic correlation study.</td>
+</tr>
+<tr>
+<td>INCLUDE_CYTOTECHS_IND         </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field indicates whether to include cytotechnologists in assignment of correlation events involving this study. A value of 1 indicates that they will be included.</td>
+</tr>
+<tr>
+<td>SERVICE_RESOURCE_CD           </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Uniquely identifies the work area at which the study will be performed for access control.</td>
+</tr>
+<tr>
+<td>SLIDE_COUNTS_PROMPT_IND       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field indicates whether to prompt to tally cytology slide counts for correlation events involving this study type.</td>
+</tr>
+<tr>
+<td>STUDY_ID                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field includes the internal identification code assigned to the diagnostic correlation study.  This value would be referenced on other tables, such as the AP_DC_EVENT activity table.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="AP_DC_STUDY_reltn"></a>
+Relationship Detail - <a href = "#AP_DC_STUDY">AP_DC_STUDY</a></h4><br/>
+<br/><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Parent Column in AP_DC_STUDY                   (PK)</th>
+<th class="item-table">Child Table Name</th>
+<th class="item-column">Child Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Children:</b></td>
+<td>STUDY_ID                      </td>
+<td><a href="dms_a_p3.html#AP_DC_EVENT" title = "Table Report">AP_DC_EVENT</a></td>
+<td>STUDY_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_a_p3.html#AP_DC_STUDY_RPT_PROC" title = "Table Report">AP_DC_STUDY_RPT_PROC</a></td>
+<td>STUDY_ID</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><a href="dms_a_p13.html#AP_SYS_CORR" title = "Table Report">AP_SYS_CORR</a></td>
+<td>STUDY_ID</td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="AP_DC_STUDY_RPT_PROC">AP_DC_STUDY_RPT_PROC          </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#AP_DC_STUDY_RPT_PROC_col">Column Section</a></td>
+<td><a href="#AP_DC_STUDY_RPT_PROC_reltn">Relationship Section</a></td>
+<td><a href="dms_a_p3.html                           ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Diagnostic Correlation Study Report Procedure
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This reference table includes the report components (discrete task assays) that can be printed on diagnostic correlation worksheets and statistical reports for a specific diagnostic correlation study.
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+REFERENCE
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "AP_DC_STUDY_RPT_PROC_col"></a>
+Column Detail - <a href ="dms_a_p3.html#AP_DC_STUDY_RPT_PROC">AP_DC_STUDY_RPT_PROC</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STUDY_ID                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field contains the internal identification code representing the diagnostic correlation study to which the report component procedure is assigned.  Diagnostic correlation studies are defined on the AP_DC_STUDY reference table.</td>
+</tr>
+<tr>
+<td>TASK_ASSAY_CD                 </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field contains the internal identification code representing the report component (discrete task assay).</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="AP_DC_STUDY_RPT_PROC_reltn"></a>
+Relationship Detail - <a href = "#AP_DC_STUDY_RPT_PROC">AP_DC_STUDY_RPT_PROC</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in AP_DC_STUDY_RPT_PROC(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>STUDY_ID                      </td>
+<td><a href="dms_a_p3.html#AP_DC_STUDY                   " title = "Table Report">AP_DC_STUDY                   </a></td>
+<td>STUDY_ID                      </td>
+</tr>
+<tr>
+<td></td>
+<td>TASK_ASSAY_CD                 </td>
+<td><a href="dms_pathnet_order_catalo2.html#DISCRETE_TASK_ASSAY           " title = "Table Report">DISCRETE_TASK_ASSAY           </a></td>
+<td>TASK_ASSAY_CD                 </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+<h2><a id="AP_DIAG_AUTO_CODE">AP_DIAG_AUTO_CODE             </a></h2>
+<br/><br/>
+<table class="table_detail">
+<tbody>
+<tr>
+<td><a href="#AP_DIAG_AUTO_CODE_col">Column Section</a></td>
+<td><a href="#AP_DIAG_AUTO_CODE_reltn">Relationship Section</a></td>
+<td><a href="dms_a_p3.html                           ">Top of Page</a></td>
+</tr></tbody></table>
+<br/><br/>
+<h4>Table-level Detail</h4>
+<table class="table_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="item-value"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Description:</td>
+<td>
+Diagnostic Automatic Code
+</td>
+</tr>
+<tr>
+<td>Definition:</td>
+<td>
+This reference table contains information about the automatic diagnostic coding assignment process.  This table identifies the components within the pathology reports that should be coded automatically at the time the results are performed and/or verified
+</td>
+</tr>
+<tr>
+<td>Table Type:</td>
+<td>
+REFERENCE
+</td>
+</tr>
+</td>
+</tr>
+</tbody></table><br/><br/>
+<tbody>
+</tbody></table><br/><br/>
+<br/><h4><a id = "AP_DIAG_AUTO_CODE_col"></a>
+Column Detail - <a href ="dms_a_p3.html#AP_DIAG_AUTO_CODE">AP_DIAG_AUTO_CODE</a></h4><br/>
+<table class="column_detail">
+<thead>
+<tr>
+<th class="column-name">Column Name</th>
+<th class="data-type">Type</th>
+<th class="nullable">Null?</th>
+<th class="defn-text">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CATALOG_CD                    </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field contains the internal identification code assigned to the report order catalog item from which one or more report components (discrete task assays) have been selected for automatic diagnostic coding.</td>
+</tr>
+<tr>
+<td>TASK_ASSAY_CD                 </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">This field contains the internal identification code assigned to the individual report component (discrete task assay) that has been selected for automatic diagnostic coding.</td>
+</tr>
+<tr>
+<td>UPDT_APPLCTX                  </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The application context number from the record info block.</td>
+</tr>
+<tr>
+<td>UPDT_CNT                      </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">Set to 0 on insert.  Incremented by 1 on update.  Used to recognize update conflict where data in a row updated by one application is at risk of being lost by a second application attempting to update the row.</td>
+</tr>
+<tr>
+<td>UPDT_DT_TM                    </td>
+<td class="data-type">DATETIME       </td>
+<td class="nullable">N</td>
+<td class="defn-text">The date and time the row was last inserted or updated.</td>
+</tr>
+<tr>
+<td>UPDT_ID                       </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The person_id of the person from the personnel table (prsnl) that caused the last insert or update of the row in the table.</td>
+</tr>
+<tr>
+<td>UPDT_TASK                     </td>
+<td class="data-type">DOUBLE         </td>
+<td class="nullable">N</td>
+<td class="defn-text">The registered (assigned) task number for the process that inserted or updated the row.</td>
+</tr>
+</tbody></table><br/><br/>
+<br/><h4><a id ="AP_DIAG_AUTO_CODE_reltn"></a>
+Relationship Detail - <a href = "#AP_DIAG_AUTO_CODE">AP_DIAG_AUTO_CODE</a></h4><br/>
+<table class="fk_detail">
+<thead>
+<tr>
+<th class="item-name"></th>
+<th class="referenced-column" >Child Column in AP_DIAG_AUTO_CODE(FK)</th>
+<th class="item-table">Parent Table Name</th>
+<th class="item-column">Parent Column Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Parents:</b></td>
+<td>TASK_ASSAY_CD                 </td>
+<td><a href="dms_pathnet_order_catalo2.html#DISCRETE_TASK_ASSAY           " title = "Table Report">DISCRETE_TASK_ASSAY           </a></td>
+<td>TASK_ASSAY_CD                 </td>
+</tr>
+<tr>
+<td></td>
+<td>CATALOG_CD                    </td>
+<td><a href="dms_orders_build6.html#ORDER_CATALOG                 " title = "Table Report">ORDER_CATALOG                 </a></td>
+<td>CATALOG_CD                    </td>
+</tr>
+</tbody></table><br/><br/>
+ 
+ 
+ 
+</div>
+<div id="footer">
+Copyright &copy; 2025 Oracle and/or its affiliates. This document may not be reproduced or transmitted in any form or by any means, electronic or mechanical, for any purpose, without our prior written permission. <br/> <br/>
+Materials in this document pertain to Oracle Health, Oracle, Oracle Cerner, and Cerner Enviza which are all wholly-owned subsidiaries of Oracle Corporation. <br/>
+Nothing in this document should be taken as indicating that any decisions regarding the integration of any EMEA Cerner and/or Enviza entities have been made where an integration has not already occurred. <br/>
+Last Updated:
+<!-- #BeginDate format:Am1 -->January 16, 2025<!-- #EndDate -->
+<br/>
+	</div>
+</div>
+</body>
+</html>
