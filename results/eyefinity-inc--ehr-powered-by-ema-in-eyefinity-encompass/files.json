@@ -1,0 +1,57 @@
+{
+  "collection_date": "2026-02-15",
+  "url": "https://www.modmed.com/wp-content/uploads/2023/11/Data-Dictionary-for-ModMed-EMA-EHI-Export4.pdf",
+  "final_url": "https://www.modmed.com/wp-content/uploads/2023/11/Data-Dictionary-for-ModMed-EMA-EHI-Export4.pdf",
+  "access_status": "found",
+  "files": [
+    {
+      "path": "downloads/Data-Dictionary-for-ModMed-EMA-EHI-Export4.pdf",
+      "source_url": "https://www.modmed.com/wp-content/uploads/2023/11/Data-Dictionary-for-ModMed-EMA-EHI-Export4.pdf",
+      "size_bytes": 683823,
+      "description": "131-page data dictionary for ModMed EMA EHI Export. Documents 197 database tables across 16 groupings (~4,800 columns) covering clinical, financial, and specialty eye-care data. Format: pipe-delimited CSV export with attachments folder. This is the primary and sole artifact from the registered URL.",
+      "curl_command": "curl -sL 'https://www.modmed.com/wp-content/uploads/2023/11/Data-Dictionary-for-ModMed-EMA-EHI-Export4.pdf' -H 'User-Agent: Mozilla/5.0' -o Data-Dictionary-for-ModMed-EMA-EHI-Export4.pdf"
+    },
+    {
+      "path": "downloads/Data-Dictionary-for-ModMed-EMA-EHI-Export4.txt",
+      "source_url": "derived from PDF via pdftotext",
+      "size_bytes": 123260,
+      "description": "Plain-text extraction of the PDF data dictionary (pdftotext, no layout). Used as input for the enrichment script.",
+      "curl_command": null
+    },
+    {
+      "path": "downloads/Data-Dictionary-layout.txt",
+      "source_url": "derived from PDF via pdftotext -layout",
+      "size_bytes": 511421,
+      "description": "Layout-preserved text extraction of the PDF data dictionary (pdftotext -layout). Preserves column positioning from the PDF table.",
+      "curl_command": null
+    },
+    {
+      "path": "downloads/enrichment/extract-data-dictionary.ts",
+      "source_url": "generated",
+      "size_bytes": 10252,
+      "description": "Bun TypeScript script that parses the pdftotext output into structured JSON. Two-pass parser: strips page artifacts, then uses a state machine to extract table definitions with groupings, descriptions, column names, and longitudinal tracking flags.",
+      "curl_command": null
+    },
+    {
+      "path": "downloads/enrichment/data-dictionary.json",
+      "source_url": "derived from PDF via enrichment script",
+      "size_bytes": 174265,
+      "description": "Structured JSON array of 197 table definitions extracted from the data dictionary PDF. Each entry has: grouping, table_name, description, columns[], longitudinal_tracking. This is the primary machine-queryable artifact.",
+      "curl_command": null
+    },
+    {
+      "path": "downloads/enrichment/coverage-summary.json",
+      "source_url": "derived from PDF via enrichment script",
+      "size_bytes": 25511,
+      "description": "Accounting/statistics output: total tables and columns, per-grouping breakdown with individual table details, parse notes. Notes three groupings (Lookup, MIPS, Medical Lookup) declared in PDF intro but with no table entries.",
+      "curl_command": null
+    },
+    {
+      "path": "downloads/enrichment/README.md",
+      "source_url": "generated",
+      "size_bytes": 1679,
+      "description": "Documentation for the enrichment scripts: run commands, input/output boundaries, known parsing limitations.",
+      "curl_command": null
+    }
+  ]
+}
