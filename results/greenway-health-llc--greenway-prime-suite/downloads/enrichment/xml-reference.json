@@ -1,0 +1,173 @@
+{
+  "fileTypes": [],
+  "sections": [
+    {
+      "heading": "Greenway XML Document Types",
+      "level": 2,
+      "textContent": "Greenway XML Document Types This section contains information about the documents created in Prime Suite that are in a Greenway proprietary format. Documents in a Greenway proprietary format can be identified by looking at the filetypeID in the filename. The file format of documents is: ClinicalBin_&lt;patientID&gt;_&lt;documentID&gt;_&lt;seqID&gt;_&lt;filetypeID&gt;_Document.xml. For example, if the filename is 'ClinicalBin_26228_5481_1_1005_Document.xml', the filetype ID is 1005. In the list below of file types with a proprietary format, 1005 is listed as a Clinical Note. Review the Clinical Note documentation side-by-side with the patient's clinical note to better understand the XML elements. [image] EHI Overview EHI Export Converter Tool Installer Guide --> Clinical Note Documentation (1005) Custom Note Clinical Note Documentation (1016) Correspondence Note and Consultation Note (1016) Health Risk Assessment (HRA) Lab Result Documentation (1000 BinType) Lab Result Documentation (1016) Lab Flowsheet Documentation Converting Flowsheet XML Data into SVG for Improved Visualization Prenatal Flowsheet (1005) Documentation Allergy Tests (1005) Documentation Allergy Education (1005) Documentation [image] Sample of Data File: In the sample image below, this is one row generated from “dbo.ClinicalBin” table, where PatientID, DocumentID, Sequence Number and BinTypeID are columns in the table. The actual document content is not included in this file as that will be converted to the actual file. [image] In this case it will generate an xml file as the bin type is 1005. See second row in above image. [image] Sample of Document File: --> Clinical Notes Documentation (1005) As part of the EHI export, all required documents should be exported / converted from Prime Suite and will be available in the document folder. The below-listed notes/documents are collectively termed Clinical Notes, these notes can be created in Prime Suite and are stored in GMT(XML) format in the database.",
+      "tables": []
+    },
+    {
+      "heading": "Preface:",
+      "level": 3,
+      "textContent": "Preface: Below are the few steps involved during the extraction and conversion process. The raw data which are stored in binary format in the database are exported as xml files with base64 content for both ‘single patient’ and ‘patient population.’ Single patient: Holds all the tables data in PS related to the patient and their information (Data and Document). Population patient: Holds the files/document data in binary format related to the patient (only Document). The below illustration is the XML output that is generated for binType [1005: Progress Note] by the ‘Export Converter’ tool. Reference section holds the sample files (input, output). --> Below is the XML output for a Progress Note with descriptions of the elements. All of the Clinical Note document types start with a Header. In the Body, however, they sections used are different for the various Clinical Note types.",
+      "tables": []
+    },
+    {
+      "heading": "Header [1005 ~ Progress Note, Procedure Note, History and Physical, Triage Note, Orders Note, Quick Note and\r\n            Custom Notes]:",
+      "level": 3,
+      "textContent": "Header [1005 ~ Progress Note, Procedure Note, History and Physical, Triage Note, Orders Note, Quick Note and Custom Notes]: &lt;clinical_document_header&gt; : The root element representing the clinical document header. &lt;id&gt; : Represents the ID of the document. Attributes: EX : The ID value (DocumentID_SequenceNumber, External Identifier). RT : The ID value (Coding System). &lt;set_id&gt; : Specifies the set ID of the document. Attributes: EX : The set ID value (DocumentID, External Identifier) RT : The ID value (Coding System). &lt;version_nbr&gt; : Indicates the version number of the document. Attributes: V : The version number. &lt;document_type_cd&gt; : Describes the type of the document. Attributes: gmtid : The GMT ID(DocTypeID). V : The value of the document type code (LoincCode). S : The ID value (Coding System). DN : The display name of the document type (Document TypeName). &lt;organization&gt; : Represents the organization associated with the document. Attributes: NM : The name of the organization. &lt;origination_dttm&gt; : Specifies the date and time of the document's origination. Attributes: V : The origination date and time value. &lt;confidentialityCode&gt; : Provides information about the confidentiality code of the document. Attributes: code : The code value. displayName : The display name of the confidentiality. codeSystem : The code system value. codeSystemName : The name of the confidentiality code system. &lt;patient_encounter&gt; : Contains information about the patient encounter. &lt;encounter_tmr&gt; : Represents the encounter date and time. Attributes: visit : Indicates whether it is a visit (true/false). V : The encounter date and time value. &lt;legal_authenticator&gt; : Represents the legal authenticator associated with the document. &lt;signature_cd&gt; : Specifies the signature code. Attributes: V : The signature code value. &lt;participation_tmr&gt; : Indicates the participation date and time. Attributes: V : The participation dat",
+      "tables": []
+    },
+    {
+      "heading": "Body [1005]:",
+      "level": 3,
+      "textContent": "Body [1005]: A sample Progress note has all of the possible sections covered in the clinical note by large. Let’s consider the Progress note and see how each section of the Progress note is structured. &lt;Section1&gt;: Chief Complaint This XML represents a section titled \"Chief Complaint\" with local markup elements. The local markup element may be empty or can contain sketchpads. &lt;section&gt; element The &lt;caption&gt; element represents the caption or title of the section, which is \" Chief Complaint \". The &lt;list&gt; element represents the collection of complaints. &lt;item&gt; Represent a single complaint. There could be 1 or more &lt;item&gt; elements within the &lt;list&gt;. &lt;content&gt; Content of the complaint. There could be 1 or more &lt;local_markup&gt; elements within the section. Within the &lt;local_markup&gt; element, there is an XML structure represented as a string. The XML structure includes: &lt;sketchpads&gt;: Represents a collection of sketchpads. &lt;sketchpad&gt;: Represents a single sketchpad. Attributes: section: Specifies the section name of the sketchpad (e.g., \" Chief Complaint \"). index: Specifies the index of the sketchpad. srcID: Specifies the source ID of the sketchpad. expandcount: Specifies the expand count of the sketchpad. expanddistance: Specifies the expand distance of the sketchpad. canvasheight: Specifies the canvas height of the sketchpad. &lt;text&gt;: Represents text data associated with the sketchpad. Attributes: data: Contains the text data. &lt;canvas&gt;: Represents a canvas element. &lt;Section2&gt;: History of Present Illness This XML represents a section titled \"History of Present Illness\" with local markup elements. The local markup element may be empty or can contain a sketchpad. &lt;section&gt; element The &lt;caption&gt; element represents the caption or title of the section, which is \" History of Present Illness \". The &lt;paragraph&gt; element represents the Clinical Note Template data. There could be 1",
+      "tables": []
+    },
+    {
+      "heading": "Introduction",
+      "level": 3,
+      "textContent": "Introduction SVG (Scalable Vector Graphics) is a web-friendly vector file format that stores images via mathematical formulas based on points and lines on a grid. You can reconstruct medical drawings with patient-specific annotations by creating an SVG file and using the existing tags/values from the base output XML in the SVG file. Below values are fixed: x=\"11\" y=\"45\", width = 700 Get height from the Canvasheight attribute from the output xml.",
+      "tables": []
+    },
+    {
+      "heading": "Steps to Construct the SVG",
+      "level": 3,
+      "textContent": "Steps to Construct the SVG Follow these steps to reconstruct medical drawings with patient-specific annotations: 1. Start the SVG Document: Begin by adding the opening &lt;svg&gt; tag. Set the required attributes like xmlns for the XML namespace, xmlns:xlink for the xlink namespace, width, and height to define the canvas size. Specify attributes like width, height. Ex: &lt;svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"700\" height=\"450\"&gt; 2. Add an Image: Use the &lt;image&gt; element to include an image in the SVG. Specify the href attribute with the path to the image file, and set the x, y, width, and height attributes to position and size the image. Ex: &lt;image href=\"Face.png\" x=\"11\" y=\"45\" width=\"400\" height=\"400\" /&gt; 3. Add Text: Incorporate text using the &lt;text&gt; element. Specify the x and y attributes for positioning and set other attributes like font-size and fill for styling. Ex: &lt;text x=\"11\" y=\"45\" font-size=\"14\" fill=\"black\"&gt;Issue in right eye&lt;/text&gt; 4. Add a Path: The path data represents a series of connected points and control points. Include the &lt;path&gt; element and set the d attribute to the provided path data. Ex: &lt;path d=\"M 245 198C245 198 245 198 245 198C245 198 244 198 244 198C244 198 244 198 244 198C244 198 242 198 242 198C242 198 242 198 242 198C242 198 241 199 241 199C241 199 241 199 241 199C241 199 240 199 240 199C240 199 240 199 240 199C240 199 239 200 239 200C239 200 239 200 239 200C239 200 238 201 238 201C238 201 238 201 238 201C238 201 237 202 237 202C237 202 237 202 237 202C237 202 236 204 236 204C236 204 236 204 236 204C236 204 236 205 236 205C236 205 236 205 236 205C236 205 235 207 235 207C235 207 235 207 235 207C235 207 235 209 235 209C235 209 235 209 235 209C235 209 235 211 235 211C235 211 235 211 235 211C235 211 235 213 235 213C235 213 235 213 235 213C235 213 235 216 235 216C235 216 235 216 235 216C235 216 235 217 235 217C235 217 235 217 235 217C235 217 235 220 ",
+      "tables": [
+        {
+          "headers": [],
+          "rows": [
+            [
+              "Section",
+              "Specifies the section of the document where the sketchpad belongs (e.g., \"cc\" for Chief\r\n                        Complaint, \"hpi\" for History of Present Illness)"
+            ],
+            [
+              "Index",
+              "Indicates the index or order of the sketchpad within the section."
+            ],
+            [
+              "srcID",
+              "Contains metadata and information about the individual patient's clinical documents into a\r\n                        electronic patient record."
+            ],
+            [
+              "expandcount",
+              "Specifies the number of times the sketchpad has been expanded."
+            ],
+            [
+              "expanddistance",
+              "Defines the distance by which the sketchpad expands."
+            ],
+            [
+              "canvasheight",
+              "Indicates the height of the sketchpad's canvas."
+            ],
+            [
+              "Imagelibgroup/imagelibgroupitem",
+              "This attribute would be injected into the original XML output if the original XML is seen to have\r\n                        any image (the embedded image content would be in the form of base64)"
+            ],
+            [
+              "Child Elements:",
+              ""
+            ],
+            [
+              "&lt;text&gt;",
+              "Represents text content associated with the sketchpad. It can contain a data attribute that holds\r\n                        the actual text."
+            ],
+            [
+              "&lt;canvas&gt;",
+              "Represents the drawing canvas within the sketchpad. It can contain.\r\n                    &lt;json&gt; and &lt;path&gt; elements to define the drawing content."
+            ],
+            [
+              "&lt;json&gt;",
+              "Represents the JSON data associated with the canvas. It can hold drawing-related information."
+            ],
+            [
+              "&lt;path&gt;",
+              "Represents a specific path or stroke within the canvas. It contains attributes and styles that\r\n                        define the appearance of the stroke."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "Correspondence Note and Consultation Note (1005):",
+      "level": 2,
+      "textContent": "Correspondence Note and Consultation Note (1005):",
+      "tables": []
+    },
+    {
+      "heading": "Header",
+      "level": 3,
+      "textContent": "Header &lt; levelone&gt; : This is the root element of the xml structure. It encloses the entire content. &lt; copyright &gt; : This element contains copyright information for the content. &lt;clinical_document_header&gt; : The root element representing the clinical document header. &lt;id&gt; : Represents the ID of the document. Attributes: EX : The ID value (DocumentID_SequenceNumber, External Identifier). RT : The ID value (Coding System). &lt;set_id&gt; : Specifies the set ID of the document. Attributes: EX : The set ID value (DocumentID, External Identifier) RT : The ID value (Coding System). &lt;version_nbr&gt; : Indicates the version number of the document. Attributes: V: The version number. &lt;document_type_cd&gt; : Describes the type of the document. Attributes: gmtid : The GMT ID(DocTypeID). V : The value of the document type code (LoincCode). S : The ID value (Coding System). DN : The display name of the document type (Document TypeName). &lt;organization&gt; : Represents the organization associated with the document. Attributes: NM : The name of the organization. &lt;origination_dttm&gt; : Specifies the date and time of the document's origination. Attributes: V : The origination date and time value. &lt;confidentialityCode&gt; : Provides information about the confidentiality code of the document. Attributes: code : The code value. displayName : The display name of the confidentiality. codeSystem : The code system value. codeSystemName : The name of the confidentiality code system. &lt;patient_encounter&gt; : Contains information about the patient encounter. &lt;Id&gt;: Contains the unique ID of the patient encounter. &lt;encounter_tmr&gt; : Represents the encounter date and time. Attributes: visit : Indicates whether it is a visit (true/false) V : The encounter date and time value. &lt;service_locationr&gt; : Holds the name of the service location where the encounter took place. Attributes: V : The encounter date and time value. &lt;location_address&gt;",
+      "tables": []
+    },
+    {
+      "heading": "Miscellaneous Note:",
+      "level": 3,
+      "textContent": "Miscellaneous Note: Miscellaneous notes related to a patient's medical record or treatment. This XML represents a titled “Miscellaneous note” with local markup elements. There are &lt;local_markup&gt; elements within the note that include things like patient preferences, informal observations, specific instructions, or any other information that does not have a dedicated section in the medical record system. They serve to provide a more complete picture of the patient's health status and care requirements.",
+      "tables": []
+    },
+    {
+      "heading": "[1016 ~ Custom Note]:",
+      "level": 3,
+      "textContent": "[1016 ~ Custom Note]: &lt;ClinicalNoteItem&gt; element The &lt; Footnote&gt; element includes the count of content elements it holds, along with the text data linked to the note. &lt;content&gt; element represents the caption or title of the document type, which is \"Discharge Summary Note\". Health Risk Assessment (HRA) Sample Document: [image] Document tag definitions: The above picture contains tags that are related to patient demographics. &lt;MessageControlID&gt; : Identification for message control within the system. Value: MSG1001. &lt;ProgramID&gt; : Identification for the health program. Value: 50107. &lt;ExternalID&gt; : External identification for the patient. Value: 19465. &lt;LastName&gt; : Last name of the patient. Value: Bush. &lt;FirstName&gt; : First name of the patient. Value: Laura. &lt;MiddleName&gt; : Middle name of the patient. &lt;Suffix&gt; : Suffix (e.g., Jr., Sr.) for the patient's name. &lt;Prefix&gt; : Prefix (e.g., Mr., Mrs.) for the patient's name. &lt;DOB&gt; : Date of birth of the patient. Value: 11/04/1946. &lt;Gender&gt; : Gender of the patient. &lt;Race&gt; : Race information of the patient. &lt;SSN&gt; : Social Security Number of the patient. Value: 243434343. &lt;HomePhone&gt; : Patient's home phone number. &lt;WorkPhone&gt; : Patient's work phone number. &lt;Email&gt; : Patient's email address. &lt;Address&gt; : Patient's address information. Attributes &lt;a:AddressHisId&gt; : Address history ID. &lt;a:AddressID&gt; : Address ID. &lt; a:AddressLine1&gt; : Address line 1. &lt; a:AddressLine2&gt; : Address line 2. &lt;a:City&gt; : City of the address. &lt;a:Country&gt; : Country of the address. &lt;a:PostalCode&gt; : Postal code of the address. &lt;a:State&gt; : State of the address. After this we have various health-related observations and information about an individual. The data is organized into different sections. See the below image for all the possible sections. [image] &lt;Sections&gt; &lt;Section&gt; : Represents a specif",
+      "tables": []
+    },
+    {
+      "heading": "Header [1005 ~ Progress Note]:",
+      "level": 3,
+      "textContent": "Header [1005 ~ Progress Note]: &lt;clinical_document_header&gt; : The root element representing the clinical document header. &lt;id&gt; : Represents the ID of the document. Attributes: EX : The ID value (DocumentID_SequenceNumber, External Identifier). RT : The ID value (Coding System). &lt;set_id&gt; : Specifies the set ID of the document. Attributes: EX : The set ID value (DocumentID, External Identifier) RT : The ID value (Coding System). &lt;version_nbr&gt; : Indicates the version number of the document. Attributes: V : The version number. &lt;document_type_cd&gt; : Describes the type of the document. Attributes: gmtid : The GMT ID(DocTypeID). V : The value of the document type code (LoincCode). S : The ID value (Coding System). DN : The display name of the document type (Document TypeName). &lt;organization&gt; : Represents the organization associated with the document. Attributes: NM : The name of the organization. &lt;origination_dttm&gt; : Specifies the date and time of the document's origination. Attributes: V : The origination date and time value. &lt;confidentialityCode&gt; : Provides information about the confidentiality code of the document. Attributes: code : The code value. displayName : The display name of the confidentiality. codeSystem : The code system value. codeSystemName : The name of the confidentiality code system. &lt;patient_encounter&gt; : Contains information about the patient encounter. &lt;encounter_tmr&gt; : Represents the encounter date and time. Attributes: visit : Indicates whether it is a visit (true/false). V : The encounter date and time value. &lt;legal_authenticator&gt; : Represents the legal authenticator associated with the document. &lt;signature_cd&gt; : Specifies the signature code. Attributes: V : The signature code value. &lt;participation_tmr&gt; : Indicates the participation date and time. Attributes: V : The participation date and time value. &lt;id&gt; : Represents the ID of the legal authenticator. Attributes: EX :",
+      "tables": []
+    },
+    {
+      "heading": "Body [1005 ~ Lab Flowsheet]:",
+      "level": 3,
+      "textContent": "Body [1005 ~ Lab Flowsheet]: Lab Flowsheet: 1. &lt;section&gt; element: Initial Labs The &lt;caption&gt; element represents the caption or title of the section, which is “Initial Labs”. There could be 1 table “ &lt;table&gt; ” HTML tag within the section. Within the &lt;table&gt; HTML tag, there are rows that represented as a &lt;tr&gt; . The Header represents under &lt;th&gt; html tag and content/values represents under &lt;td&gt; html tags. &lt;th&gt;: Each tag represents column headers. Lab Name : Specifies the lab name. Date Received : Specifies the date received. Result : Specifies the result. Reviewed : Specifies the reviewed by. Note : Specifies the Note. &lt;td&gt;: Each tag represents the content/value for the above details. 2. &lt;section&gt; element: Optional Labs The &lt;caption&gt; element represents the caption or title of the section, which is “ Optional Labs ”. There could be 1 table “ &lt;table&gt; ” HTML tag within the section. Within the &lt;table&gt; HTML tag, there are rows that represented as a &lt;tr&gt; . The Header represents under &lt;th&gt; html tag and content/values represents under &lt;td&gt; html tags. &lt;th&gt;: Each tag represents column headers. Lab Name : Specifies the lab name. Date Received : Specifies the date received. Result : Specifies the result. Reviewed : Specifies the reviewed by. Note : Specifies the Note. &lt;td&gt;: Each tag represents the content/value for the above details. 3. &lt;section&gt; element: 8-18 Week labs The &lt;caption&gt; element represents the caption or title of the section, which is “ 8-18 Week labs ”. There could be 1 table “ &lt;table&gt; ” HTML tag within the section. Within the &lt;table&gt; HTML tag, there are rows that represented as a &lt;tr&gt; . The Header represents under &lt;th&gt; html tag and content/values represents under &lt;td&gt; html tags. &lt;th&gt;: Each tag represents column headers. Lab Name : Specifies the lab name. Date Received : Specifies the date received. Result : Specif",
+      "tables": []
+    },
+    {
+      "heading": "Introduction",
+      "level": 3,
+      "textContent": "Introduction When working with graphical data represented in XML-like JSON format, it can sometimes be challenging to interpret and visualize the content. One effective way to enhance readability and understandability is by converting this JSON data into SVG (Scalable Vector Graphics) format. SVG is a widely used markup language for describing two-dimensional vector graphics, making it suitable for visual representation of shapes, patterns, and drawings.",
+      "tables": []
+    },
+    {
+      "heading": "Prerequisites",
+      "level": 3,
+      "textContent": "Prerequisites Before proceeding, ensure you have: A basic understanding of JSON (JavaScript Object Notation). Familiarity with SVG syntax and structure.",
+      "tables": []
+    },
+    {
+      "heading": "Steps to Convert XML-like JSON Data to SVG",
+      "level": 2,
+      "textContent": "Steps to Convert XML-like JSON Data to SVG Follow these steps to convert XML-like JSON data into SVG format: 1. Prepare JSON Data Start with the XML-like JSON data that you wish to convert. This data typically includes attributes and values like XML elements. 2. Create an SVG File Open a plain text editor of your choice and create a new file. Give the file a .svg extension to indicate that it's an SVG document. 3. Add SVG Header Add the SVG header to your file. This header specifies the SVG namespace and version, as well as the dimensions of the SVG canvas: &lt;svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"100\" height=\"100\"&gt; Replace width and height with appropriate values according to your design. 4. Translate JSON Data to SVG Path Element Identify the JSON path data that defines the shape or pattern you want to visualize. This JSON path data will typically contain attributes such as \"fill,\" \"stroke,\" \"stroke-width,\" and a \"path\" attribute containing path commands. Translate the JSON attributes to their corresponding SVG attributes within a &lt;path&gt; element: &lt;path fill=\"none\" stroke=\"#000000\" stroke-opacity=\"1\" stroke-width=\"1.0\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill-opacity=\"1\" d=\"M26,48L26,48L26,48L25,48L25,48L25,48L24,48L24,48L24,48L23,48L23,48L23,48L20,48L20,48L20,48L16,48L16,48L16,48L14,49L14,49L14,49L11,50L11,50L11,50L10,50L10,50L10,50L8,50L8,50L8,50L7,51L7,51L7,51L6,51L6,51L6,51\" /&gt; 5. Close SVG Tag Complete the SVG file by adding the closing &lt;/svg&gt; tag: 6. Save and Visualize Save the file with the .svg extension (e.g., \"output.svg\"). You can then open this SVG file in a web browser or a vector graphics editor to visualize the shape or pattern described by the JSON path data. Sticky Note(SVG) [image] &lt;svg width=\"20000\" height=\"2000000\" xmlns=\"http://www.w3.org/2000/svg\"&gt; The &lt;svg&gt; element defines the start of the SVG graphic. The width attribute sets the width of the SVG canvas to 20000 pixels. The h",
+      "tables": []
+    },
+    {
+      "heading": "Header",
+      "level": 3,
+      "textContent": "Header &lt;clinical_document_header&gt; : The root element representing the clinical document header. &lt;id&gt; : Represents the ID of the document. Attributes: EX : The ID value (DocumentID_SequenceNumber, External Identifier). RT : The ID value (Coding System). &lt;set_id&gt; : Specifies the set ID of the document. Attributes: EX : The set ID value (DocumentID, External Identifier) RT : The ID value (Coding System). &lt;version_nbr&gt; : Indicates the version number of the document. Attributes: V : The version number. &lt;document_type_cd&gt; : Describes the type of the document. Attributes: gmtid : The GMT ID(DocTypeID). V : The value of the document type code (LoincCode). S : The ID value (Coding System). DN : The display name of the document type (Document TypeName). &lt;organization&gt; : Represents the organization associated with the document. Attributes: NM : The name of the organization. &lt;origination_dttm&gt; : Specifies the date and time of the document's origination. Attributes: V : The origination date and time value. &lt;confidentialityCode&gt; : Provides information about the confidentiality code of the document. Attributes: code : The code value. displayName : The display name of the confidentiality. codeSystem : The code system value. codeSystemName : The name of the confidentiality code system. &lt;patient_encounter&gt; : Contains information about the patient encounter. &lt;encounter_tmr&gt; : Represents the encounter date and time. Attributes: visit : Indicates whether it is a visit (true/false). V : The encounter date and time value. &lt;legal_authenticator&gt; : Represents the legal authenticator associated with the document. &lt;signature_cd&gt; : Specifies the signature code. Attributes: V : The signature code value. &lt;participation_tmr&gt; : Indicates the participation date and time. Attributes: V : The participation date and time value. &lt;id&gt; : Represents the ID of the legal authenticator. Attributes: EX : The ID value. RT : The ",
+      "tables": []
+    },
+    {
+      "heading": "Header [1005 ~ Allergy Tests]:",
+      "level": 3,
+      "textContent": "Header [1005 ~ Allergy Tests]: &lt;clinical_document_header&gt; : The root element representing the clinical document header. &lt;id&gt; : Represents the ID of the document. Attributes: EX : The ID value (DocumentID_SequenceNumber, External Identifier). RT : The ID value (Coding System). &lt;set_id&gt; : Specifies the set ID of the document. Attributes: EX : The set ID value (DocumentID, External Identifier) RT : The ID value (Coding System). &lt;version_nbr&gt; : Indicates the version number of the document. Attributes: V : The version number. &lt;document_type_cd&gt; : Describes the type of the document. Attributes: gmtid : The GMT ID(DocTypeID). V : The value of the document type code (LoincCode). S : The ID value (Coding System). DN : The display name of the document type (Document TypeName). &lt;organization&gt; : Represents the organization associated with the document. Attributes: NM : The name of the organization. &lt;origination_dttm&gt; : Specifies the date and time of the document's origination. Attributes: V : The origination date and time value. &lt;confidentialityCode&gt; : Provides information about the confidentiality code of the document. Attributes: code : The code value. displayName : The display name of the confidentiality. codeSystem : The code system value. codeSystemName : The name of the confidentiality code system. &lt;patient_encounter&gt; : Contains information about the patient encounter. &lt;encounter_tmr&gt; : Represents the encounter date and time. Attributes: visit : Indicates whether it is a visit (true/false). V : The encounter date and time value. &lt;legal_authenticator&gt; : Represents the legal authenticator associated with the document. &lt;signature_cd&gt; : Specifies the signature code. Attributes: V : The signature code value. &lt;participation_tmr&gt; : Indicates the participation date and time. Attributes: V : The participation date and time value. &lt;id&gt; : Represents the ID of the legal authenticator. Attributes: EX :",
+      "tables": []
+    },
+    {
+      "heading": "Header [1005 ~ Allergy Education]:",
+      "level": 3,
+      "textContent": "Header [1005 ~ Allergy Education]: &lt;clinical_document_header&gt; : The root element representing the clinical document header. &lt;id&gt; : Represents the ID of the document. Attributes: EX : The ID value (DocumentID_SequenceNumber, External Identifier). RT : The ID value (Coding System). &lt;set_id&gt; : Specifies the set ID of the document. Attributes: EX : The set ID value (DocumentID, External Identifier) RT : The ID value (Coding System). &lt;version_nbr&gt; : Indicates the version number of the document. Attributes: V : The version number. &lt;document_type_cd&gt; : Describes the type of the document. Attributes: gmtid : The GMT ID(DocTypeID). V : The value of the document type code (LoincCode). S : The ID value (Coding System). DN : The display name of the document type (Document TypeName). &lt;organization&gt; : Represents the organization associated with the document. Attributes: NM : The name of the organization. &lt;origination_dttm&gt; : Specifies the date and time of the document's origination. Attributes: V : The origination date and time value. &lt;confidentialityCode&gt; : Provides information about the confidentiality code of the document. Attributes: code : The code value. displayName : The display name of the confidentiality. codeSystem : The code system value. codeSystemName : The name of the confidentiality code system. &lt;patient_encounter&gt; : Contains information about the patient encounter. &lt;encounter_tmr&gt; : Represents the encounter date and time. Attributes: visit : Indicates whether it is a visit (true/false). V : The encounter date and time value. &lt;legal_authenticator&gt; : Represents the legal authenticator associated with the document. &lt;signature_cd&gt; : Specifies the signature code. Attributes: V : The signature code value. &lt;participation_tmr&gt; : Indicates the participation date and time. Attributes: V : The participation date and time value. &lt;id&gt; : Represents the ID of the legal authenticator. Attributes: ",
+      "tables": []
+    },
+    {
+      "heading": "Body [1005 ~ Allergy Education]:",
+      "level": 3,
+      "textContent": "Body [1005 ~ Allergy Education]: &lt;section&gt; element: The &lt;caption&gt; element represents the caption or title of the section, which is \"Allergy Education\". There could be 1 or more &lt;local_markup&gt; elements within the section. Within the &lt;local_markup&gt; element, there is an XML structure represented as a string. The XML structure includes: &lt;datahtml&gt; : The provided format appears to be an HTML code snippet. It seems to be a structured representation of some content, possibly for displaying information on a web page or within an HTML email.The content appears to be organized using various HTML elements such as &lt;div&gt;, &lt;table&gt;, &lt;tr&gt;, &lt;td&gt;, &lt;ul&gt;, and &lt;li&gt;. &lt;section&gt; element for Assessment: The &lt;caption&gt; element represents the caption or title of the section, which is \"Assessment\". &lt;list&gt; element contains one or more &lt;item&gt; element for different diagnosis. &lt;item&gt; : Represents the separate line item added for diagnosis. &lt;content&gt; : Data for diagnosis code &amp; description added under this. &lt;dxdesc&gt;: Diagnosis description. &lt;dxcode&gt;: Diagnosis code (Combination of ICD9 &amp; ICD10. Ex : ICD9/ICD10). &lt;coded_entry&gt;: Contains the diagnosis code value. Attributes : V : Diagnosis code value. &lt;content&gt; : Blank line item which adds a new line with &lt;br/&gt; tag. &lt;section&gt; element for Plan: The &lt;caption&gt; element represents the caption or title of the section, which is \"Plan\". Attributes : V : Document code. S : Document coding system. There could be 1 or more &lt;section&gt; elements within the section for Orders, Medications, Instructions, Associate Tasks &amp; Referrals. &lt;section&gt; element for Orders: The &lt;caption&gt; element represents the caption or title of the section, which is \"Orders\". &lt;list&gt; element contains one or more &lt;item&gt; element for different procedures. &lt;item&gt; : Represents the separate line item added for pro",
+      "tables": []
+    }
+  ]
+}
