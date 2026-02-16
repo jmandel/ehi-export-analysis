@@ -6,8 +6,8 @@
   "total_ccd_sections": 21,
   "ccd_date_filterable_sections": 13,
   "ccd_full_record_sections": 8,
-  "fhir_resource_types": 0,
-  "oemr_native_data_types": 0,
+  "fhir_resource_types": 25,
+  "oemr_native_data_types": 23,
   "category_breakdown": {
     "C-CDA CCD Export (Date-Filterable)": {
       "entity_count": 13,
@@ -16,14 +16,43 @@
     "C-CDA CCD Export (Full Record)": {
       "entity_count": 8,
       "total_fields": 0
+    },
+    "FHIR API Resources": {
+      "entity_count": 25,
+      "total_fields": 0
+    },
+    "OpenEMR Native REST API (NOT in b(10) export)": {
+      "entity_count": 23,
+      "total_fields": 0
     }
   },
-  "key_findings": [
-    "No data dictionary exists - zero field-level documentation",
-    "EHI export is a standard C-CDA CCD document (21 sections)",
-    "Export is generated via FHIR $docref - same as (g)(10) clinical exchange",
-    "OpenEMR REST API exposes additional data types (dental, insurance, SOAP notes, surgeries) not in CCD export",
-    "No sample data or machine-readable schemas provided",
-    "Two hosted PDFs are standard HL7 C-CDA IG documents, not vendor-specific"
+  "data_types_in_rest_api_but_not_in_ccd": [
+    "appointment",
+    "dental_issue",
+    "document",
+    "drug",
+    "facility",
+    "insurance",
+    "insurance_company",
+    "insurance_type",
+    "list",
+    "medical_problem",
+    "message",
+    "prescription",
+    "soap_note",
+    "surgery",
+    "transaction"
+  ],
+  "key_gaps_vs_rest_api": [
+    "dental_issue - dental data accessible via API but not in CCD",
+    "insurance / insurance_company / insurance_type - insurance data not in CCD",
+    "soap_note - SOAP notes not individually exported",
+    "surgery - surgery records not in CCD",
+    "transaction - financial transactions not in CCD",
+    "prescription - prescription details beyond medication list not in CCD",
+    "document - uploaded documents not exported",
+    "drug - drug reference data not in CCD",
+    "message - patient messages not in CCD",
+    "appointment - appointment data not in CCD"
   ]
 }

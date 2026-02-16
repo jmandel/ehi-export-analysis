@@ -1,0 +1,2135 @@
+{
+  "source_pdf": "cgm-aprima-electronic-health-information-export-user-guide.pdf",
+  "source_date": "2023-11-02",
+  "product": "CGM APRIMA v19",
+  "export_format": "ZIP (CSV files + images + USCDI XML + Complete Patient Chart PDF)",
+  "export_components": [
+    "CSV files with structured data (see csv_files array)",
+    "Image folders organized by encounter date (e.g., Radiology/)",
+    "USCDI file (XML format with EEHR_ChartViewer.exe viewer)",
+    "Complete Patient Chart (PDF of all visit charts)"
+  ],
+  "csv_files": [
+    {
+      "name": "Audit Trail",
+      "file_name_pattern": "EHIExtract_AuditTrail <date of export>.csv",
+      "description": "A record of changes made to patient records while using CGM APRIMA.",
+      "fields": [
+        {
+          "column_heading": "Changed Time",
+          "data_type": "datetime",
+          "description": "Date and time when a change was made."
+        },
+        {
+          "column_heading": "User",
+          "data_type": "char(250)",
+          "description": "User who made the change."
+        },
+        {
+          "column_heading": "Patient",
+          "data_type": "char(250)",
+          "description": "Patient whose record was changed."
+        },
+        {
+          "column_heading": "Workstation",
+          "data_type": "char(50)",
+          "description": "Name of computer where the change was made."
+        },
+        {
+          "column_heading": "Description",
+          "data_type": "char(2000)",
+          "description": "Description of the change made."
+        },
+        {
+          "column_heading": "Type",
+          "data_type": "char(25)",
+          "description": "Type of change that was made."
+        }
+      ],
+      "category": "Administrative"
+    },
+    {
+      "name": "Contacts",
+      "file_name_pattern": "EHIExtract_Contacts <date of export>.csv",
+      "description": "A record of patient contacts.",
+      "fields": [
+        {
+          "column_heading": "Relation",
+          "data_type": "char(50)",
+          "description": "Relationship of the contact to the patient."
+        },
+        {
+          "column_heading": "Name",
+          "data_type": "char(250)",
+          "description": "Name of the contact."
+        },
+        {
+          "column_heading": "Address",
+          "data_type": "char(100)",
+          "description": "Address of the contact."
+        },
+        {
+          "column_heading": "Address 2",
+          "data_type": "char(100)",
+          "description": "Additional address field."
+        },
+        {
+          "column_heading": "City",
+          "data_type": "char(100)",
+          "description": "City of the contact."
+        },
+        {
+          "column_heading": "State",
+          "data_type": "char(100)",
+          "description": "State of the contact."
+        },
+        {
+          "column_heading": "Zip",
+          "data_type": "char(100)",
+          "description": "Zip code of the contact."
+        },
+        {
+          "column_heading": "Phone",
+          "data_type": "char(50)",
+          "description": "Phone number of the contact."
+        },
+        {
+          "column_heading": "Medical Decisions",
+          "data_type": "char(50)",
+          "description": "Can the contact make medical decisions for the patient?"
+        },
+        {
+          "column_heading": "Power of Attorney",
+          "data_type": "char(50)",
+          "description": "Does the contact have Power of Attorney?"
+        },
+        {
+          "column_heading": "HIPAA Release",
+          "data_type": "char(50)",
+          "description": "Can information covered by HIPAA be released to the contact?"
+        },
+        {
+          "column_heading": "Emergency Contact",
+          "data_type": "char(50)",
+          "description": "Is the contact the patient\u2019s emergency contact?"
+        },
+        {
+          "column_heading": "Allow Join Telehealth Call",
+          "data_type": "char(50)",
+          "description": "Is the contact authorized to join telehealth calls?"
+        },
+        {
+          "column_heading": "Notes",
+          "data_type": "char(2000)",
+          "description": "Notes about the contact."
+        }
+      ],
+      "category": "Demographics"
+    },
+    {
+      "name": "Active Medication",
+      "file_name_pattern": "EHIExtract_Deconversion_ActiveMedication <date of export>.csv",
+      "description": "A record of medications prescribed to the patient.",
+      "fields": [
+        {
+          "column_heading": "Patient ID",
+          "data_type": "char(25)",
+          "description": "Patient identifier."
+        },
+        {
+          "column_heading": "Pat First Name",
+          "data_type": "char(50)",
+          "description": "Patient first name."
+        },
+        {
+          "column_heading": "MiddleName",
+          "data_type": "char(50)",
+          "description": "Patient middle name."
+        },
+        {
+          "column_heading": "Pat Last Name",
+          "data_type": "char(50)",
+          "description": "Patient last name."
+        },
+        {
+          "column_heading": "Pat DOB",
+          "data_type": "date",
+          "description": "Patient date of birth."
+        },
+        {
+          "column_heading": "SocialSecurityNumber",
+          "data_type": "char(11)",
+          "description": "Patient Social Security Number."
+        },
+        {
+          "column_heading": "Medication Date",
+          "data_type": "date",
+          "description": "Date medication began."
+        },
+        {
+          "column_heading": "InactiveDate",
+          "data_type": "date",
+          "description": "Date medication ended."
+        },
+        {
+          "column_heading": "Appt Location",
+          "data_type": "char(50)",
+          "description": "Appointment location."
+        },
+        {
+          "column_heading": "Doctor ID",
+          "data_type": "char(25)",
+          "description": "Medical provider identifier."
+        },
+        {
+          "column_heading": "Doc First Name",
+          "data_type": "char(50)",
+          "description": "Medical provider first name."
+        },
+        {
+          "column_heading": "Doc Last Name",
+          "data_type": "char(50)",
+          "description": "Medical provider last name."
+        },
+        {
+          "column_heading": "NDC",
+          "data_type": "char(11)",
+          "description": "National Drug Code."
+        },
+        {
+          "column_heading": "Drug name",
+          "data_type": "char(255)",
+          "description": "Medication name."
+        },
+        {
+          "column_heading": "Strength",
+          "data_type": "char(255)",
+          "description": "Medication dosage."
+        },
+        {
+          "column_heading": "Formulation",
+          "data_type": "char(60)",
+          "description": "Medication formulation."
+        },
+        {
+          "column_heading": "Take",
+          "data_type": "char(60)",
+          "description": "Medication quantity per dosage."
+        },
+        {
+          "column_heading": "Route",
+          "data_type": "char(255)",
+          "description": "How medication is administered."
+        },
+        {
+          "column_heading": "Frequency",
+          "data_type": "char(255)",
+          "description": "Medication dosage frequency."
+        },
+        {
+          "column_heading": "Duration",
+          "data_type": "smallint",
+          "description": "Medication active duration."
+        },
+        {
+          "column_heading": "Dispense",
+          "data_type": "char(11)",
+          "description": "Total medication dispensed."
+        },
+        {
+          "column_heading": "Refills",
+          "data_type": "smallint",
+          "description": "Refills available."
+        },
+        {
+          "column_heading": "Notes",
+          "data_type": "char(255)",
+          "description": "Additional notes."
+        }
+      ],
+      "category": "Clinical"
+    },
+    {
+      "name": "Allergies",
+      "file_name_pattern": "EHIExtract_Deconversion_Allergies <date of export>.csv",
+      "description": "A record of patient allergies.",
+      "fields": [
+        {
+          "column_heading": "Patient ID",
+          "data_type": "char(25)",
+          "description": "Patient identifier."
+        },
+        {
+          "column_heading": "Pat First Name",
+          "data_type": "char(50)",
+          "description": "Patient first name."
+        },
+        {
+          "column_heading": "MiddleName",
+          "data_type": "char(50)",
+          "description": "Patient middle name."
+        },
+        {
+          "column_heading": "Pat Last Name",
+          "data_type": "char(50)",
+          "description": "Patient last name."
+        },
+        {
+          "column_heading": "Pat DOB",
+          "data_type": "date",
+          "description": "Patient date of birth."
+        },
+        {
+          "column_heading": "SocialSecurityNumber",
+          "data_type": "char(11)",
+          "description": "Patient Social Security Number."
+        },
+        {
+          "column_heading": "Encounter Date",
+          "data_type": "date",
+          "description": "Date when allergy began."
+        },
+        {
+          "column_heading": "Doctor ID",
+          "data_type": "char(25)",
+          "description": "Medical provider identifier."
+        },
+        {
+          "column_heading": "Doc First Name",
+          "data_type": "char(50)",
+          "description": "Medical provider first name."
+        },
+        {
+          "column_heading": "Doc Last Name",
+          "data_type": "char(50)",
+          "description": "Medical provider last name."
+        },
+        {
+          "column_heading": "Drug/Non Drug Name",
+          "data_type": "char(255)",
+          "description": "Name of allergy drug."
+        },
+        {
+          "column_heading": "Allergy Code",
+          "data_type": "char(100)",
+          "description": "SNOMED Concept ID."
+        },
+        {
+          "column_heading": "Allergy",
+          "data_type": "char(255)",
+          "description": "Allergy name."
+        },
+        {
+          "column_heading": "Notes",
+          "data_type": "char(255)",
+          "description": "Additional notes."
+        }
+      ],
+      "category": "Clinical"
+    },
+    {
+      "name": "Appointment Information",
+      "file_name_pattern": "EHIExtract_Deconversion_AppointmentInformation <date of export>.csv",
+      "description": "A record of patient appointments.",
+      "fields": [
+        {
+          "column_heading": "External ID",
+          "data_type": "char(25)",
+          "description": "Appointment identifier."
+        },
+        {
+          "column_heading": "Patient ID",
+          "data_type": "char(25)",
+          "description": "Patient identifier."
+        },
+        {
+          "column_heading": "Pat First Name",
+          "data_type": "char(50)",
+          "description": "Patient first name."
+        },
+        {
+          "column_heading": "Pat Middle Name",
+          "data_type": "char(50)",
+          "description": "Patient middle name."
+        },
+        {
+          "column_heading": "Pat Last Name",
+          "data_type": "char(50)",
+          "description": "Patient last name."
+        },
+        {
+          "column_heading": "Pat DOB",
+          "data_type": "date",
+          "description": "Patient date of birth."
+        },
+        {
+          "column_heading": "Pat SSN",
+          "data_type": "char(11)",
+          "description": "Patient Social Security Number."
+        },
+        {
+          "column_heading": "Provider ID",
+          "data_type": "char(25)",
+          "description": "Medical provider identifier."
+        },
+        {
+          "column_heading": "Reason",
+          "data_type": "char(1000)",
+          "description": "Reason for appointment."
+        },
+        {
+          "column_heading": "StartDateTime",
+          "data_type": "datetime",
+          "description": "Start date and time of appointment."
+        },
+        {
+          "column_heading": "EndDateTime",
+          "data_type": "datetime",
+          "description": "End date and time of appointment."
+        },
+        {
+          "column_heading": "Appointment Type Code",
+          "data_type": "char(25)",
+          "description": "Appointment type identifier."
+        },
+        {
+          "column_heading": "Appointment Type Description",
+          "data_type": "char(50)",
+          "description": "Description of appointment type."
+        },
+        {
+          "column_heading": "Appointment Status Code",
+          "data_type": "char(25)",
+          "description": "Appointment status identifier."
+        },
+        {
+          "column_heading": "Appointment Status Description",
+          "data_type": "char(50)",
+          "description": "Description of appointment status."
+        },
+        {
+          "column_heading": "Location ID",
+          "data_type": "char(25)",
+          "description": "Location identifier."
+        },
+        {
+          "column_heading": "Location Name",
+          "data_type": "char(50)",
+          "description": "Name of location."
+        }
+      ],
+      "category": "Administrative"
+    },
+    {
+      "name": "Family History",
+      "file_name_pattern": "EHIExtract_Deconversion_FamilyHistory <date of export>.csv",
+      "description": "A record of diseases and health conditions in the patient\u2019s family.",
+      "fields": [
+        {
+          "column_heading": "Patient ID",
+          "data_type": "char(25)",
+          "description": "Patient identifier."
+        },
+        {
+          "column_heading": "Pat First Name",
+          "data_type": "char(50)",
+          "description": "Patient first name."
+        },
+        {
+          "column_heading": "MiddleName",
+          "data_type": "char(50)",
+          "description": "Patient middle name."
+        },
+        {
+          "column_heading": "Pat Last Name",
+          "data_type": "char(50)",
+          "description": "Patient last name."
+        },
+        {
+          "column_heading": "Pat DOB",
+          "data_type": "date",
+          "description": "Patient date of birth."
+        },
+        {
+          "column_heading": "Pat SSN",
+          "data_type": "char(11)",
+          "description": "Patient Social Security Number."
+        },
+        {
+          "column_heading": "Encounter Date",
+          "data_type": "date",
+          "description": "Date history was recorded."
+        },
+        {
+          "column_heading": "Doctor ID",
+          "data_type": "char(25)",
+          "description": "Medical provider identifier."
+        },
+        {
+          "column_heading": "Doc First Name",
+          "data_type": "char(50)",
+          "description": "Medical provider first name."
+        },
+        {
+          "column_heading": "Doc Last Name",
+          "data_type": "char(50)",
+          "description": "Medical provider last name."
+        },
+        {
+          "column_heading": "Relationship",
+          "data_type": "char(255)",
+          "description": "Relationship to patient."
+        },
+        {
+          "column_heading": "Diagnosis",
+          "data_type": "char(255)",
+          "description": "Diagnosis of family member."
+        },
+        {
+          "column_heading": "Notes",
+          "data_type": "char(2000)",
+          "description": "Additional notes."
+        }
+      ],
+      "category": "Clinical"
+    },
+    {
+      "name": "Immunization",
+      "file_name_pattern": "EHIExtract_Deconversion_Immunization <date of export>.csv",
+      "description": "A record of immunizations administered to the patient.",
+      "fields": [
+        {
+          "column_heading": "Patient ID",
+          "data_type": "char(25)",
+          "description": "Patient identifier."
+        },
+        {
+          "column_heading": "Pat First Name",
+          "data_type": "char(50)",
+          "description": "Patient first name."
+        },
+        {
+          "column_heading": "Pat Last Name",
+          "data_type": "char(50)",
+          "description": "Patient last name."
+        },
+        {
+          "column_heading": "Pat DOB",
+          "data_type": "date",
+          "description": "Patient date of birth."
+        },
+        {
+          "column_heading": "CPT",
+          "data_type": "char(30)",
+          "description": "Current Procedural Terminology code."
+        },
+        {
+          "column_heading": "Vaccine Name",
+          "data_type": "char(255)",
+          "description": "Vaccine name."
+        },
+        {
+          "column_heading": "Given Date",
+          "data_type": "date",
+          "description": "Date vaccine administered."
+        },
+        {
+          "column_heading": "Doctor ID",
+          "data_type": "char(25)",
+          "description": "Medical provider identifier."
+        },
+        {
+          "column_heading": "Doc First Name",
+          "data_type": "char(50)",
+          "description": "Medical provider first name."
+        },
+        {
+          "column_heading": "Doc Last Name",
+          "data_type": "char(50)",
+          "description": "Medical provider last name."
+        },
+        {
+          "column_heading": "Notes",
+          "data_type": "char(2000)",
+          "description": "Additional notes."
+        },
+        {
+          "column_heading": "Location",
+          "data_type": "char(255)",
+          "description": "Vaccine administration site."
+        },
+        {
+          "column_heading": "Lot Number",
+          "data_type": "char(355)",
+          "description": "Vaccine lot number."
+        },
+        {
+          "column_heading": "Manufacture",
+          "data_type": "char(255)",
+          "description": "Vaccine manufacturer."
+        },
+        {
+          "column_heading": "Dosage",
+          "data_type": "char(50)",
+          "description": "Vaccine dosage."
+        }
+      ],
+      "category": "Clinical"
+    },
+    {
+      "name": "Medical History",
+      "file_name_pattern": "EHIExtract_Deconversion_MedicalHistory <date of export>.csv",
+      "description": "A record of patient medical and surgical procedures.",
+      "fields": [
+        {
+          "column_heading": "Patient ID",
+          "data_type": "char(25)",
+          "description": "Patient identifier."
+        },
+        {
+          "column_heading": "Pat First Name",
+          "data_type": "char(50)",
+          "description": "Patient first name."
+        },
+        {
+          "column_heading": "MiddleName",
+          "data_type": "char(50)",
+          "description": "Patient middle name."
+        },
+        {
+          "column_heading": "Pat Last Name",
+          "data_type": "char(50)",
+          "description": "Patient last name."
+        },
+        {
+          "column_heading": "Pat DOB",
+          "data_type": "date",
+          "description": "Patient date of birth."
+        },
+        {
+          "column_heading": "Pat SSN",
+          "data_type": "char(11)",
+          "description": "Patient Social Security Number."
+        },
+        {
+          "column_heading": "Encounter Date",
+          "data_type": "date",
+          "description": "Date history was recorded."
+        },
+        {
+          "column_heading": "Doctor ID",
+          "data_type": "char(25)",
+          "description": "Medical provider identifier."
+        },
+        {
+          "column_heading": "Doc First Name",
+          "data_type": "char(50)",
+          "description": "Medical provider first name."
+        },
+        {
+          "column_heading": "Doc Last Name",
+          "data_type": "char(50)",
+          "description": "Medical provider last name."
+        },
+        {
+          "column_heading": "Type",
+          "data_type": "char(25)",
+          "description": "Type of medical history being recorded."
+        },
+        {
+          "column_heading": "Medical History",
+          "data_type": "char(25)",
+          "description": "Description of medical history being recorded."
+        },
+        {
+          "column_heading": "Procedure Code",
+          "data_type": "char(30)",
+          "description": "Code identifying procedure."
+        },
+        {
+          "column_heading": "ICD9",
+          "data_type": "char(25)",
+          "description": "ICD-9 code."
+        },
+        {
+          "column_heading": "ICD10",
+          "data_type": "char(25)",
+          "description": "ICD-10 code."
+        },
+        {
+          "column_heading": "Status",
+          "data_type": "char(25)",
+          "description": "Active status of medical history."
+        },
+        {
+          "column_heading": "Notes",
+          "data_type": "char(2000)",
+          "description": "Additional notes."
+        }
+      ],
+      "category": "Clinical"
+    },
+    {
+      "name": "Patient Demographics",
+      "file_name_pattern": "EHIExtract_Deconversion_PatientDemographics <date of export>.csv",
+      "description": "A record of non-clinical patient information.",
+      "fields": [
+        {
+          "column_heading": "PatientID",
+          "data_type": "char(25)",
+          "description": "Patient identifier."
+        },
+        {
+          "column_heading": "MRN",
+          "data_type": "char(100)",
+          "description": "Patient Medical Record Number."
+        },
+        {
+          "column_heading": "Prefix",
+          "data_type": "char(25)",
+          "description": "Patient name prefix."
+        },
+        {
+          "column_heading": "FirstName",
+          "data_type": "char(50)",
+          "description": "Patient first name."
+        },
+        {
+          "column_heading": "MiddleName",
+          "data_type": "char(50)",
+          "description": "Patient middle name."
+        },
+        {
+          "column_heading": "LastName",
+          "data_type": "char(50)",
+          "description": "Patient last name."
+        },
+        {
+          "column_heading": "Suffix",
+          "data_type": "char(50)",
+          "description": "Patient name suffix."
+        },
+        {
+          "column_heading": "Address Line 1",
+          "data_type": "char(100)",
+          "description": "Address of the contact."
+        },
+        {
+          "column_heading": "Address Line 2",
+          "data_type": "char(100)",
+          "description": "Additional address field."
+        },
+        {
+          "column_heading": "City",
+          "data_type": "char(100)",
+          "description": "City of the contact."
+        },
+        {
+          "column_heading": "State",
+          "data_type": "char(100)",
+          "description": "State of the contact."
+        },
+        {
+          "column_heading": "Zip",
+          "data_type": "char(100)",
+          "description": "Zip code of the contact."
+        },
+        {
+          "column_heading": "Country",
+          "data_type": "char(100)",
+          "description": "Patient\u2019s country of origin."
+        },
+        {
+          "column_heading": "Phone1",
+          "data_type": "char(80)",
+          "description": "Patient phone number."
+        },
+        {
+          "column_heading": "PhoneType1",
+          "data_type": "char(50)",
+          "description": "Patient phone type."
+        },
+        {
+          "column_heading": "Phone2",
+          "data_type": "char(80)",
+          "description": "Additional patient phone number."
+        },
+        {
+          "column_heading": "PhoneType2",
+          "data_type": "char(50)",
+          "description": "Patient phone type."
+        },
+        {
+          "column_heading": "Phone3",
+          "data_type": "char(80)",
+          "description": "Additional patient phone number."
+        },
+        {
+          "column_heading": "PhoneType3",
+          "data_type": "char(50)",
+          "description": "Patient phone type."
+        },
+        {
+          "column_heading": "Phone4",
+          "data_type": "char(80)",
+          "description": "Additional patient phone number."
+        },
+        {
+          "column_heading": "PhoneType4",
+          "data_type": "char(50)",
+          "description": "Patient phone type."
+        },
+        {
+          "column_heading": "Email1",
+          "data_type": "char(100)",
+          "description": "Patient email address."
+        },
+        {
+          "column_heading": "Email2",
+          "data_type": "char(100)",
+          "description": "Additional patient email address."
+        },
+        {
+          "column_heading": "Comments",
+          "data_type": "char(2000)",
+          "description": "Additional comments."
+        },
+        {
+          "column_heading": "Language Code",
+          "data_type": "char(100)",
+          "description": "Language identifier."
+        },
+        {
+          "column_heading": "Language Description",
+          "data_type": "char(100)",
+          "description": "Language description."
+        },
+        {
+          "column_heading": "Gender Code",
+          "data_type": "char(100)",
+          "description": "Gender identifier."
+        },
+        {
+          "column_heading": "Gender Description",
+          "data_type": "char(100)",
+          "description": "Gender description."
+        },
+        {
+          "column_heading": "Race Code",
+          "data_type": "char(100)",
+          "description": "Race identifier."
+        },
+        {
+          "column_heading": "Race Description",
+          "data_type": "char(100)",
+          "description": "Race description."
+        },
+        {
+          "column_heading": "Ethnicity Code",
+          "data_type": "char(100)",
+          "description": "Ethnicity identifier."
+        },
+        {
+          "column_heading": "Ethnicity Description",
+          "data_type": "char(100)",
+          "description": "Ethnicity description."
+        },
+        {
+          "column_heading": "Date of Birth",
+          "data_type": "date",
+          "description": "Patient\u2019s date of birth."
+        },
+        {
+          "column_heading": "Death Date",
+          "data_type": "date",
+          "description": "Patient\u2019s date of death."
+        },
+        {
+          "column_heading": "AKA First Name",
+          "data_type": "char(50)",
+          "description": "Alternate patient first name."
+        },
+        {
+          "column_heading": "AKA Last Name",
+          "data_type": "char(50)",
+          "description": "Alternate patient last name."
+        },
+        {
+          "column_heading": "SSN",
+          "data_type": "char(11)",
+          "description": "Patient Social Security Number."
+        },
+        {
+          "column_heading": "Marital Code",
+          "data_type": "char(100)",
+          "description": "Marital status identifier."
+        },
+        {
+          "column_heading": "Marital Description",
+          "data_type": "char(100)",
+          "description": "Marital status description."
+        }
+      ],
+      "category": "Demographics"
+    },
+    {
+      "name": "Patient Insurance",
+      "file_name_pattern": "EHIExtract_Deconversion_PatientInsurance <date of export>.csv",
+      "description": "A record of patient insurance providers and plans.",
+      "fields": [
+        {
+          "column_heading": "PatientID",
+          "data_type": "char(25)",
+          "description": "Patient identifier."
+        },
+        {
+          "column_heading": "FirstName",
+          "data_type": "char(50)",
+          "description": "Patient first name."
+        },
+        {
+          "column_heading": "LastName",
+          "data_type": "char(50)",
+          "description": "Patient last name."
+        },
+        {
+          "column_heading": "Birthdate",
+          "data_type": "date",
+          "description": "Patient date of birth."
+        },
+        {
+          "column_heading": "Gender",
+          "data_type": "char(25)",
+          "description": "Patient gender."
+        },
+        {
+          "column_heading": "Address1",
+          "data_type": "char(100)",
+          "description": "Patient address."
+        },
+        {
+          "column_heading": "Address 2",
+          "data_type": "char(100)",
+          "description": "Patient address."
+        },
+        {
+          "column_heading": "City",
+          "data_type": "char(100)",
+          "description": "Patient city."
+        },
+        {
+          "column_heading": "State",
+          "data_type": "char(100)",
+          "description": "Patient state."
+        },
+        {
+          "column_heading": "Zip",
+          "data_type": "char(100)",
+          "description": "Patient zip code."
+        },
+        {
+          "column_heading": "PhoneNumber",
+          "data_type": "char(80)",
+          "description": "Patient phone number."
+        },
+        {
+          "column_heading": "PhoneTypeName",
+          "data_type": "char(50)",
+          "description": "Patient phone type."
+        },
+        {
+          "column_heading": "PhoneNumber2",
+          "data_type": "char(80)",
+          "description": "Additional patient phone number."
+        },
+        {
+          "column_heading": "PhoneTypeName2",
+          "data_type": "char(50)",
+          "description": "Patient phone type."
+        },
+        {
+          "column_heading": "Email1",
+          "data_type": "char(100)",
+          "description": "Patient email address."
+        },
+        {
+          "column_heading": "Race",
+          "data_type": "char(100)",
+          "description": "Patient race."
+        },
+        {
+          "column_heading": "Ethnicity",
+          "data_type": "char(100)",
+          "description": "Patient ethnicity."
+        },
+        {
+          "column_heading": "Primary Member ID",
+          "data_type": "char(50)",
+          "description": "Patient insurance member ID."
+        },
+        {
+          "column_heading": "Primary Group ID",
+          "data_type": "char(50)",
+          "description": "Patient insurance group ID."
+        },
+        {
+          "column_heading": "Secondary Insurance Name",
+          "data_type": "char(200)",
+          "description": "Patient secondary insurance name."
+        },
+        {
+          "column_heading": "Secondary Member ID",
+          "data_type": "char(50)",
+          "description": "Patient secondary insurance member ID."
+        },
+        {
+          "column_heading": "Secondary Group ID",
+          "data_type": "char(50)",
+          "description": "Patient secondary insurance group ID."
+        }
+      ],
+      "category": "Insurance"
+    },
+    {
+      "name": "Problem List",
+      "file_name_pattern": "EHIExtract_Deconversion_ProblemList <date of export>.csv",
+      "description": "A record of diagnoses in the patient\u2019s problem list.",
+      "fields": [
+        {
+          "column_heading": "Patient ID",
+          "data_type": "char(25)",
+          "description": "Patient identifier."
+        },
+        {
+          "column_heading": "Patient First Name",
+          "data_type": "char(50)",
+          "description": "Patient first name."
+        },
+        {
+          "column_heading": "Patient Middle Name",
+          "data_type": "char(50)",
+          "description": "Patient middle name."
+        },
+        {
+          "column_heading": "Pat Last Name",
+          "data_type": "char(50)",
+          "description": "Patient last name."
+        },
+        {
+          "column_heading": "Pat DOB",
+          "data_type": "date",
+          "description": "Patient date of birth."
+        },
+        {
+          "column_heading": "SocialSecurityNumber",
+          "data_type": "char(11)",
+          "description": "Patient Social Security Number."
+        },
+        {
+          "column_heading": "Code9",
+          "data_type": "char(25)",
+          "description": "ICD-9 code."
+        },
+        {
+          "column_heading": "Code10",
+          "data_type": "char(25)",
+          "description": "ICD-10 code."
+        },
+        {
+          "column_heading": "Name",
+          "data_type": "char(255)",
+          "description": "Patient problem name."
+        },
+        {
+          "column_heading": "Onset Date",
+          "data_type": "date",
+          "description": "Patient problem onset date."
+        },
+        {
+          "column_heading": "Resolved On",
+          "data_type": "date",
+          "description": "Patient problem resolved date."
+        },
+        {
+          "column_heading": "ExternalID",
+          "data_type": "char(25)",
+          "description": "Medical provider identifier."
+        },
+        {
+          "column_heading": "FirstName",
+          "data_type": "char(50)",
+          "description": "Medical provider first name."
+        },
+        {
+          "column_heading": "LastName",
+          "data_type": "char(50)",
+          "description": "Medical provider last name."
+        },
+        {
+          "column_heading": "Notes",
+          "data_type": "char(2000)",
+          "description": "Additional notes."
+        }
+      ],
+      "category": "Clinical"
+    },
+    {
+      "name": "Responsible Party",
+      "file_name_pattern": "EHIExtract_Deconversion_ResponsibleParty <date of export>.csv",
+      "description": "A record of parties responsible for making medical decisions.",
+      "fields": [
+        {
+          "column_heading": "PatientID",
+          "data_type": "char(25)",
+          "description": "Patient identifier."
+        },
+        {
+          "column_heading": "Relationship Code",
+          "data_type": "char(50)",
+          "description": "Relationship identifier."
+        },
+        {
+          "column_heading": "Prefix",
+          "data_type": "char(25)",
+          "description": "Responsible party name prefix."
+        },
+        {
+          "column_heading": "FirstName",
+          "data_type": "char(50)",
+          "description": "Responsible party first name."
+        },
+        {
+          "column_heading": "MiddleName",
+          "data_type": "char(50)",
+          "description": "Responsible party middle name."
+        },
+        {
+          "column_heading": "LastName",
+          "data_type": "char(50)",
+          "description": "Responsible party last name."
+        },
+        {
+          "column_heading": "Suffix",
+          "data_type": "char(50)",
+          "description": "Responsible party name suffix."
+        },
+        {
+          "column_heading": "Date of Birth",
+          "data_type": "date",
+          "description": "Responsible party date of birth."
+        },
+        {
+          "column_heading": "SSN",
+          "data_type": "char(11)",
+          "description": "Responsible party Social Security Number."
+        },
+        {
+          "column_heading": "Gender Code",
+          "data_type": "char(25)",
+          "description": "Gender identifier."
+        },
+        {
+          "column_heading": "Marital Code",
+          "data_type": "char(100)",
+          "description": "Marital status identifier."
+        },
+        {
+          "column_heading": "Marital Description",
+          "data_type": "char(100)",
+          "description": "Marital status description."
+        },
+        {
+          "column_heading": "Address Line 1",
+          "data_type": "char(100)",
+          "description": "Address of the responsible party."
+        },
+        {
+          "column_heading": "Address Line 2",
+          "data_type": "char(100)",
+          "description": "Additional address field."
+        },
+        {
+          "column_heading": "City",
+          "data_type": "char(100)",
+          "description": "Responsible party city."
+        },
+        {
+          "column_heading": "State",
+          "data_type": "char(100)",
+          "description": "Responsible party state."
+        },
+        {
+          "column_heading": "Zip",
+          "data_type": "char(100)",
+          "description": "Responsible party zip code."
+        },
+        {
+          "column_heading": "Country",
+          "data_type": "char(100)",
+          "description": "Responsible party country."
+        },
+        {
+          "column_heading": "Phone Number",
+          "data_type": "char(80)",
+          "description": "Responsible party phone number."
+        },
+        {
+          "column_heading": "Phone Type",
+          "data_type": "char(50)",
+          "description": "Responsible party phone type."
+        }
+      ],
+      "category": "Demographics"
+    },
+    {
+      "name": "Results",
+      "file_name_pattern": "EHIExtract_Deconversion_Results <date of export>.csv",
+      "description": "A record of patient lab results.",
+      "fields": [
+        {
+          "column_heading": "Patient ID",
+          "data_type": "char(25)",
+          "description": "Patient identifier."
+        },
+        {
+          "column_heading": "Pat First Name",
+          "data_type": "char(50)",
+          "description": "Patient first name."
+        },
+        {
+          "column_heading": "Pat Last Name",
+          "data_type": "char(50)",
+          "description": "Patient last name."
+        },
+        {
+          "column_heading": "Pat DOB",
+          "data_type": "date",
+          "description": "Patient date of birth."
+        },
+        {
+          "column_heading": "Lab Code",
+          "data_type": "char(100)",
+          "description": "Lab identifier."
+        },
+        {
+          "column_heading": "Lab Code Name",
+          "data_type": "char(1000)",
+          "description": "Lab description."
+        },
+        {
+          "column_heading": "Lab Attribute",
+          "data_type": "char(1000)",
+          "description": "Lab attribute description."
+        },
+        {
+          "column_heading": "Lab Attribute Name",
+          "data_type": "char(100)",
+          "description": "Lab attribute name."
+        },
+        {
+          "column_heading": "Result",
+          "data_type": "char(1000)",
+          "description": "Returned result."
+        },
+        {
+          "column_heading": "AbnormalFlag",
+          "data_type": "char(2)",
+          "description": "Flag abnormal results."
+        },
+        {
+          "column_heading": "Reference Range",
+          "data_type": "char(255)",
+          "description": "Normal result ranges."
+        },
+        {
+          "column_heading": "Unit",
+          "data_type": "char(100)",
+          "description": "Result unit."
+        },
+        {
+          "column_heading": "Date",
+          "data_type": "date",
+          "description": "Result return date."
+        },
+        {
+          "column_heading": "SampleCollectedDate",
+          "data_type": "date",
+          "description": "Date sample collected."
+        },
+        {
+          "column_heading": "ResultStatus",
+          "data_type": "char(50)",
+          "description": "Result status description."
+        },
+        {
+          "column_heading": "Doctor ID",
+          "data_type": "char(25)",
+          "description": "Medical provider identifier."
+        },
+        {
+          "column_heading": "Doc First Name",
+          "data_type": "char(50)",
+          "description": "Medical provider first name."
+        },
+        {
+          "column_heading": "Doc Last Name",
+          "data_type": "char(50)",
+          "description": "Medical provider last name."
+        },
+        {
+          "column_heading": "Notes",
+          "data_type": "char(2000)",
+          "description": "Additional notes."
+        }
+      ],
+      "category": "Clinical"
+    },
+    {
+      "name": "Social History",
+      "file_name_pattern": "EHIExtract_Deconversion_SocialHistory <date of export>.csv",
+      "description": "A record of past and current activities (for example, job, marriage, exercise, marital status, and so on).",
+      "fields": [
+        {
+          "column_heading": "Patient ID",
+          "data_type": "char(25)",
+          "description": "Patient identifier."
+        },
+        {
+          "column_heading": "First Name",
+          "data_type": "char(50)",
+          "description": "Patient first name."
+        },
+        {
+          "column_heading": "Middle Name",
+          "data_type": "char(50)",
+          "description": "Patient middle name."
+        },
+        {
+          "column_heading": "Last Name",
+          "data_type": "char(50)",
+          "description": "Patient last name."
+        },
+        {
+          "column_heading": "DOB",
+          "data_type": "date",
+          "description": "Patient date of birth."
+        },
+        {
+          "column_heading": "SSN",
+          "data_type": "char(11)",
+          "description": "Patient Social Security Number."
+        },
+        {
+          "column_heading": "Date of Note",
+          "data_type": "date",
+          "description": "Date history was recorded."
+        },
+        {
+          "column_heading": "ExternalID",
+          "data_type": "char(25)",
+          "description": "Medical provider identifier."
+        },
+        {
+          "column_heading": "FirstName",
+          "data_type": "char(50)",
+          "description": "Medical provider first name."
+        },
+        {
+          "column_heading": "LastName",
+          "data_type": "char(50)",
+          "description": "Medical provider last name."
+        },
+        {
+          "column_heading": "Social History Question",
+          "data_type": "char(255)",
+          "description": "Social history question asked."
+        },
+        {
+          "column_heading": "Social History Answer",
+          "data_type": "char(255)",
+          "description": "Social history question answer."
+        },
+        {
+          "column_heading": "Notes",
+          "data_type": "char(2000)",
+          "description": "Additional notes."
+        }
+      ],
+      "category": "Clinical"
+    },
+    {
+      "name": "Visit Comments",
+      "file_name_pattern": "EHIExtract_Deconversion_VisitComment <date of export>.csv",
+      "description": "A record of comments made by medical providers during patient visits.",
+      "fields": [
+        {
+          "column_heading": "PatientID",
+          "data_type": "char(25)",
+          "description": "Patient identifier."
+        },
+        {
+          "column_heading": "VisitDate",
+          "data_type": "date",
+          "description": "Date of visit."
+        },
+        {
+          "column_heading": "VisitId",
+          "data_type": "char(40)",
+          "description": "Visit identifier."
+        },
+        {
+          "column_heading": "Comment",
+          "data_type": "char(2000)",
+          "description": "Visit notes."
+        },
+        {
+          "column_heading": "Section",
+          "data_type": "char(50)",
+          "description": "Visit note section."
+        }
+      ],
+      "category": "Clinical"
+    },
+    {
+      "name": "Vitals",
+      "file_name_pattern": "EHIExtract_Deconversion_Vitals <date of export>.csv",
+      "description": "A record of patient vitals recorded during medical visits.",
+      "fields": [
+        {
+          "column_heading": "Patient ID",
+          "data_type": "char(25)",
+          "description": "Patient identifier."
+        },
+        {
+          "column_heading": "First Name",
+          "data_type": "char(50)",
+          "description": "Patient first name."
+        },
+        {
+          "column_heading": "Middle Name",
+          "data_type": "char(50)",
+          "description": "Patient middle name."
+        },
+        {
+          "column_heading": "Last Name",
+          "data_type": "char(50)",
+          "description": "Patient last name."
+        },
+        {
+          "column_heading": "DOB",
+          "data_type": "date",
+          "description": "Patient date of birth."
+        },
+        {
+          "column_heading": "SSN",
+          "data_type": "char(11)",
+          "description": "Patient Social Security Number."
+        },
+        {
+          "column_heading": "Date Recorded",
+          "data_type": "date",
+          "description": "Vitals recorded date."
+        },
+        {
+          "column_heading": "Provider ID",
+          "data_type": "char(25)",
+          "description": "Medical provider identifier."
+        },
+        {
+          "column_heading": "fn",
+          "data_type": "char(50)",
+          "description": "Medical provider first name."
+        },
+        {
+          "column_heading": "ln",
+          "data_type": "char(50)",
+          "description": "Medical provider last name."
+        },
+        {
+          "column_heading": "Vital Name",
+          "data_type": "char(255)",
+          "description": "Name of recorded vital."
+        },
+        {
+          "column_heading": "Value",
+          "data_type": "char(50)",
+          "description": "Value of recorded vital."
+        },
+        {
+          "column_heading": "Unit",
+          "data_type": "char(50)",
+          "description": "Unit of recorded vital."
+        },
+        {
+          "column_heading": "Position",
+          "data_type": "char(50)",
+          "description": "Position of recorded vital."
+        },
+        {
+          "column_heading": "Extract Date",
+          "data_type": "date",
+          "description": "Date of EHI extract."
+        }
+      ],
+      "category": "Clinical"
+    },
+    {
+      "name": "Eligibility",
+      "file_name_pattern": "EHIExtract_Eligibility <date of export>.csv",
+      "description": "A record of patient insurance eligibility inquiries.",
+      "fields": [
+        {
+          "column_heading": "Subscriber",
+          "data_type": "char(200)",
+          "description": "Subscriber name."
+        },
+        {
+          "column_heading": "Date of Birth",
+          "data_type": "date",
+          "description": "Subscriber date of birth."
+        },
+        {
+          "column_heading": "Patient Relation",
+          "data_type": "char(25)",
+          "description": "Subscriber relationship to patient."
+        },
+        {
+          "column_heading": "Authorize Assignment",
+          "data_type": "char(5)",
+          "description": ""
+        },
+        {
+          "column_heading": "Payer Name",
+          "data_type": "char(100)",
+          "description": "Insurance carrier name."
+        },
+        {
+          "column_heading": "Plan Name",
+          "data_type": "char(100)",
+          "description": "Insurance plan name."
+        },
+        {
+          "column_heading": "Group ID",
+          "data_type": "char(50)",
+          "description": "Insurance plan group ID."
+        },
+        {
+          "column_heading": "Member ID",
+          "data_type": "char(50)",
+          "description": "Insurance plan member ID."
+        },
+        {
+          "column_heading": "Plan Address 1",
+          "data_type": "char(100)",
+          "description": "Insurance carrier address."
+        },
+        {
+          "column_heading": "Plan Address 2",
+          "data_type": "char(100)",
+          "description": "Additional insurance carrier address."
+        },
+        {
+          "column_heading": "Plan City",
+          "data_type": "char(100)",
+          "description": "Insurance carrier city."
+        },
+        {
+          "column_heading": "Plan State",
+          "data_type": "char(100)",
+          "description": "Insurance carrier state."
+        },
+        {
+          "column_heading": "Plan Zip",
+          "data_type": "char(100)",
+          "description": "Insurance carrier zip code."
+        },
+        {
+          "column_heading": "Plan Phone Number",
+          "data_type": "char(100)",
+          "description": "Insurance carrier phone number."
+        },
+        {
+          "column_heading": "Eligibility Status",
+          "data_type": "char(150)",
+          "description": "Eligibility status description."
+        },
+        {
+          "column_heading": "InNetwork Deductible",
+          "data_type": "money",
+          "description": "In network deductible amount."
+        },
+        {
+          "column_heading": "OutNetwork Deductible",
+          "data_type": "money",
+          "description": "Out of network deductible amount."
+        },
+        {
+          "column_heading": "InNetwork Remaining",
+          "data_type": "money",
+          "description": "In network remaining amount."
+        },
+        {
+          "column_heading": "OutNetwork Remaining",
+          "data_type": "money",
+          "description": "Out of network remaining amount."
+        },
+        {
+          "column_heading": "InNetwork CoInsurance",
+          "data_type": "money",
+          "description": "In network coinsurance amount."
+        },
+        {
+          "column_heading": "OutNetwork CoInsurance",
+          "data_type": "money",
+          "description": "Out of network coinsurance amount."
+        },
+        {
+          "column_heading": "Effective Date",
+          "data_type": "date",
+          "description": "Plan effective date."
+        },
+        {
+          "column_heading": "Expiration Date",
+          "data_type": "date",
+          "description": "Plan expiration date."
+        },
+        {
+          "column_heading": "Copay Primary",
+          "data_type": "money",
+          "description": "Primary physician copay amount."
+        },
+        {
+          "column_heading": "Copay Specialist",
+          "data_type": "money",
+          "description": "Specialist physician copay amount."
+        },
+        {
+          "column_heading": "Copay Other",
+          "data_type": "money",
+          "description": "Other physician copay amount."
+        },
+        {
+          "column_heading": "Eligibility Request Datetime",
+          "data_type": "datetime",
+          "description": "Date/time of eligibility request."
+        }
+      ],
+      "category": "Insurance"
+    },
+    {
+      "name": "Employment",
+      "file_name_pattern": "EHIExtract_Employment <date of export>.csv",
+      "description": "A record of the patient\u2019s current employment and previous employment history.",
+      "fields": [
+        {
+          "column_heading": "Employer",
+          "data_type": "char(100)",
+          "description": "Name of employer."
+        },
+        {
+          "column_heading": "Employment Status",
+          "data_type": "char(50)",
+          "description": "Current employment status."
+        },
+        {
+          "column_heading": "Occupation",
+          "data_type": "char(2000)",
+          "description": "Employer title."
+        },
+        {
+          "column_heading": "Industry",
+          "data_type": "char(2000)",
+          "description": "Industry of employment."
+        },
+        {
+          "column_heading": "StartDate",
+          "data_type": "date",
+          "description": "Employment start date."
+        },
+        {
+          "column_heading": "EndDate",
+          "data_type": "date",
+          "description": "Employment end date."
+        },
+        {
+          "column_heading": "Department",
+          "data_type": "char(50)",
+          "description": "Employment department."
+        }
+      ],
+      "category": "Demographics"
+    },
+    {
+      "name": "Patient Ledger",
+      "file_name_pattern": "EHIExtract_PatientLedger <date of export>.csv",
+      "description": "A record of patient financial transactions and pending charges.",
+      "fields": [
+        {
+          "column_heading": "SuperbillID",
+          "data_type": "char(25)",
+          "description": "Superbill identifier."
+        },
+        {
+          "column_heading": "SuperbillStatus",
+          "data_type": "char(50)",
+          "description": "Superbill current status."
+        },
+        {
+          "column_heading": "ProcedureCode",
+          "data_type": "char(30)",
+          "description": "Superbill procedure code."
+        },
+        {
+          "column_heading": "serviceDate",
+          "data_type": "datetime",
+          "description": "Date of service."
+        },
+        {
+          "column_heading": "AccountID",
+          "data_type": "uniqueidentifier",
+          "description": "Account identifier."
+        },
+        {
+          "column_heading": "AcctDisplayOrder",
+          "data_type": "bigint",
+          "description": "Order of patient accounts."
+        },
+        {
+          "column_heading": "diagnosis1",
+          "data_type": "char(100)",
+          "description": "Superbill diagnosis code 1."
+        },
+        {
+          "column_heading": "diagnosis2",
+          "data_type": "char(100)",
+          "description": "Superbill diagnosis code 2."
+        },
+        {
+          "column_heading": "diagnosis3",
+          "data_type": "char(100)",
+          "description": "Superbill diagnosis code 3."
+        },
+        {
+          "column_heading": "diagnosis4",
+          "data_type": "char(100)",
+          "description": "Superbill diagnosis code 4."
+        },
+        {
+          "column_heading": "rendererName",
+          "data_type": "char(153)",
+          "description": "Medical provider name."
+        },
+        {
+          "column_heading": "ProcedureNumber",
+          "data_type": "char(50)",
+          "description": "Procedure identifier."
+        },
+        {
+          "column_heading": "ShortDescription",
+          "data_type": "char(750)",
+          "description": "Abbreviated procedure description."
+        },
+        {
+          "column_heading": "LongDescription",
+          "data_type": "char(4000)",
+          "description": "Procedure description."
+        },
+        {
+          "column_heading": "Amount",
+          "data_type": "money",
+          "description": "Total amount due."
+        },
+        {
+          "column_heading": "PaymentAmount",
+          "data_type": "money",
+          "description": "Amount paid."
+        },
+        {
+          "column_heading": "Notes",
+          "data_type": "char(2000)",
+          "description": "Additional notes."
+        },
+        {
+          "column_heading": "glDate",
+          "data_type": "date",
+          "description": ""
+        },
+        {
+          "column_heading": "whoPaid",
+          "data_type": "char(100)",
+          "description": "Superbill payer."
+        },
+        {
+          "column_heading": "ReferenceNumber",
+          "data_type": "char(250)",
+          "description": "Superbill reference number."
+        },
+        {
+          "column_heading": "DepositUid",
+          "data_type": "uniqueidentifier",
+          "description": "Deposit identifier."
+        },
+        {
+          "column_heading": "AMTBILLED",
+          "data_type": "money",
+          "description": "Amount billed."
+        },
+        {
+          "column_heading": "AMTDUE",
+          "data_type": "money",
+          "description": "Amount due."
+        },
+        {
+          "column_heading": "AMTDUE_INS",
+          "data_type": "money",
+          "description": "Insurance amount due."
+        },
+        {
+          "column_heading": "AMTDUE_PAT",
+          "data_type": "money",
+          "description": "Patient amount due."
+        },
+        {
+          "column_heading": "AMTPAID",
+          "data_type": "money",
+          "description": "Amount paid."
+        },
+        {
+          "column_heading": "AMTADJUSTED",
+          "data_type": "money",
+          "description": "Amount adjusted."
+        },
+        {
+          "column_heading": "IsVoid",
+          "data_type": "bit",
+          "description": "Is ledger void."
+        },
+        {
+          "column_heading": "IsVoidOS",
+          "data_type": "int",
+          "description": "Is ledger void."
+        },
+        {
+          "column_heading": "FinancialCenter",
+          "data_type": "char(255)",
+          "description": "Financial center name."
+        },
+        {
+          "column_heading": "ServiceSite",
+          "data_type": "char(50)",
+          "description": "Service site name."
+        },
+        {
+          "column_heading": "receiptID",
+          "data_type": "char(50)",
+          "description": "Unique identifier of payer."
+        },
+        {
+          "column_heading": "PatientExternalId",
+          "data_type": "char(25)",
+          "description": "Patient identifier."
+        },
+        {
+          "column_heading": "PatientName",
+          "data_type": "char(100)",
+          "description": "Patient name."
+        },
+        {
+          "column_heading": "PatientFullName",
+          "data_type": "char(100)",
+          "description": "Patient full name."
+        },
+        {
+          "column_heading": "accountName",
+          "data_type": "char(255)",
+          "description": "Account name."
+        },
+        {
+          "column_heading": "dayPhone",
+          "data_type": "char(100)",
+          "description": "Person or insurance carrier phone number."
+        },
+        {
+          "column_heading": "ResponsiblePartyUid",
+          "data_type": "uniqueidentifier",
+          "description": "Responsible party identifier."
+        },
+        {
+          "column_heading": "responsibleName",
+          "data_type": "char(100)",
+          "description": "Responsible party name."
+        },
+        {
+          "column_heading": "address1",
+          "data_type": "char(100)",
+          "description": "Person or insurance carrier address."
+        },
+        {
+          "column_heading": "address2",
+          "data_type": "char(100)",
+          "description": "Person or insurance carrier additional address."
+        },
+        {
+          "column_heading": "city",
+          "data_type": "char(100)",
+          "description": "Person or insurance carrier city."
+        },
+        {
+          "column_heading": "STATE",
+          "data_type": "char(100)",
+          "description": "Person or insurance carrier state."
+        },
+        {
+          "column_heading": "zip",
+          "data_type": "char(100)",
+          "description": "Person or insurance carrier zip code."
+        },
+        {
+          "column_heading": "lastPatientPaymentDate",
+          "data_type": "date",
+          "description": "Date of last patient payment."
+        },
+        {
+          "column_heading": "lastInsurancePaymentDate",
+          "data_type": "date",
+          "description": "Date of last insurance payment."
+        },
+        {
+          "column_heading": "lastStatementDate",
+          "data_type": "date",
+          "description": "Date of last statement."
+        },
+        {
+          "column_heading": "lastPatientPaymentAmount",
+          "data_type": "money",
+          "description": "Amount of last patient payment."
+        },
+        {
+          "column_heading": "lastInsurancePaymentAmount",
+          "data_type": "money",
+          "description": "Amount of last insurance payment."
+        },
+        {
+          "column_heading": "patientLiabilityBalance",
+          "data_type": "money",
+          "description": "Insurance liability balance."
+        },
+        {
+          "column_heading": "InsuranceLiabilityBalance",
+          "data_type": "money",
+          "description": "Insurance liability balance."
+        },
+        {
+          "column_heading": "BilledAmount",
+          "data_type": "money",
+          "description": "Billed amount."
+        },
+        {
+          "column_heading": "TotalPayment",
+          "data_type": "money",
+          "description": "Total payment."
+        },
+        {
+          "column_heading": "InsurancePayment",
+          "data_type": "money",
+          "description": "Insurance payment amount."
+        },
+        {
+          "column_heading": "PatientPayment",
+          "data_type": "money",
+          "description": "Patient payment amount."
+        },
+        {
+          "column_heading": "TotalInsuranceAdjustment",
+          "data_type": "money",
+          "description": "Total insurance adjustment."
+        },
+        {
+          "column_heading": "TotalPatientAdjustment",
+          "data_type": "money",
+          "description": "Total patient adjustment."
+        },
+        {
+          "column_heading": "TotalAdjustment",
+          "data_type": "money",
+          "description": "Total adjustment."
+        },
+        {
+          "column_heading": "RPID",
+          "data_type": "char(25)",
+          "description": "Responsible party identifier."
+        },
+        {
+          "column_heading": "PayerCredits",
+          "data_type": "money",
+          "description": "Payer credits amount."
+        }
+      ],
+      "category": "Billing / Financial"
+    },
+    {
+      "name": "Patient Referrals",
+      "file_name_pattern": "EHIExtract_PatientReferrals <date of export>.csv",
+      "description": "A record of patient referrals to internal and external medical providers.",
+      "fields": [
+        {
+          "column_heading": "PatientName",
+          "data_type": "char(200)",
+          "description": "Patient name."
+        },
+        {
+          "column_heading": "Provider",
+          "data_type": "char(200)",
+          "description": "Referred provider name."
+        },
+        {
+          "column_heading": "Provider Role",
+          "data_type": "char(100)",
+          "description": "Medical provider role."
+        },
+        {
+          "column_heading": "Service Site",
+          "data_type": "char(100)",
+          "description": "Service location."
+        },
+        {
+          "column_heading": "Role Active From",
+          "data_type": "date",
+          "description": "Referred provider active date."
+        },
+        {
+          "column_heading": "Role Active Until",
+          "data_type": "date",
+          "description": "Referred provider inactive date."
+        },
+        {
+          "column_heading": "Comments",
+          "data_type": "char(2000)",
+          "description": "Notes from referral visit."
+        },
+        {
+          "column_heading": "Status",
+          "data_type": "char(50)",
+          "description": "Status of referral."
+        },
+        {
+          "column_heading": "Appointment Date",
+          "data_type": "date",
+          "description": "Date of appointment with referred provider."
+        },
+        {
+          "column_heading": "Referral Notes",
+          "data_type": "char(2000)",
+          "description": "Notes from referral visit."
+        },
+        {
+          "column_heading": "Visit Date",
+          "data_type": "date",
+          "description": "Date of visit with referring provider."
+        },
+        {
+          "column_heading": "Procedure Code",
+          "data_type": "char(30)",
+          "description": "Visit procedure code."
+        },
+        {
+          "column_heading": "Procedure Description",
+          "data_type": "char(800)",
+          "description": "Visit procedure description."
+        },
+        {
+          "column_heading": "Referral Date",
+          "data_type": "datetime",
+          "description": "Date/time of visit with referring provider."
+        }
+      ],
+      "category": "Clinical"
+    },
+    {
+      "name": "Providers",
+      "file_name_pattern": "EHIExport_Providers <date of export>.csv",
+      "description": "A record of the patient\u2019s medical providers.",
+      "fields": [
+        {
+          "column_heading": "Patient Name",
+          "data_type": "char(150)",
+          "description": "Patient name."
+        },
+        {
+          "column_heading": "Provider Name",
+          "data_type": "char(150)",
+          "description": "Medical provider name."
+        },
+        {
+          "column_heading": "Provider Role",
+          "data_type": "char(150)",
+          "description": "Medical provider role."
+        },
+        {
+          "column_heading": "Specialty",
+          "data_type": "char(150)",
+          "description": "Medical provider specialty."
+        },
+        {
+          "column_heading": "Role Active From",
+          "data_type": "date",
+          "description": "Begin date as patient medical provider."
+        },
+        {
+          "column_heading": "Role Active Until",
+          "data_type": "date",
+          "description": "End date as patient medical provider."
+        },
+        {
+          "column_heading": "Comments",
+          "data_type": "char(2000)",
+          "description": "Medical provider comments."
+        }
+      ],
+      "category": "Care Team"
+    },
+    {
+      "name": "Response Report",
+      "file_name_pattern": "EHIExtract_ResponseReport <date of export>.csv",
+      "description": "A report containing medical provider clinical decisions and patient actions.",
+      "fields": [
+        {
+          "column_heading": "RecordDate",
+          "data_type": "datetime",
+          "description": "Decision recorded date."
+        },
+        {
+          "column_heading": "UserName",
+          "data_type": "char(250)",
+          "description": "Username of decision maker."
+        },
+        {
+          "column_heading": "PatientName",
+          "data_type": "char(150)",
+          "description": "Patient name."
+        },
+        {
+          "column_heading": "PatientBirthdate",
+          "data_type": "datetime",
+          "description": "Patient date of birth."
+        },
+        {
+          "column_heading": "HMRuleText",
+          "data_type": "char(2000)",
+          "description": "HM rule name or description for HMR lab alerts."
+        },
+        {
+          "column_heading": "PerformType",
+          "data_type": "char(15)",
+          "description": "Type of decision made."
+        },
+        {
+          "column_heading": "Notes",
+          "data_type": "char(2000)",
+          "description": "Additional notes."
+        }
+      ],
+      "category": "Clinical Decision Support"
+    }
+  ]
+}

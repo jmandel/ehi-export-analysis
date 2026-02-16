@@ -101,8 +101,19 @@ for i, line in enumerate(lines):
 
 data_lines_raw = lines[raw_table_start:] if raw_table_start else []
 
+# Multi-line name completions: when a name like "Allergies and Intolerances" appears
+# but could be the prefix of "Allergies and Intolerances Pending" which spans 2 lines
+PARTIAL_PREFIXES = {
+    "Allergies and Intolerances": "Allergies and Intolerances Pending",
+    "Occupation and Industry": "Occupation and Industry History", 
+    "Patient Health Information": "Patient Health Information Capture",
+}
+COMPLETION_WORDS = {v.split()[-1]: v for v in PARTIAL_PREFIXES.values()}
+
 # Sort names longest first to avoid partial matches
-sorted_names = sorted(KNOWN_NAMES, key=len, reverse=True)
+# Also add partial prefixes as matchable
+all_matchable = list(KNOWN_NAMES) + list(PARTIAL_PREFIXES.keys())
+sorted_names = sorted(set(all_matchable), key=len, reverse=True)
 
 # The PDF layout has data class names at left margin (indent 0-1) followed by columns.
 # Continuation lines (wrapped columns) are indented 25+ chars.
@@ -110,10 +121,7 @@ sorted_names = sorted(KNOWN_NAMES, key=len, reverse=True)
 # "Occupation and Industry" + "History", "Patient Health Information" + "Capture").
 # Strategy: use indentation + known name matching to distinguish entries from continuations.
 
-# Multi-line name second parts that appear at low indent
-MULTILINE_SECOND_PARTS = {"Pending", "History", "Capture"}
-
-entries = []  # list of {"name": str, "raw_col_text": str}
+entries = []  # list of {"name": str, "raw_col_text": str, "maybe_partial": bool}
 
 for line in data_lines_raw:
     if not line.strip():
@@ -127,14 +135,13 @@ for line in data_lines_raw:
     
     matched_name = None
     if indent <= 5:
-        # Check if this is the second part of a multi-line data class name
+        # Check if this line completes a partial multi-line name
         first_word = stripped.split()[0] if stripped.split() else ""
-        if entries and first_word in MULTILINE_SECOND_PARTS:
-            # Check if combining with previous entry's name gives a known name
-            combined = entries[-1]["name"] + " " + first_word
-            if combined in KNOWN_NAMES:
-                # Update the previous entry's name and add any columns from this line
-                entries[-1]["name"] = combined
+        if entries and entries[-1].get("maybe_partial") and first_word in COMPLETION_WORDS:
+            full_name = COMPLETION_WORDS[first_word]
+            if full_name.startswith(entries[-1]["name"] + " "):
+                entries[-1]["name"] = full_name
+                entries[-1]["maybe_partial"] = False
                 rest = stripped[len(first_word):].strip()
                 if rest:
                     entries[-1]["raw_col_text"] += " " + rest
@@ -146,10 +153,13 @@ for line in data_lines_raw:
                 if not rest or rest[0] in (' ', '\t', ','):
                     matched_name = name
                     col_text = rest.strip()
+                    # Check if this could be a partial prefix
+                    is_partial = name in PARTIAL_PREFIXES
                     break
     
     if matched_name:
-        entries.append({"name": matched_name, "raw_col_text": col_text})
+        entries.append({"name": matched_name, "raw_col_text": col_text, 
+                       "maybe_partial": matched_name in PARTIAL_PREFIXES})
     elif entries:
         entries[-1]["raw_col_text"] += " " + stripped
 

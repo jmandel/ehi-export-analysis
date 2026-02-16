@@ -1,0 +1,80 @@
+#!/usr/bin/env python3
+"""Parse the B10.html EHI export documentation page and extract structured data."""
+
+import json
+from html.parser import HTMLParser
+
+html_file = "../downloads/B10.html"
+
+with open(html_file, "r") as f:
+    content = f.read()
+
+# Extract key sections manually since the HTML is simple
+sections = []
+
+# Provider Export section
+provider_section = {
+    "section": "Provider Export",
+    "description": "Secure, one-time bulk export of all primary care provider patient data, including MIME document types for PDF, TIF, PNG, and WORD.",
+    "workflow_steps": [
+        "Patient(s) submit requests",
+        "Access Bulk Download From Admin Console",
+        "Select Patients requesting Primary care provider Access",
+        "User selects secure Download location",
+        "User give provider Secure access"
+    ],
+    "bulk_data_types": [
+        "C-CDA USCDI v3",
+        "PDF documents, including scanned paper and digital records of faxes",
+        "Image files (JPEG, GIF, TIF)",
+        "Word documents",
+        "Internal correspondence such as tasks, notes"
+    ]
+}
+sections.append(provider_section)
+
+# Patient Export Requests section
+patient_section = {
+    "section": "Patient Export Requests",
+    "description": "CloudCraft FHIR supports the FHIR R4 DocumentReference resource. This resource can be used with any document format with a recognized mime type.",
+    "fhir_app_connections": "MyLinks, Apple Health, etc.",
+    "bulk_data_types": [
+        "C-CDA USCDI v3",
+        "PDF documents, including scanned paper and digital records of faxes",
+        "Image files (JPEG, GIF, TIF)",
+        "Word documents",
+        "Internal correspondence such as tasks, notes"
+    ]
+}
+sections.append(patient_section)
+
+result = {
+    "source_file": "downloads/B10.html",
+    "source_url": "https://cloudcraftsoftware.com/certification/B10.html",
+    "title": "CloudCraft 170.315 (b)(10) EHI Export",
+    "page_size_bytes": 6525,
+    "sections": sections,
+    "data_dictionary_present": False,
+    "schema_present": False,
+    "sample_data_present": False,
+    "api_documentation_present": False,
+    "field_level_documentation": False,
+    "total_entities_documented": 0,
+    "total_fields_documented": 0,
+    "export_formats": ["C-CDA USCDI v3", "PDF", "JPEG", "GIF", "TIF", "Word (DOC/DOCX)"],
+    "export_mechanisms": ["Admin Console bulk download (provider)", "FHIR R4 DocumentReference (patient)"],
+    "notes": [
+        "No data dictionary or field-level documentation exists",
+        "No schema files (XSD, JSON Schema, OpenAPI)",
+        "No sample data or examples provided",
+        "Typo on page: 'meme document types' should be 'MIME document types'",
+        "C-CDA USCDI v3 covers only USCDI data classes, not full EHR content",
+        "No billing, practice management, or HR data mentioned despite being core product modules"
+    ]
+}
+
+# Write output
+with open("b10-parsed.json", "w") as f:
+    json.dump(result, f, indent=2)
+
+print(json.dumps(result, indent=2))
