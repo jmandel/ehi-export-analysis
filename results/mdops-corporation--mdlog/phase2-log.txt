@@ -1,0 +1,218 @@
+
+
+
+
+● Read product research
+  $ cat /home/jmandel/hobby/ehi-export-analysis/results/mdops-corporation--mdlog/product-research.md
+   2>/dev/null | head -200
+  └ 139 lines...
+
+● Read CHPL metadata
+  $ cat /home/jmandel/hobby/ehi-export-analysis/results/mdops-corporation--mdlog/chpl-metadata.json
+  2>/dev/null | head -100
+  └ 57 lines...
+
+● Probe the URL
+  $ curl -sI -L "https://pcc-demo.mdops.com/api/viewCCDSchema" -H 'User-Agent: Mozilla/5.0' 2>&1
+  └ 9 lines...
+
+● Download and examine schema
+  $ mkdir -p
+  /home/jmandel/hobby/ehi-export-analysis/results/mdops-corporation--mdlog/downloads/enrichment &&
+  curl -sL "https://pcc-demo.mdops.com/api/viewCCDSchema" -H 'User-Agent: Mozilla/5.0' -o
+  /tmp/ccd-schema.xml && wc -c /tmp/ccd-schema.xml && head -c 2000 /tmp/ccd-schema.xml
+  └ 32 lines...
+
+● Search for EHI-specific content
+  $ # Check what's in the schema - look for custom sections, EHI-specific comments
+  grep -i "ehi\|export\|mdlog\|mdops\|section\|component\|supported" /tmp/ccd-schema.xml | head -30
+  └ 23 lines...
+
+● Check demo site root
+  $ # Check for any other API endpoints or pages on the demo site
+  curl -sI "https://pcc-demo.mdops.com/" -H 'User-Agent: Mozilla/5.0' 2>&1 | head -10
+  └ 9 lines...
+
+● Check mandatory disclosures page
+  $ # Check the certified page for more docs
+  curl -sL "https://www.mdops.com/certified/" -H 'User-Agent: Mozilla/5.0' -o /tmp/certified.html &&
+   wc -c /tmp/certified.html && cat /tmp/certified.html | sed 's/<[^>]*>/ /g' | tr -s ' \n' | head
+  -80
+  └ 74 lines...
+
+● Search certified page for relevant links
+  $ # Get the text content of the certified page
+  grep -oiE 'href="[^"]*"' /tmp/certified.html | grep -iE
+  'ehi|export|b.10|data.dict|bulk|schema|pdf|zip|csv|json|doc' | head -20
+  └ 16 lines...
+
+● Search page text for EHI content
+  $ # Get text content of certified page - the actual body content
+  cat /tmp/certified.html | sed 's/<[^>]*>/ /g' | tr -s ' \n' | grep -iE
+  'ehi|export|b.10|schema|data.dict|health.information|170.315' | head -20
+  └ 5 lines...
+
+● Download sub-schemas
+  $ # Download the referenced sub-schemas
+  curl -sL "https://connect-demo.mdops.com/api/viewDatatypeSchema" -H 'User-Agent: Mozilla/5.0'
+  -o /tmp/datatype-schema.xml && wc -c /tmp/datatype-schema.xml && head -c 500
+  /tmp/datatype-schema.xml
+  echo "---"...
+  └ 13 lines...
+
+● Extract b(10) section text
+  $ # Get the full text around the b(10) section on the certified page
+  cat /tmp/certified.html | sed 's/<\/\(div\|p\|li\|h[1-6]\|tr\|td\|th\|br\|span\)>/\n/gI' | sed
+  's/<[^>]*>//g' | tr -s ' \n' | grep -A5 -B2 -i
+  "b..10\|ehi\|export.*health\|health.*information.*export\|viewCCD" | head -40
+  └ 9 lines...
+
+● Get b(10) context from HTML
+  $ # Let me look at the page more carefully - extract the area around b(10) with more context
+  python3 -c "
+  import re
+  with open('/tmp/certified.html') as f:
+      html = f.read()...
+  └ 11 lines...
+
+● Find links near b(10)
+  $ # Check for any links specifically near b(10) section
+  python3 -c "
+  import re
+  with open('/tmp/certified.html') as f:
+      html = f.read()...
+  └ 21 lines...
+
+● List schema types
+  $ # Look at the schema more carefully - what complex types are defined
+  grep -oP 'name="[^"]*"' /tmp/ccd-schema.xml | sort -u | head -60
+  └ 61 lines...
+
+● Probe connect-demo endpoints
+  $ # Try the connect-demo subdomain too
+  for path in /api/viewCCDSchema /api/viewDatatypeSchema /api/viewVOCSchema
+  /api/viewNarrativeBlockSchema /api /; do
+    code=$(curl -s -o /dev/null -w "%{http_code}" "https://connect-demo.mdops.com${path}" -H
+  'User-Agent: Mozilla/5.0' --max-time 5)...
+  └ 9 lines...
+
+● Probe API endpoints
+  $ # Try other common API paths on the demo server
+  for path in /api /api/viewCCDSchema /api/schema /api/export /api/ehi /api/fhir /api/metadata
+  /docs /api-docs /swagger; do
+    code=$(curl -s -o /dev/null -w "%{http_code}" "https://pcc-demo.mdops.com${path}" -H
+  'User-Agent: Mozilla/5.0' --max-time 5)...
+  └ 13 lines...
+
+● Check schema references
+  $ # Check if main schema references are on pcc-demo (not connect-demo)
+  grep -o 'schemaLocation="[^"]*"' /tmp/ccd-schema.xml
+  └ 4 lines...
+
+● Try sub-schemas on pcc-demo
+  $ # Try the schema locations on pcc-demo instead
+  for path in /api/viewDatatypeSchema /api/viewVOCSchema /api/viewNarrativeBlockSchema; do
+    code=$(curl -s -o /dev/null -w "%{http_code}" "https://pcc-demo.mdops.com${path}" -H
+  'User-Agent: Mozilla/5.0' --max-time 5)
+    echo "$code pcc-demo.mdops.com${path}"...
+  └ 5 lines...
+
+● Download all schema files
+  $ # Download the sub-schemas from pcc-demo
+  cd /home/jmandel/hobby/ehi-export-analysis/results/mdops-corporation--mdlog/downloads
+  curl -sL "https://pcc-demo.mdops.com/api/viewCCDSchema" -H 'User-Agent: Mozilla/5.0' -o
+  ccd-schema.xml
+  curl -sL "https://pcc-demo.mdops.com/api/viewDatatypeSchema" -H 'User-Agent: Mozilla/5.0' -o ...
+  └ 17 lines...
+
+● Examine sub-schemas
+  $ # Check what the schemas contain
+  head -c 500 /home/jmandel/hobby/ehi-export-analysis/results/mdops-corporation--mdlog/downloads
+  /datatype-schema.xml
+  echo "==="
+  head -c 500 /home/jmandel/hobby/ehi-export-analysis/results/mdops-corporation--mdlog/downloads...
+  └ 35 lines...
+
+● Check connect-demo homepage
+  $ # Now let me look at the connect-demo site
+  curl -sL "https://connect-demo.mdops.com/" -H 'User-Agent: Mozilla/5.0' -o /tmp/connect-demo.html
+  && wc -c /tmp/connect-demo.html && head -c 1000 /tmp/connect-demo.html
+  └ 19 lines...
+
+● Check for additional pages
+  $ # Check the main website for any EHI-specific pages
+  curl -sL "https://www.mdops.com/ehi/" -o /dev/null -w "%{http_code}" -H 'User-Agent:
+  Mozilla/5.0'
+  echo ""
+  curl -sL "https://www.mdops.com/interoperability/" -o /dev/null -w "%{http_code}" -H ...
+  └ 8 lines...
+
+● Extract certified page content
+  $ # Look at full text of the certified page more carefully - extract all visible sections
+  python3 -c "
+  import re
+  with open('/tmp/certified.html') as f:
+      html = f.read()...
+  └ 95 lines...
+
+Now let me take a screenshot of the certified page and create the enrichment script.
+
+● Get file sizes
+  $ # Get file sizes for manifest
+  cd /home/jmandel/hobby/ehi-export-analysis/results/mdops-corporation--mdlog/downloads
+  ls -la *.xml
+  └ 5 lines...
+
+● Count schema elements
+  $ # Count complex types and elements in the CCD schema
+  echo "=== CCD Schema ==="
+  grep -c 'complexType' /home/jmandel/hobby/ehi-export-analysis/results/mdops-corporation--mdlog
+  /downloads/ccd-schema.xml
+  echo "complex types"...
+  └ 23 lines...
+
+● List CCD complex types
+  $ # List the CCD complex types - these tell us what data structures the export supports
+  grep -oP 'complexType name="\K[^"]+'
+  /home/jmandel/hobby/ehi-export-analysis/results/mdops-corporation--mdlog/downloads/ccd-schema.xml
+  | sort
+  └ 89 lines...
+
+Now let me create the enrichment script and output files.
+
+● Create results/mdops-corporation--mdlog/downloads/enrichment/extract-schema.ts (+212)
+
+● Run enrichment script
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/mdops-corporation--mdlog/downloads/enrichment
+   && bun run extract-schema.ts
+  └ 9 lines...
+
+● Verify enrichment output
+  $ # Quick check of the extract
+  cd
+  /home/jmandel/hobby/ehi-export-analysis/results/mdops-corporation--mdlog/downloads/enrichment
+  python3 -c "
+  import json...
+  └ 35 lines...
+
+Now let me create the enrichment README and then write the report and manifest.
+
+● Create results/mdops-corporation--mdlog/downloads/enrichment/README.md (+30)
+
+● Get enrichment file size
+  $ wc -c /home/jmandel/hobby/ehi-export-analysis/results/mdops-corporation--mdlog/downloads/enrichm
+  ent/schema-extract.json
+  └ 2 lines...
+
+Now let me create the report and manifest.
+
+● Create results/mdops-corporation--mdlog/ehi-export-report.md (+159)
+
+● Create results/mdops-corporation--mdlog/files.json (+58)
+
+● Verify output files
+  $ # Verify all files exist
+  cd /home/jmandel/hobby/ehi-export-analysis/results/mdops-corporation--mdlog
+  find . -type f | sort
+  └ 15 lines...
+
