@@ -1,0 +1,2758 @@
+{
+  "title": "RevolutionEHR Patient Export",
+  "description": "RevolutionEHR Patient Data Export\n\nRevolutionEHR Patient Data Export documentation for exported patient EHI JSON.",
+  "exportEndpoint": "patient/export",
+  "exportMethod": "POST",
+  "rootSchema": "Patient",
+  "schemas": [
+    {
+      "name": "Address",
+      "description": "Address",
+      "fieldCount": 5,
+      "fields": [
+        {
+          "name": "address1",
+          "type": "string",
+          "description": "Address1",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "address2",
+          "type": "string",
+          "description": "Address2",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "city",
+          "type": "string",
+          "description": "City",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "state",
+          "type": "string",
+          "description": "State",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "zip",
+          "type": "string",
+          "description": "Zip",
+          "required": false,
+          "isArray": false
+        }
+      ],
+      "referencedBy": [
+        "Demographics",
+        "Employment"
+      ],
+      "references": []
+    },
+    {
+      "name": "Allergy",
+      "description": "Allergies of a patient",
+      "fieldCount": 7,
+      "fields": [
+        {
+          "name": "startDate",
+          "type": "string",
+          "format": "date",
+          "description": "Start date of the `Allergy`",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "endDate",
+          "type": "string",
+          "format": "date",
+          "description": "End date of the `Allergy`",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "severity",
+          "type": "string",
+          "description": "Severity of the `Allergy`.",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "reactions",
+          "type": "array",
+          "description": "Reactions for this `Allergy`.",
+          "required": false,
+          "isArray": true,
+          "itemType": "string"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "The description of the `Allergy`",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "treatment",
+          "type": "string",
+          "description": "The treatment of the `Allergy`",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "The allergy Name",
+          "required": true,
+          "isArray": false
+        }
+      ],
+      "referencedBy": [
+        "Patient"
+      ],
+      "references": []
+    },
+    {
+      "name": "CarePlanItem",
+      "description": "Care Plan Item",
+      "fieldCount": 4,
+      "fields": [
+        {
+          "name": "type",
+          "type": "string",
+          "description": "Care Plan Item Type",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "startDate",
+          "type": "string",
+          "format": "date",
+          "description": "Care Plan Item Start Date",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "stopDate",
+          "type": "string",
+          "format": "date",
+          "description": "Care Plan Item Stop Date",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "Care Plan Item Description",
+          "required": true,
+          "isArray": false
+        }
+      ],
+      "referencedBy": [
+        "DiagnosisCarePlanItem",
+        "EncounterDiagnosis"
+      ],
+      "references": []
+    },
+    {
+      "name": "Claim",
+      "description": "Invoice Claim History",
+      "fieldCount": 5,
+      "fields": [
+        {
+          "name": "claimDate",
+          "type": "string",
+          "format": "date",
+          "description": "Claim date",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "externalMessage",
+          "type": "string",
+          "description": "External message",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "submitDate",
+          "type": "string",
+          "format": "date",
+          "description": "Submit date",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "submitMethod",
+          "type": "string",
+          "description": "Submit method",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "statusMessages",
+          "type": "array",
+          "description": "Status messages",
+          "required": false,
+          "isArray": true,
+          "itemType": "string"
+        }
+      ],
+      "referencedBy": [
+        "Invoice"
+      ],
+      "references": []
+    },
+    {
+      "name": "ClinicalDecisionSupport",
+      "description": "Clinical Decision Support History",
+      "fieldCount": 8,
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Rule name",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "results",
+          "type": "string",
+          "description": "Results",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "description": "Type",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "Description",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "confirmationStatus",
+          "type": "string",
+          "description": "Confirmation status",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "exceptionComments",
+          "type": "string",
+          "description": "Exception comments",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "exceptionSnomedCode",
+          "type": "integer",
+          "format": "int64",
+          "description": "Exception SNOMED code",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "exceptionSnomedDescription",
+          "type": "string",
+          "description": "Exception SNOMED description",
+          "required": false,
+          "isArray": false
+        }
+      ],
+      "referencedBy": [
+        "Encounter"
+      ],
+      "references": []
+    },
+    {
+      "name": "Contact",
+      "description": "Patient Contact",
+      "fieldCount": 4,
+      "fields": [
+        {
+          "name": "firstName",
+          "type": "string",
+          "description": "Contact first name",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "lastName",
+          "type": "string",
+          "description": "Contact last name",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "middleName",
+          "type": "string",
+          "description": "Contact middle name",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "role",
+          "type": "string",
+          "description": "Contact role",
+          "required": false,
+          "isArray": false
+        }
+      ],
+      "referencedBy": [
+        "Patient"
+      ],
+      "references": []
+    },
+    {
+      "name": "Demographics",
+      "description": "Demographics of a patient",
+      "fieldCount": 17,
+      "fields": [
+        {
+          "name": "firstName",
+          "type": "string",
+          "description": "First name",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "lastName",
+          "type": "string",
+          "description": "Last name",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "middleName",
+          "type": "string",
+          "description": "Middle name",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "suffix",
+          "type": "string",
+          "description": "Suffix",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "previousFirstName",
+          "type": "string",
+          "description": "Previous first name",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "previousLastName",
+          "type": "string",
+          "description": "Previous last name",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "previousMiddleName",
+          "type": "string",
+          "description": "Previous middle name",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "dob",
+          "type": "string",
+          "format": "date",
+          "description": "Date of birth",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "races",
+          "type": "array",
+          "description": "Races",
+          "required": false,
+          "isArray": true,
+          "itemType": "string"
+        },
+        {
+          "name": "ethnicities",
+          "type": "array",
+          "description": "Ethnicities",
+          "required": false,
+          "isArray": true,
+          "itemType": "string"
+        },
+        {
+          "name": "sex",
+          "type": "string",
+          "description": "Sex",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "language",
+          "type": "string",
+          "description": "Language",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "address",
+          "type": "Address",
+          "description": "",
+          "required": false,
+          "isArray": false,
+          "refSchema": "Address"
+        },
+        {
+          "name": "preferredPhoneNumber",
+          "type": "string",
+          "description": "Preferred phone number",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "phoneNumberType",
+          "type": "string",
+          "description": "Preferred phone type",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "description": "Email",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "employment",
+          "type": "Employment",
+          "description": "",
+          "required": false,
+          "isArray": false,
+          "refSchema": "Employment"
+        }
+      ],
+      "referencedBy": [
+        "Patient"
+      ],
+      "references": [
+        "Address",
+        "Employment"
+      ]
+    },
+    {
+      "name": "Diagnosis",
+      "description": "Diagnosis History",
+      "fieldCount": 7,
+      "fields": [
+        {
+          "name": "code",
+          "type": "string",
+          "description": "Diagnosis Code",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "diagnosisDate",
+          "type": "string",
+          "format": "date",
+          "description": "Diagnosis Date",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "resolutionDate",
+          "type": "string",
+          "format": "date",
+          "description": "Diagnosis Resolution Date",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "eyeLocation",
+          "type": "string",
+          "description": "Diagnosis Eye Location",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "qualifier",
+          "type": "string",
+          "description": "Diagnosis Qualifier",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "description": "Diagnosis Reason",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "encounterDateTime",
+          "type": "string",
+          "format": "date-time",
+          "description": "Diagnosis Encounter Date And Time",
+          "required": false,
+          "isArray": false
+        }
+      ],
+      "referencedBy": [
+        "DiagnosisCarePlanItem",
+        "Patient"
+      ],
+      "references": []
+    },
+    {
+      "name": "DiagnosisCarePlanItem",
+      "description": "History of Diagnosis and related Care Plan Item",
+      "fieldCount": 2,
+      "fields": [
+        {
+          "name": "diagnosis",
+          "type": "Diagnosis",
+          "description": "",
+          "required": false,
+          "isArray": false,
+          "refSchema": "Diagnosis"
+        },
+        {
+          "name": "carePlanItem",
+          "type": "CarePlanItem",
+          "description": "",
+          "required": false,
+          "isArray": false,
+          "refSchema": "CarePlanItem"
+        }
+      ],
+      "referencedBy": [
+        "ReasonForVisit"
+      ],
+      "references": [
+        "Diagnosis",
+        "CarePlanItem"
+      ]
+    },
+    {
+      "name": "Employment",
+      "description": "An Employment",
+      "fieldCount": 4,
+      "fields": [
+        {
+          "name": "status",
+          "type": "string",
+          "description": "Status",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "employer",
+          "type": "string",
+          "description": "Employer",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "position",
+          "type": "string",
+          "description": "Position",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "address",
+          "type": "Address",
+          "description": "",
+          "required": false,
+          "isArray": false,
+          "refSchema": "Address"
+        }
+      ],
+      "referencedBy": [
+        "Demographics"
+      ],
+      "references": [
+        "Address"
+      ]
+    },
+    {
+      "name": "Encounter",
+      "description": "Patient Encounter",
+      "fieldCount": 19,
+      "fields": [
+        {
+          "name": "encounterDate",
+          "type": "string",
+          "format": "date-time",
+          "description": "Encounter date",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "description": "Encounter location",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "description": "Encounter type",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "category",
+          "type": "string",
+          "description": "Encounter category",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "provider",
+          "type": "string",
+          "description": "Encounter provider",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "employee",
+          "type": "string",
+          "description": "Encounter employee",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "signed",
+          "type": "boolean",
+          "description": "Is the encounter signed",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "description": "Encounter status",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "diagnoses",
+          "type": "array",
+          "description": "Encounter diagnoses",
+          "required": false,
+          "isArray": true,
+          "refSchema": "EncounterDiagnosis",
+          "itemType": "EncounterDiagnosis"
+        },
+        {
+          "name": "familyHistory",
+          "type": "FamilyHistory",
+          "description": "",
+          "required": false,
+          "isArray": false,
+          "refSchema": "FamilyHistory"
+        },
+        {
+          "name": "socialHistory",
+          "type": "SocialHistory",
+          "description": "",
+          "required": false,
+          "isArray": false,
+          "refSchema": "SocialHistory"
+        },
+        {
+          "name": "reasonForVisit",
+          "type": "ReasonForVisit",
+          "description": "",
+          "required": false,
+          "isArray": false,
+          "refSchema": "ReasonForVisit"
+        },
+        {
+          "name": "services",
+          "type": "array",
+          "description": "Encounter performed service",
+          "required": false,
+          "isArray": true,
+          "refSchema": "Service",
+          "itemType": "Service"
+        },
+        {
+          "name": "vitalSigns",
+          "type": "VitalSigns",
+          "description": "",
+          "required": false,
+          "isArray": false,
+          "refSchema": "VitalSigns"
+        },
+        {
+          "name": "professionalTimeSeconds",
+          "type": "integer",
+          "format": "int32",
+          "description": "Encounter professional time",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "refractions",
+          "type": "array",
+          "description": "Refractions",
+          "required": false,
+          "isArray": true,
+          "refSchema": "Refraction",
+          "itemType": "Refraction"
+        },
+        {
+          "name": "tests",
+          "type": "array",
+          "description": "Tests",
+          "required": false,
+          "isArray": true,
+          "refSchema": "Test",
+          "itemType": "Test"
+        },
+        {
+          "name": "clinicalDecisionSupports",
+          "type": "array",
+          "description": "Clinical decision supports",
+          "required": false,
+          "isArray": true,
+          "refSchema": "ClinicalDecisionSupport",
+          "itemType": "ClinicalDecisionSupport"
+        },
+        {
+          "name": "orientationMood",
+          "type": "OrientationMood",
+          "description": "",
+          "required": false,
+          "isArray": false,
+          "refSchema": "OrientationMood"
+        }
+      ],
+      "referencedBy": [
+        "Patient"
+      ],
+      "references": [
+        "EncounterDiagnosis",
+        "FamilyHistory",
+        "SocialHistory",
+        "ReasonForVisit",
+        "Service",
+        "VitalSigns",
+        "Refraction",
+        "Test",
+        "ClinicalDecisionSupport",
+        "OrientationMood"
+      ]
+    },
+    {
+      "name": "EncounterDiagnosis",
+      "description": "Encounter Diagnosis",
+      "fieldCount": 3,
+      "fields": [
+        {
+          "name": "code",
+          "type": "string",
+          "description": "Diagnosis Code",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "Diagnosis Description",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "carePlanItems",
+          "type": "array",
+          "description": "Care Plan Items",
+          "required": false,
+          "isArray": true,
+          "refSchema": "CarePlanItem",
+          "itemType": "CarePlanItem"
+        }
+      ],
+      "referencedBy": [
+        "Encounter"
+      ],
+      "references": [
+        "CarePlanItem"
+      ]
+    },
+    {
+      "name": "FamilyHealthHistory",
+      "description": "Family Health History",
+      "fieldCount": 11,
+      "fields": [
+        {
+          "name": "date",
+          "type": "string",
+          "format": "date",
+          "description": "Family Health History Date",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "code",
+          "type": "integer",
+          "description": "Family Health History SNOMED Code",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "Family Health History Description",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "comments",
+          "type": "string",
+          "description": "Family Health History Comments",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "relationshipFather",
+          "type": "string",
+          "description": "Family Health History Relationship Father",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "relationshipMother",
+          "type": "string",
+          "description": "Family Health History Relationship Mother",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "relationshipBrother",
+          "type": "string",
+          "description": "Family Health History Relationship Brother",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "relationshipSister",
+          "type": "string",
+          "description": "Family Health History Relationship Sister",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "relationshipSon",
+          "type": "string",
+          "description": "Family Health History Relationship Son",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "relationshipDaughter",
+          "type": "string",
+          "description": "Family Health History Relationship Daughter",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "conditionType",
+          "type": "string",
+          "description": "Family Health History Condition Type",
+          "required": false,
+          "isArray": false
+        }
+      ],
+      "referencedBy": [
+        "Patient"
+      ],
+      "references": []
+    },
+    {
+      "name": "FamilyHistory",
+      "description": "Family History",
+      "fieldCount": 3,
+      "fields": [
+        {
+          "name": "medical",
+          "type": "array",
+          "description": "Medical conditions",
+          "required": false,
+          "isArray": true,
+          "itemType": "string"
+        },
+        {
+          "name": "ocular",
+          "type": "array",
+          "description": "Ocular conditions",
+          "required": false,
+          "isArray": true,
+          "itemType": "string"
+        },
+        {
+          "name": "comments",
+          "type": "string",
+          "description": "Comments",
+          "required": false,
+          "isArray": false
+        }
+      ],
+      "referencedBy": [
+        "Encounter"
+      ],
+      "references": []
+    },
+    {
+      "name": "FamilyMember",
+      "description": "Patient Family Account Member",
+      "fieldCount": 4,
+      "fields": [
+        {
+          "name": "firstName",
+          "type": "string",
+          "description": "First name",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "lastName",
+          "type": "string",
+          "description": "Last name",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "middleName",
+          "type": "string",
+          "description": "Middle name",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "role",
+          "type": "string",
+          "description": "Role",
+          "required": false,
+          "isArray": false
+        }
+      ],
+      "referencedBy": [
+        "Patient"
+      ],
+      "references": []
+    },
+    {
+      "name": "HealthConcern",
+      "description": "A Health Concern",
+      "fieldCount": 6,
+      "fields": [
+        {
+          "name": "date",
+          "type": "string",
+          "format": "date",
+          "description": "Date",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "concern",
+          "type": "string",
+          "description": "Concern",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "description": "Health concern type",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "reporter",
+          "type": "string",
+          "description": "Health concern reporter",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "description": "Health concern status",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "inactiveDate",
+          "type": "string",
+          "format": "date",
+          "description": "Health concern inactive date",
+          "required": false,
+          "isArray": false
+        }
+      ],
+      "referencedBy": [
+        "Patient"
+      ],
+      "references": []
+    },
+    {
+      "name": "HealthGoal",
+      "description": "A Health Goal",
+      "fieldCount": 5,
+      "fields": [
+        {
+          "name": "goal",
+          "type": "string",
+          "description": "Health goal",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "description": "Health goal value",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "date",
+          "type": "string",
+          "format": "date",
+          "description": "Health goal date reported",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "description": "Health goal status",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "inactiveDate",
+          "type": "string",
+          "format": "date",
+          "description": "Health goal inactive date",
+          "required": false,
+          "isArray": false
+        }
+      ],
+      "referencedBy": [
+        "Patient"
+      ],
+      "references": []
+    },
+    {
+      "name": "Immunization",
+      "description": "An Immunization",
+      "fieldCount": 16,
+      "fields": [
+        {
+          "name": "cvxCode",
+          "type": "string",
+          "description": "CVX code",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "cvxCodeName",
+          "type": "string",
+          "description": "CVX short name",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "format": "double",
+          "description": "Administered amount",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "description": "Administered amount units",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "administeredOn",
+          "type": "string",
+          "format": "date-time",
+          "description": "Administered on",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "endDate",
+          "type": "string",
+          "format": "date",
+          "description": "End date",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "administeredAt",
+          "type": "string",
+          "description": "Administered at location",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "administeredBy",
+          "type": "string",
+          "description": "Administered by",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "site",
+          "type": "string",
+          "description": "Administered site",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "route",
+          "type": "string",
+          "description": "Administered route",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "manufacturer",
+          "type": "string",
+          "description": "Substance manufacturer",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "substanceLot",
+          "type": "string",
+          "description": "Substance lot",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "substanceExpirationDate",
+          "type": "string",
+          "format": "date",
+          "description": "Substance expire date",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "orderedBy",
+          "type": "string",
+          "description": "Ordered by provider",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "comments",
+          "type": "string",
+          "description": "Comments",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "description": "Status",
+          "required": true,
+          "isArray": false
+        }
+      ],
+      "referencedBy": [
+        "Patient"
+      ],
+      "references": []
+    },
+    {
+      "name": "ImplantableDevice",
+      "description": "An Implantable Device",
+      "fieldCount": 7,
+      "fields": [
+        {
+          "name": "date",
+          "type": "string",
+          "format": "date",
+          "description": "Date",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "estimated",
+          "type": "boolean",
+          "description": "Installed date estimated",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "udi",
+          "type": "string",
+          "description": "Unique device identifier",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "description": "Body location",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "surgeon",
+          "type": "string",
+          "description": "Surgeon name",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "comments",
+          "type": "string",
+          "description": "Comments",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "description": "Status",
+          "required": true,
+          "isArray": false
+        }
+      ],
+      "referencedBy": [
+        "Patient"
+      ],
+      "references": []
+    },
+    {
+      "name": "Insurance",
+      "description": "An Insurance",
+      "fieldCount": 6,
+      "fields": [
+        {
+          "name": "companyName",
+          "type": "string",
+          "description": "Company name",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "coverageType",
+          "type": "string",
+          "description": "Coverage type",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "relationship",
+          "type": "string",
+          "description": "Policy holder relationship",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "policy",
+          "type": "string",
+          "description": "Policy #",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "group",
+          "type": "string",
+          "description": "Group #",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "payerId",
+          "type": "string",
+          "description": "Payer ID",
+          "required": false,
+          "isArray": false
+        }
+      ],
+      "referencedBy": [
+        "Patient"
+      ],
+      "references": []
+    },
+    {
+      "name": "Invoice",
+      "description": "Patient Invoice",
+      "fieldCount": 7,
+      "fields": [
+        {
+          "name": "billTo",
+          "type": "string",
+          "description": "Bill to payer name",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "invoiceDate",
+          "type": "string",
+          "format": "date",
+          "description": "Invoice date",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "serviceDate",
+          "type": "string",
+          "format": "date",
+          "description": "Service date",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "description": "Status",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "items",
+          "type": "array",
+          "description": "Invoice items",
+          "required": true,
+          "isArray": true,
+          "refSchema": "InvoiceItem",
+          "itemType": "InvoiceItem"
+        },
+        {
+          "name": "payments",
+          "type": "array",
+          "description": "Payments",
+          "required": true,
+          "isArray": true,
+          "refSchema": "Payment",
+          "itemType": "Payment"
+        },
+        {
+          "name": "claims",
+          "type": "array",
+          "description": "Claim history",
+          "required": false,
+          "isArray": true,
+          "refSchema": "Claim",
+          "itemType": "Claim"
+        }
+      ],
+      "referencedBy": [
+        "Patient"
+      ],
+      "references": [
+        "InvoiceItem",
+        "Payment",
+        "Claim"
+      ]
+    },
+    {
+      "name": "InvoiceItem",
+      "description": "Patient Invoice Item",
+      "fieldCount": 12,
+      "fields": [
+        {
+          "name": "postDate",
+          "type": "string",
+          "format": "date",
+          "description": "Post date",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "description": "Code",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "modifiers",
+          "type": "array",
+          "description": "Modifiers",
+          "required": true,
+          "isArray": true,
+          "itemType": "string"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "Description",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "quantity",
+          "type": "integer",
+          "description": "Quantity",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "unitPrice",
+          "type": "number",
+          "format": "double",
+          "description": "Unit price",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "discounts",
+          "type": "number",
+          "format": "double",
+          "description": "Discounts",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "tax",
+          "type": "number",
+          "format": "double",
+          "description": "Tax",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "extendedPrice",
+          "type": "number",
+          "format": "double",
+          "description": "Extended price",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "adjustments",
+          "type": "number",
+          "format": "double",
+          "description": "Adjustments",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "paid",
+          "type": "number",
+          "format": "double",
+          "description": "Paid",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "balance",
+          "type": "number",
+          "format": "double",
+          "description": "Balance",
+          "required": true,
+          "isArray": false
+        }
+      ],
+      "referencedBy": [
+        "Invoice"
+      ],
+      "references": []
+    },
+    {
+      "name": "MedicalOrder",
+      "description": "Medical Order",
+      "fieldCount": 30,
+      "fields": [
+        {
+          "name": "loincCode",
+          "type": "string",
+          "description": "Order LOINC code",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "loincName",
+          "type": "string",
+          "description": "Order LOINC name",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "Description",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "orderDate",
+          "type": "string",
+          "format": "date",
+          "description": "Order Date",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "originatedWithoutCpoe",
+          "type": "boolean",
+          "description": "Originated without CPOE value",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "startDate",
+          "type": "string",
+          "format": "date",
+          "description": "Start date",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "endDate",
+          "type": "string",
+          "format": "date",
+          "description": "End date",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "orderedBy",
+          "type": "string",
+          "description": "Ordered by",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "labName",
+          "type": "string",
+          "description": "Lab name",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "frequency",
+          "type": "string",
+          "description": "Frequency",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "description": "Type",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "instructions",
+          "type": "string",
+          "description": "Instructions",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "orderComments",
+          "type": "string",
+          "description": "Order comments",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "reportDate",
+          "type": "string",
+          "format": "date",
+          "description": "Report date",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "labTestType",
+          "type": "string",
+          "description": "Lab test type",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "testName",
+          "type": "string",
+          "description": "Test name",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "resultType",
+          "type": "string",
+          "description": "Result type",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "labResultValue",
+          "type": "string",
+          "description": "Result value",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "labResultUnit",
+          "type": "string",
+          "description": "Result unit",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "labResultStatus",
+          "type": "string",
+          "description": "Result status",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "normals",
+          "type": "string",
+          "description": "Normals",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "specimenSource",
+          "type": "string",
+          "description": "Specimen source",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "disposition",
+          "type": "string",
+          "description": "Disposition",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "labNote",
+          "type": "string",
+          "description": "Lab note",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "resultComments",
+          "type": "string",
+          "description": "Result comments",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "testPerformedDate",
+          "type": "string",
+          "format": "date",
+          "description": "Test performed date",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "interpretationAndReport",
+          "type": "string",
+          "description": "Interpretation and report",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "interpretationLabResult",
+          "type": "string",
+          "description": "Interpretation lab result",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "interpretationComments",
+          "type": "string",
+          "description": "Lab interpretation comments",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "encounterDate",
+          "type": "string",
+          "format": "date-time",
+          "description": "Encounter date",
+          "required": false,
+          "isArray": false
+        }
+      ],
+      "referencedBy": [
+        "Patient"
+      ],
+      "references": []
+    },
+    {
+      "name": "OrientationMood",
+      "description": "Orientation Mood",
+      "fieldCount": 6,
+      "fields": [
+        {
+          "name": "orientation",
+          "type": "string",
+          "description": "Orientation to time/person/place",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "orientationComments",
+          "type": "string",
+          "description": "Orientation to time/person/place comments",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "mood",
+          "type": "string",
+          "description": "Assessment of mood affect",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "moodComments",
+          "type": "string",
+          "description": "Assessment of mood affect comments",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "mentalStatusComments",
+          "type": "string",
+          "description": "Mental Status comments",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "functionalStatusComments",
+          "type": "string",
+          "description": "Functional status comments",
+          "required": false,
+          "isArray": false
+        }
+      ],
+      "referencedBy": [
+        "Encounter"
+      ],
+      "references": []
+    },
+    {
+      "name": "Patient",
+      "description": "Patient export results",
+      "fieldCount": 17,
+      "fields": [
+        {
+          "name": "exportTimestamp",
+          "type": "string",
+          "format": "date-time",
+          "description": "Export time stamp",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "demographics",
+          "type": "Demographics",
+          "description": "",
+          "required": false,
+          "isArray": false,
+          "refSchema": "Demographics"
+        },
+        {
+          "name": "healthGoals",
+          "type": "array",
+          "description": "Health goals",
+          "required": false,
+          "isArray": true,
+          "refSchema": "HealthGoal",
+          "itemType": "HealthGoal"
+        },
+        {
+          "name": "healthConcerns",
+          "type": "array",
+          "description": "Health concerns",
+          "required": false,
+          "isArray": true,
+          "refSchema": "HealthConcern",
+          "itemType": "HealthConcern"
+        },
+        {
+          "name": "immunizations",
+          "type": "array",
+          "description": "Immunizations",
+          "required": false,
+          "isArray": true,
+          "refSchema": "Immunization",
+          "itemType": "Immunization"
+        },
+        {
+          "name": "implantableDevices",
+          "type": "array",
+          "description": "Implantable devices",
+          "required": false,
+          "isArray": true,
+          "refSchema": "ImplantableDevice",
+          "itemType": "ImplantableDevice"
+        },
+        {
+          "name": "allergies",
+          "type": "array",
+          "description": "Allergies",
+          "required": false,
+          "isArray": true,
+          "refSchema": "Allergy",
+          "itemType": "Allergy"
+        },
+        {
+          "name": "encounters",
+          "type": "array",
+          "description": "Encounters",
+          "required": false,
+          "isArray": true,
+          "refSchema": "Encounter",
+          "itemType": "Encounter"
+        },
+        {
+          "name": "medicalOrders",
+          "type": "array",
+          "description": "Medical orders",
+          "required": false,
+          "isArray": true,
+          "refSchema": "MedicalOrder",
+          "itemType": "MedicalOrder"
+        },
+        {
+          "name": "insurances",
+          "type": "array",
+          "description": "Insurance",
+          "required": false,
+          "isArray": true,
+          "refSchema": "Insurance",
+          "itemType": "Insurance"
+        },
+        {
+          "name": "invoices",
+          "type": "array",
+          "description": "Invoices",
+          "required": false,
+          "isArray": true,
+          "refSchema": "Invoice",
+          "itemType": "Invoice"
+        },
+        {
+          "name": "diagnoses",
+          "type": "array",
+          "description": "Diagnosis history",
+          "required": false,
+          "isArray": true,
+          "refSchema": "Diagnosis",
+          "itemType": "Diagnosis"
+        },
+        {
+          "name": "familyHealthHistories",
+          "type": "array",
+          "description": "Family health history",
+          "required": false,
+          "isArray": true,
+          "refSchema": "FamilyHealthHistory",
+          "itemType": "FamilyHealthHistory"
+        },
+        {
+          "name": "referrals",
+          "type": "array",
+          "description": "Referrals",
+          "required": false,
+          "isArray": true,
+          "refSchema": "Referral",
+          "itemType": "Referral"
+        },
+        {
+          "name": "contacts",
+          "type": "array",
+          "description": "Contacts",
+          "required": false,
+          "isArray": true,
+          "refSchema": "Contact",
+          "itemType": "Contact"
+        },
+        {
+          "name": "statements",
+          "type": "array",
+          "description": "Statement history",
+          "required": false,
+          "isArray": true,
+          "refSchema": "Statement",
+          "itemType": "Statement"
+        },
+        {
+          "name": "familyMembers",
+          "type": "array",
+          "description": "Family Members",
+          "required": false,
+          "isArray": true,
+          "refSchema": "FamilyMember",
+          "itemType": "FamilyMember"
+        }
+      ],
+      "referencedBy": [],
+      "references": [
+        "Demographics",
+        "HealthGoal",
+        "HealthConcern",
+        "Immunization",
+        "ImplantableDevice",
+        "Allergy",
+        "Encounter",
+        "MedicalOrder",
+        "Insurance",
+        "Invoice",
+        "Diagnosis",
+        "FamilyHealthHistory",
+        "Referral",
+        "Contact",
+        "Statement",
+        "FamilyMember"
+      ]
+    },
+    {
+      "name": "Payment",
+      "description": "Patient Invoice Payment",
+      "fieldCount": 3,
+      "fields": [
+        {
+          "name": "date",
+          "type": "string",
+          "format": "date",
+          "description": "Date",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "method",
+          "type": "string",
+          "description": "Method",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "format": "double",
+          "description": "Amount",
+          "required": true,
+          "isArray": false
+        }
+      ],
+      "referencedBy": [
+        "Invoice"
+      ],
+      "references": []
+    },
+    {
+      "name": "ReasonForVisit",
+      "description": "Reason For Visit",
+      "fieldCount": 3,
+      "fields": [
+        {
+          "name": "patientReasonForVisit",
+          "type": "string",
+          "description": "Patient reason for visit",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "providerReasonForVisit",
+          "type": "string",
+          "description": "Provider reason for visit",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "diagnosisCarePlanItems",
+          "type": "array",
+          "description": "Diagnosis/Care Plan Item list",
+          "required": false,
+          "isArray": true,
+          "refSchema": "DiagnosisCarePlanItem",
+          "itemType": "DiagnosisCarePlanItem"
+        }
+      ],
+      "referencedBy": [
+        "Encounter"
+      ],
+      "references": [
+        "DiagnosisCarePlanItem"
+      ]
+    },
+    {
+      "name": "Referral",
+      "description": "Referral",
+      "fieldCount": 13,
+      "fields": [
+        {
+          "name": "referralDate",
+          "type": "string",
+          "format": "date",
+          "description": "Referral date",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "referredTo",
+          "type": "string",
+          "description": "Referred to",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "referredBy",
+          "type": "string",
+          "description": "Referred by",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "description": "Reason",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "toBeSeen",
+          "type": "string",
+          "description": "To be seen",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "appointmentBooked",
+          "type": "boolean",
+          "description": "Appointment booked",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "appointmentDateTime",
+          "type": "string",
+          "format": "date-time",
+          "description": "Appointment date & time",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "comments",
+          "type": "string",
+          "description": "Comments",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "confirmationOfReceipt",
+          "type": "boolean",
+          "description": "Confirmation of receipt",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "responseRequestedDate",
+          "type": "string",
+          "format": "date",
+          "description": "Response requested date",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "responseDate",
+          "type": "string",
+          "format": "date",
+          "description": "Response date",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "responseComments",
+          "type": "string",
+          "description": "Response comments",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "reportReceived",
+          "type": "boolean",
+          "description": "Report received",
+          "required": true,
+          "isArray": false
+        }
+      ],
+      "referencedBy": [
+        "Patient"
+      ],
+      "references": []
+    },
+    {
+      "name": "Refraction",
+      "description": "Refraction",
+      "fieldCount": 19,
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Test name",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "odSphere",
+          "type": "number",
+          "format": "double",
+          "description": "OD Sphere",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "odCylinder",
+          "type": "number",
+          "format": "double",
+          "description": "OD Cylinder",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "odAxis",
+          "type": "integer",
+          "format": "int32",
+          "description": "OD Axis",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "odHorizontalPrism",
+          "type": "number",
+          "format": "double",
+          "description": "OD Horizontal Prism",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "odHorizontalPrismOrientation",
+          "type": "string",
+          "description": "OD Horizontal Prism Orientation",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "odVerticalPrism",
+          "type": "number",
+          "format": "double",
+          "description": "OD Vertical Prism",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "odVerticalPrismOrientation",
+          "type": "string",
+          "description": "OD Vertical Prism Orientation",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "odIntermediateAdd",
+          "type": "number",
+          "format": "double",
+          "description": "OD Intermediate Add",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "odNearAdd",
+          "type": "number",
+          "format": "double",
+          "description": "OD Near Add",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "osSphere",
+          "type": "number",
+          "format": "double",
+          "description": "OS Sphere",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "osCylinder",
+          "type": "number",
+          "format": "double",
+          "description": "OS Cylinder",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "osAxis",
+          "type": "integer",
+          "format": "int32",
+          "description": "OS Axis",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "osHorizontalPrism",
+          "type": "number",
+          "format": "double",
+          "description": "OS Horizontal Prism",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "osHorizontalPrismOrientation",
+          "type": "string",
+          "description": "OS Horizontal Prism Orientation",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "osVerticalPrism",
+          "type": "number",
+          "format": "double",
+          "description": "OS Vertical Prism",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "osVerticalPrismOrientation",
+          "type": "string",
+          "description": "OS Vertical Prism Orientation",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "osIntermediateAdd",
+          "type": "number",
+          "format": "double",
+          "description": "OS Intermediate Add",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "osNearAdd",
+          "type": "number",
+          "format": "double",
+          "description": "OS Near Add",
+          "required": false,
+          "isArray": false
+        }
+      ],
+      "referencedBy": [
+        "Encounter"
+      ],
+      "references": []
+    },
+    {
+      "name": "Service",
+      "description": "Service History",
+      "fieldCount": 3,
+      "fields": [
+        {
+          "name": "code",
+          "type": "string",
+          "description": "Code",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "Description",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "diagnosis",
+          "type": "array",
+          "description": "Diagnosis",
+          "required": false,
+          "isArray": true,
+          "itemType": "string"
+        }
+      ],
+      "referencedBy": [
+        "Encounter"
+      ],
+      "references": []
+    },
+    {
+      "name": "SocialHistory",
+      "description": "Social History",
+      "fieldCount": 6,
+      "fields": [
+        {
+          "name": "drinking",
+          "type": "string",
+          "description": "Drinking status",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "drinkingAmount",
+          "type": "string",
+          "description": "Drinking amount",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "tobaccoUse",
+          "type": "string",
+          "description": "Tobacco use",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "tobaccoPreference",
+          "type": "string",
+          "description": "Tobacco preference",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "tobaccoAmount",
+          "type": "string",
+          "description": "Tobacco amount",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "smokingStatus",
+          "type": "string",
+          "description": "Smoking status",
+          "required": false,
+          "isArray": false
+        }
+      ],
+      "referencedBy": [
+        "Encounter"
+      ],
+      "references": []
+    },
+    {
+      "name": "Statement",
+      "description": "Statement",
+      "fieldCount": 4,
+      "fields": [
+        {
+          "name": "printDate",
+          "type": "string",
+          "format": "date",
+          "description": "Print date",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "dueDate",
+          "type": "string",
+          "description": "Due date",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "message",
+          "type": "string",
+          "description": "Message",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "statementBalance",
+          "type": "number",
+          "format": "double",
+          "description": "Statement balance",
+          "required": true,
+          "isArray": false
+        }
+      ],
+      "referencedBy": [
+        "Patient"
+      ],
+      "references": []
+    },
+    {
+      "name": "Test",
+      "description": "Encounter Test",
+      "fieldCount": 2,
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Test name",
+          "required": true,
+          "isArray": false
+        },
+        {
+          "name": "values",
+          "type": "array",
+          "description": "Test values",
+          "required": true,
+          "isArray": true,
+          "refSchema": "TestValue",
+          "itemType": "TestValue"
+        }
+      ],
+      "referencedBy": [
+        "Encounter"
+      ],
+      "references": [
+        "TestValue"
+      ]
+    },
+    {
+      "name": "TestValue",
+      "description": "Encounter Test Value",
+      "fieldCount": 2,
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Field name",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "description": "Field value",
+          "required": false,
+          "isArray": false
+        }
+      ],
+      "referencedBy": [
+        "Test"
+      ],
+      "references": []
+    },
+    {
+      "name": "VitalSigns",
+      "description": "Vital Signs",
+      "fieldCount": 9,
+      "fields": [
+        {
+          "name": "systolic",
+          "type": "number",
+          "format": "double",
+          "description": "Systolic blood pressure",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "diastolic",
+          "type": "number",
+          "format": "double",
+          "description": "Diastolic blood pressure",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "pressureArm",
+          "type": "string",
+          "description": "Pressure arm",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "pulse",
+          "type": "number",
+          "format": "double",
+          "description": "Pulse",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "testType",
+          "type": "string",
+          "description": "Test type",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "format": "double",
+          "description": "Height",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "heightUnit",
+          "type": "string",
+          "description": "Height Unit",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "weight",
+          "type": "number",
+          "format": "double",
+          "description": "Weight",
+          "required": false,
+          "isArray": false
+        },
+        {
+          "name": "weightUnit",
+          "type": "string",
+          "description": "Weight Unit",
+          "required": false,
+          "isArray": false
+        }
+      ],
+      "referencedBy": [
+        "Encounter"
+      ],
+      "references": []
+    }
+  ],
+  "totalSchemas": 35,
+  "totalFields": 279,
+  "schemaRelationships": [
+    {
+      "from": "Demographics",
+      "to": "Address",
+      "field": "address",
+      "isArray": false
+    },
+    {
+      "from": "Demographics",
+      "to": "Employment",
+      "field": "employment",
+      "isArray": false
+    },
+    {
+      "from": "DiagnosisCarePlanItem",
+      "to": "Diagnosis",
+      "field": "diagnosis",
+      "isArray": false
+    },
+    {
+      "from": "DiagnosisCarePlanItem",
+      "to": "CarePlanItem",
+      "field": "carePlanItem",
+      "isArray": false
+    },
+    {
+      "from": "Employment",
+      "to": "Address",
+      "field": "address",
+      "isArray": false
+    },
+    {
+      "from": "Encounter",
+      "to": "EncounterDiagnosis",
+      "field": "diagnoses",
+      "isArray": true
+    },
+    {
+      "from": "Encounter",
+      "to": "FamilyHistory",
+      "field": "familyHistory",
+      "isArray": false
+    },
+    {
+      "from": "Encounter",
+      "to": "SocialHistory",
+      "field": "socialHistory",
+      "isArray": false
+    },
+    {
+      "from": "Encounter",
+      "to": "ReasonForVisit",
+      "field": "reasonForVisit",
+      "isArray": false
+    },
+    {
+      "from": "Encounter",
+      "to": "Service",
+      "field": "services",
+      "isArray": true
+    },
+    {
+      "from": "Encounter",
+      "to": "VitalSigns",
+      "field": "vitalSigns",
+      "isArray": false
+    },
+    {
+      "from": "Encounter",
+      "to": "Refraction",
+      "field": "refractions",
+      "isArray": true
+    },
+    {
+      "from": "Encounter",
+      "to": "Test",
+      "field": "tests",
+      "isArray": true
+    },
+    {
+      "from": "Encounter",
+      "to": "ClinicalDecisionSupport",
+      "field": "clinicalDecisionSupports",
+      "isArray": true
+    },
+    {
+      "from": "Encounter",
+      "to": "OrientationMood",
+      "field": "orientationMood",
+      "isArray": false
+    },
+    {
+      "from": "EncounterDiagnosis",
+      "to": "CarePlanItem",
+      "field": "carePlanItems",
+      "isArray": true
+    },
+    {
+      "from": "Invoice",
+      "to": "InvoiceItem",
+      "field": "items",
+      "isArray": true
+    },
+    {
+      "from": "Invoice",
+      "to": "Payment",
+      "field": "payments",
+      "isArray": true
+    },
+    {
+      "from": "Invoice",
+      "to": "Claim",
+      "field": "claims",
+      "isArray": true
+    },
+    {
+      "from": "Patient",
+      "to": "Demographics",
+      "field": "demographics",
+      "isArray": false
+    },
+    {
+      "from": "Patient",
+      "to": "HealthGoal",
+      "field": "healthGoals",
+      "isArray": true
+    },
+    {
+      "from": "Patient",
+      "to": "HealthConcern",
+      "field": "healthConcerns",
+      "isArray": true
+    },
+    {
+      "from": "Patient",
+      "to": "Immunization",
+      "field": "immunizations",
+      "isArray": true
+    },
+    {
+      "from": "Patient",
+      "to": "ImplantableDevice",
+      "field": "implantableDevices",
+      "isArray": true
+    },
+    {
+      "from": "Patient",
+      "to": "Allergy",
+      "field": "allergies",
+      "isArray": true
+    },
+    {
+      "from": "Patient",
+      "to": "Encounter",
+      "field": "encounters",
+      "isArray": true
+    },
+    {
+      "from": "Patient",
+      "to": "MedicalOrder",
+      "field": "medicalOrders",
+      "isArray": true
+    },
+    {
+      "from": "Patient",
+      "to": "Insurance",
+      "field": "insurances",
+      "isArray": true
+    },
+    {
+      "from": "Patient",
+      "to": "Invoice",
+      "field": "invoices",
+      "isArray": true
+    },
+    {
+      "from": "Patient",
+      "to": "Diagnosis",
+      "field": "diagnoses",
+      "isArray": true
+    },
+    {
+      "from": "Patient",
+      "to": "FamilyHealthHistory",
+      "field": "familyHealthHistories",
+      "isArray": true
+    },
+    {
+      "from": "Patient",
+      "to": "Referral",
+      "field": "referrals",
+      "isArray": true
+    },
+    {
+      "from": "Patient",
+      "to": "Contact",
+      "field": "contacts",
+      "isArray": true
+    },
+    {
+      "from": "Patient",
+      "to": "Statement",
+      "field": "statements",
+      "isArray": true
+    },
+    {
+      "from": "Patient",
+      "to": "FamilyMember",
+      "field": "familyMembers",
+      "isArray": true
+    },
+    {
+      "from": "ReasonForVisit",
+      "to": "DiagnosisCarePlanItem",
+      "field": "diagnosisCarePlanItems",
+      "isArray": true
+    },
+    {
+      "from": "Test",
+      "to": "TestValue",
+      "field": "values",
+      "isArray": true
+    }
+  ]
+}

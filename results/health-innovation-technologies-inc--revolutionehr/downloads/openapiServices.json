@@ -1,0 +1,1537 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "RevolutionEHR Patient Export",
+    "description" : "# **RevolutionEHR Patient Data Export**\n\nRevolutionEHR Patient Data Export documentation for exported patient EHI JSON.",
+    "version" : "1.0"
+  },
+  "paths" : {
+    "patient/export" : {
+      "post" : {
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Patient"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Address" : {
+        "type" : "object",
+        "properties" : {
+          "address1" : {
+            "type" : "string",
+            "description" : "Address1"
+          },
+          "address2" : {
+            "type" : "string",
+            "description" : "Address2"
+          },
+          "city" : {
+            "type" : "string",
+            "description" : "City"
+          },
+          "state" : {
+            "type" : "string",
+            "description" : "State"
+          },
+          "zip" : {
+            "type" : "string",
+            "description" : "Zip"
+          }
+        },
+        "description" : "Address"
+      },
+      "Allergy" : {
+        "required" : [ "severity", "name" ],
+        "type" : "object",
+        "properties" : {
+          "startDate" : {
+            "type" : "string",
+            "description" : "Start date of the `Allergy`",
+            "format" : "date"
+          },
+          "endDate" : {
+            "type" : "string",
+            "description" : "End date of the `Allergy`",
+            "format" : "date"
+          },
+          "severity" : {
+            "type" : "string",
+            "description" : "Severity of the `Allergy`."
+          },
+          "reactions" : {
+            "type" : "array",
+            "description" : "Reactions for this `Allergy`.",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "The description of the `Allergy`"
+          },
+          "treatment" : {
+            "type" : "string",
+            "description" : "The treatment of the `Allergy`"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "The allergy Name"
+          }
+        },
+        "description" : "Allergies of a patient"
+      },
+      "CarePlanItem" : {
+        "required" : [ "type", "description" ],
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "string",
+            "description" : "Care Plan Item Type"
+          },
+          "startDate" : {
+            "type" : "string",
+            "description" : "Care Plan Item Start Date",
+            "format" : "date"
+          },
+          "stopDate" : {
+            "type" : "string",
+            "description" : "Care Plan Item Stop Date",
+            "format" : "date"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "Care Plan Item Description"
+          }
+        },
+        "description" : "Care Plan Item"
+      },
+      "Claim" : {
+        "required" : [ "claimDate" ],
+        "type" : "object",
+        "properties" : {
+          "claimDate" : {
+            "type" : "string",
+            "description" : "Claim date",
+            "format" : "date"
+          },
+          "externalMessage" : {
+            "type" : "string",
+            "description" : "External message"
+          },
+          "submitDate" : {
+            "type" : "string",
+            "description" : "Submit date",
+            "format" : "date"
+          },
+          "submitMethod" : {
+            "type" : "string",
+            "description" : "Submit method"
+          },
+          "statusMessages" : {
+            "type" : "array",
+            "description" : "Status messages",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        },
+        "description" : "Invoice Claim History"
+      },
+      "ClinicalDecisionSupport" : {
+        "required" : [ "name", "results", "type", "description", "confirmationStatus" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "Rule name"
+          },
+          "results" : {
+            "type" : "string",
+            "description" : "Results"
+          },
+          "type" : {
+            "type" : "string",
+            "description" : "Type"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "Description"
+          },
+          "confirmationStatus" : {
+            "type" : "string",
+            "description" : "Confirmation status"
+          },
+          "exceptionComments" : {
+            "type" : "string",
+            "description" : "Exception comments"
+          },
+          "exceptionSnomedCode" : {
+            "type" : "integer",
+            "description" : "Exception SNOMED code",
+            "format" : "int64"
+          },
+          "exceptionSnomedDescription" : {
+            "type" : "string",
+            "description" : "Exception SNOMED description"
+          }
+        },
+        "description" : "Clinical Decision Support History"
+      },
+      "Contact" : {
+        "type" : "object",
+        "properties" : {
+          "firstName" : {
+            "type" : "string",
+            "description" : "Contact first name"
+          },
+          "lastName" : {
+            "type" : "string",
+            "description" : "Contact last name"
+          },
+          "middleName" : {
+            "type" : "string",
+            "description" : "Contact middle name"
+          },
+          "role" : {
+            "type" : "string",
+            "description" : "Contact role"
+          }
+        },
+        "description" : "Patient Contact"
+      },
+      "Demographics" : {
+        "required" : [ "firstName", "lastName", "sex" ],
+        "type" : "object",
+        "properties" : {
+          "firstName" : {
+            "type" : "string",
+            "description" : "First name"
+          },
+          "lastName" : {
+            "type" : "string",
+            "description" : "Last name"
+          },
+          "middleName" : {
+            "type" : "string",
+            "description" : "Middle name"
+          },
+          "suffix" : {
+            "type" : "string",
+            "description" : "Suffix"
+          },
+          "previousFirstName" : {
+            "type" : "string",
+            "description" : "Previous first name"
+          },
+          "previousLastName" : {
+            "type" : "string",
+            "description" : "Previous last name"
+          },
+          "previousMiddleName" : {
+            "type" : "string",
+            "description" : "Previous middle name"
+          },
+          "dob" : {
+            "type" : "string",
+            "description" : "Date of birth",
+            "format" : "date"
+          },
+          "races" : {
+            "type" : "array",
+            "description" : "Races",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "ethnicities" : {
+            "type" : "array",
+            "description" : "Ethnicities",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "sex" : {
+            "type" : "string",
+            "description" : "Sex"
+          },
+          "language" : {
+            "type" : "string",
+            "description" : "Language"
+          },
+          "address" : {
+            "$ref" : "#/components/schemas/Address"
+          },
+          "preferredPhoneNumber" : {
+            "type" : "string",
+            "description" : "Preferred phone number"
+          },
+          "phoneNumberType" : {
+            "type" : "string",
+            "description" : "Preferred phone type"
+          },
+          "email" : {
+            "type" : "string",
+            "description" : "Email"
+          },
+          "employment" : {
+            "$ref" : "#/components/schemas/Employment"
+          }
+        },
+        "description" : "Demographics of a patient"
+      },
+      "Diagnosis" : {
+        "required" : [ "diagnosisDate" ],
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "string",
+            "description" : "Diagnosis Code"
+          },
+          "diagnosisDate" : {
+            "type" : "string",
+            "description" : "Diagnosis Date",
+            "format" : "date"
+          },
+          "resolutionDate" : {
+            "type" : "string",
+            "description" : "Diagnosis Resolution Date",
+            "format" : "date"
+          },
+          "eyeLocation" : {
+            "type" : "string",
+            "description" : "Diagnosis Eye Location"
+          },
+          "qualifier" : {
+            "type" : "string",
+            "description" : "Diagnosis Qualifier"
+          },
+          "reason" : {
+            "type" : "string",
+            "description" : "Diagnosis Reason"
+          },
+          "encounterDateTime" : {
+            "type" : "string",
+            "description" : "Diagnosis Encounter Date And Time",
+            "format" : "date-time"
+          }
+        },
+        "description" : "Diagnosis History"
+      },
+      "DiagnosisCarePlanItem" : {
+        "type" : "object",
+        "properties" : {
+          "diagnosis" : {
+            "$ref" : "#/components/schemas/Diagnosis"
+          },
+          "carePlanItem" : {
+            "$ref" : "#/components/schemas/CarePlanItem"
+          }
+        },
+        "description" : "History of Diagnosis and related Care Plan Item"
+      },
+      "Employment" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "description" : "Status"
+          },
+          "employer" : {
+            "type" : "string",
+            "description" : "Employer"
+          },
+          "position" : {
+            "type" : "string",
+            "description" : "Position"
+          },
+          "address" : {
+            "$ref" : "#/components/schemas/Address"
+          }
+        },
+        "description" : "An Employment"
+      },
+      "Encounter" : {
+        "required" : [ "encounterDate", "signed", "status" ],
+        "type" : "object",
+        "properties" : {
+          "encounterDate" : {
+            "type" : "string",
+            "description" : "Encounter date",
+            "format" : "date-time"
+          },
+          "location" : {
+            "type" : "string",
+            "description" : "Encounter location"
+          },
+          "type" : {
+            "type" : "string",
+            "description" : "Encounter type"
+          },
+          "category" : {
+            "type" : "string",
+            "description" : "Encounter category"
+          },
+          "provider" : {
+            "type" : "string",
+            "description" : "Encounter provider"
+          },
+          "employee" : {
+            "type" : "string",
+            "description" : "Encounter employee"
+          },
+          "signed" : {
+            "type" : "boolean",
+            "description" : "Is the encounter signed"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Encounter status"
+          },
+          "diagnoses" : {
+            "type" : "array",
+            "description" : "Encounter diagnoses",
+            "items" : {
+              "$ref" : "#/components/schemas/EncounterDiagnosis"
+            }
+          },
+          "familyHistory" : {
+            "$ref" : "#/components/schemas/FamilyHistory"
+          },
+          "socialHistory" : {
+            "$ref" : "#/components/schemas/SocialHistory"
+          },
+          "reasonForVisit" : {
+            "$ref" : "#/components/schemas/ReasonForVisit"
+          },
+          "services" : {
+            "type" : "array",
+            "description" : "Encounter performed service",
+            "items" : {
+              "$ref" : "#/components/schemas/Service"
+            }
+          },
+          "vitalSigns" : {
+            "$ref" : "#/components/schemas/VitalSigns"
+          },
+          "professionalTimeSeconds" : {
+            "type" : "integer",
+            "description" : "Encounter professional time",
+            "format" : "int32"
+          },
+          "refractions" : {
+            "type" : "array",
+            "description" : "Refractions",
+            "items" : {
+              "$ref" : "#/components/schemas/Refraction"
+            }
+          },
+          "tests" : {
+            "type" : "array",
+            "description" : "Tests",
+            "items" : {
+              "$ref" : "#/components/schemas/Test"
+            }
+          },
+          "clinicalDecisionSupports" : {
+            "type" : "array",
+            "description" : "Clinical decision supports",
+            "items" : {
+              "$ref" : "#/components/schemas/ClinicalDecisionSupport"
+            }
+          },
+          "orientationMood" : {
+            "$ref" : "#/components/schemas/OrientationMood"
+          }
+        },
+        "description" : "Patient Encounter"
+      },
+      "EncounterDiagnosis" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "string",
+            "description" : "Diagnosis Code"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "Diagnosis Description"
+          },
+          "carePlanItems" : {
+            "type" : "array",
+            "description" : "Care Plan Items",
+            "items" : {
+              "$ref" : "#/components/schemas/CarePlanItem"
+            }
+          }
+        },
+        "description" : "Encounter Diagnosis"
+      },
+      "FamilyHealthHistory" : {
+        "required" : [ "date", "code", "relationshipFather", "relationshipMother", "relationshipBrother", "relationshipSister", "relationshipSon", "relationshipDaughter" ],
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "description" : "Family Health History Date",
+            "format" : "date"
+          },
+          "code" : {
+            "type" : "integer",
+            "description" : "Family Health History SNOMED Code"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "Family Health History Description"
+          },
+          "comments" : {
+            "type" : "string",
+            "description" : "Family Health History Comments"
+          },
+          "relationshipFather" : {
+            "type" : "string",
+            "description" : "Family Health History Relationship Father"
+          },
+          "relationshipMother" : {
+            "type" : "string",
+            "description" : "Family Health History Relationship Mother"
+          },
+          "relationshipBrother" : {
+            "type" : "string",
+            "description" : "Family Health History Relationship Brother"
+          },
+          "relationshipSister" : {
+            "type" : "string",
+            "description" : "Family Health History Relationship Sister"
+          },
+          "relationshipSon" : {
+            "type" : "string",
+            "description" : "Family Health History Relationship Son"
+          },
+          "relationshipDaughter" : {
+            "type" : "string",
+            "description" : "Family Health History Relationship Daughter"
+          },
+          "conditionType" : {
+            "type" : "string",
+            "description" : "Family Health History Condition Type"
+          }
+        },
+        "description" : "Family Health History"
+      },
+      "FamilyHistory" : {
+        "type" : "object",
+        "properties" : {
+          "medical" : {
+            "type" : "array",
+            "description" : "Medical conditions",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "ocular" : {
+            "type" : "array",
+            "description" : "Ocular conditions",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "comments" : {
+            "type" : "string",
+            "description" : "Comments"
+          }
+        },
+        "description" : "Family History"
+      },
+      "FamilyMember" : {
+        "type" : "object",
+        "properties" : {
+          "firstName" : {
+            "type" : "string",
+            "description" : "First name"
+          },
+          "lastName" : {
+            "type" : "string",
+            "description" : "Last name"
+          },
+          "middleName" : {
+            "type" : "string",
+            "description" : "Middle name"
+          },
+          "role" : {
+            "type" : "string",
+            "description" : "Role"
+          }
+        },
+        "description" : "Patient Family Account Member"
+      },
+      "HealthConcern" : {
+        "required" : [ "date", "concern", "type", "status" ],
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "description" : "Date",
+            "format" : "date"
+          },
+          "concern" : {
+            "type" : "string",
+            "description" : "Concern"
+          },
+          "type" : {
+            "type" : "string",
+            "description" : "Health concern type"
+          },
+          "reporter" : {
+            "type" : "string",
+            "description" : "Health concern reporter"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Health concern status"
+          },
+          "inactiveDate" : {
+            "type" : "string",
+            "description" : "Health concern inactive date",
+            "format" : "date"
+          }
+        },
+        "description" : "A Health Concern"
+      },
+      "HealthGoal" : {
+        "required" : [ "goal", "value", "date", "status" ],
+        "type" : "object",
+        "properties" : {
+          "goal" : {
+            "type" : "string",
+            "description" : "Health goal"
+          },
+          "value" : {
+            "type" : "string",
+            "description" : "Health goal value"
+          },
+          "date" : {
+            "type" : "string",
+            "description" : "Health goal date reported",
+            "format" : "date"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Health goal status"
+          },
+          "inactiveDate" : {
+            "type" : "string",
+            "description" : "Health goal inactive date",
+            "format" : "date"
+          }
+        },
+        "description" : "A Health Goal"
+      },
+      "Immunization" : {
+        "required" : [ "status" ],
+        "type" : "object",
+        "properties" : {
+          "cvxCode" : {
+            "type" : "string",
+            "description" : "CVX code"
+          },
+          "cvxCodeName" : {
+            "type" : "string",
+            "description" : "CVX short name"
+          },
+          "amount" : {
+            "type" : "number",
+            "description" : "Administered amount",
+            "format" : "double"
+          },
+          "unit" : {
+            "type" : "string",
+            "description" : "Administered amount units"
+          },
+          "administeredOn" : {
+            "type" : "string",
+            "description" : "Administered on",
+            "format" : "date-time"
+          },
+          "endDate" : {
+            "type" : "string",
+            "description" : "End date",
+            "format" : "date"
+          },
+          "administeredAt" : {
+            "type" : "string",
+            "description" : "Administered at location"
+          },
+          "administeredBy" : {
+            "type" : "string",
+            "description" : "Administered by"
+          },
+          "site" : {
+            "type" : "string",
+            "description" : "Administered site"
+          },
+          "route" : {
+            "type" : "string",
+            "description" : "Administered route"
+          },
+          "manufacturer" : {
+            "type" : "string",
+            "description" : "Substance manufacturer"
+          },
+          "substanceLot" : {
+            "type" : "string",
+            "description" : "Substance lot"
+          },
+          "substanceExpirationDate" : {
+            "type" : "string",
+            "description" : "Substance expire date",
+            "format" : "date"
+          },
+          "orderedBy" : {
+            "type" : "string",
+            "description" : "Ordered by provider"
+          },
+          "comments" : {
+            "type" : "string",
+            "description" : "Comments"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Status"
+          }
+        },
+        "description" : "An Immunization"
+      },
+      "ImplantableDevice" : {
+        "required" : [ "udi", "status" ],
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "description" : "Date",
+            "format" : "date"
+          },
+          "estimated" : {
+            "type" : "boolean",
+            "description" : "Installed date estimated"
+          },
+          "udi" : {
+            "type" : "string",
+            "description" : "Unique device identifier"
+          },
+          "location" : {
+            "type" : "string",
+            "description" : "Body location"
+          },
+          "surgeon" : {
+            "type" : "string",
+            "description" : "Surgeon name"
+          },
+          "comments" : {
+            "type" : "string",
+            "description" : "Comments"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Status"
+          }
+        },
+        "description" : "An Implantable Device"
+      },
+      "Insurance" : {
+        "required" : [ "companyName", "coverageType", "policy" ],
+        "type" : "object",
+        "properties" : {
+          "companyName" : {
+            "type" : "string",
+            "description" : "Company name"
+          },
+          "coverageType" : {
+            "type" : "string",
+            "description" : "Coverage type"
+          },
+          "relationship" : {
+            "type" : "string",
+            "description" : "Policy holder relationship"
+          },
+          "policy" : {
+            "type" : "string",
+            "description" : "Policy #"
+          },
+          "group" : {
+            "type" : "string",
+            "description" : "Group #"
+          },
+          "payerId" : {
+            "type" : "string",
+            "description" : "Payer ID"
+          }
+        },
+        "description" : "An Insurance"
+      },
+      "Invoice" : {
+        "required" : [ "billTo", "invoiceDate", "status", "items", "payments" ],
+        "type" : "object",
+        "properties" : {
+          "billTo" : {
+            "type" : "string",
+            "description" : "Bill to payer name"
+          },
+          "invoiceDate" : {
+            "type" : "string",
+            "description" : "Invoice date",
+            "format" : "date"
+          },
+          "serviceDate" : {
+            "type" : "string",
+            "description" : "Service date",
+            "format" : "date"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Status"
+          },
+          "items" : {
+            "type" : "array",
+            "description" : "Invoice items",
+            "items" : {
+              "$ref" : "#/components/schemas/InvoiceItem"
+            }
+          },
+          "payments" : {
+            "type" : "array",
+            "description" : "Payments",
+            "items" : {
+              "$ref" : "#/components/schemas/Payment"
+            }
+          },
+          "claims" : {
+            "type" : "array",
+            "description" : "Claim history",
+            "items" : {
+              "$ref" : "#/components/schemas/Claim"
+            }
+          }
+        },
+        "description" : "Patient Invoice"
+      },
+      "InvoiceItem" : {
+        "required" : [ "postDate", "code", "modifiers", "description", "quantity", "unitPrice", "discounts", "tax", "extendedPrice", "adjustments", "paid", "balance" ],
+        "type" : "object",
+        "properties" : {
+          "postDate" : {
+            "type" : "string",
+            "description" : "Post date",
+            "format" : "date"
+          },
+          "code" : {
+            "type" : "string",
+            "description" : "Code"
+          },
+          "modifiers" : {
+            "type" : "array",
+            "description" : "Modifiers",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "Description"
+          },
+          "quantity" : {
+            "type" : "integer",
+            "description" : "Quantity"
+          },
+          "unitPrice" : {
+            "type" : "number",
+            "description" : "Unit price",
+            "format" : "double"
+          },
+          "discounts" : {
+            "type" : "number",
+            "description" : "Discounts",
+            "format" : "double"
+          },
+          "tax" : {
+            "type" : "number",
+            "description" : "Tax",
+            "format" : "double"
+          },
+          "extendedPrice" : {
+            "type" : "number",
+            "description" : "Extended price",
+            "format" : "double"
+          },
+          "adjustments" : {
+            "type" : "number",
+            "description" : "Adjustments",
+            "format" : "double"
+          },
+          "paid" : {
+            "type" : "number",
+            "description" : "Paid",
+            "format" : "double"
+          },
+          "balance" : {
+            "type" : "number",
+            "description" : "Balance",
+            "format" : "double"
+          }
+        },
+        "description" : "Patient Invoice Item"
+      },
+      "MedicalOrder" : {
+        "required" : [ "type", "resultType", "labResultStatus", "interpretationLabResult" ],
+        "type" : "object",
+        "properties" : {
+          "loincCode" : {
+            "type" : "string",
+            "description" : "Order LOINC code"
+          },
+          "loincName" : {
+            "type" : "string",
+            "description" : "Order LOINC name"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "Description"
+          },
+          "orderDate" : {
+            "type" : "string",
+            "description" : "Order Date",
+            "format" : "date"
+          },
+          "originatedWithoutCpoe" : {
+            "type" : "boolean",
+            "description" : "Originated without CPOE value"
+          },
+          "startDate" : {
+            "type" : "string",
+            "description" : "Start date",
+            "format" : "date"
+          },
+          "endDate" : {
+            "type" : "string",
+            "description" : "End date",
+            "format" : "date"
+          },
+          "orderedBy" : {
+            "type" : "string",
+            "description" : "Ordered by"
+          },
+          "labName" : {
+            "type" : "string",
+            "description" : "Lab name"
+          },
+          "frequency" : {
+            "type" : "string",
+            "description" : "Frequency"
+          },
+          "type" : {
+            "type" : "string",
+            "description" : "Type"
+          },
+          "instructions" : {
+            "type" : "string",
+            "description" : "Instructions"
+          },
+          "orderComments" : {
+            "type" : "string",
+            "description" : "Order comments"
+          },
+          "reportDate" : {
+            "type" : "string",
+            "description" : "Report date",
+            "format" : "date"
+          },
+          "labTestType" : {
+            "type" : "string",
+            "description" : "Lab test type"
+          },
+          "testName" : {
+            "type" : "string",
+            "description" : "Test name"
+          },
+          "resultType" : {
+            "type" : "string",
+            "description" : "Result type"
+          },
+          "labResultValue" : {
+            "type" : "string",
+            "description" : "Result value"
+          },
+          "labResultUnit" : {
+            "type" : "string",
+            "description" : "Result unit"
+          },
+          "labResultStatus" : {
+            "type" : "string",
+            "description" : "Result status"
+          },
+          "normals" : {
+            "type" : "string",
+            "description" : "Normals"
+          },
+          "specimenSource" : {
+            "type" : "string",
+            "description" : "Specimen source"
+          },
+          "disposition" : {
+            "type" : "string",
+            "description" : "Disposition"
+          },
+          "labNote" : {
+            "type" : "string",
+            "description" : "Lab note"
+          },
+          "resultComments" : {
+            "type" : "string",
+            "description" : "Result comments"
+          },
+          "testPerformedDate" : {
+            "type" : "string",
+            "description" : "Test performed date",
+            "format" : "date"
+          },
+          "interpretationAndReport" : {
+            "type" : "string",
+            "description" : "Interpretation and report"
+          },
+          "interpretationLabResult" : {
+            "type" : "string",
+            "description" : "Interpretation lab result"
+          },
+          "interpretationComments" : {
+            "type" : "string",
+            "description" : "Lab interpretation comments"
+          },
+          "encounterDate" : {
+            "type" : "string",
+            "description" : "Encounter date",
+            "format" : "date-time"
+          }
+        },
+        "description" : "Medical Order"
+      },
+      "OrientationMood" : {
+        "required" : [ "orientation", "mood" ],
+        "type" : "object",
+        "properties" : {
+          "orientation" : {
+            "type" : "string",
+            "description" : "Orientation to time/person/place"
+          },
+          "orientationComments" : {
+            "type" : "string",
+            "description" : "Orientation to time/person/place comments"
+          },
+          "mood" : {
+            "type" : "string",
+            "description" : "Assessment of mood affect"
+          },
+          "moodComments" : {
+            "type" : "string",
+            "description" : "Assessment of mood affect comments"
+          },
+          "mentalStatusComments" : {
+            "type" : "string",
+            "description" : "Mental Status comments"
+          },
+          "functionalStatusComments" : {
+            "type" : "string",
+            "description" : "Functional status comments"
+          }
+        },
+        "description" : "Orientation Mood"
+      },
+      "Patient" : {
+        "type" : "object",
+        "properties" : {
+          "exportTimestamp" : {
+            "type" : "string",
+            "description" : "Export time stamp",
+            "format" : "date-time"
+          },
+          "demographics" : {
+            "$ref" : "#/components/schemas/Demographics"
+          },
+          "healthGoals" : {
+            "type" : "array",
+            "description" : "Health goals",
+            "items" : {
+              "$ref" : "#/components/schemas/HealthGoal"
+            }
+          },
+          "healthConcerns" : {
+            "type" : "array",
+            "description" : "Health concerns",
+            "items" : {
+              "$ref" : "#/components/schemas/HealthConcern"
+            }
+          },
+          "immunizations" : {
+            "type" : "array",
+            "description" : "Immunizations",
+            "items" : {
+              "$ref" : "#/components/schemas/Immunization"
+            }
+          },
+          "implantableDevices" : {
+            "type" : "array",
+            "description" : "Implantable devices",
+            "items" : {
+              "$ref" : "#/components/schemas/ImplantableDevice"
+            }
+          },
+          "allergies" : {
+            "type" : "array",
+            "description" : "Allergies",
+            "items" : {
+              "$ref" : "#/components/schemas/Allergy"
+            }
+          },
+          "encounters" : {
+            "type" : "array",
+            "description" : "Encounters",
+            "items" : {
+              "$ref" : "#/components/schemas/Encounter"
+            }
+          },
+          "medicalOrders" : {
+            "type" : "array",
+            "description" : "Medical orders",
+            "items" : {
+              "$ref" : "#/components/schemas/MedicalOrder"
+            }
+          },
+          "insurances" : {
+            "type" : "array",
+            "description" : "Insurance",
+            "items" : {
+              "$ref" : "#/components/schemas/Insurance"
+            }
+          },
+          "invoices" : {
+            "type" : "array",
+            "description" : "Invoices",
+            "items" : {
+              "$ref" : "#/components/schemas/Invoice"
+            }
+          },
+          "diagnoses" : {
+            "type" : "array",
+            "description" : "Diagnosis history",
+            "items" : {
+              "$ref" : "#/components/schemas/Diagnosis"
+            }
+          },
+          "familyHealthHistories" : {
+            "type" : "array",
+            "description" : "Family health history",
+            "items" : {
+              "$ref" : "#/components/schemas/FamilyHealthHistory"
+            }
+          },
+          "referrals" : {
+            "type" : "array",
+            "description" : "Referrals",
+            "items" : {
+              "$ref" : "#/components/schemas/Referral"
+            }
+          },
+          "contacts" : {
+            "type" : "array",
+            "description" : "Contacts",
+            "items" : {
+              "$ref" : "#/components/schemas/Contact"
+            }
+          },
+          "statements" : {
+            "type" : "array",
+            "description" : "Statement history",
+            "items" : {
+              "$ref" : "#/components/schemas/Statement"
+            }
+          },
+          "familyMembers" : {
+            "type" : "array",
+            "description" : "Family Members",
+            "items" : {
+              "$ref" : "#/components/schemas/FamilyMember"
+            }
+          }
+        },
+        "description" : "Patient export results"
+      },
+      "Payment" : {
+        "required" : [ "date", "method", "amount" ],
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "description" : "Date",
+            "format" : "date"
+          },
+          "method" : {
+            "type" : "string",
+            "description" : "Method"
+          },
+          "amount" : {
+            "type" : "number",
+            "description" : "Amount",
+            "format" : "double"
+          }
+        },
+        "description" : "Patient Invoice Payment"
+      },
+      "ReasonForVisit" : {
+        "type" : "object",
+        "properties" : {
+          "patientReasonForVisit" : {
+            "type" : "string",
+            "description" : "Patient reason for visit"
+          },
+          "providerReasonForVisit" : {
+            "type" : "string",
+            "description" : "Provider reason for visit"
+          },
+          "diagnosisCarePlanItems" : {
+            "type" : "array",
+            "description" : "Diagnosis/Care Plan Item list",
+            "items" : {
+              "$ref" : "#/components/schemas/DiagnosisCarePlanItem"
+            }
+          }
+        },
+        "description" : "Reason For Visit"
+      },
+      "Referral" : {
+        "required" : [ "referralDate", "reportReceived" ],
+        "type" : "object",
+        "properties" : {
+          "referralDate" : {
+            "type" : "string",
+            "description" : "Referral date",
+            "format" : "date"
+          },
+          "referredTo" : {
+            "type" : "string",
+            "description" : "Referred to"
+          },
+          "referredBy" : {
+            "type" : "string",
+            "description" : "Referred by"
+          },
+          "reason" : {
+            "type" : "string",
+            "description" : "Reason"
+          },
+          "toBeSeen" : {
+            "type" : "string",
+            "description" : "To be seen"
+          },
+          "appointmentBooked" : {
+            "type" : "boolean",
+            "description" : "Appointment booked"
+          },
+          "appointmentDateTime" : {
+            "type" : "string",
+            "description" : "Appointment date & time",
+            "format" : "date-time"
+          },
+          "comments" : {
+            "type" : "string",
+            "description" : "Comments"
+          },
+          "confirmationOfReceipt" : {
+            "type" : "boolean",
+            "description" : "Confirmation of receipt"
+          },
+          "responseRequestedDate" : {
+            "type" : "string",
+            "description" : "Response requested date",
+            "format" : "date"
+          },
+          "responseDate" : {
+            "type" : "string",
+            "description" : "Response date",
+            "format" : "date"
+          },
+          "responseComments" : {
+            "type" : "string",
+            "description" : "Response comments"
+          },
+          "reportReceived" : {
+            "type" : "boolean",
+            "description" : "Report received"
+          }
+        },
+        "description" : "Referral"
+      },
+      "Refraction" : {
+        "required" : [ "name" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "Test name"
+          },
+          "odSphere" : {
+            "type" : "number",
+            "description" : "OD Sphere",
+            "format" : "double"
+          },
+          "odCylinder" : {
+            "type" : "number",
+            "description" : "OD Cylinder",
+            "format" : "double"
+          },
+          "odAxis" : {
+            "type" : "integer",
+            "description" : "OD Axis",
+            "format" : "int32"
+          },
+          "odHorizontalPrism" : {
+            "type" : "number",
+            "description" : "OD Horizontal Prism",
+            "format" : "double"
+          },
+          "odHorizontalPrismOrientation" : {
+            "type" : "string",
+            "description" : "OD Horizontal Prism Orientation"
+          },
+          "odVerticalPrism" : {
+            "type" : "number",
+            "description" : "OD Vertical Prism",
+            "format" : "double"
+          },
+          "odVerticalPrismOrientation" : {
+            "type" : "string",
+            "description" : "OD Vertical Prism Orientation"
+          },
+          "odIntermediateAdd" : {
+            "type" : "number",
+            "description" : "OD Intermediate Add",
+            "format" : "double"
+          },
+          "odNearAdd" : {
+            "type" : "number",
+            "description" : "OD Near Add",
+            "format" : "double"
+          },
+          "osSphere" : {
+            "type" : "number",
+            "description" : "OS Sphere",
+            "format" : "double"
+          },
+          "osCylinder" : {
+            "type" : "number",
+            "description" : "OS Cylinder",
+            "format" : "double"
+          },
+          "osAxis" : {
+            "type" : "integer",
+            "description" : "OS Axis",
+            "format" : "int32"
+          },
+          "osHorizontalPrism" : {
+            "type" : "number",
+            "description" : "OS Horizontal Prism",
+            "format" : "double"
+          },
+          "osHorizontalPrismOrientation" : {
+            "type" : "string",
+            "description" : "OS Horizontal Prism Orientation"
+          },
+          "osVerticalPrism" : {
+            "type" : "number",
+            "description" : "OS Vertical Prism",
+            "format" : "double"
+          },
+          "osVerticalPrismOrientation" : {
+            "type" : "string",
+            "description" : "OS Vertical Prism Orientation"
+          },
+          "osIntermediateAdd" : {
+            "type" : "number",
+            "description" : "OS Intermediate Add",
+            "format" : "double"
+          },
+          "osNearAdd" : {
+            "type" : "number",
+            "description" : "OS Near Add",
+            "format" : "double"
+          }
+        },
+        "description" : "Refraction"
+      },
+      "Service" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "string",
+            "description" : "Code"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "Description"
+          },
+          "diagnosis" : {
+            "type" : "array",
+            "description" : "Diagnosis",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        },
+        "description" : "Service History"
+      },
+      "SocialHistory" : {
+        "type" : "object",
+        "properties" : {
+          "drinking" : {
+            "type" : "string",
+            "description" : "Drinking status"
+          },
+          "drinkingAmount" : {
+            "type" : "string",
+            "description" : "Drinking amount"
+          },
+          "tobaccoUse" : {
+            "type" : "string",
+            "description" : "Tobacco use"
+          },
+          "tobaccoPreference" : {
+            "type" : "string",
+            "description" : "Tobacco preference"
+          },
+          "tobaccoAmount" : {
+            "type" : "string",
+            "description" : "Tobacco amount"
+          },
+          "smokingStatus" : {
+            "type" : "string",
+            "description" : "Smoking status"
+          }
+        },
+        "description" : "Social History"
+      },
+      "Statement" : {
+        "required" : [ "printDate", "statementBalance" ],
+        "type" : "object",
+        "properties" : {
+          "printDate" : {
+            "type" : "string",
+            "description" : "Print date",
+            "format" : "date"
+          },
+          "dueDate" : {
+            "type" : "string",
+            "description" : "Due date"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "Message"
+          },
+          "statementBalance" : {
+            "type" : "number",
+            "description" : "Statement balance",
+            "format" : "double"
+          }
+        },
+        "description" : "Statement"
+      },
+      "Test" : {
+        "required" : [ "name", "values" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "Test name"
+          },
+          "values" : {
+            "type" : "array",
+            "description" : "Test values",
+            "items" : {
+              "$ref" : "#/components/schemas/TestValue"
+            }
+          }
+        },
+        "description" : "Encounter Test"
+      },
+      "TestValue" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "Field name"
+          },
+          "value" : {
+            "type" : "string",
+            "description" : "Field value"
+          }
+        },
+        "description" : "Encounter Test Value"
+      },
+      "VitalSigns" : {
+        "type" : "object",
+        "properties" : {
+          "systolic" : {
+            "type" : "number",
+            "description" : "Systolic blood pressure",
+            "format" : "double"
+          },
+          "diastolic" : {
+            "type" : "number",
+            "description" : "Diastolic blood pressure",
+            "format" : "double"
+          },
+          "pressureArm" : {
+            "type" : "string",
+            "description" : "Pressure arm"
+          },
+          "pulse" : {
+            "type" : "number",
+            "description" : "Pulse",
+            "format" : "double"
+          },
+          "testType" : {
+            "type" : "string",
+            "description" : "Test type"
+          },
+          "height" : {
+            "type" : "number",
+            "description" : "Height",
+            "format" : "double"
+          },
+          "heightUnit" : {
+            "type" : "string",
+            "description" : "Height Unit"
+          },
+          "weight" : {
+            "type" : "number",
+            "description" : "Weight",
+            "format" : "double"
+          },
+          "weightUnit" : {
+            "type" : "string",
+            "description" : "Weight Unit"
+          }
+        },
+        "description" : "Vital Signs"
+      }
+    },
+    "securitySchemes" : { }
+  }
+}
