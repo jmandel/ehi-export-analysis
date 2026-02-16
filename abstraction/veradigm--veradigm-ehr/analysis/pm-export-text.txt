@@ -1,0 +1,665 @@
+Veradigm® Practice Management
+
+
+
+EHI Data Export File
+Reference Guide
+
+Version 2
+
+
+
+
+Copyright © 2024
+Veradigm LLC and/or its affiliates.
+All rights reserved.                  www.veradigm.com
+Published Date: May 07, 2024 for release of Veradigm® Practice Management
+For further information about this manual or other Veradigm LLC products, contact Global Service Center.
+Global Service Center
+Client Portal Website: https://central.allscripts.com (Client Portal login is required. Contact information varies by product.)
+Contact us: https://veradigm.com/contact/
+
+
+Proprietary Notice
+© 2024 Veradigm LLC and/or its affiliates. All rights reserved.
+
+This document contains confidential and proprietary information protected by trade secret and copyright law. This document, the
+information in this document, and all rights thereto are the sole and exclusive property of Veradigm LLC and/or its affiliates, are
+intended for use by customers and employees of Veradigm LLC and/or its affiliates and others authorized in writing by Veradigm
+LLC and/or its affiliates, and are not to be copied, used, or disclosed to anyone else, in whole or in part, without the express
+written permission of Veradigm LLC and/or its affiliates. For authorization from Veradigm LLC to copy this information, please
+call Veradigm Global Service Center at 888 GET-HELP or 888 438-4357. Notice to U.S. Government Users: This is "Commercial
+Computer Software Documentation" within the meaning of FAR Part 12.212 (October 1995), DFARS Part 227.7202 (June 1995)
+and DFARS 252.227-7014 (a) (June 1995). All use, modification, reproduction, release, performance, display, and disclosure
+shall be in strict accordance with the license terms of Veradigm LLC and/or its affiliates. Manufacturer is Veradigm LLC, and/or
+its affiliates, 222 Merchandise Mart Plaza, Suite #2024, Chicago, IL 60654.
+IMPORTANT NOTICE REGARDING GOVERNMENT USE
+The software and other materials provided to you by Veradigm LLC include "commercial computer software" and related
+documentation within the meaning of Federal Acquisition Regulation 2.101, 12.212, and 27.405-3 and Defense Federal Acquisition
+Regulation Supplement 227.7202 and 52.227-7014(a). These materials are highly proprietary to Veradigm LLC and its vendors.
+Users, including those that are representatives of the U.S. Government or any other government body, are permitted to use these
+materials only as expressly authorized in the applicable written agreement between Veradigm LLC and your organization. Neither
+your organization nor any government body shall receive any ownership, license, or other rights other than those expressly set
+forth in that agreement, irrespective of (a) whether your organization is an agency, agent, or other instrumentality of the U.S.
+Government or any other government body, (b) whether your organization is entering into or performing under the agreement in
+support of a U.S. Government or any other government agreement or utilizing any U.S. Government or any other government
+funding of any nature, or (c) anything else.
+Veradigm® Practice Management is a trademark of Veradigm LLC and/or its affiliates.
+Cited marks are the property of Veradigm LLC and/or its affiliates. All other product or company names are the property of their
+respective holders, all rights reserved.
+The names and associated patient data used in this documentation are fictional and do not represent any real person living or
+otherwise. Any similarities to actual people are coincidental.
+Images and option names used in this documentation might differ from how they are displayed in your environment. Certain
+options and labels vary according to your specific configuration. Images are for illustration purposes only.
+Fee schedules, relative value units, conversion factors and/or related components are not assigned by the AMA, are not part of
+CPT, and the AMA is not recommending their use. The AMA does not directly or indirectly practice medicine or dispense medical
+services. The AMA assumes no liability for data contained or not contained herein.
+Excel, Microsoft, and BizTalk are either registered trademarks or trademarks of Microsoft Corporation in the United States and/or
+other countries.
+Adobe, the Adobe logo, Acrobat, and Reader are either registered trademarks or trademarks of Adobe Systems Incorporated in
+the United States and/or other countries.
+iPhone® and iPad® are trademarks of Apple Inc., registered in the U.S. and other countries.
+Perceptive Content, Lexmark, and the Lexmark logo are trademarks of Lexmark International, Inc., registered in the United States
+and/or other countries.
+InterQual and InterQual Connect are registered trademarks of Change Healthcare, LLC in the United States or other countries.
+Table of contents
+
+
+Chapter 1: About the EHI data export file...................................................................4
+
+Chapter 2: EHI data export file reference...................................................................5
+
+Chapter 3: Appendix............................................................................................................9
+     Claim information fields............................................................................................................9
+     Ailment information fields.......................................................................................................16
+     Ambulance information fields.................................................................................................18
+     Drug information fields...........................................................................................................19
+     Anesthesia information fields.................................................................................................20
+     Dental information fields........................................................................................................20
+
+
+
+
+May 07, 2024 | Veradigm® Practice Management                                                                                            3
+EHI Data Export File Reference Guide
+Copyright © 2024 | Veradigm LLC
+This page contains Veradigm proprietary information and is not to be duplicated or disclosed to unauthorized persons.
+Chapter 1
+
+About the EHI data export file
+
+If you requested patient financial data in a machine-readable format, electronic health information
+                                     ®
+(EHI) was extracted from Veradigm Practice Management into a text file formatted according to
+the JavaScript Object Notation (JSON) data-interchange standard.
+JSON files can be easily read by most healthcare software. For more information about JSON:
+Introducing JSON
+Table 1: Revision history
+
+Issue date           Revision Description of change                                                     Initiated by
+11/20/2023           1.0            Document creation                                                   D. DeGregorio
+04/24/2024           2.0            Add additional version 2.0 claim fields, if                         D. DeGregorio
+                                    populated, for ambulance info, anesthesia info,
+                                    dental info, and drug info
+
+
+
+
+May 07, 2024 | Veradigm® Practice Management                                                                            4
+EHI Data Export File Reference Guide
+Copyright © 2024 | Veradigm LLC
+This page contains Veradigm proprietary information and is not to be duplicated or disclosed to unauthorized persons.
+Chapter 2
+
+EHI data export file reference
+
+Use the following information to interpret the structure of the file that you received.
+This JSON file layout includes the fields in the file with a human-readable description to the right of the field name. If information was not available for
+a field, that field is not included in the export file.
+
+
+
+
+May 07, 2024 | Veradigm® Practice Management                                                                                                               5
+EHI Data Export File Reference Guide
+Copyright © 2024 | Veradigm LLC
+This page contains Veradigm proprietary information and is not to be duplicated or disclosed to unauthorized persons.
+FIELD NAME                                                  DESCRIPTION
+practiceName                                                Name of the practice
+schemaLocation                                              Website link to supporting documentation
+patient                                                     Name of patient on voucher
+    patientNumber                                           Unique patient identifier assigned by the practice
+    firstName                                               Patient first name
+    mi                                                      Patient middle initial
+    lastName                                                Patient last name
+    suffix                                                  Patient suffix
+    vouchers                                                A grouping of services/charges by date
+        voucher                                             Repeats if patient has multiple vouchers
+            voucherNumber                                   Unique practice-assigned number for a voucher
+            chargeAmount                                    Total charge amount of the voucher
+            paymentAdjTotal                                 Total amount of payments and adjustments on the voucher
+            balance                                         Balance of the voucher at the time of file generation
+            payer                                           Person or entity who provides payment
+            billedDate                                      Current bill date of the voucher
+            department                                      Practice-defined grouping
+            location                                        Practice-defined grouping
+            placeOfService                                  Physical location where the services were performed
+            localUseText                                    Data field used for additional billing information
+            origPayer                                       Original/initial payer assigned to the voucher
+            origBillDate                                    Original/initial billing date of the voucher
+            origBillMedia                                   Original billing method to insurance (electronic or paper, for example)
+            claimNumber                                     Number assigned to the voucher for insurance billing
+            invoiceNumber                                   Number assigned to the voucher for invoice billing
+            serviceDate                                     Date of the service provided
+            statementMessage                                Message on the patient statement
+        provider                                            Actual provider of the services
+            firstName                                       Actual provider first name
+            mi                                              Actual provider middle initial
+            lastName                                        Actual provider last name
+            suffix                                          Actual provider suffix
+        referringDr                                         Referring provider on the voucher
+            firstName                                       Referring doctor first name
+            mi                                              Referring doctor middle initial
+            lastName                                        Referring doctor last name
+
+
+
+May 07, 2024 | Veradigm® Practice Management                                                                                          6
+EHI Data Export File Reference Guide
+Copyright © 2024 | Veradigm LLC
+This page contains Veradigm proprietary information and is not to be duplicated or disclosed to unauthorized persons.
+                suffix                      Referring doctor suffix
+            responsibleParty                Responsible party associated with the voucher
+                firstName                   Responsible party first name
+                mi                          Responsible party middle initial
+                lastName                    Responsible party last name
+                suffix                      Responsible party suffix
+            billingProvider                 Billing provider associated with the voucher
+                firstName                   Billing provider first name
+                mi                          Billing provider middle initial
+                lastName                    Billing provider last name
+                suffix                      Billing provider suffix
+            claimInformation                Fields used for additional claim information
+                claimInfoField              Label of the additional information (see appendix for possible fields)
+                claimInfoValue              Value of the associated claim information field
+            ailmentInformation              Fields related to the patient's ailment
+                ailmentInfoField            Label of the ailment information (see appendix for possible fields)
+                ailmentInfoValue            Value of the associated ailment information field
+            ambulanceInformation            Fields related to ambulance service on the claim (see appendix for possible fields)
+            services                        Information related to the patient's services
+                service                     Repeats for every procedure identified on the voucher
+                    serviceDateFrom         Service start date for the associated procedure
+                    serviceDateTo           Service end date for the associated procedure
+                    procedureCode           Alphanumeric value of the procedure
+                    procedureDescription    Description of the procedure code
+                    units                   Quantity of the procedure
+                    feeAmount               Fee amount for the procedure
+                    modifiers               Modifier(s) for the procedure
+                    diagnoses               Diagnosis code(s) for the procedure
+                drugInformation             Fields related to drug service on the claim (see appendix for possible fields)
+                anesthesiaInformation       Fields related to anesthesia service on the claim (see appendix for possible fields)
+                dentalInformation           Fields related to dental service on the claim (see appendix for possible fields)
+                payments                    Transactions (pmt, adj, transfer, rebill) on the voucher for each service
+                    payment                 Repeats if multiple transactions on the service
+                       paymentDate          Date of the transaction
+                       insurance            Payer of the transaction
+                       transaction          Description of the transaction
+                       reimbursementComment Reimbursement comment code associated with the insurance transaction
+
+
+
+May 07, 2024 | Veradigm® Practice Management                                                                                       7
+EHI Data Export File Reference Guide
+Copyright © 2024 | Veradigm LLC
+This page contains Veradigm proprietary information and is not to be duplicated or disclosed to unauthorized persons.
+                            paymentAmount                   Amount of the transaction
+                            transferTo                      Who the voucher is transferred to
+                            transferAmount                  Dollar amount being transferred
+
+
+
+
+May 07, 2024 | Veradigm® Practice Management                                                                            8
+EHI Data Export File Reference Guide
+Copyright © 2024 | Veradigm LLC
+This page contains Veradigm proprietary information and is not to be duplicated or disclosed to unauthorized persons.
+Chapter 3
+
+Appendix
+
+
+Claim information fields
+The following are possible data fields for claimInfoField in your EHI data export file.
+
+Prior Authorization Number
+Pre-Certification #
+Medicare Secondary Reason Code
+Resubmission Code
+Original Reference Number
+Purchased Service UPIN
+Purchased Service Price
+Purchased Service Provider Name
+Purchased Service NPI
+Miscellaneous Box 10d text
+Miscellaneous Box 11 text
+Miscellaneous Box 17a text
+Covered Days
+Non-Covered Days
+Coinsurance Days
+Lifetime Reserve Days
+Admission Hour
+Type of Admission
+Source of Admission Code
+Discharge Hour
+Patient Status
+Condition Code 1
+
+
+May 07, 2024 | Veradigm® Practice Management                                                                            9
+EHI Data Export File Reference Guide
+Copyright © 2024 | Veradigm LLC
+This page contains Veradigm proprietary information and is not to be duplicated or disclosed to unauthorized persons.
+Condition Code 2
+Condition Code 3
+Condition Code 4
+Condition Code 5
+Condition Code 6
+Condition Code 7
+Occurrence Code 1
+Occurrence Date 1
+Occurrence Code 2
+Occurrence Date 2
+Occurrence Code 3
+Occurrence Date 3
+Occurrence Code 4
+Occurrence Date 4
+Occurrence Code 5
+Occurrence Date 5
+Occurrence Code 6
+Occurrence Date 6
+Occurrence Code 7
+Occurrence Date 7
+Occurrence Code 8
+Occurrence Date 8
+Occurrence Span Code 1
+Occurrence Span From Date 1
+Occurrence Span Thru Date 1
+Occurrence Span Code 2
+Occurrence Span From Date 2
+Occurrence Span Thru Date 2
+Value Code 1
+
+
+
+May 07, 2024 | Veradigm® Practice Management                                                                            10
+EHI Data Export File Reference Guide
+Copyright © 2024 | Veradigm LLC
+This page contains Veradigm proprietary information and is not to be duplicated or disclosed to unauthorized persons.
+Value Amount 1
+Value Code 2
+Value Amount 2
+Value Code 3
+Value Amount 3
+Value Code 4
+Value Amount 4
+Value Code 5
+Value Amount 5
+Value Code 6
+Value Amount 6
+Value Code 7
+Value Amount 7
+Value Code 8
+Value Amount 8
+Value Code 9
+Value Amount 9
+Value Code 10
+Value Amount 10
+Value Code 11
+Value Amount 11
+Value Code 12
+Value Amount 12
+Non-Covered Charges
+Treatment Authorization Code A
+Treatment Authorization Code B
+Treatment Authorization Code C
+Employer Status Code 1
+Employer Name 1
+
+
+
+May 07, 2024 | Veradigm® Practice Management                                                                            11
+EHI Data Export File Reference Guide
+Copyright © 2024 | Veradigm LLC
+This page contains Veradigm proprietary information and is not to be duplicated or disclosed to unauthorized persons.
+Employer Location 1
+Employer Status Code 2
+Employer Name 2
+Employer Location 2
+Employer Status Code 3
+Employer Name 3
+Employer Location 3
+Principal Diagnosis Code
+Other Diagnosis Code 1
+Other Diagnosis Code 2
+Other Diagnosis Code 3
+Other Diagnosis Code 4
+Other Diagnosis Code 5
+Other Diagnosis Code 6
+Other Diagnosis Code 7
+Other Diagnosis Code 8
+Admitting Diagnosis Code
+E-Code 1
+E-Code 2
+E-Code 3
+Patient Reason Diagnosis Code 1
+Patient Reason Diagnosis Code 2
+Patient Reason Diagnosis Code 3
+Procedure Coding Method
+Principal Procedure Code
+Principal Procedure Date
+Other Procedure Code 1
+Other Procedure Date 1
+Other Procedure Code 2
+
+
+
+May 07, 2024 | Veradigm® Practice Management                                                                            12
+EHI Data Export File Reference Guide
+Copyright © 2024 | Veradigm LLC
+This page contains Veradigm proprietary information and is not to be duplicated or disclosed to unauthorized persons.
+Other Procedure Date 2
+Other Procedure Code 3
+Other Procedure Date 3
+Other Procedure Code 4
+Other Procedure Date 4
+Other Procedure Code 5
+Other Procedure Date 5
+Health/Develop History Diagnosis Code
+Physical Exam Diagnosis Code
+Vision Screening Diagnosis Code
+Hearing Screening Diagnosis Code
+Developmental Diagnosis Code
+Nutritional Diagnosis Code
+Health/Develop History Exam Code
+Physical Exam Exam Code
+Vision Screening Exam Code
+Hearing Screening Exam Code
+Developmental Exam Code
+Nutritional Exam Code
+Lab-HGB/HCT
+Lab-Urinalysis
+Lab-TB
+Lab-Lead/Blood
+Lab-Sickle Cell
+Immunizations Complete
+Incomplete Immunization Reason
+Referring Provider Code1
+Referring Provider Code2
+Referring Provider Code3
+
+
+
+May 07, 2024 | Veradigm® Practice Management                                                                            13
+EHI Data Export File Reference Guide
+Copyright © 2024 | Veradigm LLC
+This page contains Veradigm proprietary information and is not to be duplicated or disclosed to unauthorized persons.
+Referring Provider Code4
+Referring Provider Code5
+Referring Provider Code6
+Delay Reason Code
+Ordering Dr. Same as Referring Dr?
+Patient Sedated?
+Diagnosis prompting MRI
+CT Scan within last 3 months?
+1st Scan Region
+1st Sedation/Special Needs Patient
+1st Contrast Media Used
+1st Scan Diagnosis
+1st Scan - Findings
+1st Scan Completed
+2nd Scan Region
+2nd Sedation/Special Needs Patient
+2nd Contrast Media Used
+2nd Scan Diagnosis
+2nd Scan - Findings
+2nd Scan Completed
+3rd Scan Region
+3rd Sedation/Special Needs Patient
+3rd Contrast Media Used
+3rd Scan Diagnosis
+3rd Scan - Findings
+3rd Scan Completed
+4th Scan Region
+4th Sedation/Special Needs Patient
+4th Contrast Media Used
+
+
+
+May 07, 2024 | Veradigm® Practice Management                                                                            14
+EHI Data Export File Reference Guide
+Copyright © 2024 | Veradigm LLC
+This page contains Veradigm proprietary information and is not to be duplicated or disclosed to unauthorized persons.
+4th Scan Diagnosis
+4th Scan - Findings
+4th Scan Completed
+5th Scan Region
+5th Sedation/Special Needs Patient
+5th Contrast Media Used
+5th Scan Diagnosis
+5th Scan - Findings
+5th Scan Completed
+Type of Bill
+Vaccine Eligibility Code
+Suspected Condition - Medical
+Suspected Condition - Vision
+Suspected Condition - Hearing
+Suspected Condition - Dental
+Suspected Condition - Nutritional
+Suspected Condition - Developmental
+Suspected Condition - Abuse/Neglect
+Suspected Condition - Psychological/Social
+Suspected Condition - Speech/Language
+Select Outgoing Referral 1
+Outgoing Referral 1 - Suspected Condition
+Outgoing Referral 1 - Referral Assist Needed
+Outgoing Referral 1 - Appointment Date
+Outgoing Referral 1 - Appointment Time
+Outgoing Referral 1 - Reason for Referral
+Outgoing Referral 1 - Referring Doctor
+Select Outgoing Referral 2
+Outgoing Referral 2 - Suspected Condition
+
+
+
+May 07, 2024 | Veradigm® Practice Management                                                                            15
+EHI Data Export File Reference Guide
+Copyright © 2024 | Veradigm LLC
+This page contains Veradigm proprietary information and is not to be duplicated or disclosed to unauthorized persons.
+Outgoing Referral 2 - Referral Assist Needed
+Outgoing Referral 2 - Appointment Date
+Outgoing Referral 2 - Appointment Time
+Outgoing Referral 2 - Reason for Referral
+Outgoing Referral 2 - Referring Doctor
+Select Outgoing Referral 3
+Outgoing Referral 3 - Suspected Condition
+Outgoing Referral 3 - Referral Assist Needed
+Outgoing Referral 3 - Appointment Date
+Outgoing Referral 3 - Appointment Time
+Outgoing Referral 3 - Reason for Referral
+Outgoing Referral 3 - Referring Doctor
+Clinical/Research Status
+Other Operating Physician / Other Physician A
+Other Physician B
+Operating Physician
+Special Program Code
+Peer Review Org Approval Number
+Care Plan Oversight Facility
+Method Of Anesthesia
+Procedure Time Start
+Procedure Time End
+
+
+
+Ailment information fields
+The following are possible data fields for ailmentInfoField in your EHI data export file.
+
+Address
+Case Type
+Condition Related to Employment?
+
+
+
+May 07, 2024 | Veradigm® Practice Management                                                                            16
+EHI Data Export File Reference Guide
+Copyright © 2024 | Veradigm LLC
+This page contains Veradigm proprietary information and is not to be duplicated or disclosed to unauthorized persons.
+Condition Related to Accident
+State
+Comment
+Date 1st Symptom
+Old Symptoms?
+Date 1st Consulted
+Date of Acute Manifestation
+Date Discharged as Cured
+Date Last Seen
+Emergency?
+Date Resumed Work
+Date of Initial Treatment
+Date of Total Disability (From)
+Date of Total Disability (To)
+Date of Partial Disability (From)
+Date of Partial Disability (To)
+Date of Similar Illness/Treatment (From)
+Date of Similar Illness/Treatment (To)
+Date of Hospitalization (From)
+Date of Hospitalization (To)
+Date of Last Menstrual Period
+Date of Last X-Ray
+X-Ray Available?
+Date of Maximum Recovery
+Date of Next Appointment
+Date Patient Refused Treatment
+Date Patient Stopped Treatment
+EPSDT?
+EPSDT Referral Condition Code
+
+
+
+May 07, 2024 | Veradigm® Practice Management                                                                            17
+EHI Data Export File Reference Guide
+Copyright © 2024 | Veradigm LLC
+This page contains Veradigm proprietary information and is not to be duplicated or disclosed to unauthorized persons.
+Estimated Length of Disability
+Poss. Disability?
+Family Planning?
+Investigational Device Exemption Number
+Nature of Condition
+PHCP?
+Prognosis
+Outside Lab?
+Outside Lab Charges
+Steril/Abort Cd
+Auth Except
+Patient Date of Death
+Permanent Disability?
+Pre-existing Condition
+Pregnant?
+Restrictions
+Status Code
+Time 1st Symptom
+Treatment
+
+
+
+Ambulance information fields
+The following are possible data fields for ambulanceInformation in your EHI data export file.
+
+Transport Code
+Transport Reason
+Transport Miles
+Admission Date
+Patient Weight
+Pick Up Address
+
+
+
+May 07, 2024 | Veradigm® Practice Management                                                                            18
+EHI Data Export File Reference Guide
+Copyright © 2024 | Veradigm LLC
+This page contains Veradigm proprietary information and is not to be duplicated or disclosed to unauthorized persons.
+Pick Up City
+Pick Up State
+Pick Up Zip
+Round Trip Description
+Stretcher Description
+Patient Was Admitted to a Hospital
+Patient Was Bed Confined Before the Ambulance Service
+Patient Was Bed Confined After the Ambulance Service
+Patient Was Moved by Stretcher
+Patient Was Unconscious or in Shock
+Patient Was Transported in an Emergency Situation
+Patient Had To Be Physically Restrained
+Patient Had Visible Hemorrhaging
+Ambulance Service Was Medically Necessary
+Transportation Was to the Nearest Facility
+
+
+
+Drug information fields
+The following are possible data fields for drugInformation in your EHI data export file.
+
+National Drug Code
+Original Manufacturer NDC
+Manufacturer Code
+Lot Number
+Unit of Measure
+Unit Count
+Unit Price
+Prescription Number
+HGB/HCT Date
+Serum Creatinine Date
+
+
+
+May 07, 2024 | Veradigm® Practice Management                                                                            19
+EHI Data Export File Reference Guide
+Copyright © 2024 | Veradigm LLC
+This page contains Veradigm proprietary information and is not to be duplicated or disclosed to unauthorized persons.
+Measurement Identifier
+Measurement Type
+Test Results
+
+
+
+Anesthesia information fields
+The following are possible data fields for anesthesiaInformation in your EHI data export file.
+
+Anesthesia Start time
+Anesthesia Stop Time
+Actual Minutes
+Billing Minutes
+Time Units
+Base Units
+Additional Base Units
+CRNA (first name, last name, suffix)
+Anesthesia Related Procedure Code 1
+Description Related Procedure Code 1
+Anesthesia Related Procedure Code 2
+Description Related Procedure Code 2
+
+
+
+Dental information fields
+The following are possible data fields for dentalInformation in your EHI data export file.
+
+Tooth/Quadrant
+Surface
+
+
+
+
+May 07, 2024 | Veradigm® Practice Management                                                                            20
+EHI Data Export File Reference Guide
+Copyright © 2024 | Veradigm LLC
+This page contains Veradigm proprietary information and is not to be duplicated or disclosed to unauthorized persons.
+
