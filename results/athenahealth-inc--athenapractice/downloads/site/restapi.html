@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML>
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+    <title>RESTful API - Implementation Guide v25.0.0</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="author" content="http://hl7.org/fhir"/>
+
+    <link href="fhir.css" rel="stylesheet"/>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap-fhir.css" rel="stylesheet"/>
+
+    <!-- Project extras -->
+    <link href="assets/css/project.css" rel="stylesheet"/>
+    <link href="assets/css/pygments-manni.css" rel="stylesheet"/>
+    <link href="assets/css/jquery-ui.css" rel="stylesheet"/>
+  	<link href="assets/css/prism.css" rel="stylesheet" />
+  	<link href="assets/css/cqf.css" rel="stylesheet" />
+    <!-- Placeholder for child template CSS declarations -->
+ <link href="assets/css/myproject.css" rel="stylesheet"/>
+
+    <script type="text/javascript" src="fhir-table-scripts.js"> </script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Favicons -->
+    <link rel="fhir-logo" sizes="144x144" href="assets/ico/icon-fhir-144.png"/>
+    <link rel="fhir-logo" sizes="114x114" href="assets/ico/icon-fhir-114.png"/>
+    <link rel="fhir-logo" sizes="72x72" href="assets/ico/icon-fhir-72.png"/>
+    <link rel="fhir-logo" href="assets/ico/icon-fhir-57.png"/>
+    <link rel="shortcut icon" href="assets/ico/favicon.png"/>
+  </head>
+  <body onload="document.body.style.opacity='1'">
+
+	  <script src="assets/js/prism.js"></script>
+    <script type="text/javascript" src="assets/js/mermaid.js"></script>
+    <script type="text/javascript" src="assets/js/mermaid-init.js"></script>
+    <style type="text/css">h2{--heading-prefix:"7"}
+    h3,h4,h5,h6{--heading-prefix:"7"}</style>
+    <div id="segment-header" class="segment">  <!-- segment-header -->
+      <div class="container">  <!-- container -->
+
+        <!-- Placeholder for child template header declarations -->
+
+  <!-- <div id="family-nav">
+      <a id="family-logo" no-external="true" href=""><img height="27" alt="athenahealth" src="assets/images/athena-logo.png"/> </a>
+    </div> -->
+
+        <div id="ig-status">
+          <p><span style="font-size:12pt;font-weight:bold">Implementation Guide</span>
+            <br/>
+            <span style="display:inline-block;">25.0.0 - R4 APIs
+
+
+
+  
+
+
+            </span>
+          </p>
+        </div>
+      </div> <!-- /container -->
+    </div>  <!-- /segment-header -->
+
+    <div id="segment-navbar" class="segment">  <!-- segment-navbar -->
+      <div id="stripe"> </div>
+      <div class="container">  <!-- container -->
+        <!-- HEADER CONTENT -->
+
+        <nav class="navbar navbar-inverse">
+          <!--status-bar-->
+          <div class="container">
+            <button data-target=".navbar-inverse-collapse" class="navbar-toggle" data-toggle="collapse" type="button">
+              <span class="icon-bar"> </span>
+              <span class="icon-bar"> </span>
+              <span class="icon-bar"> </span>
+            </button>
+            <a class="navbar-brand hidden" href="http://hl7.org/fhir/R4/index.html">FHIR</a>
+            <div class="nav-collapse collapse navbar-inverse-collapse">
+              <ul xmlns="http://www.w3.org/1999/xhtml" class="nav navbar-nav">
+  <li><a href="index.html">Home</a></li>
+  <li><a href="toc.html">Table of Contents</a></li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">API Artifacts<b class="caret">
+      </b>
+    </a>
+    <ul class="dropdown-menu">
+		<li>
+        <a href="ehiexport.html">Electronic Health Information (EHI) Export<style="text-align: baseline"/></a>
+      </li>
+      <li>
+        <a href="operations.html">Operations<style="text-align: baseline"/></a>
+      </li>
+      <li>
+        <a href="security.html">Security</a>
+      </li>
+    </ul>
+  </li>
+  <li><a href="artifacts.html">Artifact Index</a></li>
+  <li><a href="restapi.html">RESTful API</a></li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">Support<b class="caret">
+      </b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a target="_blank" href="http://hl7.org/fhir/R4/index.html">FHIR Spec <img src="external.png" style="text-align: baseline"/></a>
+      </li>
+      <li>
+        <a href="downloads.html">Downloads</a>
+      </li>
+    </ul>
+  </li>
+</ul>      
+
+            </div>  <!-- /.nav-collapse -->
+          </div>  <!-- /.container -->
+        </nav>  <!-- /.navbar -->
+      <!-- /HEADER CONTENT -->
+      </div>  <!-- /container -->
+    </div>  <!-- /segment-navbar -->
+    <!--status-bar-->
+
+    <div id="segment-breadcrumb" class="segment">  <!-- segment-breadcrumb -->
+      <div class="container">  <!-- container -->
+        <ul class="breadcrumb">
+          <li><a href='toc.html'><b>Table of Contents</b></a></li><li><b>RESTful API</b></li>
+
+        </ul>
+      </div>  <!-- /container -->
+    </div>  <!-- /segment-breadcrumb -->
+
+    <a name="top"> </a>
+    <div id="segment-content" class="segment">  <!-- segment-content -->
+      <div class="container">  <!-- container -->
+        <div class="row">
+          <div class="inner-wrapper">
+
+<style type="text/css">
+h2:before{color:silver;counter-increment:section;content:var(--heading-prefix) " ";}
+h3:before{color:silver;counter-increment:sub-section;content:var(--heading-prefix) "." counter(sub-section) " ";}
+h4:before{color:silver;counter-increment:composite;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) " ";}
+h5:before{color:silver;counter-increment:detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) " ";}
+h6:before{color:silver;counter-increment:more-detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) "." counter(more-detail)" ";}
+</style>
+<div class="col-12">
+  <!--ReleaseHeader--><p id="publish-box">Publish Box goes here</p><!--EndReleaseHeader-->
+  <h2>RESTful API</h2>
+  
+  
+  
+  <div xmlns="http://www.w3.org/1999/xhtml">
+  <!-- The spaces between the open and close "a" tag are mandatory.  (Cuz HTML renderers are dumb...) -->
+<div>
+   <a name="read_interaction"> </a>
+   <h4 style="font-size: 20px;">Read</h4>
+   <p>Read interactions are executed as specified in the <a href="https://hl7.org/fhir/R4/http.html#read">HL7 FHIR RESTful API</a>
+          implementation definition.</p>
+   <pre>GET [base]/fhir/r4/[type]/[id]{?_format=[json|xml]&amp;_summary=[true|data]}</pre>
+   <p>Where:</p>
+               <table class="grid">
+                <tbody>
+                    <tr>
+                       <th>Parameter</th>
+                       <th>Description</th>
+                    </tr>
+                    <tr>
+                       <td>[base]</td>
+                       <td>Specifies the base URL of the FHIR Server, e.g., https://apsandbox.fhirapi.athenahealth.com/demoAPIServer</td>
+                   </tr>
+                   <tr>
+                       <td>[type]</td>
+                       <td>Specifies the name of a resource type</td>
+                   </tr>
+                   <tr>
+                       <td>[id]</td>
+                       <td>Specifies the logical id of a specific resource to retrieve</td>
+                   </tr>
+                   <tr>
+                       <td>[_format]</td>
+                       <td>Specifies the format of the output and may be xml or json. When present, the _format
+            value overrides the value of the Accept header in the request.</td>
+                   </tr>
+                   <tr>
+                       <td>[_summary]</td>
+                       <td>Filters the output to include only summary elements (_summary=true) or to omit the
+            generated narrative (_summary=data). Note: If the generated html narrative for the
+            resource is not going to be used by the call, using _summary=data provides slightly
+            improved API response times.</td>
+                   </tr>
+                </tbody>
+            </table>
+<div>
+<a name="read_http_response_codes"> </a>
+      <h5>HTTP Response Codes</h5>
+      <p>The following HTTP response codes are returned by read API call:</p>
+      <table class="grid">
+                <tbody>
+                    <tr>
+                       <th>Response code</th>
+                       <th>Description</th>
+                    </tr>
+                    <tr>
+                       <td>200 OK</td>
+                       <td>The requested resource was found and is contained within the body of the HTTP
+              response.</td>
+                   </tr>
+                   <tr>
+                       <td>401 Unauthorized</td>
+                       <td>Authorization is required for this request, and either the Authorization header is
+              missing or the supplied user credentials in the Authorization header are not valid or
+              have expired. The body of the HTTP response will contain an OperationOutcome resource
+              that indicates that Authorization is required.</td>
+                   </tr>
+                   <tr>
+                       <td>404 Not Found</td>
+                       <td>The requested resource does not exist. The body of the HTTP response will contain an
+              OperationOutcome resource that indicates that the resource could not be found.</td>
+                   </tr>
+                   <tr>
+                       <td>500 Server Error</td>
+                       <td>The server may return other error codes to indicate other error conditions. The body
+              of the HTTP response will contain an OperationOutcome resource that indicates the
+              nature of the error.</td>
+                   </tr>
+                </tbody>
+            </table>
+            </div>
+          </div>
+<div>
+   <a name="create_interaction"> </a>
+   <h4 style="font-size: 20px;">Create </h4>
+   <p>Create interactions are executed as specified in the <a href="https://hl7.org/fhir/R4/http.html#create">HL7
+            FHIR RESTful API</a> implementation definition. To create a new 
+          resource, an application must perform an HTTP POST, specifying the content of the resource
+          in the body of the request.</p>
+   <pre>POST [base]/fhir/r4/[type]?{_format=[json|xml]}</pre>
+   <p>Where:</p>
+   
+   <dl>
+      <dt>[_format]</dt>
+      <dd>Specifies the format of the output and may be xml or json. When present, the _format
+            value overrides the value of the Accept header in the request.</dd>
+   </dl>
+   <div>
+      <a name="create_http_response_codes"> </a>
+      <h5>HTTP Response Codes</h5>
+      <p>The following HTTP response codes are returned by this API call:</p>
+      <table class="grid">
+          <tbody>
+          <tr>
+                <th>Response code</th>
+                <th>Description</th>
+          </tr>
+          <tr>
+                <td>201 Created</td>
+                <td>The resource was created at the location specified in the HTTP Location header.
+              Note: Unsupported fields will be accepted in a request but will not be persisted to
+              the database. Some fields may be mapped to database specific codes which closely but
+              not perfectly match the input. See <a href="https://hl7.org/fhir/R4/http.html#transactional-integrity"> the
+                HL7 FHIR specification</a> for more detail on server permitted changes. </td>
+          </tr>
+          <tr>
+                <td>400 Bad Request</td>
+                <td>The resource could not be parsed, or failed basic validation rules. The body of the
+              HTTP response will contain an OperationOutcome resource that provide more detail about
+              the reason for the failure.</td>
+          </tr>
+          <tr>
+               <td>401 Unauthorized</td>
+               <td>Authorization is required for this request, and either the Authorization header is
+              missing or the supplied user credentials in the Authorization header are not valid or
+              have expired. The body of the HTTP response will contain an OperationOutcome resource
+              that indicates that Authorization is required. </td>
+          </tr>
+          <tr>
+                <td>422 Unprocessable Entity</td>
+                <td>The proposed resource violated server business rules. For example, a required field
+              may be missing or a field may contain a value that is not supported by the API Server. 
+			  The body of the HTTP response will contain an OperationOutcome
+              resource that provide more detail about the reason for the failure.</td>
+          </tr>
+          <tr>
+                <td>500 Server Error</td>
+                <td>The server may return other error codes to indicate other error conditions. The body
+              of the HTTP response will contain an OperationOutcome resource that indicates the
+              nature of the error.</td>
+          </tr>
+     </tbody>
+   </table>
+   </div>
+</div>
+<div>
+   <a name="update_interaction"> </a>
+   <h4 style="font-size: 20px;">Update</h4>
+   <p>Update interactions are executed as specified in the <a href="https://hl7.org/fhir/R4/http.html#update">HL7
+            FHIR RESTful API</a> implementation definition. To update an existing 
+          resource, an application must perform an HTTP PUT, specifying the content of the resource
+          in the body of the request.</p>
+   <pre>PUT [base]/fhir/r4/[type]/[id]?{_format=[json|xml]}</pre>
+   <p>Where:</p>
+   <dl>
+      <dt>[_format]</dt>
+      <dd>Specifies the format of the output and may be xml or json. When present, the _format
+            value overrides the value of the Accept header in the request.</dd>
+   </dl>
+   <div>
+      <a name="update_http_response_codes"> </a>
+      <h5>HTTP Response Codes</h5>
+      <p>The following HTTP response codes are returned by this API call:</p>
+     <table class="grid">
+     <tbody>
+      <tr>
+                       <th>Response code</th>
+                       <th>Description</th>
+     </tr>
+      <tr>              
+         <td>200 OK</td>
+         <td>The resource was updated at the location specified in the HTTP Location header.
+              Note: Unsupported fields will be accepted in a request but will not be persisted to
+              the database. Some fields may be mapped to database specific codes which closely but
+              not perfectly match the input. See <a href="https://hl7.org/fhir/R4/http.html#transactional-integrity"> the
+                HL7 FHIR specification</a> for more detail on server permitted changes. </td>
+      </tr> 
+      <tr>           
+         <td>400 Bad Request</td>
+         <td>The resource could not be parsed, or failed basic validation rules. The body of the
+              HTTP response will contain an OperationOutcome resource that provide more detail about
+              the reason for the failure.</td>
+       </tr> 
+       <tr> 
+         <td>401 Unauthorized</td>
+         <td>Authorization is required for this request, and either the Authorization header is
+              missing or the supplied user credentials in the Authorization header are not valid or
+              have expired. The body of the HTTP response will contain an OperationOutcome resource
+              that indicates that Authorization is required. </td>
+       </tr> 
+       <tr> 
+         <td>422 Unprocessable Entity</td>
+         <td>The proposed resource violated server business rules. For example, a required field
+              may be missing or a field may contain a value that is not supported by the API Server. 
+			  The body of the HTTP response will contain an OperationOutcome
+              resource that provide more detail about the reason for the failure.</td>
+        </tr> 
+        <tr>       
+         <td>500 Server Error</td>
+         <td>The server may return other error codes to indicate other error conditions. The body
+              of the HTTP response will contain an OperationOutcome resource that indicates the
+              nature of the error.</td>
+         </tr>      
+     </tbody>
+     </table>
+   </div>
+</div>
+<div>
+   <a name="delete_interaction"> </a>
+   <h4 style="font-size: 20px;">Delete</h4>
+   <p>Delete interactions are executed as specified in the <a href="https://hl7.org/fhir/R4/http.html#delete">HL7
+            FHIR RESTful API</a> implementation definition. To delete an existing 
+          resource, an application must perform an HTTP DELETE command</p>
+   <pre>DELETE [base]/fhir/r4/[type]/[id]?{_format=[json|xml]}</pre>
+   <p>Where:</p>
+   <table class="grid">
+                <tbody>
+ <tr>
+      <td>[_format]</td>
+      <td>Specifies the format of the output and may be xml or json. When present, the _format
+            value overrides the value of the Accept header in the request.</td>
+   </tr>
+   </tbody>
+   </table>
+   <div>
+      <a name="delete_http_response_codes"> </a>
+      <h5>HTTP Response Codes</h5>
+      <p>The following HTTP response codes are returned by this API call:</p>
+     <table class="grid">
+     <tbody>
+      <tr>
+                       <th>Response code</th>
+                       <th>Description</th>
+     </tr>
+      <tr>              
+         <td>200 OK</td>
+         <td>The resource has been deleted</td>
+      </tr> 
+      <tr>           
+         <td>400 Bad Request</td>
+         <td>The resource could not be parsed, or failed basic validation rules. Id may be missing or does not follow required format.</td>
+       </tr> 
+       <tr> 
+         <td>401 Unauthorized</td>
+         <td>Authorization is required for this request, and either the Authorization header is
+              missing or the supplied user credentials in the Authorization header are not valid or
+              have expired.</td>
+       </tr> 
+        <tr>       
+         <td>500 Server Error</td>
+         <td>The server may return other error codes to indicate other error conditions. The body
+              of the HTTP response will contain an OperationOutcome resource that indicates the
+              nature of the error.</td>
+         </tr>
+     
+     </tbody>
+     </table>
+   </div>
+</div>
+</div>
+</div>
+        </div>  <!-- /inner-wrapper -->
+      </div>  <!-- /row -->
+    </div>  <!-- /container -->
+  </div>  <!-- /segment-content -->
+
+  <script type="text/javascript" src="assets/js/jquery.js"> </script>     <!-- note keep space here, otherwise it will be transformed to empty tag -> fails -->
+  <script type="text/javascript" src="assets/js/jquery-ui.min.js"> </script>
+
+  <script type="text/javascript" src="assets/js/window-hash.js"> </script>
+  <a name="bottom"> </a>
+  <div id="segment-footer" igtool="footer" class="segment">  <!-- segment-footer -->
+    <div class="container">  <!-- container -->
+
+      <div class="inner-wrapper">
+        <p>
+          IG &#169; 2022+ <a style="color:var(--footer-hyperlink-text-color)" href="http://athenahealth.com">athenahealth</a>.  Package athenahealth#25.0.0 based on <a style="color: var(--footer-hyperlink-text-color)" href="http://hl7.org/fhir/R4/">FHIR 4.0.1</a>. Generated <span title="Thu, Apr 10, 2025 10:06-0700">2025-04-10</span>
+          <br/>
+          <span style="color: var(--footer-highlight-text-color)">
+                      Links: <a style="color: var(--footer-hyperlink-text-color)" href="toc.html">Table of Contents</a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" href="qa.html">QA Report</a>
+                 
+                
+          </span>
+        </p>
+      </div>  <!-- /inner-wrapper -->
+    </div>  <!-- /container -->
+  </div>  <!-- /segment-footer -->
+  
+  <div id="segment-post-footer" class="segment hidden">  <!-- segment-post-footer -->
+    <div class="container">  <!-- container -->
+    </div>  <!-- /container -->
+  </div>  <!-- /segment-post-footer -->
+
+  <!-- JS and analytics only. -->
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script type="text/javascript" src="assets/js/bootstrap.min.js"> </script>
+  <script type="text/javascript" src="assets/js/respond.min.js"> </script>
+  <script type="text/javascript" src="assets/js/anchor.min.js"> </script>
+  <script type="text/javascript" src="assets/js/clipboard.min.js"> </script>
+  <script type="text/javascript" src="assets/js/clipboard-btn.js"> </script>
+  <script type="text/javascript" src="assets/js/anchor-hover.js"> </script>
+  <!-- Analytics Below
+  ================================================== -->
+  </body>
+</html>
+
