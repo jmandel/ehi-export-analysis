@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOHRA | Facility Portal</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <!-- Google Icons -->
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/styles.css">
+	<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const copyButton = document.querySelector('.btn-copy');
+
+            copyButton.addEventListener('click', function() {
+                const urlToCopy = "https://facilityportal.vohrawoundteam.com";
+
+                // Use the Clipboard API to copy the URL
+                navigator.clipboard.writeText(urlToCopy).then(() => {
+                    // Successfully copied to clipboard
+                    const tooltip = copyButton.querySelector('.tooltip');
+                    tooltip.textContent = "Copied!";  // Change tooltip text
+
+                    // Optional: Reset tooltip text after 2 seconds
+                    setTimeout(() => {
+                        tooltip.textContent = "Click to copy address.";
+                    }, 2000);
+                }).catch(err => {
+                    // Error handling
+                    console.error('Failed to copy: ', err);
+                });
+            });
+			try{
+				// Get the current URL
+				var currentUrl = window.location.href;
+
+				// Create a URL object
+				var url = new URL(currentUrl);
+
+				// Get the pathname
+				var path = url.pathname;
+
+				// Construct the new URL by appending the path
+				var newUrl = "https://facilityportal.vohrawoundteam.com" + path;
+
+				// Set the href attribute of the link
+				document.getElementById("redirectLink1").href = newUrl;
+				document.getElementById("redirectLink2").href = newUrl; 
+				}catch (error) {
+					console.error("An error occurred: ", error);
+					document.getElementById("error").textContent = "Error loading the redirect link.";
+				}
+			});
+    </script>
+</head>
+<body>
+    <div class="header">
+        <div class="logo"> <img src="./images/logo-color-tagline.svg" alt=""></div>
+        <div class="support">
+            <strong>Technical Support:</strong> 
+            <span class="material-icons-round"> call </span>(954) 678-6223 
+            <a href="mailto:portalsupport@vohraphysicians.com"> <span class="material-icons-round"> email </span> portalsupport@vohraphysicians.com</a>
+        </div>
+    </div>
+    <div class="main-container">
+        <h1>The Facility Portal has a new secure web address.</h1>
+        <h2>
+            <span class="h2-smaller">Find us now at</span> <br>
+            <a id="redirectLink1" href="https://facilityportal.vohrawoundteam.com">facilityportal.vohrawoundteam.com</a> 
+            <button class="btn-copy"> 
+                <div class="tooltip">Click to copy address. </div>
+                <span class="material-icons-round"> content_copy </span>
+            </button>
+        </h2>
+        <div class="paragraph">
+            <p>To ensure you have access, please update your bookmarks at your earliest convenience.</p>
+        </div>
+        <a id="redirectLink2" href="https://facilityportal.vohrawoundteam.com" class="btn-main">Visit New Vohra Facility Portal</a>
+    </div>
+    
+    
+</body>
+</html>
