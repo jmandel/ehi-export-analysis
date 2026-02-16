@@ -1,0 +1,29 @@
+get:
+  tags:
+  - Encounter
+  summary: 'search-type: Search for Encounter instances'
+  description: This is a search type
+  parameters:
+  - name: date
+    in: query
+    description: A date within the period the Encounter lasted
+    schema:
+      type: string
+  - $ref: ../components/parameters/PatientParam.yml
+  - name: _id
+    in: query
+    description: The ID of the resource
+    schema:
+      type: string
+  responses:
+    '200':
+      description: Success
+      content:
+        application/fhir+json:
+          schema:
+            $ref: ../components/schemas/SEARCHENCOUNTER.yml
+  servers:
+  - url: https://api.sevocity.com/api/sevocity/v1/{Organization ID}
+    description: Sevocity FHIR api - Providers
+  - url: https://api.sevocity.com/api/patients/v1/{Organization ID}
+    description: Sevocity FHIR api - Patients

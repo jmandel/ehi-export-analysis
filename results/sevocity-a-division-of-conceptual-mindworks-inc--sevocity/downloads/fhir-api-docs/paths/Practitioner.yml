@@ -1,0 +1,30 @@
+get:
+  tags:
+  - Practitioner
+  summary: 'search-type: Search for Practitioner instances'
+  description: This is a search type
+  parameters:
+  - $ref: ../components/parameters/PatientParam.yml
+  - name: name
+    in: query
+    description: A server defined search that may match any of the string fields in
+      the HumanName, including family, give, prefix, suffix, suffix, and/or text
+    schema:
+      type: string
+  - name: identifier
+    in: query
+    description: A practitioner's Identifier
+    schema:
+      type: string
+  responses:
+    '200':
+      description: Success
+      content:
+        application/fhir+json:
+          schema:
+            $ref: ../components/schemas/SEARCHPRACTITIONER.yml
+  servers:
+  - url: https://api.sevocity.com/api/sevocity/v1/{Organization ID}
+    description: Sevocity FHIR api - Providers
+  - url: https://api.sevocity.com/api/patients/v1/{Organization ID}
+    description: Sevocity FHIR api - Patients

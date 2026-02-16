@@ -1,0 +1,35 @@
+get:
+  tags:
+  - Observation
+  summary: 'search-type: Search for Observation instances'
+  description: This is a search type
+  parameters:
+  - name: code
+    in: query
+    description: The code of the observation type
+    schema:
+      type: string
+  - name: date
+    in: query
+    description: Obtained date/time. If the obtained element is a period, a date that
+      falls in the period
+    schema:
+      type: string
+  - $ref: ../components/parameters/PatientParam.yml
+  - name: category
+    in: query
+    description: The classification of the type of observation
+    schema:
+      type: string
+  responses:
+    '200':
+      description: Success
+      content:
+        application/fhir+json:
+          schema:
+            $ref: ../components/schemas/SEARCHOBSERVATION.yml
+  servers:
+  - url: https://api.sevocity.com/api/sevocity/v1/{Organization ID}
+    description: Sevocity FHIR api - Providers
+  - url: https://api.sevocity.com/api/patients/v1/{Organization ID}
+    description: Sevocity FHIR api - Patients

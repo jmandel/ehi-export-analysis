@@ -1,0 +1,44 @@
+get:
+  tags:
+  - Appointment
+  summary: 'read-instance: Read Appointment instance'
+  parameters:
+  - $ref: ../components/parameters/IdParam.yml
+  responses:
+    '200':
+      description: Success
+      content:
+        application/fhir+json:
+          schema:
+            $ref: ../components/schemas/APPOINTMENT.yml
+          examples:
+            Default:
+              $ref: '../examples/appointment.yml'
+              # value:
+              #   id: '239'
+              #   participant:
+              #   - actor:
+              #       reference: Practitioner/sfonseca
+              #     status: accepted
+              #     type:
+              #     - coding:
+              #       - code: PPRF
+              #         display: primary performer
+              #         system: http://terminology.hl7.org/CodeSystem/v3-ParticipationType
+              #   - actor:
+              #       display: GE3DKMBZHA3TIMBSGEYTSZ3GGE4TSNJNGA3S2MJV
+              #       reference: Patient/GE3DKMBZHA3TIMBSGEYTSZ3GGE4TSNJNGA3S2MJV
+              #     status: accepted
+              #     type:
+              #     - coding:
+              #       - code: PART
+              #         display: Participation
+              #         system: http://terminology.hl7.org/CodeSystem/v3-ParticipationType
+              #   resourceType: Appointment
+              #   start: '2022-10-17T01:00:00.000-05:00'
+              #   status: booked
+  servers:
+  - url: https://api.sevocity.com/api/sevocity/v1/{Organization ID}
+    description: Sevocity FHIR api - Providers
+  - url: https://api.sevocity.com/api/patients/v1/{Organization ID}
+    description: Sevocity FHIR api - Patients

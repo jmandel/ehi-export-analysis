@@ -1,0 +1,25 @@
+get:
+  tags:
+  - CarePlan
+  summary: 'search-type: Search for CarePlan by Patient and Category'
+  parameters:
+  - name: category
+    in: query
+    description: Type of plan - Must be "assess-plan"
+    required: true
+    schema:
+      type: string
+      example: assess-plan
+  - $ref: ../components/parameters/PatientParam.yml
+  responses:
+    '200':
+      description: Success
+      content:
+        application/fhir+json:
+          schema:
+            $ref: ../components/schemas/SEARCHCAREPLAN.yml
+  servers:
+  - url: https://api.sevocity.com/api/sevocity/v1/{Organization ID}
+    description: Sevocity FHIR api - Providers
+  - url: https://api.sevocity.com/api/patients/v1/{Organization ID}
+    description: Sevocity FHIR api - Patients

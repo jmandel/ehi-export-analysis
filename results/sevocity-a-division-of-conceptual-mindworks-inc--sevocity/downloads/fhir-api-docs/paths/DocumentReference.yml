@@ -1,0 +1,39 @@
+get:
+  tags:
+  - DocumentReference
+  summary: 'search-type: Search for DocumentReference instances'
+  description: This is a search type
+  parameters:
+  - $ref: ../components/parameters/PatientParam.yml
+  - name: type
+    in: query
+    description: Kind of document (LOINC if possible)
+    schema:
+      type: string
+  - name: date
+    in: query
+    description: When this document reference was created
+    schema:
+      type: string
+  - name: category
+    in: query
+    description: Categorization of document
+    schema:
+      type: string
+  - name: _id
+    in: query
+    description: The ID of the resource
+    schema:
+      type: string
+  responses:
+    '200':
+      description: Success
+      content:
+        application/fhir+json:
+          schema:
+            $ref: ../components/schemas/SEARCHDOCUMENTREFERENCE.yml
+  servers:
+  - url: https://api.sevocity.com/api/sevocity/v1/{Organization ID}
+    description: Sevocity FHIR api - Providers
+  - url: https://api.sevocity.com/api/patients/v1/{Organization ID}
+    description: Sevocity FHIR api - Patients

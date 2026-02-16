@@ -1,0 +1,34 @@
+get:
+  tags:
+  - DiagnosticReport
+  summary: 'search-type: Search for DiagnosticReport instances'
+  parameters:
+  - name: code
+    in: query
+    description: The code for the report, as opposed to codes for the atomic results,
+      which are the names on the observation resource referred to from the result
+    schema:
+      type: string
+  - $ref: ../components/parameters/PatientParam.yml
+  - name: category
+    in: query
+    description: Which diagnostic discipline/department created the report
+    schema:
+      type: string
+  - name: date
+    in: query
+    description: The clinically relevant time of the report
+    schema:
+      type: string
+  responses:
+    '200':
+      description: Success
+      content:
+        application/fhir+json:
+          schema:
+            $ref: ../components/schemas/SEARCHDIAGNOSTICREPORT.yml
+  servers:
+  - url: https://api.sevocity.com/api/sevocity/v1/{Organization ID}
+    description: Sevocity FHIR api - Providers
+  - url: https://api.sevocity.com/api/patients/v1/{Organization ID}
+    description: Sevocity FHIR api - Patients

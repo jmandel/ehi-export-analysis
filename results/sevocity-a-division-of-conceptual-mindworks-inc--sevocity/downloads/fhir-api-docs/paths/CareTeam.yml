@@ -1,0 +1,24 @@
+get:
+  tags:
+  - CareTeam
+  summary: 'search-type: Search for CareTeam By Patient ID and Status'
+  parameters:
+  - $ref: ../components/parameters/PatientParam.yml
+  - name: status
+    in: query
+    description: proposed | active | suspended | inactive | entered-in-error
+    required: true
+    schema:
+      type: string
+  responses:
+    '200':
+      description: Success
+      content:
+        application/fhir+json:
+          schema:
+            $ref: ../components/schemas/SEARCHCARETEAM.yml
+  servers:
+  - url: https://api.sevocity.com/api/sevocity/v1/{Organization ID}
+    description: Sevocity FHIR api - Providers
+  - url: https://api.sevocity.com/api/patients/v1/{Organization ID}
+    description: Sevocity FHIR api - Patients

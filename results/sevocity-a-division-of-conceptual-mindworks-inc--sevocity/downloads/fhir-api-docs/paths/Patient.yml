@@ -1,0 +1,49 @@
+get:
+  tags:
+  - Patient
+  summary: 'search-type: Search for Patient instances'
+  description: This is a search type
+  parameters:
+  - name: gender
+    in: query
+    description: Gender of the patient
+    schema:
+      type: string
+  - name: name
+    in: query
+    description: A server defined search that may match any of the string fields in
+      the HumanName, including family, give, prefix, suffix, suffix, and/or text
+    schema:
+      type: string
+  - name: birthdate
+    in: query
+    description: The patient's date of birth
+    schema:
+      type: string
+  - name: identifier
+    in: query
+    description: A patient identifier
+    schema:
+      type: string
+  - name: family
+    in: query
+    description: A portion of the family name of the patient
+    schema:
+      type: string
+  - name: _id
+    in: query
+    description: The ID of the resource
+    schema:
+      type: string
+  responses:
+    '200':
+      description: Success
+      content:
+        application/fhir+json:
+          schema:
+            $ref: ../components/schemas/SEARCHPATIENT.yml
+  servers:
+  - url: https://api.sevocity.com/api/sevocity/v1/{Organization ID}
+    description: Sevocity FHIR api - Providers
+  - url: https://api.sevocity.com/api/patients/v1/{Organization ID}
+    description: Sevocity FHIR api - Patients

@@ -1,0 +1,30 @@
+get:
+  tags:
+  - Organization
+  summary: 'search-type: Search for Organization instances'
+  description: This is a search type
+  parameters:
+  - name: name
+    in: query
+    description: A portion of the organization's name or alias
+    schema:
+      type: string
+  - name: address
+    in: query
+    description: A server defined search that may match any of the string fields in
+      the Address, including line, city, district, state, country, postalCode, and/or
+      text
+    schema:
+      type: string
+  responses:
+    '200':
+      description: Success
+      content:
+        application/fhir+json:
+          schema:
+            $ref: ../components/schemas/SEARCHORGANIZATION.yml
+  servers:
+  - url: https://api.sevocity.com/api/sevocity/v1/{Organization ID}
+    description: Sevocity FHIR api - Providers
+  - url: https://api.sevocity.com/api/patients/v1/{Organization ID}
+    description: Sevocity FHIR api - Patients

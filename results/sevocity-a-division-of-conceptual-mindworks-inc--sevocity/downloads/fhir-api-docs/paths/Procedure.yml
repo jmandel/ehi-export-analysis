@@ -1,0 +1,24 @@
+get:
+  tags:
+  - Procedure
+  summary: 'search-type: Search for Procedure instances'
+  description: This is a search type
+  parameters:
+  - name: date
+    in: query
+    description: When the procedure was performed
+    schema:
+      type: string
+  - $ref: ../components/parameters/PatientParam.yml
+  responses:
+    '200':
+      description: Success
+      content:
+        application/fhir+json:
+          schema:
+            $ref: ../components/schemas/SEARCHPROCEDURE.yml
+  servers:
+  - url: https://api.sevocity.com/api/sevocity/v1/{Organization ID}
+    description: Sevocity FHIR api - Providers
+  - url: https://api.sevocity.com/api/patients/v1/{Organization ID}
+    description: Sevocity FHIR api - Patients
