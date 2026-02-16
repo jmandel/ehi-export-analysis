@@ -18,8 +18,8 @@ COL_BOUNDARIES = [
     ('description', 403, 765),
     ('dataType', 765, 825),
     ('nullable', 825, 892),
-    ('fieldLength', 892, 993),
-    ('valuesCodingSchema', 993, 1300),
+    ('fieldLength', 892, 935),
+    ('valuesCodingSchema', 935, 1300),
 ]
 
 def classify_col(left):
@@ -40,12 +40,34 @@ def get_text(el):
             parts.append(child.tail)
     return ''.join(parts).strip()
 
+# Known groupings from the overview document
+KNOWN_GROUPINGS = [
+    'PM Financials', 'Ophth Pretesting', 'Document Management', 'Office Flow',
+    'CC/HPI', 'Practice', 'Patient', 'Lookup', 'eLab', 'Pathology',
+    'Prescription', 'Appointment', 'Visit', 'Exam', 'Diagnosis',
+    'Procedure', 'Inventory', 'Document', 'MIPS'
+]
+# Sort by length descending to match longest first
+KNOWN_GROUPINGS.sort(key=len, reverse=True)
+
 def parse_idx_grouping(text):
-    """Parse combined IDX+Grouping text like '2533 eLab' or just '1'."""
+    """Parse combined IDX+Grouping+possible table start text.
+    e.g. '1579 Ophth Pretesting central_retinal_thickne' ->
+    idx=1579, grouping='Ophth Pretesting', table_start='central_retinal_thickne'
+    """
     m = re.match(r'^(\d+)\s*(.*)', text.strip())
-    if m:
-        return int(m.group(1)), m.group(2).strip()
-    return None, None
+    if not m:
+        return None, None, None
+    idx_val = int(m.group(1))
+    rest = m.group(2).strip()
+    
+    # Try to match a known grouping
+    for g in KNOWN_GROUPINGS:
+        if rest.startswith(g):
+            after = rest[len(g):].strip()
+            return idx_val, g, after if after else None
+    
+    return idx_val, rest, None
 
 def main():
     with open('downloads/detailed-dd-xml.xml') as f:
@@ -77,6 +99,17 @@ def main():
     # Sort by page, then top position
     all_elements.sort(key=lambda e: (e['page'], e['top'], e['left']))
     
+    # Identify header rows: every page has headers at top=83 and top=97 (continuation)
+    # Collect all header tops by finding "IDX" text positions
+    header_positions = set()  # (page, top) pairs to skip
+    for el in all_elements:
+        if el['text'].strip() == 'IDX' and el['left'] < 60:
+            header_positions.add((el['page'], el['top']))
+    # Also skip top=97 (header continuation "Length") and title lines
+    for el in all_elements:
+        if el['text'].strip() in ('Length',) and el['top'] < 110:
+            header_positions.add((el['page'], el['top']))
+    
     # Parse rows
     rows = []
     cur = None
@@ -89,20 +122,31 @@ def main():
         text = el['text']
         
         # Skip header rows and titles
-        if text.startswith('IDX') or text.startswith('Grouping') or text == 'Length':
+        if (el['page'], el['top']) in header_positions:
+            continue
+        # Skip elements on header line (within 2px of a header position)
+        skip = False
+        for hp, ht in header_positions:
+            if el['page'] == hp and abs(el['top'] - ht) <= 2:
+                skip = True
+                break
+        if skip:
             continue
         if text.startswith('ModMed EMA:'):
             continue
+        # Skip standalone page numbers (right side, small text)
+        if el['left'] > 1100 and text.strip().isdigit():
+            continue
         
         if col == 'idx_grouping':
-            idx_val, grouping = parse_idx_grouping(text)
+            idx_val, grouping, table_start = parse_idx_grouping(text)
             if idx_val is not None:
                 if cur:
                     rows.append(cur)
                 cur = {
                     'idx': idx_val,
                     'grouping': grouping,
-                    'table_parts': [],
+                    'table_parts': [table_start] if table_start else [],
                     'column_parts': [],
                     'description_parts': [],
                     'dataType_parts': [],
@@ -113,7 +157,16 @@ def main():
                 continue
             # Continuation of grouping text
             if cur and not cur['grouping']:
-                cur['grouping'] = text.strip()
+                # Try to split grouping from table name
+                for g in KNOWN_GROUPINGS:
+                    if text.strip().startswith(g):
+                        cur['grouping'] = g
+                        after = text.strip()[len(g):].strip()
+                        if after:
+                            cur['table_parts'].insert(0, after)
+                        break
+                else:
+                    cur['grouping'] = text.strip()
             continue
         
         if not cur:
@@ -142,6 +195,13 @@ def main():
     for row in rows:
         table = ''.join(row['table_parts']).strip()
         column = ''.join(row['column_parts']).strip()
+        
+        # Handle merged table+column: if column is empty and table contains a space,
+        # the first word is the table name and the rest is the column name
+        if not column and ' ' in table:
+            parts = table.split(' ', 1)
+            table = parts[0]
+            column = parts[1]
         description = ' '.join(row['description_parts']).strip()
         description = re.sub(r'\s+', ' ', description)
         data_type = ' '.join(row['dataType_parts']).strip()

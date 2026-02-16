@@ -1,17 +1,14 @@
 #!/usr/bin/env python3
 """Parse gGastro EHI Patient Export Specifications PDF text into structured JSON.
 
-Reads the pdftotext -layout output and extracts:
-- All CSV entity/table definitions with their fields
-- Field metadata: position, name, type, length, format/translation/comments
-- Data schema (parent-child relationships)
-- Translation tables
+Improved parser that handles multi-line field descriptions properly.
+Reads from pdftotext -layout output.
 """
 
 import re
 import json
-import sys
 from pathlib import Path
+from collections import Counter
 
 def parse_csv_dictionary(lines, start_line, end_line):
     """Parse the CSV Files Dictionary section into entities and fields."""
@@ -19,44 +16,36 @@ def parse_csv_dictionary(lines, start_line, end_line):
     current_entity = None
     current_fields = []
     
-    # Pattern for entity header line (entity name alone on a line, no leading digits)
-    # Entity names are PascalCase or camelCase words, alone on the line
-    entity_pattern = re.compile(r'^([A-Z][A-Za-z0-9]+(?:[A-Z][A-Za-z0-9]*)*)\s*$')
+    # Known type keywords that can appear at start of continuation lines
+    continuation_words = {
+        'Score', 'Type', 'Status', 'Time', 'Selection', 'Document', 'Condition',
+        'DATETIME2', 'Source', 'Code', 'Day', 'Side', 'Email', 'Interval',
+        'Occupation', 'Dysplastic', 'Priority', 'Supplemental', 'Person',
+        'DirectMailbox', 'Guarantor', 'Vendor', 'Relative',
+    }
     
-    # Pattern for field definition: starts with column number, then field name
-    # e.g., "0 - AppointmentHoldId                     GUID"
+    # Field definition pattern - matches "N - FieldName   Type   ..."
     field_pattern = re.compile(
-        r'^\s*(\d+)\s+-\s+(\S+)\s+'  # col number and field name
-        r'(Alphanumeric|Numeric|GUID|Boolean|Date & Time|Date|Time|Decimal|XML)'  # type
-        r'(?:\s+(\d+))?\s*'  # optional length
-        r'(.*?)$'  # rest is format/translation/comments
+        r'^\s*(\d+)\s+-\s+(\S+)\s+'
+        r'(Alphanumeric|Numeric|GUID|Boolean|Date & Time|Date|Time|Decimal|XML|Small Date &)'
+        r'(?:\s+(\d+))?\s*'
+        r'(.*?)$'
     )
     
-    # Sometimes field lines wrap - continuation has format/translation info
     # Header line pattern
-    header_pattern = re.compile(r'^Column Number - Name\s+Type\s+Length\s+Format')
+    header_pattern = re.compile(r'Column Number - Name\s+Type\s+Length\s+Format')
+    
+    # Entity name pattern - PascalCase, starts with uppercase, alone on line
+    # Must NOT be a continuation of a previous field's description
+    entity_name_pattern = re.compile(r'^([A-Z][A-Za-z0-9]+(?:[A-Z][A-Za-z0-9]*)*)\s*$')
     
     i = start_line
     while i < end_line:
         line = lines[i]
         stripped = line.strip()
         
-        # Skip blank lines and header lines
+        # Skip blank lines, header lines, page numbers
         if not stripped or header_pattern.match(stripped):
-            i += 1
-            continue
-        
-        # Check for entity name
-        entity_match = entity_pattern.match(stripped)
-        if entity_match and not field_pattern.match(line):
-            # Save previous entity
-            if current_entity:
-                entities.append({
-                    'name': current_entity,
-                    'fields': current_fields
-                })
-            current_entity = entity_match.group(1)
-            current_fields = []
             i += 1
             continue
         
@@ -81,24 +70,70 @@ def parse_csv_dictionary(lines, start_line, end_line):
             current_fields.append(field)
             i += 1
             
-            # Check for continuation lines (indented, no field number prefix)
+            # Check for continuation lines
             while i < end_line:
                 next_line = lines[i]
                 next_stripped = next_line.strip()
                 if not next_stripped:
                     i += 1
                     break
-                # Is it a new field, entity, or header?
-                if field_pattern.match(next_line) or entity_pattern.match(next_stripped) or header_pattern.match(next_stripped):
+                # Is it a new field?
+                if field_pattern.match(next_line):
                     break
-                # Continuation of comment/format
-                if comment:
-                    field['description'] = field['description'] + ' ' + next_stripped if field['description'] else next_stripped
+                # Is it a header line?
+                if header_pattern.match(next_stripped):
+                    break
+                # Is it a real entity name (not a continuation)?
+                entity_match = entity_name_pattern.match(next_stripped)
+                if entity_match:
+                    # Check if this looks like a continuation of the description
+                    # Continuations are typically indented far right (comment area)
+                    # or are known continuation words
+                    leading_spaces = len(next_line) - len(next_line.lstrip())
+                    if leading_spaces > 30:
+                        # Indented continuation of description
+                        if field.get('description'):
+                            field['description'] = field['description'] + ' ' + next_stripped
+                        else:
+                            field['description'] = next_stripped
+                        # Also fix type if it was "Small Date &" + "Time"
+                        if field['type'] == 'Small Date &' and next_stripped == 'Time':
+                            field['type'] = 'Small Date & Time'
+                            field['description'] = None
+                        i += 1
+                        continue
+                    else:
+                        # Likely a real entity name
+                        break
                 else:
-                    field['description'] = next_stripped
-                i += 1
+                    # Non-entity continuation line
+                    leading_spaces = len(next_line) - len(next_line.lstrip())
+                    if leading_spaces > 30:
+                        if field.get('description'):
+                            field['description'] = field['description'] + ' ' + next_stripped
+                        else:
+                            field['description'] = next_stripped
+                    i += 1
+                    continue
             continue
         
+        # Check for entity name (only if at start of line with minimal indent)
+        entity_match = entity_name_pattern.match(stripped)
+        leading_spaces = len(line) - len(line.lstrip()) if stripped else 0
+        if entity_match and leading_spaces < 10:
+            name = entity_match.group(1)
+            # Save previous entity
+            if current_entity:
+                entities.append({
+                    'name': current_entity,
+                    'fields': current_fields
+                })
+            current_entity = name
+            current_fields = []
+            i += 1
+            continue
+        
+        # Unrecognized line - could be continuation of something or noise
         i += 1
     
     # Save last entity
@@ -111,56 +146,61 @@ def parse_csv_dictionary(lines, start_line, end_line):
     return entities
 
 
-def parse_translations(lines, start_line, end_line):
-    """Parse the Translations section into translation tables."""
-    translations = {}
-    current_category = None
-    current_table = None
+def categorize_entity(name):
+    """Categorize an entity by its name patterns."""
+    lower = name.lower()
     
-    # Translation table headers look like: "Category TableName"
-    # Values look like: "code = value"
-    
-    i = start_line
-    while i < end_line:
-        line = lines[i].strip()
-        if not line:
-            i += 1
-            continue
-        
-        # Look for category/table patterns
-        # These are typically multi-word names followed by value mappings
-        # e.g., "Billing Claim Status" then "0 = Open", "1 = Closed"
-        
-        i += 1
-    
-    return translations
-
-
-def parse_data_schema(lines, start_line, end_line):
-    """Parse the Data Schema section to extract parent-child relationships."""
-    relationships = []
-    
-    for i in range(start_line, end_line):
-        line = lines[i]
-        # Schema lines show indentation-based tree structure
-        # with entity names and linking fields
-        stripped = line.strip()
-        if not stripped:
-            continue
-        
-        # Look for patterns like "EntityName (FieldName)"
-        match = re.match(r'^(\s*)(\w+)\s*(?:\((\w+)\))?\s*$', line.rstrip())
-        if match:
-            indent = len(match.group(1))
-            entity = match.group(2)
-            link_field = match.group(3)
-            relationships.append({
-                'entity': entity,
-                'link_field': link_field,
-                'indent_level': indent
-            })
-    
-    return relationships
+    if any(k in lower for k in ['billing', 'claim', 'charge', 'payment', 'collection', 'fee', 'prepay', 'edi', 'superbill', 'ledger', 'invoice', 'credit']):
+        return 'Billing/Financial'
+    if any(k in lower for k in ['insurance', 'eligib', 'authorization']):
+        return 'Insurance/Coverage'
+    if any(k in lower for k in ['appointment', 'schedule', 'hold', 'wait', 'remind', 'kiosk', 'recall', 'pendingcancel']):
+        return 'Scheduling'
+    if any(k in lower for k in ['interfacelab', 'interfacetest', 'interfaceresult', 'interfacespecimen', 'specimen', 'interfacerequisition']):
+        return 'Lab/Results'
+    if any(k in lower for k in ['interfaceoutbound']):
+        return 'Lab/Results'
+    if any(k in lower for k in ['document', 'letter', 'fax', 'ccda', 'ecr']):
+        return 'Documents'
+    if any(k in lower for k in ['imaging']):
+        return 'Imaging'
+    if any(k in lower for k in ['aga', 'giquic', 'finding', 'impression']):
+        return 'GI-Specific'
+    if any(k in lower for k in ['ophthalmolog', 'lens']):
+        return 'Ophthalmology'
+    if any(k in lower for k in ['cardiol', 'carotid', 'echocardiog', 'nuclear', 'stress', 'heartcentrix', 'tte']):
+        return 'Cardiology'
+    if any(k in lower for k in ['portal', 'telehealth']):
+        return 'Portal/Telehealth'
+    if any(k in lower for k in ['directm', 'message']):
+        return 'Communications'
+    if any(k in lower for k in ['medication', 'prescription', 'pharmacy', 'drug', 'ndcid', 'ldm', 'renewal', 'formulary']):
+        return 'Medications/Prescriptions'
+    if any(k in lower for k in ['allerg']):
+        return 'Allergies'
+    if any(k in lower for k in ['immuniz', 'vaccine', 'cvxcode', 'hl7set']):
+        return 'Immunizations'
+    if any(k in lower for k in ['vital', 'bloodpressure', 'oxygen', 'physicalmeasurement']):
+        return 'Vital Signs'
+    if any(k in lower for k in ['diagnosis', 'problem', 'condition', 'disease', 'illness']):
+        return 'Diagnoses/Problems'
+    if any(k in lower for k in ['order']):
+        return 'Orders'
+    if any(k in lower for k in ['procedure', 'intervention', 'anesthesia', 'aldrete', 'service', 'addendum']):
+        return 'Procedures/Services'
+    if any(k in lower for k in ['patient', 'person', 'demographic', 'emergencycontact', 'employment', 'guarantor', 'occupation', 'usaaddress', 'phone', 'email', 'supportperson', 'provider', 'referring']):
+        return 'Patient Demographics/History'
+    if any(k in lower for k in ['questionnaire', 'chart', 'note', 'ros', 'physicalexam', 'coding', 'mips', 'quality', 'asc']):
+        return 'Clinical Documentation'
+    if any(k in lower for k in ['task']):
+        return 'Tasks/Workflow'
+    if any(k in lower for k in ['infusion', 'iv', 'npo', 'instrument', 'preparation', 'nursing', 'pain', 'discharge', 'limitationcomplication', 'generalwellbeing', 'functionalcognitive']):
+        return 'Nursing/ASC Operations'
+    if any(k in lower for k in ['syndromic', 'surveillance', 'bulkaction', 'export']):
+        return 'Reporting/Export'
+    if any(k in lower for k in ['guideline', 'interval', 'priorit']):
+        return 'Clinical Guidelines'
+    return 'Other'
 
 
 def main():
@@ -173,114 +213,84 @@ def main():
     # Find section boundaries
     csv_dict_start = None
     data_schema_start = None
-    translations_start = None
-    patient_docs_start = None
-    glossary_start = None
     
     for i, line in enumerate(lines):
         stripped = line.strip()
-        if stripped == 'CSV Files Dictionary' and i > 20:  # Skip TOC
+        if stripped == 'CSV Files Dictionary' and i > 20:
             csv_dict_start = i + 1
         elif stripped == 'Data Schema' and csv_dict_start and not data_schema_start:
-            data_schema_start = i + 1
-        elif stripped == 'Translations' and data_schema_start:
-            translations_start = i + 1
-        elif stripped == 'Patient Documents' and translations_start and not patient_docs_start:
-            patient_docs_start = i + 1
-        elif stripped == 'Glossary' and patient_docs_start:
-            glossary_start = i + 1
+            data_schema_start = i
     
-    print(f"Section boundaries:")
-    print(f"  CSV Dict: line {csv_dict_start}")
-    print(f"  Data Schema: line {data_schema_start}")
-    print(f"  Translations: line {translations_start}")
-    print(f"  Patient Documents: line {patient_docs_start}")
-    print(f"  Glossary: line {glossary_start}")
+    print(f"CSV Dict section: lines {csv_dict_start} to {data_schema_start}")
     
-    # Parse CSV Files Dictionary
-    entities = parse_csv_dictionary(lines, csv_dict_start, data_schema_start - 1 if data_schema_start else len(lines))
+    # Parse entities
+    entities = parse_csv_dictionary(lines, csv_dict_start, data_schema_start)
     
+    # Deduplicate entity names by checking for issues
+    name_counts = Counter(e['name'] for e in entities)
+    dupes = {n: c for n, c in name_counts.items() if c > 1}
+    if dupes:
+        print(f"\nWARNING: Duplicate entity names found: {dupes}")
+        print("These may indicate parse errors (continuation lines misidentified as entities)")
+    
+    # Remove zero-field entities (parse artifacts)
+    real_entities = [e for e in entities if len(e['fields']) > 0]
+    removed = len(entities) - len(real_entities)
+    if removed:
+        print(f"Removed {removed} zero-field entities (parse artifacts)")
+    entities = real_entities
+    
+    # Categorize
+    for e in entities:
+        e['category'] = categorize_entity(e['name'])
+    
+    # Stats
     total_fields = sum(len(e['fields']) for e in entities)
     fields_with_desc = sum(1 for e in entities for f in e['fields'] if f.get('description'))
     
-    print(f"\nCSV Files Dictionary:")
+    print(f"\nParsed Results:")
     print(f"  Total entities: {len(entities)}")
     print(f"  Total fields: {total_fields}")
-    print(f"  Fields with descriptions/comments: {fields_with_desc}")
+    print(f"  Fields with descriptions/format info: {fields_with_desc}")
     print(f"  Fields without descriptions: {total_fields - fields_with_desc}")
+    print(f"  Description %: {round(fields_with_desc / total_fields * 100, 1) if total_fields else 0}%")
     
-    # Show entity sizes
-    entity_sizes = [(e['name'], len(e['fields'])) for e in entities]
-    entity_sizes.sort(key=lambda x: -x[1])
-    
-    print(f"\nTop 20 largest entities:")
-    for name, count in entity_sizes[:20]:
-        print(f"  {name}: {count} fields")
-    
-    print(f"\nSmallest entities (<=2 fields):")
-    for name, count in entity_sizes:
-        if count <= 2:
-            print(f"  {name}: {count} fields")
-    
-    # Categorize entities by name patterns
-    categories = {
-        'Billing/Financial': [],
-        'Clinical/Service': [],
-        'Patient': [],
-        'Scheduling': [],
-        'Lab/Results': [],
-        'Documents/Imaging': [],
-        'GI-Specific': [],
-        'Ophthalmology': [],
-        'Cardiology': [],
-        'Portal/Communication': [],
-        'Administrative': [],
-        'Other': []
-    }
-    
+    # Category breakdown
+    cat_stats = {}
     for e in entities:
-        name = e['name'].lower()
-        if any(k in name for k in ['billing', 'claim', 'charge', 'payment', 'collection', 'insurance', 'fee', 'prepay', 'edi', 'adjustment', 'authorization', 'eligib']):
-            categories['Billing/Financial'].append(e['name'])
-        elif any(k in name for k in ['appointment', 'schedule', 'hold', 'wait', 'remind', 'kiosk']):
-            categories['Scheduling'].append(e['name'])
-        elif any(k in name for k in ['lab', 'specimen', 'result', 'interface']):
-            categories['Lab/Results'].append(e['name'])
-        elif any(k in name for k in ['document', 'image', 'imaging', 'letter', 'statement', 'fax']):
-            categories['Documents/Imaging'].append(e['name'])
-        elif any(k in name for k in ['aga', 'giquic', 'finding', 'impression', 'colonoscop', 'endoscop', 'polyp']):
-            categories['GI-Specific'].append(e['name'])
-        elif any(k in name for k in ['ophthalmolog', 'lens', 'cataract', 'eye']):
-            categories['Ophthalmology'].append(e['name'])
-        elif any(k in name for k in ['cardiol', 'carotid', 'echocardiog', 'nuclear', 'stress', 'heartcentrix']):
-            categories['Cardiology'].append(e['name'])
-        elif any(k in name for k in ['portal', 'message', 'telehealth']):
-            categories['Portal/Communication'].append(e['name'])
-        elif any(k in name for k in ['patient']) and not any(k in name for k in ['billing', 'claim']):
-            categories['Patient'].append(e['name'])
-        elif any(k in name for k in ['service', 'procedure', 'diagnos', 'allerg', 'medication', 'prescription', 'vital', 'problem', 'addend', 'anesthesia', 'aldrete', 'clinical', 'note', 'questionnaire', 'immuniz', 'vaccine', 'order']):
-            categories['Clinical/Service'].append(e['name'])
-        elif any(k in name for k in ['staff', 'user', 'location', 'task', 'audit', 'config', 'security']):
-            categories['Administrative'].append(e['name'])
-        else:
-            categories['Other'].append(e['name'])
+        cat = e['category']
+        if cat not in cat_stats:
+            cat_stats[cat] = {'count': 0, 'fields': 0, 'entities': []}
+        cat_stats[cat]['count'] += 1
+        cat_stats[cat]['fields'] += len(e['fields'])
+        cat_stats[cat]['entities'].append(e['name'])
     
-    print(f"\nEntities by category:")
-    for cat, ents in categories.items():
-        if ents:
-            field_count = sum(len(e['fields']) for e in entities if e['name'] in ents)
-            print(f"  {cat}: {len(ents)} entities, {field_count} fields")
-            for ename in sorted(ents):
-                eobj = next(e for e in entities if e['name'] == ename)
-                print(f"    - {ename} ({len(eobj['fields'])} fields)")
+    print(f"\nCategory breakdown:")
+    for cat in sorted(cat_stats.keys()):
+        s = cat_stats[cat]
+        print(f"  {cat}: {s['count']} entities, {s['fields']} fields")
     
-    # Build full inventory
+    # Top 20 entities
+    entity_sizes = sorted(entities, key=lambda e: -len(e['fields']))
+    print(f"\nTop 20 largest entities:")
+    for e in entity_sizes[:20]:
+        print(f"  {e['name']}: {len(e['fields'])} fields [{e['category']}]")
+    
+    # Field type distribution
+    type_counts = Counter(f['type'] for e in entities for f in e['fields'])
+    print(f"\nField types:")
+    for t, c in type_counts.most_common():
+        print(f"  {t}: {c}")
+    
+    # Build inventory
     inventory = {
         'version': '6.5.3.20251230',
         'source': 'gGastro-EHI-Patient-Export-Specifications-Dec2025.pdf',
         'total_entities': len(entities),
         'total_fields': total_fields,
         'fields_with_descriptions': fields_with_desc,
+        'fields_without_descriptions': total_fields - fields_with_desc,
+        'description_percentage': round(fields_with_desc / total_fields * 100, 1) if total_fields else 0,
         'entities': entities
     }
     
@@ -295,11 +305,21 @@ def main():
         'total_fields': total_fields,
         'fields_with_descriptions': fields_with_desc,
         'fields_without_descriptions': total_fields - fields_with_desc,
-        'description_percentage': round(fields_with_desc / total_fields * 100, 1) if total_fields > 0 else 0,
-        'categories': {},
-        'top_20_entities': [{'name': n, 'field_count': c} for n, c in entity_sizes[:20]],
+        'description_percentage': round(fields_with_desc / total_fields * 100, 1) if total_fields else 0,
+        'categories': {
+            cat: {
+                'entity_count': s['count'],
+                'field_count': s['fields'],
+                'entities': sorted(s['entities'])
+            }
+            for cat, s in sorted(cat_stats.items())
+        },
+        'top_20_entities': [
+            {'name': e['name'], 'field_count': len(e['fields']), 'category': e['category']}
+            for e in entity_sizes[:20]
+        ],
         'entity_field_distribution': {
-            '1-5 fields': len([e for e in entities if len(e['fields']) <= 5]),
+            '1-5 fields': len([e for e in entities if 1 <= len(e['fields']) <= 5]),
             '6-10 fields': len([e for e in entities if 6 <= len(e['fields']) <= 10]),
             '11-20 fields': len([e for e in entities if 11 <= len(e['fields']) <= 20]),
             '21-50 fields': len([e for e in entities if 21 <= len(e['fields']) <= 50]),
@@ -307,25 +327,10 @@ def main():
         }
     }
     
-    for cat, ents in categories.items():
-        if ents:
-            field_count = sum(len(e['fields']) for e in entities if e['name'] in ents)
-            summary['categories'][cat] = {
-                'entity_count': len(ents),
-                'field_count': field_count,
-                'entities': sorted(ents)
-            }
-    
     with open(base_dir / 'entity-inventory-summary.json', 'w') as f:
         json.dump(summary, f, indent=2)
     
-    print(f"\nField distribution:")
-    for bucket, count in summary['entity_field_distribution'].items():
-        print(f"  {bucket}: {count} entities")
-    
-    print(f"\nOutput files written:")
-    print(f"  entity-inventory-full.json")
-    print(f"  entity-inventory-summary.json")
+    print(f"\nOutput written to entity-inventory-full.json and entity-inventory-summary.json")
 
 
 if __name__ == '__main__':
