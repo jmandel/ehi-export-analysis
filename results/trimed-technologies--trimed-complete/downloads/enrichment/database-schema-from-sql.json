@@ -1,0 +1,98 @@
+{
+  "source": "Underlying SQL queries extracted from Patient Data API documentation via browser (sections marked 'Internal Use Only')",
+  "note": "These table and column names were manually extracted from SQL queries embedded in hidden sections of the API documentation page. They represent the Oracle database schema used by TriMed Complete (formerly e-Medsys). Only tables/columns used in the patient data export are visible.",
+  "databaseType": "Oracle",
+  "tableCount": 13,
+  "tables": {
+    "PR1_View_Patient": {
+      "description": "Patient demographics view",
+      "columns": ["PatientId", "Last", "First", "Sex", "Birthdate", "Enterprise_Id", "Company_Id"],
+      "usedBy": "LookupPatientId"
+    },
+    "pr1_allergies": {
+      "description": "Patient allergy records",
+      "columns": ["allergy_id", "allergy", "reaction", "start_date", "status_id", "drug_allergy_cat_id", "severity_level", "patientprofileid"],
+      "usedBy": "GetPatientAllergy"
+    },
+    "pr1_lookups": {
+      "description": "Lookup/reference values table (statuses, etc.)",
+      "columns": ["lookup_id", "lookup_item", "inc_check_flag"],
+      "usedBy": "GetPatientAllergy, GetPatientProblemList"
+    },
+    "pr1_problem_list": {
+      "description": "Patient problem list / diagnoses",
+      "columns": ["problem_list_id", "problem_desc", "status_id", "problem_datetime", "resolved_datetime", "diagnosisid", "snomed", "snomedterm", "patientprofileid"],
+      "usedBy": "GetPatientProblemList"
+    },
+    "pr1_view_all_diagnosis": {
+      "description": "Diagnosis code reference view",
+      "columns": ["diagnosisid", "code", "description"],
+      "usedBy": "GetPatientProblemList"
+    },
+    "pr1_patient_drug": {
+      "description": "Patient medication records",
+      "columns": ["patient_drug_id", "drug_name", "drug_strength", "frequency", "quantity", "doseform", "route", "start_date", "expiration_date", "current_med_flag", "mm_drug_id", "patientprofileid"],
+      "usedBy": "GetPatientMedication"
+    },
+    "pr1_patient_immunization": {
+      "description": "Patient immunization records",
+      "columns": ["patient_immunization_id", "immunization", "date_administered", "vis_cvx", "not_given_flag", "not_given_reason", "lot_number", "manufacturer", "initials_administered", "patientprofileid"],
+      "usedBy": "GetPatientImmunization"
+    },
+    "pr1_lab_result_req": {
+      "description": "Lab result request/order header",
+      "columns": ["lab_result_req_id", "obr_obs_datetime", "obr_order_codes", "lab_company_id", "lab_hist_req_id", "confidential", "patientprofileid"],
+      "usedBy": "GetPatientLabResult"
+    },
+    "pr1_lab_result_set": {
+      "description": "Lab result set (panel/group)",
+      "columns": ["lab_result_set_id", "lab_result_req_id", "lab_hist_req_id"],
+      "usedBy": "GetPatientLabResult"
+    },
+    "pr1_lab_result_item": {
+      "description": "Individual lab result items",
+      "columns": ["lab_result_item_id", "lab_result_set_id", "result_desc", "result_code", "lab_hist_req_id"],
+      "usedBy": "GetPatientLabResult"
+    },
+    "pr1_lab_result_value": {
+      "description": "Lab result values",
+      "columns": ["lab_result_value_id", "lab_result_item_id", "result_value", "result_units", "result_abnormal", "result_range", "result_format", "lab_hist_req_id"],
+      "usedBy": "GetPatientLabResult"
+    },
+    "pr1_lab_company_lookup": {
+      "description": "Lab company/facility reference",
+      "columns": ["lab_company_id", "company_name", "address1", "city", "state", "zip_code", "main_phone", "location_id"],
+      "usedBy": "GetPatientLabResult"
+    },
+    "pr1_patient_note": {
+      "description": "Patient clinical notes / encounters",
+      "columns": ["patient_note_id", "doctorid", "dept_id", "template_id", "note_datetime", "patientprofileid"],
+      "usedBy": "GetPatientEncounter, GetPatientEncompassingEncounter"
+    },
+    "pr1_patient_note_control": {
+      "description": "Note control data (vitals and other structured data within notes)",
+      "columns": ["patient_note_control_id", "patient_note_id", "template_field_id", "data_value", "icdcpt_flag"],
+      "usedBy": "GetPatientVitals"
+    },
+    "pr1_view_doctor": {
+      "description": "Provider/doctor reference view",
+      "columns": ["doctorid", "listname", "first", "last", "individual_npi"],
+      "usedBy": "GetPatientEncounter, GetPatientEncompassingEncounter"
+    },
+    "pr1_view_department": {
+      "description": "Department/location reference view",
+      "columns": ["departmentid", "listname", "address1", "city", "state", "zip", "phone1"],
+      "usedBy": "GetPatientEncounter, GetPatientEncompassingEncounter"
+    },
+    "pr1_template": {
+      "description": "Clinical note template definitions",
+      "columns": ["template_id", "template_name"],
+      "usedBy": "GetPatientEncounter, GetPatientEncompassingEncounter"
+    },
+    "pr1_template_field": {
+      "description": "Template field definitions",
+      "columns": ["template_field_id", "unit", "unit_code"],
+      "usedBy": "GetPatientVitals"
+    }
+  }
+}

@@ -1,0 +1,1115 @@
+{
+  "resourceType": "CapabilityStatement",
+  "url": "https://fhir.trimed.cloud/metadata",
+  "version": "1.0.0",
+  "name": "TriMedFHIRServer",
+  "title": "TriMed FHIR R4 Server",
+  "status": "active",
+  "experimental": false,
+  "date": "2026-02-16",
+  "publisher": "TriMed",
+  "kind": "instance",
+  "instantiates": [
+    "http://hl7.org/fhir/uv/bulkdata/CapabilityStatement/bulk-data",
+    "http://hl7.org/fhir/us/core/CapabilityStatement/us-core-server"
+  ],
+  "software": {
+    "name": "TriMed FHIR",
+    "version": "1.0.0",
+    "releaseDate": "2026-02-16T10:35:16.4670418+00:00"
+  },
+  "implementation": {
+    "description": "TriMed FHIR R4 server",
+    "url": "https://fhir.trimed.cloud"
+  },
+  "fhirVersion": "4.0.1",
+  "format": [
+    "json",
+    "xml",
+    "application/fhir+ndjson"
+  ],
+  "patchFormat": [
+    "application/json-patch+json"
+  ],
+  "rest": [
+    {
+      "mode": "server",
+      "security": {
+        "extension": [
+          {
+            "extension": [
+              {
+                "url": "authorize",
+                "valueUri": "https://fhir.trimed.cloud/authorize"
+              },
+              {
+                "url": "token",
+                "valueUri": "https://fhir.trimed.cloud/token"
+              },
+              {
+                "url": "introspect",
+                "valueUri": "https://fhir.trimed.cloud/introspect"
+              },
+              {
+                "url": "revoke",
+                "valueUri": "https://fhir.trimed.cloud/oauth2/revoke"
+              }
+            ],
+            "url": "http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris"
+          }
+        ],
+        "cors": true,
+        "service": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/restful-security-service",
+                "code": "SMART-on-FHIR",
+                "display": "SMART-on-FHIR"
+              }
+            ]
+          }
+        ]
+      },
+      "resource": [
+        {
+          "type": "Patient",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+          ],
+          "interaction": [
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            },
+            {
+              "code": "vread"
+            },
+            {
+              "code": "history-instance"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": true,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "identifier",
+              "definition": "http://hl7.org/fhir/SearchParameter/Patient-identifier",
+              "type": "token",
+              "documentation": "Search by patient identifier"
+            },
+            {
+              "name": "name",
+              "definition": "http://hl7.org/fhir/SearchParameter/Patient-name",
+              "type": "string"
+            },
+            {
+              "name": "birthdate",
+              "definition": "http://hl7.org/fhir/SearchParameter/Patient-birthdate",
+              "type": "date"
+            }
+          ],
+          "operation": [
+            {
+              "name": "export",
+              "definition": "http://hl7.org/fhir/uv/bulkdata/OperationDefinition/export"
+            }
+          ]
+        },
+        {
+          "type": "AllergyIntolerance",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-allergyintolerance",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-allergyintolerance"
+          ],
+          "interaction": [
+            {
+              "code": "create"
+            },
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": false,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "patient",
+              "definition": "http://hl7.org/fhir/SearchParameter/AllergyIntolerance-patient",
+              "type": "reference"
+            },
+            {
+              "name": "clinical-status",
+              "definition": "http://hl7.org/fhir/SearchParameter/AllergyIntolerance-clinical-status",
+              "type": "token"
+            },
+            {
+              "name": "code",
+              "definition": "http://hl7.org/fhir/SearchParameter/AllergyIntolerance-code",
+              "type": "token"
+            }
+          ]
+        },
+        {
+          "type": "Practitioner",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+          ],
+          "interaction": [
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": false,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "identifier",
+              "definition": "http://hl7.org/fhir/SearchParameter/Practitioner-identifier",
+              "type": "token"
+            },
+            {
+              "name": "name",
+              "definition": "http://hl7.org/fhir/SearchParameter/Practitioner-name",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "type": "PractitionerRole",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole"
+          ],
+          "interaction": [
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": false,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "practitioner",
+              "definition": "http://hl7.org/fhir/SearchParameter/PractitionerRole-practitioner",
+              "type": "reference"
+            },
+            {
+              "name": "organization",
+              "definition": "http://hl7.org/fhir/SearchParameter/PractitionerRole-organization",
+              "type": "reference"
+            },
+            {
+              "name": "location",
+              "definition": "http://hl7.org/fhir/SearchParameter/PractitionerRole-location",
+              "type": "reference"
+            },
+            {
+              "name": "specialty",
+              "definition": "http://hl7.org/fhir/SearchParameter/PractitionerRole-specialty",
+              "type": "token"
+            }
+          ]
+        },
+        {
+          "type": "Organization",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
+          ],
+          "interaction": [
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": false,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "identifier",
+              "definition": "http://hl7.org/fhir/SearchParameter/Organization-identifier",
+              "type": "token"
+            },
+            {
+              "name": "name",
+              "definition": "http://hl7.org/fhir/SearchParameter/Organization-name",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "type": "Location",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-location",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-location"
+          ],
+          "interaction": [
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": false,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "address",
+              "definition": "http://hl7.org/fhir/SearchParameter/Location-address",
+              "type": "string"
+            },
+            {
+              "name": "name",
+              "definition": "http://hl7.org/fhir/SearchParameter/Location-name",
+              "type": "string"
+            },
+            {
+              "name": "organization",
+              "definition": "http://hl7.org/fhir/SearchParameter/Location-organization",
+              "type": "reference"
+            }
+          ]
+        },
+        {
+          "type": "Encounter",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
+          ],
+          "interaction": [
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": false,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "patient",
+              "definition": "http://hl7.org/fhir/SearchParameter/Encounter-patient",
+              "type": "reference"
+            },
+            {
+              "name": "date",
+              "definition": "http://hl7.org/fhir/SearchParameter/Encounter-date",
+              "type": "date"
+            },
+            {
+              "name": "class",
+              "definition": "http://hl7.org/fhir/SearchParameter/Encounter-class",
+              "type": "token"
+            },
+            {
+              "name": "status",
+              "definition": "http://hl7.org/fhir/SearchParameter/Encounter-status",
+              "type": "token"
+            }
+          ]
+        },
+        {
+          "type": "Condition",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition-problems-health-concerns",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition-problems-health-concerns",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition-encounter-diagnosis"
+          ],
+          "interaction": [
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": false,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "patient",
+              "definition": "http://hl7.org/fhir/SearchParameter/Condition-patient",
+              "type": "reference"
+            },
+            {
+              "name": "category",
+              "definition": "http://hl7.org/fhir/SearchParameter/Condition-category",
+              "type": "token"
+            },
+            {
+              "name": "code",
+              "definition": "http://hl7.org/fhir/SearchParameter/Condition-code",
+              "type": "token"
+            },
+            {
+              "name": "clinical-status",
+              "definition": "http://hl7.org/fhir/SearchParameter/Condition-clinical-status",
+              "type": "token"
+            }
+          ]
+        },
+        {
+          "type": "Medication",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medication",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medication"
+          ],
+          "interaction": [
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": false,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "code",
+              "definition": "http://hl7.org/fhir/SearchParameter/Medication-code",
+              "type": "token"
+            }
+          ]
+        },
+        {
+          "type": "MedicationRequest",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationrequest",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationrequest"
+          ],
+          "interaction": [
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": false,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "patient",
+              "definition": "http://hl7.org/fhir/SearchParameter/MedicationRequest-patient",
+              "type": "reference"
+            },
+            {
+              "name": "status",
+              "definition": "http://hl7.org/fhir/SearchParameter/MedicationRequest-status",
+              "type": "token"
+            },
+            {
+              "name": "intent",
+              "definition": "http://hl7.org/fhir/SearchParameter/MedicationRequest-intent",
+              "type": "token"
+            },
+            {
+              "name": "authoredon",
+              "definition": "http://hl7.org/fhir/SearchParameter/MedicationRequest-authoredon",
+              "type": "date"
+            }
+          ]
+        },
+        {
+          "type": "MedicationDispense",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationdispense",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationdispense"
+          ],
+          "interaction": [
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": false,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "patient",
+              "definition": "http://hl7.org/fhir/SearchParameter/MedicationDispense-patient",
+              "type": "reference"
+            },
+            {
+              "name": "status",
+              "definition": "http://hl7.org/fhir/SearchParameter/MedicationDispense-status",
+              "type": "token"
+            },
+            {
+              "name": "whenhandedover",
+              "definition": "http://hl7.org/fhir/SearchParameter/MedicationDispense-whenhandedover",
+              "type": "date"
+            }
+          ]
+        },
+        {
+          "type": "Immunization",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization"
+          ],
+          "interaction": [
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": false,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "patient",
+              "definition": "http://hl7.org/fhir/SearchParameter/Immunization-patient",
+              "type": "reference"
+            },
+            {
+              "name": "date",
+              "definition": "http://hl7.org/fhir/SearchParameter/Immunization-date",
+              "type": "date"
+            },
+            {
+              "name": "status",
+              "definition": "http://hl7.org/fhir/SearchParameter/Immunization-status",
+              "type": "token"
+            }
+          ]
+        },
+        {
+          "type": "Procedure",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"
+          ],
+          "interaction": [
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": false,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "patient",
+              "definition": "http://hl7.org/fhir/SearchParameter/Procedure-patient",
+              "type": "reference"
+            },
+            {
+              "name": "date",
+              "definition": "http://hl7.org/fhir/SearchParameter/Procedure-date",
+              "type": "date"
+            },
+            {
+              "name": "code",
+              "definition": "http://hl7.org/fhir/SearchParameter/Procedure-code",
+              "type": "token"
+            },
+            {
+              "name": "status",
+              "definition": "http://hl7.org/fhir/SearchParameter/Procedure-status",
+              "type": "token"
+            }
+          ]
+        },
+        {
+          "type": "DiagnosticReport",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"
+          ],
+          "interaction": [
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": false,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "patient",
+              "definition": "http://hl7.org/fhir/SearchParameter/DiagnosticReport-patient",
+              "type": "reference"
+            },
+            {
+              "name": "category",
+              "definition": "http://hl7.org/fhir/SearchParameter/DiagnosticReport-category",
+              "type": "token"
+            },
+            {
+              "name": "code",
+              "definition": "http://hl7.org/fhir/SearchParameter/DiagnosticReport-code",
+              "type": "token"
+            },
+            {
+              "name": "date",
+              "definition": "http://hl7.org/fhir/SearchParameter/DiagnosticReport-date",
+              "type": "date"
+            }
+          ]
+        },
+        {
+          "type": "Observation",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-vital-signs",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-blood-pressure",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-bmi",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-body-height",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-body-weight",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-body-temperature",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-head-circumference",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-respiratory-rate",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-heart-rate",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-oxygen-saturation",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-pulse-oximetry",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-oximetry",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-smokingstatus",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-clinical-result",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-occupation",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-pregnancystatus",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-pregnancyintent",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-screening-assessment",
+            "http://hl7.org/fhir/us/core/StructureDefinition/pediatric-bmi-for-age",
+            "http://hl7.org/fhir/us/core/StructureDefinition/pediatric-weight-for-height",
+            "http://hl7.org/fhir/us/core/StructureDefinition/head-occipital-frontal-circumference-percentile"
+          ],
+          "interaction": [
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": false,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "patient",
+              "definition": "http://hl7.org/fhir/SearchParameter/Observation-patient",
+              "type": "reference"
+            },
+            {
+              "name": "category",
+              "definition": "http://hl7.org/fhir/SearchParameter/Observation-category",
+              "type": "token"
+            },
+            {
+              "name": "code",
+              "definition": "http://hl7.org/fhir/SearchParameter/Observation-code",
+              "type": "token"
+            },
+            {
+              "name": "date",
+              "definition": "http://hl7.org/fhir/SearchParameter/Observation-date",
+              "type": "date"
+            },
+            {
+              "name": "status",
+              "definition": "http://hl7.org/fhir/SearchParameter/Observation-status",
+              "type": "token"
+            }
+          ]
+        },
+        {
+          "type": "DocumentReference",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"
+          ],
+          "interaction": [
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": false,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "patient",
+              "definition": "http://hl7.org/fhir/SearchParameter/DocumentReference-patient",
+              "type": "reference"
+            },
+            {
+              "name": "category",
+              "definition": "http://hl7.org/fhir/SearchParameter/DocumentReference-category",
+              "type": "token"
+            },
+            {
+              "name": "date",
+              "definition": "http://hl7.org/fhir/SearchParameter/DocumentReference-date",
+              "type": "date"
+            },
+            {
+              "name": "status",
+              "definition": "http://hl7.org/fhir/SearchParameter/DocumentReference-status",
+              "type": "token"
+            }
+          ]
+        },
+        {
+          "type": "CareTeam",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careteam",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careteam"
+          ],
+          "interaction": [
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": false,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "patient",
+              "definition": "http://hl7.org/fhir/SearchParameter/CareTeam-patient",
+              "type": "reference"
+            },
+            {
+              "name": "status",
+              "definition": "http://hl7.org/fhir/SearchParameter/CareTeam-status",
+              "type": "token"
+            },
+            {
+              "name": "category",
+              "definition": "http://hl7.org/fhir/SearchParameter/CareTeam-category",
+              "type": "token"
+            }
+          ]
+        },
+        {
+          "type": "CarePlan",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careplan",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careplan"
+          ],
+          "interaction": [
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": false,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "patient",
+              "definition": "http://hl7.org/fhir/SearchParameter/CarePlan-patient",
+              "type": "reference"
+            },
+            {
+              "name": "category",
+              "definition": "http://hl7.org/fhir/SearchParameter/CarePlan-category",
+              "type": "token"
+            },
+            {
+              "name": "status",
+              "definition": "http://hl7.org/fhir/SearchParameter/CarePlan-status",
+              "type": "token"
+            }
+          ]
+        },
+        {
+          "type": "Coverage",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-coverage",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-coverage"
+          ],
+          "interaction": [
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": false,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "beneficiary",
+              "definition": "http://hl7.org/fhir/SearchParameter/Coverage-beneficiary",
+              "type": "reference"
+            }
+          ]
+        },
+        {
+          "type": "Device",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-implantable-device",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-implantable-device"
+          ],
+          "interaction": [
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": false,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "patient",
+              "definition": "http://hl7.org/fhir/SearchParameter/Device-patient",
+              "type": "reference"
+            }
+          ]
+        },
+        {
+          "type": "Provenance",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+          ],
+          "interaction": [
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": false,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "target",
+              "definition": "http://hl7.org/fhir/SearchParameter/Provenance-target",
+              "type": "reference"
+            },
+            {
+              "name": "patient",
+              "definition": "http://hl7.org/fhir/SearchParameter/Provenance-patient",
+              "type": "reference"
+            },
+            {
+              "name": "recorded",
+              "definition": "http://hl7.org/fhir/SearchParameter/Provenance-recorded",
+              "type": "date"
+            }
+          ]
+        },
+        {
+          "type": "RelatedPerson",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-relatedperson",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-relatedperson"
+          ],
+          "interaction": [
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": false,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "patient",
+              "definition": "http://hl7.org/fhir/SearchParameter/RelatedPerson-patient",
+              "type": "reference"
+            },
+            {
+              "name": "identifier",
+              "definition": "http://hl7.org/fhir/SearchParameter/RelatedPerson-identifier",
+              "type": "token"
+            }
+          ]
+        },
+        {
+          "type": "ServiceRequest",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-servicerequest",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-servicerequest"
+          ],
+          "interaction": [
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": false,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "patient",
+              "definition": "http://hl7.org/fhir/SearchParameter/ServiceRequest-patient",
+              "type": "reference"
+            },
+            {
+              "name": "status",
+              "definition": "http://hl7.org/fhir/SearchParameter/ServiceRequest-status",
+              "type": "token"
+            },
+            {
+              "name": "code",
+              "definition": "http://hl7.org/fhir/SearchParameter/ServiceRequest-code",
+              "type": "token"
+            }
+          ]
+        },
+        {
+          "type": "Specimen",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-specimen",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-specimen"
+          ],
+          "interaction": [
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": false,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "patient",
+              "definition": "http://hl7.org/fhir/SearchParameter/Specimen-patient",
+              "type": "reference"
+            },
+            {
+              "name": "accession",
+              "definition": "http://hl7.org/fhir/SearchParameter/Specimen-accession",
+              "type": "token"
+            }
+          ]
+        },
+        {
+          "type": "Goal",
+          "profile": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-goal",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-goal"
+          ],
+          "interaction": [
+            {
+              "code": "read"
+            },
+            {
+              "code": "search-type"
+            }
+          ],
+          "versioning": "versioned",
+          "readHistory": false,
+          "updateCreate": false,
+          "conditionalCreate": false,
+          "conditionalRead": "not-supported",
+          "conditionalUpdate": false,
+          "conditionalDelete": "not-supported",
+          "searchParam": [
+            {
+              "name": "patient",
+              "definition": "http://hl7.org/fhir/SearchParameter/Goal-patient",
+              "type": "reference"
+            },
+            {
+              "name": "lifecycle-status",
+              "definition": "http://hl7.org/fhir/SearchParameter/Goal-lifecycle-status",
+              "type": "token"
+            },
+            {
+              "name": "category",
+              "definition": "http://hl7.org/fhir/SearchParameter/Goal-category",
+              "type": "token"
+            }
+          ]
+        },
+        {
+          "type": "Group",
+          "interaction": [
+            {
+              "code": "read"
+            }
+          ],
+          "operation": [
+            {
+              "name": "export",
+              "definition": "http://hl7.org/fhir/uv/bulkdata/OperationDefinition/group-export"
+            }
+          ]
+        }
+      ],
+      "interaction": [
+        {
+          "code": "search-system"
+        },
+        {
+          "code": "history-system"
+        }
+      ],
+      "operation": [
+        {
+          "name": "export",
+          "definition": "http://hl7.org/fhir/uv/bulkdata/OperationDefinition/export"
+        }
+      ]
+    }
+  ]
+}
