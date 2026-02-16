@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
-"""Parse the Aarista EHI Export Data Dictionary PDF and produce full-entity-inventory.json."""
+"""Parse the Aarista EHI Export PDF data dictionary into structured JSON.
+
+Reads the pdftotext output and extracts all 7 tables with their fields,
+data types, and metadata. Produces full-entity-inventory.json and summary stats.
+"""
 
 import json
-import subprocess
 import re
+import subprocess
 import sys
 
-PDF_PATH = "../../../results/aarista-technology-llc--aarista/downloads/Aarista_EHI_Export.pdf"
-OUTPUT_PATH = "full-entity-inventory.json"
-STATS_PATH = "summary-stats.json"
+PDF_PATH = "/home/jmandel/hobby/ehi-export-analysis/results/aarista-technology-llc--aarista/downloads/Aarista_EHI_Export.pdf"
+OUT_DIR = "/home/jmandel/hobby/ehi-export-analysis/abstraction/aarista-technology-llc--aarista/analysis"
 
 def extract_text():
     result = subprocess.run(
@@ -18,166 +21,202 @@ def extract_text():
     return result.stdout
 
 def parse_tables(text):
-    """Parse the PDF text into structured table definitions."""
-    tables = []
-    current_table = None
-    
-    # Split into lines
-    lines = text.split('\n')
-    
-    # Table headers we expect
+    # Split into sections by table headers
     table_patterns = [
-        ("Single Patient - Patient Demographics", "demographics"),
-        ("Single Patient - Patient Addresses", "addresses"),
-        ("Single Patient - Patient Contacts", "contacts"),
-        ("Single Patient - Patient Insurances", "insurances"),
-        ("Single Patient - Patient Encounters – Clinical and Billing", "encounters_clinical_billing"),
-        ("Practice Patients - Patient Demographics and Billing Encounters", "practice_billing"),
-        ("Practice Patients - Patient Demographics and Clinical Encounters", "practice_clinical"),
+        ("patient_demographics", "Single Patient - Patient Demographics"),
+        ("patient_addresses", "Single Patient - Patient Addresses"),
+        ("patient_contacts", "Single Patient - Patient Contacts"),
+        ("patient_insurances", "Single Patient - Patient Insurances"),
+        ("patient_encounters_clinical_billing", "Single Patient - Patient Encounters – Clinical and Billing"),
+        ("practice_billing_encounters", "Practice Patients - Patient Demographics and Billing Encounters"),
+        ("practice_clinical_encounters", "Practice Patients - Patient Demographics and Clinical Encounters"),
     ]
-    
-    i = 0
-    while i < len(lines):
-        line = lines[i].strip()
-        
-        # Check for table header
-        for pattern, table_id in table_patterns:
-            # Normalize dashes/hyphens for matching
-            normalized_line = line.replace('–', '–').replace('—', '–')
-            normalized_pattern = pattern.replace('–', '–').replace('—', '–')
-            if normalized_pattern in normalized_line or pattern in line:
-                if current_table:
-                    tables.append(current_table)
-                current_table = {
-                    "table_name": pattern,
-                    "table_id": table_id,
-                    "scope": "single_patient" if "Single Patient" in pattern else "practice",
-                    "fields": []
-                }
+
+    tables = []
+    lines = text.split('\n')
+
+    def normalize(s):
+        return s.replace('\u2013', '-').replace('\u2014', '-').replace('–', '-').replace('—', '-').lower()
+
+    for idx, (table_id, table_title) in enumerate(table_patterns):
+        start_line = None
+        for i, line in enumerate(lines):
+            if normalize(table_title) in normalize(line):
+                start_line = i
                 break
-        
-        # Check for field lines (field name followed by data type)
-        if current_table and line:
-            # Match patterns like "Field Name    nvarchar(256)" or "Field Name*    nvarchar(256)"
-            # Also match "n/a", "bit", "int", "date", "datetime", "float"
-            field_match = re.match(
-                r'^(.+?)\s{2,}(nvarchar\(.+?\)|nchar\(.+?\)|varchar\(.+?\)|int|date|datetime|float|bit|n/a|9 digits.*|2 digits.*|derived field|constant string|Date)(.*)$',
-                line, re.IGNORECASE
-            )
-            if field_match:
-                field_name = field_match.group(1).strip()
-                data_type_raw = field_match.group(2).strip()
-                extra = field_match.group(3).strip()
-                
-                # Skip header rows
-                if field_name in ("Data Field", "Data Type"):
-                    i += 1
+
+        if start_line is None:
+            print(f"WARNING: Could not find table '{table_title}'", file=sys.stderr)
+            continue
+
+        end_line = len(lines)
+        if idx + 1 < len(table_patterns):
+            next_title = table_patterns[idx + 1][1]
+            for i in range(start_line + 1, len(lines)):
+                if normalize(next_title) in normalize(lines[i]):
+                    end_line = i
+                    break
+
+        section_lines = lines[start_line:end_line]
+        fields = []
+
+        # More permissive pattern: field name (with special chars) separated by 2+ spaces from type
+        field_pattern = re.compile(r'^\s*(.+?)\s{2,}(\S.+?)\s*$')
+
+        for line in section_lines:
+            line_stripped = line.strip()
+            if not line_stripped:
+                continue
+            if 'Data Field' in line_stripped and 'Data Type' in line_stripped:
+                continue
+            if line_stripped == 'Data Field' or line_stripped == 'Data Type':
+                continue
+            if normalize(table_title) in normalize(line_stripped):
+                continue
+            # Skip bullet points and prose
+            if line_stripped.startswith('•') or line_stripped.startswith('The '):
+                continue
+
+            match = field_pattern.match(line)
+            if match:
+                field_name = match.group(1).strip()
+                data_type = match.group(2).strip()
+
+                # Skip header-like lines
+                if field_name in ('Data Field', 'Data Type', ''):
                     continue
-                
-                required = '*' in field_name
-                field_name = field_name.rstrip('*').strip()
-                
-                # Parse notes like "- multiple records" or ", 'mm/dd/yyyy'"
+                # Skip if data_type doesn't look like a SQL type or known annotation
+                if not re.search(r'(nvarchar|int|date|float|bit|varchar|nchar|derived|n/a|digits|constant)', data_type, re.I):
+                    continue
+
+                required = '*' in field_name or '*' in data_type
+                field_name = field_name.replace('*', '').strip()
+
+                multiple = 'multiple records' in data_type.lower()
                 notes = None
-                multi_valued = False
-                if extra:
-                    notes = extra.lstrip(' -,').strip()
-                    if 'multiple records' in extra.lower():
-                        multi_valued = True
-                
-                # Also check data_type for format hints
-                format_hint = None
-                if "'mm/dd/yyyy'" in (data_type_raw + (extra or '')):
-                    format_hint = "mm/dd/yyyy"
-                
-                # Separate any secondary type info
-                data_type = data_type_raw
-                if data_type.startswith('9 digits'):
-                    data_type = "char(9)"
-                    notes = "hardcoded for now" if not notes else notes
-                elif data_type.startswith('2 digits'):
-                    data_type = "char(2)"
-                    notes = "derived from care type" if not notes else notes
-                
-                field = {
+                if ' - ' in data_type:
+                    parts = data_type.split(' - ', 1)
+                    data_type_clean = parts[0].strip()
+                    notes = parts[1].strip()
+                else:
+                    data_type_clean = data_type
+
+                extra_notes = []
+                if 'hardcoded' in data_type.lower():
+                    extra_notes.append('hardcoded')
+                if 'derived' in data_type.lower():
+                    extra_notes.append('derived field')
+                if data_type_clean.strip().lower() == 'n/a':
+                    extra_notes.append('not applicable / unused')
+
+                field_obj = {
                     "name": field_name,
-                    "data_type": data_type,
+                    "data_type": data_type_clean,
                     "required": required,
+                    "description": "",
                 }
-                if multi_valued:
-                    field["multi_valued"] = True
+                if multiple:
+                    field_obj["multiple_records"] = True
                 if notes:
-                    field["notes"] = notes
-                if format_hint:
-                    field["format_hint"] = format_hint
-                
-                current_table["fields"].append(field)
+                    field_obj["notes"] = notes
+                if extra_notes:
+                    field_obj["annotations"] = extra_notes
+
+                fields.append(field_obj)
+
+        # Determine scope and category
+        scope = "practice-wide (all patients)" if table_id.startswith("practice_") else "single patient"
         
-        i += 1
-    
-    if current_table:
-        tables.append(current_table)
-    
+        if table_id == "patient_encounters_clinical_billing":
+            category = "Clinical and Billing"
+        elif 'billing' in table_id:
+            category = "Billing"
+        elif 'clinical' in table_id:
+            category = "Clinical"
+        elif 'insurance' in table_id:
+            category = "Insurance"
+        elif any(x in table_id for x in ('demographic', 'address', 'contact')):
+            category = "Demographics"
+        else:
+            category = "Other"
+
+        tables.append({
+            "id": table_id,
+            "title": table_title,
+            "scope": scope,
+            "category": category,
+            "field_count": len(fields),
+            "fields": fields,
+        })
+
     return tables
 
-def compute_stats(tables):
-    total_fields = sum(len(t["fields"]) for t in tables)
-    total_required = sum(sum(1 for f in t["fields"] if f.get("required")) for t in tables)
-    total_multi_valued = sum(sum(1 for f in t["fields"] if f.get("multi_valued")) for t in tables)
-    fields_with_notes = sum(sum(1 for f in t["fields"] if f.get("notes")) for t in tables)
-    
-    # No descriptions exist - only names and types
-    fields_with_descriptions = 0
-    
+
+def compute_summary(tables):
+    total_fields = sum(t["field_count"] for t in tables)
+    fields_with_descriptions = sum(
+        1 for t in tables for f in t["fields"] if f.get("description", "").strip()
+    )
+    required_fields = sum(
+        1 for t in tables for f in t["fields"] if f.get("required")
+    )
+    multi_record_fields = sum(
+        1 for t in tables for f in t["fields"] if f.get("multiple_records")
+    )
+
+    typos = [
+        {"field": "Mother Mainder Name", "correct": "Mother Maiden Name", "table": "patient_demographics"},
+        {"field": "Ethnithity", "correct": "Ethnicity", "table": "patient_demographics"},
+        {"field": "Chief Comlaint", "correct": "Chief Complaint", "table": "patient_encounters_clinical_billing"},
+        {"field": "Historhy of Present Illness", "correct": "History of Present Illness", "table": "patient_encounters_clinical_billing"},
+        {"field": "L:abs", "correct": "Labs", "table": "patient_encounters_clinical_billing"},
+    ]
+
     return {
         "total_tables": len(tables),
         "total_fields": total_fields,
-        "total_required_fields": total_required,
-        "total_multi_valued_fields": total_multi_valued,
-        "fields_with_notes": fields_with_notes,
         "fields_with_descriptions": fields_with_descriptions,
-        "description_coverage_pct": 0.0,
-        "tables_summary": [
-            {
-                "table_name": t["table_name"],
-                "table_id": t["table_id"],
-                "scope": t["scope"],
-                "field_count": len(t["fields"]),
-                "required_count": sum(1 for f in t["fields"] if f.get("required")),
-                "multi_valued_count": sum(1 for f in t["fields"] if f.get("multi_valued")),
-            }
-            for t in tables
-        ]
+        "pct_fields_with_descriptions": 0,
+        "required_fields": required_fields,
+        "multi_record_fields": multi_record_fields,
+        "fields_per_table": {t["id"]: t["field_count"] for t in tables},
+        "typos_found": typos,
+        "value_sets_documented": 0,
+        "relationships_documented": 0,
+        "sample_data_provided": False,
     }
+
 
 def main():
     text = extract_text()
     tables = parse_tables(text)
-    stats = compute_stats(tables)
-    
+    summary = compute_summary(tables)
+
     inventory = {
         "source": "Aarista_EHI_Export.pdf",
-        "source_description": "Data Dictionary for Aarista EHI Export, created 2023-11-28",
-        "parse_method": "pdftotext -layout + regex parsing",
-        "tables": tables,
-        "statistics": stats
+        "source_type": "PDF data dictionary",
+        "created_date": "2023-11-28",
+        "author": "Michael Mai",
+        "summary": summary,
+        "entities": tables,
     }
-    
-    with open(OUTPUT_PATH, 'w') as f:
+
+    out_path = f"{OUT_DIR}/full-entity-inventory.json"
+    with open(out_path, 'w') as f:
         json.dump(inventory, f, indent=2)
-    
-    with open(STATS_PATH, 'w') as f:
-        json.dump(stats, f, indent=2)
-    
+
     # Print summary
-    print(f"Tables found: {stats['total_tables']}")
-    print(f"Total fields: {stats['total_fields']}")
-    print(f"Required fields: {stats['total_required_fields']}")
-    print(f"Multi-valued fields: {stats['total_multi_valued_fields']}")
-    print(f"Fields with descriptions: {stats['fields_with_descriptions']} (0%)")
+    print(f"Tables parsed: {summary['total_tables']}")
+    print(f"Total fields: {summary['total_fields']}")
+    print(f"Fields with descriptions: {summary['fields_with_descriptions']}")
+    print(f"Required fields: {summary['required_fields']}")
+    print(f"Multi-record fields: {summary['multi_record_fields']}")
     print()
-    for ts in stats['tables_summary']:
-        print(f"  {ts['table_name']}: {ts['field_count']} fields ({ts['required_count']} required)")
+    for t in tables:
+        print(f"  {t['id']}: {t['field_count']} fields ({t['scope']})")
+
+    print(f"\nOutput: {out_path}")
+
 
 if __name__ == "__main__":
     main()
