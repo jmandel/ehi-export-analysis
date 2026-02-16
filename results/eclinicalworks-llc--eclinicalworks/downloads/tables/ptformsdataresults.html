@@ -1,0 +1,133 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ptformsdataresults</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores HL7 messages received from the Chadis and Rothman interface and processes related information. </td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>messageid</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is an auto incremented primary key of the table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>datereceived</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date when result is received from outside.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>datemodified</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date when data is last modified for that row.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>messagecontent</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores the decrypted HL7Message.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>messagestatus</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores the digit to represent the message status. i.e., 1 - Pass, 2 - Fail. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>visitnumber</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Unique identifier for the patient's visit. Example: VN12345.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>patientid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the patient's unique id. Patientid refers to the UID column of the user table. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>profileid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the profile id (also called as Accession id) of the test received in the Results Inbound HL7 message through the interface.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ptlastname</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the patient's Last name.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ptfirstname</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores patient's first name.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ptdob</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores patient's Date of Birth.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>errorlogs</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores the error logs when result fails while processing/preprocessing (status = 2). </td>
+      </tr><tr  >
+        <td class="col-name"><strong>encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the encounterid. Encounterid refers to the encounterid column of the enc table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>hl7msgid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column refers to the HL7Msgid column of  ptformsdatahl7content table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>obrsno</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the OBR number. When more than 1 order's results are sent in same hl7message, sequence number is set to this column for each OBR.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>processflow</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores result processing flow description.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>intid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the unique id of the lab company from where result received. This column refers to the primary key of the intlist table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>providerid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the doctorid recieved from the result or fetch from the details came in the result.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>docname</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores name of the doctor.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>docHL7id</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Unique identifier for the document in HL7 format. Example: DOC1234.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>documentid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the document id. When there is a embedded pdf attached in the result. It will be stored in document table and primary key of that table is referred by this column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>errorStatusCode</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores the error code according to the error occurred while processing.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>patientSex</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Sex of the patient. Example: Male, Female.</td>
+      </tr></table>
+</div>
+</body>
+</html>

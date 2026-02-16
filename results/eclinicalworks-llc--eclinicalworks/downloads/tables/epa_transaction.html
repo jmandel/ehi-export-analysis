@@ -1,0 +1,133 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>epa_transaction</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about electronic prior authorization (EPA) transactions, including their status, type, and related details.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each EPA transaction (integer). Example: 1, 2, 3.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>pa_reference_id</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Unique reference ID for the prior authorization (string). Example: "PA12345", "PA67890".</td>
+      </tr><tr  >
+        <td class="col-name"><strong>txn_type</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Type of the transaction (string). Example: "New", "Renewal", "Cancel".</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>txn_status</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Status of the transaction (string). Example: "Pending", "Approved", "Denied".</td>
+      </tr><tr  >
+        <td class="col-name"><strong>grid_status</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Status of the transaction in the grid view (string, NULLable). Example: "Active", "Inactive", NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>pn_note</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Note related to the prior authorization (string, NULLable, up to 2000 characters). Example: "Patient needs this medication due to...", NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>case_id</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Unique identifier for the case associated with the transaction (string, NULLable). Example: "CASE123", "CASE456", NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>authorization_number</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Unique authorization number for the transaction (string, NULLable, up to 140 characters). Example: "AUTH12345", "AUTH67890", NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>effective_date</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date when the transaction becomes effective (date, NULLable). Example: "2022-01-01", "2022-02-01", NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>expiration_date</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date when the transaction expires (date, NULLable). Example: "2022-12-31", "2023-01-31", NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>appeal_available</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Indicates if an appeal is available for the transaction (string, NULLable). Example: "Yes", "No", NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>appeal_expiration_date</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date when the appeal option expires (date, NULLable). Example: "2022-03-01", "2022-04-01", NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>cancel_reason_id</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">Unique identifier for the cancellation reason (small integer, NULLable). Example: 1, 2, 3, NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>cancel_note</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Note related to the cancellation (string, NULLable, up to 200 characters). Example: "Patient no longer needs medication", NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>erx_request_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the e-prescription request associated with the transaction (integer, NULLable). Example: 1001, 1002, 1003, NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>payor_attachment</strong></td>
+        <td class="tab-description">varbinary</td>
+        <td class="tab-description">Binary data for the payor attachment (varbinary, NULLable, up to 8000 bytes). Example: BLOB data, NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>created_by</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the user who created the transaction (integer). Foreign key relation to `users` table, `uid` column. Example: 101, 102, 103.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>created_datetime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the transaction was created (datetime, NULLable). Example: "2022-01-01 12:34:56", "2022-02-01 10:30:00", NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>updated_by</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the user who last updated the transaction (integer). Foreign key relation to `users` table, `uid` column. Example: 101, 102, 103.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>updated_datetime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the transaction was last updated (datetime, NULLable). Example: "2022-01-02 14:30:00", "2022-02-02 16:45:00", NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>scheduler_flag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag to indicate if the transaction is scheduled (tiny integer, default '0'). Example: 0 (not scheduled), 1 (scheduled).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>delete_flag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag to indicate if the transaction is deleted (tiny integer, default '0'). Example: 0 (not deleted), 1 (deleted).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>auth_update_datetime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the authorization was last updated (datetime, NULLable). Example: "2022-01-03 09:00:00", "2022-02-03 11:15:00", NULL.</td>
+      </tr></table>
+</div>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>order_auc_details</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores the details of orders related to Appropriate Use Criteria (AUC) for advanced diagnostic imaging services.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each record in the table (e.g., 1, 2, 3).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>reportid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the associated report in the labdata table. Foreign key relation: labdata.Reportid.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>assessmentid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the associated assessment in the items table. Foreign key relation: items.itemid.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>rwsid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores session id of rest call initiated with AUC vendor. It is unique identifier for the RWS (Radiology Workflow System) (e.g., RWS12345).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>transactionid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores transation id, it is the id maintain by vendor for each AUC vendor request.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>aucActionStatus</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores auc action status Below are the values for each status:
+AUC_ACTION_PENDING = 0; AUC_ACTION_COMPLETED = 1; AUC_ACTION_FAILED = 2; AUC_ACTION_SYMPTOMS_RECIEVED = 3; AUC_ACTION_SYMPTOMS_ENTERED = 4; AUC_ACTION_RECOMMENDATION_RECEIVED = 5; AUC_ACTION_RECOMMENDATION_ADDRESSED = 6</td>
+      </tr><tr  >
+        <td class="col-name"><strong>aucOrderStatus</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores auc order status. Below are the values for auc order status:
+AUC_ORDER_ORDERED = 1; AUC_ORDER_REPLACED = 2; AUC_ORDER_CANCELLED = 3; AUC_RECOMMENDATION_REJECTED = 4</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>gCode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores gcode of AUC vendor.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>hcpcsModifier</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores hcpc modifier details when the recommended order placed.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>aucScore</strong></td>
+        <td class="tab-description">float</td>
+        <td class="tab-description">This column stores auc score details.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>aucSummary</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores auc summary details which later used to display read only screen.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>expireDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the AUC expires (e.g., 2022-12-31 23:59:59).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>createdDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the record was created (e.g., 2021-01-01 12:34:56).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>updatedDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the record was last updated (e.g., 2021-01-02 14:56:78).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>deleteflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Boolean flag (0 or 1) indicating whether the record has been deleted, where 0 means not deleted and 1 means deleted.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>acceptedRejectedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the user who accepted or rejected the AUC, which can be NULL if not yet accepted or rejected (e.g., 123).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>acceptedRejectedTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the AUC was accepted or rejected, which can be NULL if not yet accepted or rejected (e.g., 2021-01-03 16:12:34).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the associated encounter in the enc table, which can be NULL if not associated with an encounter. Foreign key relation: enc.encounterid.</td>
+      </tr></table>
+</div>
+</body>
+</html>

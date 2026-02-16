@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ccmr_careplanreviewsignature</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores the information about additional care plan review signature captured on care plan review ,  including the signee, signature time, and other related details.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each care plan review signature. (Example: 1, 2, 3)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>reviewId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the reviewid which referes 
+from id of ccmrproblemreview table, which indeicates this signature belongs this review</td>
+      </tr><tr  >
+        <td class="col-name"><strong>signee</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the person who signed the care plan review. (Example: "John Doe", "Jane Smith")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>signatureTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">time stamp of when the signature was made. (Example: '2021-09-15 14:30:00')</td>
+      </tr><tr  >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A boolean flag indicating if the signature has been deleted (1) or not (0). (Example: 0, 1)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>signPadId</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Identifier for the sign pad used to capture the signature. (Example: 1, 2, 3)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>signature</strong></td>
+        <td class="tab-description">varbinary</td>
+        <td class="tab-description">Binary data representing the actual signature image. (Example: Binary data of a PNG or JPEG image)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>fileName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the file where the signature image is stored. (Example: "signature_123.png", "signature_456.jpg")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ftpDirPath</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Directory path where the signature image file is stored on the FTP server. (Example: "/signatures/careplanreview/")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>signPresentIn</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column indicates that whether signature is 
+present on FTP servver or in table itself
+0- in table
+1- FTP server</td>
+      </tr></table>
+</div>
+</body>
+</html>

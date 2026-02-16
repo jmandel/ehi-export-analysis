@@ -1,0 +1,77 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { background-color: #cde4f3; color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ip_rh_enc_standard_pnTemplateTriggers</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">Table is used to store progress note section template mapping with patient encounters.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores auto incremented id, datatype is INT (11). This column stores integer value which could grow with number of transactions over the years hence integer (Range: 0-2,147,483,647) is selected. It is AUTO_INCREMENT column and has PRIMARY KEY index</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encounterId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to identify for which patient encounter user has documented data. This column is FOREIGN KEY which refers to encounterid column of enc table. This column stores a high range numeric value hence integer is selected, and this column will always have a value hence defined as NOT NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>triggerTemplateId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column store template id of template which is used as trigger template id. This column is FOREIGN KEY which refers to id column of ip_rh_clinical_sd_template table. This column stores a high range numeric value hence integer is selected, and this column will always have a value hence defined as NOT NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>pnSectionName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores progress note section name. We are using datatype as varchar 255. progress note section name will not be more than 255 characters, so we have set its length to 255. This column will always have value hence we keep NOT NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This will store 0 and 1 value. 0-not deleted and 1-deleted. This column is used to identify whether row is in use or not. We are using TINYINT as datatype as we just want to store 0 or 1 value. By default, row will be in use, so we keep default value is 0.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>createdBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores user id of user. This column is used to identify which user has added this record (module wise trigger template) for patient encounter. This column is FOREIGN KEY which refers to uid column of users table. This column will store high range of numeric value hence integer is selected. This column will always have a value hence defined as NOT NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>createdDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This Column stores datetime as we want to store a datetime when the record is added, so we are using DATETIME as data type of column. This column will always have a value hence defined as NOT NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>modifiedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores user id of user. This column is used to identify which user has last modified this record (module wise trigger template) for patient encounter. This column is FOREIGN KEY which refers to uid column of users table. This column will store high range of numeric value hence integer is selected, and this column will always not have a value hence defined as NULL DEFAULT NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>modifiedDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This Column stores datetime as we want to store a datetime when the record is modified, so we are using DATETIME as data type of column. This column will always not have a value hence defined as NULL DEFAULT NULL.</td>
+      </tr></table>
+</div>
+</body>
+</html>

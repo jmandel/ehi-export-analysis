@@ -1,0 +1,146 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { background-color: #cde4f3; color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ip_rh_structdatadetail</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores structured items like structured questions created by end users for clinical data.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is auto-incremented primary key in this table. This column stores unique id for each structured item created by users. The data type is int because the questions can be huge in number. The column cannot be NULL as it will always have an id.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>catId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of a category for which structured item is being created. This column refers to itemid column in ip_rh_items table. The data type is int. The field will always have a value and hence cannot be null.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>itemId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of an item for which structured item/question has been created by end user. This column refers to itemid column in ip_rh_items table. The data type is int. The field will always have a value and hence cannot be null.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>name</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores name of a structured item created by end user. The data type is varchar(255) as the expected value to be stored in the name column will not exceed 255 characters. The field will always have a value and hence cannot be null.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>type</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores a number value which indicates what should be the type of the structured data on local . The data type is tinyint and the value can range from 0 to 255. The default value is NULL.Multi Select / Single Select : 0,
+Numeric : 1,
+Date : 2,
+Boolean: 3,
+Date(mm/yyyy): 4,
+Date(YYYY): 5,
+Free text: 6,
+Date(dd/mm/yyyy): 7,
+Date(mm-dd-yyyy):8,
+Time(HH:mm:ss): 9,
+Time(HH:mm): 10,
+Date(mm/dd/yyyy HH:mm): 12,
+Date(mm/dd/yyyy HH:mm:ss): 13,
+"Decimal	: 14"</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>mandatory</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores flags 0/1 to indicate whether question is mandatory to fill or not. 0 means the question is not mandatory and 1 means the question is  mandatory</td>
+      </tr><tr  >
+        <td class="col-name"><strong>displayIndex</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column stores a number to indicate in which order form questions should be listed on user facing screen. The data type is smallint and the value can range from -32,768 to 32,767. The data type is smallint as compared to int is because the expected items will not exceed the limitation provided by the smallInt datatype. This field will always have a value and hence cannot be null. The default value is 0.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A flag indicating if the question is deleted (1) or not (0). The tinyint data type allows for efficient storage of binary values. The default value is 0, indicating the question is not deleted.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>parentId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of a parent question under which new question has been created. The parent question is stored in ip_rh_structdatadetail table only. However, there cannot be a foreign key relationship because it refers to the legacy table, structdatadetail table where the parentId can be stored as 0 and accordingly it is used in the code also.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>triggerflag</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of an option for which this question has been triggered. It stores the value from optionId column in ip_rh_structdataoptions table.However, for child questions whose parent question is Boolean, it stores triggerflag as 1 for Yes and 0 for No. As the Boolean question options come through code, when the child question for this Boolean question is triggered, the triggerflag stores the values 1 or 0 which come through code. This is applicable only for Boolean type parent questions. So this column cannot reference optionId column in ip_rh_structdataoptions table for Foreign Key. For questions which do not have parent questions, the value for this column is -1.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>itemType</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores a value which indicates what is the type of the structured data whether it is a category or just an Item . 'C' - is a category and 'I' - is category item.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>nodeLevel</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column indicates if the question is a parent question or child question. For parent question, node level is 0. For the first level child question, node level is 1 and for second level child question, node level value is 2 and so on.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>tblName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the table name for a question to indicate where the responses of the question would be stored when the question is documented by the user.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>chartDisplay</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column indicates whether corresponding question will be displayed on the chart.. It stores a value 0 or 1. Value 0 indicates the structured item will not show up on chart and 1 indicates the structured item will show up on chart.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>multiSelect</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores a value which indicates whether the structured question is multiselect or not. Value 1 means the question is multiselect and 0 means the question is not a multiselect question.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isSearchable</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is a legacy column used in the code which belonged to Acute care project in the past. So, although there is no concrete usage available for this column, we have still added it to avoid any functionality break due to removal from code. It stores the values 0 or 1.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>defaultValue</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores value(s) which will be default value(s) for that question. The default value will be populated only for Boolean, Multi-Select and Single-Select type of questions.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>defaultValueId</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores optionId(s) which will be default valueId(s) for that question. The default valueIds will be populated only for Boolean, Multi-Select and Single-Select type of questions. These ids will be comma separated.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>modifyNotes</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores value 0 or 1 to indicate whether the notes of that question can be modified or not. Value 0 indicates that the notes of the structured element cannot be modified and Value 1 indicates that the notes of the structured element can be modified. The data type is tinyint as per business requirements.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>readonly</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores a value 0 or 1 to indicate whether the question is read-only. Value 0 means the question is not readonly whereas value 1 means it is a readOnly element.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>dropdown</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores a value 0 or 1 to indicate whether the question should have a dropdown or not. Value 0 indicates that the question cannot be a dropdown and Value 1 indicates that question can be a dropdown.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>maxLength</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is a legacy column used in the code which belonged to Acute care project in the past. So, although there is no concrete usage available for this column, we have still added it to avoid any functionality break due to removal from code.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isActive</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Stores if the question is active or not. Only the active questions will show up for documentation on the user facing screen. The column will store a value of 0 or 1.</td>
+      </tr></table>
+</div>
+</body>
+</html>

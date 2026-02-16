@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>alertoverridedetails</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores additional information related to the suppression status of CDSS Alerts for patients.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is an auto incremented primary key for this column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Patientid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an id of the patient for whom alerts are suppressed. This column refers to the column UID from the user table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Measureid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores id of the measure/alert which is suppressed for a patient. This column refers to the column Measureid from the measureconfiguration table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores 0 if the alert is suppressed from Patient Hub or the encounter id if it is suppressed from the Progress Note.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>TrUserid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of the user who suppressed the alert for a patient. This column refers to the column UID from the user table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>NeverRemind</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores flag 0 or 1. 1 - permanent suppression of alerts, and 0 - temporary suppression of alerts.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>status</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores one of the below pre-defined values as status. 1P, 2P, 3P and ERRONEOUS. These values are mapped with the values in the statusLabel column respectively. 1P - MEDICAL REASON, 2P - PATIENT REASON, 3P - SYSTEM REASON & ERRONEOUS - ERRONEOUSDIAGNOSES.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>statusLabel</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores one of the below pre-defined values as status label. MEDICAL REASON, PATIENT REASON, SYSTEM REASON & ERRONEOUS DIAGNOSES. These values are mapped with the values in the status column respectively. 1P - MEDICAL REASON, 2P - PATIENT REASON, 3P - SYSTEM REASON & ERRONEOUS - ERRONEOUSDIAGNOSES.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>reset</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores flags 0 or 1. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>modifiedtime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores a time stamp when the alert was suppressed. The format used is YYYY-MM-DD HH:MM:SS.</td>
+      </tr></table>
+</div>
+</body>
+</html>

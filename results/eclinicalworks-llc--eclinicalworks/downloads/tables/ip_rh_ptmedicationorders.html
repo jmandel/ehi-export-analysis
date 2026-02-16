@@ -1,0 +1,277 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { background-color: #cde4f3; color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ip_rh_ptmedicationorders</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores patient staging orders information which includes details like route, frequency of medications that are placed for a patient after being finalized.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>medOrderId</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the unique identifier for each interaction record.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ptOrderId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store ptOrder id and is foreign key references orderId column of ip_ptorders table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ipitemid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store item id and is foreign key references itemID column of items table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>medSigId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is used to store Medication signature ID, this value is stored for reference, and it is not used. Deletion of medication signature is allowed so it cannot be added as foreign key.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>order_dose</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store order dosage.This value is used from the of doseSize of ip_rh_drugformulary table</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>order_dose_UOM</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store order dosage UOM. This value is used from the of doseUoM of ip_rh_drugformulary table</td>
+      </tr><tr  >
+        <td class="col-name"><strong>RouteId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store route id and is foreign key references routeId column of ip_drugformulary_routes table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>FrequencyId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store frequency id and is foreign key references id column of ip_drugformulary_frequency table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>order_duration</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store order duration.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>order_duration_type</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store order duration type like days, hours.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isHomeMed</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to store a home medication flag and shows whether it is converted from home medication or not. 1 - represents it is converted from home medication
+0 - represent it is not converted home medication
+Default value is 0 ensures not home med</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isPatientSupplied</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to store patient supplied flag it shows whether patient is supplied or not. 1 - represents patient PRis supplied
+0 - represents patient is not supplied
+Default value is 0 that ensures patient is not supplied.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isInFormulary</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to store in formulary flag it shows whether it is in formulary or not.1 - represents  it is in formulary
+0 - represents it is not in formulary
+Default value is 0 that ensures item is not in formulary</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>rxNotes</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store Rx notes.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>PRN</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to store PRN if frequency is PRN. 1 - represents PRN frequency
+0 - represents Not PRN Frequency
+Default value of PRN is 0</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PRNIndicationId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store prn indication id and is foreign key references id column of ip_rh_drugformulary_prnindication table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>deleteflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to store in delete flag it shows whether order is deleted or not. 1 - represents order is deleted
+0 - represents order is not deleted
+Default value is 0 ensures order is not deleted.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>CreatedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store the Id of the user who created the order. The column has a foreign key constraint (FK_ip_rh_ptmedicationorders_CreatedBy) referencing the uid in users table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>CreatedDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column is used to store create date and time in yyyy-mm-dd hh:mm:ss format.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ModifiedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store the id of the user who modified order. The column has a foreign key constraint (FK_ip_rh_ptmedicationorders_ModifiedBy) referencing the uid in users table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ModifiedDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column is used to store modified date and time in yyyy-mm-dd hh:mm:ss format.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>orderType</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to store orderType value for order placed. 1 - medication order
+2 - IV order
+3 - complex order
+Default Value 1 ensures the type is medication.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isSubstitute</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to store substitute values like 1, 2. Default value is 0 if substitute is not specified. 0 - Substitute is not allowed
+1 - Substitute is allowed</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>rxOrderNo</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store Rx order numbers, which is generated from staging order ID.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>homeMedId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store home medication ID.  referencing the homemedid from the ip_rh_homemedication table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>pomFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to store in pom flag. 1 - represents is pom
+0 - represents is not pom
+Default value is 0 to ensure order is not pom.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>disMedStatus</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column is used to store dispense medication status. The default value is NULL.
+NULL - No Action,
+0 - Stop,
+1 - Start,
+2 - Continue,
+-2 - Stopped,
+-3 - Started,
+-4 - Continued</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>eMarEntryInstructions</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store eMAR Entry Instructions Default Notes populated from emar_instr column of ip_rh_drugformulary_notes</td>
+      </tr><tr  >
+        <td class="col-name"><strong>rphInstructions</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to resident pharmacist instructions.Default Notes populated from pharmacy_instr column of ip_rh_drugformulary_notes</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>orderEntryInstructions</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store order entry Instructions.Default Notes populated from orderentry_instr column of ip_rh_drugformulary_notes</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ivRate</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store IV rate defined in formulary for IV and complex order type.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ivRateUom</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is  used to store units like ml/hr, ml/min etc.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isRenewInExpiringTab</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to store renew in expiring flag. 1 - represents is eligible for renew in expiring
+0 - represents not eligible for renew in expiring. Default value is 0 ensure order is not eligible for renew.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>episodeEncId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store episode encounter ID.referencing the encounterID from the enc table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>totalVolume</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This is used to store total volume defined during order entry.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>totalDose</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This is used to store total dose defined during order entry.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isTitrationAllowed</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to store is titration or not.1 - represents titration allowed
+0 - represents titration is not allowed.
+Default value is 0 ensure order is not titration allowed</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>internalNotes</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This is used to store internal notes while adding the order. Default Notes populated from internal_notes column of ip_rh_drugformulary_notes</td>
+      </tr><tr  >
+        <td class="col-name"><strong>issFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to store issflag enabled or not.1 - represents enbled ISS
+0 - represents is not ISS flag.
+Default value is 0 ensure order is not ISS.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>configuredISSFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to store configured ISS flag or not. 1 - represents ISS is enabled
+0 - represents no ISS flag.
+Default value is 0 ensure order is not configured ISS flag.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>minDose</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This is used to store min Dose value like 1ml, 200MG etc.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>maxDose</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This is used to store max Dose value like 5ml, 500MG etc.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>reviewedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store id of user who reviewed order.referencing the uid column in users table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isReviewed</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to store reviewed or not. 1 - represents order is reviewed
+0 - represents order is not reviewed
+Default value is 0 ensure order is not reviewed.
+</td>
+      </tr><tr  >
+        <td class="col-name"><strong>reviewDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column is used to store review date and time in yyyy-mm-dd hh:mm:ss format.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>rxIncludeNow</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to store Rx include now or not.1 - represents first dose of Rx administration is at now
+0 - represents first dose of Rx administration is at calculated datetime</td>
+      </tr><tr  >
+        <td class="col-name"><strong>infuseOverMinutes</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column is used to store infused over minutes.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>infuseOverDisplayUOM</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store infuse over display UOM like Hour, Minutes, etc.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>infuseOverDisplayValue</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store infuse over display value like 1 Hour, 1 Minute(s)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>bulkflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to store bulk or not. 1 - represents order is in bulk
+0 - represents order is not in bulk
+Default value is 0 ensure order is not in bulk.</td>
+      </tr></table>
+</div>
+</body>
+</html>

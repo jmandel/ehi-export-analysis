@@ -1,0 +1,93 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>alerts_imported_into_progressnote</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about alerts that have been imported into the Progress Notes, including their type, status, and related encounter details.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is an auto incremented primary key.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>AlertType</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the type of an alert. Possible values are CDSS, Generic, patient specific, Rx specific, Dx specific, or multisatisfied.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Alertid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an id of the alert from the AlertType column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of the encounter to which alert is imported. This column refers to the encounterid from the enc table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>AlertName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the name of the alert merged in the Progress Notes.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>DueDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column indicates the alert's due date at the time it was imported to the Progress Notes. The format used is YYYY-MM-DD 00:00:000. In case if there is no due date, NULL is stored.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Status</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column indicates the status of the alert. Possible values are Complaint, Suppressed,  Excluded, Non-Complaint, or pending results.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>LastDoneDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date on which the test was ordered for a particular patient. The format used is YYYY-MM-DD 00:00:000. In case if there is no last done date, NULL is stored.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ActionTaken</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column indicates if the auto imported alert was removed or manually imported. '-' for manually imported and 'removed auto imported' for auto imported removal.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ImportedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores a time stamp when the alert was imported to a patient's Progress Notes. The format used is YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DeleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores a flag 0 or 1. 1 - when the auto imported alert is removed manually and the removal is undone or when the alert is added manually, and then removed manually or 0 - otherwise.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>RemovedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores a time stamp when the auto imported alert was removed manually. The format used is YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>orderStatusIndicator</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is linked to the LastDoneDate column. This column stores 0, 1 or 2. 0 - There is no order. 1 -  There is a test is ordered, 2- There is a test received. </td>
+      </tr></table>
+</div>
+</body>
+</html>

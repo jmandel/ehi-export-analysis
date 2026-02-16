@@ -1,0 +1,105 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>vision_dispensequeue</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about the dispense queue for vision products, such as glasses or contact lenses, including the status of the dispense process, assignment details, and related encounter and order information.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is an auto incremented primary key.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an encounter id for which dispense record is added. This column refers to column encouner id from the enc table. Also, enctype = 16 indicates dispense encounter.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>disp_status</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores different statuses when the dispense record is created using dispense module. This column refers to the column id from the vision_master table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>assignedto</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an identifier for the user to whom the dispense queue record is assigned. (e.g., 1001, 1002, 1003)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>context</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores one of the below context for this dispense record. A "1" is created based on a previous sight exam, a "2" is for a remake, a "3" is for outside Rx, a "4" is for contact lens from previous previous sight tests, and a "5" is outside Rx for contact lens, and "6" is for over the counter.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isdeleted</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column contains a flag to indicate whether the record is deleted, where 0 is the default value (e.g., 0, 1).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>createdby</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of the staff or provider who creates this dispense record. This column refers to the column UID from the user table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>createdon</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the time stamp when this dispense record was created. The format used is YYYY-MM-DD HH:MM:SS. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>updatedby</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of the staff or provider who updates this dispense record. This column refers to the column UID from the user table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>updatedon</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the time stamp when this dispense record was created. The format used is YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>pnencounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of the encounter, where the original prescription was documented. This will be same as of the encounterid column when the context = 3. This column refers to the column encounterid from the enc table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>pairid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of the pair whenever it is added to this dispense record. This column refers to the column id from the vision_order_pair table. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>orderid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores order id whenever a order is placed. This column refers to column id from the vision_orders table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>indispense_status_log</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the time stamp when last time the status was updated. The format used is YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>notes</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores additional notes (free text) for this dispense record.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>visionrxid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an identifier for the vision prescription associated with the dispense queue record (e.g., 10001, 10002, 10003).</td>
+      </tr></table>
+</div>
+</body>
+</html>

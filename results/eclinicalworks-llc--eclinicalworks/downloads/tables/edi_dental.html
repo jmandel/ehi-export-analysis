@@ -1,0 +1,137 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>edi_dental</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about dental claims, accidents, and treatments related to EDI (Electronic Data Interchange) in the dental industry.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>Invid</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the invoice related to the dental claim. This is a foreign key referring to the `edi_invoice` table's `id` column. Example: 12345</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PreTreatementEstimate</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A boolean flag indicating if a pre-treatment estimate is required (1) or not (0). Example: 1</td>
+      </tr><tr  >
+        <td class="col-name"><strong>StmtOfActualService</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A boolean flag indicating if a statement of actual service is required (1) or not (0). Example: 0</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>MedicaidClaim</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A boolean flag indicating if the claim is a Medicaid claim (1) or not (0). Example: 1</td>
+      </tr><tr  >
+        <td class="col-name"><strong>EPSDT</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A boolean flag indicating if the claim is related to Early and Periodic Screening, Diagnostic, and Treatment (EPSDT) services (1) or not (0). Example: 0</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PriorAuthNo</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">A string representing the prior authorization number for the claim. Example: 'PA123456'</td>
+      </tr><tr  >
+        <td class="col-name"><strong>PlaceOfTreatement</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A numeric code representing the place of treatment. Example: 1 (for office)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>IsRadiograph</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A boolean flag indicating if a radiograph is included in the claim (1) or not (0). Example: 1</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Radiograph_Many</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">A string representing the number of radiographs included in the claim. Example: '2'</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>IsOccupationalInjury</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A boolean flag indicating if the claim is related to an occupational injury (1) or not (0). Example: 0</td>
+      </tr><tr  >
+        <td class="col-name"><strong>OccupationalInjury_Desc</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">A string describing the occupational injury, if applicable. Example: 'Slip and fall at work'</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>IsAutoAccident</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A boolean flag indicating if the claim is related to an auto accident (1) or not (0). Example: 1</td>
+      </tr><tr  >
+        <td class="col-name"><strong>AutoAccident_Desc</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">A string describing the auto accident, if applicable. Example: 'Car collision with another vehicle'</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>IsOtherAccident</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A boolean flag indicating if the claim is related to another type of accident (1) or not (0). Example: 0</td>
+      </tr><tr  >
+        <td class="col-name"><strong>OtherAccident_Desc</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">A string describing the other accident, if applicable. Example: 'Bicycle accident'</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>IsProsthesis</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A boolean flag indicating if the claim involves a prosthesis (1) or not (0). Example: 1</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Prosthesis_Reson</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">A string describing the reason for the prosthesis. Example: 'Missing tooth due to accident'</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Prosthesis_Date</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">A string representing the date of the prosthesis placement. Example: '2021-01-01'</td>
+      </tr><tr  >
+        <td class="col-name"><strong>IsOrthDontics</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A boolean flag indicating if the claim involves orthodontic treatment (1) or not (0). Example: 0</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>OrthDontics_Desc</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">A string describing the orthodontic treatment, if applicable. Example: 'Braces for teeth alignment'</td>
+      </tr><tr  >
+        <td class="col-name"><strong>OrthDontics_Date</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">A string representing the date of the orthodontic treatment. Example: '2021-06-01'</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>OrthDontics_TrtmtRemaining</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">A string representing the remaining treatment duration for the orthodontic treatment. Example: '12 months'</td>
+      </tr><tr  >
+        <td class="col-name"><strong>RemarksForUnusualServices</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">A text field containing remarks for any unusual services provided. Example: 'Emergency extraction due to severe pain'</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>TeethInfo</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">A string representing information about the teeth involved in the claim. Example: 'Upper left canine, lower right molar'</td>
+      </tr></table>
+</div>
+</body>
+</html>

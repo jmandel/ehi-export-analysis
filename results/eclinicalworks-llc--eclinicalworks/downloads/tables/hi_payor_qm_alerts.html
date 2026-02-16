@@ -1,0 +1,117 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>hi_payor_qm_alerts</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about alerts related to payors and quality measures for patients.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">bigint</td>
+        <td class="tab-description">Unique identifier for each record in the table. Example: 1, 2, 3.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>payorid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Unique identifier for the payor. Example: "P123", "P456".</td>
+      </tr><tr  >
+        <td class="col-name"><strong>payorname</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the payor. Example: "Insurance Company A", "Insurance Company B".</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>emrgUID</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">A unique identifier (GUID) for the electronic medical record (EMR) associated with the request. Example: '550e8400-e29b-41d4-a716-446655440000'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>txn_id</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Unique identifier for the transaction. Example: "TXN123", "TXN456".</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>payor_UID</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Unique identifier for the payor user. Example: "PU123", "PU456".</td>
+      </tr><tr  >
+        <td class="col-name"><strong>patientid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the patient, foreign key referring to the `UID` column in the `users` table. Example: 101, 102.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>measure_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the quality measure. Example: 1, 2, 3.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>measure_flag_denominator</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating if the measure is part of the denominator (1) or not (0). Example: 1, 0.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>measure_due_date</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Due date for the measure, can be NULL. Example: "2022-01-01 00:00:00", "2022-02-01 00:00:00".</td>
+      </tr><tr  >
+        <td class="col-name"><strong>measure_last_done</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date when the measure was last completed, can be NULL. Example: "2021-12-01 00:00:00", "2021-11-01 00:00:00".</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>measure_status</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Status of the measure, 1 for active and 0 for inactive. Example: 1, 0.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>measure_code</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Code for the quality measure, can be NULL. Example: "QM123", "QM456".</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>measure_value</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Value of the quality measure, can be NULL. Example: "50", "75".</td>
+      </tr><tr  >
+        <td class="col-name"><strong>measure_name</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the quality measure, can be NULL. Example: "Measure A", "Measure B".</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>alert_id</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Unique identifier for the alert, can be NULL. Example: "AL123", "AL456".</td>
+      </tr><tr  >
+        <td class="col-name"><strong>createddate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the record was created. Example: "2021-12-01 12:34:56", "2021-11-01 10:20:30".</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>updateddate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the record was last updated. Example: "2021-12-02 14:56:32", "2021-11-02 11:22:33".</td>
+      </tr><tr  >
+        <td class="col-name"><strong>deleteflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating if the record is deleted (1) or not (0). Example: 1, 0.</td>
+      </tr></table>
+</div>
+</body>
+</html>

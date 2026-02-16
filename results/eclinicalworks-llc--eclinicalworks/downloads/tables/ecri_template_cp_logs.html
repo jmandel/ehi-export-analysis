@@ -1,0 +1,73 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ecri_template_cp_logs</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores logs of clinical notes copied or merged into a set of Progress Notes from either a template or caret encounters.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains auto incremented id, datatype is INT. This column stores integer value which could grow with every copy or merge activity of each section in Progress Note. It is AUTO_INCREMENT column and has PRIMARY KEY index</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>module</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">The name of the module where the copy or merge operation was performed in Pt. Specific template or carets, stored as a varchar. For example: "PN", etc.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>featureid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">It stores source of copy/merge. It refers to id column in table ecri_cp_qualifiers.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>copyMergeFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A tinyint flag indicating whether the operation was a copy (1) or a merge (0). For example: 0 or 1.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>srcid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">It stores source encounter id. This column has a foreign key relation with the `enc` table's `encounterid` column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>destid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">It stores destination encounter id. This column has a foreign key relation with the `enc` table's `encounterid` column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>userid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The identifier of the user who performed the copy or merge operation, with integer values. This column has a foreign key relation with the `users` table's `UID` column. For example: 501, 502, 503, etc.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>entrydatetime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">It stores date and time when notes are copy/merged through Pt. Specific Template or carets.</td>
+      </tr></table>
+</div>
+</body>
+</html>

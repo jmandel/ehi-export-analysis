@@ -1,0 +1,115 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>pcf_enrollment_details</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table is created to store 
+PCF attribution details such as attribution start date, attribution end date, attribution reason, attributed facility, attributed provider and so on. </td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each enrollment detail record. Example: 1, 2, 3.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ptacoId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the PTACO program the patient is enrolled in. Foreign key relation to `ptacoprograms` table, `id` column. Example: 101, 102, 103.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>patientId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the patient. Foreign key relation to `users` table, `uid` column. Example: 1001, 1002, 1003.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>attributed_startDt</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Start date and time of the attribution period. Example: '2021-01-01 00:00:00', '2021-02-01 00:00:00'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>attributed_endDt</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">End date and time of the attribution period. Example: '2021-12-31 23:59:59', '2021-11-30 23:59:59'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>attributed_facilityId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the facility where the patient is attributed. Foreign key relation to `edi_facilities` table, `Id` column. Example: 201, 202, 203.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>attributed_providerId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the provider who attributed the patient. Foreign key relation to `users` table, `uid` column. Example: 3001, 3002, 3003.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>attributed_reason</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Reason while enrolling patient into PCF program</td>
+      </tr><tr  >
+        <td class="col-name"><strong>attrIndex</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column works as a counter which could grow 
+with number of valid attributions ended to each PCF program enrolled patient</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>attrEnded</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicates the record of whether attribution is 
+ended.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>attrEndedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains the Primary Key column UID of users table.
+ This column stores user Id of logged in user who ended the PCF attribution</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating whether the record has been deleted (1) or not (0). Example: 0, 1.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>invalidAttr</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicates the attributed record is not valid.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>addedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains the Primary Key column UID of users table.
+ This column stores user Id of logged in user who added the PCF attribution</td>
+      </tr><tr  >
+        <td class="col-name"><strong>addedDtTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the enrollment detail was added. Example: '2021-01-01 10:00:00', '2021-02-01 11:00:00'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>modifiedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains the Primary Key column UID of users table.
+ This column stores user Id of logged in user who modified the PCF attribution</td>
+      </tr><tr  >
+        <td class="col-name"><strong>modifiedDtTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the enrollment detail was last modified. Example: '2021-01-01 12:00:00', '2021-02-01 13:00:00'.</td>
+      </tr></table>
+</div>
+</body>
+</html>

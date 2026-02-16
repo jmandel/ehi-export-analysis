@@ -1,0 +1,240 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>faxlogs</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about outgoing faxes, including details about the sender, recipient, fax content, and status.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>LogID</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The column stores an id of the outgoing faxes. This is an auto incremental primary key of This column .</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>LoginID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The column stores an id of the logged in user who has sent the fax. This column refers to the uid column in user table. This can not have NULL value.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DoctorID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the ID of the provider that had auto-populated or updated in From Provider column Fax preview window. This column refers to the uid column in user table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PatientID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The column stores an id of the patient of which the information is being sent in the fax . This column refers to the uid column in user table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ToID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of the recipient.
+e.g. When the fax is sent to provider, it will store the id of the provider. When the fax is sent to pharmacy, it will store the id of the pharmacy selected etc</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ToName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the recipient of the fax. (Example: "John Doe", "Jane Smith")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ToFax</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Fax number of the recipient. (Example: "123-456-7890", "987-654-3210")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>tocompany</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the company the recipient belongs to. (Example: "ABC Hospital", "XYZ Clinic")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>EncounterID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the patient encounter associated with the fax. (Example: 4001, 4002, 4003)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>FaxInitTime</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">time stamp when the fax was initiated. (Example: "2022-01-01 12:34:56")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Retry</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Number of retries for sending the fax. (Example: 0, 1, 2)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Status</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is not being used anymore.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>faxdata</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Long text containing the content of the fax. (Example: "Prescription details...", "Lab report...")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>FaxStatus</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Enumerated status of the fax (Logged, Completed, Failed, Pending, Query, Received, Sending, Deleted, UserCancelled).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>SendDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the fax was sent. (Example: "2022-01-01 12:45:00")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>FaxType</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Enumerated type of fax content (Prescription, ProgressNotes, ConsultNotes, LabReport, LabOrder, TiffDocument, TxtDocument, CustomForms, WebURL).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>FaxManLogID</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Unique identifier for the fax manager log entry. (Example: "a1b2c3d4", "e5f6g7h8")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>FaxPrefix</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Prefix for the fax number. (Example: "1", "01")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>FaxFile</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">FaxFile column is used to store the name of the file being faxed in case of non-HTML faxes.
+e.g. 4860-9193-122-b4b844a3-62a1-4aa5-fc22-d9ec1a3afc95.tif
+For HTML faxes initially it will be blank. Fax server will update it with the tiff file name after it converts HTML fax into Tiff file.
+</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>FaxTransaction</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This is not longer being used.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>RxIds</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Column stores name of Rx being filled through Fax.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>FaxLogStatus</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This is no longer being used.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>FaxLogBatch</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is not being used anymore.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>FacilityID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of the facility that was selected in the Facility field while sending the fax. This refers to the id column in edi_facilities table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>FacilityName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the name of the facility that was selected in the Facility field while sending the fax. This refers to the name column in edi_facilities table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>reminded</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is no longer being used.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>remindedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This is no longer being used.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>FaxCoverPage</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is no longer being used. This was part of the VB based fax server.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>FaxCoverPageID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is no longer being used. This was part of the VB based fax server.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>FaxStatusMsg</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store provide the more details on the current status of the fax. 
+e.g. In case of Fax which is in 'Failed' status it will have value 'Fax [4859] -  Failed'.
+</td>
+      </tr><tr  >
+        <td class="col-name"><strong>faxsubject</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is being used to store the subject of the fax. Short description of the content being sent in the Fax which user enters while sending the fax.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>LoginName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the user who initiated the fax. (Example: "Alice", "Bob")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>scheduledDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This contains future date and time of the fax, when fax is scheduled for future time and not to be sent immediately. For regular Fax, it will have same value as of FaxInitTime column.
+</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>sentnotification</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This is no longer being used.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>OriginalFaxDoc</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This is no longer being used.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>FromName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This stores the name of the sender that is sending the fax.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>FromVoice</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the Telephone number of the facility thathas auto-populated in the facility field. This will also contain the telephone number that is free-texted in the voice field.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>fromcompany</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the Name of the facility that has auto-populated in the Company field. This will also contain the value that is free-texted in the Company field.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>FaxInitTime2</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This is not being used.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isMsgSent</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This is not being used.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isTextMsgSent</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This is not being used.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>externaldocid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores ID of document/fax received from outside of organization for Smart Referral Management feature.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isAddressed</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This columns conveys whether user has marked the outgoing fax as addressed or not. By default value is set to 0 and it updated to 1 when addressed.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>addressedComment</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Text containing comments about the addressed fax. (Example: "Reviewed and approved", "Needs further review")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>OriginalFaxFile</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column contains the name of the document which is Faxed in case of non-HTML faxes. In case of HTML faxes it is kept blank. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dialInCode</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">Dial-in code for the fax. (Example: 1234, 5678)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>suffix</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Suffix for the fax number. (Example: "A", "B")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>splitFaxesBatchId</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Identifier for the batch of split faxes. (Example: "SPLIT123", "SPLIT456")</td>
+      </tr></table>
+</div>
+</body>
+</html>

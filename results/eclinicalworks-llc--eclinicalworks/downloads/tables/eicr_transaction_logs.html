@@ -1,0 +1,93 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>eicr_transaction_logs</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores the Electronic Case Reporting transaction logs for electronic health record (EHR) encounters, including information about the user, transaction type, status, and other related details.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each transaction log entry. Example: 1, 2, 3.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encounter_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the encounter associated with the transaction log. Foreign key relation to `enc` table's `encounterID` column. Example: 101, 102, 103.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>user_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the user who performed the transaction. Foreign key relation to `users` table's `uid` column. Example: 1001, 1002, 1003.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>transaction_type</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Numeric code representing the type of transaction. Example: 1 (Outgoing), 2 (Incoming)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>transaction_id</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Unique identifier for the transaction, represented as a string. Example: "TX123", "TX124", "TX125".</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>priority</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Numeric code representing the priority level of the transaction.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>STATUS</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Numeric code representing the status of the transaction.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>error_reason</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Numeric code representing the reason for a transaction failure, if applicable.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>transaction_time</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">time stamp of when the transaction occurred. Example: "2021-09-01 12:34:56", "2021-09-02 14:23:45".</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isResent</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating whether the transaction has been resent (1) or not (0). Example: 0, 1.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>SUBJECT</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Subject of the transaction, represented as a string. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>summary_preview_text</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Preview text of the transaction summary, represented as a string.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>transmission_mode</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Numeric code representing the mode of transmission for the transaction. Example: 1 (Automatic),2 (Manual).</td>
+      </tr></table>
+</div>
+</body>
+</html>

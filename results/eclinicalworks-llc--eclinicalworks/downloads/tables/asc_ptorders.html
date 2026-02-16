@@ -1,0 +1,143 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>asc_ptorders</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about patient orders, including order details, status, and related entities.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>orderid</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is an auto generated unique primary key. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The column stores an id of the encounter of a patient.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>userid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores UID which is primary id of user table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>orderedByid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores UID who has placed the order. It refers to UID from user table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>orderItemid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the item being ordered, foreign key referring to the orderItems table (e.g., 100, 200, 300).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>parentid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the parent order, if applicable, foreign key referring to the asc_ptorders table (e.g., 0, 1, 2).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>orderDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores time stamp of order time.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>startDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Order start time. Can be defined when Oder is placed.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>endDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Order end time. Can be defined when Order is expired.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isRecurringOrder</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores tinyint value, It can be either 0 or 1. Set 1 if order is of recurring type else 0.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>orderFrequencyid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Column value is no longer used. Default value is 0.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>orderStatus</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column have reference in java file but it's not used in update flow.
+This column is not in use.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>orderPriority</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores order priority:
+for STAT it stores 1 
+for ASAP it stores 2
+for ROUTINE it stores 3</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>orderInstructions</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Detailed instructions for the order (e.g., Administer 500mg of medication every 8 hours).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>orderReason</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Reason for the order (e.g., Patient experiencing severe pain).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>orderNotes</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Additional notes related to the order (e.g., Monitor patient closely for side effects).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>orderEntryMethodid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores order entry method. 
+1 - Per-Protocol
+2 - Telephone Order Read Back
+3 - Verbal Order Read Back
+4 - Written
+5 - Nurse Initiated Orders
+6 - Standing Order</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>cosignedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column contains User id of the user who co-signed the order.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>cosignDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column contains time stamp when co-signed.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>inactive</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores tinyint value, It can be either 0 or 1. If 1 then order is inactive else active.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>prevOrderid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column contains previous order id .</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>orderCreatedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column contains time stamp when order is created.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column store delete flag. It will be set to 1 if entry is deleted else 0.</td>
+      </tr></table>
+</div>
+</body>
+</html>

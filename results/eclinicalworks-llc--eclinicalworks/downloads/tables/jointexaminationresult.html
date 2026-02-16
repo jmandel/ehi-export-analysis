@@ -1,0 +1,119 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>jointexaminationresult</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores the joint examination results for patients, including various assessment scores and related information.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>JointExaminationResultid</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">•	This column will store the id of the Joint Examination Result data.
+•	The datatype of the column would be INT to accommodate large number of different Joint Examination Result data that can be added.
+•	This would be unique and auto incremented and so PRIMARYKEY constraint is added
+</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">•	This column stores the encounter id where the results are being documented. 
+•	This is a reference to the column encounterid of table enc.
+</td>
+      </tr><tr  >
+        <td class="col-name"><strong>tenderJointCount</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">•	This column stores the count of tender joints determined from the entries in table JointTableCell.
+•	The datatype of the column would be tinyint as it can have 0 to 28 values.
+•	By default, tender joint count will be zero.
+</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>swollenJointCount</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">•	This column stores the count of swollen joints determined from the entries in table JointTableCell.
+•	The datatype of the column would be tinyint as it can have 0 to 28 values.
+•	By default, swollen joint count will be zero.
+</td>
+      </tr><tr  >
+        <td class="col-name"><strong>patientGlobalAssessDiseaseActivityDas28</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">Patient's global assessment of disease activity using the DAS28 scoring system. Example: 3.2, 4.5, 2.1, etc.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>providerGlobalAssessDiseaseActivityDas28</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">Provider's global assessment of disease activity using the DAS28 scoring system. Example: 3.5, 4.2, 2.3, etc.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>esr</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">•	This column stores the ESR value that can be captured on the UI.
+•	The datatype of the column would be decimal as it can have 0 to 999.999 values.
+•	This column is NULL by default to avoid showing 0.00 on the screen which will be incorrect.
+</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>crp</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">•	This column stores the CRP value that can be captured on the UI.
+•	The datatype of the column would be decimal as it can have 0 to 999.999 values.
+•	This column is NULL by default to avoid showing 0.00 on the screen which will be incorrect.
+</td>
+      </tr><tr  >
+        <td class="col-name"><strong>das28Score</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">•	This column stores the DAS28 score that can be calculated from the other values in This column  and displayed on the UI.
+•	The datatype of the column would be decimal as it can have 0 to 999.999 values.
+•	This column is NULL by default to avoid showing 0.00 on the screen which will be incorrect.
+</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>cdaiScore</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">•	This column stores the CDAI score that can be calculated from the other values in This column  and displayed on the UI.
+•	The datatype of the column would be decimal as it can have 0 to 999.999 values.
+•	This column is NULL by default to avoid showing 0.00 on the screen which will be incorrect.
+</td>
+      </tr><tr  >
+        <td class="col-name"><strong>globalNotes</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">•	This column stores the notes that can be added and updated for the visit from the Homunculus Examination screen.
+•	The datatype of the column would be varchar(max) in case of MSSQL and text in case of MySQL
+•	This column value is empty by default
+</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>patientGlobalAssessDiseaseActivityCdai</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">Patient's global assessment of disease activity using the CDAI scoring system. Example: 3.2, 4.5, 2.1, etc.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>providerGlobalAssessDiseaseActivityCdai</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">Provider's global assessment of disease activity using the CDAI scoring system. Example: 3.5, 4.2, 2.3, etc.</td>
+      </tr></table>
+</div>
+</body>
+</html>

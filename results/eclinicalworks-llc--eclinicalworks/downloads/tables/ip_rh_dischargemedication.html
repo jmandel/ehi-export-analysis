@@ -1,0 +1,306 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { background-color: #cde4f3; color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ip_rh_dischargemedication</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores the details of discharge medications for a patient</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>dismedid</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column serves as the unique identifier for each order record. The integer data type is suitable for this purpose, as it provides efficient storage and quick querying of filter order records.
+This column is not part of UI, but it helps maintain order records.
+Constraint defined for this column is PK_ip_rh_dischargemedication</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>masterencounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store associated encounter id.
+The integer data type is used for efficient storage and querying.
+The column has a foreign key constraint (FK_ip_dischargemedication_masterencounterid)
+referencing the [encounterID] from the [enc] table.
+This column is NOT NULL as it is required to maintain reconciliation detail.
+This column is not part of UI, but it helps maintain order records.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>itemid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store associated item id.
+The integer data type is used for efficient storage and querying.
+The column has a foreign key constraint (FK_ip_dischargemedication_itemid)
+referencing the [itemid] from the [items] table.
+This column is NOT NULL as it is required to maintain reconciliation detail.
+This column is not part of UI, but it helps maintain order records.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>doctorsflag</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store doctor flag value which represents the discharge medications status.
+The TINYINT data type is chosen for efficient storage and sorting.
+NOT NULL constraint ensures doctor flag should not be null.
+Expected values are as below:
+0 - STOP medication
+1 - START medication
+2 - CONTINUE medication</td>
+      </tr><tr  >
+        <td class="col-name"><strong>strength</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store strength for inpatient or home medication order.
+VARCHAR data type allows for flexibility in action type descriptions while limiting storage usage. It stores values like 10mg, 20 mg etc.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dose</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store dose for inpatient or home medication order.
+The data type used for this column is VARCHAR, size is 30.
+The varchar data type helps by providing enough space for descriptive detail while maintaining efficient storage and retrieval.
+This column is NULLABLE as it is not mandatory.
+Sample value : ‘1 tablet'
+This value is derived from ip_rh_drugformulary : dosesize table and it can contain value of length 30 as per formulary side.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>doseunit</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store dose unit for inpatient or home medication order.
+The data type used for this column is VARCHAR, size is 30.
+The varchar data type helps by providing enough space for descriptive detail while maintaining efficient storage and retrieval.
+This column is NULLABLE as it is not mandatory
+Sample value : ‘injection' free text box
+This value is derived from ip_rh_drugformulary : doseUom table and it can contain value of length 30 as per formulary side.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>formulationDesc</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store formulation description for medication order.This value is derived from ip_rh_homemedication: formulation table and it can contain value of length 255 as per formulary side.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>routeDesc</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store route description for inpatient or home medication order.
+The data type used for this column is VARCHAR, size is 255.
+The varchar data type helps by providing enough space for descriptive detail while maintaining efficient storage and retrieval.
+This column is NULLABLE as it is not mandatory
+Sample value : ‘by mouth'
+This value can be derived from
+ ip_rh_drugformulary_routes : routedesc OR    ip_rh_homemedication: route from table and it can contain value of length 255</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>routeId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store route id.
+The integer data type is used for efficient storage and querying.
+This column is NULLABLE as it is not mandatory.
+The column has a foreign key constraint (FK_ip_rh_dischargemedication_routeId)
+referencing the [id] from the [ip_rh_drugformulary_routes] table</td>
+      </tr><tr  >
+        <td class="col-name"><strong>frequencyDesc</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store frequency description for inpatient or home medication order.
+The data type used for this column is VARCHAR, size is 255.
+The varchar data type helps by providing enough space for descriptive detail while maintaining efficient storage and retrieval.
+This column is NULLABLE as it is not mandatory.
+Sample value: ‘daily 5 times a day'
+This value is derived from ip_rh_drugformulary_frequency : frequencydesc  OR  ip_rh_homemedication: frequency from table and it can contain value of length 255</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>frequencyId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store frequency id.
+The integer data type is used for efficient storage and querying.
+This column is NULLABLE as it is not mandatory.
+The column has a foreign key constraint (FK_ip_rh_dischargemedication_frequencyId)
+referencing the [id] from the [ip_rh_drugformulary_frequency] table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>duration</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store how much duration is required for inpatient or home medication order.
+INT data type allows efficient storage for order duration.
+This column is NULLABLE as it is not mandatory</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>durationtype</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store duration type for inpatient or home medication order.
+The data type used for this column is VARCHAR, size is 10.
+The varchar data type helps by providing enough space for descriptive detail while maintaining efficient storage and retrieval.
+This column is NULLABLE as it is not mandatory.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>take</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store how much take is required for inpatient or home medication order.
+The data type used for this column is VARCHAR, size is 20.
+The varchar data type helps by providing enough space for descriptive detail while maintaining
+efficient storage and retrieval.
+This column is NULLABLE as it is not mandatory
+Sample value: ‘1 cap'</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>refill</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column is used to store medication refill value.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>startdate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column is used to store start date and time for medication.
+The data type used for this column is datetime as it stores date and time.
+This column is NULLABLE as it is not mandatory</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>stopdate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column is used to store stop date and time for medication.
+The data type used for this column is datetime as it stores date and time.
+This column is NULLABLE as it is not mandatory</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ndc</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store NDC code of drug.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>rxorderno</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store RX order no code of drug.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>prescribedbyid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store id of user who have prescribed medication.
+INT data type ensures efficient indexing and searching for records. The column has a foreign key constraint.
+[FK_ip_rh_dischargemedication_prescribedbyid] referencing the
+uid from the users table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>loggedinuserid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store id of user who have logged the medication.
+INT data type ensures efficient indexing and searching for records. The column has a foreign key constraint.
+[FK_ip_rh_dischargemedication_loggedinuserid] referencing the uid from the users table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>modifiedby</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store id of user who have modified the medication record.The column has a foreign key constraint referncing the uid from the users table </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>modifieddatetime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column is used to store record modified date and time for medication.
+The data type used for this column is datetime as it stores date and time.
+This column is NULLABLE as it is not mandatory</td>
+      </tr><tr  >
+        <td class="col-name"><strong>notes</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column is used to store notes data.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>discontinuestopnotes</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column is used to store discontinue notes data.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>refmedtype</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store whether it is inpatient order or home medication.
+The tinyint data type is chosen for efficient storage and sorting.
+This column is NOT NULL as it is required to maintain reconciliation detail.
+DEFAULT value is be 0 for this column.
+Expected value is as per below:
+0 - this order record is of inpatient order
+1 - this order record is of home medication</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>refmedid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store id of inpatient order or id of home medication order
+The integer data type is chosen for efficient storage and sorting,
+This column is NOT NULL as it is required to maintain reconciliation detail.
+Default value is 0 for this column
+Foreign key cannot be added on this column as value is derived from multiple tables.
+It can either derive from ip_rh_ptorders table - orderid column or ip_rh_homemedication table - homemedid column.
+To identify whether id is of inpatient or homemed, refmedtype column is used. Refer column desc of refmedtype.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>deleteflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to maintain whether record is deleted by user or not.
+The TINYINT data type is chosen for efficient storage and sorting.
+This column is NOT NULL as it is required to maintain reconciliation detail.
+The default is 0 as the record is active initially.
+Desired / expected value is as per below,
+0 - this order record is deleted
+1 - this order record is not deleted</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>oldrxorderno</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store old Rx order no
+The data type used for this column is VARCHAR, size is 25.
+The varchar data type helps by providing enough space for descriptive detail while maintaining efficient storage and retrieval.
+This column is NULLABLE as it is not mandatory.
+Sample value : H400230731195945</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isLock</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to maintain whether record is locked or not, if record is submitted and signed off then it is locked.
+This column is NOT NULL as it is required to maintain reconciliation detail.
+The TINYINT data type is chosen for efficient storage and sorting.
+Default value is 0 as the record is not locked initially.
+Desired/expected value is as per below,
+0 - this order record is open
+1 - this order record is locked</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>assessmentItemId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store assessment Item Id
+The integer data type is used for efficient storage and querying.
+This column is NULLABLE as it is not mandatory.
+The column has a foreign key constraint [FK_ip_rh_dischargemedication_assessmentItemId]
+referencing the [itemID] from the [items] table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isModifyAfterSign</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to maintain whether record is modified after being locked.
+The TINYINT data type is chosen for efficient storage and sorting.
+This column is NOT NULL as it is required to maintain reconciliation detail.
+Default value is 0 as the record is not modified after it is locked initially.
+Desired/expected value is as per below,
+0 - this order record is not modified
+1 - this order record is modified</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dispense</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store dispense for medicine.
+The data type used for this column is VARCHAR, size is 50.
+The varchar data type helps by providing enough space for descriptive detail while maintaining efficient storage and retrieval.
+This column is NULLABLE as it is not mandatory
+Sample value: 10 tablets</td>
+      </tr><tr  >
+        <td class="col-name"><strong>daw</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to maintain whether medication is Dispense as Written and No Substitutes Allowed.0 - Allowed and 
+1 - Not Allowed</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>rxNotes</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store medication notes.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>additionalInstructions</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store any additional information, or instructions related to the medication being prescribed.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>pharmacyId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store pharmacy Id.The column has a foreign key constraint (FK_ip_rh_dischargemedication_pharmacyId)
+referencing the [pmcid] from the [pharmacy] table.</td>
+      </tr></table>
+</div>
+</body>
+</html>

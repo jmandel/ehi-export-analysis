@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>patient_costestimate_error</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about errors encountered during the cost estimation process for patients.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is the primary key of the table, which is an integer value that uniquely identifies each record in the table. It is auto-incremented, meaning that it will automatically increase by 1 for each new record added to the table. Example: 1, 2, 3, etc.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>estid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is a foreign key column that refers to the `estid` column in the `patient_costestimate_header` table. It is an integer value that represents the cost estimate id associated with the error. Example: 101, 102, 103, etc.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>errorCode</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This is an enumerated column that stores the error code associated with the cost estimate error. The possible values are '1', '2', '3', '4', '5', '6', '7', '8', and '9'. Example: '1' for a missing field error, '2' for an invalid format error, etc.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This is a tinyint(1) column that indicates whether the record has been deleted or not. A value of '0' means the record is not deleted, and a value of '1' means the record is deleted. Example: 0 (not deleted), 1 (deleted).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>forUniqueConstraint</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an integer column that is used to enforce a unique constraint on the combination of `estid`, `deleteFlag`, `errorCode`, and `forUniqueConstraint`. It has a default value of '0'. Example: 0, 1, 2, etc.</td>
+      </tr></table>
+</div>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>patient_costestimate_adjustments</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores adjustments and discounts related to cost estimates for patients.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each record in the table. Example: 1, 2, 3.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>estid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Foreign key referring to the `estid` column in the `patient_costestimate_header` table. It represents the cost estimate id associated with the adjustment which is one row per costestimate . Example: 101, 102, 103.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>estadjprof</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This column store the amount of adjustment on professional fee of CPT after sliding setup applied.The datatype of the column is DECIMAL(9,2) .Cost estimator patient without sliding fee schedule does not have this adjustment so NULL is allowed.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>estadjfac</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This column store the amount of adjustment on  facility fee of CPT after sliding setup applied.The datatype of the column is DECIMAL(9,2) .Cost estimator patient without sliding fee schedule does not have this adjustment so NULL is allowed.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>estadjanes</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This column store the amount of adjustment on  anesthesia fee of CPT after sliding setup applied.The datatype of the column is DECIMAL(9,2) .Cost estimator patient without sliding fee schedule does not have this adjustment so NULL is allowed.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>estadjtotal</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">Total adjustment amount for the cost estimate. Example: 300.00, 525.50, 750.75.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>dentalDiscount</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This column store dental discount amount for the cost estimator patient after sliding setup applied.It could be NULL if the Cost estimator patient without sliding fee schedule. Example: 10.00, 20.50, 30.75.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>medicalDiscount</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This column will store the discount amount on medical charges after sliding setup applied.It could be NULL if the Cost estimator patient without sliding fee schedule. Example: 10.00, 20.50, 30.75.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>CPTDiscount</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This column will store the discount amount on selected CPT in cost estimator after sliding setup applied.It could be NULL if the Cost estimator patient without sliding fee schedule. Example: 15.00, 25.50, 35.75.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>CPTDiscountType</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">CPT discount type identifier. Example: 1, 2, 3.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>copayDiscount</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">Copay discount amount for the cost estimate. Example: 3.00, 6.50, 9.75.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>copayDiscountType</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Copay discount type identifier. Example: 1, 2, 3.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ptBalanceLimit</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">Patient balance limit for the cost estimate. Example: 1000.00, 2000.50, 3000.75.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>CPTGrpName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">CPT group name associated with the cost estimate. Example: 'Group1', 'Group2', 'Group3'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>assignedstatus</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column store the assigned sliding setup status ('assigned','systemExpired','userExpired','noSlide').The datatype of the column is ENUM
+ as 'noSlide', because by default we are not assigning any sliding adjustment on estimator.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>assignedType</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Type of the adjustment assignment. Example: 'Type1', 'Type2', 'Type3'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>povertyLevel</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">Poverty level associated with the cost estimate. Example: 1.00, 1.50, 2.00.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>responsibility</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Responsibility identifier for the cost estimate. Example: 1, 2, 3.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>expireDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Expiration date of the adjustment. Example: '2022-12-31 23:59:59', '2023-01-31 23:59:59'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>hasInvalidCpts</strong></td>
+        <td class="tab-description">bit</td>
+        <td class="tab-description">A bit flag indicating if the cost estimate has invalid CPTs. Possible values: b'0' (false), b'1' (true).</td>
+      </tr></table>
+</div>
+</body>
+</html>

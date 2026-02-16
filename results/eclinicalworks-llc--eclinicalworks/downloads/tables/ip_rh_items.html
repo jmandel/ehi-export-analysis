@@ -1,0 +1,93 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { background-color: #cde4f3; color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ip_rh_items</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores categories and items configured for clinical content in the application.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>itemID</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The primary key and unique identifier for each item. Identity auto increments itemID value. The data type is int because the items can be dynamically created and the items created could be huge in number. The column cannot be NULL as it will always have an itemid.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>itemName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">It stores the item name. The datatype is varchar(255) with a reasonable size constraint i.e., 255 characters as per business requirement. The column has a default value '' and cannot be NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>itemDesc</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">It stores item description entered by a user. The datatype is varchar(255) with a reasonable size constraint i.e., 255 characters as per business requirement. The column has a default value '' but cannot be NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>parentID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of a parent item under which new item has been created. The parent item is stored in ip_rh_items table only. However, there cannot be a foreign key relationship because it refers to the legacy table, items table where the parentId can be stored as 0 and accordingly it is used in the code also.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>xmlPath</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores path of the item from parent item. It displays the hierarchy of the item under which it is created.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>itemType</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">This column stores the type of an item. It can have the following bold values.C - It is a category
+I - It is a category Item
+N - It is a Narrative item
+S - It is a Structured item
+If value is '', it means it is a free form item.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>createdDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Stores the date and time the item was created. As certain items will be shipped through the queries without the createdDate column, for these items the createdDate column will be the default value i.e 1901-01-01 00:00:00. This default value is used in the code. Hence, this column cannot be changed to NULL. For items created through application, this column will be populated with created Date and Time.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>modifiedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Stores the date and time the item was last modified. As certain items will be shipped through the queries, for these items the modifiedDate column will be NULL. For items created through application, this column will be populated with the last modified date and time.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>displayIndex</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The order index for displaying the item in a list. The data type is smallint as compared to int is because the expected items will not exceed the limitation provided by the smallInt datatype. The column is NOT NULL and has a default value of 0.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores flags 1/0 to indicate whether item has been marked as deleted or not. The datatype is tinyint. The column is NOT NULL and has a default value of 0.Value 0 indicates the item is not deleted and Value 1 indicates the item has been deleted.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>keyName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">It stores the key name associated with the item. The datatype is varchar(80) as the expected value to be stored in the keyName column will not exceed 80 characters.. The column cannot be NULL and has a default value ''.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>modifiedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Stores the user ID of the person who last modified the item. For items shipped through the queries, the modifiedBy column will be NULL. For items created through the application , this column will be populated with user id of the user who last modified the item. It refers to uid column in users table.</td>
+      </tr></table>
+</div>
+</body>
+</html>

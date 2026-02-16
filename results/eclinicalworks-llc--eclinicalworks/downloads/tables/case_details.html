@@ -1,0 +1,177 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>case_details</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about different cases, including details about the patient, provider, guarantor, attorney, case manager, insurance, and other related information.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>Caseid</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each case (e.g., 1, 2, 3).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Patientid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the patient associated with the case, foreign key referring to the `patients` table (e.g., 101, 102, 103).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Providerid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the provider associated with the case, foreign key referring to the `Doctors` table (e.g., 201, 202, 203).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Guarantorid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the guarantor associated with the case, foreign key referring to the `patients` table (e.g., 301, 302, 303).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Attorneyid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the attorney associated with the case, foreign key referring to the `patient_attorney` table (e.g., 401, 402, 403).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>CaseManagerid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the case manager associated with the case, foreign key referring to the `casemanager` table (e.g., 501, 502, 503).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Insuranceid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the insurance associated with the case, foreign key referring to the `insurance` table (e.g., 601, 602, 603).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>CaseType</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Integer representing the type of case,  foreign key referring to the `case_types` table (e.g., 1 for personal injury, 2 for workers' compensation).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>BillToPatient</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Integer indicating whether the bill should be sent to the patient (1 for yes, 0 for no).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PreAuth</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Pre-authorization information for the case (e.g., 'PA12345').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Referral</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Referral information for the case (e.g., 'Dr. Smith').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>CourtName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the court associated with the case (e.g., 'Superior Court').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>CourtLocation</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Location of the court associated with the case (e.g., 'Los Angeles, CA').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>CourtCase</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Court case number (e.g., 'LA123456').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>CourtDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date of the court hearing (e.g., '2022-01-01').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>DateOfInjury</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date of the injury related to the case (e.g., '2021-12-01').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>WorkRelated</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Integer indicating whether the case is work-related (1 for yes, 0 for no).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Accident</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Integer indicating whether the case involves an accident (1 for yes, 0 for no).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>AccidentState</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Two-letter state abbreviation where the accident occurred (e.g., 'CA').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>AccidentTime</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Time of the accident (e.g., '14:30').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>AccidentCause</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Cause of the accident (e.g., 'Slip and fall').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>MissedWorkFrom</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Start date of missed work due to the injury (e.g., '2021-12-02').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>MissedWorkTo</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">End date of missed work due to the injury (e.g., '2021-12-15').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>HospitalizationFrom</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Start date of hospitalization due to the injury (e.g., '2021-12-01').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>HospitalizationTo</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">End date of hospitalization due to the injury (e.g., '2021-12-05').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>city</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">City where the case is located (e.g., 'Los Angeles').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>county</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">County where the case is located (e.g., 'Los Angeles County').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>AddressNoStNo</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Address number and street number of the case location (e.g., '123 Main St').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DescAccOccur</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Description of how the accident occurred (e.g., 'Slipped on wet floor').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>externalCaseNo</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">External case number, if applicable (e.g., 'EXT12345').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>empDetailid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the employee detail associated with the case, foreign key referring to the `employee_details` table (e.g., 701, 702, 703).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>addressline1</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">First line of the case address (e.g., '123 Main St').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>addressline2</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Second line of the case address, if applicable (e.g., 'Apt 4B').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>zipcode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Zip code of the case location (e.g., '90001').</td>
+      </tr></table>
+</div>
+</body>
+</html>

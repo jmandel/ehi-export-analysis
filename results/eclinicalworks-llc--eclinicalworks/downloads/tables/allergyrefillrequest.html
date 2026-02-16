@@ -1,0 +1,117 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>allergyrefillrequest</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about allergy refill requests made by patients, including the request status, reasons, and related details.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each allergy refill request (e.g., 1, 2, 3).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Patientid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the patient making the refill request, foreign key relation to `patients` table (`pid` column) (e.g., 101, 102, 103).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Queueid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the queue where the refill request is placed, foreign key relation to `antigen_recipe_queue` table (`id` column) (e.g., 201, 202, 203).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>SourceQueueid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the source queue from which the refill request is made, foreign key relation to `antigen_recipe_queue` table (`id` column) (e.g., 301, 302, 303).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Formulationid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the allergy formulation related to the refill request, foreign key relation to `allergy_formulation` table (`id` column) (e.g., 401, 402, 403).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the patient encounter related to the refill request, foreign key relation to `enc` table (`encounterid` column) (e.g., 501, 502, 503).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Recipeid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">identifier for the recipe associated with the refill request (e.g., 'R001', 'R002', 'R003').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>BottleName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the bottle associated with the refill request (e.g., 'BottleA', 'BottleB', 'BottleC').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>REQUESTTYPE</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Type of the refill request (e.g., 'Standard', 'Urgent', 'Emergency').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>AssignedToid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the user assigned to handle the refill request, foreign key relation to `users` table (`UID` column) (e.g., 1001, 1002, 1003).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>RefillStatus</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Status of the refill request, can be 'Open', 'Declined', or 'Completed'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>RequestReason</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Reason for the refill request (e.g., 'Regular Refill', 'Lost Bottle', 'Travel').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DeclineReason</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Reason for declining the refill request, if applicable (e.g., 'Invalid Prescription', 'Expired Insurance', 'Incomplete Information').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ShotFacilityid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the facility where the allergy shot is administered, if applicable (e.g., 2001, 2002, 2003).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>MixingFacilityid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the facility where the allergy formulation is mixed, foreign key relation to `edi_facilities` table (`id` column) (e.g., 3001, 3002, 3003).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>RequestedByid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the user who requested the refill, foreign key relation to `users` table (`UID` column) (e.g., 4001, 4002, 4003).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>RequestDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the refill request was made (e.g., '2022-01-01 12:00:00', '2022-01-02 14:30:00', '2022-01-03 16:45:00').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isHighPriority</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A flag indicating if the refill request is high priority (1) or not (0).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Note</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Additional notes or comments related to the refill request, if any (e.g., 'Patient needs refill before vacation', 'Check insurance coverage before processing').</td>
+      </tr></table>
+</div>
+</body>
+</html>

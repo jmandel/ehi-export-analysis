@@ -1,0 +1,97 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>rx_dispense_summary</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about prescription dispense summaries, including details about the prescription order, item, status, and dispensing and cancellation events of medications ordered from Inventory.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is the auto-incremented primary key in This column .</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>RxOrderNo</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the order number of medications prescribed from inventory. It refers to rxOrderNo from oldrxmain table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>RxItemId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the item id for medications prescribed from Inventory. This refers to itemid of items table. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>RxNDCCode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the National Drug Code (NDC) of the documented drug. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>RxStatus</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores the status of medications i.e. Start, Stop etc. This refers to DoctorsFlag column of OldRxMain table. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>DispensedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the medication dispensed date. The format used is MM/DD/YYYY.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DispensedBy</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the details of user who dispensed the medication from Inventory. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>DeleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores the value 0/1 indicating if a medication ordered from inventory is deleted in treatment section. 0-Not Deleted. 1-Deleted.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>UserId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the userid of the user who orders a medication from Inventory. This corresponds to userid of user table. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>inv_SaleId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the saleId for a medication ordered from Inventory. This refers to 'Id' column of 'inventory_sale' table and is updated once the claim is created successfully.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>RxEncId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the encounter where medication is added from inventory. It corresponds to encounterID from enc table. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>CancelledDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the prescription was cancelled. Example: '2021-08-03 16:00:00', '2021-08-04 11:15:00'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>CancelledBy</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the person who cancelled the prescription. Example: 'John Doe', 'Jane Smith'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>CancelReasonId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the reason the prescription was cancelled, referring to the primary key in the cancel reasons table (not provided). Example: 1 (Out of Stock), 2 (Prescription Error), 3 (Patient Request).</td>
+      </tr></table>
+</div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>structaudiology</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores structured audiology data related to patient encounters, including information about the category, item, and value of the data, as well as any comments and timestamps for record creation and modification.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>structureDataid</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each structured audiology data entry. (Example: 1, 2, 3)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the patient encounter to which the structured audiology data is related. Foreign key relation to `enc` table and `encounterid` column. (Example: 101, 102, 103)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>categoryid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the category of the structured audiology data. Foreign key relation to `items` table and `itemid` column. (Example: 10, 11, 12)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>itemid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the specific item within the category of the structured audiology data. (Example: 1001, 1002, 1003)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>structureDataDetailid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the detailed information of the structured audiology data. Foreign key relation to `structdatadetail` table and `id` column. (Example: 2001, 2002, 2003)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>VALUE</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Value of the structured audiology data in a varchar format. (Example: "Normal", "Mild", "Severe")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>valueid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the value of the structured audiology data. Foreign key relation to `structdataoptions` table and `optionid` column. (Example: 3001, 3002, 3003)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>comments</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Additional comments related to the structured audiology data, stored as a varchar with a maximum length of 500 characters. (Example: "Patient reported difficulty hearing in noisy environments.")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>recordUpdated</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A tinyint flag indicating whether the record has been updated (1) or not (0). (Example: 0, 1)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>recordCreatedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">time stamp for when the structured audiology data record was created. (Example: "2022-01-01 12:34:56")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>recordModifiedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">time stamp for when the structured audiology data record was last modified. (Example: "2022-01-02 14:23:45")</td>
+      </tr></table>
+</div>
+</body>
+</html>

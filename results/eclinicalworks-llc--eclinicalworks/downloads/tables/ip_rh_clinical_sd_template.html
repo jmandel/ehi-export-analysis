@@ -1,0 +1,105 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { background-color: #cde4f3; color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ip_rh_clinical_sd_template</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores the templates created for Progress Notes Section on the clinical side.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an auto-incremented primary key column in this table. The data type is int because the templates are dynamically created and the templates created could be huge in number. The column cannot be NULL as it will always have an id.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>tempName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the template name. The default value is NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>categoryId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column refers to the itemId column in ip_rh_items table. It stores the itemid of the progress notes section for which the template is created.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>enableScore</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores the value 0/1. Value 1 indicates the score is enabled for the corresponding template and 0 means the score is not enabled.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>forGender</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to identify if the template is created for Male, Female or for both the genders. It stores the values 0/1/2. Value 1 indicates the template is created for Male. Value 2 indicates the template is created for Female. Value 0 indicates the template is created for both Male and Female.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ageRangeFrom</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores the minimum age for which the template is applied.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ageRangeTo</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores the maximum age for which the template is applied.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ageIn</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the values MON/YRS/DAY. It indicates if the age range set using the columns ageRangeFrom and ageRangeTo are in MONTHS/YEARS/DAYS respectively.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>displayIndex</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column stores a number to indicate in which order templates should be listed on user facing screen. The data type is smallint and the value can range from -32,768 to 32,767. The data type is smallint as compared to int is because the expected templates displayed will not exceed the limitation provided by the smallInt datatype.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>createdBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Stores the user id of the person who created the template. It refers to uid column in users table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>createdTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Stores the date and time the template was created. The datetime data type allows for precise storage of date and time values. This field will always have a value hence defined as NOT NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>modiBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Stores the user Id of the person who last modified the template. It refers to uid column in users table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>modiTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Stores the date and time the template was last modified.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A flag indicating if the template is deleted (1) or not (0). The tinyint data type allows for efficient storage of binary values.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>partialScoring</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores the values 0/1. Value 1 indicates partial scoring is allowed for the corresponding template. Value 0 indicates partial scoring is not allowed for the corresponding template.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>groupName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the name of the group to which the template belongs.</td>
+      </tr></table>
+</div>
+</body>
+</html>

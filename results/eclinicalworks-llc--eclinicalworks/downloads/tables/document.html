@@ -1,0 +1,261 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>document</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores the document relationship to patient identifier, staff, provider, and as well as the physical path of the file that is being mapped.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>docID</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each document (e.g., 1, 2, 3).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Stores encounter Id which the document is associated to, if it is not associated to any encounter, id stored in this column is 0. Column refers to encounterid column in enc table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>filename</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">The original file name of the document (e.g., "report.pdf", "image.jpg").</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>customName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">A custom name given to the document by the user (e.g., "Medical Report", "X-Ray Image").</td>
+      </tr><tr  >
+        <td class="col-name"><strong>doc_Type</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Stores type of a document. so far application supports 96 different types of documents. This column refers to column id from documentfolders table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>scanDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">The date the document was scanned (e.g., '2021-09-01', '2021-09-02').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>refId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an id of the referral, case manager, lab, patient.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ScannedBy</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the full name of the person who scans the document. This could be a Provider or a Staff name.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Description</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">A text description of the document (e.g., "This is a medical report for patient X.").</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PatientId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores patient identifier for a patient, whom the document is associated to. It refers to column uid from users and pid from patients.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Review</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Integer representing the review status of the document (e.g., 0 for not reviewed, 1 for reviewed).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ReviewerId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of the person who reviews the document associated to a patient. This id could be Provider's or a Staff selected in the User Interface. This column refers to column uid from users.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>reviewername</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the name of the person who reviews the document associated to a patient. This name could be Provider's or a Staff selected in the User Interface.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Priority</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Integer representing the priority level of the document (e.g., 0 for low, 1 for high).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>attachto</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores name of the chart or lab/DI/Procedure or x-ray or referral selected along with the date.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>delFlag</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores value 0 / 1 indicating if the document is marked deleted using the User Interface, this is soft delete. 0 - Not Deleted , 1 -Deleted</td>
+      </tr><tr  >
+        <td class="col-name"><strong>folderName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is not being used by application anymore.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>oldfilename</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is not being used by application anymore.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>migrateflag</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores flag 0 or 1. 1 - when a document is a migrated document from interface. 0 - otherwise.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>uniqueDocId</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores a unique string assigned when each document retrieved from the external registry/ repository.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>publishToEHX</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Integer representing whether the document is published to EHX (e.g., 0 for not published, 1 for published).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>eHXSentStatus</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Integer representing the sent status of the document to EHX (e.g., 0 for not sent, 1 for sent).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>FacilityId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column holds the id of the Facility selected in the user interfaceby the end user. This columns refers to column id from edi_facilities.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>refReqId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores referral id of  the incoming referral, when the attachments to the referral are moved to patient documents.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>dirpath</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the path of the directory from ftp server where the document is saved.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ftpserver</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">need to remove from source code.dead code</td>
+      </tr><tr  >
+        <td class="col-name"><strong>TempDocId</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores an unique id received from vendor in hl7message for the document of a patient.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>pnCatId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an id of the category selected while documenting Examination for the patient. This column refers column itemid from items table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>pnItemId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an id of the item selected for the corresponding category while documenting the examination for a patient on Progress Note. This column refers to column itemid in items table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>injuryId</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">A string representing the injury ID associated with the document (e.g., "INJ-001", "INJ-002").</td>
+      </tr><tr  >
+        <td class="col-name"><strong>consentDocEHX</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores flag 0 or 1. 1 - when document is uploaded with patient's consent from CCMR’s eEHX . 0 - otherwise.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>insuranceid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an id of an insurance associated to Patient. This column refers column insId from insurance table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>modifieddatetime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Dead code in patientdocs.java file,need to remove it.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>refType</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column indicates the reference type if the document was imported  from Third party vendor for insurance lockbox or Patient lockbox. This column is not being used anymore.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>claimRef</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Foreign key referring to the claim reference ID in another table (e.g., 10000, 10001, 10002).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>expirydate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">The date the document expires (e.g., '2022-09-01', '2022-09-02').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>servicedate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">The date the document was serviced (e.g., '2021-08-01', '2021-08-02').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>expiresuppress</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores a flag 0 or 1. 1 - when the document is suppressed. 0 - otherwise.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>suggestedpatients</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Dead code in TradeCopyTables file,need to remove it.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>pagecount</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">future plan to use it</td>
+      </tr><tr  >
+        <td class="col-name"><strong>sizeinbytes</strong></td>
+        <td class="tab-description">bigint</td>
+        <td class="tab-description">future plan to use it</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>fileformat</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">future plan to use it</td>
+      </tr><tr  >
+        <td class="col-name"><strong>drawingid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is not being used anymore. This was part of the old Dermatology module on exe side.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>documentheight</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">future plan to use it</td>
+      </tr><tr  >
+        <td class="col-name"><strong>documentwidth</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">future plan to use it</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>resolution</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">future plan to use it</td>
+      </tr><tr  >
+        <td class="col-name"><strong>websync</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is not used anymore but for international clients.This column stores a flag 0 or 1. 1 - indicates that the row data has been copied to table dmportal and is available to be uploaded to portal, 0 - indicates that the row has not been copied yet.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>portalboxUpload</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is not used anymore. This used to store flags like 0 or 1. 1- indicates that the value has been uploaded to portal, 0 - indicates that it has not been yet.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>scanbyid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an id of the person who scans the document associated to a patient. This id could be Provider's or a Staff selected in the User Interface. This column refers to column uid from user table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>source</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">future plan to use it</td>
+      </tr><tr  >
+        <td class="col-name"><strong>wcReportTypeCode</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">A two-character code representing the workers' compensation report type (e.g., "A1", "B2").</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>proxyuid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of an user when proxy is enabled and questionnaires are filled by proxy user in the Portal end and same data syncs from portal to EMR. This column refers to uid column in user table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>tocId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Foreign key referring to the table of contents ID in another table (e.g., 1, 2, 3).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isCorrupt</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Integer representing whether the document is corrupt (e.g., 0 for not corrupt, 1 for corrupt).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>publishToEmployerPortal</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Integer representing whether the document is published to the employer portal (e.g., 0 for not published, 1 for published).</td>
+      </tr></table>
+</div>
+</body>
+</html>

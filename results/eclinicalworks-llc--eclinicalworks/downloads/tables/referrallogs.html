@@ -1,0 +1,273 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>referrallogs</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about referral logs, including details about the sender, receiver, patient, and referral status.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>LogID</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each referral log entry. (Example: 1, 2, 3)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>LoginID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the user who initiated the referral. (Example: 101, 102, 103)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DoctorID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the doctor associated with the referral. (Example: 1001, 1002, 1003)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PatientID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the patient associated with the referral. (Example: 2001, 2002, 2003)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ToID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the recipient of the referral. (Example: 3001, 3002, 3003)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ToName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the recipient of the referral. (Example: "Dr. John Doe", "Dr. Jane Smith")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ToEmail</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Email address of the recipient of the referral, stored as a blob. (Example: "johndoe@example.com", "janesmith@example.com")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ToCompany</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Company name of the recipient of the referral. (Example: "ABC Hospital", "XYZ Clinic")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>EncounterID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the patient encounter associated with the referral. (Example: 4001, 4002, 4003)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>EmailInitTime</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">time stamp of when the referral email was initiated. (Example: "2022-01-01 12:34:56", "2022-01-02 14:56:23")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Retry</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Number of retries for sending the referral email. (Example: 0, 1, 2)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Status</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Status code for the referral. (Example: 0, 1, 2)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>EmailData</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Text data of the referral email. (Example: "Dear Dr. Doe, Please find the attached referral...", "Hello Dr. Smith, I am referring a patient to you...")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Subject</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Subject of the referral email. (Example: "Referral", "Urgent Referral")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>EmailStatus</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Status of the referral email, with possible values: Logged, Completed, Failed, Pending, Query, Received, Sending, Deleted. (Example: "Logged", "Completed")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>SendDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the referral email was sent. (Example: "2022-01-01 12:35:00", "2022-01-02 14:57:00")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>EmailType</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Type of the referral email, with possible values: Prescription, ProgressNotes, ConsultNotes, LabReport, LabOrder, TiffDocument. (Example: "Prescription", "LabReport")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>EmailManLogID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the email management log associated with the referral. (Example: 5001, 5002, 5003)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>EmailPrefix</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Prefix for the referral email. (Example: "REF", "URG")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>EmailFile</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">File name of the attachment in the referral email. (Example: "referral_123.pdf", "lab_report_456.pdf")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>EmailTransaction</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Transaction identifier for the referral email. (Example: "TX123", "TX456")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>RxIds</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Text containing prescription identifiers associated with the referral. (Example: "1001,1002", "1003,1004")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>EmailLogStatus</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Status of the email log, with possible values: Logged, Reviewed. (Example: "Logged", "Reviewed")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>EmailLogBatch</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Batch number for the email log. (Example: 1, 2, 3)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>FacilityID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the facility associated with the referral. (Example: 6001, 6002, 6003)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>FacilityName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the facility associated with the referral. (Example: "Main Hospital", "Downtown Clinic")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>WebSync</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Flag indicating whether the referral data has been synchronized with the web. (Example: 0, 1)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>DataSent</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Flag indicating whether the referral data has been sent. (Example: 0, 1)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>RndNumber</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Random number associated with the referral. (Example: "100", "200")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>FromID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the sender of the referral. (Example: 7001, 7002, 7003)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>FromName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the sender of the referral. (Example: "Dr. Alice Johnson", "Dr. Bob Williams")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>FromEmpiID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the sender's EMPI (Enterprise Master Patient Index). (Example: 8001, 8002, 8003)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>PatientEmrID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the patient's EMR (Electronic Medical Record). (Example: 9001, 9002, 9003)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PatientFname</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">First name of the patient. (Example: "John", "Jane")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>PatientMname</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Middle name of the patient. (Example: "A.", "B.")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PatientLname</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Last name of the patient. (Example: "Doe", "Smith")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>PatientDOB</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date of birth of the patient. (Example: "1990-01-01", "1985-12-31")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PatientAddress</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Address of the patient. (Example: "123 Main St", "456 Elm St")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>PatientCity</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">City of the patient's address. (Example: "New York", "Los Angeles")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PatientState</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">State of the patient's address. (Example: "NY", "CA")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>PatientPhone</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Phone number of the patient. (Example: "555-123-4567", "555-987-6543")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PatientZipcode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Zip code of the patient's address. (Example: "10001", "90001")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>PatientEmail</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Email address of the patient. (Example: "johndoe@example.com", "janesmith@example.com")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ToPracticeCode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Practice code of the recipient of the referral. (Example: "PRACT01", "PRACT02")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>FromPracticeName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the sender's practice. (Example: "ABC Medical Group", "XYZ Family Practice")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>FromPracticeCode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Practice code of the sender of the referral. (Example: "PRACT03", "PRACT04")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>AssociatedReferralID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the associated referral. (Example: 10001, 10002, 10003)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>RefType</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Type of the referral, with possible values: InReferral, InResponse, OutReferral, OutResponse. (Example: "InReferral", "OutReferral")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>AdditionalInfo</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Additional information about the referral, stored as a blob.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ReferralStatus</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Status of the referral, with possible values: Addressed, Open, Received, Responded, In-Process. (Example: "Addressed", "Open")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>EmpiReferralInfoId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the EMPI referral information. (Example: 11001, 11002, 11003)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>refThreadId</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Thread identifier for the referral. (Example: "REF123", "REF456")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>AssignedToId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the user assigned to handle the referral. (Example: 12001, 12002, 12003)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>delFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating whether the referral log entry has been deleted. (Example: 0, 1)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>timestamp</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">time stamp of when the referral log entry was created. (Example: "2022-01-01 12:34:56", "2022-01-02 14:56:23")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ReadTime</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">time stamp of when the referral log entry was read. (Example: "2022-01-01 12:35:00", "2022-01-02 14:57:00")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Priority</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Priority level of the referral. (Example: 0, 1)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ccr</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Continuity of Care Record (CCR) data, stored as mediumtext.</td>
+      </tr></table>
+</div>
+</body>
+</html>

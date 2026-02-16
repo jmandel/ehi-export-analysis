@@ -1,0 +1,101 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>nt_worksheet</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores the entries of saved and updated worksheets.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each record in the table. Example: 1, 2, 3.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the encounter id of the worksheet encounter.
+</td>
+      </tr><tr  >
+        <td class="col-name"><strong>worksheetid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of the worksheet. 
+The worksheetid column corresponds to the id column in the nt_worksheet_list table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>islocked</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column hold the value of the locked status of the worksheet.
+If islocked = 1, then the worksheet is locked
+If islocked  = 0, then the worksheet is unlocked.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>data</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores the data that is filled in the worksheet in an xml format.
+As part of data-validation, the xml tags are encrypted while saving the data. 
+It is decrypted when the data is loaded.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteflag</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">A boolean flag indicating whether the record is deleted or not. 1 means deleted, and 0 means not deleted. Example: 0, 1.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>created_date</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">The date and time when the record was created. Example: '2021-09-01 12:34:56'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>modified_date</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">The date and time when the record was last modified. Example: '2021-09-02 14:56:32'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>print_data</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores the entire worksheet data in an xml format. 
+The data from this column is fetched while printing / faxing.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>sf_data</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores the structured data details in the XML tags format. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>modified_by</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the user id of the logged in provider.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>print_dataNo_JS</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores the entire worksheet data in an xml format without the Javascript code.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>PRINT_PDF_DATA</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores the entire worksheet data in an xml format. 
+The data from this column is fetched when the PDF format for the worksheet is enabled.</td>
+      </tr></table>
+</div>
+</body>
+</html>

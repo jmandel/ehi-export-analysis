@@ -1,0 +1,93 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>inventory_quotepackage</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about inventory quote packages, including package details, facility and anesthesia times, and effective dates.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each inventory quote package (e.g., 1, 2, 3).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PackageName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the quote package (e.g., "Basic Package", "Premium Package").</td>
+      </tr><tr  >
+        <td class="col-name"><strong>PackageType</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Integer representing the type of package (e.g., 1 for Basic, 2 for Premium).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>InsProcedure</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Tinyint flag indicating if the package includes an insurance procedure (1 for yes, 0 for no).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>FacilityTime</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Time duration for the facility in the package (e.g., "01:30:00" for 1 hour and 30 minutes).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>AnesthesiaTime</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Time duration for anesthesia in the package (e.g., "00:45:00" for 45 minutes).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>IsDeleted</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Tinyint flag indicating if the package is deleted (1 for yes, 0 for no).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>LoginUID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Integer representing the user id of the person who added the package. This is a foreign key that refers to the `id` column in the `users` table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>AddedDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">time stamp indicating when the package was added to the database (e.g., "2021-08-01 12:34:56").</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Facility_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Integer representing the facility id associated with the package. This is a foreign key that refers to the `id` column in the `facilities` table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Anesthesia_Facid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Integer representing the anesthesia facility id associated with the package. This is a foreign key that refers to the `id` column in the `anesthesia_facilities` table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>EffectiveFrom</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Datetime indicating the start date when the package becomes effective (e.g., "2021-08-01 00:00:00").</td>
+      </tr><tr  >
+        <td class="col-name"><strong>EffectiveTo</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Datetime indicating the end date when the package is no longer effective (e.g., "2021-12-31 23:59:59").</td>
+      </tr></table>
+</div>
+</body>
+</html>

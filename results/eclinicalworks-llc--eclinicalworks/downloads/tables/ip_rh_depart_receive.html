@@ -1,0 +1,126 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { background-color: #cde4f3; color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ip_rh_depart_receive</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table is for storing patient departure and receive status.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Thiscolumnstoresdepartreceiveactionid,datatypeisINT.Thiscolumnstoresnumericdatawhichcouldgrowwithnumberofdepartandreceiveactionsonpatienthappensinfuturehenceinteger(Range:0-2,147,483,647)isselectedandhasPRIMARYKEYindex.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>masterEncId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">ThiscolumnstoresencounterIdtoidentifyforwhichpatientactionisperformed.Hereintdatatypewithlength11isused.Henceinteger(Range:1-2,147,483,647)isselected.FKreferenceanenctableencounterIDcolumn.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>patientId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">ThiscolumnstorespatientIdtoidentifyforwhichpatientactionisperformed.Hereintdatatypewithlength11isused.Henceinteger(Range:1-2,147,483,647)isselected.FKreferenceanpatientstablepidcolumn.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>departEncId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">ThiscolumnstoresencounterIdtoidentifyforwhichpatientdepartactionisperformed.Hereintdatatypewithlength11isused.Henceinteger(Range:1-2,147,483,647)isselected.FKreferenceanenctableencounterIDcolumn.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>departDatetime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores departure time when depart action performed on date.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>departDocumentedDatetime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Thiscolumnstoresdepartactionperformedondate.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>departedTo</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Thiscolumnstorepatientisdepartedtowhichlocationid.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>departedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Thiscolumnstorespatientdepartureperformedbyloggedinuserid.Hereintdatatypewithlength11isused.Henceinteger(Range:1-2,147,483,647)isselected.FKreferenceUserstableuid</td>
+      </tr><tr  >
+        <td class="col-name"><strong>typeOfDepart</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores a value to identify which type of departure is done. 1 means temporary departure and 0 means Permanent departure.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>departStatus</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Thiscolumnstoresavaluetoidentifydepartureisinwhichstatus.0meanspatientisintemporarydepartedstatus.
+1meanspatientisreceivedfromtemporarylocation.
+2meanspatientisremovedfromtemporarylocation.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>departLocationId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Thiscolumnstoresdeparthappenedforwhichlocationbasedonlocationtypeis.IflocationtypeisBed,thenitstoresdepartlocationidfromip_rh_loc_bedtable</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>departLocationType</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Thiscolumnstoresdeparthappenedforwhichtypeoflocation.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>receiveEncId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">ThiscolumnstoresencounterIdtoidentifyforwhichpatientreceiveactionisperformed.Hereintdatatypewithlength11isused.Henceinteger(Range:1-2,147,483,647)isselected.FKreferenceanenctableencounterIDcolumn.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>receiveDatetime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores receive action performed on which receive datetime.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>receiveDocumentedDatetime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores receive action performed on date.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>receivedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Thiscolumnstorespatientsreceivedactionperformedbyloggedinuserid.Hereintdatatypewithlength11isused.Henceinteger(Range:1-2,147,483,647)isselected.FKreferenceUserstableuid.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>holdBed</strong></td>
+        <td class="tab-description">bit</td>
+        <td class="tab-description">Thiscolumnstoresbedholdsorreleasedstatuswith0and1flaghenceTINYINTdatatypewithlength1isused.Here,thedefaultvalueissetto0.
+0meansfreebed.
+1meansholdbed.
+</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>receiveLocationId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Thiscolumnstore'slocationidforwhichreceivelocationwouldbe.ThefirsttimeapatientistemporarilydepartedthiscolumnwillhavetemporarylocationidbasedontemporarylocationcreatedforDEPT/AREA/UNITids.
+Whenpatientispermanentlydepartedthiscolumnwillhave-1value.
+WhenapatientisreceivedthiscolumnwillhavevaluefromdepartLocationIdcolumnofsametable.Thismeansthepatientisreceivedfromanearlierdeparturelocation.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>receiveLocationType</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Thiscolumnstore'slocationtypeforwhichreceivelocationwouldbe.ThefirsttimewhenapatientistemporarilydepartedthiscolumnwillhavetemporarylocationtypebasedontemporarylocationcreatedforDEPT/AREA/UNIT.
+Whenpatientispermanentlydepartedthiscolumnwillhaveblankvalue.
+WhenapatientisreceivedthiscolumnwillhavevaluefromdepartLocationTypecolumnofsametable.Thismeansthepatientisreceivedfromanearlierdeparturelocation.</td>
+      </tr></table>
+</div>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>emaillogs</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores meta data of all successful emails sent by Messenger Campaigns</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an auto increment id and primary key of table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>patientid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">id of Patient who has received email</td>
+      </tr><tr  >
+        <td class="col-name"><strong>apUID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores apUID</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>facilityid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">facility's id who sent a email to patient. Foreign key relation to `edi_facilities` table (`id` column).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>reportid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the report associated with the email log.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>inserttime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">time stamp of when the email log entry was inserted into the database. Example: '2021-08-01 12:34:56'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>campaignid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is a Campaign Template id that the campaign/ policy belongs to </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>campaign</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of Campaign Template that the campaign/ policy belongs to </td>
+      </tr><tr  >
+        <td class="col-name"><strong>healthMaintenance</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A flag indicating whether the email log is related to health maintenance (1) or not (0). Example: 0, 1.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>policyid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is a id of campaign thru which email has been sent to patient.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>policyName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This is a name of campaign thru which email has been sent to patient.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>messageid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is id of message sent to a patient</td>
+      </tr><tr  >
+        <td class="col-name"><strong>doctorid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Doctor's id who sent a email to patient. Foreign key relation to `users` table (`UID` column).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>subject</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Subject of the email. Example: 'Appointment Reminder', 'Lab Results'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>body</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Body content of the email. Example: 'Dear Patient, This is a reminder for your appointment...', 'Your lab results are now available...'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dtReceived</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">time stamp of when the email was received. Example: '2021-08-01 13:45:00'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>readflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A flag indicating whether the email has been read (1) or not (0). Example: 0, 1.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dtRead</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">time stamp of when the email was read. Example: '2021-08-01 14:00:00'.</td>
+      </tr></table>
+</div>
+</body>
+</html>

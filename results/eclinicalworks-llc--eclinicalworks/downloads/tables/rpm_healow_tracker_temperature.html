@@ -1,0 +1,119 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>rpm_healow_tracker_temperature</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">When a Provider prescribes a Temperature device such as thermometer for a patient, the patient will take readings from that device and will upload it to Healow. From healow, these readings are transferred to EMR side. We have created this new table rpm_healow_tracker_temperature to store the Temperature readings for the patients.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains auto incremented id, datatype is INT. This column stores integer value which could grow with number of users added to the care team and hence integer is selected. It is AUTO_INCREMENT column and has PRIMARY KEY index.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>UID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores unique id of a Patient to identify the readings belonging to the patient which references the UID column of the user table. The data type chosen is INT. This field will always have a value hence defined as NOT NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>body_temperature</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the temperature of patient body in standard unit and data type is Varchar(5).  
+This column stores characters which cannot exceed 5 characters hence Varchar(5) is selected.  
+This field can have a NULL value. The default value of this field is not provided.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>measure_datetime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date time when the measurement was done and its datatype is DATETIME.  
+This column stores datetime hence Datetime is selected. This field will always have a value hence defined as NOT NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>notes</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the notes added by patient while measuring temperature and its data type is Varchar(MAX).  
+This field can have a NULL value. There is no default value provided for this field. As the column has no limit and we have free text, therefore we have defined it as VARCHAR(MAX) / TEXT.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>delflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicates the record added is deleted, datatype is tinyint- 0 - Not Deleted, 1 - Deleted. This field will always have a value hence defined as NOT NULL. By default, this column should not be in Deleted status hence default 0 is chosen.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>reviewed</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores 0, 1 to determine whether the reading is reviewed or not and its data type is TINYINT. This field will always have a value hence defined as NOT NULL.   
+The default value of this field is 0. 
+Values 0 : Reading has not been reviewed by the Provider 
+1 : Reading has been reviewed by the Provider </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>reviewedByid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the Provider id who has reviewed the reading and its data type is INT and default value is NULL.   
+There is a Foreign Key constraint - FK_rpm_healow_tracker_temperature_reviewedByid referencing to UID column of users table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>reviewedDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date time when the reading was reviewed and its datatype is DATETIME.  
+The default value of this field can be NULL. This column stores datetime hence Datetime is selected.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>device_action</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the Vendor id from whom the device has been purchased and data type is INT.  
+Contains Primary Key of rpm_vendors_list table. The value of this field can be NULL.  
+Therefore, the default value of this field is not provided.  
+There is a foreign key associated with this field FK_rpm_healow_tracker_temperature_device_action.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isManuallyAdded</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores 0, 1 whether the reading is manually added by patient or not and its data type is TINYINT. The value of this field cannot be NULL. The default value of this field is 0.  
+Values  0 : Not added manually by the patient. 
+1 : Added manually by the patient.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>device_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the Unique id of the Device and its data type is int. The value of this field can be NULL.   
+The default value of this field is not provided. There is a Foreign key constraint linked to this field - FK_rpm_healow_tracker_temperature_device_id referencing to device_id column of rpm_supported_devices_list table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>modifiedDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date time when the reading was inserted and its data type is DATETIME.  
+This column stores datetime hence Datetime is selected. This field will always have a value hence defined as NOT NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>source_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the type of source from where the readings are retrieved and its data type is INT. This field can have a NULL value. The default value of this field is not provided.   
+There is a Foreign Key constraint linked to this field - FK_rpm_healow_tracker_temperature_source_id referencing to id column of rpm_healow_tracker_source table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isRPMData</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicates the readings received from healow end are valid or not, datatype is tinyint - 0 - Not Valid, 1 - Valid. 
+This field will always have a value hence defined as NOT NULL. By default, this column should not be in valid status hence default 0 is chosen.</td>
+      </tr></table>
+</div>
+</body>
+</html>

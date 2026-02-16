@@ -1,0 +1,177 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>epa_rx_detail</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores detailed information about medications ordered through EPA, including medicine details, prescribing doctor, patient, and pharmacy information.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each record in the table (e.g., 1, 2, 3).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>item_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the medicine item, foreign key relation to `items` table (`itemID` column).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>medicine_name</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the prescribed medicine (e.g., "Ibuprofen", "Amoxicillin").</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ncpdpid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">National Council for Prescription Drug Programs ID, a unique identifier for pharmacies (e.g., "1234567").</td>
+      </tr><tr  >
+        <td class="col-name"><strong>encounter_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the patient encounter, foreign key relation to `enc` table (`encounterID` column).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>doctor_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the prescribing doctor, foreign key relation to `doctors` table (`doctorID` column).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>patient_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the patient, foreign key relation to `patients` table (`pid` column).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>facility_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the facility where the prescription was made, foreign key relation to `edi_facilities` table (`Id` column).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>refill</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">Number of refills allowed for the prescription (e.g., 0, 1, 2).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>assess_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Assessment identifier, used for internal purposes (e.g., 123, 456, 789).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ndc_code</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">National Drug Code, a unique identifier for the prescribed drug (e.g., "12345-6789-01").</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>rx_order_no</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Prescription order number (e.g., "RX123456").</td>
+      </tr><tr  >
+        <td class="col-name"><strong>strength</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Strength of the prescribed medicine (e.g., "200 mg", "500 mg").</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>formulation</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Formulation of the prescribed medicine (e.g., "tablet", "capsule").</td>
+      </tr><tr  >
+        <td class="col-name"><strong>take</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Instructions on how to take the medicine (e.g., "Take 1 tablet every 6 hours").</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>route</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Route of administration for the medicine (e.g., "oral", "intravenous").</td>
+      </tr><tr  >
+        <td class="col-name"><strong>frequency</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Frequency of taking the medicine (e.g., "every 6 hours", "twice daily").</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>duration</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Duration of the treatment (e.g., "7 days", "2 weeks").</td>
+      </tr><tr  >
+        <td class="col-name"><strong>dispense</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Quantity of medicine to be dispensed (e.g., "30 tablets", "10 capsules").</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>epa_context</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Context of the electronic prescription authorization (e.g., "new", "refill").</td>
+      </tr><tr  >
+        <td class="col-name"><strong>assign_to_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the person assigned to process the prescription (e.g., 123, 456, 789).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ss_encounter_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the encounter in a secondary system, used for internal purposes (e.g., 123, 456, 789).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>old_rx_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the previous prescription, if any (e.g., 123, 456, 789).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>epa_transaction_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the electronic prescription authorization transaction, foreign key relation to `epa_transaction` table (`id` column).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>daw_flag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Dispense as written flag, 1 if the prescription must be dispensed as written, 0 otherwise (e.g., 0, 1).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>delete_flag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating if the record has been deleted, 1 if deleted, 0 otherwise (e.g., 0, 1).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>addInstructions</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Additional instructions for the prescription (e.g., "Take with food", "Do not crush").</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>rx_notes</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Notes related to the prescription (e.g., "Patient allergic to penicillin", "Monitor blood pressure").</td>
+      </tr><tr  >
+        <td class="col-name"><strong>rx_additional_notes</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Additional notes related to the prescription (e.g., "Patient prefers brand name", "Dispense in child-resistant container").</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>pharmacy_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the pharmacy, foreign key relation to `pharmacy` table (`pmcid` column).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>rx_source</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Source of the prescription (e.g., "EHR", "Paper").</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>rx_source_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the prescription source, used for internal purposes (e.g., 123, 456, 789).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>start_date</strong></td>
+        <td class="tab-description">date</td>
+        <td class="tab-description">Start date of the prescription (e.g., "2021-01-01").</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>stop_date</strong></td>
+        <td class="tab-description">date</td>
+        <td class="tab-description">Stop date of the prescription (e.g., "2021-01-08").</td>
+      </tr></table>
+</div>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>flowsheetitems</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about items in a flowsheet, including their names, types, and display properties.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is an auto incremented Primary Key.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>flowSheetid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores flowsheet id to which the new item is added. This column refers column id from flowsheets table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>name</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores name of the item added.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>type</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column stores one of the below ids for the item from the drop-down list to which the item is associated.  {id: 1, value: 'Labs'},
+ {id: 2, value: 'XRays'},
+ {id: 3, value: 'Immunizations'},
+ {id: 4, value: 'Rx'},
+ {id: 5, value: 'Vitals'},
+ {id: 6, value: 'Structured', invoke: $scope.openStructured},
+ {id: 7, value: 'Drug Class'},
+ {id: 8, value: 'Rx Group'},
+ {id: 9, value: 'Procedures'},
+ {id: 10, value: 'Lab Attributes'},
+ {id: 0, value: 'Others'}
+There is no master table for this ids.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>itemid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an id of the item associated. This column refers column itemid from items table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>itemName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the item name of the item from itemid column. This column refers column itemName from items table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>displayIndex</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the sequence of the item added, this is used to display the same item in User Interface.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column store a value 1 - when the added item to a flowsheet is deleted or 0 - Otherwise.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Categoryid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is not used.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>GoalLowerLimit</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores a lower limit goal for the item added.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>GoalUpperLimit</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores upper limit goal for the item added.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>groupName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores name of the group for the item added. The associated item names are grouped under this group.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>labAttributes</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores id of the attribute associated to the lab selected. This column refers column itemid from items table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>displayinheader</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores a value 1 - when Header box for flowsheet items is checked to mark as headers or 0 - Otherwise.</td>
+      </tr></table>
+</div>
+</body>
+</html>

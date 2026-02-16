@@ -1,0 +1,89 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>edi_inv_diagnosis</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about the diagnosis related to an invoice, including the diagnosis code, primary code, and other related details.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each record in the edi_inv_diagnosis table. Example: 1, 2, 3.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Invoiceid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the invoice to which the diagnosis is related. This is a foreign key referring to the id column in the edi_invoice table. Example: 101, 102, 103.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Itemid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the item associated with the diagnosis. This is a foreign key referring to the id column in the item table. Example: 1001, 1002, 1003.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Code</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">The diagnosis code, typically an ICD-10 code. Example: 'J20.9', 'M54.5', 'E11.9'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>PrimaryCode</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A tiny integer indicating whether the diagnosis code is the primary code (1) or not (0). Example: 0, 1.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Specify</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Additional information or specification about the diagnosis. Example: 'Acute bronchitis', 'Lower back pain', 'Type 2 diabetes'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Notes</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Text field for any additional notes related to the diagnosis. Example: 'Patient has a history of asthma', 'Pain worsens when sitting', 'Patient also has hypertension'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>icdOrder</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">A small integer representing the order of the ICD code in the list of diagnoses. Example: 1, 2, 3.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>snomed</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">The SNOMED CT code for the diagnosis, an international standard for clinical terminology. Example: '195967001', '279039007', '44054006'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>POA</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Present on Admission indicator, a 2-character code indicating whether the diagnosis was present when the patient was admitted. Example: 'Y' (Yes), 'N' (No), 'U' (Unknown).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>diagnosisType</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">A 2-character code representing the type of diagnosis. Example: 'P' (Primary), 'S' (Secondary), 'T' (Tertiary).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>RFV</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A tiny integer indicating the Reason for Visit. Example: 1 (Routine), 2 (Emergency), 3 (Referral).</td>
+      </tr></table>
+</div>
+</body>
+</html>

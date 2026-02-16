@@ -1,0 +1,150 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { background-color: #cde4f3; color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ip_rh_ptmedicationorders_detail</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table store the details of order like formulation, strength that are placed for a patient after being finalized.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>Id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each interaction record.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ptmedorderId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store ptmedorderId id and is foreign key references medorderId column ip_rh_ptmedicationorders table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ipitemid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store item id and is foreign key references itemID column of items table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>order_strength</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store the order strength like 1 MG, 100MG etc.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>order_strength_UOM</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store units like ml/hr, ml/min.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>order_formulation</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store order formulation like Tablet, IV fluid.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>orderDispense</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store order dispense like 1, 1.5 ml etc.This data will be populated from dispenseSize column of ip_rh_drugformulary so added same datatype and size.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>order_ndc_code</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store order NDC code. This data will be populated from ndcCode column of mmw_drug_pack table of medispan database so added same datatype and size.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>order_ddid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store order ddid value. This data will be populated from ddid column of mmw_drug_disp table of medispan database so added same datatype and size.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to store in delete flag it to show whether order is deleted or not. 1 - represents order is deleted and 0 - represents order is not deleted
+Default value is 0 ensures order is not deleted.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DrugFormularyId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store drug formulary id and is foreign key references id column ip_rh_drugformulary table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ivvolume</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is to store IV volume like 100, 200 etc. This data will be populated from volume column of ip_rh_drugformulary so added same datatype and size.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Ivdiluentid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store diluent values like 25, 26 etc.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ingredientCount</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store ingredients count e.g. 2.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isAdditive</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to store additive or not.1 - represents additive and 
+0 - represents not additive</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>formularyDispenseSize</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store dispense sizes like 1ml, 1 ea. This data will be populated from dispenseSize column of ip_rh_drugformulary so added same datatype and size.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>dispenseQty</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store dispense quantity like 200mg.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>actualDispense</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store actual dispense like 200mg.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isDiluent</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to store if diluent or not.1 - represents diluent
+0 - represents not diluent
+Default value is 0 for order record.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>displayIndex</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to store display index or not.1 - represents to display and  0 - represents not to  display
+Default value is 0 for order record</td>
+      </tr><tr  >
+        <td class="col-name"><strong>formularyDose</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store formulary dose for every order like 30ml. This data will be populated from doseSize column of ip_rh_drugformulary so added same datatype and size.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>formularyDoseUOM</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store formulary dose units for every order like ml, mg. This data will be populated from doseSizeUom column of ip_rh_drugformulary so added same datatype and size.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>orderDose</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store order dose units for every order like 5ml, 50mg</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>formularyDispenseUOM</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store formulary dispense units for every order like ml, mg. This data will be populated from dispenseSizeUom column of ip_rh_drugformulary so added same datatype and size.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ivvolume_uom</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store ivvolume units for every order like ml, mg. This data will be populated from volumeuom column of ip_rh_drugformulary so added same datatype and size.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>rxnorm</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store Rx norm for orders.</td>
+      </tr></table>
+</div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>patient_pronouns_selected_options</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores the selected pronoun options for patients along with the reason, if selected, for 'Another Pronoun', and the status of the record.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is the primary key column, which uniquely identifies each record in the table. It is an integer value that is automatically incremented with each new entry. Example: 1, 2, 3, etc.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>patientid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The unique identifier of the patient associated with the selected pronoun option. It is a foreign key that refers to the `users` table's `UID` column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>modified_by</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The unique identifier of the user who last modified the record. It is a foreign key that refers to the `users` table's `UID` column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>pp_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The unique identifier of the selected pronoun option. It is a foreign key that refers to the `pronouns_options` table's `id` column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>pp_reason</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is a 20-character length column that specifies free-text pronouns if the user selected the Another Pronoun option.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isactive</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A flag indicating whether the record is active (1) or inactive (0).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>deleteflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A flag indicating whether the record has been deleted (1) or not (0).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>added_on</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">The date and time when the record was added to the table. (e.g., '2021-09-01 12:34:56')</td>
+      </tr><tr  >
+        <td class="col-name"><strong>inactive_date</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">The date and time when the record was marked as inactive, if applicable. (e.g., '2021-10-01 12:34:56' or NULL)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>action_performed</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">An enumeration of the last action performed on the record. Possible values are 'added', 'created', 'modified', 'deleted', 'active', and 'inactive'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>modality</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">A short description of the modality used for the action performed on the record. (e.g., 'web', 'mobile', 'API')</td>
+      </tr></table>
+</div>
+</body>
+</html>

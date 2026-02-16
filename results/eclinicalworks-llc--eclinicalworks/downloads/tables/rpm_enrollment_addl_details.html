@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>rpm_enrollment_addl_details</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores additional details related to RPM (Remote Patient Monitoring) enrollment, such as device training claim information and encounter details.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains auto incremented id, datatype is INT. This column stores integer value which could grow with number of users added to the care team and hence integer is selected. It is AUTO_INCREMENT column and has PRIMARY KEY index.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>status_for_queue</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores 0, 1, 2 to determine the RPM Queue of a Patient. This field cannot have a NULL value. Therefore, it has a default value 0. This field does not have any index.
+
+Values 0 This means that the patient has all the devices in Prescribed status only. No device is Activated. 
+
+1 - This means that the patient has all the devices in Activated status. No Device is in Prescribed status.
+
+2 - This means that the patient has some devices in Prescribed status and some devices in Activated Status. Hence, we need to display the patient in both RPM Queues Enrollment Queue and Enrolled Patients Queue.
+
+4 - This means there are patients who have deleted the prescribed devices and are currently in eligible queue.
+
+The data type chosen is TINYINT as this field can have only three values 0, 1 and 2.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>device_training_claimid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">When batch is processed and claim is generated for RPM Training Complete, the claim id is stored in this column. This field can have a NULL value. The default value of this field is not provided. There is a Foreign Key constraint linked to this field - FK_rpm_enrollment_details_device_training_claimid referencing to id column of edi_invoice table. The data type chosen is INT as this field is pointing to id column of edi_invoice table which is also int.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>device_training_encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">When batch is processed and encounter is generated for RPM Training Complete, the encounter id is stored in this column. This field can have a NULL value. The default value of this field is not provided. There is a Foreign Key constraint linked to this field - FK_rpm_enrollment_details_device_training_encounterid referencing to encounterid column of enc table. The data type chosen is INT as this field is pointing to encounterid column of enc table which is also int.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>device_training_claimdate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">When batch is processed and claim is generated for RPM Training Complete, the claim date is stored in this column. 
+This field can have a NULL value. It has a Default constraint DF_rpm_enrollment_details_device_training_claimDate linked to it. The default value of this field is '1901-01-01 00:00:00' for MSSQL and '0000-00-00 00:00:00' for MySQL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>device_training_claimfailurereason</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">When batch is processed and claim gets failed for RPM Training Complete, the failure reason is stored in this column 
+This field can have a NULL value. The default value of this field is not provided. As the column has no limit and we have free text, therefore we have defined it as VARCHAR(MAX) / TEXT.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>rpm_enrollment_details_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of the rpm enrollment its datatype is int. This column is a foreign key and it refers to rpm_enrollment_details table id column. This column could be store high range numeric value hence integer is selected and this field will always have a value hence defined as NOT NULL. Also dont have default value because of it is foreign key. </td>
+      </tr></table>
+</div>
+</body>
+</html>

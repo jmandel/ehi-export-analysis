@@ -1,0 +1,69 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>bh_intervention_referral</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about intervention referrals, including their relationships with structures, referral details, and the user who added the referral.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>interReferralid</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is the primary key, an auto-incrementing integer that uniquely identifies each intervention referral record. Example: 1, 2, 3, etc.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>structMappingid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is a foreign key integer that refers to the `bh_treatment_plan_pgoid_mapping` table's `id` column. It represents the relationship between the intervention referral and the treatment plan mapping. Example: 5, 10, 15, etc.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>structid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is a foreign key integer that refers to the `bh_treatment_plan_dictionary` table's `id` column. It represents the relationship between the intervention referral and the treatment plan structure. Example: 7, 14, 21, etc.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>referralid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is a foreign key integer that refers to the `referral` table's `Referralid` column. It represents the relationship between the intervention referral and the referral details. Example: 3, 6, 9, etc.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>addedByUserid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is a foreign key integer that refers to the `users` table's `UID` column. It represents the user who added the intervention referral. Example: 1001, 1002, 1003, etc.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>addedDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This is a datetime column that stores the date and time when the intervention referral was added. Example: '2021-09-01 12:34:56', '2021-09-02 14:30:00', etc.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This is a tinyint(1) column that stores a boolean value (0 or 1) indicating whether the intervention referral record has been deleted. Example: 0 (not deleted), 1 (deleted).</td>
+      </tr></table>
+</div>
+</body>
+</html>

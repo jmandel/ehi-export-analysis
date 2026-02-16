@@ -1,0 +1,156 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>cpocertification</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about patient certification in care plan oversight program. It tores information including provider selected, agency selected, Home Health or Hospice service type, plan of care document signed, initial certification or re certification, claim Id, encounterId.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains auto incremented id, datatype is INT (11). This column stores integer value which could grow with number of over the years hence integer(Range: 0-2,147,483,647) is selected. It is AUTO_INCREMENT column and has PRIMARY KEY index</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ptacoid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains Primary Key column of ptacoprograms table to store PTACO id . The datatype chosen is an INT  The value of this field cannot be NULL.  This field references id column of ptacoprograms table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>patientid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains Primary Key column of user table to store Patient id. The value of this field cannot be NULL.  
+
+This field references UID column of  user table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>providerid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the Provider id who is going to provide care to the patient 
+Contains the Primary Key column id of user table. It stores the unique id of a Provider. The value of this field can not be NULL.  This field references to UID column of user table. The data type chosen is INT as this field is pointing to UID column of user table which is also int.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>facilityid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains Primary Key column of TCM_Hospitals table to store facility id. The data type of this field is INT. The value of this field cannot be NULL. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>serviceType</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Contains type of service provided to the patient. Possible values - 1 - Home Health, 2 - Hospice. The data type is TINYINT and this field cannot have NULL values.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>planOfCareSignedOff</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Contains a flag if plan of care document is signed by the provider or not. Values - 1 - Plan of care signed , 0 - Plan of care not signd. The data type is TINYINT.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>certificationType</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Contains type of type of certification for the patient. Possible values - 1 - Initial Certification, 2 - Re Certification. The data type is TINYINT and this field cannot have NULL values.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>certificationCompleted</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Contains a flag if the certification is completed or not. Values - 1 - Certification completed, 0 - Certification not completed. The data type is TINYINT.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>startCareDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Contains date time when the care is started. The data type is Datetime and the value cannot be NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>certificationStartDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Contains date time when the certification is started. The data type is Datetime and the value cannot be NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>certificationEndDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Contains date time when the certification is ended. The data type is Datetime and the value cannot be NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>delflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicates if this data is deleted or not, datatype is TINYINT. This column stores binary flag i.e 0/1. 0: not deleted 1: deleted - By default the record must not be in deleted status hence default 0 is chosen.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>notes</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Contains textual notes added by the user while documenting certification. The data type is text and this can have NULL value.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>certEnded</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Contains a flag if the certification is discontinued or not. Values - 1 - Certification ended, 0 - Certification not ended. The data type is TINYINT.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>certEndedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store user id to identify which user ended the certification. It refers to primary key UID of user table. Data type is int(11).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>certEndedCreateClaim</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Contains a flag if claim should be created after disenrolling the patient or not. Values - 1 - Create claim, 0 - do not create claim. The data type is TINYINT.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>certEndedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Contains date time when the certification is ended manually by the user. The data type is Datetime and the value cannot be NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>certEndedNotes</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Contains textual notes added by the user while ending a certification. The data type is text and this can have NULL value.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>episodeid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains unique id of cpo certification which is the first certification of the series in case of multiple cpo certifications of a patient. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>nextCertid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains unique id of cpo certification which is the next certification in case of multiple cpo certifications of a patient. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Claimid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">When batch is processed and claim is generated , the claim id is stored in this column. This field can not have a NULL value. The default value of this field is 0. The data type chosen is INT as this field is pointing to id column of edi_invoice table which is also int.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">When batch is processed and encounter is generated , the encounter id is stored in this column. This field can not have a NULL value. The default value of this field is 0. references to  to encounterid column of enc table. The data type chosen is INT as this field is pointing to encounterid column of enc table which is also int.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ClaimDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Contains date time when the batch is processed. The data type of this field is datetime. This field can have a NULL value.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>claimFailureReason</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Contains error description in case of claim failure. The data type is text and it can have a NULL value.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>attachmentid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains unique id of document table to store the plan of care document attached by the user. The data typs is INT and it can have a NULL value.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>addedDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Contains the date and time when the record was first added by a user. The datatype of this field is datetime. This field does allows a NULL value.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>modDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Contains the date and time when the record was last modified by a user. The datatype of this field is datetime. This field does allows a NULL value.</td>
+      </tr></table>
+</div>
+</body>
+</html>

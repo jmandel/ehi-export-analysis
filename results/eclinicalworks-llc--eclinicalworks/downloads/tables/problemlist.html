@@ -1,0 +1,134 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>problemlist</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about patients' problems, including details about the problem, its status, and related medical codes.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>patientid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores patient identifier for a patient, whom the problem list item is associated to. It refers to column UID from user table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Stores encounter id which the problem list item is associated to. Column refers to encounterid column in enc table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>asmtid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores assessment id of the added problem list item. This column refers the column itemid from items table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>specify</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores text about the concise specification of the problem list item added. Pre defined keywords can also be selected as a specification of the problem list item in the user interface.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>notes</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores the notes entered by the end user pertaining to the problem list item added. Pre defined keywords can also be selected as notes in the User Interface.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores value 0 / 1 indicating if the added problem list item is marked deleted using the User Interface, this is soft delete. 0 - Not Deleted , 1 -Deleted</td>
+      </tr><tr  >
+        <td class="col-name"><strong>onsetdate</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the onset date of the problem added. The format used is MM/DD/YYYY.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>userid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This stores the id of the end user who adds/ modifies the the problem list item. This id could be Provider's or a Staff. This column refers to column UID from users.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>logdate</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is to store the date on which the problem list is modified. The format used is MM/DD/YYYY.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>inactiveFlag</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column stores flag 0 or 1. 1 - when clinical status is set to inactive , 0 - Otherwise.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>WUStatus</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is to store one of the work-up status of the problem. confirmed, w/u pending, w/u negative, erroneous Dx, unknown or differential.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>condition</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores one of the mentioned clinical statuses for the added problem list item: active, well-controlled, stable, poorly-controlled, resolved, inactive, recurrence, remission.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>SlNo</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is an auto incremented Primary Key of This column .</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>displayIndex</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the sequence number of the problem list item displayed in the User Interface.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Risk</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is to store the risk level of the added problem: high, medium or low.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>AddedDate</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the date the problem list item was added.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>problemtype</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores one of the below values as the type of the problem:
+Finding of Functional Performance Activity, Cognitive Function Finding, and Complaint.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Resolved</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores a flag 0 or 1, 1 - when the clinical status is set to resolved. 0 - Otherwise.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>resolvedon</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the date on which the clinical status is set to resolved for the problem added.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>SNOMED</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the SNOMED code of the item (problem) added.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>SNOMEDDesc</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the description of the SNOMED code from snomed column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>SNOMEDDescid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores an id of the SNOMED description. This column refers itemid column from items table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>synonymid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">An integer representing the unique identifier of the ICD synonym related to the problem. This column has a foreign key relation with the `id` column in the `icd_synonyms` table. Example: 9876</td>
+      </tr></table>
+</div>
+</body>
+</html>

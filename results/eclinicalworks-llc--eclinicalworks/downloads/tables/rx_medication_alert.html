@@ -1,0 +1,114 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>rx_medication_alert</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about medication alerts for patients, including details about the medication, the user who created the alert, and the status of the alert.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each medication alert record. Example: 1, 2, 3.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>itemid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of the medication added to the patient's encounter for which alert is set. This column refers column itemId from items table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of the appointment which has the medication for which alert is set. This column refers column encounterId from enc table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>rxOrderNo</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores order number fior a set of medication/drug added to patient's specific encounter. This number is generated on the application side. This column refers column rxOrderNo from oldRxMain table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>NDCCode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the National Drug Code of the added medication/drug which has '-' hyphen in it and is always unique for any drug.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>medName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores name of the medicine/drug of the id stored in itemId column which is added as part of the treatment and on which alert is set. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>userid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of the Provider who is treating the Patient for whom the alert is set. This column refers column uid from user table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encDate</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores date when the encounter was created which includes the medication for which alert is set. The format used is YYYY-MM-DD.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>encTime</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores time when the encounter was created which includes the medication for which alert is set. The format used is HH-MM-SS.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>addedDateTime</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the current time stamp when the medication is added as part of the patient's treatment for which alert is created. The format used is MM/DD/YYYY HH:MM:SS.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isAlertActive</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column indicates if the created alert is active or not. 1 - alert is active, 0 - alert is inactive.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>patientid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of the patient for whom the alert is created. This column refers column uid from user table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>rxComment</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores one of the below values indicating status of the medication added for the patient on which alert is created.
+-4 = 'Unknown' ,
+-3 = 'Discontinued',
+-2 = 'Not-Taking',
+-1 = 'Taking',
+0 = 'Stop',
+1 = 'Start',
+2 = 'Continue',
+3 = 'Increase',
+4 = 'Decrease' .</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>userName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores Last and First name of the Provider who has created the medication alert. The username stored is concatenation of ulname and ufname columns from user table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>oldrxid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Currently this column is not in use from This column  and hence it stores the default value i.e. 0.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>TYPE</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Type of medication alert. Example: 0 (normal), 1 (urgent).</td>
+      </tr></table>
+</div>
+</body>
+</html>

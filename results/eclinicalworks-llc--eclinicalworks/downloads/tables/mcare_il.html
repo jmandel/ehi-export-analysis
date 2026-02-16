@@ -1,0 +1,357 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>mcare_il</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about claim details for Medicare Illinois</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each record in the table (int).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Practitioner</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Box number 23 which indicates if the service provider is a practitioner (char). Example values: 'X', ''.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Dental</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Box number 24 which indicates if the service is related to dental care (char). Example values: 'X', ''.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>LabXRay</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Box number 25 which indicates if the service is related to lab or X-ray (char). Example values: 'X', ''.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>MedEquip</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Box number 26 which indicates if the service is related to medical equipment (char). Example values: 'X', ''.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Transportation</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Box number 28 which indicates if the service is related to transportation (char). Example values: 'X', ''.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>InvId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the claim number against which this form is generated. This column is of type integer and length 11 with default value as NULL. Value if from edi_invoice table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>MemberName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 1 which stores  the recipient's (patient's) First, Middle and Last Name. This is VARCHAR(40) column with NULL value allowed</td>
+      </tr><tr  >
+        <td class="col-name"><strong>RecipientIdNo</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This is a varchar column which allow max 20 chars. This column allow NULL value and default value is ''.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PtDob</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This is a varchar column which stores Patient's DOB and stores max 10 chars. It stores DOB in MMDDYY format. Example: It will store 121172 for Dec 11, 1972 </td>
+      </tr><tr  >
+        <td class="col-name"><strong>PtSexM</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Box number 3 which indicates patient is Male if value is store as 'X'. This column is type of char(1). Example values: 'X', ''.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PtSexF</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Box number 3 which indicates patient is Female if value is store as 'X'. This column is type of char(1). Example values: 'X', ''.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>CondRelEmpY</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Box number 4(A) which indicates if the condition is related to employment and store as 'X'. This column is type of char(1). Example values: 'X', ''.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>CondRelEmpN</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Box number 4(A) which indicates if the condition is not related to employment and store as 'X'. This column is type of char(1). Example values: 'X', ''.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>CondRelAccY</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Box number 4(B) which indicates if the condition is related to accident and store as 'X'. This column is type of char(1). Example values: 'X', ''.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>CondRelAccN</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Box number 4(B) which indicates if the condition is not related to accident and store as 'X'. This column is type of char(1). Example values: 'X', ''.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>MedicaidNo</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 5 which indicates patient's bill to insurance's Subscriber Number. This column is type of varchar(25). Value is from edi_inv_insurance table's subscriberNo column against invoiceId</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>MedicareHICNo</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 6 which indicates Subscriber Number if insurance is primary and superbill is primary medicare. This column is type of varchar(30). Value is from edi_inv_insurance table's subscriberNo column against invoiceId</td>
+      </tr><tr  >
+        <td class="col-name"><strong>PtRelSelf</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Box number 7(SELF) which indicates if the patient is the policyholder and store as 'X'. This column is type of char(1). Example values: 'X', ''.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PtRelSpouse</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Box number 7(SPOUSE) which indicates if the patient is the spouse of the policyholder and store as 'X'. This column is type of char(1). Example values: 'X', ''.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>PtRelChild</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Box number 7(CHILD) which indicates if the patient is the child of the policyholder and store as 'X'. This column is type of char(1). Example values: 'X', ''.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PtRelOther</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Box number 7(OTHER) which indicates if the patient has another relationship to the policyholder and store as 'X'. This column is type of char(1). Example values: 'X', ''.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>PtSignature</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 8 which stores patient's signature. This column is type of varchar(30). If data present against invoiceId in 'edi_inv_claimdata' table then it will store 'Signature On File'. Example: 'Signature On File', ''.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PtSigDate</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 8 which stores date of patient's signature. This column is type of varchar(10). Value of 'RelInfoDate' column from table 'edi_inv_claimdata' if data present against invoiceId. Date format is Mmddyy. Example: '121123', ''.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>RefPrName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">It stores the referring provider name. This column is type of varchar(50). Value of 'refProvId' column from table 'edi_inv_claimdata' if data present against invoiceId and find provider name for this. Example: 'Willis Sam', ''.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>RefPrNPI</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">It stores the referring provider NPI. This column is type of varchar(40). Value of 'refProvNPI' column from table 'edi_inv_claimdata' if data present against invoiceId. Example: '1234567890', ''.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>AnotherHBPY</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Box number 9 which indicates if the patient has another health benefit plan and store as 'X'. This column is type of char(1). Example values: 'X', ''.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>AnotherHBPN</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Box number 9 which indicates if the patient does not have another health benefit plan and store as 'X'. This column is type of char(1). Example values: 'X', ''.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>PolicyGrpNumber</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 9 which stores the policy group number. This column is type of varchar(45). Value of 'groupNo' column from table 'edi_inv_insurance'. Example: '1234567890', ''.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>InsuredName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 9 which stores the insured's name. This column is type of varchar(60). Value of 'GrId' column from table 'edi_inv_insurance'. Example: 'John Doe', ''.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>InsurancePlan</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 9 which stores the insurance name. This column is type of varchar(60). Value of 'InsId' column from table 'edi_inv_insurance'. Example: 'Medicare', ''.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>OriginOfService</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 13A. This column is type of varchar(25). While inserting record it stores blank value.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Modifier13B</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 13B. This column is type of varchar(15). While inserting record it stores blank value.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>DestinationOfServ</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 14A. This column is type of varchar(20). While inserting record it stores blank value.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Modifier14B</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 14B. This column is type of varchar(25). While inserting record it stores blank value.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>OrgOfService15A</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 15A. This column is type of varchar(20). While inserting record it stores blank value.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Modifier15B</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 15B. This column is type of varchar(20). While inserting record it stores blank value.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>DestinationOfServ16A</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 16a. This column is type of varchar(25). While inserting record it stores blank value.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Modifier16B</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 16B. This column is type of varchar(20). While inserting record it stores blank value.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ICNNo</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 17 which stores the ICN number. This column is typoe of varchar(15). Value is from "Id" column in 'edi_invoice' table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>NatureOfInjury</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 18. This column is type of varchar(30). While inserting record it stores blank value.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PrimaryDgn</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 18A which stores the primary diagnosis code. This column is type of varchar(15). Value is from 'edi_inv_diagnosis.code'. Example: 902.0</td>
+      </tr><tr  >
+        <td class="col-name"><strong>SecDgn</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 18B which stores the secondary diagnosis code. This column is type of varchar(15). Value is from 'edi_inv_diagnosis.code'. Example: 790.92</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>MCarePmtDt</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 19 which stores medicare payment date. This column is type of varchar(10). Value is from 'edi_insPayments.EOMB1'. Date format is Mmddyy. Example: 121123</td>
+      </tr><tr  >
+        <td class="col-name"><strong>FacilityName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 20 which stores the facility name. This column is type of varchar(40). Value is from 'EDI_FACILITIES.Name'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>FacilityAddress1</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 20 which stores the facility address line 1 and 2. This column is type of varchar(40). Value is from 'EDI_FACILITIES.AddressLine1' and 'EDI_FACILITIES.AddressLine2'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>FacilityAddress2</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 20 which stores the facility city, state and zip. This column is type of varchar(35). Value is from 'EDI_FACILITIES.City', 'EDI_FACILITIES.State' and 'EDI_FACILITIES.Zip'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>AccAssignY</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Box number 21 which indicates if accept assignment and store as 'X'. This column is type of char(1). It will set 'X' only if value of 'edi_inv_claimheader.PrAssignInd' is 'A'. Example values: 'X', ''.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>AccAssignN</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Box number 21 which indicates if does not accept assignment and store as 'X'. This column is type of char(1). It will set 'X' only if value of 'edi_inv_claimheader.PrAssignInd' is 'N'. Example values: 'X', ''.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PhyFacName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 22 which stores the facility name of billing facility. This column is type of varchar(40). Value is from 'EDI_FACILITIES.Name'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>PhyFacAddress1</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 22 which stores the billing facility address line 1 and 2. This column is type of varchar(40). Value is from 'EDI_FACILITIES.BillingAddressLine1' and 'EDI_FACILITIES.BillingAddressLine2'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PhyFacAddress2</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 22 which stores the billing facility city, state and zip. This column is type of varchar(35). Value is from 'EDI_FACILITIES.BillingCity', 'EDI_FACILITIES.BillingState' and 'EDI_FACILITIES.BillingZip'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>HFSPrNumber</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 23. It stores the renderring provider NPI. This column is type of varchar(25). Example: '1234567890', ''.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PayeeCode</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Box number 24. This column is type of char(2). It fetch the data from Provider Billing Data for Insurance in Insurance. Example values: '5', ''.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>McareProvNo</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 27. This column is type of varchar(25). It fetch the data from Provider Billing Data for Insurance in Insurance.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>TaxonomyCode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 28. This column is type of varchar(20). Value from 'doctors.TaxonomyCode'</td>
+      </tr><tr  >
+        <td class="col-name"><strong>TPLCode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 29A. This column is type of varchar(10). Value is from 'ilmcaidaddinfo.TPLCode1'</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>TPLStatus</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 29B. This column is type of varchar(10). Value is from 'ilmcaidaddinfo.TPLStatus1'</td>
+      </tr><tr  >
+        <td class="col-name"><strong>TPLAmount</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 29C. This column is type of varchar(30). Value is from 'ilmcaidaddinfo.TPLAmt1doll' and 'ilmcaidaddinfo.TPLAmt1Cen'</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>TPLDate</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 29D. This column is type of varchar(10). Value is from 'ilmcaidaddinfo.TPLDate1'. Date format is Mmddyy.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>TPLCode1</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 30A. This column is type of varchar(10). Value is from 'ilmcaidaddinfo.TPLCode2'</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>TPLStatus1</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 30B. This column is type of varchar(10). Value is from 'ilmcaidaddinfo.TPLStatus2'</td>
+      </tr><tr  >
+        <td class="col-name"><strong>TPLAmount1</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number30C. This column is type of varchar(30). Value is from 'ilmcaidaddinfo.TPLAmt2doll' and 'ilmcaidaddinfo.TPLAmt2Cen'</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>TPLDate1</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 30D. This column is type of varchar(10). Value is from 'ilmcaidaddinfo.TPLDate2'. Date format is Mmddyy.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ProvSignature31</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 31. This column is type of varchar(40). It stores the provider name. Value of 'SupervisorId' or 'RenProviderId' column from table 'edi_invoice' if data present against invoiceId and find provider name for this. Example: 'Willis Sam', ''.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ProvSigDateDD</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">This column is type of char(2). It stores the today's day. Example: 10 if today is 10th Oct 2023.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ProvSigDateMM</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">This column is type of char(2). It stores the today's date of month. Example: 10 if today is 10th Oct 2023.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ProvSigDateYY</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">This column is type of char(2). It stores the today's date of year. Example: 23 if today is 10th Oct 2023.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ProvSigDate</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Box number 32. This column is type of varchar(10). It stores today's date in format of Mmddyy. Example: 131023</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>UserId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Column datatype must be change from char(2). Right now it is storing only first 2 character of the userId (Data truncation issue).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Box13A</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is type of varchar(32).  This column will have always value hence defined as NOT NULL and default value is blank. While inserting data into table this column is not included in the insert statement.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Box13B</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is type of varchar(5).  This column will have always value hence defined as NOT NULL and default value is blank. While inserting data into table this column is not included in the insert statement.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Box14A</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is type of varchar(32).  This column will have always value hence defined as NOT NULL and default value is blank. While inserting data into table this column is not included in the insert statement.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Box14B</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is type of varchar(5).  This column will have always value hence defined as NOT NULL and default value is blank. While inserting data into table this column is not included in the insert statement.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Box15A</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is type of varchar(32).  This column will have always value hence defined as NOT NULL and default value is blank. While inserting data into table this column is not included in the insert statement.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Box15B</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is type of varchar(5).  This column will have always value hence defined as NOT NULL and default value is blank. While inserting data into table this column is not included in the insert statement.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Box16A</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is type of varchar(32).  This column will have always value hence defined as NOT NULL and default value is blank. While inserting data into table this column is not included in the insert statement.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Box16B</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is type of varchar(32).  This column will have always value hence defined as NOT NULL and default value is blank. While inserting data into table this column is not included in the insert statement.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Box18</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is type of varchar(5).  This column will have always value hence defined as NOT NULL and default value is blank. While inserting data into table this column is not included in the insert statement.</td>
+      </tr></table>
+</div>
+</body>
+</html>

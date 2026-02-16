@@ -1,0 +1,325 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>immunizations</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores patient's immunization records. 
+This table stores the list of all the Immunization Orders that has been placed for a Patient with all the Immunization Order details.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>Immunizationid</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is auto incremented and Primary Key of This column . </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>patientid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of a patient whose immunizations are being documented. This column refers to UID column in user table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>itemid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores immunizations selected by provider for the current visit. List of immunizations are stored in items table. Column refers to itemid column in items table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>location</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Stores location of the body selected by provider where immunization is given. List of Locations are stored in vaccines_sites table. Column refers to code column in vaccines_sites table. Possible values LA-Left Arm, LD -Left Deltoid, LG-Left Gluteus Medius, LLFA-Left Lower Forearm, LT-Left Thigh, LVL-Left Vastus Lateralis, RA-Right Arm, RD-Right Deltoid, RG-Right Gluteus Medius, RLFA-Right Lower Forearm, RT-Right Thigh, RVL-Right Vastus Lateralis</td>
+      </tr><tr  >
+        <td class="col-name"><strong>givenDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores date on which immunization was given to the patient. Date is stored in 'YYYY-MM-DD 00:00:00' format</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>givenBy</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores name of the provider who administered immunization to the patient.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>lotNumber</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores lotnumber of the immunization. Column refers to lotnumber column in lotnumbers table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dose</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores number of dose(s) given to patient with dosage unit. i.e 1 mg, 2 mL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>VaccineManufacturer</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores name of the manufacturer of immunization given to the patient. This column refers to column Manufacturer from lotnumbers table. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dueDate</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">The column stores expiration date of immunization as documented by end user.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>dateVISgiven</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">The column stores the date when Vaccine Information Statement (VIS) was provided to the patient. Vaccine Information Statements (VISs) are information sheets produced by the Centers for Disease Control and Prevention (CDC). VISs explain both the benefits and risks of a vaccine to adult vaccine recipients and the parents or legal representatives of vaccinees who are children and adolescents.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>DateonVIS</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores edition date of the VIS being given to the patient at the time of a visit for immunization. This column refers to the itemvismapping.DateOnVIS and cvxvismapping.VISEditionDate columns.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Notes</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores free text note/comments documented by end user for immunization on User Interface. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores value 0 / 1 indicating if the immunization is marked deleted using the User Interface, this is soft delete. 0 - Not Deleted , 1 -Deleted</td>
+      </tr><tr  >
+        <td class="col-name"><strong>billable</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column stores value 0 / 1 indicating if the immunization is marked billable from the user interfaceby end user. 1 - Billable, 0 - Non billable.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ImmtracDispatchStatus</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores status whether immunization/Therapeutic Inj. was exported to state registry or not.
+ 0 - Not transmitted,
+ 1 - Transmitted successfully,
+ 2 - Pending with errors,
+ 3 - Modified after being transmitted,
+ 4 - Deleted  before the export,
+ 5 - Exported,
+ 6 - Immunization is not a valid immunization and cannot be exported</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Selected</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores 0/1 to indicate whether an Immunization was exported or not. 0 - Immunization was not exported, 1 - Immunization was exported.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>HistoryFlag</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores Y/N to indicate if a specific immunization/Therapeutic Inj. was given t the patient in past which is documented by provider/staff on User Interface. Y - immunization/Therapeutic Inj. was given to the patient in past, N - immunization/Therapeutic Inj. was NOT given to the patient in past.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DoseNumber</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores dose number for a specific immunization/Therapeutic Inj. in case there are multiple doses to be administered for immunization/Therapeutic Inj.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Facility</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the name of the facility where Immunization/Therapeutic Inj. was administered to the patient by provider/staff.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>race_code</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column store race of the patient who has been administered Immunization/Therapeutic Inj. by provider/staff. This column refers to Code column in race_codes column. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>contactId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column in not being used. Column always has NULL value in database.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>relation_code</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores code for relationship of the patient with person accompanying them. This column refers to Code column in relation_codes table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>glname</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores last name of the guardian accompanying the patient.  </td>
+      </tr><tr  >
+        <td class="col-name"><strong>gfname</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores first name of the guardian accompanying the patient.  </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>gminitial</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores middle initial  of the guardian accompanying the patient.  </td>
+      </tr><tr  >
+        <td class="col-name"><strong>cptcvx</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores type of immunization value CPT/CVX. CPT - In case of Therapeutic Injection, CVX - In case of Vaccine.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>VaccineName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores name of Immunization/Therapeutic Injection administered to the patient.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>mvx_code</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores codes that indicate the manufacturer of a vaccine.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>cvx_code</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores codes that indicate the product used in a vaccination. This column refers to column cvx from cptcvx_cdc table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>vfc_code</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores code of Vaccines For Children selected by provider for the immunization. This column refers to code column in vfc_codes table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores enocunterid for which immunizations are being documented. This column refers to encounterid column in enc table. Column stores 0 in case immunization records were added from Patient Hub.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>action</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">This column stores values A/D to indicate action performed by end user. 'A' - Immunization was added, 'D' - Immunization was deleted. Column also record NULL and '' values. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>lotId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores lotid of vaccines of the Immunization/Therapeutic Injection administered to the patient. This column refers to id column in lotnumbers table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>decDoses</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">This column stores value 0/1 to indicate whether to decrement the number remaining  number of doses and increment given doses or not. 1 - Decrease remaining number of doses and increase given doses by 1 in case of Immunization/Therapeutic Injection was administered to the patient successfully, 0 - DO NOT decrease remaining number of doses and increase given doses by 1 in case Immunization/Therapeutic Injection was not successfully administered to the patient.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>route</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores method of delivery of immunization.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ExportedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date when Immunization/Therapeutic Inj. were successfully exported to state registry. Date is stored in 'YYYY-MM-DD 00:00:00.000' format.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>medicaidno</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">When 'Medicaid_NY_PayerId' itemkey is enabled with value set to payorid from insurance table, this column stores id of a user while ordering immunization. This column refers to uid column in user table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>GivenTime</strong></td>
+        <td class="tab-description">time</td>
+        <td class="tab-description">This column stores time when the Immunization/Therapeutic Injenction was given to the patient. Time is stored in '1900-01-01 hh:mm:00.000' format.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ReadBy</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores name of Provider/Staff who read the result of PPD immunization.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ReadDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores date when result of PPD immunization was read by provider/staff. Date is stored in 'YYYY-MM-DD 00:00:00.000'</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>MMInduration</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores size of the induration in mm for PPD immunization. This column refers to the MMInduration column in imm_induration table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Impression</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores value Positive/Negative impression using the user interfacefor PPD immunization.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>GivenById</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores ID of Provider/Staff by whom immunization was given to the patient. This column refers to uid column in user table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>logBatchId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores batch id for an Ohio Board Pharmacy Report which has been reviewed by the end user. This column is only populated when report has been reviewed otherwise it is set to 0.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>logStatus</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores status of the report whether is is logged or reviewed by user. 'Reviewed' - Ohio Board Pharmacy Report has been reviewed by end user, 'Logged' - Ohio Board Pharmacy Report has been Logged bu not yet Reviewed.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>immsendstatus</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Dead Column</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>immprocessed</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Dead Column</td>
+      </tr><tr  >
+        <td class="col-name"><strong>fromImmRegistry</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores id of an immunization registry from which immunization related data has been received.
+This column refers to id column in immlist table. Only values with  immlist.IsVXQConfigured=1 are inserted into this column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>immstatus</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores a number to indicate status of the immunization. This column refer to immstatusid column in immunizationstatus table.
+0 - Pending,
+1 - Administered,
+2 - Partially Administered,
+3 - Not Administered,
+4 - Refused,
+5 - Histroy of Immunity,
+6 - Others,
+7 - Contraindications,</td>
+      </tr><tr  >
+        <td class="col-name"><strong>notAdminReasonCode</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">This column stores code to indicate why Immunization/Therapeutic Injection was not administered to the patient. This column refers to column id in immunityhistory table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>notAdminotherReason</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores free text or pre-defined reasons why Immunization/Therapeutic Injection was not administered to the patient. This column stores more information to elaborate code stored in notAdminReasonCode column. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>SourceOfHistory</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">This column stores a code to indicate source from where information regarding patient's past vaccination has been received. This column refers to InfoValue column in imminformationSource table.
+00 - New immunization record,
+01 - Source unspecified,
+02 - Other provider,
+03 - Parent's written record,
+04 - Parent's recall,
+05 - Other registry,
+06 - Birth certificate,
+07 - School record,
+08 - Public agency</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>docfacilityId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of the facility where patient had received immunization as documented by provider/staff. This column is only used if "Vaccination given in the past" option is checked in the User Interface.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>counselling</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores 0/1 to indicate that counselling was provided to the patient regarding any immunization being provided.  0 - If counselling was Not provides, 1 - If counselling was provided to the patient.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ReadTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This hold the read time for a PPD immunization. An Immunization can be marked as PPD by checking the 'Mark as PPD' checkbox while creating immunization in the compendium. THen selct that imm to order from imm detail screen, you will see additional PPD related fields including readtime (other ppd related fields: ReadBy, readdate, induration, Impression, MMInduration)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isMedWasted</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores values 0/1 to indicate Immunization/Therapeutic Inj. dose was wasted and was not administered to the patient. 0 - Dose was NOT wasted, 1 - Dose was wasted.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>wastedDoseAmt</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores amount of dose wasted in case isMedWasted flag is set to 1 and immunization dose was wasted for any reason.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ndcCodeUse</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores National Drug Code (NDC) for the Immunization/Therapeutic Injection. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>medicationItemId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores item id of drug</td>
+      </tr><tr  >
+        <td class="col-name"><strong>medicationNDC</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores NDC code for drug which is mapped to injection</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>lotdoseDeduction</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This column is used to track lotnumber dose deducted value for particular immunization.
+
+Default value of this column will be 1 for backward compatibility. For previously created immunization if user delete immunization / update dose value then we need to add 1 in 'DosesRemaining' column in 'lotnumbers' table.
+
+It will be updated when user create/update/delete Immunization based on on above calculation formula(mentioned on Proposed State section).
+
+For Example, If User add 2 as Dose number from lot number screen, while ordering immunization add Dose value as 4 then this column will store ImmDose / lotnumberDose = 4/2 =2. So this column will save 2 in this case.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>LastDocumented</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column is used to track the immunization documented date. If the immunization data for patient change then this column update to the changed date.</td>
+      </tr></table>
+</div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { background-color: #cde4f3; color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ip_rh_ptStagingADTOrders</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">The ip_rh_ptStagingADTOrders table relates to the staging of ADT (Admission, Discharge, Transfer) orders in a healthcare context. Below is a description of its columns:</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an auto-incrementing integer column, serving as the primary key. It uniquely identifies each record in the table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>stagingOrderId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an integer FK column of table ip_rh_ptstagingorders PK column stagingOrderId. It relates to the ID of the staging order associated with this ADT order.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>attendingProviderId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This FK that refers uid column in users.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dischargeDispositionId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an integer column with a default value of NULL. It represents the ID of the discharge disposition for the patient. It's FK that refers id column in ip_rh_dict_disposition table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>dischargeProviderId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an integer column with a default value of NULL. It represents the ID of the healthcare provider who discharged the patient. FK that refers to uid in users table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>patientWaitingFor</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This is a VARCHAR(255) column. It holds information about what the patient is waiting for.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>dischargeContingencies</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This is a VARCHAR(255) column. It may store descriptive information about any contingencies or special considerations related to the patient's discharge.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>admittingProviderId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an integer column with a default value of NULL. It represents the ID of the healthcare provider who admitted the patient. This is FK and refer column uid from users.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>reasonForTransfer</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This is a VARCHAR(255) column. It may store descriptive information about the reason for the patient's transfer.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>doNotCreateSubEncFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This is a tinyint column with a default value of 0 and it cannot be NULL. This is a flag to indicate whether or not to create a sub-encounter for this order.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>admitDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This field is a datetime data type and can be NULL. It represents admit DateTime.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>anticipatedDischargeDate</strong></td>
+        <td class="tab-description">date</td>
+        <td class="tab-description">This field is a date data type and can be NULL. It represents anticipatedDischarge Date.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>dischargeDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This field is a datetime data type and can be NULL. It represents discharge DateTime.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This is a tinyint, a smaller range integer. It cannot be NULL and has a default value of 0. This column indicates whether a staging ADT order has been marked for deletion or not. deleteFlag value 0 mark as not deleted and value 1 mark as deleted.</td>
+      </tr></table>
+</div>
+</body>
+</html>

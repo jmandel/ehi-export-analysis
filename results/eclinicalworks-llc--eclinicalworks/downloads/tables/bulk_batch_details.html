@@ -1,0 +1,77 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>bulk_batch_details</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about the details of Fhir R4 bulk request batches, including their status, creation and modification timestamps, and any filters applied.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each bulk batch detail record. Example: 1, 2, 3.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>bulk_batch_master_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the associated bulk batch master record. Example: 101, 102, 103.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>patient_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the associated patient (user) record. This column can have NULL values. Example: 1001, 1002, 1003. Foreign key relation: References `users` table on `uid` column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>fhir_resources_id</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Identifier for the associated FHIR (Fast Healthcare Interoperability Resources) resource. Example: 1, 2, 3.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>batch_detail_status</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Status of the bulk batch detail, where 0 is the default value. Example: 0, 1, 2.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>created_at</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">time stamp for when the bulk batch detail record was created. Example: '2021-09-01 12:34:56'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>modified_at</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">time stamp for when the bulk batch detail record was last modified. Example: '2021-09-02 14:56:32'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>apply_since_paramter</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Indicates whether the "since" parameter is applied, with 0 being the default value. Example: 0, 1.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>type_filter</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Filter applied to the bulk batch detail based on the type of resource. This column can have NULL values.</td>
+      </tr></table>
+</div>
+</body>
+</html>

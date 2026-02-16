@@ -1,0 +1,86 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>rpm_enrollment_details</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores the enrollment details of patients in remote patient monitoring programs, including consent type, provider information, and disenrollment details.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains auto incremented id, datatype is INT. This column stores integer value which could grow with number of users added to the care team and hence integer is selected. It is AUTO_INCREMENT column and has PRIMARY KEY index.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ptacoid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains the Primary Key column id of Ptacoprograms table. It stores the PHM enrollment id. The value of this field can be NULL. There is a Foreign Key associated with this field - FK_rpm_enrollment_details_ptacoid referencing to id column of ptacoprograms table. The data type chosen is INT as this field is pointing to id column of ptacoprograms table which is also int.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>patientid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains the Primary Key column id of user table. It stores the unique id of a Patient. The value of this field can not be NULL. There is a Foreign Key associated with this field - FK_rpm_enrollment_details_patientid referencing to UID column of user table. The data type chosen is INT as this field is pointing to UID column of user table which is also int.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>consent_type</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores type of consent provided i.e. Verbal, Written, Pending, Decline, Not Required etc. 
+This is an enum because there are fixed types of consents available. 
+This field can have NULL value. Therefore, the default value of this field is NULL.
+
+The value of this field cannot have a name more than 20 characters long as this is an enum type , therefore the data type is VARCHAR(20).
+
+ We cannot give a default value from one of the enum values as the user needs to make a selection and we do not show any value by default when we launch the screen.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>provider_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the Primary Care Provider id who is going to provide care to the patient 
+Contains the Primary Key column id of user table. It stores the unique id of a Provider. The value of this field can be NULL.  There is a Foreign Key associated with this field - FK_rpm_enrollment_details_provider_id referencing to UID column of user table. The data type chosen is INT as this field is pointing to UID column of user table which is also int.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>disenrolled_by</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of Provider who has disenrolled the patient from RPM. This field can have a NULL value.  The default value for this field is not provided as the patient will be disenrolled once the enrollment record is inserted in DB. There is a Foreign Key constraint associated with this field - FK_rpm_enrollment_details_disenrolled_by referencing to UID column of user table. 
+The data type chosen is INT as this field is pointing to UID column of user table which is also int.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>disenrolled_datetime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the Date Time when the patient is disenrolled from RPM. This field cannot have a NULL value. 
+Therefore, the default value of this field is '1901-01-01 00:00:00' for MSSQL and '0000-00-00 00:00:00' for MySQL. This field does not have an index linked to it.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicates the record added is deleted, datatype is tinyint - 0: not deleted 1: deleted. This field will always have a value hence defined as NOT NULL. By default, this column should not be in deleted status hence default 0 is chosen.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>disenrollment_notes</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the notes captured while disenrolling a patient from RPM program. The datatype is selected as Varchar(max). This field can have a NULL value. </td>
+      </tr></table>
+</div>
+</body>
+</html>

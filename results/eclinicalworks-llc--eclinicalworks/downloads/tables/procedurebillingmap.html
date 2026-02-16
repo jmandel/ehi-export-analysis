@@ -1,0 +1,79 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>procedurebillingmap</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about the billing of medical procedures performed during patient encounters, including details about the procedure, its complexity, and location.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the encounterid. It refers the encounterid column present in enc table. It has size of int(11).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>catid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of Laceration Repair category created for Procedures section when IsLacerationEnabled itemkey is true and migration script is executed. It refers the itemid of items table.
+It has size of int(11).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>itemid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This stores the itemid of the organs created inside Laceration Repair category(Skin, Head etc).
+It refers the itemid column of items table. It has size of int(11)
+</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>woundno</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the woundno created for a particular item. It refers the woundno column from structprocedurespl table. It has size of int(11)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>lenVal</strong></td>
+        <td class="tab-description">float</td>
+        <td class="tab-description">This column stores the wound size and hence, the data type is float. Default value is 0. If the wound length is not specified , this column will have a value as 0.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>complexity</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">The data type of this column is varchar(20). It can have 3 values ie 'Simple' or 'Intermediate' or 'Complex'.
+By default, complexity will always be 'Simple'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>locationid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of the location. It refers the locationid column of laceration_location table. It has size of int(11).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>groupno</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores the group no. It refers the groupno column present in laceration_cptcode.
+Group no is identified by matching the complexity, locationid and length value in laceration_cptcode table.
+</td>
+      </tr></table>
+</div>
+</body>
+</html>

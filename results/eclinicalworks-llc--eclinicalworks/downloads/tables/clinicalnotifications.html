@@ -1,0 +1,201 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>clinicalnotifications</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table is the Transition Care Management program specific table and stores patient enrolled in this program.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is an auto generated Primary Key.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>patientname</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores last name, first name of the patient enrolled in the TCM program. (No information on data type size and default value)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>providername</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores Primary Care Provider's last name, first name for the enrolled patient. (No information on data type size and default value)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>assignedToid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of the provider / staff to whom this patient is assigned. This column refers column UID from user table. (No information  on default value)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>assignedto</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores last, first name of the provider / staff to whom this patient is assigned. (No information on data type size)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>admittype</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores enrolled patient's admit status and it can have one of the  following: IP,ED,Admit,ER Visit,Discharge,Observation. Admit type cannot be a big length word/s hence with buffer varchar (30) selected. (No information on default value)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>dischargedate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores date on which the enrolled patient is discharged. The format used is YYYY-MM-DD HH:MM:SS hence dateTime data type selected.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>reason</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores free text reason in brief for hospitalization for this patient. Hence varchar (150) is selected.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>hospitalsourceid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of the Hospital selected while enrolling this patient. This column refers column id from TCM_Hospitals table. (No information on default value)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>hospitalsourcename</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores name of the Hospital for the hospital in hospitalsourceid column. This column refers column name from TCM_Hospitals table. (No information on data type size and default value)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>status</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column indicates the status of the enrolled patient. It can be on of the below values: 0 - ALL (default value) , 1- OPEN, 2- ADDRESSED. (No information on data type size)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>subscriptionname</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Not in use.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>serviceDescription</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Not in use.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>action</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Not in use.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>inputsource</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column indicates the source from where this patient is enrolled into this TCM program. It can be one of the below values: 0 - TCM Notes Screen, 1- Manual Enrolment,2- Admin Section 3- File Import. (No information on data type size and default value)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>documentid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of the document uploaded while enrolling this patient, if any. This column refers column docid from document table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>patientid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of this enrolled patient. This column refers column UID from user table. (No information on default value)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>link</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Not in use.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>notificationid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Not in use.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>SOURCEtimestamp</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Not in use.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>notificationComments</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the brief comment added while enrolling this patient. (No information data type size)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>providerid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of the Provider selected while enrolling this patient. This column refers column UID from user table. (No information on default value)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>VisitNumber</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores unique identifier assigned by health care facility(hospital,clinic etc) and given to a patient for that particular visit to the facility. (No information on data type size and default value)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>admitstatus</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Not in use.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>cptcode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores a code indicating what was done to the patient during the consultation, including diagnostic, laboratory, radiology, and surgical procedures. (No information on data type size and default value)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>diagnosisCode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores a list of ICD code(s) for Secondary Diagnosis selected for this patient while enrolling. (No information on data type size)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>itemid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores a list of item id(s) of the corresponding code(s) in diagnosisCode column. (No information on data type, size and default value)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PrimaryDiagnosisCode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the ICD code for Primary Diagnosis selected fro this patient while enrolling. This column refers column value from ITEMDETAIL table. (No information on data type size and default value)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>primaryDxItemid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the item id of the corresponding code in PrimaryDiagnosisCode column. This column refers column itemid from items table. (No information on data type, size and default value)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>admnotificationdate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores date on which the enrolled patient is admit. The format used is YYYY-MM-DD HH:MM:SS hence dateTime data type selected.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>patIndicator</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Not in use.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>pmid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of the pmlist table. This column have value when the notification comes through an interface.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>messageid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores messageid of the electronicpmresults table. This column has an integer value when the notification comes through an interface.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dischargeFacilityid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of the tcm_hospitals table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>dischargeType</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores id of the TCM_facilityTypes table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ptRisk</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column store the integer value based on the patient primary diagnosis as follows.
+ 1 - High Risk
+ 2 - Moderate Risk
+ 3 - Low Risk
+</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ptAttemptsNo</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores value for how many attempts are made by the hospital to contact the patient after dicharge.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the enconterid of the enc table. This column has an integer value when encounter is linked with tcm from TCM Notes.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>pcpid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores userid of  PCP . This column has an integer value when patient enroll in TCM module</td>
+      </tr></table>
+</div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { background-color: #cde4f3; color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ip_rh_druginteraction</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table is used to store interaction override details like interaction override reason, severity for interaction and acknowledge flag for acknowledged interaction</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>interactionId</strong> (Primary Key) </td>
+        <td class="tab-description">bigint</td>
+        <td class="tab-description">This is the unique identifier for each interaction record.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>severityCode</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to store severity code of interaction. The default value is 0.
+Possible values are:
+1 - minor
+2 - moderate
+3 - severe</td>
+      </tr><tr  >
+        <td class="col-name"><strong>encounterId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store encounter ID and is foreign key references encounterId column of enc table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>description</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store interaction messages.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>overrideFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to store override flag it shows whether interaction is override. 1 - represents interaction is override
+0 - represents interaction is not overriden
+Default value is 1 as record is added when the interaction is override.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>overrideReason</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store override reason id and is foreign key references id column of ip_rh_drugFormulary_reasondictionaryitems table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>interactionCategory</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store is category of interaction. Default value is 0 and possible values are:
+1 - drug to drug
+2 - drug to allergy
+3 - drug to alcohol/food
+6 - duplicate therapy
+</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>overrideBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store override by Id and is foreign key references uid column of users table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>overrideDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column is used to store date and time of override interaction in yyyy-mm-dd hh:mm:ss format.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>acknowledgeFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to store acknowledge flag it shows whether interaction is acknowledged.1 - interaction is acknowledged
+0 - interaction is not acknowledged.
+Default value is 0 as record is added when interaction is override.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>acknowledgeBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store acknowledge Id.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>acknowledgeDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column is used to store date and time of acknowledge interaction in yyyy-mm-dd hh:mm:ss format.</td>
+      </tr></table>
+</div>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>empioptinconsenttagged</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about consent level elements (public, private, per-event) details, including items, category, and whether the consent has been signed.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is the primary key column, which uniquely identifies each record in the table. It is an integer value, and it cannot be NULL. Examples include: 1, 2, 3, etc.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>pid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column represents the patient id for which event level consent was applied. It refers to user.UID column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>encid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column contain encounter id for which per event consent applied. This column refers to enc.encounterid column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encounterDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column contains the date of an encounter for which consent was required per event.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>category</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column contains the name of the category events marked during CCR generation and export. Possible values include: Problems, Procedures, Labs, Imaging, and Medications.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>item</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column contains the corresponding code/name for Problems (ICD), Procedures (CPT), Labs (CPT), Imaging (CPT), and Medications (Name).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>startDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column is not in use.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>endDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">The end date of the consent period. Example: '2021-12-31', '2022-01-31', '2022-03-31'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>consentLevel</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">This column contains the consent level value. It will always have 1 as a possible value.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>consentSigned</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This is the date and time when a user gives consent per event item.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>timestamp</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column contains the date and time when an event row was inserted and updated.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column represents the deletiton status for the row. A "0" means not deleted, and a "1" means deleted.</td>
+      </tr></table>
+</div>
+</body>
+</html>

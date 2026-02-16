@@ -1,0 +1,113 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { background-color: #cde4f3; color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ip_rh_ptADTOrders</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">The table 'ip_rh_ptADTOrders' appears to store information related to patient Admission, Discharge, and Transfer (ADT) orders in a healthcare setting. Each record is uniquely identified by an 'id' and contains details about the order, admission, discharge, providers involved, and other related information.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is the primary key for the table, providing a unique identifier for each record. It is an integer data type, auto incrementing from 1, and cannot be NULL, ensuring a unique and not NULL value for every record.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>orderId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an integer and CANNOT be NULL. It holds the identifier for the order associated with the ADT event. It references the orderId column in the ip_rh_ptorders table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>admitAsId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an integer, CANNOT be NULL and has a default value of 0. It holds the identifier for the admission type.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>levelOfCareId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an integer, CANNOT be NULL and has a default value of 0. It holds the identifier for the level of care for the patient.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>attendingProviderId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an integer, CAN be NULL. It holds the identifier for the attending provider. It references the uId column in the users table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This is a tinyint, a smaller range integer, CANNOT be NULL and has a default value of 0. This column indicates whether an patient's ADT order has been marked for deletion or not. deleteFlag value 0 mark as not deleted and value 1 mark as deleted.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>dischargeDispositionId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an Integer data type, can be NULL. This field holds the identifier for the discharge disposition. This is FK and refers id column in ip_rh_dict_disposition.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dischargeProviderId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an Integer data type, can be NULL. This field hold the identifier of the provider who discharged the patient.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>patientWaitingFor</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This is a varchar data type and cannot be NULL. It holds information about what the patient is waiting for.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dischargeContingencies</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This is a varchar data type and cannot be NULL with a default value empty. It holds information about any contingencies related to the patient's discharge.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>admittingProviderId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an Integer data type, can be NULL. This field hold the identifier of the provider who admitted the patient. It references the uId column in the users table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>accommodationTypeId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an Integer data type, can be NULL. This field hold the identifier for the type of accommodation assigned to the patient.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>reasonForTransfer</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This is a varchar data type and cannot be NULL with default value empty. It holds information about the reason for the patient's transfer.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>doNotCreateSubEncFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This is a tinyint, a smaller range integer, CANNOT be NULL and has a default value of 0. This column indicates whether a sub-encounter should be created or not.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>numOfMidNightStay</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an Integer data type, can be NULL. This field hold the number of midnights stays for the patient.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>admitDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This field is a datetime data type and can be NULL. It represents the date and time the patient was admitted.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>anticipatedDischargeDate</strong></td>
+        <td class="tab-description">date</td>
+        <td class="tab-description">This is a date data type and can be NULL. It represents the anticipated discharge date for the patient.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dischargeDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This field is a datetime data type and can be NULL. It represents the date and time the patient was discharged.</td>
+      </tr></table>
+</div>
+</body>
+</html>

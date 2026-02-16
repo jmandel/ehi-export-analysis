@@ -1,0 +1,117 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>spiroreports</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about spirometry reports for patients, including file details, report dates, and technician information.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>reportid</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each spirometry report. Example: 1, 2, 3.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>patientid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the patient associated with the report. It has a foreign key relation with the user table, referring to the UID column. Example: 101, 102, 103.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>encid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the encounter associated with the report. It has a foreign key relation with the enc table, referring to the encounterid column. Example: 1001, 1002, 1003.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>labid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the lab where the report was generated. Example: 10, 11, 12.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>labType</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Type of lab where the report was generated. Example: 1 (hospital lab), 2 (private lab), 3 (research lab).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>filePath</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">File path for the report file. Example: /reports/spiro/12345.pdf.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>fileName1</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">First file name associated with the report. Example: spiro_report_12345.pdf.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>fileName2</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Second file name associated with the report. Example: spiro_report_12345_summary.pdf.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>reportDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date when the report was generated. Example: 2021-08-01.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>reviewDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date when the report was reviewed. Example: 2021-08-02.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>reviewedBy</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the person who reviewed the report. Example: Dr. John Smith.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>technician</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the technician who performed the spirometry test. Example: Jane Doe.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>race</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Race identifier for the patient. Example: 1 (Caucasian), 2 (African American), 3 (Asian).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>delFlag</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Deletion flag for the report. Example: 0 (not deleted), 1 (deleted).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>FaxReportFileName1</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">File name of the faxed report. Example: faxed_spiro_report_12345.pdf.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>comments</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Additional comments about the report. Example: Patient had difficulty performing the test.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ftpdirpath</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">FTP directory path for the report file. Example: /ftp/reports/spiro/12345.pdf.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>pdfuploadsuccess</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Indicator for successful PDF upload. Example: 0 (not successful), 1 (successful).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>sdkversion</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Version of the SDK used for generating the report. Example: 1.0.0, 1.1.0.</td>
+      </tr></table>
+</div>
+</body>
+</html>

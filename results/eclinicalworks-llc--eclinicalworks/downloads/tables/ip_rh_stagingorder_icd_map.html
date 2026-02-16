@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { background-color: #cde4f3; color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ip_rh_stagingorder_icd_map</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores order mapping that belongs to icd.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Acts as the primary key for the table, uniquely identifying each record.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>stagingOrderId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Foreign key that refers to a staging order record. This column refers to the ip_rh_ptstagingorders table's id column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>assessmentId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Foreign key that refers to an assessment record. NOT NULL ensures that every record must have an associated assessment.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Indicates whether a record is marked for deletion.
+NOT NULL ensures that the delete status must be explicitly set; DEFAULT ((0)) automatically sets the flag to 0 (not deleted) if no value is provided, which is useful for new records.
+This column is used for soft deletes, where records are flagged instead of being physically deleted from the database.</td>
+      </tr></table>
+</div>
+</body>
+</html>

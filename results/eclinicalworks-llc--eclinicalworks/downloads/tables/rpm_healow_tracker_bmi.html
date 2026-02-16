@@ -1,0 +1,124 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>rpm_healow_tracker_bmi</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">When a provider prescribes a BMI device for the patient,the patient will take the readings from the device and upload it to Healow.From healow these readings are transferred to EMR side.This table stores all the BMI readings ncluding weight, height, and measurement timestamps. It also contains information about the data source, device used, and whether the data has been reviewed or manually added for the patients.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains auto incremented id, datatype is INT. This column stores integer value which could grow with number of RPM healow tracker bmi data added and hence integer(Range: 0-2,147,483,647) is selected. It is AUTO_INCREMENT column and has PRIMARY KEY index</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>UID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores unique id of a Patient to identify the readings belonging to the patient which references the UID column of the user table. The data type chosen is INT. This field will always have a value hence defined as NOT NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>weight</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Contains the weight of the patient and data type is VARCHAR(255) and default value is NULL. This column stores characters which cannot exceed 255 characters hence VARCHAR(255) is selected.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>height</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Contains the height of the patient and data type is VARCHAR(255) and default value is NULL. This column stores characters which cannot exceed 255 characters hence VARCHAR(255) is selected.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>height_ts</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Contains time stamp value at time when height data is shipped, datatype is DATETIME. 
+This column stores datetime hence Datetime is selected. This field will always have a value hence defined as NOT NULL. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>bmi</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Contains the body mass index value measured for the patient and data type is VARCHAR(255) and default value is NULL. This column stores characters which cannot exceed 255 characters hence VARCHAR(255) is selected.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>measure_datetime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Contains " measure_datetime " value at time when fitness data is measured, datatype is DATETIME. 
+This column stores datetime hence Datetime is selected. This field will always have a value hence defined as NOT NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>delflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicates bmi data is Deleted or not, datatype is tinyint - 0 - Not Deleted, 1 - Deleted. This field will always have a value hence defined as NOT NULL. By default, bmi data should not be in Deleted status hence default 0 is chosen.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>reviewed</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Contains value that specifies if the bmidata is reviewed or not and data type is TINYINT. This field will always have a value hence defined as NOT NULL and default value is 0. 
+Values 0 :Readings has not been reviewed by Provider
+1-Readings has been reviewed by provider
+2-Reading has been reviewed and ignored by the provider</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>reviewedByid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains the UID value referenced from UID column of user table and data type is INT and default value is NULL. 
+This column is a foreign key and it refer to user table UID column. This column could be store high range numeric value hence integer is selected.  </td>
+      </tr><tr  >
+        <td class="col-name"><strong>reviewedDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Contains the date and time when fitness data is reviewed by the reviewer, datatype is DATETIME and default value is NULL. 
+This column stores datetime hence Datetime is selected.      </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isManuallyAdded</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Contains the flag that specifies if the bmi data was measured by tracker or manually added and data type is TINYINT.  
+Here 0: indicate not manually added and 1: indicate manually added. This field will always have a value hence defined as NOT NULL. 
+By default, fitness data should not be manually added hence default 0 is chosen</td>
+      </tr><tr  >
+        <td class="col-name"><strong>device_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains " device_id" value referenced from device_id column of the rpm_supported_devices_list table, datatype is INT and default value is NULL.  
+This column could be store high range numeric value hence integer is selected. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>modifiedDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Contains " modifiedDateTime" value at time when bmi data is shipped, datatype is DATETIME. 
+This column stores datetime hence Datetime is selected. This field will always have a value hence defined as NOT NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>device_action</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the Vendorid from whom the device has been purchased. 
+This column could be store high range numeric value hence integer is selected.  
+Contains " device_action " value referenced from id column of the rpm_vendors_list table, datatype is INT. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>source_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains " source_id" value referenced from id column of the rpm_healow_tracker_source table, datatype is INT.  
+This column could be store high range numeric value hence integer is selected. This field will always have a value hence defined as NOT NULL. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>isRPMData</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicates the readings received from healow end are valid or not, datatype is tinyint - 0 - Not Valid, 1 - Valid. 
+This field will always have a value hence defined as NOT NULL. By default, this column should not be in valid status hence default 0 is chosen.</td>
+      </tr></table>
+</div>
+</body>
+</html>

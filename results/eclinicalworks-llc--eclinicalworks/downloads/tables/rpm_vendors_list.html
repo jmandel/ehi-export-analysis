@@ -1,0 +1,79 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>rpm_vendors_list</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about remote patient monitoring (RPM) vendors, their display names, supported modalities, and other related attributes.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains auto incremented id, datatype is INT(11). This column stores integer value which could grow with number of RPM vendors added over time and hence integer(Range: 0-2,147,483,647) is selected
+
+. It is AUTO_INCREMENT column and has PRIMARY KEY index.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>name</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Contains the name of the vendor and the data type is VARCHAR(255). This column stores characters which cannot exceed 255 characters hence VARCHAR(255) is selected. This field will always have a value hence defined as NOT NULL.
+
+This field must have a unique name hence UNIQUE constraint UX_rpm_vendors_list_name  is added. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>vendor_display_name</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Contains the display name of the vendor and the datatype is VARCHAR(255). This column stores characters which cannot exceed 255 characters hence VARCHAR(255) is selected
+
+This field will always have a value hence defined as NOT NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>modality</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column contains the modality of the vendor.Vendors send data either through API's into healow which is passed to EMR or the readings are accessed through the PDF. Some of the vendors support both API/PDF. Hence the classification. The data type chosen for this column is VARCHAR(20). This field will always have a value hence defined as NOT NULL with Default value API.Since the column value does not exceed 20 characters VARCHAR(20) is selected. The modality can have values ('PDF','API','BOTH') only and hence CHECK constraint CHK_rpm_vendors_list_name is added.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isLinked</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column specifies if the vendor is linked and data type is TINYINT. This field will always have a value hence defined as NOT NULL with Default value 0. 
+
+This column could contain two columns 
+0- If the vendor is not linked on healow 
+1- If the vendor is linked on healow </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicates vendor is Deleted or not, datatype is tinyint - 0: not deleted 1: deleted. This field will always have a value hence defined as NOT NULL. By default, vendor should not be in inactive status hence default 0 is chosen.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>support_cellular_device</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores a boolean value (0 or 1) indicating whether the RPM vendor supports cellular devices or not. For example: 0 for not supporting cellular devices, 1 for supporting cellular devices.</td>
+      </tr></table>
+</div>
+</body>
+</html>

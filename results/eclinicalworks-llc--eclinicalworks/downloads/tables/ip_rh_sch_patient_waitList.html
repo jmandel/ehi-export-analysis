@@ -1,0 +1,112 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { background-color: #cde4f3; color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ip_rh_sch_patient_waitList</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table is used to store details entered while adding patient into wait list. The reason for creating this table is, when patient comes, and user tries to make patients entry in wait list then that details will get saved in this table.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store the id of the patient entry into wait list.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>patientId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store the id of the patient who who got added in wait list.This column is FOREIGN KEY which refers to uid column of users table that indicates which patientId of a patient is added into wait list.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>status</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is storing status of patient added in waitlist. Whether that patient is still existing in the wait list screen or not. 0 - Patient is added to the wait list,
+1 - Patient is removed from wait list.
+The default value is set to 0 because by default when patient is added into wait list then it should be added in wait list.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>facilityId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the facility id of facility selected while adding patient into wait list which defines under which facility patient got added into wait list. This column is FOREIGN KEY which refers to id column of edi_facilities table that indicates selected facility on add wait list screen</td>
+      </tr><tr  >
+        <td class="col-name"><strong>followUpStatus</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores follow up status whether it is completed or not. When a patient is added to the wait list then user add follow up date time for that patient, on that day user will follow up with patient if that follow up gets successful then user will mark Yes as completed or will create next follow up. 1-Completed (Yes),  
+0-Not Completed (No).
+The default value is set to 0 because by default follow up status is considered as not complet</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>addedOn</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">The purpose of this column is to know when patients get added onto the wait list screen. This column stores date time value for patient added into waitlist.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>triageInitiatedDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">The purpose of this column is to know when triage of the added patient got created.This column stores date time value for patients on the date which user has initiated triage for patient.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>notes</strong></td>
+        <td class="tab-description">nvarchar</td>
+        <td class="tab-description">The purpose of this column is to store the notes which are added at the time of adding patient into wait list or editing patient's entry into wait list.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>deleteflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This flag indicates if patient's entry into wait list deleted or not.0: patient's entry not deleted and 1: patient's entry deleted
+Default 0 is chosen for this column because by default when patient's entry must be undeleted.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>userId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The purpose of this column is to store who has added/modified notes in wait list screen. This column is FOREIGN KEY which refers to id column of users table that indicates which user added/edited notes.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>noteDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">The purpose of this column is to store when notes get added/modified in wait list screen. This column stores the date time when notes are added/edited.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encounterId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The purpose of this column is to store encounterId which is created for screening tab to map screening forms. This column is FOREIGN KEY which refers to id column of edi_facilities table that indicates encounter id of a patient.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isActive</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">The purpose of this column is to store the flag which indicates if a patient belongs to Active Wait List or Historical Wait List. 0: Active Wait List,
+1: Historical Wait List
+By default, patients are added to the Active Wait List. Hence default 0 is chosen for this column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>triageCallAnsweredBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The purpose of this column is to store the Id of the user who is selected for triage call answered by, documented on add/edit wait list screen. This column is FOREIGN KEY which refers to uid column of users table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>triageCallAssignedTo</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The purpose of this column is to store the Id of the user to whom that triage is assigned to which is documented on add/edit wait list screen. This column is FOREIGN KEY which refers to uid column of users table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>followUpCompletedOn</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">The purpose of this column is to store the date time value on which follow up is completed. Once the user followed up with patient then user and if that follow up got successful then current date time gets inserted into this column.</td>
+      </tr></table>
+</div>
+</body>
+</html>

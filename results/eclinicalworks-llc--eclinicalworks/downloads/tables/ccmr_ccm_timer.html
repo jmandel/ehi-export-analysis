@@ -1,0 +1,113 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ccmr_ccm_timer</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about time added by staff / provider for a ccm / cpo / rpm enrolled patient including start time, end time, duration, reason, notes, recorded manualy or by timer, user who added time.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains auto incremented id, datatype is INT. This column stores integer value which could grow with number of transactions added. It is AUTO_INCREMENT column and has PRIMARY KEY index</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PTCO_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to identify enrollment details of patient. This is foreign key column. It refers to primary key of ptacoprograms table. Data type is int(11).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Patient_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores unique id of a Patient which references the UID column of the user table. The data type chosen is INT. This column allows a NULL value.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>START_TIMER</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Contains date time when the timer was started and datatype is DATETIME. This column store datetime hence time stamp is selected. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>END_TIMER</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Contains date time when the timer was ended and datatype is DATETIME. This column store datetime hence time stamp is selected. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>DURATION</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Contains duration for which the timer was running and datatype is DATETIME. This column store duration hence time stamp is selected.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>REASON</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Contains the name of the timer reason and the data type is VARCHAR.Since the length of timer reasons would not exceed 255 characters it is selected as VARCHAR(255).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Notes</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Contains the timer notes and the data type is TEXT.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>CreatedDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Contains date time when the timer record was created and datatype is DATETIME. This column store datetime hence time stamp is selected. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>RecordedManually</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Flag indicates is time is recorded manually or automaically by timer, datatype is TINYINT. This column stores integer value hence integer is selected. 0:Not manually recorded 1: Manually recorded. By default time is automatically recorded by timer hence default 0 is chosen.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ReasonItemid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains the itemid of the timer reason and datatype is INT. It refers the 'itemid' of items table. This field will always have a value hence defined as NOT NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>loggedProviderid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains the user id who was logged in when record was added or last updated  and datatype is INT. It refers the 'UID' of user table. This field will always have a value hence defined as NOT NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Flag indicates reason has been deleted or not, datatype is TINYINT. This column stores integer value hence integer is selected. Datatype can be changed to tinyint - 0:NotDeleted 1: Deleted. By default timer record must not be in delete status hence default 0 is chosen.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>timerstatus</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Flag indicates is timer is running for the patient, datatype is TINYINT. This column stores integer value hence integer is selected. 0:Not running 1: Timer is running. By default timer is not automatically running hence default 0 is chosen.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>modDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Contains date time when the record was last modified and datatype is DATETIME. This column store datetime hence time stamp is selected.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>proffessionalTime</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicates is time is added by provider for the patient, datatype is TINYINT. This column stores integer value hence integer is selected. 0:Not added by provider 1: Added by Provider. By default 0 is chosen.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>finalBillingModule</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the program name incase of CCM RPM concurrent billing. This field indicates that specific timer entry should be allocated to which program. The data type is varchar(50). This column allows NULL value.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>billingProcessDone</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicates whether the cpt code decision is done considering this specific timer entry. Values 0 - billing process not done, 1 - billing process done. The data type is TINYINT. This column does not allow NULL value.</td>
+      </tr></table>
+</div>
+</body>
+</html>

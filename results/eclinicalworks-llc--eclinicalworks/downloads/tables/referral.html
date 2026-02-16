@@ -1,0 +1,341 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>referral</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about patient Incoming/Outgoing referrals, including details about the referral source, destination, dates, and status.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>Referralid</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each referral record.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>patientid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column store the id of a patient for whom the referral has been created/received. This column refers to the UID in the user table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>insid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of an insurance being used for the referral. This column refers to insid column in the insurance table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>refFrom</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of the provider selected under the From section in the user interface. Provider is someone who is referring the patient. This column refers to the UID column in the user table. 
+</td>
+      </tr><tr  >
+        <td class="col-name"><strong>authNo</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column refers to free text string entered into Auth Code filled in the user interface. This code represents Auth Code provided by the insurance company for the referral.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>date</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores date on which the referral was created for the patient. Date is stored in YYYY-MM-DD 00:00:00.000 format.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>reason</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores reason why the referral was created. Reason could be free text or pre-configured keywords selected by the provider/staff.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>diagnosis</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores an id for a diagnosis for which the referral has been created. This column refers to the itemid column in the items table. Column has been declared as VARCHAR because this column may store multiple ids for diagnosis separated by '|' (i.e., 250909|252643). </td>
+      </tr><tr  >
+        <td class="col-name"><strong>refStDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores start date of the referral after which the referral can be used by the patient for the visit and the date is selected by provider/staff.
+</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>refEnddate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the end date of the referral after which referral can not be used by the patient and the date is selected by provider/staff.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>visitsAllowed</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores a number, which represents number of visits to referred provider will be allowed with the referral.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>visitsUsed</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores a number, which represents the number of visits to the referred provider patient has used with the referral.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>RefTo</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an id of a provider under the To section in the user interface. Provider is to whom the patient has been referred to.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>notes</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores free text notes documented by provider/staff under General Notes section under the Notes tab in the user interface. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores values 0/1 to indicate whether the referral has been deleted or not. 0 - Referral is not deleted, 1 - Referral is deleted.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>referralType</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores a character I/O to indicate type of the referral being stored. I - Incoming Referral, O - Outgoing Referral. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>priority</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the priority of the referral documented by provider/staff. 0 - Routine, 1 - Urgent, 2 - Stat.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>assignedto</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores name of the provider/staff to whom this referral has been assigned to in the user interface by the end user. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>assignedToid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of a provider/staff to whom the referral has been assigned to in the user interface by the end user. This column refers to the UID column in the user table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>status</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores current status of the referral. Open - Referral is open, Pending - Consultation is Pending, Addressed - Referral is addressed, To Be Reconciled, Insurance Auth, Internal Review.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>authtype</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores value of field Auth Type (Authorization Type) selected by the end user in the user interface. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>procedures</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores an id for a procedure selected by provider/staff in the user interface while creating the referral. This column refers to the itemid column in the items table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>fromfacility</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of a facility selected by the end user under the From section in the user interface while creating the referral. This column refers to the id column in the edi_facilities table. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ToFacility</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of a facility selected by the end user under the To section in the user interface while creating the referral. This column refers to the id column in the edi_facilities table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>speciality</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id for a specialty of the practice for which the referral has been created. This column refers to the id column in the edi_speciality column. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>POS</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores a code associated with the Place of Service. The Centers for Medicare & Medicaid Services (CMS) maintain POS codes used throughout the health care industry.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>UnitType</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores values from the Unit Type field in the user interface.
+As per the practice, the unit type describes the nature of the visit for the referral created. The entity who receives the referral knows what kind of visit is required for that patient based on the unit type. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>FrontOfficeAuth</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores flag 0/1 to indicate whether the referral record has been authorized by the front office staff to be uploaded to eHX or not. 0 - is not authorized, 1 -authorized by front office. This authorization is needed to send referral to eHX.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ReferralNumber</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the Referral Number provided by a payer for prior authorization of a referral. If the Referral Number is missing and if the insurance 'requires referral,' then the claim can not be generated.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>apptDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date for an appointment of a patient with referred provider. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>clinicalNotes</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores free text notes documented by provider/staff under the Clinical Notes section under the Notes tab in the user interface.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ReceivedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores date from the Received Date field in the user interface. Date when referral was received.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>refEncid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the encounter associated with the referral.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ApptTime</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the time for an appointment of a patient with referred provider associated with the referral.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>extNHXApptBlockid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">External appointment block identifier associated with the referral.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>extNHXRefTxid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores transaction id for the referral from P2P server. Transaction id is transmitted by P2P server outgoing when referral has been successfully received on the P2P server.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>refReqid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the referral request. This column refers to the reqid column of the nhxreferral table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>refFromP2pNPI</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">National Provider identifier (NPI) of the referring provider.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>refFromName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores name of the referring provider.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>refToP2pNPI</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores National Provider identifier (NPI) number of the referred provider. This column refers to NPI column in doctors table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>refToName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores name of the referred provider.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>uploadedToPtDocs</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores values 0/1 to indicate whether documents received in incoming referral have been moved to the Patient Document section or not. 1 - If documents are moved to Patient Document, 0 - Otherwise.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>refToCCNameList</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores comma separated names of providers added as CC while using the Send P2P Patient Record feature.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>refToCCNPIList</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores comma separated National Provider identifiers (NPI) of providers added as CC while using the Send P2P Patient Record feature.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>p2pDeliveryStatus</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores delivery status of the P2P referral if the referral has been sent electronically. 1 - Success, 2 - Failed, 3 - Partial Failed, 4 - In Transit.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>statusUpdateDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the time stamp when the p2pDeliveryStatus is updated. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>ccdaValidationStatus</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores whether the CCDA attached to the electronic transaction satisfies MU eligibility criteria. 1 - CCDA failed MU eligibility criteria, 2 - CCDA passed MU eligibility criteria, 0 - Could not validate CCDA for MU eligibility.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>fromDirectAddress</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the direct registered health address of the provider who is sending outgoing referral out of the eClinicalWorks network. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>toDirectAddress</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the direct registered health address of the provider to whom the outgoing referral out of eClinicalWorks network is being sent to.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>toDirectAddress1</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Alternative direct address of the receiving provider.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>modifiedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the time stamp if any modification is made on the referral by the end user.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isVoiceMsgSent</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating if a voice message has been sent for the referral (0 for not sent, 1 for sent).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isTextMsgSent</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating if a text message has been sent for the referral (0 for not sent, 1 for sent).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>quesAnsGUID</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">When SmartReferralPractice is enabled, a practice can setup the questionnaire for out-of-network referrals. When a user tries to send out-of-network referrals, he/she has to fill out the questionnaire which then is saved on P2P. The GUID for the answers is generated on P2P and saved in this column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>innetwork</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">When SmartReferralPractice is enabled, this column stores values 0/1 to indicate if the provider to whom the referral is being sent to is in-network or not.  0 - if provider is out-of-network, 1 -  if provider is in-network. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>faxreferralxml</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">When SmartReferralPractice is enabled, if the user tries to print/fax a referral, the XML for that referral is stored in this column. This XML is then synced to P2P for reporting.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isHealowAppt</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores 0/1 to indicate whether the referral appointment is from healow or not. 0 - Not a healow Appointment, 1 - healow Appointment. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>transportationRequired</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores flags 0/1 to indicate whether the patient would require transportation during the referral visit or not. 0 - Transportation is not required, 1 -  Transportation is required. Custom column for Humana. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>approvalReq</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores values 0/1 to indicate whether the referral is submitted for approval or not.  0 - Referral is not submitted for approval, 1 -  Referral is submitted for approval.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>approvalstatus</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores values 0/1 to indicate whether the referral is approved or not. 0 - Referral is not approved, 1 - Referral is approved. 
+</td>
+      </tr><tr  >
+        <td class="col-name"><strong>EMCodes</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores Evaluation and Management Codes (EM Codes) documented by end user under procedures section of the User Interface. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>subStatus</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores status from the Sub Status field in the User Interface. This is an extension to the main status of a referral. Substatuses are user defined and comes from referralstatus table. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>subStatusid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of a Status from the Sub Status field in the User Interface. 0 - No Sub Status Selected, 1 - Not Completed</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isHISPTxCapable</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">When sending electronic referral this column stores whether the receiver is a non-eCW HISP outbound receiver. 0 - Not non-eCW HISP outbound receiver, 1 - is non-eCW HISP outbound receiver. If value is 1, attachment size limitation can be adjusted accordingly. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>isReceiverFTPEnabled</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column store values 0/1 to indicate of FTP is enabled for the provider to whom the referral is being sent to. 1-  If receiver's FTP is enabled, otherwise -0. If value is 1, attachment size limitation can be adjusted accordingly.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>totalAttSize</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores total size of attachments to the referral in Kilo Bytes(KB). </td>
+      </tr><tr  >
+        <td class="col-name"><strong>PMReferralid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores id for incoming referrals for which approval status was received over the referral interface. This column refers to Referralid column in pmreferrals table.(Check with Bhawna's Team)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>referralsubType</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Column stores sub type of a referral. Column stored values like "Visit", "CPT" etc</td>
+      </tr><tr  >
+        <td class="col-name"><strong>cptunitsallowed</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Number of CPT (Current Procedural Terminology) units allowed for the referral.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>cptunitsused</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores number of CPT units used for a referral.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>transmissionMethod</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Method of Transmision for Referral i.e., Print,Fax,P2P etc.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isConsultNoteAttached</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating if a consult note is attached to the referral (0 for not attached, 1 for attached).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>notify_portal</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating if the referral should be notified on the patient portal (0 for not notified, 1 for notified).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>referral360id</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Unique identifier for the 360 referral.</td>
+      </tr></table>
+</div>
+</body>
+</html>

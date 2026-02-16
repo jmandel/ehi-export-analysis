@@ -1,0 +1,109 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>bh_timecapture_timer</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about time capture timers related to encounters, including start and end times, duration, notes, and user details.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each time capture timer record. (Example: 1, 2, 3)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the encounter associated with the time capture timer. Foreign key relation with `enc` table's `encounterid` column. (Example: 1001, 1002, 1003)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>UserType</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the user type associated with the time capture timer. Foreign key relation with `bh_cptusertype` table's `id` column. (Example: 1, 2, 3)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>StartTimer</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Start time of the time capture timer. (Example: '2022-01-01 12:00:00', '2022-01-02 14:30:00')</td>
+      </tr><tr  >
+        <td class="col-name"><strong>EndTimer</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">End time of the time capture timer. (Example: '2022-01-01 12:30:00', '2022-01-02 15:00:00')</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>duration</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Duration of the time capture timer. (Example: '00:30:00', '00:45:00')</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Notes</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Notes related to the time capture timer. (Example: 'Initial consultation', 'Follow-up appointment')</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>CreatedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the user who created the time capture timer record. Foreign key relation with `users` table's `UID` column. (Example: 101, 102, 103)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>CreatedDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the time capture timer record was created. (Example: '2022-01-01 11:59:00', '2022-01-02 14:29:00')</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ModifiedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the user who last modified the time capture timer record. Foreign key relation with `users` table's `UID` column. (Example: 101, 102, 103)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ModifiedDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the time capture timer record was last modified. (Example: '2022-01-01 12:01:00', '2022-01-02 14:31:00')</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>CapturedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the user who captured the time. Foreign key relation with `users` table's `UID` column. (Example: 101, 102, 103)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>RecordedManually</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating whether the time capture timer was recorded manually (1) or not (0). (Example: 0, 1)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>TimerStatus</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Status of the time capture timer, where 0 is inactive and 1 is active. (Example: 0, 1)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>IsResetTimer</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating whether the time capture timer has been reset (1) or not (0). (Example: 0, 1)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>IsCptAssigned</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating whether a CPT code has been assigned to the time capture timer (1) or not (0). (Example: 0, 1)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DeleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating whether the time capture timer record has been deleted (1) or not (0). (Example: 0, 1)</td>
+      </tr></table>
+</div>
+</body>
+</html>

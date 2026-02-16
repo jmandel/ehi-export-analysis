@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>smartnote_prompt</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores smart notes prompt details</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Primary Key for this table hence it is defined by int(11) in Mysql and int in SQL Server. This column is not expected to be NULL as it is primary key. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>categoryid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Represents unique id for HPI and Examination section (Foreign key to itemID column in items table). Hence, defined as int. This column is mandatory as smart notes are created from HPI and Examination section and hence is NOT NULL. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>name</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Represents the name of the smart note prompt. Hence, defined as varchar (255). This column is mandatory as there always exists the name of the prompt and hence is NOT NULL. Unique constraint on categoryid, name.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>type</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Represents the type of prompt. The value can be 1-6 , 1- Boolean, 2 Date, 3 Free Text, 4 Multi Select, 5 Numeric , 6- Single Select. Hence, defined as tinyint. This column is mandatory as there always exists a type for the prompt and hence is NOT NULL. (Foreign key to smartnote_prompt_type(typeId).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>defaultValue</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to capture the default value of a prompt. The value is of type varchar(255) and can be NULL. For prompt types Boolean, Date, Numeric default value is stored in this column.</td>
+      </tr></table>
+</div>
+</body>
+</html>

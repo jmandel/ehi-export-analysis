@@ -1,0 +1,131 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>empilabexportlog</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table is populated only when ehx itemkey “empiExportChanged” is set to “yes”. This table contains the logging for the Lab/DI/Procedure export attempt and its export status for each lab for EMR to eEHX trough nightly job or manual attempt including review flags and timestamps.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is the primary key column, which uniquely identifies each record in the table. It is an integer value, and it cannot be NULL. Example: 1, 2, 3, etc.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column contains encounterid value for which lab export attempt was made. It refers to enc.encounterid column. Example: 101, 102, 103.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>reportid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column contains Reportid value for the laboratory report. It refers to labdata.Reportid column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>facGroupid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is dead column. It was used with MultiMaster eEHX setup which is not production supported combination anymore.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>timestamp</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column represents when entry was made into This column . It is time stamp column with defaulted as current date and time.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>reviewedFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column represents the lab review status. It will have 0/1 as unreviewed/reviewed value respectively.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>pid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column contains patientid value for which export attempt was made. It refers to user.UID column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>attemptCount</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column represent count for the attempt made to export lab to eEHX. It will have maximum 3 attempts.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>1stAttemptDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column contains the date and time when first time export attempt was performed.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>2ndAttemptDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column contains the date and time when second time export attempt was performed.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>3rdAttemptDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column contains the date and time when third time export attempt was performed.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>reviewedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column represent when lab was reviewed. This values retrieved from labdata.ReviewedDate and labdata.ReviewedTime column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>exportfailreasonid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column contains a reason for a lab failure if the lab is not able to export to eEHX. Possible values include the following: 
+1 - Patient EMPI not generated 
+2 - Patient opt-out
+3 - Patient consent expired 
+4 - Patient in PSAC group. 
+5 - Encounter marked PSAC 
+6 - Encounter is prior to patient consent date 
+7 - Export attempt exceed max attempt 
+8 - EMR side miscellaneous failure 
+9 - EHX side miscellaneous failure 
+11 - Lab send to eEHX
+13 - EMR side miscellaneous failure for Lab</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isLabSent</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column represents values as 0 or 1. A "1" means the lab exported successfully, and a "0" means the lab failed to export.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isInvalid</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column represents if a lab was filtered out in the export process because it was invalid.
+The exportreasonid column, in the same table, contains the value for a lab's invalidity. Below are the values:
+0 - lab is valid
+1 - lab is invalid</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>chkFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column represents values as 0 or 1. A "1" means the lab was reviewed, and a "0" means the lab was not reviewed. It refers to the labdata.status column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>manualAttemptDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column contains the date and time values of when an export attempt was done manually.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>manualAttemptStatus</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column contains values 0 or 1. A "1" means an export was attempted manually, and a "0" means an export was attempted through a job. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>addedtimestamp</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column contains the date and time when a lab was chosen for export using new export logic. This column will have a value only if an export to eEHX was attempted when eEHX itemkey “empiExportChanged” is set to “yes”.</td>
+      </tr></table>
+</div>
+</body>
+</html>

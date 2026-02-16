@@ -1,0 +1,156 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>rpm_healow_tracker_sleeptotals</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">When a Provider prescribes a Sleep device for a patient, the patient will take readings from that device and will upload it to Healow. From healow, these readings are transferred to EMR side. We have created this new table rpm_healow_tracker_sleeptotals to store the Sleep readings for the patients.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains auto incremented id, datatype is INT. This column stores integer value which could grow with number of sleeptotals records added and hence integer is selected. It is AUTO_INCREMENT column and has PRIMARY KEY index.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>UID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores unique id of a Patient to identify the readings belonging to the patient which references the UID column of the user table. The data type chosen is INT. This field will always have a value hence defined as NOT NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>device_action</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the Vendor id from whom the device has been purchased. Contains device_action that refers to Primary Key device_action column of rpm_vendors_list table and data type is INT.  
+The value of this field can be NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>measure_datetime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date time when the measurement was done and data type is DATETIME. This field will always have a value hence defined as NOT NULL. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>sleep_id</strong></td>
+        <td class="tab-description">bigint</td>
+        <td class="tab-description">This column is used by Healow to store unique sleep id and data type is INT. This field will always have a value hence defined as NOT NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>sleep_start</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the time when sleep started and data type is DATETIME. This field will always have a value hence defined as NOT NULL. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>sleep_end</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the time when sleep ended and data type is DATETIME. This field will always have a value hence defined as NOT NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>sleep_total</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores total hours of sleep and data type is VARCHAR(100). This column stores characters that does not exceed 100 characters and hence VARCHAR(100) is selected. This field will always have a value hence defined as NOT NULL. The default value of this field is 0. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>sleepsound_total</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores total hours of sound sleep and data type is VARCHAR(100). This column stores characters that does not exceed 100 characters and hence VARCHAR(100) is selected. This field will always have a value hence defined as NOT NULL. The default value of this field is 0</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>sleeplight_total</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores total hours of light sleep and data type is VARCHAR(100). This column stores characters that does not exceed 100 characters and hence VARCHAR(100) is selected. This field will always have a value hence defined as NOT NULL. The default value of this field is 0</td>
+      </tr><tr  >
+        <td class="col-name"><strong>sleepawake_total</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores total hours of sleep when patient was awake and data type is VARCHAR(100). This column stores characters that does not exceed 100 characters and hence VARCHAR(100) is selected. This field will always have a value hence defined as NOT NULL. The default value of this field is 0.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>has_timeline</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used by Healow to store if the sleep has time line and data type is TINYINT. This field can have a NULL value. The default value of this field is 0 since sleep record by default has timeline. 
+
+0 - No Timeline 
+1 - Has Timeline</td>
+      </tr><tr  >
+        <td class="col-name"><strong>has_distribution</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used by Healow to store if the sleep has light, sound distribution and data type is TINYINT. This field will always have a value hence defined as NOT NULL.  
+The default value of this field is 0 as the sleep has light sound distribution.  
+
+0 - Does not have Distribution 
+1 - Has Distribution</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>enteredbed_previousday</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used by Healow to store if the patient entered the bed on previous day and data type is TINYINT. This field can have a NULL value and default value is NULL.
+
+
+0 - Entered Bed On Previous Day 
+1 - Did not Enter Bed On Previous Day</td>
+      </tr><tr  >
+        <td class="col-name"><strong>delflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicates the record added is deleted, datatype is tinyint- 0 - Not Deleted, 1 - Deleted. This field will always have a value hence defined as NOT NULL. By default, this column should not be in Deleted status hence default 0 is chosen.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>reviewed</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores 0, 1 to determine whether the reading is reviewed or not and data type is TINYINT. This field will always have a value hence defined as NOT NULL. 
+The default value of this field is 0. 
+
+Values 0 : Reading has not been reviewed by the Provider
+
+1 : Reading has been reviewed by the Provider</td>
+      </tr><tr  >
+        <td class="col-name"><strong>reviewedByid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the Provider id who has reviewed the reading and data type is INT. Contains reviewedByid which refers to UID column of user table. This field will always have a value hence defined as NOT NULL. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>reviewedDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date time when the reading was reviewed and data type is DATETIME. The default value of this field can be NULL.  </td>
+      </tr><tr  >
+        <td class="col-name"><strong>isManuallyAdded</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores 0, 1 whether the reading is manually added by patient or not and data type is TINYINT. This field will always have a value hence defined as NOT NULL.The default value of this field is 0. 
+
+Values  0 :Not added manually by the patient.
+
+1 : Added manually by the patient.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>device_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the Unique id of the Device and data type is INT. Contains device_id that refers to device_id column of rpm_supported_devices_list table.The value of this field can be NULL. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>modifiedDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date time when the reading was inserted and data type is DATETIME. This field will always have a value hence defined as NOT NULL.  </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>source_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains " source_id" value referenced from id column of the rpm_healow_tracker_source table, datatype is INT.  
+This column could be store high range numeric value hence integer is selected. This field will always have a value hence defined as NOT NULL. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>isRPMData</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicates the readings received from healow end are valid or not, datatype is tinyint - 0 - Not Valid, 1 - Valid. 
+This field will always have a value hence defined as NOT NULL. By default, this column should not be in valid status hence default 0 is chosen.</td>
+      </tr></table>
+</div>
+</body>
+</html>

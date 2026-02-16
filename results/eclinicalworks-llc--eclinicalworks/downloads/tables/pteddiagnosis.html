@@ -1,0 +1,106 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>pteddiagnosis</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about patient education diagnosis, including details about the diagnosis, content, and related patient and encounter data and also have url of the Patient education that was publish to portal.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Primary key of This column  and 
+Unique identifier for 
+each record in the table. 
+(Example: 1, 2, 3).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of the encounter on which the patient education was published by the end user. This column refers to encounterid column in enc table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>patientid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of the patient for which patient education is logged by the end user. This column refers to UID column in user table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date of the encounter where the patient education was published. Date is stored in YYYY-MM-DD format.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>reason</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Reason defined on the encounter where the patient education was published.  This column refers to reason column in enc table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>description</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Title of the patient education material that was published to the portal</td>
+      </tr><tr  >
+        <td class="col-name"><strong>contentid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Contentid for the patient education published to the portal defined by the vendor</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>delflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores value 0 / 1 indicating if the added logged item is deleted. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>websync</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores value 0 / 1 indicating if the logged item has been synced with the web portal. 1="Yes", 0="No"</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>url</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">URL for the patient education material that was published to the portal
+(Example: 'https://example.com/content1', 'https://example.com/content2')</td>
+      </tr><tr  >
+        <td class="col-name"><strong>edType</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Stores the patient education vendor id for the patient education that was printed:
+0="ADAM Quicksheets" (No longer in use),
+1 = "Exit-Writer" (No longer in use),
+2="Krames" (No longer in use),
+3="Healthwise",
+4="Custom Education" (only available in the exe),
+5="Krames Staywell",
+6="ADAM Smartcare",
+7="Elsevier Exitcare",
+8="Santovia"</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>contentTypeid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Not currently being used by active patient education integrations. Previously was used by Pt Ed type 1 and 2</td>
+      </tr><tr  >
+        <td class="col-name"><strong>publishdate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date & time that the patient education was published.  The format used is YYYY-MM-DD HH:mm:ss</td>
+      </tr></table>
+</div>
+</body>
+</html>

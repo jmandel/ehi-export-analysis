@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>edi_appealclaims</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about appeal claims related to invoices and insurance.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is auto-incremented primary key in This column . Unique id is assigned to claim moved to appeal after insurance/clearinghouse denial for payment.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>invoiceid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores identifier number of a invoice, for which appeal is created. It refers to column id from edi_invoice table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>insid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores identifier number of a Insurance, against which claim is appealed. It refers to column insid from insurance table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>appealStatus</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores identifier number of a appeal status code, appeal is in. It refers to column id from appealstatuscodes table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>createdDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date when the appeal claim record was created. Example: '2021-09-01', '2021-09-02', '2021-09-03', etc.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>submittedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date when the appeal claim was submitted, can be NULL if not submitted yet. Example: '2021-09-10', '2021-09-11', NULL, etc.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores value 0 / 1 indicating if the appeal is deleted or not, this is soft delete. 0 - Not Deleted , 1 -Deleted.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Eobattached</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores value 0 / 1 indicating if the EOB file is attached or not. 0 - Not attached , 1 - file is attached.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Patienteligibility</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores value 0 / 1 indicating if the patient is eligible for appeal or not. 0 - no , 1 - yes.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Progressnotes</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores value 0 / 1 indicating if the progress note is attached or not. 0 - Not attached , 1 - file is attached.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>customNote</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">A custom note related to the appeal claim, stored as a string with a maximum length of 512 characters. Example: 'Patient has a special condition', 'Additional documents required', '', etc.</td>
+      </tr></table>
+</div>
+</body>
+</html>

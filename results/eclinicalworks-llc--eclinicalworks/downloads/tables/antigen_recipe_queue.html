@@ -1,0 +1,205 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>antigen_recipe_queue</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about the antigen recipe queue for patients, including their status, priority, and various flags related to consent, insurance verification, and cancellation.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The column stores an id of the antigen_recipe_queue table. This is an auto incremental primary key of This column .</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ENCid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores encounterid associated with the recipe queue item. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>PATIENTid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores identifier number of a patient associated with the recipe queue. It refers to column UID from user table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>STATUS</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores status (such as OUTSTANDING, NEWFORMULATION) of the recipe queue. Outstanding - Record came from allergy skin test workflow, NEWFORMULATION - Record created using new formulation button.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>UPDATE_DATE</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores update date for the recipe queue item. The format used is YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ASSIGNED_TO</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of the assignee to whom recipe queue is assigned. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>NOTE</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores note of the recipe queue.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>IS_INSUR_VERIFIED</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores is_insur_verified flag (for insurance verification detail) for the recipe. Possible values 1/0/NULL, 1 - insurance verified, 0/NULL - insurance not verified.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>IS_CONSENT_SIGNED</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores is_consent_signed flag (for treatment consent) for the recipe. Possible values 1/0/NULL, 1 - consent signed, 0/NULL - consent not signed.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>IS_PATIENT_AGREED</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores is_patient_agreed flag (agreement for futher treatment) for the recipe. Possible values 1/0/NULL, 1 - patient agreed, 0/NULL - patient not agreed.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>IS_HIGH_PRIORITY</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores is_high_priority flag for the recipe. Possible values 1/0/NULL, 1 - high priority, 0/NULL -  not high priority.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>TRANSFER_FLAG</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores transfer flag value for the recipe. It contains values such as 'O', 'C'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DELETEFLAG</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores delete flag value for the recipe. Possible values 1/0 1 - deleted, 0 -  not deleted.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>IS_REOPEN</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores is_reopen flag for the recipe. Possible values 1/0/NULL, 1 - reopened, 0/NULL -  not reopened.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>RE_OPEN_REASON</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores is_reopen reason for the recipe queue. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>COPAY</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores copay amount for the recipe queue. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>DEDUCTIBLE</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores deductible amount for the recipe queue.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>BOXNO</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores box number for the recipe queue.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>RECIPE_NOTE</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores recipe note for the recipe queue.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>REVIEWED</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores value of reviewed flag for the recipe queue.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>RV_USER</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores value of reviewed by user for the recipe queue entry.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>RV_TIME</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores time when user reviewed the recipe queue entry.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>IS_CONSENT_SIGNED_ONARRIVAL</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores is_consent_signed_onarrival flag (for treatment consent) for the recipe. Possible values 1/0/NULL, 1 - consent signed on arrival, 0/NULL - consent not signed on arrival.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>FORM_EXP_DATE</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores expiration date of formulation.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DECLINE_REASON</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores decline reason given by patient.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>CANCEL_REASON</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores cancel reason for the recipe queue entry.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>CANCEL_FLAG</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores cancel_flag for the recipe queue entry.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>VOid_FLAG</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores void flag for the recipe queue entry.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>VOid_USERid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of the user who has voided the recipe queue entry. It refers to column UID from user table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>VOid_USERNAME</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores name of the user who has voided the recipe queue entry.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>VOid_REASON</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores reason for voiding the recipe queue entry.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>VOid_timestamp</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores time stamp when the recipe queue was voided.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>CANCEL_USERid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of the user who has canceled the recipe queue entry. It refers to column UID from user table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>CANCEL_USERNAME</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores name of the user who has canceled the recipe queue entry. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>CANCEL_timestamp</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores time stamp when the recipe queue was cancelled.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>SHOT_FACid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores facility id chosen by patient for the shots.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>SHOT_FACNAME</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores facility name chosen by patient for the shots.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>RESUBMIT_NOTE</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores resubmit notes for the recipe queue.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>REF_PROVidER_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores referring provider id associated with the recipe queue.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>REF_PROVidER_NAME</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores referring provider name associated with the recipe queue.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>SHOT_FAC_TYPE</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores shot facility type (Internal or Referring).</td>
+      </tr></table>
+</div>
+</body>
+</html>

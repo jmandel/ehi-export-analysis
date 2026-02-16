@@ -1,0 +1,98 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { background-color: #cde4f3; color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ip_rh_pnsmartmacroStNotes</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table is used to store the narrative or sentences for the template.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an auto-incremented primary key column in this table. The data type is int because the notes created could be huge in number. The column cannot be NULL as it will always have an id.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>templateId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column refers to the id column in ip_rh_clinical_sd_template table. It stores the templateId for which the narrative sentences are created. The data type is int. This column will always have a value and hence it cannot be NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>parentId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column refers to id column in the same table i.e ip_rh_pnsmartmacroStNotes table i.e when the current sentence is a child sentence of another sentence. It gets populated only for rows who has childSentence column value as 1.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>sentenceNote</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the sentences/narratives for the corresponding template id. The data type is varchar(max). As the column could store huge data as value and we have free text, therefore we have defined it as varchar(max) and the default value is NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>sentenceOrder</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column stores the order in which the sentences are created for the corresponding template. The data type is smallint as compared to int is because the expected sentences displayed will not exceed the limitation provided by the smallInt datatype.. This column is NOT NULL and the default value is 0.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>childSentence</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores the values 0 or 1. If the value is 1 the sentence is a child sentence else not. The data type is tinyint and the default value is 0. The column cannot be NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>triggerQuestionId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column refers to the id column in ip_rh_structdatadetail table. It stores the question id that is triggered for the corresponding sentence id. The data type is INT and the default value is NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>triggerOptionId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column refers to the optionId column in ip_rh_structdataoptions table. It stores the option id that is triggered for the corresponding sentence id. The data type is INT and the default value is NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>mandatory</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores flags 0/1 to indicate whether the sentence is mandatory to fill or not for the template on the user facing screen.0 means the sentence is not mandatory and
+1 means the sentence is mandatory</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A flag indicating if the sentence is deleted (1) or not (0). The tinyint data type allows for efficient storage of binary values.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>createdBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Stores the user id of the person who created the sentence. It refers to uid column in users table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>modiBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Stores the user id of the person who last modified the sentence. It refers to uid column in users table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>modiTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Stores the date and time the sentence was last modified. The datetime data type allows for precise storage of date and time values. The default value is NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>createdDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Stores the date and time the sentence was created. The datetime data type allows for precise storage of date and time values. This field will always have a value hence defined as NOT NULL.</td>
+      </tr></table>
+</div>
+</body>
+</html>

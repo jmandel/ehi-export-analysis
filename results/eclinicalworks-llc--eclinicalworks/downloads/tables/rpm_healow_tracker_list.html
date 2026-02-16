@@ -1,0 +1,71 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>rpm_healow_tracker_list</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about different types of health trackers used in the healow application.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains auto incremented id, datatype is INT. This column stores integer value which could grow  and hence integer is selected. It is AUTO_INCREMENT column and has PRIMARY KEY index.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>tracker_type</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Contains the Tracker Type to store the Device Types such as glucose, bmi, bp, heartRate, spo2 etc. This field will always have a value hence defined as NOT NULL. There is a unique key constraint - UX_rpm_healow_tracker_list_tracker_type is added  on this column. The Tracker Type name cannot have a name more than 60 characters long, therefore the data type is VARCHAR(60).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>display_name</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Contains the Tracker Name to be displayed on the UI. This column contains a meaningful name of Tracker Type.  There is no index associated with this field. The Tracker Display Name cannot have a name more than 255 characters long, therefore the data type is VARCHAR(255). </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>description</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Contains the Tracker Description with more details of specific Tracker Type.  This field can have a NULL value hence this is a NULLable field. As the column has no limit and we have free text, therefore we have defined it as VARCHAR(MAX) / TEXT.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>tracker_order</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains the Tracker Order which is used at Healow side. This field is not used at EMR side. 
+This field can have a NULL value. However, the default value of this field is 0. This field does not have any index associated with it. The data type is INT as the data structure of This column  is designed in reference to the healow tables.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>vitalType</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Contains the EMR Vital type which can be used for measurement of this Tracker Type.
+This field can have a NULL value. This field does not have any index associated with it. The expected values for this field can be glucose, BMI, sleep, distance, steps, BP and so on. The value of this field cannot have a name more than 255 characters long, therefore the data type is VARCHAR(255).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>delflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicates the record added is deleted, datatype is tinyint - 0: not deleted 1: deleted. This field will always have a value hence defined as NOT NULL. By default, this column should not be in Deleted status hence default 0 is chosen.</td>
+      </tr></table>
+</div>
+</body>
+</html>

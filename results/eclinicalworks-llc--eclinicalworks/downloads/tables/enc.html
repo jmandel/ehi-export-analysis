@@ -1,0 +1,403 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>enc</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores encounter and related information which acts as primary data for that encounter to all the other tables storing various information related to the encounter.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>encounterid</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The column stores an id of the encounter of a patient. This column is an auto incremental primary key.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>patientid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the identifier number of a patient, for whom the appointment is created. It refers to column "UID" from the "user" table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>doctorid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the appointment provider id of the encounter. Foreign key relationship: "UID" column of the "user" table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>date</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date when the appointment was created. The format used is YYYY-MM-DD</td>
+      </tr><tr  >
+        <td class="col-name"><strong>time</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is not used anymore.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>startTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the start time of the appointment created. The format used is: HH:MM:SS.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>endTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the end time of the appointment created. The format used is: HH:MM:SS.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>reason</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores a combination of pre-defined text as well as free-text for the Reason section of an appointment for a patient from the user interface.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>VisitType</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the selected visit type of the patient for an appointment from the User Interface. It refers to column name from the visitcodes table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>roomno</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the room number at the facility where the encounter took place.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>STATUS</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the current visit status of an appointment created. This column refers to column code from visitstscodes table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores values  "0  or "1" indicating whether this appointment is deleted. This is soft delete. A "0" means not deleted, while a "1" means deleted.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>encType</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column stores one of the values listed below which denotes the type of the encounter:
+1 - Office Visit, 2 - Tel Encounter, Virtual Visits, 3 - Out of Office, 4 - Claim, 5 - Lab, 6 - Web Encounter, 7 - ePrescription refills, 8 - PTDASH, 9 - Orderset with patient id as 8663.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encLock</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column stores values "0" or "1" which indicate if an encounter is locked or not. A "1" means locked, and a "0" means not locked.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Notes</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This columns stores additional notes documented for the encounter.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>generalNotes</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores the free text general notes documented related to an appointment created.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>vmid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores a string as unique identifiers for each row. Currently, this column is not actively used in the system.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>facilityid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an id of the facility selected for the created encounter.This columns refers to the column id from edi_facilities.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>POS</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the place of service code where an encounter took place. This column refers to column code from edi_pos table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>arrivedTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the current time when the patient is checked in for the appointment created. The format used is YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>timeIn</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the checked in time of the patient for an appointment. The format used is: YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>timeOut</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the check out time of the patient for an appointment. The format used is: YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>stsAfterArr</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores values IN or OUT which indicate the arrival status of a patient. "IN" means when a patient is checked in, while "OUT" means when patient has checked out.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>depTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the current time when the patient is checked out for the appointment created. The format used is: YYYY-MM_DD HH:MM:SS.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>stsAfterChkIn</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">The status after the patient checked in (e.g., 'Waiting', 'In consultation', 'Completed').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>HL7id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The visit number sent by the vendor for an interface created appointment.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>newPt</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column stores values 0 or 1 which indicate a new patient. A "1" means a new patient, and a "0"means not a new patient.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Dx</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores diagnosis or reason of the patient for the visit (appointment). This column refers to column itemname from the items table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>reminded</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores flags "0" or "1". A "1" is when the appointment is created using Nimbus and patient opts for the Remind Me option. A "0"  means otherwise.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>remindedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column is not used anymore.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>VisitCopay</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This column stores the co-pay amount set for the appointment from the encounterid column of the patient.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>CopayChanged</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores values "0" or "1" which indicate Co-Pay/Claim changes for the visit of the patient. A "1" means changed, and a "0"  means not changed.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ClaimRequired</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is no longer used.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ClaimReq</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores flags "0" or "1". A "1" means the claim is required, and a "0" means the claim is not required.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>VisitTypeOverriden</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores code id for the selected visit type for the encounter. This column refers to column codeid from the visitcodes table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>refPrName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the last, first name of the referring provider at the facility.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>refPrid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Integer identifier for the referring provider, this column refers to UID column of user table. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PSACGroup</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the PSAC Group id of the user when a user tries to access the Encounters window of a patient whose records are marked as confidential.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>deptid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an id of the department to which the encounter is associated. This column refers to the column deptid from the departments table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Resourceid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of a resource such as anyone on the staff (except a physician), devices, or even rooms.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>EncEligibilityStatus</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">This column stores one of the below flags when eligibility for primary insurance is checked at encounter level. Flags include:
+E = Eligible    V  =  Not Verified,     N  = InEligible</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>EligibilityMessage</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores messages received from the insurance company for the eligibility request sent for the primary insurance.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Invoiceid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores claim (invoice) number corresponding to the encounter. This column refers to the id column of the edi_invoice table. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>EligSubid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an id for the eligibility submitted request. This column refers to the column submissionid from the x271respDetails table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>EncEligibilityStatus2</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">This column stores one of the below flags when eligibility for secondary insurance is checked at encounter level. Flags include: E = Eligible V = Not Verified, N = InEligible</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>EligibilityMessage2</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores message received from the Insurance company for the eligibility request sent for the secondary insurance.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>EncEligibilityStatus3</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">This column stores one of the below flags when eligibility for tertiary insurance is checked at the encounter level. Flags include: E = Eligible V = Not Verified, N = InEligible</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>EligibilityMessage3</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores messages received from the insurance company for the eligibility request sent for the tertiary insurance.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>trans_dictation</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the flags 0 or 1. A "1" means when the physician documents the notes for the encounter, and a "0" means otherwise. This column is not being used anymore. Confirm with developer.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>waitTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the estimated wait time for a patient in the waiting room. The format used is YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>websync</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores the flags 0 or 1. A "1" means the encounter is uploaded to portal, and a "0" means the encounter is not uploaded to portal.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dateIn</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date when the patient is checked in by the end user. The format used is YYYY-MM-DD HH:MM:SS. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>dateOut</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the time stamp when the encounter from the encounterid column is marked as done. The format used is: YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>notesDoneTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column is to store time when the encounter from the encounterid column is marked as done. The format used is: HH:MM:SS.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>notesLoginid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an id of the logged in user who documents the encounter. This column refers the UID column from the user table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>notesLogOutid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an id of the provider who marks the encounter from the encounterid column as done. This column refers to the column UID from the user table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>visittypeid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an id of the selected visit type while creating an appointment. This column refers to the column codeid from the visitcodes table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>UTCStartTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the start time in UTC format. This column is not used anymore.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>UTCEndTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores end time in UTC format. This column is not used anymore.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>visitstscodeid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the visit status code id of the appointment. This column refers to the column codeid from the visitstscodes table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>practiceid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the practice id for the created apppointment. This column refers to the column id from the practice table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>immnotessendstatus</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores flags 0 or 1. A "1" means when the HL7 outbound message is sent, and a "0" means otherwise. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>transitionofcare</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores flags 1, 2, or 0 indicating whether or not transition of care data was received. A "1" means the electronic summary of care record was not received, a "2" means the electronic summary of care record was received, and a "0" means otherwise.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>prNotesSendStatus</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores flags 0, 1, 2, 5, 6, 7, and 8 which indicate the sent status of outbound Progress Notes of a patient to a vendor. A “0” means when they were not transmitted, a “1” means the transmission was successful, a “2” means the transmission failed, a “5” means a transmission is in progress, a “6” means it needs to be retransmitted, a “7” means the Progress Note XML is not available, and an “8” means the Progress Notes are part of a PSAC group.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>readytobill</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores flags 0 or 1. A "1" means when the encounter is ready to be sent to EMR SPOLE to CBO HUB, and a "0" means otheriwse.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>reviewbeforebill</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores flags 0 or 1. A "1" means if CBO is supposed to review a spoke encounter before creating claim, and a "0" means otherwise.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>EncEligibilityStatus4</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores one of the below flags when eligibility for other insurances is checked at the encounter level. Flags include: E = Eligible V = Not Verified, N = InEligible</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>EligibilityMessage4</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores messages received from the insurance company for the eligibility request sent for any other insurance (vision, dental).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>gUID</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This is a unique row identifier and the data is not used by the system.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>afterCareStatus</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the status code for the encounter which is marked for after care. This column refers column code in aftercarestatuscodes table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>callbackHistory</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores the documented call back history notes to a specific sub status of the after care encounter.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>waittime_minutes</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the estimated wait time in minutes for a patient in the waiting room. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>medicalmodifieddate</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the time stamp when medical history is last modified in the encounter of the patient. The format used is YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>surgicalmodifieddate</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the time stamp when surgical history is last modified in the encounter of the patient. The format used is YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>hospmodifieddate</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the time stamp when hospitalization data is last modified in the encounter of the patient. The format used is YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>familymodifieddate</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the time stamp when family history is last modified in the encounter of the patient. The format used is YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>socialmodifieddate</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the time stamp when social history is last modified in the encounter of the patient. The format used is YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>allergymodifieddate</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the time stamp when an allergy is last modified in the encounter of the patient. The format used is YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>supproviderid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the supervising provider assigned to the appointment. Refers to the UID column of the user table. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>aftercareSubStatus</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the sub status code for the encounter which is marked for after care. This column refers to the column code in the aftercaresubstatuscodes table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ApptStatusReasonRequired</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the reason documented by the end user on change of the appointment status in corrections module.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>implantmodifieddate</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the current time stamp when an implant is modified in the encounter of the patient. The format used is YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>dentalmodifieddate</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the current time stamp when dental history is modified in the encounter of the patient. The format used is: YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ocularhistmodifieddt</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This varchar value represents the date when the ocular history was last modified. Format is: yyyy-mm-dd hh:mm:ss</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ocularsurgmodifieddt</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This is a varchar value representing the date when the ocular surgery history was last modified. Format is: yyyy-mm-dd hh:mm:ss</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isShared</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores numeric values to indicate the status of a shared Progress Notes template. A "1" means  - , a "2" means in progress, and a "3" means the column is used when the item key EnableShareTemplate is enabled.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>gynmodifieddate</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This is a varchar value representing the date when the gyn history was last modified. The format is: yyyy-mm-dd hh:mm:ss</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>obmodifieddate</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This is a varchar value representing the date when the obstetrical history was last modified. Format is: yyyy-mm-dd hh:mm:ss</td>
+      </tr><tr  >
+        <td class="col-name"><strong>qmbflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores "0"or "1" to indicate whether the encounter is QMB enabled or not. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>bhhistorymodifieddate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This is a datetime value representing the date and time when the behavioral health history was last modified (e.g., '2021-08-31 14:30:00', '2021-09-01 10:15:00', '2021-09-02 16:45:00').</td>
+      </tr></table>
+</div>
+</body>
+</html>

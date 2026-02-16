@@ -1,0 +1,143 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>tblwebmsg</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information related to messages that are sent or received to and from the Patient Portal. It contains information about web messages, including the sender, recipient, message content, and timestamps related to the message lifecycle.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>Msgid</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an auto incremented primary key of This column .</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>UID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of the user who gets the message response. This column refers to column UID from user table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>RefMsgid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores reference id from Msgid column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>MsgFrom</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of the Provider/Staff  or the patient, from whom the message is received. This column refers to column UID from user table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>MsgTo</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of the Provider/Staff  or the patient, to whom the message is sent. This column refers to column UID from user table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>MsgType</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores message type from pre-defined values in user interface. 1 - General , 2 -Medication, 4 - Appointment , 5 -Referral. etc.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Priority</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores message priority from pre-defined values in user interface. 1 - Routine , 2 -Urgent, 3 - Emergent.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Folderid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores folder type from pre-defined values in user interface. 1 - Inbox , 2 - Outbox, 3 - SentItems, 4 - DeletedItems, 5 - Archived.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>SUBJECT</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the message subject.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Body</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores the message detail.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>dtSent</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores date time when message sent from EMR  TO Portal.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dtReceived</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores date time when message sent from Portal to EMR.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>dtRead</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores date time message sent from EMR to Portal and Read on Date by patient.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dtArchived</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column was used to store the archived date. 
+This column may not be in use now.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>dtDeleted</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column was used to store the deleted message date.
+This column may not be in use now</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the encounterid. It is referenced from enc.encounterid table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>delflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores value 0 / 1 indicating if the message is deleted or not. . 0 - not deleted , 1 - deleted.
+This column might not be in use now.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>healthMaintainenceMsg</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores value 0 / 1 indicating if the message is related to health maintenance. 0 - Not related to health maintenance , 1 - Related to health maintenance.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>facilityid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the facilityid of a facility. It is referenced from edi_facilities.id .
+This column may not be in use now.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>hasAttachment</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores data 1/0 depending whether Immunization pdf is attached or not. 
+1 - attached. 0 - not attached.
+This column may not be in use now.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>docid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores docid of the Immunization form from document table that is published to portal.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>attempts</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The number of attempts made to send the message. (e.g., 0, 1, 2)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>echeckin_details</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">The details of electronic check-in, if applicable. (e.g., "Checked in at 9 AM", "Checked out at 5 PM")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>appmessagebody</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column is used for showing a different message body in app that what shows up in the web in pt portal</td>
+      </tr></table>
+</div>
+</body>
+</html>

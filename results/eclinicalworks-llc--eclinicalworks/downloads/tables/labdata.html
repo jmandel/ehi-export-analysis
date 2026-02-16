@@ -1,0 +1,325 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>labdata</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about laboratory test reports, including test results, statuses, and other related data.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>Reportid</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the auto-incremented primary key.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the ID of the encounter for which a lab is added. This column refers to the encounterid column from the enc table. If the lab added is for a future date, then this column holds the newly created encounterid (i.e., a new encounter is created for the future dated lab and the existing encounterid on which the future dated lab is added is documented in the ordencounterid column in the same table).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Itemid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the ID of the item/lab added for the patient. This column refers to the itemid column from the items table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>reason</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the reason for which a lab test is ordered or received, selected from the drop-down list by the end user. This column refers to the itemName column from the items table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>received</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an integer that indicates whether the lab result has been received (0 for not received, 1 for received).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>result</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the result of the lab test received, selected from the drop-down list by the end user. These column refers to the itemName column from the items table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ResultDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date on which the lab results were received.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Notes</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the free-text or selected pre-configured keywords as notes added by the end user for that particular lab of the patient. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>status</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the values 0 and 1, where 0 indicates an Open Order Status and 1 indicates a Reviewed Order Status.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Addendum</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores notes documented by the end user after lab/DI orders are marked as reviewed. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>priority</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores values 0 and 1, where 1 indicates the lab order was a high-priority test and 0 indicates the lab order was not high-priority.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>assignedToid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the identifier for the staff member assigned to the lab report (e.g., 10001, 10002, 10003).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the value 0 or 1, which indicates whether the lab report has been deleted (0 for not deleted, 1 for deleted).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>vmid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Column not in use</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Type</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column stores the value 0 to indicate the test is a lab, 1 to indicate the test is diagnostic imaging, and 3 to indicate the test is a procedure.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Billable</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column stores the value 0 or 1, where 1 indicates the lab is in-house and 0 indicates the lab is not in-house.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>displayIndex</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column includes the display order of the lab test in the user interface (e.g., 1, 2, 3).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>fromLabid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an ID of the lab interface from which the lab results are received. This column refers to the id column from the lablist table. The value 0 is stored when a result is not received from any electronic interface.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>collDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date when the sample was collected (e.g., 2021-08-31).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>collTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the time when the sample was collected (e.g., 14:30:00).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>tolabid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an ID of the lab interface to which the lab order is transmitted. This column refers to the id column from the lablist table. The value 0 displays when the lab order is not transmitted through an electronic interface.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>billClient</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column stores a value that indicates whether the client should be billed for the lab test (0 for no, 1 for yes).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>collSource</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the source of the test specimen collected, selected from the drop-down list by the end user. This column refers to the itemName column from the items table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>collVolume</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the volume of the test specimen collected.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>collUnits</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the measurement unit of the volume of the test specimen collected (e.g., mL, L, Bottles).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>clinicalinfo</strong></td>
+        <td class="tab-description">nvarchar</td>
+        <td class="tab-description">This column stores clinical information about the test ordered.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>fasting</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column stores values 0 and 1, where 1 indicates that the order required the patient to fast and 0 indicates that the patient was not required to fast.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>billType</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">This column stores the flags C and N, where C indicates that an order has to be billed to the client and N indicates that the order does not have to be billed to the client.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Pregid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the pregnancy ID of the patient for whom the lab order is placed. This column refers to the Pregid column from the obf_pregnancy table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>OBFLabType</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column stores the type of lab test for obstetrics and gynecology (e.g., 0 for routine, 1 for specialized).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>publishToPortal</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores a value that indicates whether the lab report should be published to the eClinicalWorks Patient Portal (0 for no, 1 for yes).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>commonNotesFlag</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">This column stores a value that indicates whether common notes are used for the lab report (e.g., N for no, Y for yes).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>futureflag</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores a values that indicates whether the lab test is scheduled for a future date (0 for no, 1 for yes).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>prevencounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the encounterid as the previous encounterid for which the future dated order is moved to today's date. This column refers to the encounterid column from the enc table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ordencounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">If the order is future dated order, this column stores the ID of the encounter for which the order is created. This column refers to the encounterid column from the enc table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>FutureOrderDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date when the lab test is scheduled for a future order (e.g., 2021-10-01).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ReviewedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the ID of the end user who reviews the received result for the ordered test. This column refers to the UID column from the user table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ReviewedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date when the lab report was reviewed (e.g., 2021-09-02).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ReviewedTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the time when the lab report was reviewed (e.g., 15:30:00).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>transDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date when the lab report was transferred (e.g., 2021-09-03).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>transTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the time when the lab report was transferred (e.g., 16:30:00).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>profileid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the vendor sent identifier string for samples in the result received.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>IntNotes</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores the free-text or selected pre-configured keywords as internal notes which could be used to communicate internally, e.g., with the nurse, MA or providers.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>HMFlag</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column stores the flag 0 or 1, where 1 indicates when the alert is suppressed when a lab has already been performed for a patient outside of this practice, and 0 indicates otherwise.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ccresulttolist</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores a list of the last and first names of licensed providers and referring providers selected while the lab is ordered. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ccResultToListids</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores a list of the provider IDs from the ccResultToList column. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>HasACopy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the flag 0 or 1, where 1 indicates the result is copied to other providers apart from the provider who has placed the order, and 0 indicates otherwise.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ResultStatus</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the status of the lab result received from the vendor, where P indicates preliminary result, F indicates final result, and C indicates corrected result.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>collDescription</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the description about the specimen to be collected for the placed order.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ordPhyName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the last and first name of the person who ordered the lab. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>ordPhyid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the identifier for the ordering physician (e.g., 8001, 8002, 8003).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>refPhyFlag</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the flag 0 or 1, where 0 indicates when the lab is ordered by the licensed provider and 1 indicates when the lab is ordered by referring provider/physician.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>labrefid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the reference identifier for the lab test (e.g., LR12345).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>resultime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the time when the lab result was obtained (e.g., 17:30:00).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>PSEHold</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores a flag 0 or 1, where 1 indicates when interface transmission is allowed for futue orders and the user selects to hold the order at the LIS/vendor end and  0 indicates otherwise.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>emailSent</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores a flag that indicates whether an email was sent for the lab report (0 for no, 1 for yes).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>dtEmailSent</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date when the email was sent for the lab report (e.g., 2021-09-04).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ActualFasting</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores fasting information of the patient, where 0 inidcates fasting, 1 inidcates not fasting, and 2 inidcates not recorded.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>OrderInstructions</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores the instructions for the lab test order.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>performedby</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the name of the person who performed the lab test (e.g., Jane Doe).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>hl7id1</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the first HL7 identifier for the lab test (e.g., HL70123).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>hl7id2</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the second HL7 identifier for the lab test (e.g., HL70234).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>hl7id3</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the third HL7 identifier for the lab test (e.g., HL70345).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>newcol</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Column not in use</td>
+      </tr><tr  >
+        <td class="col-name"><strong>cancelled</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores a flag that indicates whether the lab test was canceled (0 for not canceled, 1 for canceled).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>resultSentStatus</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores a flag that indicates whether the lab result was sent (0 for not sent, 1 for sent).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>approvalstatus</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores a flag indicating the approval status of an order, where 0 indicates no approval required, 1 inidcates approval required, 2 inidcates approved, and 3 inidcates rejected.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>SendVmsg</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores a flag 0 or 1, where 1 inidcates when a message is sent for a lab and 0 inidcates otherwise.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>websync</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores a flag that indicates whether the lab report was synchronized with the web portal (0 for no, 1 for yes).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>patientidentifier</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores patient details that are received in the HL7 message.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>portalViewTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date and time when the lab report was viewed on the eClinicalWorks Patient Portal (e.g., 2021-09-05 18:30:00).</td>
+      </tr></table>
+</div>
+</body>
+</html>

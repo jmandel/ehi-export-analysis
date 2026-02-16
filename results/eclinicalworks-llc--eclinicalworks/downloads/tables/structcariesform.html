@@ -1,0 +1,86 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>structcariesform</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information related to caries forms, including their categories, items, and details, as well as associated values and notes.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id value of the structcariesform record. It is auto generated and primary key of This column . This field is kept as integer(11) so it will be consistent with all dental related tables and it is defined as NOT NULL constraint as it is a primary key.
+</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores encounterid value for which this caries form created. This column refers to encounterid column in enc table. This field is kept as integer(11) as it referring column encounterid from enc table. Hence data type, size and constraint is kept similar.
+</td>
+      </tr><tr  >
+        <td class="col-name"><strong>catid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores categoryid  value for caries forms category which answered question belongs. This column refers to itemid column in items table. This field is kept as integer(8) as it allows value up to 2147483647 digits value and in real time scenario this field value will not exceed the maximum limit. This column is also kept NOT NULL constraint as it is referring itemid of items table.
+</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>itemid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores itemid value for "Caries Risk Assessment" item. This column refers to itemid column in items table. This field is kept as integer(11) as it referring column itemid of items table. Hence data type, size and constraint is kept similar.
+</td>
+      </tr><tr  >
+        <td class="col-name"><strong>detailid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores questionid value for which this answer documented. This column refers to id column in structdatadetail table. This field is kept as integer(8) as it referring column id of structdatadetail table. Hence data type and constraint is kept similar. Size is kept as integer(8) because in real time scenario this field value will not exceed the maximum limit.
+</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>VALUE</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores answer value of the question.  This field is kept as text data type as it allows to store free text answer value and not NULL constraint as it will enforce to have not NULL value. This column allows empty string as default value.
+</td>
+      </tr><tr  >
+        <td class="col-name"><strong>valueid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores answerid value for answer selected. This column refers to optionid column of structdataoptions table.  This field is kept as varchar(255) as it contains comma separated values of selected option's optionid and it is defined as NOT NULL constraint as it will enforce to not allow NULL value. This column allows empty string as default value as for the free text answer, this value can be empty. 
+</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>notes</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores free text note added for this question. This field is kept as text data type as it allows to store free text answer notes and not NULL constraint as it will enforce to not allow NULL value. This column allows empty string as default value. 
+</td>
+      </tr><tr  >
+        <td class="col-name"><strong>displayIndex</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores display index for this question.  This field is kept as tinyint(1) as it allows value up to 255 and in real time scenario this field value will not exceed 255 digits. This column allows zero as default value. 
+</td>
+      </tr></table>
+</div>
+</body>
+</html>

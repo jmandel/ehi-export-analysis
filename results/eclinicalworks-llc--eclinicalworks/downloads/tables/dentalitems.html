@@ -1,0 +1,87 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>dentalitems</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This is a child table of items, containing only those CPTs which are configured as dental CPTs. In other words, an entry in this table identifies the CPT associated as a dental CPT code. The table also associates the CPT with additional properties that do not normally apply to non-dental CPT codes.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id for the dental CPT or procedure code. It is the auto-increment primary key column for the table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>itemid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column references the column itemid of the table items for the dental CPT code. The dental CPTs are first created the same way as any other CPT codes with an entry in the table 'items'. They are flagged as dental codes when there is an entry for that itemid in This column .</td>
+      </tr><tr  >
+        <td class="col-name"><strong>categoryid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is a reference to the id column dentalitemcategory table. It represents the category to which the dental CPT belongs.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>treatmentAreaid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is a reference to the id column dentaltreatmentarea table. It represents the treatment area configured for the dental CPT.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>paintTypeid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is a reference to the id column dentalpainttype table. It represents the paint type configured for the dental CPT.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>procedureCode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the actual CPT code that corresponds to the itemid for the dental procedure.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>providerTime</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Dental appointments can be created by assigning different time slots for provider, resource and chair time (this is when the patient is on the chair and not necessarily required to have a provider/staff during this time). This column stores the details of the provider time slot in the form of a JSON string.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>resourceTime</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Dental appointments can be created by assigning different time slots for provider, resource and chair time (this is when the patient is on the chair and not necessarily required to have a provider/staff during this time). This column stores the details of the resource time slot in the form of a JSON string.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>chairTime</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Dental appointments can be created by assigning different time slots for provider, resource and chair time (this is when the patient is on the chair and not necessarily required to have a provider/staff during this time). This column stores the details of the chair time slot in the form of a JSON string.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>cptDuration</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the default time duration for the dental CPT. The provider, time and chair slots will be split in this time duration. 
+The column stores the time duration as an integer in minutes. Example - a value of 60 in this column means the procedure time is set to 60 minutes.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>aliasName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Every dental CPT can be given an alias name, which is stored in this column. When user adds that procedure to patient's appointment under "Planned procedures for today's visit", the alias name along with the certain other information will be shown on the Appointment slot.
+The appointment slot has limited space on the UI, which is why the alias name is limited to 7 characters. It helps identify the type of procedure using a shortened notation.</td>
+      </tr></table>
+</div>
+</body>
+</html>

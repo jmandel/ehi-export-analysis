@@ -1,0 +1,113 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>emessagelogs</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about portal messages sent to patients by campaigns.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each message log entry. Example: 1, 2, 3.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>patientid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the patient id to whom message has been sent. This column refers to pid column in patients table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>apuid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the APU id of the practice. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>facilityid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of the facility from where the message has been sent. This column refers to Id column in edi_facilities table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>reportid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the report associated with the message. Foreign key relation to the `reports` table (`id` column). Example: 2001, 2002, 2003.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>inserttime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">time stamp for when the message log entry was created. Example: '2021-09-01 12:34:56'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>campaignid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the campaign id for appointment reminder, Rx reminder, Lab reminder etc. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>campaign</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">column not in use/ inactive</td>
+      </tr><tr  >
+        <td class="col-name"><strong>SUBJECT</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores the subject line of emessage.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Body</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores the actual content of the emessage.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>dtReceived</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">time stamp for when the message was received. Example: '2021-09-01 13:45:00'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>readflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Indicates whether the message has been read (1) or not (0). Example: 0, 1.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>dtRead</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">time stamp for when the message was read. Example: '2021-09-01 14:30:00'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>healthMaintenance</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Indicates whether the message is related to health maintenance (1) or not (0). Example: 0, 1.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>messageid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column store the message id associated with row.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>policyid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores policy id for all the reminders like appointment, rx, lab etc.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>policy</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">column not in use/ inactive</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>doctorId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the provider id. This column refers to uid column in user table.</td>
+      </tr></table>
+</div>
+</body>
+</html>

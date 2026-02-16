@@ -1,0 +1,78 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { background-color: #cde4f3; color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ip_rh_ptstagingorders_action_map</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">The 'ip_rh_ptstagingorders_action_map' table store mappings of actions related to staging orders. Each record is uniquely identified by an 'actionMapId' and contains details about the staging order, user, order status, and some flags indicating the state of the order.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>actionMapId</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is the auto increment primary key for the table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>stagingOrderId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an Integer data type and cannot be NULL. This field holds the identifier for the staging order associated with the action map. It references the stagingOrderId column in the ip_rh_ptstagingorders_action_map table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>orderId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an integer and CANNOT be NULL. The default value is 0. This field is to hold the identifier for the order associated with the action map. It references the orderId column in the ip_rh_ptorders table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>userId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Integer data type, CANNOT be NULL. This field holds the identifier of the user who performed the action. It references the uId column in the users table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>orderStatus</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">int data type, CANNOT be. This field represents the status of the order at the time of the action. This is FK that rorderStatus value mark as 1 when place a new order,
+orderStatus value mark as 2 when signoff order,
+orderStatus value mark as 3 when modify existing order,
+orderStatus value mark as 5 when discontinue order,
+orderStatus value mark as 4 when modified order signoff,
+orderStatus value mark as 10 when modified order discontinue.efers to id coumn of ip_rh_orderstatus_master table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isSignedOffFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This is a tinyint, a smaller range integer, and CANNOT be NULL. This column indicates whether the order has been signed off or not. The default value is 0 (indicating not signed off).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isReconciled</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This is another tinyint column and CANNOT be NULL. This column indicates whether the order has been reconciled or not. The default value is 0 (indicating not reconciled).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This is a tinyint, a smaller range integer. It cannot be NULL and has a default value of 0. This column indicates whether a patient's staging order action has been marked for deletion or not. deleteFlag value 0 mark as not deleted and value 1 mark as deleted.</td>
+      </tr></table>
+</div>
+</body>
+</html>

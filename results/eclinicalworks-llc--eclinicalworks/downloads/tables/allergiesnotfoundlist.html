@@ -1,0 +1,93 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>allergiesnotfoundlist</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores data imported from the EHX server when a user imports allergies for a patient. This table is populated when the local database does not have allergies.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an auto-incremented primary key in this column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of a patient's encounter from which data is being imported. This column refers to the encounterid column in the enc table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>trUserid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of a user who imported allergies related data from the EHX server. This column refer to the UID column in the user table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>AllergyName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the name of the allergan being imported from the EHX server.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>reaction</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the patient's reaction to the allergy imported from the EHX server.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>MappedAllergyName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">When imported allergies are mapped using itemid, this column stores the name of the equivalent allergy mapped with the allergies from the items table. The mapping is performed by the end user.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>mtimestamp</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date and time when the record was imported from the EHX server.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>hasMatched</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores values 0/1 to indicate whether the imported allergies has been matched with a local database or not. 0 - has matched, or 1 - not matched. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>delflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores values 0/1 to indicate whether the record has been marked as deleted or not. 0  - Record is NOT marked as deleted, or 1 - Record is marked as deleted.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>CCRDataObjectid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an id received in CCR document for each allergy listed in the CCR. This column stores a unique number for each allergy imported in a single call from the EHX server.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>refReqid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of a referral in case allergy related information has been imported using the RCP > DRTLA tab. This column refers to the Referralid column in the referral table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>allergyType</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the type of allergy whether it is coded or uncoded.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>mappedAllergyItemid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the id of the equivalent item mapped with the items table. It is the itemid from the items table.</td>
+      </tr></table>
+</div>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>bh_patient_phase_setup</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about the setup of patient phases in a behavioral health program.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each record in the table (e.g., 1, 2, 3).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>patientid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the patient associated with the phase setup, foreign key relation to `users` table on `UID` column (e.g., 101, 102, 103).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>bhProgramid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the behavioral health program associated with the phase setup, foreign key relation to `acoprograms` table on `id` column (e.g., 201, 202, 203).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>bhPhasesid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the behavioral health phase associated with the phase setup, NULLable (e.g., 301, 302, 303).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>phaseName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the phase associated with the phase setup, NULLable (e.g., "Phase 1", "Phase 2", "Phase 3").</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isPhaseEnabled</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating if the phase is enabled (1) or not (0), default value is 1.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isVisitTypeEnabled</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating if the visit type is enabled (1) or not (0), default value is 0.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>visitTypeid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the visit type associated with the phase setup, foreign key relation to `visitcodes` table on `Codeid` column, NULLable (e.g., 401, 402, 403).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isSignOffEnabled</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating if the sign-off is enabled (1) or not (0), default value is 1.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>initialSignOff</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">Initial sign-off value, default value is 0 (e.g., 0, 1, 2).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>initialSignOffFormat</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Format of the initial sign-off, default value is 0 (e.g., 0, 1, 2).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>recurringSignOff</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">Recurring sign-off value, default value is 0 (e.g., 0, 1, 2).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>recurringSignOffFormat</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Format of the recurring sign-off, default value is 0 (e.g., 0, 1, 2).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>nextSignOffCalculation</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating the calculation method for the next sign-off, default value is 0 (e.g., 0, 1).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isRecurring</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating if the phase setup is recurring (1) or not (0), default value is 0.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating if the record is deleted (1) or not (0), default value is 0.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>modifiedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the user who modified the record, foreign key relation to `users` table on `UID` column (e.g., 501, 502, 503).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>modifiedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the record was last modified (e.g., "2021-09-01 12:34:56").</td>
+      </tr><tr  >
+        <td class="col-name"><strong>activeInitialSignOff</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">Active initial sign-off value, default value is 0 (e.g., 0, 1, 2).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>activeRecurringSignOff</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">Active recurring sign-off value, default value is 0 (e.g., 0, 1, 2).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>activeInitialSignOffFormat</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Active format of the initial sign-off, NULLable (e.g., 0, 1, 2).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>activeRecurringSignOffFormat</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Active format of the recurring sign-off, NULLable (e.g., 0, 1, 2).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isSignRoutingEnabled</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating if the sign routing is enabled (1) or not (0), default value is 0.</td>
+      </tr></table>
+</div>
+</body>
+</html>

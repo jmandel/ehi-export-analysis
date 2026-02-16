@@ -1,0 +1,77 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>bh_importedtreatmentplan</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about imported treatment plans, including their creation and modification details, as well as the imported data and a flag indicating that the record has been deleted.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each imported treatment plan record. Example: 1, 2, 3.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the encounter associated with the imported treatment plan. Foreign key relation: `enc.encounterid`. Example: 101, 102, 103.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>treatmentPlanid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the treatment plan associated with the imported data. Foreign key relation: `bh_treatment_plan.id`. Example: 1001, 1002, 1003.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>createdDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the imported treatment plan record was created. Example: '2021-07-01 12:34:56'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>createdBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the user who created the imported treatment plan record. Foreign key relation: `users.UID`. Example: 501, 502, 503.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>modifiedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the imported treatment plan record was last modified. Example: '2021-07-02 14:56:32'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>modifiedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the user who last modified the imported treatment plan record. Foreign key relation: `users.UID`. Example: 504, 505, 506.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>importedData</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Text containing the imported data for the treatment plan. Example: '{"treatment": "chemotherapy", "duration": "6 months"}'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>deleteflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A flag indicating if the imported treatment plan record has been deleted. 0 means not deleted, 1 means deleted. Example: 0, 1.</td>
+      </tr></table>
+</div>
+</body>
+</html>

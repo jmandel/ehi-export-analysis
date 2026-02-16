@@ -1,0 +1,185 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>labdataex</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about laboratory data, including report details, processing status, and sending options.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>reportid</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores a primary key. This column stores the ID of the lab and refers to the reportid column in the labdata table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>HL7ResultDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the result date in the Inbound Lab HL7 result message received from the vendor through the interface. The format used is YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>HL7ResultTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the result time in the Inbound Lab HL7 result message received from the vendor through the interface. The format used is YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>urllink</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores the PACS link that is received in the Inbound Lab/DI HL7 result messaage from the vendor through the interface or that is pre-defined in the labitemkey for the interface implementation along with extra parameters (like MrnNumer, Accession id, etc.) that get added when the result is processed.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>interfacestatus</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the textual status of the lab/DI order sent or result received through the interface. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>processedresult</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores the XML format data for displaying the pink paper clip.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>VisitType</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the visit type that may be received in the Inbound Lab HL7 result message from the vendor through the interface or can be inserted manually from the user interface.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>DateReceived</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date and time when the lab/DI HL7 result message is received from the vendor through the interface. The format used is YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>resultrcvddatetime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date when the result is received. The format used is YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>MigrateFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Column not in use</td>
+      </tr><tr  >
+        <td class="col-name"><strong>SentOutReqNo</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the Requisition Number sent in the Outbound Lab/DI Orders HL7 message to the vendor through the Orders Generic Interface.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>facilityid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the facility ID.  This value can come in the HL7 message and may be inserted/updated through the interface or manually. This column refers to the id column from from the edi_facilities table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>specimenReceiveTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the time when the specimen (e.g., blood sample or urine sample) was received. This value can come in the HL7 message and may be inserted/updated through the interface or manually.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>specimenReceiveDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date when the specimen (e.g., blood sample or urine sample) was received.  This value can come in the HL7 message and may be inserted/updated through the interface or manually. The format used is YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isPACSLinkEnabled</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores a flag 0 or 1, where 0 indicates the PACS button on the DI Result window is disabled and 1 inidcates it is enabled.  This column is updated based on a lab item key setting when a Lab/DI Inbound HL7 Order Update (ORM) message is received from the vendor through the interface.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>observationDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the observation date received in the Inbound Lab Results HL7 message from the vendor through the interface. The format used is YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>observationTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the observation time received in the Inbound Lab Results HL7 message from the vendor through the interface. The format used is YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>SpecimenActionCode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the Specimen Action Code received in the Inbound Lab Results HL7 message from the vendor through the interface.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>PlacerGroupNumberid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the Placer Group Number ID (unique ID) received in the Inbound Lab Results HL7 message from the vendor through the interface.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PatientAltRace</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the race of the patient received in the Inbound Lab Results HL7 message from the vendor through the interface.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>bodysitecode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the value of the Body Site field on the result window for DI and procedure orders only. This refers to the bodysitecode column from the bodysites table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ABNPrompted</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores values 0 or 1 to indicate whether the Advanced Beneficiary Notice (ABN) has been prompted or not while ordering Lab or Diagnostic Imaging. 0 indicates that ABN was not prompted and 1 indicates ABN was prompted.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ABNOption</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores a value 1, 2, or 3 to indicate which option has been selected by the end user when ABN was prompted. 1 indicates I agree, bill my insurance, 2 inidcates I agree, DO NOT bill my insurance, and 3 indicates I DO NOT want these tests. These mappings are stored in the abnoptions table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>AQRejectionReason</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the reason documented while rejecting pending orders.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>exceptionReasonid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store the Exception Reason ID. The default value of this column is NULL. If the encounter is not blocked for the eClinicalWorks Patient Portal, this column is set to NULL. This column refers to the exceptionReasonid column in the information_blocking_reasons table. This column stores numeric data which may increase, so it is an integer data type.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>exceptionReasonComment</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store the reason why an encounter is restricted/blocked for the eClinicalWorks Patient Portal. As per the functionality, users can document up to 255 characters for the reason. The default value of this column is empty.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>movedOrderFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to store the status of a moved order. By default, this column value is 0. The value 1 indicates the order was moved from a Current Order to a Future Order, and the value 2 indicates the order was moved from a Future Order to a different future date.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>SentOutReqNoOrdNum</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the generated requisition number. By default, this column value is 0.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>printlabid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the same requisition number if two future orders on the same date were placed through different interfaces. The default value of this column is 0.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>SendToMode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the mode for sending the lab report (e.g., Print, Fax, eTransmit, eTransmitOnly).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>SendToName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the name of the recipient for the lab report (e.g., John Doe).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>SendToFaxNumber</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the fax number of the recipient for the lab report (e.g., 555-123-4567).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>FaxLogid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the unique identifier for the fax log (e.g., 1, 2, 3) with a foreign key relation to faxlogs.Logid.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>TransmitLabid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the unique identifier for the transmitedt lab (e.g., 1, 2, 3) with a foreign key relation to lablist.id.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>SendToStatus</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores the status of sending the lab report (e.g., 1 for sent, 2 for pending, 3"for failed, and 4 for not sent).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>sendToAddressDetails</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the address details of the recipient for the lab report (e.g., 123 Main St, City, State, ZIP code).</td>
+      </tr></table>
+</div>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>hi_payor_qm_metrics</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about payor quality metrics, including the payor's details, transaction details, and outstanding metric counts and weights.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">bigint</td>
+        <td class="tab-description">A unique identifier for each record in the table. It is of type bigint and auto-increments. Example: 1, 2, 3.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>payorid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">A unique identifier for the payor. It is a varchar(40) and cannot be NULL. Example: "P123", "P456".</td>
+      </tr><tr  >
+        <td class="col-name"><strong>payorname</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">The name of the payor. It is a varchar(250) and cannot be NULL. Example: "Insurance Company A", "Insurance Company B".</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>txn_id</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">A unique identifier for the transaction. It is a varchar(50) and cannot be NULL. Example: "TXN123", "TXN456".</td>
+      </tr><tr  >
+        <td class="col-name"><strong>payor_UID</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">A unique identifier for the payor user. It is a varchar(60) and cannot be NULL. Example: "PU123", "PU456".</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>patientid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">A unique identifier for the patient. It is an int(11) and cannot be NULL. Foreign key relation: References `users` table's `UID` column. Example: 101, 102.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>emrgUID</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">A unique identifier (GUID) for the electronic medical record (EMR) associated with the request. Example: '550e8400-e29b-41d4-a716-446655440000'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>outstanding_metric_count</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">The count of outstanding metrics for the payor. It is a decimal(15,5) and can be NULL. Example: 5.00000, 10.00000.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>outstanding_metric_weighted</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">The weighted value of outstanding metrics for the payor. It is a decimal(15,5) and can be NULL. Example: 25.00000, 50.00000.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>createddate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">The date and time when the record was created. It is a datetime and cannot be NULL. Example: "2021-01-01 12:34:56".</td>
+      </tr><tr  >
+        <td class="col-name"><strong>updateddate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">The date and time when the record was last updated. It is a datetime and cannot be NULL. Example: "2021-01-02 12:34:56".</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A flag indicating whether the record has been deleted or not. It is a tinyint(1) and cannot be NULL, with a default value of '0'. Example: 0 (not deleted), 1 (deleted).</td>
+      </tr></table>
+</div>
+</body>
+</html>

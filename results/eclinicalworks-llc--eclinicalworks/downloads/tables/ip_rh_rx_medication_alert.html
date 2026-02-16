@@ -1,0 +1,86 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { background-color: #cde4f3; color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ip_rh_rx_medication_alert</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table logs details of medication pertaining to subsequent ambulatory encounter after RBH active encounter.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each medication alert record.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>itemid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of the medication added to the encounter for which alert is set.This column refers column itemId from items table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>encounterId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store encounter ID and is foreign key references encounterId column of enc table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>rxOrderNo</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores order number for a set of medication/drug added tospecific encounter. This number is generated on the application side.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>medName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores name of the medicine/drug of the id stored in itemId column which is added as part of the treatment and on which alert is set.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>userId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of the user who is treating/documenting the encounter for  which alert is set. This column refers column uid from users table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>addedDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the current timestamp when the medication is added as part of the patient's  treatment for which alert is created.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isAlertActive</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column indicates if the created alert is active or not. For multiple entries only the newest record is active, once the new entry is received previous entries are marked as inactive.
+Possible Values:  1 - alert is active, 0 - alert is inactive.
+Default value is 1 for medication alert record.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>rxComment</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores one of the below values indicating status of the medication addedfor the patient on which alert is created.
+ Possible values :'Unknown' , 'Discontinued',  'Not-Taking',  'Taking',  'Stop', 'Start',
+Continue', 'Increase', 'Decrease'
+</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isMedDelete</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column store one of the below values indicating medication is deleted or not. When the medication is marked as delete only the last active entry is updated as deleted.Possible Values: 1 = medication deleted, 0 = medication not deleted.Default value is 0 for medication alert record.</td>
+      </tr></table>
+</div>
+</body>
+</html>

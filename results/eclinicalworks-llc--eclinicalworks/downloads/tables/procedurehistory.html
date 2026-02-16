@@ -1,0 +1,208 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>procedurehistory</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This is the child table for every procedure documented for patients. Any procedure documented for a patient may have one or more entries in this table. It stores a history of changes made to the procedure over time since many dental procedures are not completed in a single encounter and progress over weeks/months. Each change to the procedure will have a new row in the table, and they all share the same ProcNum. This table has a many-to-one relationship with procedurelog.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">bigint</td>
+        <td class="tab-description">This is the auto-increment primary key column for the table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ProcNum</strong></td>
+        <td class="tab-description">bigint</td>
+        <td class="tab-description">This is a reference to the column ProcNum of the table procedurelog. This column  has a many-to-one relationship with procedurelog, with entries created for each change to the procedure. This maintains a history of the changes made to the procedure.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ProcDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the procedure date, which is usually the date the procedure was first documented, or the date of the encounter where the procedure was first documented. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>procfee</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This column stores the fee associated to the procedure.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Surf</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the surfaces (if applicable) for which the procedure is applied. It's a combination of all applicable surfaces stored as a single string (example - MOD, DL, MODBL, etc).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ToothNum</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">This column stores the tooth number (if applicable) for which the procedure is applied.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ToothRange</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">If the procedure applied is for multiple teeth, or a specific treatment area, such as quadrant, arch, sextant, or full mouth, that information is stored in this column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Priority</strong></td>
+        <td class="tab-description">bigint</td>
+        <td class="tab-description">This column represents the priority of the procedure and is a reference to the column priorityNo of table dentalpriority.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ProcStatus</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column references the id column of dentalentrystatus table and identifies the entry status of the procedure.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ProvNum</strong></td>
+        <td class="tab-description">bigint</td>
+        <td class="tab-description">This column references the UID column of user table and identifies the provider id associated to the procedure.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>dx</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column references the itemid column of items table and identifies one of up to four ICDs associated to the procedure.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>DateEntryC</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the completed date of the procedure.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>CodeNum</strong></td>
+        <td class="tab-description">bigint</td>
+        <td class="tab-description">This column references the itemid column of items table and identifies the CPT code associated to the procedure.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ModifiedByTrUserid</strong></td>
+        <td class="tab-description">bigint</td>
+        <td class="tab-description">This column references the UID column of user table and identifies the id of the user who modified the procedure last.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DateModified</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the time stamp of when the procedure was last modified.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column, when set to 1, soft deletes the procedure entry. By default, when 0, the procedure is not flagged as deleted.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column references the encounterid column of en table and identifies the encounter id where the instance of this procedure entry was added/updated. For procedures added from the Patient Hub, this column stores -1.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>procnote</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column stores the text that was documented as notes for the procedure.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>migrationFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column indicates if the procedure was documented in eCW database through the regular use of the product, or if it was migrated from a different system to eCW database. Value is set to a non-zero value for migrated procedures.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PriorAuthStatus</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores the prior authorization status for the procedure. A prior authorization provides advance approval for the planned service, which is generally valid for a fixed period of time. 
+
+The allowed values in this column are 1 (not approved), 2 (requires approval), 3 (approved), and 0 which is the default value (no prior authorization status associated).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>SelfPay</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is set to 1 when the patient opts to self-pay for a procedure. By default, the column is set to 0 which is the case when self-pay is not set.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PriorAuthNum</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the prior authorization number obtained from the insurance company when the prior authorization has been approved for a procedure.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>PriorAuthExpiryDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This is the column that stores the expiry date for a prior authorization. As mentioned previously, each prior authorization is valid for a fixed period from when it is issued (typically 60 days).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dx2</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column references the itemid column of items table and identifies one of up to four ICDs associated to the procedure.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>dx3</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column references the itemid column of items table and identifies one of up to four ICDs associated to the procedure.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dx4</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column references the itemid column of items table and identifies one of up to four ICDs associated to the procedure.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>smartnotenum</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column references the primary key column of 'smartnote' table and identifies whether a default smart note was applied to the procedure through favorite button configuration.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ptPortion</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This column stores the patient estimate calculated for a procedure based on fee schedule and insurance.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>allowedFee</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This column stores the allowed Fee amount of the procedure based on insurance and Fee schedule.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>feeUpdated</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores value 0 or 1 to indicate whether patient estimate is calculated for the patient or not . By default the value is 0, which means patient estimate is not calculated yet. The column value changes to 1, when Treatment plan is accessed for the patient and fees gets calculated for the procedure.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>feesUpdatedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the time stamp of when the procedure fees was last calculated.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>resourceid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column references the UID column of user table and identifies the id of the Resource associated to the procedure.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>insid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the insurance id of the patient's Dental insurance used for calculation of Treatment plan estimates, at a procedure level. This refers to "insid" column of "insurance" table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>feeschid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the Fee schedule id of the patient used for calculation of Treatment plan estimates, at a procedure level. This refers to "id" column of "feeschlist" table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>insEstimate</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This column stores the insurance estimate calculated for a patient based on insurance coverage percentage set for each procedure. This value depends on the dental insurance and fee schedule assigned to the patient.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>insCoveragePerc</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This column stores the insurance coverage percentage set for a procedure. Insurance coverage percentage for a procedure, under that insurance can be set either on Insurance CPT mapping screen or Dental Plans screen.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>classVSurf</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores surfaces for which Class V fillings were applied. It is necessary to store this information to display on the UI the set of surfaces which have class V fillings and the set of surfaces which do not.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>nonClassVSurf</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores surfaces for which non-Class V fillings were applied. It is necessary to store this information to display on the UI the set of surfaces which have class V fillings and the set of surfaces which do not.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>slideDiscount</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This column stores the Sliding Discount amount calculated for a Self-pay patient. This amount depends upon the Sliding Fee schedule assigned to the patient and is calculated either by Slide by CPT or Slide by CPT Group.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isInactive</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores a 0 or 1 value based on procedure active or inactive status. When set to 1, the procedure is marked inactive. When set to 0, the procedure is marked active. Default value is 0.
+</td>
+      </tr><tr  >
+        <td class="col-name"><strong>inactiveReasonid</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">Unique identifier for the reason the procedure history record is inactive. Foreign key relation to `inactiveproceduresreasonconfig.id`.</td>
+      </tr></table>
+</div>
+</body>
+</html>

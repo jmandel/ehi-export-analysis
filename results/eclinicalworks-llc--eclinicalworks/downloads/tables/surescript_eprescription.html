@@ -1,0 +1,413 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>surescript_eprescription</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores electronic prescription information, including patient, doctor, and pharmacy details, as well as prescription details and message-related data.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>Reqid</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is an auto incremented Primary Key for This column  denoting the eprescription id.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>RxType</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores type of the medication for which eprescription is sent out. This is always set to NewRx value.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Messageid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores an unique identifying string for the ePrescription sent out.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>RelatedMessageid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the message id of the previous related transaction's message id. In case of new Rx generated independently this will be assigned  a default value.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>SentTo</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores an id of a vendor to whom the erprescription is sent. This column refers column NCPDPid from Pharmacy table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>SentFrom</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column store SPI of the Provider who sends out an eprescription.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>SentTime</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the date on which the eprescription is sent. The format used is YYYYMMDD.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>MessageText</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is no longer used. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>StatusDesc</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores status of the eprescription sent. success - if it is successfully sent to the pharmacy, failed - if it fails or pending - intermediate status till the eprescrition is successfully sent or failed.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>AttemptNo</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the Number of attempts made to send the eprescription out (e.g., 1, 2, 3).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>LastAttempttimestamp</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the current time stamp of the last attempt done by the Provider. The format used is YYYY-MM-DD HH:MM:SS.MMM.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Patientid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an id of the patient for whom the eprescription is sent. This column refers to column UID from user table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an id of the encounter on which the medication is added for which eprescription is sent. This column refers to column encounterid from enc table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Patient_FName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores Patient's first name for whom the eprescription is sent. This column refers ufname column from user table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Patient_LName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores Patient's last name for whom the eprescription is sent. This column refers ulname column from user table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Patient_MName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores Patient's middle name for whom the eprescription is sent. This column refers uminitial column from user table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DateOfBirth</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores Patient's date of birth for whom the eprescription is sent.  The format used is YYYYMMDD.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Sex</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores gender of the patient for whom eprescription is sent.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Ssn</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores SSN of the patient for whom eprescription is sent. This column refers column ssn column from user table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>AddressLine1</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the address of the patient for whom eprescription is sent.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>AddressLine2</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the address of the patient for whom eprescription is sent.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>City</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the city name of the patient for whom eprescription is sent.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>State</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the State name of the patient for whom eprescription is sent.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ZipCode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores zip code of the patient for whom eprescription is sent.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>patient_primaryphone</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores patient's primary phone number for whom eprescription is sent. This could include '-' in it.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Patient_CellPhone</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores patient's cell phone number for whom eprescription is sent. This could include '-' in it.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Patient_Fax</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores patient's fax number for whom eprescription is sent. This could include '-' in it.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Patient_Email</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores patient's email address for whom eprescription is sent. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>Doctorid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an id of the Doctor who sends an ePrescription. This column refers to column UID from users.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>SPI</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores Surescripts Provider identifier (SPI) number for the provider from Doctorid column who is activated for eprescritions. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>StateLicenseNumber</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores state license number of the provider who sends the prescription.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>doc_ssn</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the SSN of the Provider who sends out the eprescription.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DEANo</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the assigned DEA number of the Provider who sends out the eprescription.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>doc_FName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores first name of the provider who sends the prescription.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>doc_LName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores last name of the provider who sends the prescription.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>doc_MName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores middle name of the provider who sends the prescription.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>doc_suffix</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores assigned suffix of the provider who sends the prescription.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Speciality</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores speciality of the provider who sends the precription. This column refers column specialityname from doctor_specialities table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>SpecialityCode</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">This column stores speciality code of the specialty from speciality column. This column refers column specialitycode from doctor_specialities table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>doc_AddressLine1</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores address of the provider who sends the prescription.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>doc_AddressLine2</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores address of the provider who sends the prescription.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>doc_City</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores state of the provider who sends the prescription.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>doc_State</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores state of the provider who sends the prescription.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>doc_Zipcode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores zip code of the provider who sends the prescription.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>doc_Primaryphone</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores primary phone number of the provider who sends the prescription.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>doc_Pagerno</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores pager number of the provider who sends the prescription.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>doc_Mobilephone</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores mobile number of the provider who sends the prescription.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Pharmacyid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of the pharmacy to which eprescription is sent. This column refers column pmcid from pharmacy table. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>NCPDPid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores unique, national identifier  number assigned to the pharmacies to which eprescription is sent. This column refers column NCPDPid from pharmacy table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PharmacyName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores name of the Pharmacy to which eprescription is sent.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Pharmacy_AddressLine1</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores address of the pharmacy.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Pharmacy_City</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores city name of the pharmacy documented in PharmacyName column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Pharmacy_State</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores State name of the pharmacy documented in PharmacyName column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Pharmacy_Zipcode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores zip code of the pharmacy documented in PharmacyName column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Pharmacy_Phone</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores phone number of the pharmacy documented in PharmacyName column. This ccould have '-' hyphen in it.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Pharmacy_Fax</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores fax number of the pharmacy documented in PharmacyName column. This ccould have '-' hyphen in it.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Pharmacy_Email</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores emal id of the pharmacy documented in PharmacyName column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>DrugDescription</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores description of the drug for which eprescription is sent.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ProductCode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores ndc code of the product which comes from the associated drug database. This column refers column ndc_code from OldRxMain table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ProductCodeQualifier</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the qualifier for the ndc code from product code column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DosageForm</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores code of the formulation for the drug from drugdescription column. .This column refers nctlcode from surescript_ncpdpcodes table. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Strength</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the prescribed strength of the medication.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>StrengthUnits</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the unit of  strength of the prescribed medication.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>DrugDBCode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores id of a medication in the associated drug database sent for the sent eprescription.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DrugDBCodeQualifier</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the qualifier for Drug database associated. MD- Medispan, - Multum</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Frequency</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Frequency of drug administration (e.g., 'Every 8 hours').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>duration</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Duration of the prescription (e.g., '10 days').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Quantity</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Quantity of the prescribed drug (e.g., '30').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Take</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Instructions for taking the prescribed drug (e.g., 'Take 1 tablet every 8 hours').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Refills</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the maximum number of refills for the prescribed medication by the Provider.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>SubsMedAllowed</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores a flag 0 or 1. 1 - If substitution is is allowed, 0 - otherwise. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>comments</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores additional comments from Provider about ePrescription to the Pharmacy. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>XMLData</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column is to hold the entire eprescription data in a xml format</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>XMLResponseData</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This column is to store the success / failed response received for the eprescription sent in a xml format.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>RefillsQualifier</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">This column stores qualifier for a refill. R - refill , PRN - as per the need.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>bAsynMsgPostedToDoc</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Indicates if an asynchronous message was posted to the doctor (e.g., 'Y' for Yes, 'N' for No).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>bVerified</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Indicates if the prescription has been verified (e.g., 'Y' for Yes, 'N' for No).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ScriptVersion</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores values denoting Surescript script standard used. Old version used: 4x, 10x, Current version: 2017x.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>SentBy</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the person who sent the prescription (e.g., 'Nurse C').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Rxhubid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">RxHub identifier for the prescription (e.g., 'RXHUB12345').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>RouteSource</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the information about where the eprescription is routed through: surescript or it could be a interface.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Addressed</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores flag 0 or 1. 1 - when the eprescription is failed and user takes an action for the failed eprescription to address it. 0 - otheriwse.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>AddressedBy</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores username of the logged in user who addresses the failed eprescription.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PrescriberOrderNo</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores unique order number which is a combination of encounterid,APUID and itemid. This is used to match drug when application receive refill request. .</td>
+      </tr><tr  >
+        <td class="col-name"><strong>SentByid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores an id of the provider from SentBy column. This column refers to UID column from user table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>IpAddress</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores a IPv4 address of the system used to send out a prescription.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isVoiceMsgSent</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores flag 0 or 1. 1- if voice message is sent. 0 - otheriwse.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isTextMsgSent</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores flag 0 or 1. 1- if text message is sent. 0 - otheriwse.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>rxOrderNo</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores order number for the set of medications prescribed electronically. This column refers column rxOrderNo from oldrxmain table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>DEASchedule</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">DEA schedule of the prescribed drug (e.g., 'II', 'III', 'IV').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>TxMode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the transmission mode of the ePrescription (e.g., 'eRx', 'Sent as Fax').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>structuredCodifiedSigSent</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores the structured and codified sig sent in an ePrescription</td>
+      </tr><tr  >
+        <td class="col-name"><strong>StatusCode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the status code of the ePrescription (e.g., '010', '900', '600').</td>
+      </tr></table>
+</div>
+</body>
+</html>

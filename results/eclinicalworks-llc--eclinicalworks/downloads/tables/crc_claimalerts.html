@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>crc_claimalerts</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information related to claim alerts, including the type of alert, payer ID, and other relevant details.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each claim alert record. Example: 1, 2, 3.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>invoiceid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the invoice associated with the claim alert. This could be a foreign key referring to the `id` column in an `invoices` table. Example: 101, 102, 103.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>alerttype</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the type of claim alert. This could be a foreign key referring to the `id` column in an `alert_types` table. Example: 1 (Missing Information), 2 (Incorrect Information), 3 (Rejected Claim).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>payerid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Unique identifier for the payer associated with the claim alert. Example: 'PAYER123', 'PAYER456', 'PAYER789'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>actiondays</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Number of days to take action on the claim alert. Example: 5, 10, 15.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>fileid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the file associated with the claim alert. This could be a foreign key referring to the `id` column in a `files` table. Example: 1001, 1002, 1003.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>alertresult</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Text description of the result of the claim alert. Example: 'Resolved', 'Pending', 'Rejected'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>issubmitted</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating whether the claim alert has been submitted (1) or not (0). Example: 0 (Not Submitted), 1 (Submitted).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>alerttext</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Brief text description of the claim alert. Example: 'Missing patient information', 'Incorrect billing code', 'Rejected due to duplicate claim'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ignoreComment</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Comment explaining why the claim alert is being ignored, if applicable. Example: 'Resolved internally', 'Duplicate alert', ''.</td>
+      </tr></table>
+</div>
+</body>
+</html>

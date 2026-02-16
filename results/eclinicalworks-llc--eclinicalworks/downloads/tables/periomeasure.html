@@ -1,0 +1,95 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>periomeasure</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about periodontal measurements for dental examinations.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>PerioMeasureNum</strong> (Primary Key) </td>
+        <td class="tab-description">bigint</td>
+        <td class="tab-description">Unique identifier for each periodontal measurement record. Example: 1, 2, 3.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PerioExamNum</strong></td>
+        <td class="tab-description">bigint</td>
+        <td class="tab-description">identifier for the periodontal examination that the measurement belongs to. This is a foreign key referring to the `PerioExam` table's primary key. Example: 101, 102, 103.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>SequenceType</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores value betweek 0 to 6  indicating below things.
+0 - Mobility , 1-Furcation, 2-Ging Marg , 3-MGJ , 4-Probing (PD) , 5-Skip Tooth , 6-Bleeding</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>IntTooth</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column stores value 1 to 32 indicating initial tooth number value.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ToothValue</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column stores value like 0, -1 ,1 etc...indicating teeth is missing or not or the value of Mobility which is depended on sequence type column value. Column default value = 0. 
+when sequence type =0 then it indicates Mobility value.
+when sequence type =5 then it indicates skip tooth value (missing teeth).
+value =-1 indicates that teeth is not missing and 0 indicates that missing teeth.
+
+</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>MBvalue</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column stores Probing Depth value for tooth number which is store in upper right side in perio exam.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Bvalue</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column stores Probing Depth value for tooth number which is store in upper middle side in perio exam.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>DBvalue</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column stores Probing Depth value for tooth number which is store in upper left side in perio exam.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>MLvalue</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column stores Probing Depth value for tooth number which is store in lower right side in perio exam.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Lvalue</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column stores Probing Depth value for tooth number which is store in lower middle side in perio exam.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DLvalue</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column stores Probing Depth value for tooth number which is store in lower left side in perio exam.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>delflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores value 0 / 1 indicating the Perio measure data is deleted or not. This is soft delete action. Value 0 = Not Deleted , Value 1 =Deleted. This column allows 0 as default value.</td>
+      </tr></table>
+</div>
+</body>
+</html>

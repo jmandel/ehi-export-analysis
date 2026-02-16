@@ -1,0 +1,133 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>rpm_healow_tracker_spo2</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">When a Provider prescribes an Oximeter device for a patient, the patient will take readings from that device and will upload it to Healow. From healow, these readings are transferred to EMR side. We have created this new table rpm_healow_tracker_spo2 to store the SPO2 readings for the patients.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains auto incremented id, datatype is INT. This column stores integer value which could grow with number of users added to the care team and hence integer is selected. It is AUTO_INCREMENT column and has PRIMARY KEY index.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>UID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column contains patient id which is used to identify the readings belonging to the patient and the datatype is INT. Contains UID value referenced from UID column of user table. 
+This column could be store high range numeric value hence integer is selected.This field will always have a value hence defined as NOT NULL. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>device_action</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the Vendor id from whom the device has been purchased and its data type is INT. Contains Primary Key of rpm_vendors_list table.   
+The value of this field can be NULL. Therefore, the default value of this field is not provided.  
+There is a foreign key associated with this field FK_rpm_healow_tracker_spo2_device_action. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>spo2</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the SPO2 Level (Oxygen level) in the body and its data type is Varchar(100). 
+This column stores characters which cannot exceed 100 characters hence Varchar(100) is selected. 
+This field can have a NULL value. Hence this field is defined as NULLable. There is no default value provided for this field.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>heart_rate</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the heart rate of patient and its data type is Varchar(100).  
+This column stores characters which cannot exceed 100 characters hence Varchar(100) is selected. 
+The value of this field can be NULL. There is no default value provided for this field.
+The expected value for this field can be 60, 70, 80, 100 BPM.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>perfusion_index</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the Perfusion Index in human body and its data type is Varchar(100).  
+This column stores characters which cannot exceed 100 characters hence Varchar(100) is selected.  
+The value of this field can be NULL. There is no default value provided for this field.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>measure_datetime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date time when the measurement was done and its data type is DATETIME.  
+This column stores datetime hence Datetime is selected. This field will always have a value hence defined as NOT NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>notes</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the notes/description entered by the patient and its data type is Varchar(MAX).  
+The value of this field can be NULL. This field does not have a default value. As the column has no limit and we have free text, therefore we have defined it as VARCHAR(MAX) / TEXT.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>delflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicates the record added is deleted, datatype is tinyint -0 - Not Deleted, 1 - Deleted. This field will always have a value hence defined as NOT NULL. By default, this column should not be in Deleted status hence default 0 is chosen.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>source_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the type of source from where the readings are retrieved and its data type is INT. This field can have a NULL value.  
+The default value of this field is not provided. There is a foreign key associated with this field FK_rpm_healow_tracker_spo2_source_id referencing id column of rpm_healow_tracker_source.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>reviewed</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores 0, 1 to determine whether the reading is reviewed or not and its data type is TINYINT. The value of this field cannot be NULL.  The default value of this field is 0. 
+Values 0 : Reading has not been reviewed by the Provider 
+1 : Reading has been reviewed by the Provider </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>reviewedByid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the Provider id who has reviewed the reading and its data type is INT. The value of this field can be NULL. 
+There is a Foreign Key constraint - FK_rpm_healow_tracker_spo2_reviewedByid referencing to UID column of users table.  </td>
+      </tr><tr  >
+        <td class="col-name"><strong>reviewedDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date time when the reading was reviewed and its data type is DATETIME.  
+The default value of this field can be NULL. The default value of this field is not provided.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isManuallyAdded</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores 0, 1 whether the reading is manually added by patient or not and its data type is TINYINT.  
+The value of this field cannot be NULL. The default value of this field is 0.  
+Values  0 : Not added manually by the patient. 
+1 : Added manually by the patient.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>device_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the Unique id of the Device and its data type is INT. The value of this field can be NULL.   
+The default value of this field is not provided.  
+There is a Foreign key constraint linked to this field - FK_rpm_healow_tracker_spo2_device_id referencing to device_id column of rpm_supported_devices_list table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>modifiedDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date time when the reading was inserted and its data type is DATETIME. The default value of this field cannot be NULL.  
+This column stores datetime hence Datetime is selected. This field will always have a value hence defined as NOT NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isRPMData</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicates the readings received from healow end are valid or not, datatype is tinyint - 0 - Not Valid, 1 - Valid. 
+This field will always have a value hence defined as NOT NULL. By default, this column should not be in valid status hence default 0 is chosen.</td>
+      </tr></table>
+</div>
+</body>
+</html>

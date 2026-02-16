@@ -1,0 +1,114 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ptspecificalert</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores Patient-Specific Alerts.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is an auto incremented Primary Key for This column .</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>patientid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores patient's id for whom alert is created. This column refers column UID from user table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Itemid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores itemid for the corresponding lab/DI/Procedure/Billing/Dental.This column refers column itemid from items table. If Other is selected int the user interfaceit inserts 0 as a value into this column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Name</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the item name selected to create a alert. In that case it refers to column name from items table. If Other is selected while creating alert in that case it stores the name  (free text) given by the end user.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>endDt</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date till the alert is complaint. The format used is YYYY-MM-DD HH:MM:SS.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>frequency</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the frequency of the alert created.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>freqFlag</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores one of the below values indicating the frequency unit. Y - Years, M - Months, W - Weeks and D - Days.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>alertType</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores one of the below values indicating type of the alert. Values: BillingAlert,
+Immunizations,
+Labs,
+Other,
+Procedures,
+XRays.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Providerid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is not used anymore.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ProviderName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is not used anymore.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>IsRecurrent</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores a value 0 or 1. 1 - indicating a recurring alert or 0 - Otherwise.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Recurrencefrequency</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the frequency of the alert created in case if isRecurrent column is set to 1.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>RecurrenceFreqFlag</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores one of the below values indicating the frequency unit in case if isRecurrent column is set to 1. Y - Years, M - Months, W - Weeks and D - Days. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>additionalitems</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores itemid for the corresponding lab/DI/Procedure/Immunization additional item added while configuring a patient specific alert. This column refers column itemid from items table. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>alert_description</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores description (free text) added by end user for this alert.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>orderSetEncid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is not used anymore.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>orderSetsMeasureid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is not used anymore.</td>
+      </tr></table>
+</div>
+</body>
+</html>

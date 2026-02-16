@@ -1,0 +1,79 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { background-color: #cde4f3; color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ip_rh_waitList_followUpData</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table is used to store the follow-up details entered while adding patient into wait list. This is an extension of ip_rh_sch_patient_waitList. When user added follow up for patient while adding/edit patient's entry into waitlist then those details will get save in this table.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains auto incremented id, datatype is INT. This column stores integer value which could grow with number of transactions over the years hence integer (Range: 0-2,147,483,647) is selected. It is AUTO_INCREMENT column and has PRIMARY KEY index</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>waitListId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the wait list id which is a foreign key of ip_rh_sch_patient_waitList. The data type chosen is int. This column stores high range numeric value hence integer (Range: 0-2,147,483,647) is selected, and this field will always have a value hence defined as NOT NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>addedOn</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">The purpose of this column is to store date time value for follow-up added into Add/Edit wait list screen.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>followUpCallDueDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">The purpose of this column is to store date time value for which users can follow-up with patient into Add/Edit wait list screen.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>followUpCallAttemptDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores date time value for which users can followed with patient into Edit wait list screen. The datatype chosen is DATETIME. Default value is null</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>notes</strong></td>
+        <td class="tab-description">nvarchar</td>
+        <td class="tab-description">This column is for storing notes of follow-up details, it's a NVARCHAR (MAX). As the column could store huge data, we have defined it as NVARCHAR (MAX).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>addedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The purpose of this column is to store the id of a user who has added follow up details on the wait list screen.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>followUpIn</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the follow up in, in hours added while adding follow up details. This column stores high range numeric value hence integer is selected. Default value is NULL because if user has selected follow Up call due date directly on follow up screen, then this column will have no value and if user has added number of hours in this column, then follow Up call due date will get calculated from current date time and added into follow Up call due date column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicates if this log is deleted or not. The datatype chosen is tinyint with length 1. 0: follow up details not deleted
+1: follow up details deleted
+Default 0 is chosen for this column because by default follow up details must be undeleted.</td>
+      </tr></table>
+</div>
+</body>
+</html>

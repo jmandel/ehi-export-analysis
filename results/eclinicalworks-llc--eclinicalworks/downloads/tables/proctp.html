@@ -1,0 +1,214 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>proctp</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information procedures those are part of saved treatment plan of the patients.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>procTPNum</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is the auto-increment primary key column for the table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>treatPlanNum</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores identifier number of a Treatment Plan. It refers to column TreatplanNum from dentaltreatmentplan table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>patNum</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the patient identifier reference for whom the procedure is being documented. It is a reference to the column 'UID' of table 'users'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>procNumOrig</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is a reference to the column ProcNum of the table procedureHistory. This column  has a many-to-one relationship with procedureHistory, with entries created for each change to the procedure. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column identifies whether a procedure is flagged as deleted (soft-deleted) or not for treatment plan. When set to 1, the procedure is not shown for the patient Treatment plan and is treated as a non-existing entry. When 0, the procedure is treated as being present and valid.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>priority</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column represents the priority of the procedure and is a reference to the column priorityNo of table dentalpriority.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ToothNumTP</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the tooth number (if applicable) for which the procedure is applied.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Surf</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the surfaces (if applicable) for which the procedure is applied. It's a combination of all applicable surfaces stored as a single string (example - MOD, DL, MODBL, etc).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ProcCode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the Procedure code value. It is a reference to the column 'procedurecode' of table 'dentalitems'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Descript</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the Procedure description. It is a reference to the column 'itemname' of table 'items'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>feeamt</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This column stores the fee associated to the procedure.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PriInsAmt</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This column stores the primary insurance amount associated to the procedure.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>SecInsAmt</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This column stores the secondary insurance amount associated to the procedure.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>patamt</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This column stores the patient estimate amount of the procedure.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>discount</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This column used to store the discount value for each procedure on Individual Treatment Plan screen. This column stores decimal value max=9999999.99. Column does not expect NULL values as it stores decimal value. So, default value is set to 0.00.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Prognosis</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is unused and will be removed in a future build.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Dx</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column references the itemid column of items table and identifies one of up to four ICDs associated to the procedure.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>entrystatus</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column references the id column of dentalentrystatus table and identifies the entry status of the procedure.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>dx2</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column references the itemid column of items table and identifies one of up to four ICDs associated to the procedure.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dx3</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column references the itemid column of items table and identifies one of up to four ICDs associated to the procedure.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>dx4</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column references the itemid column of items table and identifies one of up to four ICDs associated to the procedure.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ToothRange</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">If the procedure applied is for multiple teeth, or a specific treatment area, such as quadrant, arch, sextant, or full mouth, that information is stored in this column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>areaName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column value is set to ("") blank and no longer used. 
+so this is unused and will be removed in a future build.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>inactive</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to identify that procedure is active or inactive. Value is 0 =active. 1 = inactive.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>completedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date when the treatment plan procedure was completed. (e.g., '2021-01-01', '2021-02-01', '2021-03-01')</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>allowedFee</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">Allowed fee amount for the treatment plan procedure. (e.g., 90.00, 135.00, 180.00)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>feesUpdatedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date when the fees were last updated for the treatment plan procedure. (e.g., '2021-01-01', '2021-02-01', '2021-03-01')</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>insid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the insurance id of the patient's Dental insurance used for calculation of Treatment plan estimates, at a procedure level. This refers to "insid" column of "insurance" table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>feeschid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the Fee schedule id of the patient used for calculation of Treatment plan estimates, at a procedure level. This refers to "id" column of "feeschlist" table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>insEstimate</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">Insurance estimate for the treatment plan procedure. (e.g., 80.00, 120.00, 160.00)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>insCoveragePerc</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">Insurance coverage percentage for the treatment plan procedure. (e.g., 80, 90, 100)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>insEstModified</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Indicates if the insurance estimate was modified (1) or not (0). (e.g., 0, 1)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ptEstModified</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Indicates if the patient estimate was modified (1) or not (0). (e.g., 0, 1)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>rowChangeStatus</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores value 0 or 1. When a procedure's priority, tooth number, surface or D Code is changed , the column value updates to 1.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>codeNumChangeStatus</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores value 0 or 1. This column is specific to D code changes on a procedure. When a D code is changed manually or by an autocode , the column value changes to 1.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>itemid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores identifier number of a dental items. It refers to column itemid from dentalitems table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>annualMaxRemUsed</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">Annual maximum remaining used for the treatment plan procedure. (e.g., 1000.00, 900.00, 800.00)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deductibleRemUsed</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">Deductible remaining used for the treatment plan procedure. (e.g., 50.00, 40.00, 30.00)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>annualMaxRemExhausted</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Indicates if the annual maximum remaining is exhausted (1) or not (0). (e.g., 0, 1)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deductibleApplied</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Indicates if the deductible was applied (1) or not (0). (e.g., 0, 1)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>deductibleFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Indicates if the deductible flag is set (1) or not (0). (e.g., 0, 1)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>coPay</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This new column is introduced to store the Co-Pay($) value for each procedure on Individual Treatment Plan screen. 
+
+This column stores decimal value max=999999.99.  
+
+Column does not expect NULL values as it stores decimal value. So, default value is set to 0.00.</td>
+      </tr></table>
+</div>
+</body>
+</html>

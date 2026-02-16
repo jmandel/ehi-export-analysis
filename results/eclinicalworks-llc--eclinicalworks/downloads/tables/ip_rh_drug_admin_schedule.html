@@ -1,0 +1,237 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { background-color: #cde4f3; color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ip_rh_drug_admin_schedule</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores the administration schedules of each order</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>Id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the unique identifier for each interaction record.
+Integer data type ensures efficient indexing and searching for records.
+Primary key constraint ensures uniqueness and avoids duplication.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>OrderId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store OrderId.It is a foreign key that references OrderId column ip_rh_ptmedicationorders table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ScheduleDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column is used to store the scheduled date and time for the drug administration in yyyy-mm-dd hh:mm:ss format.
+DATETIME data type is used to store date and time data.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>AdministeredDatetime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column is used to store the actual date and time when the drug was administered in yyyy-mm-dd hh:mm:ss format.
+DATETIME data type is used to store date and time data.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>AdministrationStatus</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store the status of the administration.Possible values: 1, 2, 3.
+1 - Given
+2 - Not Given
+3 - Partial Given
+No default value is set since when drug has not been administered, the administration value stays null.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>UserId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store the ID of the user who administered the drug.It is a foreign key that references Id column users table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>AdminNote</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store the actual note text entered while eMAR administration.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>AdministrationDose</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This column is used to store the dose of the drug administered.
+Decimal data type with precision 19 and scale 4 is used to store large values with high precision.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>AdministrationDoseUOM</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store the unit of measure for the administered dose.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>AdminBagNo</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store the bag number for the drug administration.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>PatientIdScanned</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store the scanned patient ID.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PatientIdNotScannedReason</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store the reason why the patient ID is not scanned.It is a foreign key that references Id column ip_rh_drugFormulary_reasondictionaryitems table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DrugNotScannedReason</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store the reason why the drug is not scanned.It is a foreign key that references Id column ip_rh_drugFormulary_reasondictionaryitems table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ObservedBy</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store the ID of the user who observed the drug administration.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ObservedById</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store the ID of the user who observed the drug administration.The column has a foreign key constraint that refers to the uid from the users table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>CreatedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store id of user who created the record. The column has a foreign key constraint (FK_IP_rh_ drug_admin_schedule_createdby) referencing the uid from the users table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>CreatedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column is used to store created date and time when the note was created in the format yyyy-mm-dd hh:mm:ss.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ModifiedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store id of user who modified formulary common settings.The column has a foreign key constraint (FK_IP_rh_ drug_admin_schedule _modifiedBy) referencing the uid from the users table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ModifiedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column is used to store modified date and time in the format yyyy-mm-dd hh:mm:ss</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>NotGivenReason</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store the reason if the drug was not given. It is a foreign key referencing the ip_rh_drugFormulary_reasondictionaryitems table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>EpisodeEncounterId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store the ID of the episode encounter associated with the drug administration. It is a foreign key referencing the encounterID of enc table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>verifiedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store the ID of the user who verified the record. The column has a foreign key constraint that refers to the uid from the users table. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>verificationFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores a value indicating if the record has been verified.Possible values:
+1 - verified
+0 -  not verified
+The default value is 0 because by default record is marked as not verified.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>verificationDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date and time when the record was verified.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>LateAdministrationReason</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store the reason id of the reason if the drug administration was late. It is a foreign key referencing the id column of  ip_rh_drugFormulary_reasondictionaryitems table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PartialAdministrationReason</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store the reason if the drug administration was partial. It is a foreign key referencing the id column of ip_rh_drugFormulary_reasondictionaryitems table.  </td>
+      </tr><tr  >
+        <td class="col-name"><strong>immunizationId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store the ID of the immunization if the drug is an immunization drug.It is a foreign key referencing the immunizations table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>IVAction</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores a value indicating the action taken on the IV.Possible values:
+"1 - START
+2 - PAUSE
+3 - RESUME
+4 - STOP"
+The default value is 0.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Volume</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This column is used to store the volume of the drug administered.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>VolumeUnit</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store the unit of the volume of the drug administered.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Rate</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This column is used to store the rate of the drug administration.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>RateUnit</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store the unit of the rate of the drug administration.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Site</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store the ID of the site where the drug was administered. It's a foreign key referencing the id column of ip_rh_drugFormulary_SiteDictionary table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>EndDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores the date and time when the drug administration ended in the format yyyy-mm-dd hh:mm:ss.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>EarlyAdministrationReason</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store the reason if the drug administration was early. It is a foreign key referencing the id column of ip_rh_drugFormulary_reasondictionaryitems table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>MasterEncounterID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store the ID of the master encounter associated with the drug administration. It is a foreign key referencing the encounterID column of enc table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>LateDocumentationReason</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store the reason if the documentation of the drug administration was done late. It is a foreign key referencing the id column of ip_rh_drugFormulary_reasondictionaryitems table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isScan</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores a value indicating if the record is scanned. Possible values:
+0 - Not scanned
+1 - scanned
+The default value is 0.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>WastageDose</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This column is used to store the wastage dose of the drug, if any.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>WastageDoseUnit</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store the units of wastage dose like ml, mg, etc.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>WastageDispense</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">This column is used to store the wastage dispense of the drug, if any.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>WastageDispenseUnit</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store the unit of wastage dispense like ml, mg, etc.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>AdminStartSource</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store the source of the administration start.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>docModuleEncId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store the ID of the document module encounter associated with the drug administration. It is a foreign key referencing the encounterID of enc table.</td>
+      </tr></table>
+</div>
+</body>
+</html>

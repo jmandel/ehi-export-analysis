@@ -1,0 +1,117 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>epa_questionnaire</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about questionnaires related to EPA transactions, including their content, status, and deadlines.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each questionnaire (e.g., 1, 2, 3).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>epa_transaction_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the related EPA transaction; foreign key relation to `epa_transaction` table's `id` column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>epa_case_id</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Unique identifier for the EPA case (e.g., "EPA12345").</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>pa_reference_id</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Unique identifier for the PA reference (e.g., "PA12345").</td>
+      </tr><tr  >
+        <td class="col-name"><strong>epa_message_id</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Unique identifier for the EPA message (e.g., "MSG12345").</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>question_set_id</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Unique identifier for the question set (e.g., "QS12345").</td>
+      </tr><tr  >
+        <td class="col-name"><strong>question_set_no</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Number representing the order of the question set (e.g., 1, 2, 3).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>question_set_title</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Title of the question set (e.g., "Environmental Impact Assessment").</td>
+      </tr><tr  >
+        <td class="col-name"><strong>question_set_desc</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Description of the question set (e.g., "This question set covers the environmental impact assessment of the project.").</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>content</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Content of the questionnaire in medium text format.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>deadline_for_reply</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Deadline for replying to the questionnaire in datetime format (e.g., "2022-12-31 23:59:59").</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>questionnaire_status</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Status of the questionnaire (e.g., "Pending", "Completed", "Expired").</td>
+      </tr><tr  >
+        <td class="col-name"><strong>created_by</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the user who created the questionnaire; foreign key relation to `users` table's `uid` column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>created_datetime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Datetime when the questionnaire was created (e.g., "2022-01-01 12:34:56").</td>
+      </tr><tr  >
+        <td class="col-name"><strong>updated_by</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the user who last updated the questionnaire; foreign key relation to `users` table's `uid` column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>updated_datetime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Datetime when the questionnaire was last updated (e.g., "2022-01-02 12:34:56").</td>
+      </tr><tr  >
+        <td class="col-name"><strong>pa_note</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Notes from the PA regarding the questionnaire (e.g., "Please provide additional information on the environmental impact.").</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>is_active</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating if the questionnaire is active (1) or not (0).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>delete_flag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating if the questionnaire is deleted (1) or not (0).</td>
+      </tr></table>
+</div>
+</body>
+</html>

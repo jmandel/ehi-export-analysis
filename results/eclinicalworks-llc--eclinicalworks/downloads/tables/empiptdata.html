@@ -1,0 +1,110 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>empiptdata</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information related to patient consent details, including the consent options, consent signed date, opt-in practice code and name.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>pid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column represents the patient id for which consent has been saved. It refers to the user.UID column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ecwmpi</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column represent eEHX enabled patient's ecwmpi id. This is gUID value.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>timestamp</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column represents when an entry was made into this column. It is a time stamp column that defaults to the current date and time.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>EnableEmpi</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column contains the enable empi value, which has a value of 1 only if the patient has opted-in with EHX, otherwise it will be 0.
+</td>
+      </tr><tr  >
+        <td class="col-name"><strong>eCROptInOption</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column contains the value of patient consent option with eEHX. Possible values include: 'OptOut', 'OptInThisFac', 'OptInAllFac,' and 'OptInThisFac'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ReceivedConsent</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column contains the value of patient consent to eEHX. A value of '1' means the patient has consented to eEHX, and a value of '0' means the patient not consented to eEHX.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DateSigned</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column contains the date when a patient signed the consent form. Example: "2021-07-01"</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>MatchFound</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is a dead column, not used in the system, and the system does not populate this column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>delFlag</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is a tinyint (1) field that indicates whether the login record has been deleted or not. A value of '0' means the record is not deleted, and a value of '1' means the record is deleted. Example: 0, 1.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is the primary key column, which uniquely identifies each record in the table. It is an integer value, and it cannot be NULL. Example: 1, 2, 3, etc.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Facid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This is a dead column, not used from the system, and the system does not populate this column value.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>optinpracticecode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column represents a patient's practice code.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>OptinFacilityid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column represents a patient's optin facility id. It refers to the edi_facilities.id column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>OptinFacilityName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column represents a patient's optin facility name. It refers to the edi_facilities.name column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>FacGroupid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is a dead column. It had been used with the MultiMaster eEHX setup, but that is no longer supported by the system.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ConsentSignedByGuarantor</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This is a dead column. It is not used by the system, and the system doesn't populate the column value.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>IsBeneficiary</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">A flag indicating if the patient is a beneficiary (integer, 0 or 1). Example: 1</td>
+      </tr></table>
+</div>
+</body>
+</html>

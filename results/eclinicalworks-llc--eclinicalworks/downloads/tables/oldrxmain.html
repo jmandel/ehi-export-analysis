@@ -1,0 +1,176 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>oldrxmain</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about old prescriptions, including details about the medicine, patient, doctor, and prescription status.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>OldRxId</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is auto-incremented primary key in This column . This column stores unique id generated for each medication prescribed to patients.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ItemId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id associated with the medication prescribed to the patient by the end user during current visit. This column refers to itemid column in items table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>MedicineName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is not used anymore</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encounterId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of an encounter for which medications are being documented in This column . This column refers to encounterid column in enc table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>PatientsFlag</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Medication when added from Current Medication screen patientsflag is set to 1. Medication when added from Treatment screen, patientsflag is set to -1.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>DoctorsFlag</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores a status which indicates whether the patient currently taking or not taking the medications prescribed.  -1 : Taking (T), -2 : Not Taking (N), -3 : Discontinued by the provider/staff (D), -4 : Status Unknown (U). In addition to some system defined statuses, user defined statuses are stored in rxcomments table. This column refers to id column in rxcomments table. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>Refill</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This column is not being used.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>AssessId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of an assessment for which the medication has been prescribed by the provider/staff. This column refers to itemid column in items table. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>ndc_code</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores National Drug Code (NDC) for the medication being prescribed to the patient during the visit. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>FollowUpId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is no longer being used.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>StartDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores date when patient started taking prescribed medicine. This column is documented by provider/staff and does not represent the date the medication was actually prescribed. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PreparedBy</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column store name of the provider/staff who prescribed the medication during the visit. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>DaysLeftAdjustNumber</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is retired column and not being used in the product.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>awp</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores Average Wholesale Price (AWP) of the medication proscribed by provider/staff.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>awup</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores Average Wholesale Unit Price (AWUP) for the drug prescribed by provider/staff.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>RightPane_DLAN</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is retired column and not being used in the product. Column seem to be related DaysLeftAdjustNumber column in oldrxmain table. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>StopDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores date when patient should stop taking prescribed medication. This column is documented by provider/staff.
+
+---This column is of DATE type in MySQL schema.--</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>rxNotes</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores notes entered by provider/staff on the user interfacefor each medication. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>rxSource</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores source mentioned by provider/staff on user interfacefor each medication. If medication is prescribed from Treatment screen, this column is automatically set to provider/staff name.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>rxSourceId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores id of the user who prescribed the medication while prescribing medication from Treatment screen. This column refers to uid column in user table. 
+This column could also store drugname id from Medispan database.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>rxkop</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores values Yes/No for the Keep On Person (KOP) status. Yes : Medication is marked as KOP, No : Medication is not marked as KOP.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>rxDrugSource</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores source from where drug prescribed by provider/staff can be acquired by the patient.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>rxorderno</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores order number for the set of medications prescribed during a specific encounter. This is application generated number which always begins with 'S' character. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PreparedById</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column store id of the provider/staff who prescribed the medication during the visit. This column refers to uid column in user table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>reviewflag</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores values 0/1 to indicate whether the medication has been reviewed by provider/staff for RxApproval functionality. 0 - Medication NOT reviewed, 1 - Medications reviewed. This flag is currently only being used in Corrections product.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>reviewedby</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores name of the provider/staff who has reviewed prescribed medications.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>reviewdate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores date and time when medication was reviewed by provider/staff.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>disconorstopnotes</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores free text reason documented by provider/staff for discontinuation or stopping the prescribed medication.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>LastTaken</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column stores date when patient last took the prescribed medication.  </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isLongTerm</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores values 0/1 to indicate if medication prescribed to the patient is long term medication or not. 0 - Not Log Term, 1 - Long Term medication</td>
+      </tr><tr  >
+        <td class="col-name"><strong>FillDate</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores date when prescribed medication gets filled at pharmacy. This Data is transmitted over to eCW from Pharmacy.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>FillReason</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores reason if medication is not filled at the Pharmacy, if mentioned by the pharmacy. This data is transmitted over to eCW from Pharmacy. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>FillStatus</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores status of the prescription at Pharmacy. Filled - If medication is successfully filled, Partially Filled - In case medication is partially filled, Not Filled - In case medication is not filled at pharmacy.</td>
+      </tr></table>
+</div>
+</body>
+</html>

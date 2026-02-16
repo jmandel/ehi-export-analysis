@@ -1,0 +1,145 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>prisma_encounters</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about patient records meta data, including details about the service, facility, providers, and diagnosis.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each encounter (e.g., 1, 2, 3).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>recordId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">It is a FK to prisma_records. Identifier for the associated record</td>
+      </tr><tr  >
+        <td class="col-name"><strong>serviceDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time of the service, can be NULL (e.g., '2021-09-01 14:30:00').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>serviceDateType</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">0-Service Date, 1-Admission Date, 2-Last Retrieval Date</td>
+      </tr><tr  >
+        <td class="col-name"><strong>admissionDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time of admission, can be NULL (e.g., '2021-09-01 12:00:00').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dischargeDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time of discharge, can be NULL (e.g., '2021-09-05 10:00:00').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>titleId</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Identifier for the title as a tiny integer, default value is 0 (e.g., 1, 2, 3).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>source</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Source of the encounter information as a string, can be NULL (e.g., 'Hospital A', 'Clinic B').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>sourceAddress</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Address of the source as text, can be NULL (e.g., '123 Main St, City, State, Zip').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>facilityName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the facility as a string, can be NULL (e.g., 'Facility A', 'Facility B').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>facilityAddress</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Address of the facility as text, can be NULL (e.g., '456 Elm St, City, State, Zip').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>subTitle</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Subtitle of the encounter as a string, can be NULL (e.g., 'SubTitle A', 'SubTitle B').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>principalDiagnosis</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Principal diagnosis of the encounter as text, can be NULL (e.g., 'Diabetes', 'Hypertension').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating if the encounter is deleted, default value is 0 (e.g., 0 for not deleted, 1 for deleted).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>xslId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the associated XSL record, can be NULL (e.g., 5, 10, 15). Foreign key relation to `prisma_records_xsl.id`.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>sectionOrder</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Order of sections as a string, can be NULL (e.g., '1,2,3', '2,3,1').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>reasonForAppt</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Reason for the appointment as text, can be NULL (e.g., 'Follow-up', 'Initial Consultation').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>recordType</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Type of record as a tiny integer, default value is 0 (e.g., 1, 2, 3).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>sourceRecordType</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Type of source record as a tiny integer, default value is 0 (e.g., 1, 2, 3).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encType</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">Type of encounter as a small integer, default value is 0 (e.g., 1, 2, 3).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>admittingProvider</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the admitting provider as a string, can be NULL (e.g., 'Dr. John Doe', 'Dr. Jane Smith').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>appointmentProvider</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the appointment provider as a string, can be NULL (e.g., 'Dr. John Doe', 'Dr. Jane Smith').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isException</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating if the encounter is an exception, default value is 0 (e.g., 0 for not an exception, 1 for an exception).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>exceptionMessage</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Exception message as a string, default value is an empty string (e.g., '', 'Error: Invalid Data').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>duplicatedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the duplicated encounter, default value is 0 (e.g., 0 for not duplicated, 1 for duplicated).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>pid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the associated patient, can be NULL (e.g., 100, 200, 300). Foreign key relation to `users.uid`.</td>
+      </tr></table>
+</div>
+</body>
+</html>

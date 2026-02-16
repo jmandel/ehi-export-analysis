@@ -1,0 +1,69 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { background-color: #cde4f3; color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ip_rh_enc_mappings</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">Table is used to mapping of master encounter id and associated encounterID.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores auto incremented id, datatype is INT (11). This column stores integer value which could grow with number of transactions over the years hence integer (Range: 0-2,147,483,647) is selected. It is AUTO_INCREMENT column and has PRIMARY KEY index</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>masterEncId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores maser encounter id against which there could be multiple associated encounter id present. This column is FOREIGN KEY which refers to encounterId column of enc table. This column will store a high range of numeric value hence integer is selected. This column will always have value hence we keep NOT NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>assocEncId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores associated encounter id of master encounter id. This column is FOREIGN KEY which refers to encounterId column of enc table. This column will store a high range of numeric value hence integer is selected. This column will always have value hence we keep NOT NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This will store 0 and 1 value. 0-not deleted and 1-deleted. This column is used to identify whether row is in use or not. We are using INT because we are storing integer value here. By default, row will be in use, so we keep NOT NULL DEFAULT 0.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>modifybyid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to identify which user has last modified record (precaution item) for patient encounter. This column is FOREIGN KEY which refers to uid column of users table. This column will store a high range of numeric values hence integer is selected. This column will not always have a value hence defined as NULL DEFAULT NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>modifiedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This Column stores datetime as we want to store a datetime when the item is added, so we are using DATETIME as data type of column. This column will not always have a value hence defined as NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>moduleEncId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is FOREIGN KEY which refers to encounterId column of enc table. This column will store a high range of numeric values hence integer is selected. This column will not always have value hence we keep NULL DEFAULT NULL</td>
+      </tr></table>
+</div>
+</body>
+</html>

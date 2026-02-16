@@ -1,0 +1,162 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ptacoprograms</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about patient programs, their enrollment status, and related details.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is auto-incremented primary key in This column . Unique id is assigned to each enrolled program for a patient when they are created using user interfaceby the end user.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>patientId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store the patientid for whom the program is enrolled by the end user. Column refers to uid column in user table. This column stores numeric data which could grow with number of visits over the years hence integer(Range: 0-2,147,483,647) is selected.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>programId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Stores the program id of the program enrolled for a patient. Column refers to id column in acoprograms table. This column stores numeric data which could grow with number of visits over the years hence integer(Range: 0-2,147,483,647) is selected.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>STATUS</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Stores 0 ,1 based on the enrollment status of the program for a patient
+
+0 - the program is still not ended
+
+1 - once the program ends after duration entered by the end user, the status is updated to 1</td>
+      </tr><tr  >
+        <td class="col-name"><strong>startdate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Stores the date when the program was enrolled for a patient. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>programterm</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Stores the duration entered by the end user for the enrolled program for a patient. It can have values in months,days,weeks,years. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>enddt</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">time stamp for the end date of the patient's enrollment in the program. Example: '2021-06-30 00:00:00'</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>reason</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Column to save the reason for enrolling the patient to the program. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>enrollmentstatus</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column used to store integer value which 
+indicates that the entry is for enrolled or enrollment
+request
+0 - Enrollment Request
+1 - Enrolled</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>source</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column stores the facility name from which 
+enrollment request created or patient is enrolled</td>
+      </tr><tr  >
+        <td class="col-name"><strong>documentid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for a document associated with the patient's enrollment. Example: 98765</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>addeddatetime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">time stamp for when the record was added to the table. Example: '2021-01-01 10:00:00'</td>
+      </tr><tr  >
+        <td class="col-name"><strong>declineReason</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">A short description or code representing the reason for declining the program. Example: 'Not interested', 'Insurance issues'</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>delFlag</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores value 0 / 1 indicating this enrollment is deleted. This is soft delete. 0 - Not Deleted , 1 -Deleted</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ConsentStatus</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Status code for the patient's consent to the program. Example: 0 (not consented), 1 (consented)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>timerStatus</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Status code for the timer associated with the program. Example: 0 (inactive), 1 (active)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>consentDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date when the patient provided consent for the program. Example: '2021-01-01'</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>payorId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the payor associated with the patient's enrollment. Example: 45678</td>
+      </tr><tr  >
+        <td class="col-name"><strong>phm_disenroll_reason_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores disenrollment reason Id which the user selects while disenrolling a patient from a phm program. This column refers to id column of phm_disenroll_reasons table. The data type of this field is INAT.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>noOfCC</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Number of chronic conditions selected during enrollment for CCM/PCM program Example: 1, 2</td>
+      </tr><tr  >
+        <td class="col-name"><strong>declineReasonId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the decline reason, foreign key referring to `phm_decline_reasons` table's `id` column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>outreachStatus</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Status code for the outreach efforts related to the patient's enrollment, foreign key referring to `phm_outreach_status` table's `id` column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>assignedToId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the user assigned to the patient's enrollment, foreign key referring to `users` table's `uid` column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>nextContactDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date for the next scheduled contact with the patient. Example: '2021-02-01'</td>
+      </tr><tr  >
+        <td class="col-name"><strong>cohortId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the cohort the patient belongs to, foreign key referring to `phm_cohort` table's `id` column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>expiryStatus</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Status code for the column indicated that whether
+user has been selected Duration or Expiry Date from
+Enrollment screen while enrolling CCMR program
+1 - Expiry Date
+0 - Duration</td>
+      </tr><tr  >
+        <td class="col-name"><strong>mdm_value</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This field stores MDM value for a patient in CCM through which the user can identify the risk and take appropriate action. This field stores 0, 1, 2 and 3 values. 0 - Undefined. 1 - Low, 2 - Moderate, 3 - High. The data tpe of this field is tinyint.</td>
+      </tr></table>
+</div>
+</body>
+</html>

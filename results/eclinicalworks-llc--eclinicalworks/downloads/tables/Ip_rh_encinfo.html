@@ -1,0 +1,315 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { background-color: #cde4f3; color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>Ip_rh_encinfo</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores addition information related to registration of a patient. Whenever a new registration is created this table saves the additional data to this table. This makes join with the enc table.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>Id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is the primary key of the table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encounterId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">To store a reference to the enc table and represent the encounterid.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>encType</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column saves the enc type of the encounterid.
+This column has FK reference with the ip_rh_regencountertype table, Id column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encounterStatus</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column saves the enc status of the encounterid.
+This column has FK reference with the ip_rh_regencounterstatus table, statusId column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>patientType</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column saves the patient type of the encounterid.
+This column has FK reference with the ip_rh_regPatientType table, Id column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>admissionType</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column saves the admission type of the encounterid.
+This column has FK reference with the ip_rh_ub92_admissiontype table, Id column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>admissionSource</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column saves the admission source of the encounterid.
+This column has FK reference with theip_rh_ub92_admissionsourcetable, Id column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Servicetype</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column saves the service typeof the encounterid.
+This column has FK reference with theip_rh_regservicetypetable, Id column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>methodOfArr</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column saves the method of arrival of the encounterid.
+This column has FK reference with theip_rh_regpatientarrivalmethodtable, Id column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>esiAcuity</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column saves the acuity level or the emergency level.of the encounterid.
+This column has FK reference with theip_rh_regesiacuitytable, Id column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>deptId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column saves the department for the encounterid. Department is a dictionary table and is shipped by default.
+This column has FK reference with theip_rh_loc_fac_dept_mappingtable, Id column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Unit</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column saves the UNIT level of the encounterid. Unit is a dictionary table and can be created for the admin section.
+This column has FK reference with theip_rh_loc_unit table, Id column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>admitDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column saves the admit time of the patient.
+This column store the dateTime of when data is inserted into table ex: '2023-11-01 12:03:09.000'</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dischargeDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column saves the discharge time of the patient.
+This column store the dateTime of when data is inserted into table ex: '2023-11-01 12:03:09.000'</td>
+      </tr><tr  >
+        <td class="col-name"><strong>attendingProvider</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Thiscolumnsavestheattendingproviderofthepatient.ThiscolumnhasFKreferencewiththeuserstable,uidcolumn.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>regComplete</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">ThiscolumnstoresencounteridregistrationcompleteStatuswith0and1flaghenceTINYINTdatatypewithlength1isused.Here,thedefaultvalueissetto0.0meansregistrationnotcompleteand1meansregistrationcomplete</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isDischarged</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Thiscolumnstoresencounteriddischargestatuswith0and1flaghenceTINYINTdatatypewithlength1isused.Here,thedefaultvalueissetto0.0meansdischargenotcompleteand1meansdischargecomplete</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dischargeDateTimeUTC</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">ThiscolumnsavesthedischargetimeinUTCoftheencounter.ThiscolumnstorethedateTimeofwhendataisinsertedintotableex:'2023-11-0112:03:09.000'</td>
+      </tr><tr  >
+        <td class="col-name"><strong>admitDateTimeUTC</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">ThiscolumnsavestheadmittimeinUTCoftheencounter.ThiscolumnstorethedateTimeofwhendataisinsertedintotableex:'2023-11-0112:03:09.000'.ThisColumnhasnodirect/indirectrelationshipwithanyothertable/column.ThiscolumnstoreDateTimevalues.Thecolumnwillhavenullvaluesbydefault.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>currAreaId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Thiscolumnsavestheattendingproviderofthepatient.ThiscolumnhasFKreferencewiththeuserstable,uidcolumn.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>currBedId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Thiscolumnsavesthecurrentbedidofthepatient.ThiscolumnhasFKreferencewiththeip_rh_loc_bedtable,idcolumn.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>assBedId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Thiscolumnsavestheassociatedbedidofthepatient.ThiscolumnhasFKreferencewiththeip_rh_loc_bedtable,idcolumn.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isActiveEncounter</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Thiscolumnstoresencounteridactivestatuswith0and1flaghenceTINYINTdatatypewithlength1isused.Here,thedefaultvalueissetto0.0meansnotactiveand1meansactive</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isEmergencyCase</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Thiscolumnstoresencounteridisemergencypatientstatuswith0and1flaghenceTINYINTdatatypewithlength1isused.Here,thedefaultvalueissetto0.0meansnotanemergencyand1meansanemergency</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isdirect</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Thiscolumnstoresencounteridisadirectadmitpatientwith0and1flaghenceTINYINTdatatypewithlength1isused.Here,thedefaultvalueissetto0.0meansnotadirectadmitpatientand1meansadirectadmitpatient</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>masterAccno</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Thiscolumnstoresmasteraccprefixfortheclientwithmaxlength50characters.Hencevarchar(50)datatypeisused.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>regUserId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Thiscolumnsavestheuseridoftheuserwhomarkedtheregistrationcompleteforthepatient.ThiscolumnhasFKreferencewiththeuserstable,uidcolumn.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>regModifiedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Thiscolumnsavestheregistrationmodifiedtimeofthepatient.
+ThiscolumnstorethedateTimeofwhendataisinsertedintotableex:'2023-11-0112:03:09.000'</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ptinfoVerifyUserId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Thiscolumnsavestheuserwhomarkedtheencounterasapatientinfoverifiedfortheencounter.ThiscolumnstorethedateTimeofwhendataisinsertedintotableex:'2023-11-0112:03:09.000'.ThisColumnhasnodirect/indirectrelationshipwithanyothertable/column.ThiscolumnstoreDateTimevalues.Thecolumnwillhavenullvaluesbydefault.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ptinfoVerifyModifiedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column saves the patient info date modified time in of the encounter .This column store the dateTime of when data is inserted into table ex: '2023-11-01 12:03:09.000'</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ptinfoVerify</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Thiscolumnstoresencounteridisverifiedwithalldetailswith0and1flaghenceTINYINTdatatypewithlength1isused.Here,thedefaultvalueissetto0.0meansitsnotverifiedand1meansitsverified</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>delFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">ThiscolumnstoresencounteriddeletesStatuswith0and1flaghenceTINYINTdatatypewithlength1isused.Here,thedefaultvalueissetto0.0meansundeletedappointmentand1meansdeletedappointment</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is the primary key of the table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encounterId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">To store a reference to the enc table and represent the encounterid. This Column has FK reference with the enc table, encounterid column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>encType</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column saves the enc type of the encounterid.This column has FK reference with the ip_rh_regencountertype table, Id column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encounterStatus</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column saves the enc status of the encounterid. This column has FK reference with the ip_rh_regencounterstatus table, statusId column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>patientType</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column saves the patient type of the encounterid.This column has FK reference with the ip_rh_regPatientType table, Id column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>admissionType</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column saves the admission type of the encounterid.This column has FK reference with the ip_rh_ub92_admissiontype table, Id column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>admissionSource</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column saves the admission source of the encounterid.This column has FK reference with theip_rh_ub92_admissionsourcetable, Id column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Servicetype</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column saves the service typeof the encounterid.This column has FK reference with theip_rh_regservicetypetable, Id column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>methodOfArr</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column saves the method of arrival of the encounterid. This column has FK reference with theip_rh_regpatientarrivalmethodtable, Id column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>esiAcuity</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column saves the acuity level or the emergency levelof the encounterid.This column has FK reference with theip_rh_regesiacuitytable, Id column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>deptId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column saves the department for the encounterid. Department is a dictionary table and is shipped by default.This column has FK reference with theip_rh_loc_fac_dept_mappingtable, Id column.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Unit</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column saves the UNIT level of the encounterid. Unit is a dictionary table and can be created for the admin section.This column has FK reference with theip_rh_loc_unit table, Id column.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>admitDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column saves the admit time of the patient.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dischargeDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column saves the discharge time of the patient.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>attendingProvider</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Thiscolumnsavestheattendingproviderofthepatient.ThiscolumnhasFKreferencewiththeuserstable,uidcolumn.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>regComplete</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">ThiscolumnstoresencounteridregistrationcompleteStatuswith0and1flaghenceTINYINTdatatypewithlength1isused.Here,thedefaultvalueissetto0.0meansregistrationnotcompleteand1meansregistrationcomplete</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isDischarged</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Thiscolumnstoresencounteriddischargestatuswith0and1flaghenceTINYINTdatatypewithlength1isused.Here,thedefaultvalueissetto0.0meansdischargenotcompleteand1meansdischargecomplete</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dischargeDateTimeUTC</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">ThiscolumnsavesthedischargetimeinUTCoftheencounter.ThiscolumnstorethedateTimeofwhendataisinsertedintotableex:'2023-11-0112:03:09.000'</td>
+      </tr><tr  >
+        <td class="col-name"><strong>admitDateTimeUTC</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">ThiscolumnsavestheadmittimeinUTCoftheencounter.ThiscolumnstorethedateTimeofwhendataisinsertedintotableex:'2023-11-0112:03:09.000'.ThisColumnhasnodirect/indirectrelationshipwithanyothertable/column.ThiscolumnstoreDateTimevalues.Thecolumnwillhavenullvaluesbydefault.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>currAreaId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Thiscolumnsavestheattendingproviderofthepatient.ThiscolumnhasFKreferencewiththeuserstable,uidcolumn.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>currBedId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Thiscolumnsavesthecurrentbedidofthepatient.ThiscolumnhasFKreferencewiththeip_rh_loc_bedtable,idcolumn.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>assBedId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Thiscolumnsavestheassociatedbedidofthepatient.ThiscolumnhasFKreferencewiththeip_rh_loc_bedtable,idcolumn.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isActiveEncounter</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Thiscolumnstoresencounteridactivestatuswith0and1flaghenceTINYINTdatatypewithlength1isused.Here,thedefaultvalueissetto0.Columndoesnotexpectnullvalues
+0meansnotactiveand1meansactive</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isEmergencyCase</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Thiscolumnstoresencounteridisemergencypatientstatuswith0and1flaghenceTINYINTdatatypewithlength1isused.Here,thedefaultvalueissetto0.0meansnotanemergencyand1meansanemergency</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isdirect</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Thiscolumnstoresencounteridisadirectadmitpatientwith0and1flaghenceTINYINTdatatypewithlength1isused.Here,thedefaultvalueissetto0.0meansnotadirectadmitpatientand1meansadirectadmitpatient</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>masterAccno</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Thiscolumnstoresmasteraccprefixfortheclientwithmaxlength50characters.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>regUserId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Thiscolumnsavestheuseridoftheuserwhomarkedtheregistrationcompleteforthepatient.ThiscolumnhasFKreferencewiththeuserstable,uidcolumn.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>regModifiedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Thiscolumnsavestheregistrationmodifiedtimeofthepatient.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ptinfoVerifyUserId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Thiscolumnsavestheuserwhomarkedtheencounterasapatientinfoverifiedfortheencounter.ThiscolumnstorethedateTimeofwhendataisinsertedintotableex:'2023-11-0112:03:09.000'.ThisColumnhasnodirect/indirectrelationshipwithanyothertable/column.ThiscolumnstoreDateTimevalues.Thecolumnwillhavenullvaluesbydefault.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ptinfoVerifyModifiedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This column saves the patient info date modified time in of the encounter .This column store the dateTime of when data is inserted into table ex: '2023-11-01 12:03:09.000'</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ptinfoVerify</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Thiscolumnstoresencounteridisverifiedwithalldetailswith0and1flaghenceTINYINTdatatypewithlength1isused.Here,thedefaultvalueissetto0.0meansitsnotverifiedand1meansitsverified</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>clinicalDocDone</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores encounterid clinical documentation status with 0 and 1 flag hence TINYINT data type with length 1 is used. Here, the default value is set to 0.0 means clinical documentation not yet done and 1means clinical documentation done</td>
+      </tr><tr  >
+        <td class="col-name"><strong>delFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">ThiscolumnstoresencounteriddeletesStatuswith0and1flaghenceTINYINTdatatypewithlength1isused.Here,thedefaultvalueissetto0.0meansundeletedappointmentand1meansdeletedappointment.</td>
+      </tr></table>
+</div>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>claimlevelinfo</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about insurance claims, their amounts, statuses, and related details.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each record in the table. (e.g., 1, 2, 3)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Fileid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the claim status. (Foreign key relation: `claimstatus.FileId`)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Payorid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">identifier for the payor (insurance company) responsible for the claim. (e.g., 'A123', 'B456', 'C789')</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Providerid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the healthcare provider associated with the claim. (Foreign key relation: `Users.UID`)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Claimid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the claim itself. (Foreign key relation: `edi_invoice.id`)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ClaimAmt</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">Total amount of the claim. (e.g., 1000.00, 500.00, 750.00)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>AcceptedClaimAmt</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">Amount of the claim that has been accepted. (e.g., 900.00, 450.00, 700.00)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>RejectedClaimAmt</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">Amount of the claim that has been rejected. (e.g., 100.00, 50.00, 50.00)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>FinalizedClaimAmt</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">Final amount of the claim after processing. (e.g., 900.00, 450.00, 700.00)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>PandingClaimAmt</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">Amount of the claim that is still pending. (e.g., 0.00, 0.00, 0.00)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Status</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Status of the claim (e.g., 'Accepted', 'Rejected', 'Pending')</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>StatusCode</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Code representing the status of the claim. (e.g., 'A', 'R', 'P')</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Code</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Code associated with the claim. (e.g., 'C1', 'C2', 'C3')</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Message</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Message related to the claim status. (e.g., 'Accepted', 'Rejected due to error', 'Pending review')</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ErrorCodeMessage</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Error message associated with the claim, if any. (e.g., '', 'Invalid code', '')</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ClaimType</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Type of the claim. (e.g., 'Medical', 'Dental', 'Vision')</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ClaimInfo</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Additional information about the claim. (e.g., 'Inpatient', 'Outpatient', 'Routine checkup')</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>CreatedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date when the claim record was created. (e.g., '2021-01-01', '2021-02-01', '2021-03-01')</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DeleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating if the record has been deleted (1) or not (0). (e.g., 0, 1)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>DeletedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the user who deleted the record, if applicable. (e.g., 0, 3001, 3002)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DeletedDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">time stamp when the record was deleted, if applicable. (e.g., '2021-01-15 12:34:56', '0000-00-00 00:00:00')</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>DeletedReason</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Reason for deleting the record, if applicable. (e.g., '', 'Duplicate entry', 'Incorrect data')</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ErrorClaimAmt</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">Amount of the claim with errors, if any. (e.g., 0.00, 50.00, 0.00)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ClaimAmt997</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">Amount of the claim related to the 997 code, if any. (e.g., 0.00, 0.00, 50.00)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ClaimAmtPNS</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">Amount of the claim related to the PNS code, if any. (e.g., 0.00, 50.00, 0.00)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>batchid</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">identifier for the batch the claim is associated with. (e.g., 'B1', 'B2', 'B3')</td>
+      </tr><tr  >
+        <td class="col-name"><strong>response</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Text response related to the claim. (e.g., 'Accepted', 'Rejected due to error', 'Pending review')</td>
+      </tr></table>
+</div>
+</body>
+</html>

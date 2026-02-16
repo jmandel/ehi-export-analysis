@@ -1,0 +1,70 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>report_writer_result</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores the results of report writers, including notes, report and template IDs, document IDs, and whether the report is editable or not.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is the primary key, an integer that uniquely identifies each report writer result. Example: 1, 2, 3.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>notes</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This column is used to store the final result of report writer. 
+As per requirement, user can add up to 80,000 characters. Hence, added this column as Text/Varchar(Max).  As per requirement, user can not enter NULL value from UI. Hence, not NULL constraint is suitable here.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>reportid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store reportid of associated DI. Report writer result can associate with other entity apart from reportid. Hence, added this column as NULL. This column is a foreign key that references to labdata (reportid). Reportid column of labdata is INT type. Hence, INT datatype is suitable here.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>templateid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store template id of associated template. 
+Report writer result should be associated with specific template. Hence, not NULL constraint is suitable here. This column is a foreign key that references to report_writer_template (templateid). Templateid column of report_writer_template is INT type. Hence, INT datatype is suitable here.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>docid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column is used to store generated Document id once user click on Publish Report button to generated PDF. By default, value of this column will be NULL. When user click Publish Report, the system will generate document and add associated docid in this column. Hence, added this column as NULL. This column is a foreign key that references to document (docid), docid column of document is INT type. Hence, INT datatype is suitable here.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isReportEditable</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column is used to maintain flag to update Report Writer details.
+0: Report Writer details not editable
+1: Report Writer details editable
+The default value of this column is 1, so Report Writer tab will be editable. Once the user clicks Publish Report button and the PDF is generated, this column is 0 which will make the Report Writer details disabled. Once the user clicks Edit Report, this will change to 1. This column can have only 0 or 1 value. Hence, TINYINT is suitable for this column.</td>
+      </tr></table>
+</div>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { background-color: #cde4f3; color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ip_rh_ptstagingorders</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">The table 'ip_rh_ptstagingorders' is designed to store order data, in a medical or healthcare setting. It covers comprehensive details about an order, including encounter details, order details, order processing information, and order discontinuation details.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>stagingOrderId</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is the primary key for the table, providing a unique identifier for each record. It is an integer data type, auto-incrementing from 1, and cannot be NULL, ensuring a unique and not NULL value for every order.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>encounterId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an Integer data type that cannot be NULL. This field hold the unique identifier of a patient's encounter during which the order was made. It references the encounterID column in the enc table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>orderItemId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an Integer data type, CANNOT be NULL. The default value is 0. This field is to hold the identifier for the item ordered. It references the itemId column in the items table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>orderDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This field is a datetime data type and can be NULL. It represents the date and time the order was made.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>orderStatus</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an int data type that can be NULL. This field hold the status of the order. It references the id column in the ip_rh_orderstatus_master table. orderStatus value mark as 1 when place a new order,
+orderStatus value mark as 2 when signoff order,
+orderStatus value mark as 3 when modify existing order,
+orderStatus value mark as 5 when discontinue order,
+orderStatus value mark as 4 when modified order signoff,
+orderStatus value mark as 10 when modified order discontinue.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>documentedbyid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an Integer data type that can be NULL. This field hold the identifier of the person who documented the order. It references the uid column in the users table</td>
+      </tr><tr  >
+        <td class="col-name"><strong>documenteddatetime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This field is a datetime data type and can be NULL. It represents the date and time the order was documented.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>startDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This field is a datetime data type and can be NULL. It represents the start date and time of the order.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>endDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This field is a datetime data type and can be NULL. It represents the end date and time of the order.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>orderedById</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an Integer data type that can be NULL. This field hold the identifier of the person who ordered. It references the uid column in the users table</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isRecurringOrder</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This is a tinyint, a smaller range integer. It cannot be NULL and indicate whether the order is recurring or not.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>orderFrequencyId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an Integer data type that can be NULL. This field hold the identifier for the frequency of the order. It references the frequencyId column in the ip_rh_ptstagingorders table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>orderPriority</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an int data type that cannot be NULL with a default value of 0. This field represents the priority level of the order.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>orderInstructions</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This is a varchar of size 255 and can be NULL. It is to hold any special instructions associated with the order.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>orderEntryMethodId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Integer data type can be NULL. This field hold the identifier for the method used to enter the order. It references the Id column in the ip_rh_global_list_items table</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>orderReason</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">This is a varchar of size 255 and CANNOT be NULL. The default value is ''. It holds the reason for the order.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>includeNow</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This is a tinyint, a smaller range integer. It can be NULL and indicate whether the order needs to be included immediately or not.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>discontinueReasonId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an Integer data type that can be NULL. This field hold the identifier for the reason the order was discontinued. It references the Id column in the ip_rh_global_list_items table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>discontinueDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This field is a datetime data type and can be NULL. It represents the date and time the order was discontinued.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>onHoldReasonId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an Integer data type that can be NULL. This field hold the identifier for the reason the order was put on hold.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>onHoldDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">This field is a datetime data type and can be NULL. It represents the date and time the order was put on hold.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This is a tinyint, a smaller range integer. It cannot be NULL and has a default value of 0. This column indicates whether a patient's staging order has been marked for deletion or not. deleteFlag value 0 mark as not deleted, and value 1 mark as deleted.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>episodeEncId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an Integer data type that can be NULL. This field hold the identifier for the episode encounter associated with the order. It references the encounterId column in the enc table.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>discontinuedById</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an Integer data type that can be NULL. This field hold the identifier of the person who discontinued the order. It references the uid column in the users table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>discontinueProtocol</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an Integer data type, CANNOT be NULL with a default value of 0. This field represents the protocol followed to discontinue the order.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>treatmentPlanId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Integer data type, CANNOT be NULL with a default value of 0. This field represents the treatment plan associated with the order.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>orderNotes</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">This is a varchar data type and cannot be NULL. It holds any notes or additional information associated with the order.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>orderPlacementFlag</strong></td>
+        <td class="tab-description">smallint</td>
+        <td class="tab-description">This is a smallint, a smaller range integer. It CANNOT be NULL and has a default value of 0. This column indicates whether an order has been placed or not.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>retroStartDateTime</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This is a tinyint, a smaller range integer. It cannot be NULL and has a default value of 0. This column indicates whether a retro start datetime orders are allowed or not. 0 indicates not allowed retro orders and 1 indicates allowed retro orders.</td>
+      </tr></table>
+</div>
+</body>
+</html>

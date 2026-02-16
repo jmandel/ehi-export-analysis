@@ -1,0 +1,129 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>hi_payor_mtm_notifications</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores notifications related to payor medication therapy management (MTM) and their associated details.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each notification record. (e.g., 1, 2, 3)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>mtm_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The identifier for the medication therapy management record. Foreign key relation to `hi_payor_mtm` table's `id` column. (e.g., 101, 102, 103)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>payor_notification_id</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Unique identifier for the payor notification. (e.g., "PN001", "PN002", "PN003")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>txn_id</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Unique identifier for the transaction. (e.g., "TXN001", "TXN002", "TXN003")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>hi_txn_id</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Unique identifier for the mtm create transaction created on healow insights cloud. Example: "HITXN123", "HITXN124", "HITXN125".</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>patient_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the patient. (e.g., 1001, 1002, 1003)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>provider_npi</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">National Provider identifier (NPI) for the healthcare provider. (e.g., "1234567890", "0987654321")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>payor_id</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Unique identifier for the payor. (e.g., "PAY001", "PAY002", "PAY003")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>notification_number</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique number for the notification. (e.g., 1, 2, 3)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>notification_type</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Type of the notification. (e.g., "Alert", "Reminder", "Warning")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>notification_name</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the notification. (e.g., "Medication Review", "Follow-up Reminder")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>recommended_action_message</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Text containing the recommended action for the notification. (e.g., "Review patient's medication list", "Schedule a follow-up appointment")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>assigned_to</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the user assigned to the notification. (e.g., 2001, 2002, 2003)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>STATUS</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Status of the notification. Enum values include 'New', 'New(Read)', 'New(Update)', 'Addressed', 'Suppressed', and 'New(Suppressed)'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>actiondetails</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">The details of the action taken in text format.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>created_by</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the user who created the notification record. (e.g., 3001, 3002, 3003)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>createdby_name</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the user who created the notification record. (e.g., "John Doe", "Jane Smith")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>created_date</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the notification record was created. (e.g., "2021-01-01 12:00:00")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>updated_by</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for the user who last updated the notification record. (e.g., 4001, 4002, 4003)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>updatedby_name</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the user who last updated the notification record. (e.g., "John Doe", "Jane Smith")</td>
+      </tr><tr  >
+        <td class="col-name"><strong>updated_date</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the notification record was last updated. (e.g., "2021-01-02 12:00:00")</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating if the notification record has been deleted. 0 for not deleted and 1 for deleted. (e.g., 0, 1)</td>
+      </tr></table>
+</div>
+</body>
+</html>

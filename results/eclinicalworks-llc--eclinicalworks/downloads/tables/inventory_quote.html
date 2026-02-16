@@ -1,0 +1,225 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>inventory_quote</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about inventory quotes, including details about the proposal, pricing, discounts, and related entities such as patients, providers, and facilities.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each inventory quote record. Example: 1, 2, 3.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ProposalDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">time stamp of when the quote was proposed. Example: '2021-09-15 12:34:56'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Expires</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">time stamp of when the quote expires. Example: '2021-10-15 12:34:56'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Patient_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Foreign key referring to the `id` column in the `Patient` table. Represents the patient associated with the quote.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Coordinator_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Foreign key referring to the `id` column in the `Coordinator` table. Represents the coordinator associated with the quote.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Provider_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Foreign key referring to the `id` column in the `Provider` table. Represents the provider associated with the quote.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Anes_Facility_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Foreign key referring to the `id` column in the `Anes_Facility` table. Represents the anesthesia facility associated with the quote.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Facility_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Foreign key referring to the `id` column in the `Facility` table. Represents the facility associated with the quote.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Facility_Time</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">The time spent at the facility. Example: '2 hours'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Anesthesia_Time</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">The time spent under anesthesia. Example: '1 hour 30 minutes'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Status_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Foreign key referring to the `id` column in the `Status` table. Represents the status of the quote.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Notes</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Additional notes or comments about the quote. Example: 'Patient requires extra care during anesthesia.'</td>
+      </tr><tr  >
+        <td class="col-name"><strong>IsDeleted</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A flag indicating if the quote has been deleted (1) or not (0). Example: 0, 1.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>UpdatedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Foreign key referring to the `id` column in the `User` table. Represents the user who last updated the quote.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>UpdatedOn</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">time stamp of when the quote was last updated. Example: '2021-09-16 14:45:23'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>CreatedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Foreign key referring to the `id` column in the `User` table. Represents the user who created the quote.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>CreatedOn</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">time stamp of when the quote was created. Example: '2021-09-15 12:34:56'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ProcedureName</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">The name of the procedure associated with the quote. Example: 'Knee Replacement'.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Package_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Foreign key referring to the `id` column in the `Package` table. Represents the package associated with the quote.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>SubPackage_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Foreign key referring to the `id` column in the `SubPackage` table. Represents the subpackage associated with the quote.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>ChargesAmt</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">The total amount of charges for the quote. Example: 10000.0000.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>DiscountAmt</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">The total amount of discounts applied to the quote. Example: 1000.0000.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>TaxesAmt</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">The total amount of taxes applied to the quote. Example: 500.0000.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>TotalAmt</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">The total amount payable for the quote after applying discounts and taxes. Example: 9500.0000.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Discount_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Foreign key referring to the `id` column in the `Discount` table. Represents the discount associated with the quote.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Discount_Value</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">The value of the discount applied to the quote. Example: 10.0000.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DiscReason_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Foreign key referring to the `id` column in the `DiscReason` table. Represents the reason for the discount.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isProdNonBillable</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A flag indicating if the product is non-billable (1) or billable (0). Example: 0, 1.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>OutsideFees</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">The total amount of fees from outside sources. Example: 200.0000.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Quote_Facility_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Foreign key referring to the `id` column in the `Quote_Facility` table. Represents the facility associated with the quote.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DiscReason_id_Surg</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Foreign key referring to the `id` column in the `DiscReason` table. Represents the reason for the discount on the surgery.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>DiscountType_Surg</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The type of discount applied to the surgery. Example: 1 (percentage), 2 (fixed amount).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DiscValue_Surg</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">The value of the discount applied to the surgery. Example: 5.0000.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>DiscountPerLine_Surg</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">The discount per line item for the surgery. Example: 50.0000.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DiscReason_id_Anes</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Foreign key referring to the `id` column in the `DiscReason` table. Represents the reason for the discount on anesthesia.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>DiscountType_Anes</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The type of discount applied to anesthesia. Example: 1 (percentage), 2 (fixed amount).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>DiscValue_Anes</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">The value of the discount applied to anesthesia. Example: 5.0000.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>DiscountPerLine_Anes</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">The discount per line item for anesthesia. Example: 25.0000.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>OutsideDiscAmt</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">The total amount of discounts from outside sources. Example: 100.0000.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>CptNProductPrice</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">The price of the CPT (Current Procedural Terminology) and product. Example: 1500.0000.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>FacFees</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">The total amount of facility fees. Example: 3000.0000.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>AnesFees</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">The total amount of anesthesia fees. Example: 2000.0000.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>IsFacilityBillSep</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A flag indicating if the facility bill is separate (1) or not (0). Example: 0, 1.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>IsAnesBillSep</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A flag indicating if the anesthesia bill is separate (1) or not (0). Example: 0, 1.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>CoreTotal</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">The core total amount of the quote. Example: 8000.0000.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>IsNewQuoteDisplay</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A flag indicating if the quote is new and should be displayed (1) or not (0). Example: 0, 1.</td>
+      </tr></table>
+</div>
+</body>
+</html>

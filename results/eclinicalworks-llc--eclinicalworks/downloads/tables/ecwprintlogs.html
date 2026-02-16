@@ -1,0 +1,89 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>ecwprintlogs</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about print logs for EHR (Electronic Health Records), including details about the print job, user, and patient.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each print log entry. Example: 1, 2, 3, etc.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>parameters</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Text containing the parameters used for the print job. Example: copies: 2, orientation: portrait.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>type</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Type of print job, such as the document being printed. Example: prescription, lab_report, invoice.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>macaddress</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">MAC address of the device that initiated the print job. Example: 00:1A:79:12:34:56.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>datecreated</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the print log entry was created. Example: 2021-09-01 12:34:56.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dateupdated</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the print log entry was last updated. Example: 2021-09-02 14:23:12.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isprinted</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicating whether the print job was successful (1) or not (0). Example: 0 or 1.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>userid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the user who initiated the print job. This could be a foreign key referring to the id column in a user table. Example: 42.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>encounterid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the patient encounter associated with the print job. This could be a foreign key referring to the id column in an encounters table. Example: 123.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>patientid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Identifier for the patient associated with the print job. This could be a foreign key referring to the id column in a patients table. Example: 789.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>content</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Long text containing the content of the document being printed. Example: Patient Name: John Doe\nDOB: 01/01/1980\nPrescription: Amoxicillin 500mg\n.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>statusMsg</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Status message for the print job, indicating success or failure. Example: Printed successfully or Printer error: out of paper.</td>
+      </tr></table>
+</div>
+</body>
+</html>

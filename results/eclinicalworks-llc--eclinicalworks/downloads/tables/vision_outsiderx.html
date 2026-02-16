@@ -1,0 +1,109 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>vision_outsiderx</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about vision prescriptions provided by external providers, including the branch, verification status, and related notes.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This is an auto incremented Primary Key.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>visionrxid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Foreign key referring to the vision prescription id in visionrx table.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>branchname</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the branch where the prescription was provided. Example: "Branch A", "Branch B", "Branch C".</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>notes</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Long text field for storing any additional notes or comments about the prescription. Example: "Patient has astigmatism", "Prescription for reading glasses only".</td>
+      </tr><tr  >
+        <td class="col-name"><strong>recommendation</strong></td>
+        <td class="tab-description">text</td>
+        <td class="tab-description">Long text field for storing recommendations provided by the external provider. Example: "Patient should wear glasses while driving", "Consider contact lenses for sports activities".</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>verifedby</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Name of the person who verified the prescription. Example: "John Doe", "Jane Smith".</td>
+      </tr><tr  >
+        <td class="col-name"><strong>writtenveried</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A tinyint value indicating whether the prescription has been verified in writing (1) or not (0). Example: 0, 1.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>televerfied</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A tinyint value indicating whether the prescription has been verified over the phone (1) or not (0). Example: 0, 1.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>expiredate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the prescription will expire. Example: "2023-01-01 00:00:00", "2024-12-31 23:59:59".</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>createdby</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Foreign key referring to the user id who created the record. Example: 1001, 1002, 1003.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>createdon</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the record was created. Example: "2021-01-01 12:34:56", "2021-02-02 23:45:01".</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>facilityid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Foreign key referring to the facility id where the prescription was provided. Example: 2001, 2002, 2003.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>updatedby</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Foreign key referring to the user id who last updated the record. Example: 1001, 1002, 1003.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>updatedon</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the record was last updated. Example: "2021-01-15 12:34:56", "2021-02-10 23:45:01".</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isdeletd</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A tinyint value indicating whether the record has been deleted (1) or not (0). Example: 0, 1.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>testdate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date when the vision test was conducted. Example: "2021-01-01", "2021-02-02".</td>
+      </tr><tr  >
+        <td class="col-name"><strong>providerid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the providerid int value for which vision outside Rx section is getting documented.</td>
+      </tr></table>
+</div>
+</body>
+</html>

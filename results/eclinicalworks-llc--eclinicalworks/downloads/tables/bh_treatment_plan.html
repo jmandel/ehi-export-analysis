@@ -1,0 +1,129 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>bh_treatment_plan</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information about treatment plans for patients, including details about the plan's start and end dates, status, type, and associated program.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each treatment plan (e.g., 1, 2, 3).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>patientid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the patient associated with the treatment plan, foreign key relation to `users` table, `UID` column (e.g., 101, 102, 103).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>programid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the program associated with the treatment plan, foreign key relation to `acoprograms` table, `id` column (e.g., 1, 2, 3).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ptAcoid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the patient's ACO program, foreign key relation to `ptacoprograms` table, `id` column (e.g., 10, 20, 30).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>tpStartDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Start date and time of the treatment plan (e.g., '2022-01-01 00:00:00').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>tpEndDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">End date and time of the treatment plan (e.g., '2022-01-31 00:00:00').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>tpStatus</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Status of the treatment plan as a tiny integer (e.g., 0 for inactive, 1 for active).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>tpType</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the type of treatment plan, foreign key relation to `bh_treatment_plan_type` table, `id` column (e.g., 1 for inpatient, 2 for outpatient).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isLocked</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Indicates if the treatment plan is locked (1) or unlocked (0).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isLockedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the user who locked the treatment plan, foreign key relation to `users` table, `UID` column (e.g., 1001, 1002, 1003).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>tpEndedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the user who ended the treatment plan, foreign key relation to `users` table, `UID` column (e.g., 1001, 1002, 1003).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>unlockedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the user who unlocked the treatment plan, foreign key relation to `users` table, `UID` column (e.g., 1001, 1002, 1003).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>lockedOn</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the treatment plan was locked (e.g., '2022-01-15 12:00:00').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>unlockedOn</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the treatment plan was unlocked (e.g., '2022-01-20 12:00:00').</td>
+      </tr><tr  >
+        <td class="col-name"><strong>delflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Indicates if the treatment plan is deleted (1) or not deleted (0).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>addedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the user who added the treatment plan, foreign key relation to `users` table, `UID` column (e.g., 1001, 1002, 1003).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>addedDtTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the treatment plan was added (e.g., '2022-01-01 00:00:00').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>modifiedBy</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the user who modified the treatment plan, foreign key relation to `users` table, `UID` column (e.g., 1001, 1002, 1003).</td>
+      </tr><tr  >
+        <td class="col-name"><strong>modifiedDtTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the treatment plan was modified (e.g., '2022-01-10 12:00:00').</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>discharge_plan_notes</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Text containing notes about the patient's discharge plan (e.g., "Patient needs follow-up appointment with primary care physician.").</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isRecurringTp</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Indicates if the treatment plan is recurring (1) or not recurring (0).</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>dischargeNoteDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Date and time when the discharge note was created (e.g., '2022-01-31 12:00:00').</td>
+      </tr></table>
+</div>
+</body>
+</html>

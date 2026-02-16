@@ -1,0 +1,103 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>rpm_healow_fitness_data</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores fitness data collected from various devices and sources for patients.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>fd_id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains auto incremented id, datatype is INT. This column stores integer value which could grow with number of RPM healow fitness data added and hence INT is selected. It is AUTO_INCREMENT column and has PRIMARY KEY index.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>UID</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores unique id of a Patient which references the UID column of the user table. The data type chosen is INT. This field will always have a value hence defined as NOT NULL.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>device_action</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">This column stores the Vendorid from whom the devicehas been purchased.Contains " device_action " value referenced from id column of the rpm_vendors_list table, datatype is INT. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>parameter_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains "parameter_id" value referenced from id column of the rpm_healow_tracker_list table, datatype is INT. This field will always have a value hence defined as NOT NULL. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>measure_datetime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Contains " measure_datetime " value at time when fitness data is measured, datatype is DATETIME. This field will always have a value hence defined as NOT NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>parameter_value</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Contains the name of the fitness parameter measured and datatype is VARCHAR(255) and default value is NULL. This column stores characters which cannot exceed 255 characters hence VARCHAR(255) is selected.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>modifiedDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Contains " modifiedDateTime" value at time when user logs into healow, datatype is DATETIME.  This field will always have a value hence defined as NOT NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>delflag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag indicates fitness data is deleted or not, datatype is tinyint - 0 - Not Deleted, 1 - Deleted. This field will always have a value hence defined as NOT NULL. By default, fitness data should not be in Deleted status hence default 0 is chosen. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>reviewed</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Contains value that specifies if the fitness data is reviewed or not and data type is TINYINT. This field will always have a value hence defined as NOT NULL and default value is 0. 
+Values 0 :Readings has not been reviewed by Provider
+1-Readings has been reviewed by provider</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>reviewedByid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains the UID value who reviewed the rpm healow fitness data which refers from UID column of user table and data type is INT. </td>
+      </tr><tr  >
+        <td class="col-name"><strong>reviewedDateTime</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Contains the date and time when fitness data is reviewed by the reviewer, datatype is DATETIME and default value is NULL.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>isManuallyAdded</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Contains the flag that specifies if the fitness data was measured by tracker or manually added and datatype is TINYINT . By default, fitness data should not be manually added hence default 0 is chosen. It could either have values 0 or 1. 0 means its not manually added, 1 is for manually added entry</td>
+      </tr><tr  >
+        <td class="col-name"><strong>device_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains " device_id" value referenced from device_id column of the rpm_supported_devices_list table, datatype is INT. </td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>source_id</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Contains " source_id" value referenced from id column of the rpm_healow_tracker_source table, datatype is INT</td>
+      </tr><tr  >
+        <td class="col-name"><strong>isRPMData</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">This column stores a boolean value (0 or 1) indicating whether the RPM reading are received from RPM prescribed device or not. For example: 0 for not prescribed device reading, 1 for RPM prescribed device reading</td>
+      </tr></table>
+</div>
+</body>
+</html>

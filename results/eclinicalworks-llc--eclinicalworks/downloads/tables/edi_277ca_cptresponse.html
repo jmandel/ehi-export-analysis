@@ -1,0 +1,105 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>edi_277ca_cptresponse</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores information aboutCPT (Current Procedural Terminology) responses in the EDI 277CA (Claim Acknowledgement) format.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>CPTResponseid</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each CPT response. (Example: 1, 2, 3)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ClaimResponseid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the associated claim response, foreign key referring to the claim response table. (Example: 101, 102, 103)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Invid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the associated invoice, foreign key referring to the invoice table. (Example: 1001, 1002, 1003)</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>InvCptid</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">identifier for the associated invoice CPT, foreign key referring to the invoice CPT table. (Example: 2001, 2002, 2003)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>CPT_2220D_SVC01</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">CPT code for the service provided. (Example: '99213', '99214', '99215')</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>CPTCharges_2220D_SVC02</strong></td>
+        <td class="tab-description">decimal</td>
+        <td class="tab-description">Charges for the CPT service in decimal format. (Example: 100.00, 150.00, 200.00)</td>
+      </tr><tr  >
+        <td class="col-name"><strong>LineItemControlNumber</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Control number for the line item. (Example: 'LICN001', 'LICN002', 'LICN003')</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>StartDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">Start date of the service period in date format. (Example: '2021-01-01', '2021-01-15', '2021-02-01')</td>
+      </tr><tr  >
+        <td class="col-name"><strong>EndDate</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">End date of the service period in date format. (Example: '2021-01-31', '2021-02-14', '2021-02-28')</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Status_2220D_STC01_1</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">First part of the status code for the CPT response. (Example: 'A1', 'A2', 'A3')</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Status_2220D_STC01_2</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Second part of the status code for the CPT response. (Example: 'B1', 'B2', 'B3')</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>Status_2220D_STC01_3</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Third part of the status code for the CPT response. (Example: '001', '002', '003')</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Status_2220D_STC01_4</strong></td>
+        <td class="tab-description">char</td>
+        <td class="tab-description">Fourth part of the status code for the CPT response. (Example: '004', '005', '006')</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>ActionCode_2220D_STC03</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Action code for the CPT response. (Example: 'AC01', 'AC02', 'AC03')</td>
+      </tr><tr  >
+        <td class="col-name"><strong>Message</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">Message related to the CPT response, up to 1024 characters. (Example: 'Service approved', 'Service denied', 'Service pending')</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>deleteFlag</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">Flag to indicate if the record is deleted (1) or not (0). (Example: 0, 1)</td>
+      </tr></table>
+</div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EHI Export Schema</title>
+  <style>
+    .main-div { margin: auto; width: 80%; padding: 10px; }
+    .page-title { background-color: #00334c; color: white; font-size: 24px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .page-description { color: #00334c; font-size: 14px; font-family: Arial,Helvetica,sans-serif; padding: 10px; }
+    .table-doc { font-size: 18px; padding: 5px; font-family: Arial,Helvetica,sans-serif; border: 1px solid black; }
+    .tab-description { vertical-align: top; }
+    .table-name { vertical-align: top; color: #194766; background-color: #cde4f3; }
+    .tab-header { vertical-align: top; background-color: #abb8c3; padding: 5px; }
+    .col-name { vertical-align: top; color: #194766; }
+    .tr-alt { background-color: #cde4f3; }
+    .spacer { height: 30px; }
+  </style>
+</head>
+<body>
+<div class="main-div">
+  <div class="page-title">EHI Export Schema</div>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Table</strong></td>
+      <td class="table-name"><strong>fhir_user_audit_log</strong></td>
+    </tr>
+    <tr>
+      <td class="tab-header"><strong>Description</strong></td>
+      <td class="tab-description">This table stores the audit logs of user actions related to FHIR resources, including the type of action, the resource type, and other relevant information.</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <table class="table-doc">
+    <tr>
+      <td class="tab-header"><strong>Column</strong></td>
+      <td class="tab-header"><strong>DataType</strong></td>
+      <td class="tab-header"><strong>Description</strong></td>
+    </tr><tr  >
+        <td class="col-name"><strong>id</strong> (Primary Key) </td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">Unique identifier for each audit log entry. Example: 1, 2, 3.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>resourceType</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">The type of FHIR resource involved in the action. Example: "Patient", "Observation", "Encounter".</td>
+      </tr><tr  >
+        <td class="col-name"><strong>fhirQuery</strong></td>
+        <td class="tab-description">varchar</td>
+        <td class="tab-description">The FHIR query string used for the action, if applicable. Example: "Patient?_id=123", "Observation?subject=456".</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>patientId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The identifier of the patient associated with the action, if applicable. Example: 101, 102, 103.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>providerId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The identifier of the provider associated with the action, if applicable. Example: 201, 202, 203.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>vendorId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The identifier of the vendor associated with the action, if applicable. Example: 301, 302, 303.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>appTypeId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The identifier of the application type associated with the action. Foreign key relation: `fhir_app_type.id`. Example: 401, 402, 403.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>actionTypeId</strong></td>
+        <td class="tab-description">int</td>
+        <td class="tab-description">The identifier of the action type performed. Foreign key relation: `fhir_audit_action_type.id`. Example: 501, 502, 503.</td>
+      </tr><tr  >
+        <td class="col-name"><strong>dateReceived</strong></td>
+        <td class="tab-description">datetime</td>
+        <td class="tab-description">The date and time when the action was received. Example: '2021-08-01 12:34:56', '2021-08-02 14:56:23'.</td>
+      </tr><tr  class="tr-alt" >
+        <td class="col-name"><strong>audit_status</strong></td>
+        <td class="tab-description">tinyint</td>
+        <td class="tab-description">A tiny integer representing the status of the audit log entry, if applicable. Example: 0, 1, 2.</td>
+      </tr></table>
+</div>
+</body>
+</html>
