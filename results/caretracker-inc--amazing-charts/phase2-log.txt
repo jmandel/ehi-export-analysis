@@ -1,0 +1,222 @@
+
+
+
+
+● Read product research
+  $ cat /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--amazing-charts/product-rese
+  arch.md 2>/dev/null | head -200
+  └ 163 lines...
+
+● Create output directories
+  $ mkdir -p /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--amazing-charts/downloa
+  ds/enrichment
+  └ 1 line...
+
+● Probe the documentation URL
+  $ curl -sI -L
+  "https://amazingcharts.com/hubfs/Amazing-Charts-EHI-Export-Documentation-V1_0-1-1.pdf?hsLang=en"
+  -H 'User-Agent: Mozilla/5.0' 2>&1
+  └ 32 lines...
+
+Direct PDF download, 195KB. Let me download it and examine it.
+
+● Download and examine PDF
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--amazing-charts/downloads
+  && curl -sL "https://amazingcharts.com/hubfs/Amazing-Charts-EHI-Export-Documentation-V1_0-1-1.
+  pdf?hsLang=en" -H 'User-Agent: Mozilla/5.0' -o
+  Amazing-Charts-EHI-Export-Documentation-V1_0-1-1.pdf && file
+  Amazing-Charts-EHI-Export-Documentation-V1_0-1-1.pdf && pdfinfo ...
+  └ 22 lines...
+
+● Extract PDF text
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--amazing-charts/downloads &&
+  pdftotext Amazing-Charts-EHI-Export-Documentation-V1_0-1-1.pdf -
+  └ 457 lines...
+
+● Check for URLs and attachments in PDF
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--amazing-charts/downloads &&
+  pdftotext Amazing-Charts-EHI-Export-Documentation-V1_0-1-1.pdf - | rg -No
+  'https?://[^[:space:]>)"]+' | sort -u && pdfdetach -list
+  Amazing-Charts-EHI-Export-Documentation-V1_0-1-1.pdf 2>&1
+  └ 3 lines...
+
+● Check for URLs in PDF text
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--amazing-charts/downloads &&
+  pdftotext Amazing-Charts-EHI-Export-Documentation-V1_0-1-1.pdf - | grep -oP 'https?://[^\s>)"]+' |
+   sort -u
+  └ 1 line...
+
+● Check CHPL metadata
+  $ cat
+  /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--amazing-charts/chpl-metadata.json
+   | python3 -c "import json,sys; d=json.load(sys.stdin); [print(f'{c[\"id\"]}:
+  {c.get(\"certificationDate\",\"?\")}') for c in d] if isinstance(d,list) else
+  print(json.dumps(d,indent=2)[:500])" 2>/dev/null || head -200
+  /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--amazing-charts/chpl-metadata.json
+  └ 13 lines...
+
+No URLs in the PDF, no attachments. The PDF is self-contained. Now let me create the enrichment script to extract the data dictionary into queryable JSON, then write the report and manifest.
+
+● Get file size
+  $ stat -c %s /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--amazing-charts/downl
+  oads/Amazing-Charts-EHI-Export-Documentation-V1_0-1-1.pdf
+  └ 2 lines...
+
+● Create results/caretracker-inc--amazing-charts/downloads/enrichment/extract-data-dictionary.ts
+  (+191)
+
+● Run enrichment script
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--amazing-charts/downloads/enr
+  ichment && bun run extract-data-dictionary.ts 2>&1
+  └ 49 lines...
+
+Some data classes are missing due to multi-line name formatting. Let me fix the extraction script.
+
+● Check formatting of problem names
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--amazing-charts/downloads/enr
+  ichment && pdftotext ../Amazing-Charts-EHI-Export-Documentation-V1_0-1-1.pdf - | grep -n -i
+  "pending\|occupation\|patient health" | head -20
+  └ 11 lines...
+
+● Check text around line 45
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--amazing-charts/downloads/enr
+  ichment && pdftotext ../Amazing-Charts-EHI-Export-Documentation-V1_0-1-1.pdf - | sed -n '39,60p'
+  └ 22 lines...
+
+I see — the multi-line names need to be searched with line breaks. Let me take a different approach - parse more carefully.
+
+● Create results/caretracker-inc--amazing-charts/downloads/enrichment/extract-data-dictionary.ts.new
+  (+117)
+
+● Run fixed enrichment script
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--amazing-charts/downloads/enr
+  ichment && mv extract-data-dictionary.ts.new extract-data-dictionary.ts && bun run
+  extract-data-dictionary.ts 2>&1
+  └ 48 lines...
+
+The parser is merging trailing column values with next data class names. The issue is that the last column in each list appears on its own line without a comma. Let me fix this.
+
+● Check context around problem lines
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--amazing-charts/downloads/enr
+  ichment && pdftotext ../Amazing-Charts-EHI-Export-Documentation-V1_0-1-1.pdf - | grep -A2 -B2
+  "ReferProviderEmail"
+  └ 6 lines...
+
+● Check PDF intro for data class list
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--amazing-charts/downloads/enr
+  ichment && pdftotext ../Amazing-Charts-EHI-Export-Documentation-V1_0-1-1.pdf - | head -15
+  └ 16 lines...
+
+Let me use a known-names approach, defining the full list of data class names explicitly from visual inspection.
+
+● Render PDF pages as images
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--amazing-charts/downloads/enr
+  ichment && pdftoppm -f 1 -l 2 -r 200 -png ../Amazing-Charts-EHI-Export-Documentation-V1_0-1-1.pdf
+  /tmp/ac-page
+  └ 1 line...
+
+● Read /tmp/ac-page-1.png
+  └ 1 line read
+
+● Read /tmp/ac-page-2.png
+  └ 1 line read
+
+
+
+
+
+● Render remaining PDF pages
+  $ pdftoppm -f 3 -l 8 -r 200 -png /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--
+  amazing-charts/downloads/Amazing-Charts-EHI-Export-Documentation-V1_0-1-1.pdf /tmp/ac-page
+  └ 1 line...
+
+● Read /tmp/ac-page-7.png
+  └ 1 line read
+
+● Read /tmp/ac-page-8.png
+  └ 1 line read
+
+● Read /tmp/ac-page-5.png
+  └ 1 line read
+
+● Read /tmp/ac-page-4.png
+  └ 1 line read
+
+● Read /tmp/ac-page-6.png
+  └ 1 line read
+
+● Read /tmp/ac-page-3.png
+  └ 1 line read
+
+
+
+
+
+● Read results/caretracker-inc--amazing-charts/downloads/enrichment/extract-data-dictionary.ts
+  └ 116 lines read
+
+● Extract PDF text for parser reference
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--amazing-charts && pdftotext
+  downloads/Amazing-Charts-EHI-Export-Documentation-V1_0-1-1.pdf - 2>/dev/null | head -200
+  └ 201 lines...
+
+● Get rest of PDF text
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--amazing-charts && pdftotext
+  downloads/Amazing-Charts-EHI-Export-Documentation-V1_0-1-1.pdf - 2>/dev/null | tail -200
+  └ 199 lines...
+
+Now I can see the full text. Let me rewrite the parser with hardcoded known data class names.
+
+● Edit results/caretracker-inc--amazing-charts/downloads/enrichment/extract-data-dictionary.ts (+101
+  -43)
+
+● Run fixed enrichment parser
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--amazing-charts/downloads/enr
+  ichment && bun run extract-data-dictionary.ts
+  └ 64 lines...
+
+The split approach has false positives — "Email", "Goals", etc. match inside column names. I need to match data class names at line boundaries only.
+
+● Edit results/caretracker-inc--amazing-charts/downloads/enrichment/extract-data-dictionary.ts (+50
+  -24)
+
+● Run fixed parser v2
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--amazing-charts/downloads/enr
+  ichment && bun run extract-data-dictionary.ts
+  └ 50 lines...
+
+43/44 parsed — "HM Rules" columns are merged into Immunizations in the PDF layout. This is a known limitation. Let me now create the remaining deliverables.
+
+● Create results/caretracker-inc--amazing-charts/downloads/enrichment/README.md (+48)
+
+● Get file sizes for manifest
+  $ stat -c %s /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--amazing-charts/downl
+  oads/Amazing-Charts-EHI-Export-Documentation-V1_0-1-1.pdf && stat -c %s /home/jmandel/hobby/ehi-ex
+  port-analysis/results/caretracker-inc--amazing-charts/downloads/enrichment/data-dictionary.json &&
+   stat -c %s /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--amazing-charts/downlo
+  ads/enrichment/extract-data-dictionary.ts
+  └ 4 lines...
+
+Now let me get the README size and create the report and manifest.
+
+● Get README size
+  $ stat -c %s /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--amazing-charts/downl
+  oads/enrichment/README.md
+  └ 2 lines...
+
+● Create results/caretracker-inc--amazing-charts/files.json (+37)
+
+● Create results/caretracker-inc--amazing-charts/ehi-export-report.md (+177)
+
+Let me verify all deliverables are in place and the JSON is valid.
+
+● Verify all deliverables
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/caretracker-inc--amazing-charts && echo
+  "=== Directory structure ===" && find . -type f | sort && echo "" && echo "=== files.json
+  valid? ===" && python3 -c "import json; json.load(open('files.json')); print('Valid JSON')" &&
+   echo "" && echo "=== data-dictionary.json summary ===" && python3 -c "
+  import json...
+  └ 25 lines...
+
+All deliverables are in place and valid.
+
