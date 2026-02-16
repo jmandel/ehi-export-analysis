@@ -1,54 +1,51 @@
 # EHI Export Analysis: MedOne Healthcare Partners
 
 **Product**: OneConnect Version 0
-**Analysis date**: 2026-02-15
-**CHPL ID**: 11426 (15.04.04.3182.Onec.00.00.1.231227)
+**Analysis date**: 2026-02-16
+**CHPL IDs**: 11426 (15.04.04.3182.Onec.00.00.1.231227)
 
 ## 1. Product Context
 
-OneConnect is a **custom clinical documentation tool** built by MedOne Healthcare Partners (formerly Central Ohio Hospitalists), a physician-owned hospital medicine practice in Columbus, Ohio. It is **not a commercial EHR** — it is an internally developed and internally used tool for MedOne's ~100 physicians and 75+ advanced practice clinicians who provide care across approximately 150 post-acute facilities (skilled nursing, assisted living, rehab, and long-term acute care) in Ohio.
+OneConnect is a **custom clinical documentation tool** built by MedOne Healthcare Partners (a physician-owned hospital medicine practice in Columbus, Ohio) for **post-acute care settings**. It is not a commercial EHR product — it is internally developed and used by MedOne's ~100 physicians and 75+ advanced practice clinicians as they round across approximately 150 skilled nursing facilities, assisted living communities, rehab hospitals, and long-term acute care hospitals in Ohio.
 
-The product is designed as a **documentation overlay** that integrates with a post-acute facility's existing EMR. Its core function is streamlining clinical documentation for providers rounding in post-acute settings. It was built by MedOne's founder, Dr. Joseph Mack, who is both a physician and programmer.
+OneConnect is a focused documentation overlay that integrates with facility EHRs (e.g., PointClickCare). Its primary function is streamlining clinical documentation. It is **not a full-featured EHR** — it does not certify for medication lists (a)(6), allergy lists (a)(8), clinical decision support (a)(9), e-prescribing (a)(10)–(a)(11), vital signs (a)(4), problem lists (a)(7), lab orders/results (a)(2)–(a)(3), imaging (a)(12)–(a)(13), or patient portal (e)(1). It uses third-party RXNT for e-prescribing and EMR Direct for health information exchange.
 
-**What OneConnect stores (relevant to export completeness):**
-- **Clinical notes/documentation** — the primary data type; the product's core purpose
-- **Patient demographics** — certified for (a)(5)
-- **Medication orders** — certified for CPOE (a)(1); e-prescribing via third-party RXNT
-- **Implantable device information** — certified for (a)(14)
-- **Transitions of care documents** — certified for (b)(1)
-- **Clinical quality measure data** — 68 CQMs certified (c)(1)
+**What data the product stores** (baseline for export completeness):
+- **Clinical notes/documentation** (core function)
+- **Patient demographics** (certified (a)(5))
+- **Medication orders** (certified CPOE (a)(1))
+- **Implantable device information** (certified (a)(14))
+- **Transitions of care documents** (C-CDAs, certified (b)(1))
+- **Clinical quality measure data** (68 CQMs, certified (c)(1))
 
-**What OneConnect does NOT certify for** (and likely does not store natively):
-- Medication lists (a)(6), allergy lists (a)(8), problem lists (a)(7), vital signs (a)(4), lab orders/results (a)(2)/(a)(3), clinical decision support (a)(9), e-prescribing (a)(10)–(a)(11), patient portal (e)(1), imaging (a)(12)–(a)(13)
-
-This is a narrowly focused documentation tool, not a comprehensive EHR. The expected EHI scope is correspondingly narrow: primarily clinical encounter documentation, demographics, medication orders, implantable devices, and transitions of care data.
+The related **BOLT** platform (same developer) may share code/data and includes billing/CPT code capture, but it is unclear whether these features are in OneConnect.
 
 ## 2. Artifacts Reviewed
 
-| Artifact | Description | Size/Scope | Informativeness |
+| Artifact | Type | Size | What It Told Me |
 |---|---|---|---|
-| `EHI-Export.pdf` | The sole (b)(10) export documentation | 1 page, 111 words, created 2023-11-07 | **Primary artifact** — extremely minimal |
-| `FHIR-API-Specifications.pdf` | SMART on FHIR API documentation for (g)(7)/(g)(9)/(g)(10) | 58 pages, 7,749 words, created 2023-11-28 | Not (b)(10) documentation; useful for understanding what FHIR resources the system supports |
-| `FHIR_Valid_URLs.json` | FHIR Bundle with Endpoint and Organization resources | 2,235 bytes, 2 entries | Infrastructure metadata only |
-| `certifications-page-screenshot.png` | Screenshot of medonehp.com/certifications page | 367 KB | Confirms page layout and links to documentation |
+| `EHI-Export.pdf` | PDF, 1 page | 282 KB | **Primary (b)(10) artifact.** Entire EHI export documentation: 6 sentences stating the export is a ZIP of C-CDA documents per encounter. No data dictionary, no schema, no sample data, no instructions. Created 2023-11-07 from Word. **Most important artifact — and extremely thin.** |
+| `FHIR-API-Specifications.pdf` | PDF, 58 pages | 1.3 MB | (g)(10) FHIR API documentation. Smart on FHIR OAuth2 flow and US Core resource access covering 15 FHIR resource types. NOT the (b)(10) export, but shows what data the system makes available via FHIR API. Created 2023-11-28. |
+| `FHIR_Valid_URLs.json` | JSON | 2 KB | FHIR Bundle with Endpoint (pointing to `qafhir.medonehp.com:9443`) and Organization resource. Infrastructure metadata only. |
+| `certifications-page-screenshot.png` | PNG | 367 KB | Screenshot of `medonehp.com/certifications` showing certification details and footer links to all three documents above. Confirms the documentation is accessible via the certifications page. |
 
-**Most informative**: `EHI-Export.pdf` (the only (b)(10) artifact, though extremely thin).
-**Least informative**: `FHIR_Valid_URLs.json` (infrastructure metadata, not relevant to EHI export).
+**Most informative**: `EHI-Export.pdf` (defines the export) and `FHIR-API-Specifications.pdf` (shows data capabilities).
+**Least informative**: `FHIR_Valid_URLs.json` (endpoint metadata only).
 
 ## 3. Export Mechanics
 
-- **Format**: ZIP archive containing C-CDA documents, one per patient encounter. The documentation states "other files attached to the patient's chart will be added later (e.g. PDF and images)" — indicating the export was incomplete as of the documentation date (November 2023).
-- **Mechanism**: Not documented. There are no instructions for how to initiate, request, or receive an export. No UI screenshots, no API endpoint, no process description.
-- **Single-patient vs bulk**: Not documented. The text refers to "the patient EHI export," suggesting single-patient scope, but this is ambiguous.
-- **Access constraints or fees**: Not documented.
+- **Format**: ZIP file containing C-CDA documents (one per patient encounter). The documentation states "other files attached to the patient's chart will be added later (e.g. PDF and images)" — explicitly acknowledging the export is incomplete.
+- **Mechanism**: Not documented. The PDF provides no instructions for how to initiate an export — no UI screenshots, no API endpoint, no request process.
+- **Single-patient vs bulk**: Not documented. The language ("the patient EHI export") suggests single-patient.
+- **Access constraints/fees**: Not documented. The CHPL metadata references third-party service fees (e.g., PCC integration at $250/month/interface, RXNT e-prescribing at $95/month/provider), but no fees specific to EHI export are mentioned.
 
 ## 4. Export Content: What's In It
 
-### What the documentation says
+### What we know
 
-The entire EHI export documentation is **6 substantive sentences** on a single page (verified via `pdftotext`). The full text is:
+The entire EHI export documentation is 6 sentences (verbatim from `EHI-Export.pdf`):
 
-> Product Name and Version: OneConnect Version 0
+> Product Name and Version : OneConnect Version 0
 >
 > The patient EHI export contains data from the patient's chart. Multiple file formats are used to store this information.
 >
@@ -62,117 +59,136 @@ The entire EHI export documentation is **6 substantive sentences** on a single p
 >
 > Information for each patient encounter is available C-CDA format in zip archive.
 
-Three of these sentences merely define what ZIP, PDF, and C-CDA are. The substantive content is:
-1. The export contains "data from the patient's chart"
-2. The format is a ZIP of C-CDA documents, one per encounter
-3. PDFs and images "will be added later" (i.e., are not currently included)
+**There is no data dictionary.** No entities, no tables, no fields, no types, no descriptions, no relationships, no value sets, no sample data, no schema.
 
-### What we can infer
+### What can be inferred
 
-There is **no data dictionary**, **no schema**, **no field-level documentation**, **no sample export file**, and **no list of C-CDA sections or templates used**. It is impossible to determine from this documentation exactly what data elements are included in the C-CDA documents.
+Since the export is C-CDA format, its content is bounded by what C-CDA supports. Standard C-CDA sections include:
+- Patient demographics (header)
+- Medications
+- Allergies
+- Problems/conditions
+- Procedures
+- Results (labs)
+- Vital signs
+- Immunizations
+- Encounters
+- Plan of care
 
-The FHIR API Specifications PDF (not a (b)(10) artifact) documents 16 FHIR resource types the system can serve, which gives an indirect signal about what data the system stores:
+However, we have **no evidence** of which C-CDA sections OneConnect actually populates. The FHIR API documentation (`FHIR-API-Specifications.pdf`, 58 pages) shows the system can serve 15 FHIR resource types via its (g)(10) API:
 
-- Patient, AllergyIntolerance, CarePlan, CareTeam, Conditions/Problems, Implantable Device, Diagnostic Report, DocumentReference, Clinical Notes, Laboratory Result Observation, Goal, Immunization, Medication, Smoking Status, Procedure, Provenance, Vital Signs
+| FHIR Resource | Section in API Doc |
+|---|---|
+| Patient | pp. 11–15 |
+| AllergyIntolerance | pp. 16–17 |
+| CarePlan | pp. 18–20 |
+| CareTeam | pp. 21–22 |
+| Condition (Problems/Health Concern) | pp. 23–25 |
+| Implantable Device | pp. 26–27 |
+| DiagnosticReport / DocumentReference | pp. 28–29 |
+| Laboratory Result Observation | pp. 30–31 |
+| Goal | pp. 32 |
+| Immunization | pp. 33–34 |
+| Medication (MedicationRequest) | p. 35 |
+| Smoking Status (Observation) | pp. 35–38 |
+| Procedure | pp. 39–40 |
+| Provenance | pp. 41–44 |
+| Vital Signs (Observation) | pp. 45–52 |
 
-However, it is unclear whether the C-CDA export includes data for all these resource types or only a subset. The FHIR API documentation is for the (g)(10) standardized API, not the (b)(10) export.
+This represents the **USCDI v1 / US Core** data set — the standard clinical summary data that all certified EHRs must support via FHIR. The C-CDA export likely covers similar content, as it is the document-based equivalent of the same data.
 
 ### Vendor's own content organization
 
-The vendor provides no content organization. There is no data dictionary, no entity list, no table structure, and no field inventory. The export cannot be broken down into entities or fields because no such documentation exists.
+No vendor-defined organization exists. The vendor provides no data dictionary, no entity listing, and no categorization of export content. The only structured information comes from the FHIR API documentation, which is organized by FHIR resource type (not by clinical domain), and which documents the (g)(10) API rather than the (b)(10) export.
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-The vendor describes exactly one thing: a ZIP archive of C-CDA documents organized by encounter. No categories, no modules, no sections are described. The documentation is so thin that coverage assessment must be based entirely on inference from the export format (C-CDA) rather than from any vendor-provided detail.
+The vendor's EHI export documentation describes exactly one thing: a ZIP of C-CDA documents, one per encounter. No categories, no modules, no sections are described. The documentation is the absolute minimum: it names the format and acknowledges it is incomplete.
 
-Standard C-CDA documents (CCD, Discharge Summary, etc.) typically include sections for:
-- Demographics, problems, medications, allergies, immunizations, vital signs, procedures, results, plan of care, encounters, social history
-
-But without knowing which C-CDA template OneConnect uses or which sections it populates, we cannot confirm any specific coverage.
+The FHIR API (separate from the EHI export) covers standard USCDI v1 clinical data: demographics, allergies, care plans, care teams, conditions, devices, diagnostic reports, labs, goals, immunizations, medications, smoking status, procedures, provenance, and vital signs. If the C-CDA export covers similar content, it would provide a clinical summary per encounter — but this is inference, not evidence.
 
 ### 5b. Standardized domain coverage (top-down)
 
 | Domain | Coverage | Export Evidence | Gap Analysis |
 |---|---|---|---|
-| Demographics | ⚠️ Partial | C-CDA header typically includes demographics, but no field-level detail provided | Product stores demographics (a)(5) certified; C-CDA likely includes basic demographics but completeness unknown |
-| Encounters / visits | ⚠️ Partial | Documentation says "one C-CDA per encounter" | Structure implies encounters are represented, but detail level unknown |
-| Problems / conditions | ⚠️ Partial | C-CDA standard section; FHIR API supports Conditions | Likely in C-CDA if populated, but product not certified for problem lists (a)(7) |
-| Medications / prescriptions | ⚠️ Partial | C-CDA standard section; CPOE (a)(1) certified | CPOE certified so medication orders exist; C-CDA medication section likely present but e-prescribing data from RXNT may not be included |
-| Allergies | ⚠️ Partial | C-CDA standard section; FHIR API supports AllergyIntolerance | Not certified for allergy lists (a)(8); may or may not be populated |
-| Immunizations | ⚠️ Partial | C-CDA standard section | Not a core function of a post-acute documentation tool; likely thin |
-| Vitals | ⚠️ Partial | C-CDA standard section | Not certified for vitals (a)(4); may or may not be populated |
-| Lab results | ⚠️ Partial | C-CDA standard section | Not certified for lab results; product likely receives but may not store lab data natively |
-| Imaging / diagnostic reports | ❌ Not covered | No evidence | Not certified for imaging; N/A for this product |
-| Procedures | ⚠️ Partial | C-CDA standard section | May include basic procedure data if documented |
-| Clinical notes / documents | ⚠️ Partial | C-CDA may include notes; documentation promises PDFs "later" | **This is the product's core function** — clinical documentation. C-CDA's rigid structure likely cannot represent OneConnect's custom templates, voice-recognition-generated notes, and shorthand documentation. The documentation explicitly says PDFs/images "will be added later," suggesting clinical document attachments are NOT currently exported. **Significant potential gap.** |
-| Care plans / goals | ⚠️ Partial | C-CDA standard section | May be present if populated |
-| Orders / referrals | ⚠️ Partial | C-CDA may include | CPOE certified; orders may appear in C-CDA medication section |
-| Insurance / coverage | ❌ Not covered | No evidence in C-CDA export | C-CDA does not have a standard insurance/coverage section. Unknown if product stores this data. |
-| Claims / billing | ❌ Not covered | No evidence in C-CDA export | The related BOLT platform captures CPT codes; unclear if OneConnect does. C-CDA has no billing section. If OneConnect stores billing data, this is a gap. |
-| Payments | N/A | — | No evidence OneConnect handles payments |
-| Consents / directives | ⚠️ Partial | C-CDA may include advance directives section | Unknown if populated |
-| Patient communications | N/A | — | No patient portal; not applicable |
-| Implantable devices | ⚠️ Partial | C-CDA may include; (a)(14) certified | Certified for implantable device list; likely in C-CDA but no field detail |
+| Demographics | ⚠️ Partial | C-CDA header would include patient demographics, but no field-level detail provided | Product stores demographics ((a)(5) certified); C-CDA header likely covers basics but custom fields unknown |
+| Encounters / visits | ⚠️ Partial | Export is organized per-encounter (one C-CDA per encounter), so encounters are structurally present | Encounter metadata likely present but depth unknown |
+| Problems / conditions / diagnoses | ⚠️ Partial | FHIR API documents Condition resources; C-CDA likely includes Problems section | Probable coverage via C-CDA but unverified |
+| Medications / prescriptions | ⚠️ Partial | CPOE (a)(1) certified; FHIR API documents MedicationRequest; C-CDA likely includes Medications section | Probable coverage via C-CDA; unclear if RXNT e-prescribing data is included |
+| Allergies | ⚠️ Partial | FHIR API documents AllergyIntolerance; C-CDA likely includes Allergies section | Product does NOT certify for allergy list (a)(8); may store allergy data but extent unclear |
+| Immunizations | ⚠️ Partial | FHIR API documents Immunization resource | Probable coverage via C-CDA but unverified |
+| Vitals | ⚠️ Partial | FHIR API documents Vital Signs; C-CDA likely includes Vitals section | Product does NOT certify for vital signs (a)(4); data availability unclear |
+| Lab results | ⚠️ Partial | FHIR API documents Laboratory Result Observation | Product does NOT certify for lab results (a)(3); may receive results but doesn't generate them |
+| Imaging / diagnostic reports | ⚠️ Partial | FHIR API documents DiagnosticReport/DocumentReference | Product does NOT certify for imaging (a)(12)–(a)(13); likely limited |
+| Procedures | ⚠️ Partial | FHIR API documents Procedure resource | Probable coverage via C-CDA but unverified |
+| Clinical notes / documents | ⚠️ Partial | Core product function is clinical documentation. EHI PDF says "other files attached to the patient's chart will be added later" — implying custom notes/PDFs are NOT yet exported | **Significant gap.** Clinical documentation is OneConnect's primary purpose. C-CDA sections may capture some note content, but the vendor's custom templates, voice-recognized notes, and shorthand documentation likely cannot be faithfully represented in C-CDA format |
+| Care plans / goals | ⚠️ Partial | FHIR API documents CarePlan and Goal resources | Probable coverage via C-CDA but unverified |
+| Orders / referrals | ⚠️ Partial | CPOE for meds certified; orders may appear in C-CDA | Limited to what C-CDA supports |
+| Insurance / coverage | ❌ Not covered | No mention in export documentation or FHIR API | Unclear if product stores insurance data; no evidence of coverage |
+| Claims / billing | ❌ Not covered | No billing entities in export. C-CDA has no billing section | Related BOLT platform captures CPT codes; unclear if OneConnect stores billing data. If it does, this is a gap |
+| Payments | ❌ Not covered | No mention | N/A — product is a documentation tool, not a billing system |
+| Consents / directives | ❌ Not covered | No mention | Not a primary product function; likely N/A |
+| Patient communications / portal messages | ❌ Not covered | No patient portal ((e)(1) not certified) | N/A — product has no patient portal |
+| Specialty-specific (post-acute care) | ❌ Not covered | OneConnect is designed for post-acute care with specialty workflows. No specialty-specific data in C-CDA | **Significant gap.** Post-acute documentation workflows, custom templates, facility-specific forms — the product's core differentiator — are not represented in a standard C-CDA export |
 
-**Critical note**: Every "⚠️ Partial" rating above is generous — it assumes the C-CDA contains standard sections. Without sample data or a list of populated sections, the actual coverage could be significantly less. The ratings reflect what C-CDA *can* contain, not what this vendor's C-CDA *does* contain.
+**Note**: Nearly all "Partial" ratings above are based on inference from the FHIR API documentation, not from evidence about the actual (b)(10) export. The EHI export documentation itself provides zero field-level detail. Every domain is rated ⚠️ rather than ✅ because we cannot verify what C-CDA sections the vendor actually populates.
 
 ## 6. Documentation Quality
 
-The EHI export documentation quality is **extremely poor** — among the thinnest possible for a certified product.
+**Extremely poor.** The EHI export documentation is 1 page with 6 sentences. It:
 
-**What's missing:**
-- No instructions for performing or requesting an export
-- No data dictionary or field inventory
-- No C-CDA template identification (CCD? Discharge Summary? Custom?)
-- No list of populated C-CDA sections
-- No field-level mapping or descriptions
-- No data types, value sets, or coded terminology references
-- No entity relationships
-- No sample export file
-- No machine-readable schema
-- No versioning or change history
+- ❌ Provides no data dictionary
+- ❌ Provides no schema or machine-readable artifact
+- ❌ Provides no sample data
+- ❌ Provides no instructions for performing the export
+- ❌ Provides no information about which C-CDA sections are populated
+- ❌ Provides no field-level documentation
+- ❌ Provides no value sets or coded vocabularies
+- ❌ Provides no relationship documentation
+- ❌ Explicitly states the export is incomplete ("will be added later")
 
-**What's present:**
-- The export format (ZIP of C-CDAs) — 1 sentence
-- Definitions of ZIP, PDF, and C-CDA — 3 sentences
-- An admission that the export is incomplete — 1 sentence
+A developer could not build an import from this documentation. They would not know which C-CDA template is used, what sections are populated, what coded values appear, how encounters are organized in the ZIP, or how to request an export.
 
-**Could a developer build an import from this documentation?** No. A developer would know only that they're receiving a ZIP file containing C-CDA XML documents. They would need to determine the C-CDA template, parse the XML, discover which sections are populated, and map the data — all without any guidance from the vendor. While C-CDA is a standard, implementations vary widely in which sections are included and how data is coded.
+The only useful information is that the export format is "ZIP of C-CDAs per encounter" — a developer familiar with C-CDA could parse the files, but they would be working blind regarding what content to expect.
+
+The 58-page FHIR API Specifications document is well-structured by comparison, with endpoint URLs, request/response examples, and field descriptions — but it documents the (g)(10) API, not the (b)(10) EHI export.
 
 ## 7. Overall Assessment
 
 ### Classification
 
-**Minimal/stub**: The documentation is too thin to meaningfully assess the export content. The export is described as C-CDA documents per encounter — a standard-based projection that inherently cannot represent the full breadth of OneConnect's native data model (particularly custom clinical documentation, the product's core value proposition). The documentation explicitly acknowledges incompleteness ("will be added later"). There is no data dictionary, no schema, no sample data, and no process documentation.
+**Minimal/stub**
+
+The EHI export documentation is 6 sentences with no data dictionary, no schema, and no sample data. The export itself is a C-CDA repackaging (one C-CDA per encounter in a ZIP) that the vendor explicitly acknowledges is incomplete. This is the minimum artifact needed to claim compliance, not a genuine effort to enable EHI portability.
 
 ### Key Findings
 
-1. **The entire (b)(10) documentation is 111 words on 1 page** (`EHI-Export.pdf`, created 2023-11-07). Three of six substantive sentences merely define file format acronyms. This is among the most minimal export documentation possible for a certified product.
+1. **The entire EHI export documentation is 6 sentences on 1 page** (`EHI-Export.pdf`, created 2023-11-07). It defines what ZIP, PDF, and C-CDA are, then states the export is a ZIP of C-CDAs. There is no data dictionary, no schema, no instructions, and no sample data.
 
-2. **The export is C-CDA per encounter — a standard-based projection, not a native data export.** C-CDA is a clinical summary standard that cannot represent billing data, custom documentation templates, or vendor-specific workflow data. For a product whose core value is streamlined clinical documentation with custom templates and voice recognition, C-CDA is structurally inadequate to capture the full record.
+2. **The export is explicitly acknowledged as incomplete.** The documentation states: "It contains zip files of C-CDAs for now and other files attached to the patient's chart will be added later (e.g. PDF and images)." This was written in November 2023 — over two years ago — with no evidence of updates.
 
-3. **The vendor explicitly acknowledges the export is incomplete**: "It contains zip files of C-CDAs for now and other files attached to the patient's chart will be added later (e.g. PDF and images)." This statement, dated November 2023 (over 2 years ago), suggests the export was a work-in-progress at certification time and was never updated.
+3. **The export is a C-CDA repackaging, not a native data model export.** C-CDA is a clinical summary standard designed for transitions of care. It cannot represent the full breadth of data a clinical documentation tool stores — custom templates, voice-recognized notes, billing codes, quality measures, and post-acute specialty workflows are all outside C-CDA's scope.
 
-4. **No sample data, no data dictionary, no process documentation.** It is impossible to verify from the available artifacts what data elements the C-CDA documents actually contain, how to request an export, or what format the ZIP structure takes.
+4. **The product's core differentiator — streamlined clinical documentation for post-acute care — is likely the biggest gap.** OneConnect's value proposition is custom documentation workflows with templates, shorthand, and voice recognition. Standard C-CDA sections cannot faithfully represent this vendor-specific content.
 
-5. **Context mitigates the severity somewhat**: OneConnect is a narrowly focused documentation overlay used internally by one physician practice, not a comprehensive commercial EHR. The scope of EHI it stores is correspondingly narrow. However, even for its narrow scope, the documentation fails to describe how the product's core data (clinical encounter documentation) is faithfully represented in C-CDA format.
+5. **This is consistent with an internally-used product by a small physician practice**, not a commercial health IT vendor. MedOne built OneConnect for its own clinicians and obtained certification as a regulatory requirement. The documentation quality reflects minimal compliance effort rather than user-facing product documentation.
 
 ### Summary Stats
 
 ```
 Classification:  Minimal/stub
-Export format:   C-CDA (XML) in ZIP archive
+Export format:   C-CDA (per encounter) in ZIP archive
 Model type:      Standard projection (C-CDA)
 Entities:        N/A (no data dictionary)
 Fields:          N/A (no data dictionary)
 Descriptions:    N/A
 Sample data:     No
 Bulk export:     Unclear
-Domains covered: 0 of 13 confirmed; up to 11 of 13 inferred from C-CDA format (but unverifiable)
+Domains covered: 0 of 12 applicable domains confirmed (up to 10 partially inferred from FHIR API)
 ```
 
 ### Bottom Line
 
-A patient or provider requesting an EHI export from OneConnect would receive a ZIP file of C-CDA documents with no guidance on what's inside, no way to verify completeness, and an explicit vendor admission that the export is incomplete. The single biggest gap is the complete absence of documentation — not just thin documentation, but effectively *no* documentation beyond stating the file format. For a product whose primary value is custom clinical documentation, exporting only C-CDA summaries (without even confirming which sections are populated) raises serious questions about whether the full designated record set is captured.
+A patient or provider would receive a set of C-CDA clinical encounter summaries — standard clinical data in a standard format — but the vendor provides no documentation of what's actually in those documents and explicitly acknowledges the export is incomplete. The single biggest gap is the product's core function: post-acute clinical documentation built on custom templates and workflows, which standard C-CDA cannot represent. This is a compliance checkbox, not a usable EHI export.

@@ -1,85 +1,61 @@
 # EHI Export Analysis: Sequel Systems, Inc.
 
 **Product**: SequelMed EHR V12
-**Analysis date**: 2026-02-15
-**CHPL ID**: 15.04.04.2846.Sequ.12.01.1.221227 (CHPL listing 11143)
+**Analysis date**: 2026-02-16
+**CHPL IDs**: 11143 (15.04.04.2846.Sequ.12.01.1.221227)
 
 ## 1. Product Context
 
-SequelMed EHR is an integrated EHR and practice management (PM) platform developed by Sequel Systems, Inc. (Melville, NY, founded 1995). It targets ambulatory physician practices across 24+ specialties, including cardiology, dermatology, gastroenterology, internal medicine, neurology, OB/GYN, orthopedics, pediatrics, physical therapy, podiatry, psychiatry, and urgent care. The product is sold as a combined EHR + PM suite or as standalone modules.
+SequelMed EHR is an integrated EHR and practice management (PM) platform developed by Sequel Systems, Inc. (Melville, NY), targeting ambulatory physician practices across 24+ specialties. The product combines clinical EHR, practice management, medical billing, document management, and a patient portal into a single platform. It was ONC-certified in December 2022 (Drummond-certified).
 
-**Key data domains the product stores (per vendor website and product research):**
+Key data domains the product stores, per vendor materials:
 
-- **Clinical**: Demographics, problem lists, medication lists, allergies, immunizations, vital signs, H&P exams, clinical encounter notes via customizable specialty templates, clinical decision support alerts
-- **Orders/results**: Lab orders, pharmacy orders, imaging orders, lab results, diagnostic imaging results (DICOM integration)
-- **Medications**: E-prescribing via SureScripts, medication history
-- **Documents**: Clinical documents, scanned/archived documents (document management module), C-CDA documents
-- **Financial/billing**: Claims, charges, payments, patient A/R, collections, denials management, eligibility verification, authorization records, plan-specific billing edits, revenue cycle management, enterprise-wide reporting
-- **Scheduling**: Appointment scheduling
-- **Patient portal**: Messages, patient registration, accessible medication lists and immunization records (via Data Motion third-party integration)
-- **Public health**: Immunization registry submissions, syndromic surveillance, electronic case reporting
+- **Clinical**: Demographics, problem lists, medications, allergies, immunizations, vital signs, lab results, diagnostic images (DICOM integration), clinical encounter notes via customizable specialty templates, clinical decision support alerts, e-prescribing (SureScripts)
+- **Financial/Billing**: Claims, charges, payments, patient A/R, collections, denials management, eligibility verification, authorization records, claim scrubbing, revenue cycle management
+- **Administrative**: Scheduling, document management (scanning, archiving), multi-office coordination, enterprise reporting
+- **Patient Engagement**: Patient portal (via Data Motion), online registration, messaging
+- **Interoperability**: HL7, DICOM, FHIR APIs, C-CDA transitions of care, public health reporting (immunization registries, syndromic surveillance, electronic case reporting)
 
-The product is ONC-certified (certified 2022-12-27) for a broad set of criteria including (b)(10) EHI export, FHIR APIs (g)(7)–(g)(10), transitions of care (b)(1)–(b)(3), and patient portal (e)(1). This is a small vendor with a modest user base (only 7–9 reviews on third-party sites).
-
-**Baseline expectation for (b)(10) completeness**: A comprehensive export should cover clinical data, billing/PM data, specialty-specific template data, orders, documents, insurance/coverage, and prescription history — reflecting the full breadth of the integrated EHR+PM system.
+This product context is critical: SequelMed is sold as a combined EHR+PM platform, meaning a compliant (b)(10) export should cover both clinical and financial/billing data.
 
 ## 2. Artifacts Reviewed
 
-| # | Artifact | Type | Size | Description | Informativeness |
-|---|---|---|---|---|---|
-| 1 | `SequelMed-EHR-B10-Electronic-Health-Information-Export.pdf` | PDF | 96,891 bytes, 4 pages | The entire EHI export documentation. Describes export structure (ZIP per patient with C-CDA, documents, and an XLS). Version 1.0, created 2023-11-22. | **Primary artifact** — sole source of export documentation |
-| 2 | `data-export-page-screenshot.png` | PNG | 124,243 bytes | Screenshot of the data export landing page on sequelmed.com. Shows a single bullet link to the PDF. | Low — confirms there is only one document |
+| Artifact | Description | Informativeness |
+|---|---|---|
+| `SequelMed-EHR-B10-Electronic-Health-Information-Export.pdf` (96,891 bytes, 4 pages) | The sole export documentation artifact. Describes export as a per-patient ZIP containing a C-CDA XML, a documents folder, and an unexplained XLS file. Version 1.0, created 2023-11-22. | **Primary** — this is the only substantive artifact |
+| `data-export-page-screenshot.png` (124,243 bytes) | Screenshot of https://www.sequelmed.com/data-export/ showing a single bullet link to the PDF. No other content. | **Confirmatory** — confirms the page has a single link and nothing else |
+| Vendor data export page (live verification) | Verified https://www.sequelmed.com/data-export/ is still live as of 2026-02-16. Still shows only the single PDF link. No additional documentation has been added since the prior collection. | **Confirmatory** |
 
-**Additional verification**: The live data export page at `https://www.sequelmed.com/data-export/` was verified as accessible on 2026-02-15. It remains unchanged from collection: a single heading "Data Export" with one bullet link to the PDF. No additional documentation, schemas, sample data, or data dictionaries exist on the site.
-
-**Total artifacts**: 2 (1 substantive PDF, 1 screenshot). This is an extremely thin artifact set.
+**Total artifacts**: 2 (1 PDF, 1 screenshot). No data dictionary, no schema, no sample data, no additional documentation pages.
 
 ## 3. Export Mechanics
 
-- **Format**: ZIP archive per patient
-- **Contents per ZIP**:
-  1. `Clinical/` folder — one C-CDA XML file
-  2. `Documents/` folder — patient documents in original file format
-  3. `Patient Documents Detail.xls` — Excel file (contents undocumented)
-- **Mechanism**: Appears to be a UI-driven export within the SequelMed EHR application. The documentation states users can export "at any time without developer assistance."
-- **Single-patient**: Yes — explicitly supported
-- **Bulk/multi-patient**: Yes — documentation states "multi patients" export is available "at any time without developer assistance"
-- **Access constraints**: None documented; no mention of fees, special permissions, or rate limits
-- **Data standard**: C-CDA (HL7 CDA R2, Consolidated CDA Templates R2.1), claiming USCDI V1 compliance
+- **Format**: Per-patient ZIP file containing:
+  1. A `Clinical` folder with one C-CDA XML file
+  2. A `Documents` folder with patient documents in original formats (.jpg, .gif, .bmp, .png, .pdf, .txt)
+  3. A `Patient Documents Detail.xls` file (undocumented)
+- **Mechanism**: UI-driven; the documentation states users can export "at any time without developer assistance" for both single-patient and multi-patient scenarios. No screenshots or further UI details provided.
+- **Single-patient**: Yes, explicitly supported
+- **Bulk/multi-patient**: Yes, explicitly stated as available
+- **Access constraints or fees**: None mentioned in the documentation
 
 ## 4. Export Content: What's In It
 
-### 4.1 Overview
+### Overview
 
-The export consists of exactly three components per patient. There is **no data dictionary**, **no field-level documentation**, **no schema files**, and **no sample data**. The entire documentation is 295 words across 3 content pages (page 1 is a cover page).
+The export documentation is a 4-page PDF (including cover page) with approximately 1.5 pages of substantive content and 45 non-blank lines of text. It provides **zero field-level documentation**. There is no data dictionary, no schema, no sample data, and no vendor-specific documentation of what data is included or excluded.
 
-### 4.2 Component 1: C-CDA XML File (Clinical folder)
+The export consists of three components:
 
-The clinical data is exported as a single C-CDA XML file per patient. The documentation states it is "standard based which comply to US Core Data for Interoperability (USCD), Version 1 requirements" (note: "USCD" is a typo for "USCDI").
+### 4.1 C-CDA XML File (Clinical folder)
 
-Based on the C-CDA R2.1 standard referenced, a conformant C-CDA would typically include these sections:
+The documentation states the Clinical folder contains "one XML based CCDA file for the concerned patient" that "comply to US Core Data for Interoperability (USCD) [sic], Version 1 requirements." Three external HL7 specification references are provided.
 
-- Demographics (patient header)
-- Problems / conditions
-- Medications
-- Allergies and adverse reactions
-- Immunizations
-- Vital signs
-- Lab results (within Results section)
-- Procedures
-- Encounters
-- Plan of treatment
-- Goals
-- Social history
-- Functional status
+**No vendor-specific documentation is provided** — no list of which C-CDA sections are populated, no description of vendor extensions, no mapping of SequelMed data to C-CDA elements. The reader is directed entirely to external HL7 specifications. Based on the USCDI V1 compliance claim, the C-CDA would typically include standard sections for demographics, allergies, medications, problems, procedures, lab results, vital signs, immunizations, goals, health concerns, and smoking status. However, SequelMed does not confirm this.
 
-**However**: The SequelMed documentation does not specify which C-CDA sections are populated, which are optional, or what vendor-specific data (if any) is included. There is no mention of vendor extensions, custom sections, or specialty-specific data mapped into the C-CDA. The documentation simply references the external HL7 specifications and provides no SequelMed-specific detail.
+### 4.2 Patient Documents (Documents folder)
 
-**What is NOT in a C-CDA by design**: Billing data, claims, charges, payments, A/R records, scheduling data, orders (as discrete records — some may appear in Plan of Treatment), e-prescribing history (beyond current medication list), insurance/coverage details, custom specialty template data, patient portal messages, document management metadata.
-
-### 4.3 Component 2: Patient Documents (Documents folder)
-
-Six types of documents are listed:
+Six document types are listed:
 1. Signed progress notes
 2. Available lab results
 3. Radiology reports
@@ -87,116 +63,109 @@ Six types of documents are listed:
 5. Imported documents
 6. "Iploaded" [sic] documents
 
-Documents are exported in their original uploaded/scanned format: `.jpg`, `.gif`, `.bmp`, `.png`, `.pdf`, `.txt`.
+Documents are exported in their original upload/scan formats. No metadata schema, naming convention, or organizational structure is documented.
 
-These are **unstructured files** — scans, images, text documents. No structured metadata about the documents is described (though see Component 3 below). There is no documentation of how documents are named, organized, or cross-referenced to clinical encounters.
+### 4.3 Patient Documents Detail.xls
 
-### 4.4 Component 3: Patient Documents Detail.xls
-
-An Excel file described only by its filename. The documentation provides **zero explanation** of what this file contains — no column names, no sample rows, no description of its purpose. It presumably serves as a manifest or index for the documents in the Documents folder, but this is inference, not documentation.
+Mentioned by name only. Its purpose, columns, and content are entirely undocumented. It may serve as a document manifest, but this is speculation.
 
 ### Vendor's own content organization
 
-The vendor does not organize their export documentation into categories or provide a data dictionary. The only structure is the three-component ZIP described above:
+The vendor does not organize their export into categories or provide a data dictionary. The only structure is the three-component ZIP:
 
-| Component | Type | Fields Documented | Types Documented | Category |
+| Component | Fields Documented | Described | Types | Category (vendor's) |
 |---|---|---|---|---|
-| C-CDA XML file | XML (C-CDA R2.1) | None (defers to external HL7 spec) | N/A | Clinical |
-| Documents folder | Mixed file formats | None | N/A | Documents |
-| Patient Documents Detail.xls | Excel | None | N/A | Unknown |
+| C-CDA XML file | 0 | N/A | N/A | "Clinical" |
+| Documents folder | 0 | Only document types listed | N/A | "Patient Documents" |
+| Patient Documents Detail.xls | 0 | N/A | N/A | Undocumented |
 
-**There are zero vendor-documented entities, zero vendor-documented fields, and zero field-level descriptions.** The clinical data format is delegated entirely to the external C-CDA standard with no vendor-specific documentation.
+**Total vendor-documented fields: 0**. The vendor provides no field-level, entity-level, or column-level documentation for any component of the export.
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-The vendor's export documentation describes two data flows:
+The vendor describes two categories of exported content:
 
-1. **Structured clinical data via C-CDA**: The vendor claims USCDI V1 compliance, which means the C-CDA should include demographics, problems, medications, allergies, immunizations, vital signs, lab results, clinical notes, procedures, and care team. However, no vendor-specific documentation confirms which sections are actually populated, and C-CDA cannot represent the full breadth of data an EHR+PM system stores.
+1. **"Clinical"** — A single C-CDA XML file per patient. The C-CDA is a standardized clinical summary format designed for transitions of care. Per the USCDI V1 claim, it would cover demographics, allergies, medications, problems, procedures, lab results, vital signs, immunizations, goals, and smoking status. However, C-CDA is structurally limited to clinical summary data — it cannot represent billing records, scheduling data, custom specialty templates, or the full breadth of an EHR+PM system's data.
 
-2. **Unstructured document files**: Progress notes, lab results, radiology reports, and scanned/imported/uploaded documents are exported as raw files. This captures some clinical content in unstructured form but provides no structured data.
+2. **"Patient Documents"** — Unstructured files (images, PDFs, text) representing signed notes, lab results, radiology reports, and scanned/imported/uploaded documents. These are binary files in original format with no structured metadata.
 
-**Completely absent from the export documentation**: The entire practice management (PM) module — billing, claims, charges, payments, A/R, collections, denials, insurance/coverage, eligibility, authorization. Also absent: scheduling data, orders, e-prescribing history, specialty-specific template data, patient portal data, referrals.
-
-The vendor's export is structurally identical to a transitions-of-care (ToC) export — a C-CDA clinical summary plus attached documents. This is a standard-based projection of clinical data, not a comprehensive export of the product's native data model.
+The clinical coverage via C-CDA is a **thin projection** of what SequelMed stores. The entire practice management / billing side of the product is absent. No specialty-specific template data is documented. No orders, referrals, or e-prescribing history beyond what C-CDA can represent.
 
 ### 5b. Standardized domain coverage (top-down)
 
 | Domain | Coverage | Export Evidence | Gap Analysis |
 |---|---|---|---|
-| Demographics | ⚠️ Partial | C-CDA patient header (inferred from standard, not vendor-documented) | C-CDA includes basic demographics; product likely stores more (contacts, employer, etc.) |
-| Encounters / visits | ⚠️ Partial | C-CDA Encounters section (inferred) | Only what C-CDA captures; no visit-level billing or scheduling linkage |
-| Problems / conditions | ⚠️ Partial | C-CDA Problems section (inferred) | Standard C-CDA coverage; no vendor confirmation of completeness |
-| Medications / prescriptions | ⚠️ Partial | C-CDA Medications section (inferred) | Current medication list only; product does e-prescribing via SureScripts — full Rx history likely not in C-CDA |
-| Allergies | ⚠️ Partial | C-CDA Allergies section (inferred) | Standard C-CDA coverage |
-| Immunizations | ⚠️ Partial | C-CDA Immunizations section (inferred) | Standard C-CDA coverage |
-| Vitals | ⚠️ Partial | C-CDA Vital Signs section (inferred) | Standard C-CDA coverage |
-| Lab results | ⚠️ Partial | C-CDA Results section (inferred) + document files (lab results) | Structured results in C-CDA limited to what C-CDA supports; raw lab documents also exported |
-| Imaging / diagnostic reports | ⚠️ Partial | Document files (radiology reports) | Unstructured only; no DICOM images, no structured radiology data |
-| Procedures | ⚠️ Partial | C-CDA Procedures section (inferred) | Standard C-CDA coverage |
-| Clinical notes / documents | ⚠️ Partial | Document files (signed progress notes, scanned documents, imported/uploaded documents) | Unstructured file export; no structured note data beyond what's in C-CDA |
-| Care plans / goals | ⚠️ Partial | C-CDA Plan of Treatment/Goals sections (inferred) | Standard C-CDA coverage if populated |
-| Orders / referrals | ❌ Not covered | No evidence in export | Product supports lab, pharmacy, and imaging orders — not mentioned in export |
-| Insurance / coverage | ❌ Not covered | No evidence in export | Product stores insurance/enrollment data for billing — not exported |
-| Claims / billing | ❌ Not covered | No evidence in export | Product has full billing/PM module (claims, charges, payments, A/R, denials) — **significant gap** |
-| Payments | ❌ Not covered | No evidence in export | Product processes payments — not exported |
-| Consents / directives | ❌ Not covered | No evidence in export | Unknown if product stores these |
-| Patient communications / portal messages | ❌ Not covered | No evidence in export | Product has patient portal via Data Motion — not exported |
-| Specialty-specific data | ❌ Not covered | No evidence in export | Product claims 24+ specialty templates with customizable clinical forms — **significant gap** |
+| Demographics | ⚠️ Partial | C-CDA header (inferred from USCDI V1 claim; not vendor-documented) | C-CDA covers basic demographics. Product likely stores richer demographic/contact data in PM module that C-CDA doesn't capture. |
+| Encounters / visits | ⚠️ Partial | C-CDA may include encounter sections (not vendor-confirmed) | C-CDA encounter data is typically a summary. Full visit history, visit-linked data likely richer in native system. |
+| Problems / conditions | ⚠️ Partial | C-CDA problem list (inferred) | Standard C-CDA section likely included. Specialty-specific condition tracking (24+ specialties) unlikely to be fully captured. |
+| Medications / prescriptions | ⚠️ Partial | C-CDA medication list (inferred) | C-CDA captures active/historical medication list. Full e-prescribing history (SureScripts integration) unlikely to be represented. |
+| Allergies | ⚠️ Partial | C-CDA allergies section (inferred) | Likely covered via standard C-CDA section. |
+| Immunizations | ⚠️ Partial | C-CDA immunizations section (inferred) | Likely covered via standard C-CDA section. |
+| Vitals | ⚠️ Partial | C-CDA vital signs section (inferred) | Likely covered via standard C-CDA section. |
+| Lab results | ⚠️ Partial | C-CDA results section (inferred) + lab result documents in Documents folder | Structured results in C-CDA plus original lab documents. May miss order-level detail. |
+| Imaging / diagnostic reports | ⚠️ Partial | Radiology reports in Documents folder (as files) | Unstructured report documents only. DICOM images and structured imaging data from PACS integration not included. |
+| Procedures | ⚠️ Partial | C-CDA procedures section (inferred) | Standard C-CDA section likely included. |
+| Clinical notes / documents | ⚠️ Partial | Signed progress notes in Documents folder + C-CDA may contain note sections | Progress notes exported as document files. Custom specialty template data (24+ specialties) unlikely to be in C-CDA or structured form. |
+| Care plans / goals | ⚠️ Partial | C-CDA may include goals/care plan sections (inferred) | USCDI V1 includes goals; coverage uncertain without vendor confirmation. |
+| Orders / referrals | ❌ Not covered | No evidence in export documentation | Product supports lab, pharmacy, and imaging orders. Not documented in export. |
+| Insurance / coverage | ❌ Not covered | No evidence in export documentation | Product stores insurance/eligibility data (PM module). Not in C-CDA export. Significant gap. |
+| Claims / billing | ❌ Not covered | No evidence in export documentation | Product has full billing/claims/RCM capabilities. Entire PM financial dataset absent. **Major gap.** |
+| Payments | ❌ Not covered | No evidence in export documentation | Product manages payments, A/R, collections. Not in export. |
+| Consents / directives | ❌ Not covered | No evidence in export documentation | No mention in product materials either; may be N/A. |
+| Patient communications / portal messages | ❌ Not covered | No evidence in export documentation | Product has patient portal (via Data Motion). Portal data not in export. |
+| Specialty-specific data | ❌ Not covered | No evidence in export documentation | Product claims 24+ specialty-specific templates. None of this structured data is documented in export. **Major gap.** |
 
-**Summary**: All "Partial" ratings are cautious because the vendor provides no documentation confirming which C-CDA sections are actually populated. The coverage ratings are based on what a conformant C-CDA R2.1 *could* include, not on what SequelMed's C-CDA actually includes.
-
-**Major gaps**: The entire billing/PM domain (claims, charges, payments, A/R, collections, denials, insurance) and specialty-specific clinical template data are absent from the export despite being core features of the product.
+**Summary**: Of 19 applicable domains, 0 are fully confirmed as covered, 11 are partially covered via inferred C-CDA content (none vendor-confirmed), and 8 are not covered at all. The most significant gaps are billing/claims data and specialty-specific clinical data — both core capabilities of the product.
 
 ## 6. Documentation Quality
 
-The export documentation is **extremely poor** by any standard:
+The documentation quality is **extremely poor**:
 
-- **Total documentation**: 295 words across 3 content pages of a 4-page PDF (page 1 is a cover). This is approximately one page of actual informational content.
-- **Data dictionary**: None. Zero fields are documented.
-- **Schema/profiles**: None. The vendor defers entirely to external HL7 C-CDA specifications without documenting any SequelMed-specific constraints, extensions, or mappings.
-- **Sample data**: None. No example exports, worked examples, or screenshots of the export interface.
-- **Machine-readable artifacts**: None.
-- **Value sets/code systems**: Not mentioned.
-- **Relationships**: Not documented.
-- **Patient Documents Detail.xls**: Completely undocumented — not even a single sentence explaining its contents.
-- **Typos**: "Iploaded" instead of "Uploaded" (page 3), "USCD" instead of "USCDI" (page 2) — suggests minimal review.
+- **4 pages total** including cover page; approximately 1.5 pages of substantive content
+- **Zero field-level documentation** — no data dictionary, no field names, no types, no descriptions
+- **Zero schema artifacts** — no machine-readable schemas, no C-CDA profiles, no mapping documents
+- **Zero sample data** — no example exports, no worked examples
+- **Zero screenshots** — no illustration of the export UI or workflow
+- **Undocumented component** — the `Patient Documents Detail.xls` file is listed but never described
+- **Typographical errors** — "Iploaded" instead of "Uploaded," "USCD" instead of "USCDI"
+- **No scope statement** — the document never states what data is included in or excluded from the export, or why
 
-**Could a developer build an import from this documentation?** No. A developer would need to independently implement a C-CDA parser (using the external HL7 specs), guess at the structure of the XLS file, and manually correlate document files to clinical records. There is no SequelMed-specific guidance whatsoever.
+A developer could **not** build an import from this documentation alone. They would need to rely entirely on external HL7 C-CDA specifications for the clinical data, and would have no guidance whatsoever on the documents folder or the XLS file. The documentation provides no information about what SequelMed-specific data is mapped to which C-CDA elements, what code systems are used, or how to reconstruct a patient record from the export.
 
 ## 7. Overall Assessment
 
 ### Classification
 
-**Standard-based projection** — The export is a C-CDA clinical summary packaged with attached document files. This is functionally identical to a transitions-of-care export repackaged as a (b)(10) export. It covers the USCDI V1 clinical summary data subset but cannot represent the full breadth of data the EHR+PM system stores (billing, specialty templates, orders, scheduling, insurance). There is no native data model export.
+**Standard-based projection** — The export is a C-CDA clinical summary packaged with unstructured document files. This is essentially a transitions-of-care export relabeled as a (b)(10) export. It covers only what C-CDA can structurally represent (clinical summary data) and misses the entire practice management / billing side of the product, plus all specialty-specific clinical data captured through custom templates.
 
 ### Key Findings
 
-1. **The export is a C-CDA repackaged as (b)(10).** The structured clinical data is a single C-CDA XML file — a transitions-of-care format designed for clinical summaries, not comprehensive data export. This is the most common (b)(10) failure mode. *(Source: `SequelMed-EHR-B10-Electronic-Health-Information-Export.pdf`, page 2)*
+1. **C-CDA repackaging as (b)(10)**: The entire structured export is a single C-CDA XML file per patient — a format designed for clinical summaries in transitions of care, not comprehensive EHI export. This is the classic failure mode of conflating (b)(10) with existing (b)(1)/(g)(10) functionality. *(Source: PDF page 2, "Clinical Data" section)*
 
-2. **The entire billing/PM domain is absent.** SequelMed is marketed and sold as an integrated EHR + Practice Management platform with full billing, claims, payments, A/R, and revenue cycle management. None of this data is mentioned in the export documentation. *(Source: vendor website features vs. export PDF)*
+2. **Complete absence of billing/financial data**: SequelMed is marketed and sold as an integrated EHR+PM platform with full billing, claims, A/R, collections, and RCM capabilities. None of this data appears in the export documentation. This is the single largest gap. *(Source: PDF contains no mention of billing, claims, payments, or financial data; product-research.md §Modules confirms extensive PM capabilities)*
 
-3. **Zero field-level documentation.** The documentation contains no data dictionary, no field names, no types, no descriptions, no value sets, and no relationships. The vendor provides 295 words total to describe an export of "all electronic health information." *(Source: `pdf_analysis.json` — 295 words, 0 fields documented)*
+3. **No data dictionary whatsoever**: The documentation provides zero field-level information. Not a single field name, type, or description is documented across the entire export. A vendor exporting native database tables typically documents hundreds of fields; SequelMed documents none. *(Source: full text of the 4-page PDF contains no field definitions)*
 
-4. **Specialty-specific clinical data is not exported.** The product claims to serve 24+ specialties with customizable clinical templates. This specialty-specific data cannot be represented in a standard C-CDA and is not mentioned in the export. *(Source: vendor website claims 24+ specialties; export PDF mentions only C-CDA)*
+4. **Specialty-specific data missing**: The product claims to serve 24+ specialties with customizable clinical templates, implying structured specialty-specific data capture. None of this data is represented in the C-CDA format or documented in the export. *(Source: product-research.md §Modules; PDF contains no specialty references)*
 
-5. **The Patient Documents Detail.xls is completely undocumented.** One of the three export components is an Excel file whose contents are never described — not even a single sentence. *(Source: `SequelMed-EHR-B10-Electronic-Health-Information-Export.pdf`, page 2)*
+5. **Undocumented XLS component**: The `Patient Documents Detail.xls` file is listed as part of the export but never described, suggesting minimal review of the documentation itself (further evidenced by the "Iploaded" typo). *(Source: PDF page 2, item 3)*
 
 ### Summary Stats
 
 ```
 Classification:  Standard-based projection
-Export format:   C-CDA XML + document files (mixed formats) + XLS, packaged as ZIP
-Model type:      Standard projection (C-CDA R2.1 / USCDI V1)
-Entities:        N/A (no data dictionary; 1 C-CDA document + attached files)
-Fields:          N/A (no field-level documentation)
-Descriptions:    N/A
+Export format:   C-CDA XML + unstructured document files + undocumented XLS
+Model type:      Standard projection (C-CDA R2.1)
+Entities:        0 vendor-documented (C-CDA sections inferred from USCDI V1 claim: ~17)
+Fields:          0 vendor-documented
+Descriptions:    N/A (no field-level documentation)
 Sample data:     No
-Bulk export:     Yes (multi-patient documented)
-Domains covered: 0 of 15 confirmed; ~10 of 15 inferred from C-CDA standard (not vendor-verified)
+Bulk export:     Yes (multi-patient stated)
+Domains covered: 0 of 19 fully confirmed; ~11 of 19 partially inferred via C-CDA
 ```
 
 ### Bottom Line
 
-SequelMed's (b)(10) export is a textbook case of C-CDA repackaging: a transitions-of-care clinical summary plus document attachments, presented as a comprehensive EHI export. A patient or provider receiving this export would get a clinical summary and their scanned documents, but would be missing all billing/financial records, specialty-specific clinical data, orders, prescription history, insurance information, and portal communications — the majority of what a combined EHR+PM system stores about them. The documentation is among the thinnest possible while technically existing (295 words, no data dictionary, no schema, no sample data).
+A patient or provider would receive a C-CDA clinical summary and a folder of scanned/uploaded documents — essentially the same data available through transitions-of-care exchange, not a comprehensive export of all EHI. The entire billing/financial dataset from the practice management module and all specialty-specific clinical template data are absent. This is a textbook case of repackaging an existing C-CDA export as (b)(10) compliance, with documentation so thin (zero fields documented across 4 pages) that it's impossible to independently verify what data is actually included.

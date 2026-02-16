@@ -14,59 +14,135 @@ function toGrade(score: number, min: number, max: number): string {
   return BIN_GRADES[toBin(score, min, max)];
 }
 
-export function Histogram({
+const FIDELITY_OPTIONS: [string, string][] = [
+  ["", "All"],
+  ["native", "Native"],
+  ["summary_with_supplements", "Summary +"],
+  ["summary_only", "Summary only"],
+];
+
+const COMMS_OPTIONS: [string, string][] = [
+  ["", "All"],
+  ["included", "Included"],
+  ["partial", "Partial"],
+  ["excluded", "Excluded"],
+  ["not_applicable", "N/A"],
+  ["unclear", "Unclear"],
+];
+
+export function FacetSidebar({
   vendors,
-  selectedScore,
-  onSelect,
+  scoreRange,
+  gradeFilter,
+  fidelityFilter,
+  commsFilter,
+  onToggleGrade,
+  onToggleFidelity,
+  onToggleComms,
+  onClearGrade,
+  onClearFidelity,
+  onClearComms,
+  onClearAll,
 }: {
   vendors: Vendor[];
-  selectedScore: number | null;
-  onSelect: (score: number) => void;
+  scoreRange: [number, number];
+  gradeFilter: Set<number>;
+  fidelityFilter: Set<string>;
+  commsFilter: Set<string>;
+  onToggleGrade: (g: number) => void;
+  onToggleFidelity: (f: string) => void;
+  onToggleComms: (c: string) => void;
+  onClearGrade: () => void;
+  onClearFidelity: () => void;
+  onClearComms: () => void;
+  onClearAll: () => void;
 }) {
-  const scores = vendors.map((v) => v.holistic_score);
-  const min = Math.min(...scores, 0);
-  const max = Math.max(...scores, 1);
+  const anyFilter = gradeFilter.size > 0 || fidelityFilter.size > 0 || commsFilter.size > 0;
+  const [min, max] = scoreRange;
 
-  const buckets = new Array(NUM_BINS + 1).fill(0);
-  for (const v of vendors) buckets[toBin(v.holistic_score, min, max)]++;
-  const maxCount = Math.max(...buckets, 1);
+  // Cross-filtered counts: each facet counts vendors matching the OTHER filters
+  // so you can see how many results each option would contribute
+  const gradeCountsArr = new Array(NUM_BINS + 1).fill(0);
+  const fidelityCounts: Record<string, number> = {};
+  const commsCounts: Record<string, number> = {};
 
-  const sorted = [...scores].sort((a, b) => a - b);
-  const medianScore =
-    sorted.length > 0
-      ? sorted.length % 2 === 0
-        ? (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2
-        : sorted[Math.floor(sorted.length / 2)]
-      : 0;
-  const medianGrade = BIN_GRADES[toBin(medianScore, min, max)];
+  for (const v of vendors) {
+    const bin = toBin(v.holistic_score, min, max);
+    const fid = v.export_fidelity || "";
+    const com = v.patient_communications || "";
+    const matchGrade = gradeFilter.size === 0 || gradeFilter.has(bin);
+    const matchFid = fidelityFilter.size === 0 || fidelityFilter.has(fid);
+    const matchCom = commsFilter.size === 0 || commsFilter.has(com);
+
+    // Grade counts: apply fidelity + comms filters only
+    if (matchFid && matchCom) gradeCountsArr[bin]++;
+    // Fidelity counts: apply grade + comms filters only
+    if (matchGrade && matchCom) fidelityCounts[fid] = (fidelityCounts[fid] || 0) + 1;
+    // Comms counts: apply grade + fidelity filters only
+    if (matchGrade && matchFid) commsCounts[com] = (commsCounts[com] || 0) + 1;
+  }
+
+  const maxGrade = Math.max(...gradeCountsArr, 1);
+  const maxFidelity = Math.max(...Object.values(fidelityCounts), 1);
+  const maxComms = Math.max(...Object.values(commsCounts), 1);
 
   return (
-    <section className="histogram">
-      <div className="stats">
-        <span>{vendors.length} vendors</span>
-        <span>median {medianGrade}</span>
-      </div>
-      <div className="bars">
-        {Array.from({ length: NUM_BINS }, (_, i) => NUM_BINS - i).map((bin) => (
-          <div
-            key={bin}
-            className={`bar-col ${selectedScore === bin ? "selected" : ""}`}
-            onClick={() => onSelect(bin)}
-          >
-            <span className="bar-count">{buckets[bin] || ""}</span>
+    <aside className="facet-sidebar">
+      <button className="facet-clear-all" onClick={onClearAll} disabled={!anyFilter}>Clear filters</button>
+      <div className="facet-group">
+        <h3 onClick={gradeFilter.size > 0 ? onClearGrade : undefined} className={gradeFilter.size > 0 ? "clearable" : ""}>Grade <span className="facet-clear" style={{ visibility: gradeFilter.size > 0 ? "visible" : "hidden" }}>&times;</span></h3>
+        {Array.from({ length: NUM_BINS }, (_, i) => NUM_BINS - i).map((bin) => {
+          const count = gradeCountsArr[bin];
+          const pct = `${(count / maxGrade) * 100}%`;
+          const active = gradeFilter.has(bin);
+          return (
             <div
-              className="bar"
+              key={bin}
+              className={`facet-option ${active ? "active" : ""}`}
+              onClick={() => onToggleGrade(bin)}
               style={{
-                height: `${(buckets[bin] / maxCount) * 200}px`,
-                backgroundColor: BIN_COLORS[bin],
-                opacity: selectedScore !== null && selectedScore !== bin ? 0.3 : 1,
+                backgroundImage: `linear-gradient(to right, ${BIN_COLORS[bin]}, ${BIN_COLORS[bin]})`,
+                backgroundSize: `${pct} 100%`,
               }}
-            />
-            <span className="bar-label">{BIN_GRADES[bin]}</span>
-          </div>
-        ))}
+            >
+              <span className="grade-letter">{BIN_GRADES[bin]}</span>
+              <span className="facet-label" />
+              <span className="facet-count">{count}</span>
+            </div>
+          );
+        })}
       </div>
-    </section>
+
+      <div className="facet-group">
+        <h3 onClick={fidelityFilter.size > 0 ? onClearFidelity : undefined} className={fidelityFilter.size > 0 ? "clearable" : ""}>Export fidelity <span className="facet-clear" style={{ visibility: fidelityFilter.size > 0 ? "visible" : "hidden" }}>&times;</span></h3>
+        {FIDELITY_OPTIONS.slice(1).map(([val, label]) => {
+          const count = fidelityCounts[val] || 0;
+          const active = fidelityFilter.has(val);
+          const pct = `${(count / maxFidelity) * 100}%`;
+          return (
+            <div key={val} className={`facet-option ${active ? "active" : ""}`} onClick={() => onToggleFidelity(val)} style={{ backgroundSize: `${pct} 100%` }}>
+              <span className="facet-label">{label}</span>
+              <span className="facet-count">{count}</span>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="facet-group">
+        <h3 onClick={commsFilter.size > 0 ? onClearComms : undefined} className={commsFilter.size > 0 ? "clearable" : ""}>Patient messaging <span className="facet-clear" style={{ visibility: commsFilter.size > 0 ? "visible" : "hidden" }}>&times;</span></h3>
+        {COMMS_OPTIONS.slice(1).map(([val, label]) => {
+          const count = commsCounts[val] || 0;
+          const active = commsFilter.has(val);
+          const pct = `${(count / maxComms) * 100}%`;
+          return (
+            <div key={val} className={`facet-option ${active ? "active" : ""}`} onClick={() => onToggleComms(val)} style={{ backgroundSize: `${pct} 100%` }}>
+              <span className="facet-label">{label}</span>
+              <span className="facet-count">{count}</span>
+            </div>
+          );
+        })}
+      </div>
+    </aside>
   );
 }
 

@@ -1,172 +1,193 @@
 # EHI Export Analysis: Health Systems Technology, Inc.
 
 **Product**: MedPointe v13
-**Analysis date**: 2026-02-15
-**CHPL IDs**: 15.04.04.1597.MedP.13.01.1.230216 (CHPL #11238)
+**Analysis date**: 2026-02-16
+**CHPL IDs**: 11238 (15.04.04.1597.MedP.13.01.1.230216)
 
 ## 1. Product Context
 
-MedPointe is a cloud-based, all-in-one ambulatory EHR and practice management suite developed by Health Systems Technology, Inc. (HST), a small Rochester, NY company that has been in the medical software business since 1989. The product targets small to mid-sized practices in family medicine, internal medicine, pediatrics, urgent care, and sleep medicine.
+MedPointe is a cloud-based, all-in-one ambulatory EHR and practice management suite developed by Health Systems Technology, Inc. (HST), a small vendor based in Rochester, NY. The product targets small to mid-sized ambulatory practices in family medicine, internal medicine, pediatrics, urgent care, and sleep medicine.
 
-MedPointe is a **comprehensive platform** that integrates:
-- **Clinical/EHR**: Full clinical documentation with an "Intelligent Text Generation" engine, problem lists, medication lists, allergy lists with drug interaction checking, e-prescribing, bidirectional lab integration, imaging ordering, referral management, immunization records, preventive care tracking, document management, and picture archiving.
-- **Practice Management**: Patient scheduling with automated reminders, demographics management, insurance eligibility verification, custom reporting, and analytics.
-- **Billing/RCM**: Fully integrated medical billing, claims submission and tracking, integrated clearinghouse, ERA/EOB posting, denial management, and payment collection.
-- **Patient Portal**: Messaging, scheduling, intake forms, lab result notifications, and records access.
-- **Telemedicine**: Virtual visits via ZoomVisit integration.
+MedPointe is a comprehensive system integrating:
 
-The product holds 37 ONC-certified criteria including (b)(10) for EHI export and (g)(10) for FHIR API. Given this breadth, the EHI export should cover clinical records, billing/claims data, medications, labs, demographics, insurance, and patient communications — essentially all data used to make decisions about patients.
+- **Clinical/EHR**: Full clinical documentation with an "Intelligent Text Generation" engine, problem lists, medication lists, allergy lists, drug interaction checking, e-prescribing, lab ordering/results (bidirectional), imaging ordering, referral management, immunization records, preventive care tracking, document management, and picture archiving.
+- **Practice Management**: Patient scheduling with automated reminders, demographics management, real-time insurance eligibility verification, analytics and reporting.
+- **Billing/RCM**: Integrated medical billing and revenue cycle management — claims generation/submission, ERA/EOB processing, payment posting, denial management, and an integrated clearinghouse.
+- **Patient Engagement**: Patient portal with scheduling, messaging, records access, online intake forms, and multi-channel notifications (text, email, voice).
+- **Telemedicine**: Built-in virtual visits via ZoomVisit integration.
+- **Health Information Exchange**: Direct messaging, C-CDA transitions of care.
+- **Public Health Reporting**: Immunization registry and cancer case reporting.
+
+The product holds 37 certified criteria including (b)(10) for EHI export, certified 2023-02-16. This is a full-featured ambulatory EHR storing clinical records, billing/RCM data, scheduling, patient portal communications, scanned documents, lab results, prescriptions, and more. A genuine (b)(10) export should cover all of these domains.
 
 ## 2. Artifacts Reviewed
 
-| Artifact | Description | Informativeness |
-|----------|-------------|-----------------|
-| `Providers - Exporting Computer Readable Documents.pdf` (475 KB, 2 pages) | The **sole EHI export documentation**. Step-by-step UI instructions for exporting clinical documents using a proprietary "C62" format. Created 2023-11-16 by Tim Schmidt. Contains no data dictionary, no schema, no format specification. | **Primary artifact** — but extremely thin |
-| `help-documents-page.png` (564 KB) | Screenshot of the registered EHI documentation URL (hstspot.com/help-documents.php). Shows 3 categories: Exporting Documents (1 PDF), Tutorials (12 MP4 videos), e-Prescribing (7 PDFs). | Confirms the PDF is the only export-related document |
+| # | Artifact | Description | Informativeness |
+|---|----------|-------------|-----------------|
+| 1 | `Providers - Exporting Computer Readable Documents.pdf` (474,907 bytes, 2 pages) | The sole EHI export documentation. Describes how to export clinical documents in a proprietary "C62" format. Contains two screenshots: a right-click context menu showing 9 export options, and an Export Chart dialog with document type checkboxes and output options. Author: Tim Schmidt. Created: 2023-11-16. | **Primary artifact** — but extremely thin. No data dictionary, no schema, no format spec. |
+| 2 | `help-documents-page.png` (563,801 bytes) | Screenshot of `hstspot.com/help-documents.php`, the registered EHI documentation URL. Shows three categories of help documents: Exporting Documents (1 PDF), Tutorials (12 MP4 videos), and e-Prescribing (7 PDFs). Page built with Webflow, last published 2020-03-27. | **Contextual** — confirms only one export document exists on the vendor's help site. |
 
-**Verification performed:**
-- Confirmed the help documents page is still live (HTTP 200, verified 2026-02-15)
-- Confirmed via Apache directory listing at `downloads.hstcentral.com/helpdocs/Exporting Documents/` that only one file exists in the export directory
-- Extracted PDF text with `pdftotext -layout` and verified 2 pages, author Tim Schmidt, created 2023-11-16
-- Verified PDF metadata title: "Microsoft Word - Exporting Documents via C62"
-- The page HTML source shows the content is dynamically generated from PHP but the document list is static — no hidden documents
+**Verification of help page**: I fetched the live page at `https://hstspot.com/help-documents.php` and confirmed it is still accessible (HTTP 200), still structured identically to the screenshot, and still links to the same single PDF under "Exporting Documents." No additional export documentation has been added since the original collection.
 
-**No additional artifacts found:** No data dictionary, no schema document, no sample export files, no format specification for C62, and no API documentation were available at any of the vendor's three domains (hstspot.com, hstcentral.com, medpointemr.com).
+**Verification of PDF**: I extracted text with `pdftotext` and rendered both pages with `pdftoppm`. The text extraction matches the prior report's description. The rendered pages revealed important additional detail in the screenshots that text extraction missed — specifically, a right-click context menu showing 9 export-related options (see Section 3).
 
 ## 3. Export Mechanics
 
-- **Format**: Proprietary "C62" file format. No specification, schema, or description of what C62 files contain or how they are structured. The format name appears nowhere outside this vendor's documentation. It is not a recognized healthcare standard.
-- **Mechanism**: UI-based (right-click menu in MedPointe's Clinical window). Three methods:
-  1. **Single Document**: Right-click a document in the patient's Table of Contents → "Export via C62"
-  2. **Chart Export**: From patient's Overview Page → right-click → "Export Chart" → select date range and document types → "Export to C62 file"
-  3. **Batch Export**: Main Menu → Tools → Clinical → Export → select patient criteria (last name range, DOB, classification, provider), document types, and date range
-- **Single-patient vs bulk**: Supports both (single chart export and batch multi-patient export)
-- **Access constraints**: Appears to require provider-level access to the MedPointe Clinical window. No mention of patient-initiated export.
-- **Fees**: Not mentioned in documentation.
+**Format**: Proprietary "C62" file format. No public documentation, schema, or specification exists for this format. Web searches for "C62 file format" in healthcare contexts return zero results. The format appears entirely vendor-proprietary.
 
-The export dialog offers checkboxes for document types: **Cover Sheet, Notes, Text Documents, Scanned/Faxed Documents, Include Restricted Documents**. These are document categories, not data domains — the export appears to be a document-level export, not a structured data export.
+**Mechanism**: UI-based export from within MedPointe's clinical window, via three methods:
+
+1. **Single Document**: Right-click a document in the patient's TOC → "Export via C62"
+2. **Chart Export (multiple documents)**: From patient Overview Page → right-click → Export → Export Chart. Opens a dialog with:
+   - Date range selection (From/thru fields)
+   - Document type checkboxes: Cover Sheet, Notes, Text Documents, Scanned/Faxed Documents, Include Restricted Documents
+   - Output options: Print, Export to Folder, **Export to C62 file**
+   - Select Recipient and Queue/Fax Record buttons
+3. **Batch Export**: Main Menu → Tools → Clinical → Export. Allows filtering by last name range, date of birth, patient classification, provider, etc.
+
+**Single-patient vs bulk**: Both supported. Single-patient via chart export, multi-patient via batch export.
+
+**Additional export options visible but undocumented**: The PDF's page 1 screenshot shows a right-click Export submenu with 9 options:
+- Patient Portal: Update Chart
+- Patient Portal: Password Reset
+- Export Continuity of Care
+- **Export Chart** (the one documented in the PDF)
+- Export Continuity of Care - Referral
+- Export Continuity of Care - Batch
+- Export Immunization Data
+- Export Syndromic Data
+- Export Medical Records
+
+Only "Export Chart" (the C62 export) is documented. The other 8 options — including "Export Medical Records" and "Export Continuity of Care" — are undocumented. It is unknown whether "Export Medical Records" produces a different, more comprehensive export than "Export Chart."
+
+**Access constraints/fees**: Not documented. The export appears to be a standard UI function accessible to providers.
 
 ## 4. Export Content: What's In It
 
-### What the documentation tells us
+### No data dictionary exists
 
-The 2-page PDF describes **how to click the export button** but not **what comes out**. The entirety of the content specification is the list of document type checkboxes in the export dialog:
+There is **no data dictionary, no schema, no field definitions, no sample data, and no format specification** for the C62 export or any other export format. The entire EHI export documentation is 2 pages of step-by-step UI instructions for clicking through menus.
 
-- Cover Sheet
-- Notes
-- Text Documents
-- Scanned/Faxed Documents
-- Include Restricted Documents
+### What is known about export content
 
-There is:
-- **No data dictionary** — zero tables, zero fields documented
-- **No schema** — no description of C62 file structure
-- **No field definitions** — no data types, no value sets, no constraints
-- **No sample data** — no example files or records
-- **No format specification** — C62 is named but never defined
-- **No relationship documentation** — no description of how records relate
-- **No mention of structured clinical data** (problems, meds, allergies, labs, vitals) as discrete fields
-- **No mention of billing, claims, insurance, or financial data**
+The only evidence of export content comes from the Export Chart dialog screenshot, which shows 5 document type checkboxes:
+
+| Document Type | Description |
+|---|---|
+| Cover Sheet | Presumably a patient demographics/summary cover page |
+| Notes | Clinical encounter notes |
+| Text Documents | Other text-based documents in the chart |
+| Scanned/Faxed Documents | Scanned paper documents and faxes |
+| Include Restricted Documents | Option to include restricted/sensitive documents |
+
+These are **document categories**, not structured data entities. The export appears to be a document-level export — it exports clinical documents as files in a proprietary format, not the underlying structured data (coded diagnoses, discrete lab values, medication records, billing data, etc.) that lives in the EHR's database.
+
+### What is NOT documented
+
+- No structured clinical data: problems, medications, allergies, immunizations, vitals, lab results
+- No billing or financial data: claims, charges, payments, ERA/EOB
+- No administrative data: insurance/coverage, demographics fields
+- No patient portal data: messages, intake forms
+- No relationships between records
+- No field names, types, value sets, or constraints
+- No explanation of what the C62 format contains or how to parse it
 
 ### Vendor's own content organization
 
-The vendor does not organize export content into categories beyond the 5 document type checkboxes. There is no entity/table listing to present.
+The vendor provides no data dictionary or entity-level organization. The only categorization is the 5 document type checkboxes in the export dialog. There are no entities, no tables, no fields to inventory.
 
-| Document Type Checkbox | Fields Documented | Description Provided | Category |
-|---|---|---|---|
-| Cover Sheet | 0 | No | Clinical documents |
-| Notes | 0 | No | Clinical documents |
-| Text Documents | 0 | No | Clinical documents |
-| Scanned/Faxed Documents | 0 | No | Clinical documents |
-| Include Restricted Documents | 0 | No | Clinical documents |
+| Category (vendor's) | Entities | Fields | Described | Types |
+|---|---|---|---|---|
+| (none) | 0 | 0 | 0 | N/A |
 
-**Total entities/tables documented: 0**
-**Total fields documented: 0**
+**Total**: 0 entities, 0 fields documented.
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-The vendor's export documentation covers exactly one thing: exporting clinical documents (notes, cover sheets, text documents, scanned/faxed documents) in a proprietary C62 format. The documentation operates entirely at the document level — it treats the patient chart as a collection of documents to be exported as files, with no indication that the underlying structured data (coded diagnoses, discrete lab values, medication records, etc.) is included in a computable form.
+The vendor's export documentation covers only **document-level clinical export** — the ability to export clinical documents (notes, cover sheets, text documents, scanned items) in a proprietary format. There is no evidence that structured data, billing data, or any data beyond clinical documents is included.
 
-Even within the clinical domain, the coverage is unclear. The document type checkboxes suggest document-oriented output, but without a C62 format specification, it is impossible to determine:
-- Whether structured data fields (coded diagnoses, lab values, medication dosages) are preserved
-- Whether only rendered document images are exported
-- Whether relationships between records are maintained
+The documentation does not describe categories, modules, or data domains. It describes a single workflow: select documents, pick a format (C62), click export. The "depth" of coverage cannot be assessed because the C62 format is undocumented — we don't know what fields or data elements are inside the exported files.
 
-The vendor provides **zero information** about billing, insurance, scheduling, or any administrative data in the export.
+The Export submenu screenshot shows 8 additional export options (Export Medical Records, Export Continuity of Care, Export Immunization Data, Export Syndromic Data, etc.) but none are documented. It's possible these provide broader coverage, but there is no way to verify from the available documentation.
 
 ### 5b. Standardized domain coverage (top-down)
 
 | Domain | Coverage | Export Evidence | Gap Analysis |
 |---|---|---|---|
-| Demographics | ❌ Not covered | Not mentioned in export docs | Product stores demographics (required for all patient records); significant gap |
-| Encounters / visits | ⚠️ Unclear | "Notes" checkbox may include encounter docs, but no structured encounter data documented | Product stores visit records; gap in structured data |
-| Problems / conditions / diagnoses | ❌ Not covered | Not mentioned; may be embedded in notes but no discrete data export documented | Product is (a)(1)–(a)(5) certified; significant gap |
-| Medications / prescriptions | ❌ Not covered | Not mentioned despite product having e-prescribing (7 help docs dedicated to it) | Product stores full Rx history; significant gap |
-| Allergies | ❌ Not covered | Not mentioned | Product stores allergy lists with drug interaction data; significant gap |
-| Immunizations | ❌ Not covered | Not mentioned despite (f)(1) immunization registry certification | Product stores immunization records; significant gap |
-| Vitals | ❌ Not covered | Not mentioned | Product stores vital signs; gap |
-| Lab results | ❌ Not covered | Not mentioned despite bidirectional lab integration | Product stores lab orders and results; significant gap |
-| Imaging / diagnostic reports | ❌ Not covered | Not mentioned despite imaging ordering capability | Product stores imaging orders; gap |
-| Procedures | ❌ Not covered | Not mentioned | Likely stored given billing integration; gap |
-| Clinical notes / documents | ⚠️ Partial | "Notes," "Text Documents," "Cover Sheet" checkboxes exist, but format/content unknown | Best-covered domain, but still no field-level documentation |
-| Care plans / goals | ❌ Not covered | Not mentioned despite (a)(12) certification | Product stores care plans; gap |
-| Orders / referrals | ❌ Not covered | Not mentioned despite referral management feature | Product stores referral records; gap |
-| Insurance / coverage | ❌ Not covered | Not mentioned | Product stores insurance/eligibility data; significant gap |
-| Claims / billing | ❌ Not covered | Not mentioned | Product has full RCM with claims, ERA/EOB, denials; **major gap** |
-| Payments | ❌ Not covered | Not mentioned | Product stores payment records; significant gap |
-| Consents / directives | ❌ Not covered | Not mentioned | May be stored as scanned documents; gap |
-| Patient communications / portal messages | ❌ Not covered | Not mentioned | Product has patient portal with messaging; gap |
-| Specialty-specific (sleep medicine) | ❌ Not covered | Not mentioned | Product targets sleep medicine practices; gap if specialty data stored |
+| Demographics | ❌ Not covered | No demographics entity/fields in export docs; "Cover Sheet" checkbox may contain some demographic info but this is undocumented | Product stores demographics (Section 1); significant gap |
+| Encounters / visits | ⚠️ Partial | "Notes" checkbox suggests encounter notes are exported as documents, but no structured encounter data | Product stores encounter data; gap in structured data |
+| Problems / conditions / diagnoses | ❌ Not covered | No structured problem list data documented | Product is certified for (a)(1) problem lists; significant gap |
+| Medications / prescriptions | ❌ Not covered | No medication data in export docs; e-prescribing is a major feature | Product has full e-prescribing; significant gap |
+| Allergies | ❌ Not covered | No allergy data documented | Product stores allergies; gap |
+| Immunizations | ❌ Not covered | "Export Immunization Data" visible in menu but undocumented in EHI export | Product is certified for (f)(1) immunization reporting; gap |
+| Vitals | ❌ Not covered | No vitals data documented | Product stores vitals; gap |
+| Lab results | ❌ Not covered | No lab data documented | Product has bidirectional lab integration; significant gap |
+| Imaging / diagnostic reports | ❌ Not covered | No imaging data documented | Product has imaging ordering; gap |
+| Procedures | ❌ Not covered | No procedure data documented | Gap |
+| Clinical notes / documents | ⚠️ Partial | "Notes", "Text Documents", "Scanned/Faxed Documents" checkboxes — but in undocumented proprietary format (C62) | Likely covers document content, but format is opaque |
+| Care plans / goals | ❌ Not covered | No care plan data; "Treatment Goals" visible in menu but not in export | Product is certified for (a)(12) care plans; gap |
+| Orders / referrals | ❌ Not covered | No order/referral data in export | Product manages referrals; gap |
+| Insurance / coverage | ❌ Not covered | No insurance data documented | Product does real-time eligibility verification; significant gap |
+| Claims / billing | ❌ Not covered | No billing data of any kind | Product has full RCM/billing; **major gap** |
+| Payments | ❌ Not covered | No payment data documented | Product posts payments; significant gap |
+| Consents / directives | ❌ Not covered | No consent data documented | Gap if product stores these |
+| Patient communications / portal messages | ❌ Not covered | No portal messages documented | Product has patient portal with messaging; gap |
+| Specialty-specific (sleep medicine) | ❌ Not covered | No specialty data documented | Product targets sleep medicine practices; potential gap |
 
-**Summary**: Of 19 applicable domains, **0 are clearly covered**, **2 are partially/unclear** (encounters and clinical notes may be partially addressed by document export), and **17 are not covered at all**. The export documentation addresses only document-level clinical output and provides no evidence of structured data, billing, or administrative data export.
+**Summary**: Of 19 standard EHI domains assessed, **0 are fully covered**, **2 are partially covered** (encounters as document exports, clinical notes as document exports), and **17 are not covered** at all in the documentation. The two "partial" ratings are generous — the exported documents are in an undocumented proprietary format (C62), making even the covered domains effectively inaccessible without vendor tooling.
 
 ## 6. Documentation Quality
 
-The documentation quality is among the poorest possible for a (b)(10) certified product:
+The export documentation quality is **extremely poor** — among the worst possible while still technically existing:
 
-- **Usability for developers**: A developer could not build an import from this documentation. The C62 format is entirely undescribed — there is no schema, no field list, no data types, no sample output, and no format specification. A third party receiving a C62 export would have no way to interpret the data without MedPointe-specific tools.
-- **Usability for patients**: A patient receiving this export could not meaningfully access their data. The proprietary format requires MedPointe software to read.
-- **Machine-readable artifacts**: None. No JSON schema, no XSD, no CSV headers, no sample files.
-- **Prose documentation**: 2 pages of step-by-step screenshots. The content could fit on a single page — it explains which menus to click, not what data is exported.
-- **What's well-documented**: The UI workflow for initiating an export (3 methods: single document, chart, batch).
-- **What requires guesswork**: Everything else — what data is exported, in what format, with what structure, covering which domains.
+- **2 pages total**: Entirely UI walkthrough instructions. No technical content.
+- **No data dictionary**: Zero entities, zero fields defined. Not even a table-of-contents-level list of what data the export contains.
+- **No format specification**: The C62 format is named but never described. A developer receiving a C62 file would have no way to parse it. There is no schema, no structure description, no encoding documentation.
+- **No sample data**: No example output files, no sample records, no illustrative content.
+- **No machine-readable artifacts**: No JSON schema, no XSD, no CSV template, no FHIR StructureDefinition. Nothing machine-readable.
+- **No value sets or code systems**: No documentation of coded values used in the export.
+- **No relationship documentation**: No description of how records relate to each other.
 
-The documentation was created on 2023-11-16, approximately 9 months after the certification date (2023-02-16). The PDF metadata title ("Microsoft Word - Exporting Documents via C62") suggests it was written in Word and printed to PDF. The Webflow-based help page (©2019) predates the documentation.
+**Could a developer build an import from this documentation?** No. A developer would know how to click through the UI to produce a C62 file, but would have no ability to parse, interpret, or import the resulting data. The documentation is a user guide for exporting, not a technical specification for the export format.
+
+**What's well-documented**: The three export methods (single document, chart, batch) and the UI steps to perform them are clearly explained with screenshots.
+
+**What requires guesswork**: Everything else — what data is in the export, how it's structured, what format C62 is, how to read the output, and which data domains are covered.
 
 ## 7. Overall Assessment
 
 ### Classification
 
-**Minimal/stub**: The documentation is too thin to assess what is actually exported. The 2-page PDF describes a UI workflow for exporting documents in an undocumented proprietary format (C62), with no data dictionary, no schema, no sample data, and no specification of what data domains are covered. There is zero field-level documentation.
+**Minimal/stub**: The documentation is too thin to assess what the export actually covers. The export may produce files, but the proprietary C62 format is completely undocumented, there is no data dictionary, and the documentation consists solely of 2 pages of UI screenshots. The export dialog suggests only clinical document types (notes, cover sheets, scanned documents) — not structured clinical data or billing data. This is a compliance checkbox, not a genuine effort at data portability.
 
 ### Key Findings
 
-1. **The entire EHI export documentation is a single 2-page PDF** that explains how to click the export button but provides zero information about what data comes out. There are no tables, no fields, no schema, and no format specification. (Source: `Providers - Exporting Computer Readable Documents.pdf`, 2 pages, 475 KB)
+1. **The entire EHI export documentation is a single 2-page PDF** describing how to click through menus to export clinical documents in a proprietary, undocumented "C62" format. There is no data dictionary, no schema, no format specification, no sample data (`Providers - Exporting Computer Readable Documents.pdf`, 474,907 bytes).
 
-2. **The export uses a proprietary, undocumented "C62" format** that has no public specification, no schema, and no documentation anywhere. A recipient of a C62 export cannot interpret the data without MedPointe software. This fails the basic interoperability premise of (b)(10). (Source: PDF text extraction; web search for "C62 file format" yields no results)
+2. **The C62 format is completely undocumented and proprietary.** No public specification, schema, or description exists. A recipient of a C62 file would have no way to interpret or import the data without MedPointe-specific tooling. This fundamentally undermines the purpose of EHI export.
 
-3. **The export appears to cover only clinical documents** (notes, cover sheets, scanned documents), not structured clinical data or any non-clinical data. The export dialog checkboxes — Cover Sheet, Notes, Text Documents, Scanned/Faxed Documents — describe document types, not data domains. There is no mention of demographics, medications, labs, allergies, vitals, billing, claims, insurance, or any structured data. (Source: PDF document type checkboxes)
+3. **The export appears limited to clinical documents only.** The Export Chart dialog shows only document-type categories (Cover Sheet, Notes, Text Documents, Scanned/Faxed Documents). There is no indication that structured clinical data (problems, meds, labs, vitals), billing/RCM data, or administrative data is included — despite MedPointe being a full-featured ambulatory EHR with integrated billing.
 
-4. **MedPointe is a comprehensive EHR+PM+billing platform**, making the gap between product capabilities and export documentation especially stark. The product stores clinical records, billing/RCM data, claims, insurance, patient portal messages, prescriptions, lab results, immunizations, and more — yet the export documentation addresses none of these domains. (Source: product-research.md; CHPL metadata showing 37 certified criteria)
+4. **The PDF screenshots reveal 8 additional undocumented export options** in the Export submenu (including "Export Medical Records," "Export Continuity of Care," and "Export Immunization Data"). These could potentially provide broader coverage, but none are documented in the EHI export materials.
 
-5. **No additional documentation exists.** Verified that the help documents page (still live, HTTP 200) lists only this one PDF under "Exporting Documents." The Apache directory listing at the download server confirms only one file. No data dictionary, API documentation, or format specification was found on any of the vendor's three domains. (Source: live verification of hstspot.com, directory listing at downloads.hstcentral.com)
+5. **Zero entities and zero fields are documented.** This makes MedPointe's EHI export documentation among the thinnest in the certified EHR ecosystem. There is literally nothing for a developer or patient to work with beyond the ability to produce an opaque proprietary file.
 
 ### Summary Stats
 
 ```
 Classification:  Minimal/stub
-Export format:   Proprietary "C62" (undocumented)
-Model type:      Unknown (no format specification available)
+Export format:   C62 (proprietary, undocumented)
+Model type:      Unknown — proprietary format, no documentation
 Entities:        0 (no data dictionary)
-Fields:          0 (no fields documented)
+Fields:          0 (no data dictionary)
 Descriptions:    N/A
 Sample data:     No
-Bulk export:     Yes (batch export by patient criteria)
-Domains covered: 0–1 of 19 applicable domains (clinical notes partially, nothing else)
+Bulk export:     Yes (batch export supported via UI)
+Domains covered: 0 of 17 applicable domains (2 partial at best)
 ```
 
 ### Bottom Line
 
-MedPointe's EHI export documentation is a 2-page instruction sheet for exporting clinical documents in an undocumented proprietary format, with no data dictionary, no schema, and no coverage of structured clinical data, billing, or administrative records. For a product that is a comprehensive EHR, practice management, and billing platform with 37 ONC-certified criteria, this represents one of the most minimal possible compliance efforts. A patient or provider receiving this export would get files in a format only MedPointe can read, covering only a fraction of the data the system stores.
+A patient or provider receiving a MedPointe EHI export would get an opaque file in a proprietary "C62" format with no documentation on how to read, parse, or interpret it. The export appears to cover only clinical documents (notes, cover sheets, scanned items), omitting structured clinical data, billing/RCM data, and all other domains that MedPointe stores. This is a compliance checkbox rather than a meaningful data export — the single biggest gap is the complete absence of any format documentation, which renders even the exported data effectively unusable without vendor assistance.

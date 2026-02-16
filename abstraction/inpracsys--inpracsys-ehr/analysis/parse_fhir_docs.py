@@ -1,127 +1,161 @@
-"""Parse the InPracSys FHIR API documentation HTML to extract resource types, fields, and structure."""
+"""
+Parse the InPracSys FHIR API documentation HTML page (Elementor-based).
+The page has h2 headings for resource types, h3 for sub-sections, and tables
+for request parameters and response field definitions. Tables with a 
+"Cardinality" header are response field definitions; those with "Required?"
+are request parameter tables. We extract both.
+Outputs full-entity-inventory.json and parse-summary.json.
+"""
 
-from html.parser import HTMLParser
 import json
 import re
+from bs4 import BeautifulSoup
 
-class FHIRDocParser(HTMLParser):
-    def __init__(self):
-        super().__init__()
-        self.sections = []
-        self.current_section = None
-        self.in_table = False
-        self.in_row = False
-        self.in_cell = False
-        self.current_row = []
-        self.current_cell_text = ""
-        self.tables = []
-        self.current_table = []
-        self.in_h2 = False
-        self.in_h3 = False
-        self.in_h4 = False
-        self.current_heading = ""
-        self.headings = []
-        self.tag_stack = []
+HTML_FILE = '/home/jmandel/hobby/ehi-export-analysis/results/inpracsys--inpracsys-ehr/downloads/fhir-api-documentation-page.html'
+OUTPUT_FILE = 'full-entity-inventory.json'
+SUMMARY_FILE = 'parse-summary.json'
 
-    def handle_starttag(self, tag, attrs):
-        self.tag_stack.append(tag)
-        if tag in ('h1', 'h2', 'h3', 'h4'):
-            setattr(self, f'in_{tag}' if tag != 'h1' else 'in_h2', True)
-            self.current_heading = ""
-        if tag == 'table':
-            self.in_table = True
-            self.current_table = []
-        if tag == 'tr':
-            self.in_row = True
-            self.current_row = []
-        if tag in ('td', 'th'):
-            self.in_cell = True
-            self.current_cell_text = ""
+with open(HTML_FILE, 'r', encoding='utf-8', errors='replace') as f:
+    soup = BeautifulSoup(f.read(), 'lxml')
 
-    def handle_endtag(self, tag):
-        if self.tag_stack and self.tag_stack[-1] == tag:
-            self.tag_stack.pop()
-        if tag in ('h1', 'h2', 'h3', 'h4'):
-            self.headings.append({"level": tag, "text": self.current_heading.strip()})
-            setattr(self, f'in_{tag}' if tag != 'h1' else 'in_h2', False)
-        if tag in ('td', 'th'):
-            self.in_cell = False
-            self.current_row.append(self.current_cell_text.strip())
-        if tag == 'tr':
-            self.in_row = False
-            if self.current_row:
-                self.current_table.append(self.current_row)
-        if tag == 'table':
-            self.in_table = False
-            if self.current_table:
-                self.tables.append(self.current_table)
+# Map from h2 heading text -> resource name for grouping
+h2_to_resource = {}
+for h2 in soup.find_all('h2'):
+    title = h2.get_text(strip=True)
+    if title != 'Overview':
+        h2_to_resource[title] = {
+            'name': title,
+            'h3_description': None,
+            'request_params': [],
+            'response_fields': [],
+            'endpoint': None,
+            'sample_json': None,
+        }
 
-    def handle_data(self, data):
-        if self.in_cell:
-            self.current_cell_text += data
-        if any(getattr(self, f'in_{h}', False) for h in ('h2', 'h3', 'h4')):
-            self.current_heading += data
+# For each table, find its closest h2 and h3 ancestors/predecessors
+tables = soup.find_all('table')
 
+for table in tables:
+    rows = table.find_all('tr')
+    if len(rows) < 2:
+        continue
 
-with open("/home/jmandel/hobby/ehi-export-analysis/results/inpracsys--inpracsys-ehr/downloads/fhir-api-documentation-page.html") as f:
-    html = f.read()
+    # Get headers
+    header_cells = rows[0].find_all(['th', 'td'])
+    headers = [c.get_text(strip=True) for c in header_cells]
+    headers_lower = [h.lower() for h in headers]
 
-parser = FHIRDocParser()
-parser.feed(html)
+    # Find closest preceding h2
+    closest_h2 = None
+    for prev_h2 in table.find_all_previous('h2'):
+        closest_h2 = prev_h2.get_text(strip=True)
+        break
 
-print("=== HEADINGS ===")
-for h in parser.headings:
-    print(f"  {h['level']}: {h['text'][:120]}")
+    if not closest_h2 or closest_h2 not in h2_to_resource:
+        continue
 
-print(f"\n=== TABLES: {len(parser.tables)} total ===")
+    resource = h2_to_resource[closest_h2]
 
-# Analyze tables for field definitions
-resource_tables = []
-for i, table in enumerate(parser.tables):
-    if len(table) > 1:
-        header = table[0]
-        # Look for field definition tables (usually have columns like Element, Card., Type, Description)
-        header_lower = [h.lower() for h in header]
-        is_field_table = any(k in ' '.join(header_lower) for k in ['element', 'card', 'type', 'description', 'field'])
-        if is_field_table or len(header) >= 3:
-            print(f"\nTable {i}: {len(table)-1} data rows, header: {header[:6]}")
-            # Count fields
-            resource_tables.append({
-                "table_index": i,
-                "header": header,
-                "row_count": len(table) - 1,
-                "sample_rows": table[1:3]
-            })
+    # Find closest preceding h3 for context
+    closest_h3 = None
+    for prev_h3 in table.find_all_previous('h3'):
+        closest_h3 = prev_h3.get_text(strip=True)
+        break
 
-# Parse more carefully: find sections that correspond to FHIR resources
-print("\n=== RESOURCE ANALYSIS ===")
+    if not resource['h3_description']:
+        resource['h3_description'] = closest_h3
 
-# Look for patterns like endpoint URLs in the HTML
-import re
-endpoints = re.findall(r'(?:GET|POST)\s+(/\w+(?:/\w+)*)', html)
-unique_endpoints = sorted(set(endpoints))
-print(f"\nEndpoints found: {len(unique_endpoints)}")
-for ep in unique_endpoints:
-    print(f"  {ep}")
+    # Determine table type
+    is_response = 'cardinality' in headers_lower
+    is_request = 'required?' in headers_lower or 'required' in headers_lower
 
-# Find all resource type references
-resource_types = re.findall(r'"resourceType"\s*:\s*"(\w+)"', html)
-unique_resources = sorted(set(resource_types))
-print(f"\nFHIR resource types in samples: {len(unique_resources)}")
-for rt in unique_resources:
-    print(f"  {rt}")
+    # Parse rows
+    for row in rows[1:]:
+        cells = row.find_all(['td', 'th'])
+        if len(cells) < 2:
+            continue
+        entry = {}
+        for i, cell in enumerate(cells):
+            if i < len(headers):
+                entry[headers[i]] = cell.get_text(strip=True)
+            else:
+                entry[f'col_{i}'] = cell.get_text(strip=True)
+        
+        if is_response:
+            resource['response_fields'].append(entry)
+        elif is_request:
+            resource['request_params'].append(entry)
 
-# Save full analysis
-output = {
-    "heading_count": len(parser.headings),
-    "table_count": len(parser.tables),
-    "headings": parser.headings,
-    "resource_tables": resource_tables,
-    "endpoints": unique_endpoints,
-    "resource_types_in_samples": unique_resources
+# Now extract endpoints and sample JSON from the full page text
+# Look for endpoint URLs in text near each resource section
+all_text_blocks = soup.find_all(['p', 'div', 'span'])
+for block in all_text_blocks:
+    text = block.get_text(strip=True)
+    url_match = re.search(r'(https?://\S+fhir\S*/\w+)', text)
+    if url_match:
+        url = url_match.group(1)
+        # Find closest h2
+        for prev_h2 in block.find_all_previous('h2'):
+            h2_text = prev_h2.get_text(strip=True)
+            if h2_text in h2_to_resource and not h2_to_resource[h2_text]['endpoint']:
+                h2_to_resource[h2_text]['endpoint'] = url
+            break
+
+# Extract sample JSON from code/pre blocks
+for code_block in soup.find_all(['pre', 'code']):
+    text = code_block.get_text()
+    if '{' not in text or len(text.strip()) < 20:
+        continue
+    for prev_h2 in code_block.find_all_previous('h2'):
+        h2_text = prev_h2.get_text(strip=True)
+        if h2_text in h2_to_resource and not h2_to_resource[h2_text]['sample_json']:
+            h2_to_resource[h2_text]['sample_json'] = text.strip()[:3000]
+        break
+
+# Build output
+resources = list(h2_to_resource.values())
+
+with open(OUTPUT_FILE, 'w') as f:
+    json.dump(resources, f, indent=2)
+
+# Compute summary
+total_response_fields = sum(len(r['response_fields']) for r in resources)
+total_request_params = sum(len(r['request_params']) for r in resources)
+total_resources = len(resources)
+
+fields_with_desc = 0
+fields_with_type = 0
+for r in resources:
+    for field in r['response_fields']:
+        if field.get('Description', '').strip():
+            fields_with_desc += 1
+        if field.get('Type', '').strip():
+            fields_with_type += 1
+
+summary = {
+    'total_resources': total_resources,
+    'total_response_fields': total_response_fields,
+    'total_request_params': total_request_params,
+    'fields_with_descriptions': fields_with_desc,
+    'fields_with_types': fields_with_type,
+    'resources': []
 }
 
-with open("fhir_doc_structure.json", "w") as f:
-    json.dump(output, f, indent=2)
+for r in resources:
+    rsummary = {
+        'name': r['name'],
+        'h3_description': r['h3_description'],
+        'response_field_count': len(r['response_fields']),
+        'request_param_count': len(r['request_params']),
+        'has_endpoint': bool(r['endpoint']),
+        'has_sample_json': bool(r['sample_json']),
+        'endpoint': r['endpoint'],
+    }
+    if r['response_fields']:
+        rsummary['sample_field'] = r['response_fields'][0]
+    summary['resources'].append(rsummary)
 
-print(f"\nFull structure saved to fhir_doc_structure.json")
+with open(SUMMARY_FILE, 'w') as f:
+    json.dump(summary, f, indent=2)
+
+print(json.dumps(summary, indent=2))

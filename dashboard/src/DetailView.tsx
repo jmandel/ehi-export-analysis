@@ -1,17 +1,31 @@
 import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkBreaks from "remark-breaks";
 import type { Vendor } from "./types";
 import { toBin, toGrade, BIN_COLORS } from "./Histogram";
+import { Footer } from "./App";
+
+const FIDELITY_LABELS: Record<string, string> = {
+  native: "Native export",
+  summary_with_supplements: "Summary with supplements",
+  summary_only: "Summary only",
+};
+
+const COMMS_LABELS: Record<string, string> = {
+  not_applicable: "No messaging features",
+  included: "Messaging included",
+  partial: "Messaging partial",
+  excluded: "Messaging excluded",
+  unclear: "Messaging unclear",
+};
 
 export function DetailView({
   vendor,
   scoreRange,
-  onBack,
 }: {
   vendor: Vendor | null;
   scoreRange: [number, number];
-  onBack: () => void;
 }) {
   const [analysisContent, setAnalysisContent] = useState<string>("");
 
@@ -25,9 +39,6 @@ export function DetailView({
   if (!vendor) {
     return (
       <div className="detail">
-        <button className="back-btn" onClick={onBack}>
-          ← Back
-        </button>
         <p>Vendor not found.</p>
       </div>
     );
@@ -40,100 +51,81 @@ export function DetailView({
 
   return (
     <div className="detail">
-      <button className="back-btn" onClick={onBack}>
-        ← Back to dashboard
-      </button>
-
       <header className="detail-header">
-        <span
-          className="score-badge large"
-          style={{ backgroundColor: scoreColor }}
-        >
-          {grade}
-        </span>
         <div>
           <h1>
+            <span
+              className="score-badge large"
+              style={{ backgroundColor: scoreColor }}
+            >
+              {grade}
+            </span>
             {vendor.developer} — {vendor.family}
           </h1>
           <p className="detail-product">{vendor.product_name}</p>
           <p className="detail-summary">{vendor.summary}</p>
+          <div className="detail-pills">
+            {vendor.export_fidelity && (
+              <span className={`pill fidelity-${vendor.export_fidelity}`}>
+                {FIDELITY_LABELS[vendor.export_fidelity] ?? vendor.export_fidelity}
+              </span>
+            )}
+            {vendor.patient_communications && (
+              <span className={`pill comms-${vendor.patient_communications}`}>
+                {COMMS_LABELS[vendor.patient_communications] ?? vendor.patient_communications}
+              </span>
+            )}
+          </div>
         </div>
       </header>
 
-      <nav className="detail-links">
-        {vendor.chpl_ids.map((id) => (
-          <a
-            key={id}
-            href={`https://chpl.healthit.gov/#/listing/${id}`}
-            target="_blank"
-          >
-            🏥 CHPL #{id}
-          </a>
-        ))}
-      </nav>
-
-      <nav className="detail-links ai-links">
-        {vendor.has_research && (
-          <a
-            href={`${baseUrl}md.html?src=data/research/${vendor.slug}.md`}
-            target="_blank"
-          >
-            <span className="ai-tag">AI</span> Product Research
-          </a>
-        )}
-        {vendor.has_report && (
-          <a
-            href={`${baseUrl}md.html?src=data/reports/${vendor.slug}.md`}
-            target="_blank"
-          >
-            <span className="ai-tag">AI</span> Download/Retrieval Report
-          </a>
-        )}
-      </nav>
-
-      {vendor.download_files.length > 0 && (
-        <details className="file-list">
-          <summary>
-            📁 Downloaded artifacts ({vendor.download_files.length})
-          </summary>
-          <ul>
-            {vendor.download_files.map((f) => (
-              <li key={f}>
-                <a
-                  href={`data/downloads/${vendor.slug}/${f}`}
-                  target="_blank"
-                >
-                  {f}
-                </a>
-              </li>
+      <div className="detail-sections">
+        <div className="detail-section">
+          <h3 className="detail-section-title">Sources</h3>
+          <nav className="detail-links">
+            {vendor.ehi_documentation_url && (
+              <a href={vendor.ehi_documentation_url} target="_blank">
+                EHI Export Documentation ↗
+              </a>
+            )}
+            {vendor.chpl_ids.map((id) => (
+              <a key={id} href={`https://chpl.healthit.gov/#/listing/${id}`} target="_blank">
+                CHPL #{id}
+              </a>
             ))}
-          </ul>
-        </details>
-      )}
+            {(vendor.download_files.length > 0 || vendor.analysis_files.length > 0) && (
+              <a href={`#archive/${vendor.slug}`}>
+                File Archive
+              </a>
+            )}
+          </nav>
+        </div>
 
-      {vendor.analysis_files.length > 0 && (
-        <details className="file-list">
-          <summary>
-            🔬 Analysis scripts ({vendor.analysis_files.length})
-          </summary>
-          <ul>
-            {vendor.analysis_files.map((f) => (
-              <li key={f}>
-                <a
-                  href={`data/analysis-scripts/${vendor.slug}/${f}`}
-                  target="_blank"
-                >
-                  {f}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </details>
-      )}
+        <div className="detail-section">
+          <h3 className="detail-section-title"><span className="ai-tag">AI</span> Reports</h3>
+          <nav className="detail-links">
+            {vendor.has_research && (
+              <a href={`#doc/data/research/${vendor.slug}.md`}>Product Research</a>
+            )}
+            {vendor.has_report && (
+              <a href={`#doc/data/reports/${vendor.slug}.md`}>Download/Retrieval Report</a>
+            )}
+            {vendor.has_entity_inventory && (
+              <a href={`data/analysis-scripts/${vendor.slug}/full-entity-inventory.json`} target="_blank">
+                Full Entity Inventory
+              </a>
+            )}
+            {vendor.has_analysis_stats && (
+              <a href={`data/analysis-scripts/${vendor.slug}/analysis-stats.json`} target="_blank">
+                Analysis Stats
+              </a>
+            )}
+          </nav>
+        </div>
+      </div>
 
-      <article className="analysis-content">
-        <h2><span className="ai-tag">AI</span> Export Analysis</h2>
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+      <article className="analysis-inline">
+        <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
           {analysisContent}
         </ReactMarkdown>
       </article>

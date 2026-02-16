@@ -46,6 +46,7 @@ commands=()
 total=0
 skipped=0
 forced=0
+stale=0
 
 for analysis_dir in "$ROOT_DIR"/abstraction/*/; do
   dir_name=$(basename "$analysis_dir")
@@ -70,6 +71,12 @@ for analysis_dir in "$ROOT_DIR"/abstraction/*/; do
       if [[ "$DRY_RUN" == false ]]; then
         rm -f "$analysis_dir/summary.json"
       fi
+    elif [[ "$analysis_dir/analysis.md" -nt "$analysis_dir/summary.json" ]]; then
+      # analysis.md is newer than summary.json — re-summarize
+      stale=$((stale + 1))
+      if [[ "$DRY_RUN" == false ]]; then
+        rm -f "$analysis_dir/summary.json"
+      fi
     else
       skipped=$((skipped + 1))
       continue
@@ -83,6 +90,7 @@ queued=${#commands[@]}
 echo "=== EHI Summary Extraction Batch ===" >&2
 echo "Total analyses: $total" >&2
 echo "Skipped (done): $skipped" >&2
+[[ $stale -gt 0 ]] && echo "Stale (re-summarizing): $stale" >&2
 [[ "$FORCE" == true ]] && echo "Forced recompute: $forced" >&2
 echo "Queued: $queued" >&2
 echo "Parallelism: $JOBS" >&2

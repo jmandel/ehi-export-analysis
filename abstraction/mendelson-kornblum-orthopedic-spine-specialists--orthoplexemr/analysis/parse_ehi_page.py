@@ -1,107 +1,124 @@
-"""Parse the OrthoplexEMR EHI export HTML page and extract section/field counts."""
+"""Parse the OrthoplexEMR EHI export HTML page and extract structured data dictionary."""
 
-from html.parser import HTMLParser
 import json
 import re
+from html.parser import HTMLParser
+from pathlib import Path
 
-class EHIParser(HTMLParser):
+HTML_PATH = Path("/home/jmandel/hobby/ehi-export-analysis/results/"
+    "mendelson-kornblum-orthopedic-spine-specialists--orthoplexemr/"
+    "downloads/Healthinformationexport.html")
+
+class SectionParser(HTMLParser):
+    """Extract C-CDA sections and their field elements from the HTML."""
+    
     def __init__(self):
         super().__init__()
         self.sections = []
         self.current_section = None
         self.in_bold = False
-        self.in_elements = False
         self.capture_text = ""
-        self.all_text_parts = []
-
+        self.all_text = []
+        self.tag_stack = []
+    
     def handle_starttag(self, tag, attrs):
-        if tag == "b":
+        self.tag_stack.append(tag)
+        if tag == 'b':
             self.in_bold = True
             self.capture_text = ""
-
+    
     def handle_endtag(self, tag):
-        if tag == "b":
+        if self.tag_stack and self.tag_stack[-1] == tag:
+            self.tag_stack.pop()
+        if tag == 'b':
             self.in_bold = False
             section_name = self.capture_text.strip()
             if section_name:
-                self.current_section = {"name": section_name, "fields": [], "raw_elements": ""}
+                self.current_section = {"name": section_name, "raw_elements": ""}
                 self.sections.append(self.current_section)
-                self.in_elements = True
-
+    
     def handle_data(self, data):
+        self.all_text.append(data)
         if self.in_bold:
             self.capture_text += data
-        elif self.current_section and self.in_elements:
-            text = data.strip()
-            if text and text != "Elements":
-                self.current_section["raw_elements"] += " " + text
+        elif self.current_section is not None:
+            stripped = data.strip()
+            if stripped and stripped != "Elements":
+                self.current_section["raw_elements"] += " " + stripped
 
-def parse_html(filepath):
-    with open(filepath) as f:
-        content = f.read()
-
-    # Extract only the CCDA Data section
+def parse_html(html_path):
+    content = html_path.read_text()
+    
+    # Extract only the "CCDA Data" section
     ccda_start = content.find("<h3>CCDA Data</h3>")
-    ccda_end = content.find("<h3>Patient Download</h3>")
-    if ccda_start == -1:
-        print("ERROR: Could not find CCDA Data section")
-        return
+    patient_download = content.find("<h3>Patient Download</h3>")
+    if ccda_start == -1 or patient_download == -1:
+        raise ValueError("Could not find CCDA Data section boundaries")
     
-    ccda_section = content[ccda_start:ccda_end] if ccda_end != -1 else content[ccda_start:]
+    ccda_section = content[ccda_start:patient_download]
     
-    parser = EHIParser()
+    parser = SectionParser()
     parser.feed(ccda_section)
-
+    
+    # Process sections into structured inventory
+    entities = []
     total_fields = 0
-    results = []
     
     for section in parser.sections:
         raw = section["raw_elements"].strip()
-        if raw.startswith("(") and raw.endswith(")"):
-            # Free-form sections like "(free form)" or "(Immunizations not provided...)"
-            fields = [raw]
-            field_count = 0  # Don't count free-form as structured fields
-        elif "Empty" in raw:
-            fields = [raw]
-            field_count = 0
-        else:
-            # Split on commas, clean up
-            fields = [f.strip() for f in raw.split(",") if f.strip()]
-            field_count = len(fields)
         
-        total_fields += field_count
-        results.append({
-            "section": section["name"],
-            "field_count": field_count,
-            "fields": fields
-        })
-
-    print(f"Total C-CDA sections: {len(results)}")
-    print(f"Total structured fields: {total_fields}")
-    print(f"Sections with structured fields: {sum(1 for r in results if r['field_count'] > 0)}")
-    print(f"Sections with free-form/empty: {sum(1 for r in results if r['field_count'] == 0)}")
-    print()
+        # Parse field names from comma-separated text
+        if raw.startswith("(") and raw.endswith(")"):
+            # Free form fields like "(free form)"
+            fields = [{"name": raw, "type": None, "description": None}]
+        elif raw == "Empty (Immunizations not provided at clinics)":
+            fields = []
+        else:
+            # Split by comma, clean up
+            field_names = [f.strip() for f in raw.split(",") if f.strip()]
+            fields = [{"name": name, "type": None, "description": None} for name in field_names]
+        
+        entity = {
+            "name": section["name"],
+            "field_count": len(fields),
+            "fields_with_descriptions": 0,
+            "fields_with_types": 0,
+            "fields": fields,
+            "notes": None
+        }
+        
+        if "Immunizations" in section["name"]:
+            entity["notes"] = "Empty - Immunizations not provided at clinics"
+        if "(free form)" in raw:
+            entity["notes"] = "Free-form text, no structured fields"
+        
+        entities.append(entity)
+        total_fields += len(fields)
     
-    for r in results:
-        status = f"{r['field_count']} fields" if r['field_count'] > 0 else r['fields'][0]
-        print(f"  {r['section']}: {status}")
-        if r['field_count'] > 0:
-            for f in r['fields']:
-                print(f"    - {f}")
-    
-    # Save structured output
-    output = {
-        "total_sections": len(results),
-        "total_structured_fields": total_fields,
-        "sections_with_fields": sum(1 for r in results if r['field_count'] > 0),
-        "sections_free_form_or_empty": sum(1 for r in results if r['field_count'] == 0),
-        "sections": results
+    return {
+        "source_file": "downloads/Healthinformationexport.html",
+        "format": "C-CDA (Continuity of Care Document)",
+        "hl7_template": "2.16.840.1.113883.10.20.22.1.2",
+        "total_entities": len(entities),
+        "total_fields": total_fields,
+        "fields_with_descriptions": 0,
+        "fields_with_types": 0,
+        "entities": entities
     }
-    
-    with open("parsed_sections.json", "w") as f:
-        json.dump(output, f, indent=2)
-    
-    print(f"\nSaved structured output to parsed_sections.json")
 
 if __name__ == "__main__":
-    parse_html("/home/jmandel/hobby/ehi-export-analysis/results/mendelson-kornblum-orthopedic-spine-specialists--orthoplexemr/downloads/Healthinformationexport.html")
+    result = parse_html(HTML_PATH)
+    
+    output_path = Path(__file__).parent / "full-entity-inventory.json"
+    with open(output_path, "w") as f:
+        json.dump(result, f, indent=2)
+    
+    # Print summary
+    print(f"Parsed {result['total_entities']} C-CDA sections")
+    print(f"Total fields: {result['total_fields']}")
+    print(f"Fields with descriptions: {result['fields_with_descriptions']}")
+    print(f"Fields with types: {result['fields_with_types']}")
+    print()
+    for entity in result['entities']:
+        note = f" [{entity['notes']}]" if entity['notes'] else ""
+        print(f"  {entity['name']}: {entity['field_count']} fields{note}")

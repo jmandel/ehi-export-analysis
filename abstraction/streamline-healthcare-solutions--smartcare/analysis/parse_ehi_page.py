@@ -1,122 +1,123 @@
-"""Parse the SmartCare EHI export documentation page and extract structured data."""
+"""Parse the EHI export HTML page and WordPress API JSON to extract structured data."""
+
 import json
 import re
 from html.parser import HTMLParser
 
-RESULTS_DIR = "/home/jmandel/hobby/ehi-export-analysis/results/streamline-healthcare-solutions--smartcare/downloads"
+DOWNLOADS = "/home/jmandel/hobby/ehi-export-analysis/results/streamline-healthcare-solutions--smartcare/downloads"
+OUTPUT = "/home/jmandel/hobby/ehi-export-analysis/abstraction/streamline-healthcare-solutions--smartcare/analysis"
 
 # Parse the WordPress API JSON (cleaner content)
-with open(f"{RESULTS_DIR}/ehi-export-page-wp-api.json") as f:
-    data = json.load(f)
+with open(f"{DOWNLOADS}/ehi-export-page-wp-api.json") as f:
+    wp_data = json.load(f)
 
-content = data["content"]["rendered"]
-page_meta = {
-    "title": data["title"]["rendered"],
-    "date_published": data["date"],
-    "date_modified": data["modified"],
+page_metadata = {
+    "page_id": wp_data["id"],
+    "title": wp_data["title"]["rendered"],
+    "published": wp_data["date"],
+    "modified": wp_data["modified"],
+    "slug": wp_data["slug"],
+    "url": wp_data["link"],
 }
 
-# Extract all C-CDA section names and their HL7 links
-class SectionExtractor(HTMLParser):
-    def __init__(self):
-        super().__init__()
-        self.sections = []
-        self.current_href = None
-        self.in_link = False
+# Extract C-CDA sections from the rendered HTML content
+content_html = wp_data["content"]["rendered"]
+
+# Find all links and their text
+section_pattern = re.compile(
+    r'<a\s+href="([^"]+)"[^>]*>([^<]+)</a>', re.IGNORECASE
+)
+sections = []
+for match in section_pattern.finditer(content_html):
+    url = match.group(1)
+    text = match.group(2).strip()
+    if "build.fhir.org" in url:
+        # Extract OID from URL
+        oid_match = re.search(r'StructureDefinition-([\d.]+)\.html', url)
+        oid = oid_match.group(1) if oid_match else None
         
-    def handle_starttag(self, tag, attrs):
-        if tag == "a":
-            for attr, val in attrs:
-                if attr == "href" and "build.fhir.org" in val:
-                    self.current_href = val
-                    self.in_link = True
-                    
-    def handle_endtag(self, tag):
-        if tag == "a":
-            self.in_link = False
-            self.current_href = None
-            
-    def handle_data(self, data):
-        if self.in_link and self.current_href and "Section" in data:
-            self.sections.append({
-                "name": data.strip().replace("\xa0", " "),
-                "hl7_url": self.current_href,
-            })
+        # Determine entry requirement
+        entry_req = "not specified"
+        if "(entries required)" in text:
+            entry_req = "entries required"
+        elif "(entries optional)" in text:
+            entry_req = "entries optional"
+        
+        clean_name = re.sub(r'\s*\(entries (?:required|optional)\)', '', text).strip()
+        
+        sections.append({
+            "name": clean_name,
+            "full_text": text,
+            "hl7_url": url,
+            "oid": oid,
+            "entry_requirement": entry_req,
+        })
 
-extractor = SectionExtractor()
-extractor.feed(content)
+# Extract bullet points from Getting Started section
+bullet_pattern = re.compile(r'<li>([^<]+(?:<[^>]+>[^<]*</[^>]+>)?[^<]*)</li>', re.IGNORECASE)
+bullets = []
+for match in bullet_pattern.finditer(content_html):
+    text = re.sub(r'<[^>]+>', '', match.group(1)).strip()
+    # Clean up HTML entities
+    text = text.replace('&#8217;', "'").replace('&#8211;', "–")
+    bullets.append(text)
 
-# Extract plain text content
-text = re.sub(r"<[^>]+>", " ", content)
-text = re.sub(r"\s+", " ", text).strip()
-word_count = len(text.split())
+# Compute word count of substantive content (excluding HTML tags)
+plain_text = re.sub(r'<[^>]+>', ' ', content_html)
+plain_text = re.sub(r'\s+', ' ', plain_text).strip()
+word_count = len(plain_text.split())
 
-# Classify sections
-entries_required = []
-entries_optional = []
-other_sections = []
-
-for s in extractor.sections:
-    name = s["name"]
-    if "entries required" in name:
-        entries_required.append(name)
-    elif "entries optional" in name:
-        entries_optional.append(name)
-    else:
-        other_sections.append(name)
-
-output = {
-    "page_metadata": page_meta,
-    "content_stats": {
-        "total_word_count": word_count,
-        "total_char_count": len(text),
+# Build full inventory
+inventory = {
+    "page_metadata": page_metadata,
+    "word_count_substantive": word_count,
+    "export_format": "C-CDA 2.2 (HL7 Consolidated Clinical Document Architecture)",
+    "export_format_detail": "XML-based patient summary documents (CCDAs)",
+    "export_capabilities": bullets,
+    "ccda_sections": sections,
+    "section_count": len(sections),
+    "sections_entries_required": len([s for s in sections if s["entry_requirement"] == "entries required"]),
+    "sections_entries_optional": len([s for s in sections if s["entry_requirement"] == "entries optional"]),
+    "sections_unspecified": len([s for s in sections if s["entry_requirement"] == "not specified"]),
+    "documentation_artifacts": {
+        "data_dictionary": False,
+        "sample_data": False,
+        "schema_documentation": False,
+        "field_level_documentation": False,
+        "downloadable_files": False,
+        "screenshots": False,
+        "api_documentation": False,
     },
-    "ccda_sections": {
-        "total": len(extractor.sections),
-        "entries_required": len(entries_required),
-        "entries_optional": len(entries_optional),
-        "other": len(other_sections),
-        "sections": extractor.sections,
-    },
-    "key_claims": {
-        "format": "C-CDA 2.2 (XML)",
+    "access_info": {
+        "cost": "No additional cost for Streamline customers",
+        "access_control": "Limited to system administrators and permissioned SmartCare users",
         "single_patient": True,
         "population_export": True,
-        "access_restriction": "System administrators and permissioned users",
-        "additional_cost": "No",
         "setup_instructions": "Available in help desk documentation (not public)",
     },
 }
 
-# Print summary
-print("=" * 60)
-print("SmartCare EHI Export Page Analysis")
-print("=" * 60)
-print(f"Published: {page_meta['date_published']}")
-print(f"Modified:  {page_meta['date_modified']}")
-print(f"Content:   {word_count} words, {len(text)} characters")
-print(f"C-CDA sections listed: {len(extractor.sections)}")
-print()
-print("Entries Required:")
-for s in entries_required:
-    print(f"  - {s}")
-print("Entries Optional:")
-for s in entries_optional:
-    print(f"  - {s}")
-print("Other Sections:")
-for s in other_sections:
-    print(f"  - {s}")
-print()
-print("Key observations:")
-print(f"  - No data dictionary or field-level documentation")
-print(f"  - No sample export files")
-print(f"  - No schema/profile documentation beyond HL7 standard links")
-print(f"  - No screenshots of export interface")
-print(f"  - Setup instructions behind customer login wall")
-print(f"  - All 17 links point to generic HL7 C-CDA 2.2 StructureDefinitions")
+with open(f"{OUTPUT}/full-entity-inventory.json", "w") as f:
+    json.dump(inventory, f, indent=2)
 
-# Save structured output
-output_path = "/home/jmandel/hobby/ehi-export-analysis/abstraction/streamline-healthcare-solutions--smartcare/analysis/ehi-page-analysis.json"
-with open(output_path, "w") as f:
-    json.dump(output, f, indent=2)
-print(f"\nStructured output saved to: {output_path}")
+# Print summary
+print("=== EHI Export Page Analysis ===")
+print(f"Page published: {page_metadata['published']}")
+print(f"Page modified: {page_metadata['modified']}")
+print(f"Substantive word count: {word_count}")
+print(f"\nTotal C-CDA sections listed: {len(sections)}")
+print(f"  Entries required: {inventory['sections_entries_required']}")
+print(f"  Entries optional: {inventory['sections_entries_optional']}")
+print(f"  Not specified: {inventory['sections_unspecified']}")
+print(f"\nC-CDA Sections:")
+for i, s in enumerate(sections, 1):
+    print(f"  {i:2d}. {s['full_text']}")
+    print(f"      OID: {s['oid']}")
+print(f"\nExport capabilities bullet points: {len(bullets)}")
+for b in bullets:
+    print(f"  - {b}")
+print(f"\nDocumentation completeness:")
+for k, v in inventory["documentation_artifacts"].items():
+    print(f"  {k}: {'Yes' if v else 'No'}")
+
+print(f"\nFull inventory saved to: {OUTPUT}/full-entity-inventory.json")

@@ -1,0 +1,297 @@
+#!/usr/bin/env python3
+"""
+Create a complete entity inventory for Tebra EHR's EHI export.
+The EHI export consists of C-CDA XML files (Summary of Care) + patient documents.
+This script documents what we know about the export content from all available documentation.
+"""
+
+import json
+
+# The EHI export is described in two ways:
+# 1. The vendor's EHI Export page describes: C-CDA + PDFs for claims/billing + native docs
+# 2. The help center page describes: XML Summary of Care files + patient documents
+
+# The General Clinical API documents the following resources (JSON, per-patient)
+general_api_resources = [
+    {
+        "entity": "Patient Demographics",
+        "api_endpoint": "/patient",
+        "field_count": 25,
+        "category": "Demographics",
+        "description": "Basic patient demographics including name, DOB, gender, race, ethnicity, language, contact info",
+        "fields": [
+            {"name": "patientId", "type": "String", "description": "Canonical textual representation of the patient's UUID"},
+            {"name": "dob", "type": "Date", "description": "Patient's date of birth (ISO 8601)"},
+            {"name": "gender", "type": "String", "description": "Possible Values: Male, Female, Undifferentiated"},
+            {"name": "ethnicity", "type": "Array", "description": "Patient's ethnicities (CDC code system OID: 2.16.840.1.113883.6.238)"},
+            {"name": "ethnicity.code", "type": "String", "description": "Ethnicity concept code"},
+            {"name": "ethnicity.name", "type": "String", "description": "Ethnicity concept name"},
+            {"name": "ethnicityGroup", "type": "Array", "description": "Ethnicity group"},
+            {"name": "ethnicityGroup.code", "type": "String", "description": "Ethnicity group code"},
+            {"name": "ethnicityGroup.name", "type": "String", "description": "Ethnicity group name"},
+            {"name": "race", "type": "Array", "description": "Patient's races (CDC code system OID: 2.16.840.1.113883.6.238)"},
+            {"name": "race.code", "type": "String", "description": "Race concept code"},
+            {"name": "race.name", "type": "String", "description": "Race concept name"},
+            {"name": "raceGroup", "type": "Array", "description": "Patient's race roll-up categories"},
+            {"name": "raceGroup.code", "type": "String", "description": "Race category concept code"},
+            {"name": "raceGroup.name", "type": "String", "description": "Race category concept name"},
+            {"name": "communication", "type": "Array", "description": "Patient's communication"},
+            {"name": "communication.language.code", "type": "String", "description": "ISO-639-2 language code"},
+            {"name": "communication.language.name", "type": "String", "description": "ISO 639-2 language name"},
+            {"name": "communication.preferred", "type": "Boolean", "description": "True if indicated language is preferred"},
+            {"name": "firstName", "type": "String", "description": "Patient's given name"},
+            {"name": "lastName", "type": "String", "description": "Patient's family name"},
+            {"name": "middleName", "type": "String", "description": "Patient's middle name"},
+            {"name": "suffix", "type": "String", "description": "Patient's name suffix"},
+            {"name": "previousName", "type": "String", "description": "Patient's previous name"},
+            {"name": "address", "type": "Element", "description": "Patient address"}
+        ]
+    },
+    {
+        "entity": "Encounter",
+        "api_endpoint": "/patient/encounter",
+        "field_count": 19,
+        "category": "Clinical",
+        "description": "Basic encounter information including dates, providers, diagnoses, and location",
+        "fields": [
+            {"name": "encounterId", "type": "String", "description": "Encounter UUID"},
+            {"name": "date", "type": "Date", "description": "Encounter date"},
+            {"name": "endDate", "type": "Date", "description": "Encounter end date"},
+            {"name": "status", "type": "String", "description": "Encounter status"},
+            {"name": "encounterType", "type": "String", "description": "Type of encounter"},
+            {"name": "provider.name", "type": "String", "description": "Provider name"},
+            {"name": "provider.npi", "type": "String", "description": "Provider NPI"},
+            {"name": "diagnosis", "type": "Array", "description": "Encounter diagnoses"},
+            {"name": "diagnosis.code", "type": "String", "description": "Diagnosis code (ICD-10)"},
+            {"name": "diagnosis.name", "type": "String", "description": "Diagnosis name"},
+            {"name": "diagnosis.rank", "type": "Integer", "description": "Diagnosis ranking"},
+            {"name": "serviceLocation", "type": "Element", "description": "Service location"},
+            {"name": "serviceLocation.name", "type": "String", "description": "Location name"},
+            {"name": "serviceLocation.address", "type": "Element", "description": "Location address"},
+            {"name": "serviceLocation.address.line1", "type": "String", "description": "Address line 1"},
+            {"name": "serviceLocation.address.city", "type": "String", "description": "City"},
+            {"name": "serviceLocation.address.state", "type": "String", "description": "State"},
+            {"name": "serviceLocation.address.zip", "type": "String", "description": "ZIP code"},
+            {"name": "serviceLocation.phone", "type": "String", "description": "Phone number"}
+        ]
+    },
+    {
+        "entity": "Allergy Intolerance",
+        "api_endpoint": "/patient/allergyIntolerance",
+        "field_count": 14,
+        "category": "Clinical",
+        "description": "Patient allergies and adverse reactions",
+        "fields": [
+            {"name": "allergyIntoleranceId", "type": "String", "description": "Allergy UUID"},
+            {"name": "status", "type": "String", "description": "Status (active, inactive, resolved)"},
+            {"name": "substance.code", "type": "String", "description": "Substance code (RxNorm/SNOMED)"},
+            {"name": "substance.name", "type": "String", "description": "Substance name"},
+            {"name": "substance.codeSystem", "type": "String", "description": "Code system"},
+            {"name": "criticality", "type": "String", "description": "Criticality level"},
+            {"name": "type", "type": "String", "description": "Type (allergy vs intolerance)"},
+            {"name": "category", "type": "String", "description": "Category (food, medication, environment)"},
+            {"name": "reaction", "type": "Array", "description": "Reactions"},
+            {"name": "reaction.manifestation.code", "type": "String", "description": "Reaction code"},
+            {"name": "reaction.manifestation.name", "type": "String", "description": "Reaction name"},
+            {"name": "reaction.severity", "type": "String", "description": "Reaction severity"},
+            {"name": "onsetDate", "type": "Date", "description": "Onset date"},
+            {"name": "recordedDate", "type": "Date", "description": "Date recorded"}
+        ]
+    },
+    {
+        "entity": "Care Plan",
+        "api_endpoint": "/patient/carePlan",
+        "field_count": 13,
+        "category": "Clinical",
+        "description": "Assessment and plan of treatment",
+        "fields": []
+    },
+    {
+        "entity": "Condition/Problem List",
+        "api_endpoint": "/patient/condition/problemList",
+        "field_count": 11,
+        "category": "Clinical",
+        "description": "Patient problems and conditions",
+        "fields": []
+    },
+    {
+        "entity": "Implantable Device",
+        "api_endpoint": "/patient/device",
+        "field_count": 10,
+        "category": "Clinical",
+        "description": "Patient implantable device (UDI) information",
+        "fields": []
+    },
+    {
+        "entity": "Procedure",
+        "api_endpoint": "/patient/procedure",
+        "field_count": 9,
+        "category": "Clinical",
+        "description": "Patient procedures",
+        "fields": []
+    },
+    {
+        "entity": "Goal",
+        "api_endpoint": "/patient/goal",
+        "field_count": 7,
+        "category": "Clinical",
+        "description": "Patient clinical goals",
+        "fields": []
+    },
+    {
+        "entity": "Vital Signs",
+        "api_endpoint": "/patient/observation/vitalSigns",
+        "field_count": 10,
+        "category": "Clinical",
+        "description": "Patient vital sign observations",
+        "fields": []
+    },
+    {
+        "entity": "Smoking Status",
+        "api_endpoint": "/patient/smokingStatus",
+        "field_count": 8,
+        "category": "Clinical",
+        "description": "Patient smoking status",
+        "fields": []
+    },
+    {
+        "entity": "Diagnostic Report",
+        "api_endpoint": "/patient/diagnosticReport",
+        "field_count": 22,
+        "category": "Clinical",
+        "description": "Lab tests, imaging, and diagnostic results",
+        "fields": []
+    },
+    {
+        "entity": "Immunization",
+        "api_endpoint": "/patient/immunization",
+        "field_count": 12,
+        "category": "Clinical",
+        "description": "Patient immunization history",
+        "fields": []
+    },
+    {
+        "entity": "Medication Statement",
+        "api_endpoint": "/patient/medicationStatement",
+        "field_count": 12,
+        "category": "Clinical",
+        "description": "Patient medication history",
+        "fields": []
+    },
+    {
+        "entity": "Summary (C-CDA)",
+        "api_endpoint": "/patient/binary/summary",
+        "field_count": 4,
+        "category": "Clinical Summary",
+        "description": "Base64-encoded C-CDA 2.1 document containing USCDI data elements",
+        "fields": [
+            {"name": "meta.date", "type": "String", "description": "Response generation date"},
+            {"name": "patientId", "type": "String", "description": "Patient UUID"},
+            {"name": "contentType", "type": "String", "description": "Content type (application/xml for C-CDA)"},
+            {"name": "content", "type": "String", "description": "Base64 encoded C-CDA 2.1 document"}
+        ]
+    }
+]
+
+# The actual EHI Export (b)(10) exports:
+ehi_export = {
+    "export_description": "Tebra EHR EHI Export",
+    "mechanism": "UI-based export via Practice Settings > Data Management > Export Patient Data",
+    "export_format": "ZIP file containing XML C-CDA Summary of Care files + patient documents",
+    "scope": "Individual patients and patient population (bulk)",
+    "filtering": "Date range filter (patients seen by provider in timeframe), provider filter",
+    "scheduling": "One-time or recurring (weekly/monthly)",
+    "vendor_description": "Tebra EHR enables providers to export out EHI for individual patients and their patient population at any time without developer assistance. Export formats include C-CDA documents for clinical records, PDFs for claims and billing information, and also documents in the original native format which they were uploaded.",
+    "help_center_description": "The patient clinical data exports as individual XML Summary of Care files for patients with clinical notes created, signed, co-signed, or assigned by/to the selected provider during the timeframe specified. In addition to the Summary of Care file, the export also includes patients documents.",
+    "components": [
+        {
+            "component": "C-CDA Summary of Care (XML)",
+            "format": "HL7 C-CDA 2.1",
+            "description": "Individual XML Summary of Care files per patient, covering USCDI v1 data elements",
+            "content_coverage": [
+                "Demographics (name, DOB, gender, race, ethnicity, language)",
+                "Allergies and intolerances",
+                "Medications",
+                "Problems/Conditions",
+                "Procedures",
+                "Immunizations",
+                "Vital signs",
+                "Lab results",
+                "Assessment and plan of treatment",
+                "Goals",
+                "Care team",
+                "Smoking status",
+                "Implantable devices"
+            ]
+        },
+        {
+            "component": "Patient Documents",
+            "format": "Native format (PDF, JPG, PNG, etc.)",
+            "description": "Documents uploaded to the patient's chart, exported in their original format"
+        },
+        {
+            "component": "Claims/Billing PDFs",
+            "format": "PDF",
+            "description": "Mentioned in vendor MACRA/MIPS page description as 'PDFs for claims and billing information', but no data dictionary or field-level documentation available"
+        }
+    ],
+    "data_dictionary": "None provided. No structured data dictionary, schema, or field-level documentation for the export content.",
+    "sample_data": "None provided.",
+    "not_included_or_unknown": [
+        "Insurance/coverage details beyond what's in C-CDA",
+        "Detailed billing/claims data (line items, CPT codes, charges, payments) - mentioned as PDFs but no structured data",
+        "Superbill/encounter billing details",
+        "Patient portal messages",
+        "Referral details",
+        "Custom clinical templates/forms data",
+        "Charge capture details",
+        "Practice management data"
+    ]
+}
+
+# Create the full inventory
+full_inventory = {
+    "vendor": "Tebra Technologies, Inc.",
+    "product": "Tebra EHR",
+    "version": "5.1",
+    "chpl_id": "15.04.04.2777.Tebr.05.03.1.241219",
+    "analysis_date": "2026-02-16",
+    "ehi_export": ehi_export,
+    "api_resources": {
+        "general_clinical_api": {
+            "description": "REST/JSON API for patient clinical data, accessed via patient portal API key",
+            "base_url": "https://api.tebra.com/clinical/v1/api",
+            "total_resources": len(general_api_resources),
+            "total_fields": sum(r["field_count"] for r in general_api_resources),
+            "resources": general_api_resources
+        },
+        "fhir_api": {
+            "description": "FHIR R4 API via SmileCDR, supporting US Core IG STU3 3.1.1 / USCDI v1",
+            "base_url": "https://fhir.prd.cloud.tebra.com/fhir-request",
+            "total_unique_resources": 22,
+            "uscdi_data_classes": 17,
+            "note": "The FHIR API covers the same USCDI clinical data elements as the General API and C-CDA export"
+        }
+    },
+    "summary_statistics": {
+        "export_format": "C-CDA XML + PDF + native document formats",
+        "model_type": "Standard-based projection (C-CDA/FHIR)",
+        "data_dictionary_provided": False,
+        "sample_data_provided": False,
+        "entity_count": "N/A (C-CDA sections, not database tables)",
+        "field_count": "N/A (no data dictionary)",
+        "fields_with_descriptions": "N/A",
+        "c_cda_sections_covered": 13,
+        "general_api_resources": 14,
+        "general_api_fields": 176,
+        "fhir_resources": 22,
+        "bulk_export": True,
+        "single_patient_export": True
+    }
+}
+
+with open("full-entity-inventory.json", "w") as f:
+    json.dump(full_inventory, f, indent=2)
+
+print(json.dumps(full_inventory["summary_statistics"], indent=2))
+print(f"\nFull inventory saved to full-entity-inventory.json")

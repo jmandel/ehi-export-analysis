@@ -1,227 +1,241 @@
 # EHI Export Analysis: iCare.com, Inc.
 
 **Product**: iCare EHR Version 2
-**Analysis date**: 2026-02-15
-**CHPL ID**: 15.04.04.2617.iCar.02.00.1.200220 (CHPL #10314)
+**Analysis date**: 2026-02-16
+**CHPL IDs**: 15.04.04.2617.iCar.02.00.1.200220 (Listing ID 10314)
 
 ## 1. Product Context
 
-iCare EHR is a cloud-native enterprise EHR platform from iCare.com, Inc. (Fort Lauderdale, FL), marketed to hospitals, clinics, and physician practices in both inpatient and ambulatory settings. The CHPL SED description lists intended users as "Inpatient, Ambulatory, and Behavioral." The product was certified in February 2020 via Drummond Group ONC-ACB.
+iCare EHR is a cloud-native enterprise EHR marketed to hospitals, multi-hospital systems, and ambulatory clinics. The CHPL certification SED lists intended user settings as "Inpatient, Ambulatory, and Behavioral." The product is developed by iCare.com, Inc., a small company (~11–200 employees) based in Fort Lauderdale, Florida, with ONC certification since 2020.
 
-Based on the vendor's website and certification criteria, iCare EHR manages data across these domains relevant to EHI completeness:
+The product includes modules for:
+- **Clinical documentation**: charting, notes, problem/medication/allergy lists, CPOE for medications and labs, vital signs, immunizations, care plans
+- **E-prescribing**: EPCS, drug interaction checking, Surescripts integration
+- **Revenue Cycle Management (RCM)**: insurance verification, claims, billing, payments, denial management, E/M coding
+- **Patient portal**: secure messaging, appointment scheduling, bill payment, health record access
+- **Scheduling**: appointment, procedure, and surgery scheduling
+- **Lab/imaging integration**: lab results and radiology results flowing into patient records
+- **Public health reporting**: syndromic surveillance, reportable lab results
 
-- **Clinical documentation**: Patient charting, notes, problem lists, medication lists, allergy lists, vitals, immunizations, care plans, clinical decision support
-- **E-prescribing**: EPCS, drug interaction checks, prescription tracking via Surescripts
-- **Lab and imaging**: Lab orders/results, radiology integration, PACS integration
-- **Revenue cycle management (RCM)**: Insurance verification, billing, claims, payments, denial management, E/M coding — described as an integrated module
-- **Scheduling**: Appointment, procedure, and surgery scheduling
-- **Patient portal**: Secure messaging, appointment scheduling, bill payment, health information access
-- **CPOE**: Computerized provider order entry for medications and labs
-- **Document management**: Centralized vault for charts, forms, images, correspondence
-
-This breadth of functionality — particularly the integrated RCM/billing module and inpatient capabilities — sets the baseline for what a complete EHI export should cover.
+This broad feature set means a compliant (b)(10) export should cover clinical data, billing/RCM data, e-prescribing records, portal communications, and scheduling data — not just the USCDI clinical summary subset.
 
 ## 2. Artifacts Reviewed
 
 | Artifact | Description | Informativeness |
 |---|---|---|
-| `ehi-export-page.html` (15 KB) | Clean HTML extraction of the EHI Export documentation page at `https://icare.com/developers/ehi_export/`. Describes 3 export methods and lists 13 FHIR resource types. Verified against live site on 2026-02-15 — content matches. | **Primary source** — defines the export |
-| `screenshot-ehi-export-page.png` (903 KB) | Full-page screenshot of the EHI export page. Confirms the rendered content matches the HTML extraction. | Corroborative |
-| `ehi-export-page-wp-json.json` (18 KB) | WordPress REST API response for page ID 1286. Shows page last modified 2025-10-18. | Metadata only |
-| `iCare-API-Guide.pdf` (355 KB, 67 pages) | Proprietary REST API guide (Copyright 2020) documenting login, patient search, encounters, and 16 clinical data categories with FHIR R4 JSON examples. Also documents a C-CDA "All Criteria Data Request." | **Secondary source** — older API, more detailed |
-| `fhir-capability-statement.json` (3 KB) | FHIR R4 CapabilityStatement from sandbox at `sandbox-r4.interopengine.com`. Powered by "EMR Direct Interoperability Engine" (third-party middleware). Declares US Core Server and Bulk Data conformance. Only declares Group/$export and SearchParameter — no individual resource interactions. | Reveals third-party infrastructure |
+| `ehi-export-page.html` (15 KB) | Clean HTML of the EHI export documentation page at https://icare.com/developers/ehi_export/. Lists 3 export methods and 13 FHIR resource types with example URIs. | **Primary** — the vendor's (b)(10) documentation |
+| `iCare-API-Guide.pdf` (67 pages, 355 KB) | Proprietary REST API guide (Copyright 2020). Documents 16 clinical data categories with example JSON outputs. | **Most informative** — provides field-level detail via sample outputs |
+| `fhir-capability-statement.json` (3 KB) | FHIR R4 CapabilityStatement from sandbox server (EMR Direct Interoperability Engine). Declares US Core Server and Bulk Data conformance. | **Supplementary** — confirms third-party infrastructure |
+| `ehi-export-page-wp-json.json` (18 KB) | WordPress API response for the EHI page. Confirms page last modified 2025-10-18. | **Metadata only** |
+| `screenshot-ehi-export-page.png` (903 KB) | Full-page screenshot of the EHI export page. | **Visual confirmation** |
+
+No data dictionary, schema files, or sample export files were provided in any artifact. The API Guide PDF's example JSON outputs are the closest thing to field-level documentation.
 
 ## 3. Export Mechanics
 
-iCare describes three export methods on the EHI export page:
+The EHI export page describes three methods:
 
-**Method 1: CCD/HIM Export (In-App, Single Patient)**
-- Generate a CCD via: Reports > Clinical Summary > Continuity of Care and Referral Notes
-- Export Clinical Assessments and Notes via: Patient Info > HIM Request
-- Format: C-CDA (implied by "CCD")
-- No further detail on scope, fields, or output format
+### Method 1: CCD/HIM Export (In-App, Single Patient)
+- **Format**: C-CDA XML (CCD) and HIM documents
+- **Mechanism**: UI — within patient chart, navigate to Reports > Clinical Summary > Continuity of Care and Referral Notes (for CCD), or Patient Info > HIM Request (for assessments/notes)
+- **Scope**: Single patient only
+- **Documentation**: Two sentences; no detail on content or format
 
-**Method 2: CSC Request for Full Data Export (Population, Vendor-Assisted)**
-- Quote: "You may make a CSC request for export of the entirety of your organization's clinical data. The files will be provided via SFTP or other requested means and will include a description of the data file formats and data dictionary."
-- This is vendor-assisted (contact CSC = Customer Service Center), not self-service
-- **No data dictionary, format specification, or any documentation is publicly available** for this method. The data dictionary is apparently delivered only with the actual export files.
-- Cannot be assessed for coverage or format
+### Method 2: CSC Request (Bulk Export)
+- **Format**: Unknown — described as "files" delivered via SFTP
+- **Mechanism**: Vendor-assisted — make a "CSC request" to iCare
+- **Scope**: Organization's entire clinical data (population)
+- **Documentation**: One sentence. States a data dictionary will be included with the delivered files, but **no data dictionary, format specification, or any other documentation is publicly available** for this method.
+- **Fees**: Not mentioned; the certification page says EHI export is "Included with iCare subscription fee"
 
-**Method 3: FHIR REST API (Single Patient, Population, Group)**
-- Single patient: `Patient/id/$export` or resource-specific queries
-- Population: `Patient/$export` (Bulk Data)
-- Group: `Group/GroupID/$export` (Bulk Data)
-- Authorization: OAuth2 via `sandbox-r4.interopengine.com/oauth/icare/token`
-- Hosted on third-party infrastructure: EMR Direct Interoperability Engine
-- Format: FHIR R4 JSON (via Bulk Data ndjson)
-- Requires Admin role or PHI Export permission
+### Method 3: FHIR REST API (Single/Population/Group)
+- **Format**: FHIR R4 JSON via Bulk Data ($export)
+- **Mechanism**: API — OAuth2 token then GET Patient/$export, Group/$export, or resource-specific queries
+- **Scope**: Single patient, population, or group
+- **Endpoint**: `https://sandbox-r4.interopengine.com/fhir/r4/icare/`
+- **Infrastructure**: Third-party — powered by "EMR Direct Interoperability Engine" (not iCare's own system)
 
-**Access**: Method 1 is self-service via UI. Method 2 requires vendor engagement. Method 3 is API-based, requiring technical implementation. The certification page states: "Included with iCare subscription fee."
-
-**Bulk export**: Yes, via Methods 2 and 3.
+### Method 4 (Undocumented on EHI page): Proprietary REST API
+- **Format**: FHIR R4 JSON per category; C-CDA XML for all-criteria request
+- **Mechanism**: API — session token then GET /rest/extApp/Clinical?category=X
+- **Scope**: Single patient
+- **Documentation**: 67-page API guide with example inputs/outputs (Copyright 2020)
+- **Endpoint**: `<URL>/iCareEHRWeb/rest/extApp/Clinical`
+- **Note**: This older API is documented in the separately-linked API Guide PDF but is not directly referenced on the EHI export page itself.
 
 ## 4. Export Content: What's In It
 
-### FHIR API Export (Method 3) — 13 Resource Types
+### No data dictionary provided
 
-The EHI export page lists 13 FHIR resource types under "Data Elements." Each section follows an identical copy-paste template with a resource-specific query URI and a generic `Patient/id/$export` URI. There is no field-level documentation, no data dictionary, no schemas, and no sample data.
+There is **no data dictionary** for any export method. No schema files, no field definitions, no table structures, no value sets, no relationship documentation. The only field-level information comes from example JSON responses in the 2020 API Guide PDF.
 
-| FHIR Resource | Query Example | Notes |
+### FHIR resource types on the EHI export page
+
+The EHI export page lists 13 FHIR R4 resource types with example query URIs:
+
+| # | Resource Type | Example URI Correct? |
 |---|---|---|
-| CarePlan | `CarePlan?category=assess-plan&patient=<id>` | |
-| AllergyIntolerance | `AllergyIntolerance?patient=<id>` | |
-| CareTeam | `CareTeam?patient=<id>&status=active` | |
-| Condition | `Condition?patient=<id>` | |
-| Device | `Device?patient=<id>` | |
-| DiagnosticReport | `DiagnosticReport?category=LAB&patient=<id>` | LAB category only |
-| DocumentReference | `DocumentReference?patient=<id>` | "Contains all info about Assessment, Notes and Documents tabs" |
-| Goal | `Goal?patient=<id>` | |
-| Immunization | `Immunization?patient=<id>` | |
-| MedicationRequest | `MedicationRequest?intent=proposal&patient=<id>` | |
-| Observation | `Observation?code=2708-6&patient=<id>` | Example hardcodes LOINC 2708-6 (oxygen saturation) |
-| Procedure | `Procedure?patient=<id>` | Example URI incorrectly links to `Patient?_id=` |
-| Encounter | `Patient?_id=<id>` | URI is wrong (says Patient, not Encounter); example links to `Procedure?patient=` |
+| 1 | CarePlan | ✅ Yes |
+| 2 | AllergyIntolerance | ✅ Yes |
+| 3 | CareTeam | ✅ Yes |
+| 4 | Condition | ✅ Yes |
+| 5 | Device | ✅ Yes |
+| 6 | DiagnosticReport | ✅ Yes (LAB category only) |
+| 7 | DocumentReference | ✅ Yes |
+| 8 | Goal | ✅ Yes |
+| 9 | Immunization | ✅ Yes |
+| 10 | MedicationRequest | ✅ Yes |
+| 11 | Observation | ⚠️ Example hardcodes LOINC 2708-6 only |
+| 12 | Procedure | ❌ Example URI points to Patient endpoint |
+| 13 | Encounter | ❌ Example URI points to Procedure endpoint |
 
-**Copy-paste errors**: The generic `Patient/id/$export` URI appears 28 times across the page — pasted identically into every resource section. The Encounter section's URI says `Patient?_id=<id>` instead of `Encounter?patient=<id>`, and its example links to `Procedure?patient=MRN.XXXXXX`.
+**Copy-paste errors**: The Procedure and Encounter sections have their example URIs swapped — Procedure's example is `Patient?_id=MRN.XXXXXX` and Encounter's example is `Procedure?patient=MRN.XXXXXX`. Additionally, every resource section redundantly lists the generic `Patient/id/$export` URI, suggesting the documentation was quickly templated rather than carefully authored.
 
-### Proprietary API (API Guide PDF) — 16 Data Categories
+No field-level documentation is provided for any of these 13 resource types. Each section follows the same template: URI pattern, "Or can use Patient/id/$export", request parameters, method GET, example URL. No descriptions of what fields each resource will contain, what coded values to expect, or how vendor-specific data maps to standard FHIR elements.
 
-The 67-page API Guide (2020) documents an older proprietary REST API at `ehr.icare.com/iCareEHRWeb/rest/`. It covers 16 clinical data categories with JSON request/response examples containing ~62 unique field names across all categories:
+### Proprietary API categories (from API Guide PDF)
 
-| Category | Description | Fields in Example |
-|---|---|---|
-| patient | Name, sex, DOB, race, ethnicity, preferred language | 24 |
-| careTeam | Care team members | 6 |
-| smokingStatus | Smoking status | 9 |
-| problem | Problems | 13 |
-| medication | Medications | 15 |
-| medAllergy | Medication allergies | 15 |
-| labTest | Planned lab tests | 10 |
-| labResult | Lab test results | 21 |
-| vital | Vital measurements | 13 |
-| procedure | Procedures | 17 |
-| immunization | Immunizations | 15 |
-| device | Implanted devices | 9 |
-| planOfTreatment | Care plan | 10 |
-| assessment | Assessment | 3 |
-| goal | Discharge goals | 7 |
-| healthConcern | Health concerns (complaints and observations) | 5 |
+The 67-page API Guide (2020) documents 16 clinical data categories via the proprietary REST API. Each category includes a description, example input, and example JSON output showing the FHIR resource structure returned. From these examples, 85 total fields are visible across all categories:
 
-An "All Criteria Data Request" endpoint (`/rest/extApp/ClinicalCCDA?id=<id>`) returns all categories combined as a C-CDA XML document.
+| Category | Description | FHIR Resource | Fields in Example |
+|---|---|---|---|
+| patient | Demographics (name, sex, DOB, race, ethnicity, language) | Patient | 18 |
+| smokingStatus | Smoking status with onset date | Composition | 4 |
+| problem | Problems with SNOMED codes, status, onset/resolution | Condition | 6 |
+| medication | Medications with RxNorm codes, dosage, directions | MedicationStatement | 7 |
+| medAllergy | Medication allergies with reactions and severity | AllergyIntolerance | 7 |
+| labTest | Planned lab tests | DiagnosticReport | 3 |
+| labResult | Lab results with values and reference ranges | Observation | 4 |
+| vital | Vital signs with LOINC codes | Observation | 4 |
+| procedure | Procedures with SNOMED codes and dates | Procedure | 6 |
+| careTeam | Care team members with roles | CareTeam | 2 |
+| immunization | Immunizations with CVX codes and lot numbers | Immunization | 4 |
+| device | Implanted devices with UDI identifiers | Device | 4 |
+| planOfTreatment | Care plan activities (medication/lab/procedure/task) | CarePlan | 4 |
+| assessment | Clinical assessment narrative | RiskAssessment | 1 |
+| goal | Discharge goals (free-text) | Goal | 3 |
+| healthConcern | Health concerns — complaints and observations | Composition | 8 |
+| **Total** | | | **85** |
 
-Both the FHIR API and the proprietary API cover essentially the same clinical data domains — standard USCDI data classes. Neither includes billing, scheduling, insurance, or administrative data.
+Of the 85 fields visible in examples, 79 have descriptions (either from the API guide text or inferable from the JSON structure and context). No formal field-level data dictionary exists — these fields are only documented implicitly through the example JSON responses.
+
+### All Criteria Data Request
+
+The API Guide also documents a combined endpoint (`/rest/extApp/ClinicalCCDA`) that returns a C-CDA compliant XML document containing all 16 categories' data for a patient. No sample output is provided for this endpoint.
+
+### What's notably absent
+
+The export documentation — across all methods — covers **only clinical data mapped to standard FHIR resources or C-CDA sections**. The following data domains known to exist in iCare EHR are not represented in any export method:
+
+- **Revenue Cycle Management / Billing**: No claims, charges, payments, insurance verification, denial records, or E/M codes
+- **Scheduling**: No appointments, procedure schedules, surgery schedules
+- **E-prescribing transactions**: No prescription tracking, EPCS audit trails, Surescripts transaction records
+- **Patient portal data**: No secure messages, portal interactions, patient-submitted forms, online payment records
+- **Document management**: DocumentReference is listed but described only as "assessments, notes, and documents" — unclear if this includes the broader document vault (scanned forms, correspondence, images)
+- **Orders**: CPOE orders beyond what maps to MedicationRequest are not represented
+- **Behavioral health**: Explicitly excluded — the page states "items related to psychotherapy will not be included in any data export"
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-The vendor's export documentation (across all three methods) covers **standard USCDI clinical data only**. There is no vendor-specific categorization — the data is organized entirely around standard FHIR resource types and C-CDA sections.
+The vendor organizes their export around a single category: **clinical data**. There is no separate billing, administrative, or scheduling category. All 16 API categories and all 13 FHIR resource types fall within the USCDI/US Core clinical data class:
 
-The 13 FHIR resources on the EHI page and 16 API categories in the PDF map to the same core clinical domains:
-- **Demographics**: Patient resource / `patient` category (24 fields in API examples: name, gender, birthDate, race, ethnicity, language, address, telecom, contacts)
-- **Problems/conditions**: Condition resource / `problem` category (13 fields: clinicalStatus, code, onsetDateTime, abatementString)
-- **Medications**: MedicationRequest / `medication` category (15 fields: medicationCodeableConcept, dosage, effectiveDateTime)
-- **Allergies**: AllergyIntolerance / `medAllergy` category (15 fields: clinicalStatus, reaction, severity, onsetDateTime)
-- **Labs**: DiagnosticReport + Observation / `labTest` + `labResult` categories (31 combined fields)
-- **Vitals**: Observation / `vital` category (13 fields)
-- **Immunizations**: Immunization / `immunization` category (15 fields: vaccineCode, occurrenceDateTime, status)
-- **Procedures**: Procedure / `procedure` category (17 fields: bodySite, performedDateTime, performer)
-- **Care plans/goals**: CarePlan + Goal / `planOfTreatment` + `goal` categories (17 combined fields)
-- **Clinical notes**: DocumentReference / `assessment` category (3 fields in assessment; DocumentReference described as containing "Assessment, Notes and Documents tabs")
-- **Care team**: CareTeam / `careTeam` category (6 fields: member, participant)
-- **Devices**: Device / `device` category (9 fields: udiCarrier, deviceIdentifier)
-- **Encounters**: Encounter resource (period.start only in API examples)
-- **Smoking status**: Observation / `smokingStatus` category (9 fields)
-- **Health concerns**: `healthConcern` category (5 fields)
+- **Demographics**: Patient resource with name, gender, DOB, race, ethnicity, language, address, phone (18 fields in example)
+- **Clinical conditions**: Problems (Condition), allergies (AllergyIntolerance), smoking status
+- **Medications**: Active medications (MedicationStatement/MedicationRequest) with RxNorm codes and dosing
+- **Diagnostics**: Lab tests (DiagnosticReport), lab results (Observation), vital signs (Observation)
+- **Procedures & devices**: Procedures with SNOMED codes, implanted devices with UDI
+- **Care planning**: CarePlan activities, goals, assessments (RiskAssessment), health concerns
+- **Care team**: Team members with roles
+- **Documents**: DocumentReference (assessments, notes, documents)
+- **Encounters**: Visit dates (minimal — only period.start in the example)
+- **Immunizations**: Vaccine records with CVX codes
 
-The thinnest data elements are assessment (3 fields), healthConcern (5 fields), and careTeam (6 fields). The richest are patient (24 fields), labResult (21 fields), and procedure (17 fields) — though these counts come from example JSON, not a formal schema.
-
-**Notable absence**: The entire billing/RCM side of the product — insurance verification, claims, payments, denial management, E/M coding — has zero representation in any export method. Scheduling data is also entirely absent. These are integrated modules in the product, not third-party systems.
+This is a reasonable coverage of US Core / USCDI clinical data elements, but it represents only the subset of data that would also be available through the (g)(10) FHIR API — not the full designated record set that (b)(10) requires.
 
 ### 5b. Standardized domain coverage (top-down)
 
 | Domain | Coverage | Export Evidence | Gap Analysis |
 |---|---|---|---|
-| Demographics | ✅ Covered | Patient resource (13 FHIR resources); `patient` API category with 24 fields (name, gender, DOB, race, ethnicity, language, address, telecom, contacts) | Adequate for standard demographics |
-| Encounters / visits | ⚠️ Partial | Encounter resource listed on EHI page; API Guide Encounter endpoint returns only `period.start` | Encounters are listed but extremely thin — only start date/time, no type, location, provider, or discharge info |
-| Problems / conditions / diagnoses | ✅ Covered | Condition resource; `problem` API category with 13 fields | Adequate |
-| Medications / prescriptions | ✅ Covered | MedicationRequest resource; `medication` API category with 15 fields | Covers prescriptions; no medication administration records (MAR) for inpatient |
-| Allergies | ✅ Covered | AllergyIntolerance resource; `medAllergy` API category with 15 fields | Adequate |
-| Immunizations | ✅ Covered | Immunization resource; `immunization` API category with 15 fields | Adequate |
-| Vitals | ✅ Covered | Observation resource; `vital` API category with 13 fields | Adequate |
-| Lab results | ✅ Covered | DiagnosticReport (LAB only) + Observation resources; `labTest` + `labResult` API categories with 31 combined fields | Limited to LAB category in DiagnosticReport |
-| Imaging / diagnostic reports | ❌ Not covered | DiagnosticReport filtered to `category=LAB` only; no radiology/imaging resources | Product has PACS integration and radiology results — gap |
-| Procedures | ✅ Covered | Procedure resource; `procedure` API category with 17 fields | Adequate |
-| Clinical notes / documents | ⚠️ Partial | DocumentReference resource; `assessment` API category (3 fields); page says DocumentReference contains "Assessment, Notes and Documents tabs" | DocumentReference may contain notes, but no field-level detail; clinical note depth unclear |
-| Care plans / goals | ✅ Covered | CarePlan + Goal resources; `planOfTreatment` + `goal` API categories | Adequate |
-| Orders / referrals | ❌ Not covered | No ServiceRequest, no order resources beyond MedicationRequest | Product has CPOE for meds and labs — lab orders not in export |
-| Insurance / coverage | ❌ Not covered | No Coverage or insurance-related resources in any export method | Product has integrated insurance verification — significant gap |
-| Claims / billing | ❌ Not covered | No Claim, ExplanationOfBenefit, or billing entities in any export method | Product has full RCM module with claims, coding, denials — **major gap** |
-| Payments | ❌ Not covered | No payment or financial transaction data in any export method | Product tracks payments and A/R — significant gap |
-| Consents / directives | ❌ Not covered | No Consent resources | Unknown if product stores advance directives |
-| Patient communications / portal messages | ❌ Not covered | No Communication resources; no portal message export | Product has portal with secure messaging — gap |
-| Specialty-specific (Behavioral Health) | ❌ Not covered | Page explicitly states: "Items related to psychotherapy will not be included in any data export" | Product is used in behavioral health settings per CHPL SED description; psychotherapy notes are excluded from EHI by statute, but behavioral health assessments, treatment plans, and diagnoses ARE EHI |
+| Demographics | ✅ Covered | `patient` category (18 fields): name, gender, DOB, race, ethnicity, language, address, phone | Adequate for USCDI; no SSN, emergency contacts, or preferred pharmacy |
+| Encounters / visits | ⚠️ Partial | `Encounter` resource on EHI page; API guide Encounter shows only `period.start` | Only visit date — no encounter type, location, provider, disposition, or diagnosis |
+| Problems / conditions | ✅ Covered | `problem` category: SNOMED codes, clinical status, onset/resolution dates | Well-structured with coded data |
+| Medications / prescriptions | ✅ Covered | `medication` category: RxNorm codes, dosage, directions, start/end dates | Covers ordered medications; unclear if MAR or dispensing data is included |
+| Allergies | ✅ Covered | `medAllergy` category: RxNorm codes, reactions, severity, onset dates | Only medication allergies — unclear if food/environmental allergies are captured |
+| Immunizations | ✅ Covered | `immunization` category: CVX codes, dates, lot numbers | Standard coverage |
+| Vitals | ✅ Covered | `vital` category: LOINC codes, values, units, components | Standard coverage |
+| Lab results | ✅ Covered | `labResult`/`labTest` categories: LOINC codes, values, reference ranges | Standard coverage |
+| Imaging / diagnostic reports | ⚠️ Partial | DiagnosticReport listed but example shows `category=LAB` only | No evidence of radiology reports despite PACS integration |
+| Procedures | ✅ Covered | `procedure` category: SNOMED codes, status, dates | Standard coverage |
+| Clinical notes / documents | ⚠️ Partial | `assessment` (narrative text), `healthConcern`, DocumentReference | DocumentReference scope unclear; assessment is free text only |
+| Care plans / goals | ✅ Covered | `planOfTreatment` and `goal` categories: activities, scheduled dates, descriptions | Includes planned medications/labs/procedures and discharge goals |
+| Orders / referrals | ⚠️ Partial | `planOfTreatment` shows ServiceRequest activities for planned items | No dedicated orders resource; CPOE orders likely incomplete |
+| Insurance / coverage | ❌ Not covered | No insurance/coverage entities in any export method | Product does insurance verification (RCM module); **significant gap** |
+| Claims / billing | ❌ Not covered | No claims, charges, or billing entities in any export method | Product has full RCM module (claims, billing, coding); **significant gap** |
+| Payments | ❌ Not covered | No payment entities in any export method | Product tracks payments and A/R; **significant gap** |
+| Consents / directives | ❌ Not covered | No consent or advance directive entities | Unknown if product stores these |
+| Patient communications / portal messages | ❌ Not covered | No messaging or portal interaction data | Product has patient portal with secure messaging; **gap** |
+| Specialty-specific (Behavioral) | ❌ Not covered | Explicitly excluded: "items related to psychotherapy will not be included" | Product targets behavioral health settings per CHPL SED; psychotherapy notes are carved out of EHI per §171.102, but behavioral health diagnoses, treatment plans, session dates, and medications ARE still EHI |
 
-**Covered**: 10 of 19 applicable domains (with 2 partial)
+**Covered**: 8 of 18 applicable domains
+**Partially covered**: 4 domains
+**Not covered**: 6 domains (of which at least 4 represent confirmed product capabilities)
 
 ## 6. Documentation Quality
 
-**Quality: Poor.** The EHI export documentation is insufficient for a developer to understand, reproduce, or verify the export.
+**Overall: Poor.**
 
-**What exists:**
-- A single web page (last modified 2025-10-18) listing 13 FHIR resource types with query URIs
-- A 67-page API Guide PDF (2020) documenting an older proprietary REST API with JSON examples for 16 clinical categories
-- A FHIR CapabilityStatement from a third-party sandbox server
+- **No data dictionary**: None of the artifacts provide a formal data dictionary — no field definitions, no types, no value sets, no relationships between entities
+- **No schema files**: No JSON Schema, FHIR StructureDefinitions, or any machine-readable format specification
+- **No sample export data**: No sample files showing what an actual export looks like
+- **Field documentation via example only**: The only field-level information comes from example JSON responses in the 6-year-old API Guide PDF (Copyright 2020). A developer would have to reverse-engineer the data model from these examples
+- **Copy-paste errors**: The EHI export page has at least 2 incorrect example URIs (Procedure and Encounter sections are swapped) and a repetitive template structure where every section redundantly lists the `Patient/id/$export` URI
+- **Stale documentation**: The API Guide documents a proprietary REST API at `ehr.icare.com/iCareEHRWeb/rest/` while the EHI page documents a FHIR API at `sandbox-r4.interopengine.com`. The relationship between these two APIs is unexplained
+- **CSC bulk export undocumented**: The most promising export method (vendor-provided data dump with data dictionary) has zero public documentation — the data dictionary is only delivered with the actual export
 
-**What's missing:**
-- **No data dictionary** — no field-level definitions for any export method
-- **No schema files** — no JSON Schema, FHIR StructureDefinitions, or XML schemas
-- **No sample data** — no example export files
-- **No value sets** — no documentation of coded values, code systems, or enumerations
-- **No relationships** — no entity relationship diagrams or foreign key documentation
-- **No format specification for Method 2** (CSC bulk export) — the allegedly most complete export method has zero public documentation
-- **No field types** — the API Guide shows JSON examples but never formally specifies types or cardinality
-
-**Documentation errors:**
-- The Encounter section's URI says `Patient?_id=<id>` instead of `Encounter?patient=<id>`
-- The Encounter section's example links to `Procedure?patient=MRN.XXXXXX`
-- Every resource section pastes the identical generic `Patient/id/$export` URI (28 times) instead of resource-specific URIs
-- The introduction mentions "USCIS" instead of "USCDI" (appears to be a typo for US Core Implementation Guides or USCDI)
-
-**Could a developer build an import from this documentation?** Only for the FHIR API path, and only if they already know FHIR R4 / US Core. The documentation provides no vendor-specific guidance. The CSC bulk export method — which is the only path described as covering "the entirety of your organization's clinical data" — has no public documentation at all.
+A developer attempting to build an import from this documentation would:
+1. Know the 13 FHIR resource types available but have no field-level specification
+2. Have example JSON from a 2020 API guide that may not match current output
+3. Have no documentation whatsoever for the bulk data export format
+4. Need to contact iCare directly ("CSC request") to get the actual data and its documentation
 
 ## 7. Overall Assessment
 
 ### Classification
 
-**Standard-based projection.** The documented EHI export is the vendor's (g)(10) FHIR API relabeled as (b)(10). The 13 FHIR resource types map directly to US Core / USCDI data classes. No native database model is exposed. No vendor-specific entities, custom FHIR profiles, or non-standard data formats are documented. The FHIR infrastructure is third-party (EMR Direct Interoperability Engine), not iCare's own. The undocumented CSC bulk export method *might* be a genuine native export, but without any public documentation it cannot be assessed.
+**Standard-based projection**
+
+The documented EHI export is fundamentally the vendor's (g)(10) FHIR API repackaged as a (b)(10) export. The 13 FHIR resource types on the EHI page map directly to US Core resources. The third-party infrastructure (EMR Direct Interoperability Engine) is a standard interoperability middleware platform, not a custom export tool. The proprietary REST API (from the 2020 PDF) covers the same clinical data domains. Neither API surfaces any data beyond what USCDI/US Core defines — no billing, no scheduling, no portal data, no vendor-specific internal model.
+
+The vendor-assisted "CSC request" for bulk data could potentially constitute a native export, but it is entirely undocumented and unassessable from the public artifacts.
 
 ### Key Findings
 
-1. **FHIR/(g)(10) repackaged as (b)(10)**: The 13 FHIR resource types listed on the EHI export page are standard US Core resources. This is the classic pattern of pointing the (g)(10) standardized API at (b)(10) and calling it done. The third-party FHIR server (EMR Direct Interoperability Engine) confirms this is interoperability middleware, not a custom EHI export tool.
+1. **The export is a FHIR/C-CDA clinical summary, not a full EHI export.** All documented export methods produce standard FHIR R4 resources or C-CDA documents covering only USCDI clinical data classes — approximately 13 resource types. The vendor's native data model (database tables, billing records, scheduling data, portal messages) is not exported.
 
-2. **Entire billing/RCM module absent**: iCare markets an integrated Revenue Cycle Management module with insurance verification, claims, payments, denial management, and E/M coding. None of this data appears in any documented export method. This is a significant EHI gap — billing records about individuals are part of the designated record set.
+2. **Revenue Cycle Management data is entirely absent.** iCare EHR has an integrated RCM module with insurance verification, claims management, billing, payment tracking, and denial management. None of this data appears in any export method — a clear (b)(10) gap since billing records are explicitly part of the HIPAA designated record set.
 
-3. **CSC bulk export is undocumented**: The most promising export method — a vendor-assisted full data dump described as covering "the entirety of your organization's clinical data" — has zero public documentation. No data dictionary, no format specification, no sample files. It cannot be independently assessed.
+3. **No data dictionary exists.** Across all artifacts, there is no formal data dictionary, no schema, no field definitions. The only field-level information is implicit in 6-year-old API guide examples. The CSC bulk export allegedly includes a data dictionary "with the files," but none is publicly available.
 
-4. **Copy-paste errors throughout**: The EHI export page contains multiple copy-paste errors (wrong URIs, wrong resource types in examples, the same generic `$export` URI pasted 28 times). This suggests minimal quality review of the documentation.
+4. **The FHIR API is third-party infrastructure.** The export endpoint (`sandbox-r4.interopengine.com`) is powered by EMR Direct Interoperability Engine, a third-party interoperability platform. The CapabilityStatement only declares `Group/$export` — even the individual resource queries documented on the EHI page are not reflected in the CapabilityStatement.
 
-5. **No sample data or machine-readable artifacts**: Unlike vendors with strong (b)(10) implementations, iCare provides no sample export files, JSON schemas, data dictionaries, or any machine-readable documentation that would let a developer verify or build against the export.
+5. **Copy-paste errors indicate minimal effort.** The EHI export page contains swapped example URIs (Procedure/Encounter), a repetitive template structure, and inconsistencies suggesting the documentation was hastily assembled rather than carefully authored.
 
 ### Summary Stats
 
 ```
 Classification:  Standard-based projection
-Export format:   FHIR R4 JSON (API), C-CDA XML (HIM/CCD), unknown (CSC bulk)
-Model type:      Standard projection (US Core FHIR resources)
-Entities:        13 FHIR resource types (EHI page); 16 API categories (PDF)
-Fields:          ~62 unique field names across API JSON examples; no formal field inventory
-Descriptions:    N/A (no data dictionary)
-Sample data:     No
-Bulk export:     Yes (FHIR Bulk Data + vendor-assisted CSC)
-Domains covered: 10 of 19 applicable domains (2 partial)
+Export format:   FHIR R4 JSON, C-CDA XML
+Model type:      Standard projection (US Core / USCDI)
+Entities:        13 FHIR resource types (EHI page) / 16 API categories (API guide)
+Fields:          ~85 (visible in sample outputs only; no formal dictionary)
+Descriptions:    ~93% (79/85 fields in samples have implicit descriptions; 0% formally documented)
+Sample data:     No (example JSON in API guide only)
+Bulk export:     Yes (FHIR Bulk Data $export; also vendor-assisted CSC request)
+Domains covered: 8 of 18 applicable domains (4 partial, 6 not covered)
 ```
 
 ### Bottom Line
 
-iCare's EHI export is a FHIR/C-CDA clinical summary repackaged as a (b)(10) export. It covers standard USCDI clinical data (~10 domains) but omits billing, insurance, payments, scheduling, portal messages, imaging, and orders — all of which the product stores. The single biggest gap is the complete absence of billing/RCM data from the documented export despite the product having an integrated revenue cycle management module. A patient or provider requesting their complete EHI would receive clinical data but miss significant portions of their designated record set.
+iCare's (b)(10) export is their (g)(10) FHIR API relabeled. It covers the standard USCDI clinical data classes (demographics, problems, medications, labs, vitals, procedures, immunizations, care plans) but entirely omits billing/RCM data, scheduling, patient portal communications, and e-prescribing transaction history — all of which the product stores and which are part of the HIPAA designated record set. The single biggest gap is the complete absence of revenue cycle and billing data despite iCare having an integrated RCM module. A patient or provider receiving this export would get a clinical summary, not their complete health record.

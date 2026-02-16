@@ -1,182 +1,221 @@
-# EHI Export Analysis: Pulse Systems, Inc.
+# EHI Export Analysis: Pulse Systems, Inc
 
-**Product**: Pulse EHR v8.02
-**Analysis date**: 2026-02-15
-**CHPL ID**: 15.04.04.2837.Puls.08.03.1.240806 (CHPL listing 11500)
+**Product**: Pulse EHR
+**Analysis date**: 2026-02-16
+**CHPL IDs**: 15.04.04.2837.Puls.08.03.1.240806 (CHPL ID 11500)
 
 ## 1. Product Context
 
-Pulse EHR is an integrated EHR and practice management platform from Pulse Systems, Inc. (part of Harris Ambulatory Care Enterprise, acquired by N. Harris Computer Corporation in 2019). It targets ambulatory practices across multiple specialties — urology, gastroenterology, orthopedics, primary care, FQHCs, behavioral health, cardiology, oncology, and more.
+Pulse EHR is an integrated electronic health records and practice management platform ("Pulse EHR/PM") developed by Pulse Systems, Inc., a Kansas City-based company now part of the Harris Ambulatory Care Enterprise (N. Harris Computer Corporation). The certified product (v8.02, certified 2024-08-06) targets ambulatory practices across multiple specialties including primary care, urology, gastroenterology, orthopedics, cardiology, and behavioral health.
 
-The product is marketed as "Pulse EHR/PM" — the EHR and practice management components are tightly coupled. Key modules include:
+The product stores data across several major domains relevant to EHI completeness:
 
-- **Clinical Documentation**: customizable flow sheets, "Pulse Note" clinical knowledge engine, patient clinical snapshot, E&M coding
-- **CPOE**: medications, labs, diagnostic imaging with drug interaction checking
-- **E-Prescribing**: Surescripts Gold Solution Provider
-- **Practice Management (PulsePro)**: scheduling, registration, billing, coding, claims, eligibility verification, A/R tracking, payment posting, denial management
-- **Revenue Cycle Management (PulseRCM)**: claims management, certified coding, denial analysis
-- **Patient Engagement**: patient portal (InteliChart), automated reminders
-- **Population Health**: CQM, care gaps, chronic care management, MACRA/MIPS
-- **Document Management**: faxes, transcription, scanned documents
+- **Clinical documentation**: Customizable flowsheets, "Pulse Note" clinical intelligence engine, encounter templates, E&M coding
+- **CPOE**: Medication, laboratory, and diagnostic imaging orders with drug interaction checking
+- **E-prescribing**: Surescripts Gold Solution Provider integration
+- **Practice management (PulsePro)**: Scheduling, patient registration, medical billing/coding, claims processing, insurance eligibility verification, A/R tracking, payment posting, denial management
+- **Revenue cycle management (PulseRCM)**: Claims management, denial management, certified coding support
+- **Patient engagement**: Patient portal via InteliChart, automated appointment reminders
+- **Population health**: CQM tracking, care gaps, chronic care management, MIPS/MACRA support
+- **Document management**: Fax, transcription, scanned document management
 
-This breadth means the product stores data across clinical, billing, scheduling, claims/RCM, quality, and document management domains. A complete (b)(10) export should cover all of these.
+This breadth of functionality — particularly the deeply integrated billing, practice management, and RCM capabilities — sets a high bar for what a complete EHI export should cover.
 
 ## 2. Artifacts Reviewed
 
-| Artifact | Description | Informative Value |
+| Artifact | Description | Informative? |
 |---|---|---|
-| `screenshot-certification-page-full.png` (694 KB) | Full-page screenshot of Pulse Systems' registered mandatory disclosures page. Shows all certified criteria, costs/disclosures text, and the three documentation links at the bottom. | **High** — confirms the EHI export link text and location |
-| `screenshot-ehi-export-link-target.png` (222 KB) | Screenshot showing where the "View Electronic Health Information Export Documentation" link leads — the HL7 FHIR US Core USCDI page | **High** — visual proof the EHI link points to an external standard, not vendor documentation |
-| `Pulse-EHI-Export-Document-REV-06142024.docx` (164 KB) | 6-page Word document from CHS.net describing Pulse v16.1's EHI export as a CDA XML document. Lists 44 unique CDA sections. | **Medium** — only EHI export documentation found, but for a **different** product (CHS/Pulse v16.1, CHPL 10360), not Pulse Systems Inc. v8.02 |
-| `Pulse-8.0-API-FHIR-Documentation.pdf` (597 KB, 41 pages) | FHIR R4 API documentation for §170.315(g)(10). Covers 19 US Core FHIR resources. | **Low for (b)(10)** — this is the (g)(10) API, not EHI export |
-| `Pulse_CommonClinicalDataAPI-002.pdf` (430 KB, 10 pages) | Proprietary REST API for retrieving CCD/CCDA documents via POST requests. | **Low for (b)(10)** — this is the (g)(7)/(g)(9) API |
-| `screenshot-certification-page-top.png` (246 KB) | Top portion of the certification page | **Low** — supplementary to the full screenshot |
+| `Pulse-EHI-Export-Document-REV-06142024.docx` (164 KB) | CHS/CereCore-branded EHI export document for Pulse v16.1. Lists 44 unique CDA sections. Contains sample XML as screenshot image. **Most informative artifact for (b)(10) — but from a different organization and version.** | ⭐ Most informative |
+| `Pulse-8.0-API-FHIR-Documentation.pdf` (597 KB, 41 pp) | FHIR R4 API documentation for §170.315(g)(10). Documents 21 US Core FHIR resources. **Not EHI export documentation.** | Contextual only |
+| `Pulse_CommonClinicalDataAPI-002.pdf` (430 KB, 10 pp) | Proprietary REST API for CCD/CCDA retrieval via POST with OAuth 2.0. **Not EHI export documentation.** | Contextual only |
+| `screenshot-certification-page-full.png` (694 KB) | Full-page screenshot of pulseinc.com certification page showing three documentation links at bottom. | Confirms link placement |
+| `screenshot-certification-page-top.png` (246 KB) | Top portion of certification page. | Minor |
+| `screenshot-ehi-export-link-target.png` (222 KB) | Screenshot proving the "View Electronic Health Information Export Documentation" link leads to HL7.org's FHIR US Core USCDI page, not vendor documentation. | ⭐ Key evidence |
 
-**Verification of the vendor's EHI export link**: I fetched `https://pulseinc.com/terms-conditions-certification-costs-and-limitations/` directly and confirmed the "View Electronic Health Information Export Documentation" link targets `https://www.hl7.org/fhir/us/core/uscdi.html`. I also fetched that HL7 URL and confirmed it is the US Core USCDI standards page — a generic reference about USCDI versions and FHIR profiles. This is not vendor-specific EHI export documentation.
-
-**Verification of the CHS document**: I fetched `https://www.chs.net/pulse-ehr-information/` and confirmed it hosts the DOCX. The page explicitly states: *"This page contains information related to the Pulse certified Health IT product developed and maintained by Community Health Systems for internal hospital use. This is not commercially available technology."* The CHS product is Pulse v16.1 (certificate references CHPL 10360), a different certified product than Pulse Systems Inc.'s v8.02.
+**Verification of prior report claims:**
+- ✅ Confirmed: The vendor's "View Electronic Health Information Export Documentation" link at the registered URL points to `https://www.hl7.org/fhir/us/core/uscdi.html` (verified via curl and screenshot). This is an external HL7 standards reference page, not vendor-specific documentation.
+- ✅ Confirmed: The certification page (HTTP 200 on 2026-02-16) contains the statement: "Pulse EHR is certified to data export criteria and can create a set of export summaries in real time."
+- ✅ Confirmed: The CHS page (`https://www.chs.net/pulse-ehr-information`) is live (HTTP 200 after redirect) and still hosts the DOCX.
+- ✅ Confirmed: The DOCX is branded CHS/CereCore (embedded logos: image1.png = CereCore logo, image2.png = CHS logo).
+- ⚠️ Corrected: Prior report says "~44 CDA sections." Actual count is 46 raw entries in the table, of which 44 are unique (2 duplicates: "Goals Section" and "Health Concerns Section" each appear twice).
+- ⚠️ Corrected: Prior report describes the document as "6 pages." The DOCX has no explicit page count metadata; it contains 38 non-empty paragraphs and 1 table across 2 heading sections plus front matter.
+- ✅ Confirmed: The FHIR API PDF is 41 pages and the Common Clinical Data API PDF is 10 pages.
 
 ## 3. Export Mechanics
 
-**From Pulse Systems Inc. directly**: Essentially undocumented. The only statement on their certification page is:
+- **Format**: CDA XML (Clinical Document Architecture) — an HL7 standard for clinical document exchange
+- **Mechanism**: Called "EHI Tables export" in the CHS document; the vendor's own certification page says "the user can create a set of export summaries in real time." Specific UI steps or API calls are not documented.
+- **Single-patient vs bulk**: The vendor's certification page mentions "mass export" that "should be scheduled during off-peak hours to reduce performance stress," implying bulk capability exists but details are not provided.
+- **Access constraints**: No fees or access constraints mentioned beyond system performance considerations.
+- **Viewer**: CDA.xsl stylesheet from HL7 GitHub for human-readable rendering.
 
-> "Pulse EHR is certified to data export criteria and can create a set of export summaries in real time. Though the user can create a set of export summaries in real time, this type of mass export is recommended as best practice to be scheduled during off-peak hours to reduce performance stress on the system."
-
-This tells us:
-- An export exists and can run "in real time"
-- It generates "export summaries" (plural, suggesting per-patient documents)
-- Mass export is possible but resource-intensive (off-peak scheduling recommended)
-- No information on format, mechanism (UI button? API?), access, or content
-
-**From the CHS document** (Pulse v16.1, different product): The export is described as a CDA XML document generated via "EHI Tables export," viewable with an HL7 CDA.xsl stylesheet. No UI instructions, no API endpoint, no batch/bulk mechanism described.
-
-- **Format**: CDA XML
-- **Mechanism**: unclear (described as "EHI Tables export" but no workflow shown)
-- **Single-patient vs bulk**: the Pulse Systems page mentions "mass export," suggesting bulk is possible; CHS doc doesn't address this
-- **Access constraints**: none stated; no fees for the export itself
+**Critical caveat**: The only documentation of the export mechanism comes from CHS (Community Health Systems) for Pulse v16.1 — a different certified product by a different developer. CHS's page explicitly states "This is not commercially available technology." Pulse Systems, Inc.'s own certification page provides no technical documentation whatsoever about how the (b)(10) export works for v8.02.
 
 ## 4. Export Content: What's In It
 
-### Pulse Systems Inc. (v8.02) — the certified product
+### Data dictionary assessment
 
-**There is no EHI export documentation for the certified product.** The "View Electronic Health Information Export Documentation" link on the mandatory disclosures page points to `https://www.hl7.org/fhir/us/core/uscdi.html` — the HL7 FHIR US Core USCDI reference page. This is not a data dictionary, not a schema, not an export guide. It is an external standards page that maps USCDI data classes to FHIR profiles.
+There is **no data dictionary**. The CHS document provides only a single-column table of CDA section names — no fields, no data types, no descriptions, no relationships, no value sets, no constraints. The CDA standard itself defines the structure within each section, but the vendor provides no documentation of how Pulse data maps to CDA elements, what Pulse-specific extensions exist (if any), or which fields within each section are actually populated.
 
-The only content-related statement is the phrase "export summaries," which suggests CDA or similar clinical summary documents, consistent with the CHS document's description.
+### CDA sections listed
 
-### CHS/CereCore (Pulse v16.1) — different product, for reference only
+The DOCX lists 44 unique CDA sections (46 raw entries with 2 duplicates). These sections are names only — there is zero field-level documentation within any section.
 
-The CHS-hosted DOCX describes the export as a CDA XML document containing 44 unique CDA sections (46 listed, with "Health Concerns Section" and "Goals Section" each appearing twice). These sections are standard CDA sections, not vendor-specific entities.
+### Vendor's own content organization
 
-**Key characteristics:**
-- **No field-level documentation**: the document lists section names only — no fields, no data types, no value sets, no coded entries
-- **No data dictionary**: just a one-column table of section names
-- **No sample data**: one partial XML snippet showing CDA header structure
-- **No relationships or constraints documented**
-- **Acknowledged limitations**: "Some electronic health information might not be available in a format, such as rich text documents or images"
+The CHS document does not organize sections into categories. The table below maps each listed CDA section to a clinical domain based on standard CDA semantics:
 
-### CDA sections listed (from CHS document)
-
-The 44 unique sections, organized by category:
-
-| Category | Sections |
+| CDA Section | Mapped Domain |
 |---|---|
-| Clinical Notes (8) | History Of Present Illness, Physical Examination, Review Of Systems, Progress Note, Procedure Note, Hospital Course, Discharge Summary Note, Consultation Note |
-| Diagnoses/Problems (5) | Problems, Hospital Discharge Diagnosis, Admission Diagnosis, PreOperative Diagnosis, Postprocedure Diagnosis |
-| Procedures/Devices (5) | Procedures, Implants, Planned Procedure, Procedure Indications, Procedure Description |
-| Care Planning (6) | Assessments, Plan of Care, Goals Section, Health Concerns Section, Interventions Section, Health Status Evaluations/Outcomes Section |
-| Medications (2) | Medications, Discharge Medications |
-| Encounters/Visits (4) | Encounters, Reason For Visit/Chief Complaint, Hospital Discharge Instructions, General Status |
-| Vitals/Labs (2) | Vital Signs, Results |
-| Allergies (1) | Allergies and Adverse Reactions |
-| Immunizations (1) | Immunizations |
-| Social/Family History (3) | Social History, Family History, Past Medical History |
-| Functional/Mental (3) | Functional Status, Mental Status, Reason for Referral |
-| Financial/Payer (2) | Payers, Financial Data |
-| Security (1) | Security and Privacy Prohibitions |
-| Other (1) | Complications |
+| Security and Privacy Prohibitions | Administrative |
+| Allergies and Adverse Reactions | Allergies |
+| Medications | Medications |
+| Discharge Medications | Medications |
+| Problems | Problems / Conditions |
+| Hospital Discharge Diagnosis | Problems / Conditions |
+| Encounters | Encounters |
+| Admission Diagnosis | Problems / Conditions |
+| Procedures | Procedures |
+| Implants | Implantable Devices |
+| Immunizations | Immunizations |
+| Vital Signs | Vitals |
+| Social History | Social History |
+| Results | Lab Results |
+| Functional Status | Functional Status |
+| Mental Status | Mental Status |
+| Assessments | Assessments |
+| PLAN OF CARE | Care Plans / Goals |
+| Goals Section | Care Plans / Goals |
+| Health Concerns Section | Problems / Conditions |
+| Hospital Discharge Instructions | Clinical Notes |
+| Family History | Family History |
+| Reason For Visit/Chief Complaint | Clinical Notes |
+| General Status | Clinical Notes |
+| Past Medical History | Clinical Notes |
+| History Of Present Illness | Clinical Notes |
+| Physical Examination | Clinical Notes |
+| Review Of Systems | Clinical Notes |
+| Progress Note | Clinical Notes |
+| PreOperative Diagnosis | Procedures |
+| Postprocedure Diagnosis | Procedures |
+| Planned Procedure | Procedures |
+| Complications | Clinical Notes |
+| Procedure Indications | Procedures |
+| Procedure Description | Procedures |
+| Procedure Note | Procedures |
+| Reason for Referral | Orders / Referrals |
+| Hospital Course | Clinical Notes |
+| Interventions Section | Care Plans / Goals |
+| Health Status Evaluations/Outcomes Section | Care Plans / Goals |
+| Discharge Summary Note | Clinical Notes |
+| Consultation Note | Clinical Notes |
+| Payers | Insurance / Coverage |
+| Financial Data | Claims / Billing |
 
-The "Payers" and "Financial Data" sections are notable — they go beyond the typical clinical-only CDA. However, CDA's capacity to represent detailed billing, claims, RCM, and A/R data is extremely limited. Standard CDA payer sections typically contain insurance coverage information (plan name, subscriber ID), not detailed claims, charge line items, payments, or denial records.
+### Sample data
+
+The DOCX contains one sample XML fragment as a **screenshot image** (image3.png, 1617×836 px). The XML shows a standard CDA `<ClinicalDocument>` header with:
+- Title: "Continuity of Care Document"
+- Code: LOINC 34133-9 "Summarization of Episode Note"
+- Organization: "COMMUNITY HEALTH HOSPITALS"
+- Patient demographics: name, address, phone, gender in standard CDA `<recordTarget>` structure
+
+This is a standard C-CDA/CCD header — no Pulse-specific extensions are visible. The sample shows only the document header, not the body sections that would contain clinical data. As an image, it is not machine-readable.
+
+### FHIR API (not EHI export)
+
+For context, the (g)(10) FHIR API documentation covers 21 US Core FHIR resource types. This represents standard USCDI clinical data and is explicitly the (g)(10) API, not the (b)(10) export. The resource types are: AllergyIntolerance, CarePlan, CareTeam, Condition, DocumentReference, DiagnosticReport, Encounter, Goal, Immunization, ImplantableDevice, Location, Medication, MedicationRequest, Observation, Organization, Patient, Practitioner, Procedure, Provenance, and Vital Signs.
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-**For Pulse Systems Inc. (v8.02)**: It is impossible to assess what the export covers because no documentation exists. The EHI export link points to an external HL7 standards page with no vendor-specific content.
+The CHS document lists CDA sections covering clinical documentation broadly. The strongest coverage is in:
 
-**For CHS/Pulse v16.1 (reference only)**: The CDA-based export covers 44 sections that span clinical documentation comprehensively — notes, diagnoses, medications, procedures, vitals, labs, allergies, immunizations, care plans, and social/family history. It includes "Payers" and "Financial Data" sections, but the depth of financial coverage in a CDA document is structurally limited. The document explicitly acknowledges that "some electronic health information might not be available in a format, such as rich text documents or images."
+- **Clinical Notes**: 12 sections covering progress notes, H&P components, discharge summaries, consultation notes, procedure notes — this is the deepest area
+- **Procedures**: 7 sections covering procedure descriptions, diagnoses, indications, and notes
+- **Problems / Conditions**: 4 sections including problems, diagnoses, and health concerns
+- **Care Plans / Goals**: 4 sections including plan of care, goals, interventions, and outcomes
 
-The CDA format is fundamentally a clinical document exchange standard. It is designed for sharing narrative clinical documents with some coded data — not for exporting an entire EHR database. A CDA document cannot meaningfully represent scheduling data, claims management records, A/R aging, denial tracking, payment posting, eligibility verification results, quality measure calculations, or patient portal communications.
+The thinnest areas are:
+- **Insurance / Coverage**: 1 section ("Payers") — section name only, no indication of depth
+- **Claims / Billing**: 1 section ("Financial Data") — section name only, and CDA is fundamentally unsuited to represent detailed billing data
+
+The document explicitly acknowledges limitations: "Some electronic health information might not be available in a format, such as rich text documents or images."
 
 ### 5b. Standardized domain coverage (top-down)
 
-The following assessment is based on the CHS document (the only available evidence), noting that this describes a different product version. For the actual certified product (Pulse Systems v8.02), coverage cannot be assessed due to absent documentation.
-
 | Domain | Coverage | Export Evidence | Gap Analysis |
 |---|---|---|---|
-| Demographics | ⚠️ Partial | CDA header contains patient demographics by standard; no field-level detail in documentation | CDA headers typically include name, DOB, gender, address, but may not include all registration fields the PM system stores |
-| Encounters / visits | ⚠️ Partial | "Encounters" CDA section listed | CDA encounter section is typically a list of visit dates/types; unlikely to capture full encounter detail from PM/scheduling |
-| Problems / conditions | ✅ Covered | "Problems," "Hospital Discharge Diagnosis," "Admission Diagnosis," "PreOperative Diagnosis," "Postprocedure Diagnosis" sections | Multiple diagnosis-related sections suggest reasonable coverage |
-| Medications / prescriptions | ⚠️ Partial | "Medications," "Discharge Medications" sections | Standard CDA medication lists; unclear if full e-prescribing history (Surescripts transactions) is captured |
-| Allergies | ✅ Covered | "Allergies and Adverse Reactions" section | Standard CDA allergy section |
-| Immunizations | ✅ Covered | "Immunizations" section | Standard CDA immunization section |
-| Vitals | ✅ Covered | "Vital Signs" section | Standard CDA vitals |
-| Lab results | ✅ Covered | "Results" section | Standard CDA results section |
-| Imaging / diagnostic reports | ⚠️ Partial | No dedicated imaging section; may be in "Results" | Product supports CPOE for diagnostic imaging; unclear if reports are in export |
-| Procedures | ✅ Covered | "Procedures," "Planned Procedure," "Procedure Indications," "Procedure Description," "Procedure Note" sections | Strong procedural coverage with 5 dedicated sections |
-| Clinical notes / documents | ✅ Covered | 8 note-type sections (Progress Note, H&P components, Consultation Note, Discharge Summary, etc.) | Comprehensive note coverage in CDA format |
-| Care plans / goals | ✅ Covered | "Plan of Care," "Goals Section," "Health Concerns Section," "Interventions Section," "Assessments" | Multiple care planning sections |
-| Orders / referrals | ⚠️ Partial | "Reason for Referral" section listed; no explicit orders section | CPOE orders (labs, meds, imaging) are a core product feature; no dedicated orders section in export |
-| Insurance / coverage | ⚠️ Partial | "Payers" section listed | CDA payer sections typically contain plan-level info (name, subscriber ID), not detailed eligibility or coverage details |
-| Claims / billing | ❌ Not covered | "Financial Data" section listed, but CDA cannot represent claims, charge line items, payment posting, A/R, or denial data | Product includes PulsePro billing/coding and PulseRCM claims management — **significant gap** |
-| Payments | ❌ Not covered | No evidence of payment data in CDA export | Product supports payment posting and reconciliation; not in export |
-| Consents / directives | ⚠️ Partial | "Security and Privacy Prohibitions" section | May contain consent/directive data, but section name suggests privacy restrictions rather than advance directives |
-| Patient communications / portal messages | ❌ Not covered | No section for portal messages | Product integrates InteliChart patient portal; portal data not in export |
-| Specialty-specific data | ⚠️ Partial | No dedicated specialty sections | Product serves urology, GI, orthopedics, oncology, etc. with customizable flow sheets; unclear if custom data is captured in CDA |
+| Demographics | ⚠️ Partial | CDA header contains patient demographics (visible in sample XML) but no dedicated CDA section listed | CDA header includes name, address, phone, gender. Product stores full registration data (PulsePro) — depth of demographic export unknown |
+| Encounters / visits | ⚠️ Partial | "Encounters" section listed | Section name only; product has advanced scheduling and encounter management. No field-level detail on what encounter data is exported |
+| Problems / conditions / diagnoses | ✅ Covered | "Problems," "Hospital Discharge Diagnosis," "Admission Diagnosis," "Health Concerns Section" | 4 sections addressing diagnoses and conditions |
+| Medications / prescriptions | ⚠️ Partial | "Medications," "Discharge Medications" | Sections listed but product has deep e-prescribing (Surescripts Gold) with transaction history that CDA likely cannot fully represent |
+| Allergies | ✅ Covered | "Allergies and Adverse Reactions" | Standard CDA section |
+| Immunizations | ✅ Covered | "Immunizations" | Standard CDA section |
+| Vitals | ✅ Covered | "Vital Signs" | Standard CDA section |
+| Lab results | ✅ Covered | "Results" | Standard CDA section |
+| Imaging / diagnostic reports | ⚠️ Partial | No dedicated imaging section; "Results" may include some | Product has CPOE for diagnostic imaging; unclear if imaging reports/orders are in export |
+| Procedures | ✅ Covered | 7 procedure-related sections | Strong coverage of procedure documentation |
+| Clinical notes / documents | ✅ Covered | 12 note-related sections | Strongest area of coverage |
+| Care plans / goals | ✅ Covered | "PLAN OF CARE," "Goals Section," "Interventions Section," "Health Status Evaluations/Outcomes Section" | 4 sections with good breadth |
+| Orders / referrals | ⚠️ Partial | "Reason for Referral" only | Product has full CPOE (meds, labs, imaging); only referral reason is represented, not order details |
+| Insurance / coverage | ⚠️ Partial | "Payers" section listed | Section name only; product does insurance eligibility verification — depth of export unknown |
+| Claims / billing | ⚠️ Partial | "Financial Data" section listed | **Significant concern**: Product has deep billing (PulsePro), RCM (PulseRCM), claims management, A/R tracking, payment posting, denial management. CDA is fundamentally unable to represent this data. A single "Financial Data" CDA section cannot capture claims, payments, denials, A/R aging, etc. |
+| Payments | ❌ Not covered | No evidence | Product handles payment posting and reconciliation; no evidence in export |
+| Consents / directives | ⚠️ Partial | "Security and Privacy Prohibitions" may partially address | Unclear scope |
+| Patient communications / portal messages | ❌ Not covered | No evidence | Product integrates InteliChart patient portal; portal messages not in export |
+| Specialty-specific data | ❌ Not covered | No evidence of custom flowsheet data | Product's key differentiator is "customizable flow sheets configurable per provider" and specialty-specific templates — these are not representable in standard CDA sections |
 
-**Summary**: Of 18 applicable domains, 7 are covered, 8 are partial, and 3 are not covered. The most significant gaps are in billing/claims/RCM (core product functionality via PulsePro and PulseRCM), payments, and patient portal communications.
+**Summary**: Of 17 applicable domains, 7 have clear coverage (all clinical), 8 have partial/uncertain coverage, and 3 have no evidence of coverage. The gaps concentrate in billing/financial data and specialty-specific clinical content — exactly the areas where CDA as a format is weakest.
 
 ## 6. Documentation Quality
 
-**For the certified product (Pulse Systems v8.02)**: Documentation quality is **essentially zero**. The vendor's registered EHI export documentation link points to an external HL7 standards page (`https://www.hl7.org/fhir/us/core/uscdi.html`) that has nothing to do with their product's export. There is no data dictionary, no schema, no user guide, no sample data, and no format specification. A developer would have no basis to understand, import, or process the export.
+**From Pulse Systems, Inc. (the certified developer): No documentation exists.** The registered certification URL's "View Electronic Health Information Export Documentation" link navigates to `https://www.hl7.org/fhir/us/core/uscdi.html` — HL7's FHIR US Core USCDI reference page. This is an external standards reference about USCDI data classes, not vendor-specific EHI export documentation. There is no data dictionary, no export format specification, no user guide, and no sample data hosted by Pulse Systems.
 
-The single sentence on the certification page ("can create a set of export summaries in real time") is the entirety of what Pulse Systems provides about its (b)(10) export.
+**From CHS/CereCore (third party, different version):** The DOCX provides:
+- ✅ Export format identification (CDA XML)
+- ✅ List of 44 CDA section names
+- ✅ One sample XML fragment (as screenshot image)
+- ✅ Acknowledgment of limitations
+- ❌ No field-level documentation within any section
+- ❌ No data types, constraints, or value sets
+- ❌ No instructions for performing the export
+- ❌ No explanation of data completeness relative to what the system stores
+- ❌ No machine-readable schema or sample data
 
-**For the CHS document (different product)**: The 6-page DOCX provides a section-name-level inventory (44 CDA section names in a single-column table) and a partial XML snippet. There are no field-level definitions, no data types, no value sets, no relationships, and no import guidance. It provides slightly more than nothing — a developer would know the export is CDA XML and could identify section names, but would need to rely entirely on the CDA standard for parsing.
-
-**Machine-readable artifacts**: None. No JSON schema, no sample export file, no data dictionary in any parseable format.
+**Could a developer build an import from this documentation?** No. A developer would receive a CDA XML document and would need to rely entirely on the CDA/C-CDA standard specifications for parsing. The vendor documentation provides no guidance on which CDA sections are populated, what coded values are used, what Pulse-specific extensions might exist, or how to handle the acknowledged gaps (rich text, images). The section list tells you what sections *might* appear, but nothing about their content.
 
 ## 7. Overall Assessment
 
 ### Classification
 
-**Minimal/stub**: The certified product (Pulse Systems v8.02) has no EHI export documentation whatsoever. The EHI export link on the mandatory disclosures page points to an irrelevant external standards page. The only substantive export documentation found anywhere is a 6-page Word document from CHS.net describing a different product (Pulse v16.1) by a different developer (Community Health Systems), which reveals a CDA-based export — a clinical document standard being repurposed as a (b)(10) export.
+**Standard-based projection**: The EHI export is a CDA XML document — a clinical document standard being repurposed as a (b)(10) export mechanism. This is essentially the vendor's existing C-CDA/CCD capability (certified under (g)(6) "Consolidated CDA Creation Performance") being called the (b)(10) export. CDA is designed for clinical document exchange between healthcare systems, not for comprehensive data export. It cannot represent billing, practice management, revenue cycle, scheduling, or custom specialty data that the product stores.
 
 ### Key Findings
 
-1. **The vendor's EHI export documentation link is a dead end.** Pulse Systems' "View Electronic Health Information Export Documentation" link points to `https://www.hl7.org/fhir/us/core/uscdi.html` — the HL7 FHIR US Core USCDI page. This is an external standards reference about USCDI data classes and FHIR profiles, not vendor-specific export documentation. Verified by direct web fetch and corroborated by screenshot evidence (`screenshot-ehi-export-link-target.png`).
+1. **Vendor provides no EHI export documentation at all.** The "View Electronic Health Information Export Documentation" link on pulseinc.com points to HL7.org's FHIR US Core USCDI page — an external standards reference with no connection to Pulse's export. This appears to conflate (b)(10) EHI export with (g)(10) FHIR API/USCDI requirements.
 
-2. **No EHI export documentation exists on the vendor's website.** I searched the full pulseinc.com sitemap (14 pages) and the harrisambulatory.com domain — no EHI export documentation was found anywhere. The certification page contains a single sentence about "export summaries" with zero technical detail.
+2. **The only substantive documentation is from a different organization for a different version.** The CHS-hosted DOCX describes Pulse v16.1 (CHS's internal deployment), not the Pulse Systems v8.02 certified product. CHS explicitly states their Pulse product is "not commercially available technology."
 
-3. **The only EHI export documentation found is for a different product.** The CHS-hosted document (`Pulse-EHI-Export-Document-REV-06142024.docx`) describes Pulse v16.1, developed and maintained by Community Health Systems for internal hospital use. CHS's own website says this is "not commercially available technology." This is a separate CHPL listing (10360), not the Pulse Systems Inc. v8.02 product (CHPL 11500).
+3. **Export is CDA XML, covering clinical data but structurally unable to represent billing/PM data.** The product has deep billing, RCM, practice management, and scheduling capabilities (PulsePro, PulseRCM). CDA has no sections for claims, payments, denials, A/R, or appointment schedules. The "Financial Data" section name is listed but CDA is not designed for this purpose.
 
-4. **The CHS document reveals a CDA-based export** with 44 CDA sections — a clinical document standard being used as a (b)(10) mechanism. CDA is structurally incapable of representing billing, claims, RCM, scheduling, quality measures, or patient portal data that Pulse EHR stores. The document acknowledges "some electronic health information might not be available."
+4. **Zero field-level documentation.** The export documentation consists of a list of 44 CDA section names with no fields, types, descriptions, value sets, or relationships. There is no data dictionary of any kind.
 
-5. **The vendor appears to conflate (b)(10) with (g)(10)/USCDI.** Pointing the EHI export link to the USCDI page suggests the vendor equates the (b)(10) "all EHI" export requirement with the (g)(10) USCDI/FHIR API requirement — a fundamentally different and much narrower scope.
+5. **Custom specialty data is unaddressed.** The product's differentiating feature is customizable flowsheets for specialty practices. Standard CDA sections cannot represent custom flowsheet data structures, and the documentation makes no mention of how (or whether) this data is exported.
 
 ### Summary Stats
 
-```
-Classification:  Minimal/stub
-Export format:   Unknown (likely CDA XML based on CHS reference doc)
-Model type:      Standard projection (CDA)
-Entities:        N/A (no data dictionary for certified product)
-Fields:          N/A
-Descriptions:    N/A
-Sample data:     No
-Bulk export:     Unclear ("mass export" mentioned but undocumented)
-Domains covered: Cannot assess — no documentation for certified product
-```
+    Classification:  Standard-based projection
+    Export format:   CDA XML (Clinical Document Architecture)
+    Model type:      Standard projection (C-CDA repackaged as b(10))
+    Entities:        44 CDA sections (not database entities)
+    Fields:          N/A (no field-level documentation)
+    Descriptions:    N/A (section names only)
+    Sample data:     Yes (XML screenshot in DOCX, not machine-readable)
+    Bulk export:     Unclear (vendor mentions "mass export" should be off-peak)
+    Domains covered: 7 of 17 applicable domains clearly; 8 partial/uncertain
 
 ### Bottom Line
 
-Pulse Systems Inc. provides no EHI export documentation for its certified product. The "View Electronic Health Information Export Documentation" link on the mandatory disclosures page redirects to an external HL7 standards page, not vendor documentation. The only EHI export documentation that exists anywhere for any Pulse product is a brief CHS-hosted document for a different version by a different developer, describing a CDA-based export that structurally cannot capture the billing, claims, RCM, and practice management data that Pulse EHR stores. This is one of the weakest (b)(10) implementations possible — the vendor has not even provided documentation, let alone a comprehensive export.
+Pulse Systems, Inc. provides no EHI export documentation at its registered URL — the link labeled "View Electronic Health Information Export Documentation" redirects to an external HL7 standards page. The only substantive documentation found is a brief CHS-hosted document for a different version describing a CDA XML export. This is a C-CDA clinical document being called a (b)(10) export, covering clinical data reasonably but structurally unable to represent the billing, practice management, and specialty data that this integrated EHR/PM product stores. The single biggest gap is the complete absence of vendor-authored EHI export documentation.

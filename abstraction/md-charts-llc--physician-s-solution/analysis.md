@@ -1,154 +1,140 @@
 # EHI Export Analysis: MD Charts, LLC
 
-**Product**: Physician's Solution (also branded as DermCharts, KidsCharts, OBGYNCharts)
-**Analysis date**: 2026-02-15
-**CHPL ID**: 15.99.09.2479.PH01.11.01.1.230117 (listing 11214)
+**Product**: Physician's Solution
+**Analysis date**: 2026-02-16
+**CHPL IDs**: 11214 (15.99.09.2479.PH01.11.01.1.230117)
 
 ## 1. Product Context
 
-Physician's Solution by MD Charts, LLC is an all-in-one cloud-based EHR, practice management, and revenue cycle management platform for ambulatory practices. Certified as a "Complete EHR" in January 2023, it holds 37 ONC certification criteria including 170.315(b)(10) for EHI export. The product is headquartered in Great Neck, New York and has approximately 150+ implementations.
+Physician's Solution by MD Charts, LLC is an all-in-one cloud-based EHR, practice management, and revenue cycle management platform for ambulatory practices. Certified as a Complete EHR (January 2023), it serves multiple specialties under specialty-branded names: DermCharts (dermatology, the primary focus), KidsCharts (pediatrics), and OBGYNCharts (OB-GYN). The company is small (11–50 employees), based in Great Neck, NY, with approximately 150+ implementations.
 
-The product's primary specialty focus is **dermatology** (the SED intended user description is "Dermatology"), and it is marketed under specialty-branded names (DermCharts, KidsCharts, OBGYNCharts). It serves multiple ambulatory specialties including OB-GYN, pediatrics, cardiology, urology, hematology/oncology, internal medicine, gastroenterology, and pulmonology.
+The product stores extensive data across clinical, administrative, and financial domains:
 
-**Key data domains the product stores** (based on vendor marketing at mdchartsehr.com and product research):
+- **Clinical**: Encounter documentation with 100+ customizable templates, problem lists, medication lists (e-prescribing to 50,000+ pharmacies), allergies, lab orders and results (bidirectional with 20+ labs including LabCorp, Quest, BioReference), immunizations, growth charts, clinical images, dermatology-specific biopsy tracking (BiopsyMapping™, InstaPath℠), telehealth records
+- **Practice management**: Scheduling, patient intake forms, insurance eligibility verification, inventory control, 300+ built-in reports
+- **Revenue cycle / billing**: Charge capture (Peak Charge Capture™), claims scrubbing (3M+ CCI edits), electronic claims submission, payment posting, denial management, A/R tracking, collections, patient account ledgers
+- **Patient engagement**: Patient portal (view/download/transmit), secure messaging, educational materials, online payments (MDCPay™)
+- **Reporting**: MIPS quality measures, SwiftDat™ dashboards, custom report builder
 
-- **Clinical EHR**: Patient demographics, clinical notes (100+ specialty templates), problem lists, medication lists, allergies, lab orders/results (bidirectional with 20+ labs), vitals, immunizations, growth charts (pediatrics), clinical images (especially dermatology), biopsy tracking (BiopsyMapping™, InstaPath℠), e-prescribing, clinical decision support, implantable device tracking
-- **Practice Management**: Scheduling, patient reminders, electronic intake forms, insurance eligibility verification, 300+ built-in reports, inventory control
-- **Revenue Cycle Management / Billing**: Charge capture (Peak Charge Capture™), Smart Super Bill℠, claims scrubbing, electronic claims submission, payment posting, denial management, A/R tracking, text-to-pay (MDCPay™), collections management
-- **Patient Engagement**: Patient portal (view/download/transmit), portal messages, educational materials, remote check-in
-- **Interoperability**: C-CDA transitions of care, FHIR API (g)(10), public health reporting (immunization registries, syndromic surveillance, electronic case reporting, cancer registries)
-
-This is a feature-rich product with deep clinical, billing, and specialty functionality — the EHI export should correspondingly be substantial.
+This breadth of functionality means a complete EHI export should cover clinical documentation, medications, labs, billing/claims, insurance, patient communications, and specialty-specific data (particularly dermatology biopsy tracking).
 
 ## 2. Artifacts Reviewed
 
-| Artifact | Description | Informativeness |
-|---|---|---|
-| `downloads/screenshot-port-47102-unreachable.png` (51 KB) | Browser screenshot showing `ERR_ADDRESS_UNREACHABLE` for the registered EHI export documentation URL | Confirms URL is dead |
-| `downloads/screenshot-mraemr-cert-invalid.png` (72 KB) | Browser screenshot showing `ERR_CERT_DATE_INVALID` for mraemr.com on standard HTTPS port | Confirms SSL certificate issues |
-| `downloads/screenshot-why-mdcharts-page.png` (1.5 MB) | Full-page screenshot of vendor's "Why MD Charts" marketing page with ONC certification section | Shows no EHI export documentation exists on marketing site |
-| `files.json` | Manifest of downloaded artifacts — 3 screenshots, all showing error states | Confirms no substantive artifacts were obtainable |
-| `ehi-export-report.md` | Prior agent's narrative documenting extensive attempts to reach documentation | Useful orientation; findings independently verified |
-| `product-research.md` | Research on product capabilities and data domains | Establishes baseline for coverage assessment |
-| `chpl-metadata.json` | CHPL certification details including registered URL | Confirms registered URL and certification criteria |
+| Artifact | Description | Size | Informative? |
+|---|---|---|---|
+| `screenshot-port-47102-unreachable.png` | Chrome error page (ERR_ADDRESS_UNREACHABLE) for the registered EHI export URL | 52 KB | Yes — confirms port 47102 is unreachable |
+| `screenshot-mraemr-cert-invalid.png` | Chrome certificate error (ERR_CERT_DATE_INVALID) for mraemr.com standard port | 74 KB | Yes — documents expired SSL certificate on the EHR application domain |
+| `screenshot-why-mdcharts-page.png` | Full-page screenshot of vendor's "Why MD Charts" compliance page | 1.6 MB | Yes — shows no EHI export content exists on the marketing site; mandatory disclosures link points to same dead port 47102 |
 
-**No substantive EHI export documentation artifacts exist.** The entire downloads folder contains only screenshots of error pages. There is no data dictionary, no schema, no sample data, no export guide, no PDF, no HTML documentation — nothing.
+**No EHI export documentation artifacts exist in the downloads.** All three files are screenshots documenting the inaccessibility of the registered documentation URL. There are no data dictionaries, schemas, sample data files, PDFs, or any other export-related artifacts.
 
 ## 3. Export Mechanics
 
-**Unknown.** The registered EHI export documentation URL (`https://mraemr.com:47102/api/DataExportGuidance.asp`) is completely unreachable:
+**Cannot be assessed.** The registered EHI export documentation URL (`https://mraemr.com:47102/api/DataExportGuidance.asp`) is completely unreachable. The URL path suggests a Classic ASP page that provided export guidance documentation, but no information about the export format, mechanism, access method, or capabilities can be determined.
 
-- **Port 47102** on mraemr.com does not accept TCP connections (curl exit code 7: connection refused)
-- **Port 443** (standard HTTPS) on mraemr.com is also unreachable as of 2026-02-15 ("No route to host")
-- **Port 80** responds but only serves a default IIS 8.5 landing page — not the EHR application or any documentation
-- The URL path (`DataExportGuidance.asp`) suggests a Classic ASP guidance page, but its actual content is unknown
-- The mandatory disclosures page (`https://mraemr.com:47102/api/mandatory_disclosure.asp`) uses the same dead port and is equally inaccessible
-- **No Wayback Machine snapshots** exist for any page on port 47102, so no historical version can be examined
-- **No Google indexing** of the page exists
-- The vendor's marketing website (mdchartsehr.com) contains no EHI export documentation of any kind
-
-The following cannot be determined:
-- Export format (CSV, JSON, FHIR, C-CDA, native database dump, etc.)
-- Export mechanism (UI button, API call, vendor-assisted, etc.)
-- Single-patient vs. bulk capability
-- Access constraints or fees
-- What data is included in the export
+**Independently verified on 2026-02-16:**
+- **Port 47102**: TCP connection fails with "No route to host" (curl exit code 7). The service on this non-standard port is not running or is firewalled.
+- **Port 443 (standard HTTPS)**: Also fails with "No route to host." The entire server at 75.99.93.174 appears to be offline. (Note: The prior collection report from 2026-02-14 found port 443 alive but with an expired certificate; the server has since gone fully offline.)
+- **Marketing site** (mdchartsehr.com): Accessible. Contains no EHI export documentation. The "Why MD Charts" page links to mandatory disclosures at `https://mraemr.com:47102/api/mandatory_disclosure.asp` — the same dead port.
+- **Wayback Machine**: No captures exist for any URL on `mraemr.com:47102`. Only 4 captures of the root domain exist (2016–2025), all showing the login page.
+- **Google/web search**: No indexed or cached copies of the documentation page.
 
 ## 4. Export Content: What's In It
 
-**Cannot be assessed.** No documentation, data dictionary, schema, or sample data is available for review. The only evidence that an EHI export capability exists is:
+**Unknown.** No export documentation of any kind was retrievable. There is:
 
-1. The product is certified for 170.315(b)(10), which requires EHI export support
+- No data dictionary
+- No schema or field listing
+- No sample data files
+- No export format specification
+- No API documentation
+- No user-facing export instructions
+
+The only evidence that an EHI export capability exists is:
+1. The product is certified for 170.315(b)(10) (EHI export) as of January 2023
 2. A URL was registered in CHPL for export documentation
-
-Without accessible documentation, it is impossible to determine:
-- How many entities/tables the export contains
-- What fields are included
-- Whether field descriptions, types, relationships, or value sets are documented
-- Whether sample data exists
-- What data domains are covered
 
 ### Vendor's own content organization
 
-No vendor-provided content organization can be presented because no documentation is accessible.
+Not applicable — no vendor-provided export documentation is available to analyze.
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-**Cannot be assessed.** No export documentation is available to analyze.
+**Cannot be assessed.** No export documentation is available to determine what data domains are included in the export.
 
 ### 5b. Standardized domain coverage (top-down)
 
-Because no export documentation is accessible, coverage for every domain is marked as **Unknown**. The "Product stores this?" column is based on vendor marketing and product research.
-
 | Domain | Coverage | Export Evidence | Gap Analysis |
 |---|---|---|---|
-| Demographics | ❓ Unknown | No documentation accessible | Product stores demographics (certified for (a)(5)); cannot assess export coverage |
+| Demographics | ❓ Unknown | No documentation accessible | Product stores demographics (certified (a)(5)); cannot assess export coverage |
 | Encounters / visits | ❓ Unknown | No documentation accessible | Product stores encounter data; cannot assess |
-| Problems / conditions / diagnoses | ❓ Unknown | No documentation accessible | Product stores problem lists (certified for (a)(1)); cannot assess |
-| Medications / prescriptions | ❓ Unknown | No documentation accessible | Product stores medications and e-prescribes (certified for (a)(1)); cannot assess |
-| Allergies | ❓ Unknown | No documentation accessible | Product stores allergies (certified for (a)(3)); cannot assess |
-| Immunizations | ❓ Unknown | No documentation accessible | Product stores immunizations (certified for (f)(1)); cannot assess |
-| Vitals | ❓ Unknown | No documentation accessible | Product likely stores vitals; cannot assess |
-| Lab results | ❓ Unknown | No documentation accessible | Product stores labs with bidirectional interfaces to 20+ labs; cannot assess |
-| Imaging / diagnostic reports | ❓ Unknown | No documentation accessible | Product stores clinical images (especially dermatology); cannot assess |
-| Procedures | ❓ Unknown | No documentation accessible | Product stores procedures; cannot assess |
-| Clinical notes / documents | ❓ Unknown | No documentation accessible | Product stores notes via 100+ specialty templates; cannot assess |
-| Care plans / goals | ❓ Unknown | No documentation accessible | Unclear if product stores structured care plans; cannot assess |
-| Orders / referrals | ❓ Unknown | No documentation accessible | Product supports CPOE and AutoConsult Letters™; cannot assess |
-| Insurance / coverage | ❓ Unknown | No documentation accessible | Product stores insurance and does real-time eligibility verification; cannot assess |
-| Claims / billing | ❓ Unknown | No documentation accessible | Product has deep RCM (claims, payments, denials, A/R); cannot assess |
-| Payments | ❓ Unknown | No documentation accessible | Product supports payment posting and MDCPay™; cannot assess |
-| Consents / directives | ❓ Unknown | No documentation accessible | Unclear if product stores these; cannot assess |
-| Patient communications / portal messages | ❓ Unknown | No documentation accessible | Product has patient portal; cannot assess |
-| Specialty-specific (Dermatology) | ❓ Unknown | No documentation accessible | Product stores biopsy tracking, lesion mapping, derm-specific data; cannot assess |
+| Problems / conditions / diagnoses | ❓ Unknown | No documentation accessible | Product stores problem lists (certified (a)(1)); cannot assess |
+| Medications / prescriptions | ❓ Unknown | No documentation accessible | Product stores medications/e-prescribing (certified (a)(2)); cannot assess |
+| Allergies | ❓ Unknown | No documentation accessible | Product stores allergies (certified (a)(3)); cannot assess |
+| Immunizations | ❓ Unknown | No documentation accessible | Product stores immunization records (certified (f)(1)); cannot assess |
+| Vitals | ❓ Unknown | No documentation accessible | Likely stored in clinical encounters; cannot assess |
+| Lab results | ❓ Unknown | No documentation accessible | Product has bidirectional lab interfaces with 20+ labs; cannot assess |
+| Imaging / diagnostic reports | ❓ Unknown | No documentation accessible | Product stores clinical images, especially dermatology; cannot assess |
+| Procedures | ❓ Unknown | No documentation accessible | Product stores procedure data via billing/charge capture; cannot assess |
+| Clinical notes / documents | ❓ Unknown | No documentation accessible | Product has 100+ customizable templates; cannot assess |
+| Care plans / goals | ❓ Unknown | No documentation accessible | Cannot assess |
+| Orders / referrals | ❓ Unknown | No documentation accessible | Product has AutoConsult Letters™; cannot assess |
+| Insurance / coverage | ❓ Unknown | No documentation accessible | Product does real-time eligibility verification; cannot assess |
+| Claims / billing | ❓ Unknown | No documentation accessible | Product has extensive RCM/billing (C-Track™, claims scrubbing, payment posting); cannot assess |
+| Payments | ❓ Unknown | No documentation accessible | Product has payment posting and MDCPay™; cannot assess |
+| Patient communications / portal messages | ❓ Unknown | No documentation accessible | Product has patient portal (certified (e)(1)); cannot assess |
+| Specialty-specific (Dermatology) | ❓ Unknown | No documentation accessible | Product has BiopsyMapping™ and InstaPath℠; cannot assess |
+
+**Every domain is unassessable** because no export documentation exists to review. The product clearly stores data across all these domains based on its feature set and ONC certifications, but whether the (b)(10) export covers any, some, or all of them cannot be determined.
 
 ## 6. Documentation Quality
 
-**Documentation is inaccessible.** This represents the most fundamental failure mode possible for EHI export compliance:
+**Documentation is entirely inaccessible.** The registered EHI export documentation URL has been unreachable since at least 2026-02-14 (the collection date). Key issues:
 
-- The registered documentation URL has been unreachable since at least 2026-02-14 (and possibly longer, as no Wayback Machine snapshots exist to indicate it was ever publicly crawlable)
-- The URL uses a non-standard port (47102), which is inherently fragile — it suggests the documentation was served from the same server as the EHR application rather than a dedicated documentation platform
-- The vendor's marketing website contains no alternative EHI export documentation
-- The mandatory disclosures page uses the same dead port and is equally inaccessible
-- The mraemr.com domain uses dynamic DNS (noip.com for mail), suggesting small-scale self-hosted infrastructure
-- Even the standard HTTPS port (443) on mraemr.com is now unreachable, with only port 80 serving a default IIS page
+1. **Non-standard port**: Hosting public compliance documentation on port 47102 is inherently fragile. This suggests the documentation was served from the same infrastructure as the EHR application (an IIS server running Classic ASP), not a dedicated documentation platform.
 
-A developer, patient, or regulator has no way to understand what the EHI export contains, how to request it, or what format to expect. The documentation is not merely thin or incomplete — it is nonexistent from a public accessibility standpoint.
+2. **No redundancy**: There is no mirror, backup, or alternative location for the documentation. The vendor's WordPress marketing site (mdchartsehr.com) contains no EHI-related content.
+
+3. **No archival**: The Wayback Machine never captured the page, and no search engine indexed it. The documentation may have existed at some point but left no public trace.
+
+4. **Mandatory disclosures also unreachable**: The mandatory disclosures URL (`https://mraemr.com:47102/api/mandatory_disclosure.asp`) uses the same dead port, indicating a systemic infrastructure failure affecting all ONC compliance documentation.
+
+5. **Server now fully offline**: As of 2026-02-16, even the standard HTTPS port (443) on mraemr.com is unreachable, whereas it was responding 2 days earlier with the EHR login page.
+
+A developer or patient seeking to understand the EHI export would find **nothing** — no documentation, no guidance, no data dictionary, no sample data.
 
 ## 7. Overall Assessment
 
 ### Classification
 
-**Minimal/stub**: Documentation is completely inaccessible, making it impossible to assess what the export covers. While the product is certified for (b)(10) and a documentation URL was registered, the URL has been unreachable with no archived version available. The hosting infrastructure appears degraded (non-standard port, expired SSL certificate, and now the standard HTTPS port is also down). This represents a compliance failure in making export documentation publicly accessible as required.
+**Minimal/stub**: Documentation is entirely inaccessible. The export cannot be assessed because no documentation, schema, sample data, or any other artifact is publicly available. The registered URL is dead, no alternative sources exist, and no web archive captured the content.
 
 ### Key Findings
 
-1. **Registered EHI export documentation URL is completely dead.** The URL `https://mraemr.com:47102/api/DataExportGuidance.asp` uses a non-standard port (47102) that does not accept TCP connections. No alternative documentation source exists. (Verified 2026-02-15; see `analysis/verification-log.md`)
+1. **EHI export documentation URL is completely unreachable.** Port 47102 on mraemr.com does not accept TCP connections. The entire server (75.99.93.174) was offline as of 2026-02-16. No HTTP response of any kind can be obtained. (Verified via `curl -v` on 2026-02-16.)
 
-2. **No Wayback Machine or Google cache exists.** The documentation page was never indexed or archived by any public service, meaning no historical version can be examined. It is unknown whether the page ever contained substantive content.
+2. **No alternative documentation exists anywhere.** The vendor's marketing website (mdchartsehr.com), the Wayback Machine, and search engines contain zero EHI export content. The documentation was never archived publicly.
 
-3. **Infrastructure appears degraded.** As of 2026-02-15, even the standard HTTPS port (443) on mraemr.com is unreachable ("No route to host"), whereas it was reportedly accessible one day earlier. Only port 80 responds, serving a default IIS page. The domain uses dynamic DNS (noip.com), suggesting fragile self-hosted infrastructure.
+3. **Mandatory disclosures are also unreachable.** The mandatory disclosures URL uses the same dead port 47102, indicating both required ONC public-facing documents are inaccessible.
 
-4. **Mandatory disclosures are also inaccessible.** The mandatory disclosures URL (`https://mraemr.com:47102/api/mandatory_disclosure.asp`) uses the same dead port, meaning both required public-facing compliance documents are unreachable. The marketing site links to this dead URL.
+4. **Infrastructure is fragile.** Hosting compliance documentation on a non-standard port (47102) from what appears to be a dynamic-DNS small-business server (noip.com mail, single IP) makes the documentation vulnerable to exactly this kind of outage.
 
-5. **The product stores extensive data that should be exportable.** Physician's Solution is a full-featured EHR+PM+RCM platform with deep clinical, billing, and specialty-specific (especially dermatology) functionality across 37 ONC certification criteria. The gap between what the product stores and what can be verified as exportable is total — nothing can be verified.
+5. **The product stores broad, deep data.** Based on product research, Physician's Solution is a full-featured EHR+PM+RCM platform covering clinical, billing, and specialty data across multiple specialties. A compliant (b)(10) export should cover dozens of data domains — but whether it does cannot be verified.
 
 ### Summary Stats
 
-```
-Classification:  Minimal/stub
-Export format:   Unknown (documentation inaccessible)
-Model type:      Unknown
-Entities:        N/A
-Fields:          N/A
-Descriptions:    N/A
-Sample data:     No
-Bulk export:     Unknown
-Domains covered: 0 of 19 verifiable (all unknown due to inaccessible documentation)
-```
+    Classification:  Minimal/stub (documentation inaccessible)
+    Export format:   Unknown
+    Model type:      Unknown
+    Entities:        N/A
+    Fields:          N/A
+    Descriptions:    N/A
+    Sample data:     No
+    Bulk export:     Unknown
+    Domains covered: 0 of 17 assessable (all unknown due to inaccessible documentation)
 
 ### Bottom Line
 
-MD Charts' EHI export documentation is completely inaccessible — the registered URL on a non-standard port is dead, no archived version exists, and no alternative documentation is available anywhere. For a product that stores extensive clinical, billing, and specialty data across dermatology, OB-GYN, pediatrics, and other specialties, this is a significant compliance failure. A patient, provider, or developer has absolutely no way to determine what the EHI export contains, how to obtain it, or what format to expect.
+MD Charts' EHI export documentation is entirely inaccessible — the registered URL on port 47102 has been unreachable since at least 2026-02-14, and the server is now fully offline. No data dictionary, schema, sample data, or any documentation of the export exists in any publicly accessible location. For a product that stores extensive clinical, billing, and specialty data across multiple medical specialties, the complete absence of accessible (b)(10) documentation represents a fundamental compliance failure.

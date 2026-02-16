@@ -1,156 +1,141 @@
 # EHI Export Analysis: Dexter Solutions Inc
 
 **Product**: eZDocs v5.5
-**Analysis date**: 2026-02-15
-**CHPL IDs**: 15.02.04.2708.eZDo.05.02.1.240102
+**Analysis date**: 2026-02-16
+**CHPL IDs**: 15.02.04.2708.eZDo.05.02.1.240102 (CHPL ID 11432)
 
 ## 1. Product Context
 
-eZDocs is a cloud-based ambulatory EMR and practice management system developed by Dexter Solutions Inc, a small (~28-employee) HealthIT company based in Warrenville, Illinois. The product targets small to medium-sized medical practices across multiple specialties including internal medicine, neurology, cardiology, dermatology, and family medicine. It is delivered as a multi-tenant SaaS application (hosted at *.ezdocs.app subdomains).
+eZDocs is a cloud-based ambulatory EMR/PM system developed by Dexter Solutions Inc, a small (~28 employees) healthcare IT company in Warrenville, Illinois. The product targets small to medium-sized medical practices and is delivered as a multi-tenant SaaS application (hosted at *.ezdocs.app subdomains). The current certified version is 5.5, certified by Drummond Group on 2024-01-02.
 
-**Clinical data stored**: Patient demographics, problems/conditions, medications, allergies, vital signs, lab results/orders, diagnostic imaging orders, clinical notes/encounters, implantable device list, smoking status/social history, family health history, immunizations, e-prescriptions, and clinical decision support data. The product is certified for 38 ONC criteria, confirming broad ambulatory EHR functionality.
+**Clinical workflows**: Patient demographics, problem lists, medication lists, allergies, clinical notes/encounters, vital signs, lab results/orders, diagnostic imaging orders/results, e-prescribing, implantable device lists, clinical decision support, smoking status, social history, family health history, immunizations, and specialty templates. The product was certified with internal medicine and neurology workflows but supports multiple specialties.
 
-**Additional capabilities**: Scheduling and appointment management, DME (Durable Medical Equipment) ordering, Remote Patient Monitoring (RPM), Chronic Care Management (CCM), a patient portal (eZHealthInfo), and public health reporting (immunization registries, syndromic surveillance).
+**Additional capabilities**: Scheduling and appointment management, insurance eligibility checking, DME ordering, Remote Patient Monitoring (RPM), Chronic Care Management (CCM), patient portal (eZHealthInfo), and clinical quality measures reporting.
 
-**Billing**: The vendor offers a separate billing service (eZBill) and the EMR integrates with third-party billing systems. Login page code references "billing admin" roles, suggesting some billing functionality may exist within eZDocs itself, though the exact boundary is unclear.
+**Billing/PM**: The product integrates with external billing systems, and the vendor also offers eZBill as a separate billing/RCM service. Login page code references "billing admin" roles, suggesting some billing functionality within eZDocs, but the extent of in-product billing data storage is unclear.
 
-**Interoperability**: Certified for C-CDA document exchange (b)(1)–(b)(3), FHIR APIs (g)(7)–(g)(10), and Direct messaging (h)(1).
-
-**Baseline for export completeness**: A complete EHI export should cover clinical encounter data, medications, allergies, problems, labs, vitals, immunizations, clinical notes, e-prescriptions, DME orders, RPM/CCM data, patient portal data, and any billing data stored within eZDocs itself.
+**Certification breadth**: 38 certified criteria including clinical data management (a)(1)–(a)(15), transitions of care (b)(1)–(b)(3), EHI export (b)(10), patient portal (e)(1), public health reporting (f)(1)–(f)(2), FHIR APIs (g)(7)–(g)(10), and direct messaging (h)(1). This is a comprehensive ambulatory EHR, not a narrow module.
 
 ## 2. Artifacts Reviewed
 
 | Artifact | Description | Informative? |
-|---|---|---|
-| `screenshot-certification-url-redirects-to-homepage.png` (1.55 MB) | Screenshot of `https://www.dexter-solutions.com/certification` showing the vendor's marketing homepage — "Transform your practice with Advanced IT Solutions." Navigation links: Home, Products, BPO Services, About, Contact. No certification or EHI content visible. | ❌ Confirms absence of documentation |
-| `screenshot-certification-url-full-page.png` (1.76 MB) | Full-page screenshot of the same URL showing the complete homepage including footer. Footer links include HealthIT Products, BPO Services, About Us, Contact, Custom Software Development, Medical Billing, Revenue Cycle Management, Provider Credentialing. No certification page link anywhere. | ❌ Confirms absence of documentation |
-| `files.json` | Manifest documenting the collection attempt: 2 files collected, access status "redirect_to_homepage" | ✅ Confirms collection scope |
-| `chpl-metadata.json` | CHPL certification details: 38 certified criteria including (b)(10), certification date 2024-01-02, registered URL https://dexter-solutions.com/certification | ✅ Confirms certification status |
-| `product-research.md` | Product research describing eZDocs features, modules, and data stored | ✅ Provides product context |
-| `ehi-export-report.md` | Prior agent's report documenting the failed collection attempt | ✅ Provides collection narrative |
+|----------|-------------|-------------|
+| `downloads/screenshot-certification-url-redirects-to-homepage.png` (1.5 MB) | Screenshot of dexter-solutions.com/certification showing it renders as the vendor homepage. Confirms navigation links (Home, Products, BPO Services, About, Contact) with no certification or compliance link. | **Low** — confirms documentation is absent |
+| `downloads/screenshot-certification-url-full-page.png` (1.7 MB) | Full-page screenshot of the same homepage at /certification path. | **Low** — redundant with above |
+| `product-research.md` | Prior research on eZDocs features, users, and data types. | **Medium** — establishes product context |
+| `ehi-export-report.md` | Prior agent's narrative about the failed attempt to find documentation. | **Medium** — documents the search process |
+| `files.json` | Manifest of downloaded artifacts (2 screenshots only). | **Low** — confirms minimal artifacts |
+| `sources.json` | URLs visited during research (12 sources). | **Low** — documents research scope |
+| `chpl-metadata.json` | CHPL certification details for eZDocs v5.5. | **Medium** — confirms (b)(10) certification and documentation URL |
+| Wayback Machine captures (9 captures, 2022–2024) | Archived versions of the certification page. All show v5.0 (2019) content with (b)(6), never updated to v5.5 (b)(10). | **High** — most informative artifact; proves the page was never updated |
 
-**No EHI export documentation, data dictionaries, schemas, sample data, or format descriptions were collected.** The registered certification URL redirects to the vendor's marketing homepage.
-
-### Independent verification performed
-
-1. **Current website (2026-02-15)**: Fetched `https://www.dexter-solutions.com/certification` — returns Wix SPA shell with `<title>Home | Dexter Solutions Inc.</title>`. The `/certification` path is not recognized by the Wix routing and falls through to the homepage. Confirmed: no certification content is accessible.
-
-2. **Wayback Machine**: Retrieved all 9 captures of `dexter-solutions.com/certification` from 2022-07-06 through 2024-08-04. **Every capture shows the older eZDocs v5.0 certification page**, which references `170.315 (b)(6): Data Export` (the predecessor criterion), not `170.315 (b)(10)`. The v5.5 certification (dated 2024-01-02) with (b)(10) was apparently posted to the same URL after the v5.0 content but was never captured by the Wayback Machine before the site was rebuilt on Wix.
-
-3. **Web search**: Search engine snippets consistently describe the v5.5 certification page as referencing "exporting EHI data in CDA (XML) and pdf format for a single patient and multiple patients" and linking to a downloadable PDF titled "170.315 (b)(10) Electronic Health Information Export." However, neither the page content nor the PDF is recoverable from any cached source.
+**No data dictionaries, schemas, sample data, export format specifications, or PDF documentation were available for review.**
 
 ## 3. Export Mechanics
 
-**Cannot be fully assessed** — no export documentation is accessible.
+**Format**: Unknown. The prior report references search engine snippets mentioning "CDA (XML) and PDF format," but this claim cannot be verified from any accessible artifact or Wayback Machine capture.
 
-Based solely on search engine snippet reconstruction (not verified from primary sources):
-- **Format**: CDA (XML) and PDF
-- **Scope**: Single-patient and multi-patient (bulk) export
-- **Mechanism**: Unknown (UI button, admin function, or vendor-assisted — not determinable)
-- **Access constraints**: Unknown; the prior certification page mentioned API access via email to info@dexter-solutions.com
-- **Fees**: Unknown
+**Mechanism**: Unknown. No documentation describes how the export is initiated (UI button, API call, or vendor-assisted process).
+
+**Single-patient vs bulk**: Unknown. The prior report references snippets mentioning "single patient and multiple patients," but this cannot be independently verified.
+
+**Access constraints or fees**: Unknown. The archived certification page (which only covers v5.0/2019) does not mention EHI export. The v5.5 certification page content was never captured.
 
 ## 4. Export Content: What's In It
 
-**Cannot be assessed.** No data dictionary, schema, sample data, or format documentation is accessible for review.
+**No export content documentation is available.** The registered documentation URL (dexter-solutions.com/certification) redirects to the vendor's homepage after a Wix website rebuild. No data dictionary, schema, sample data, or export format specification exists in the available artifacts.
 
-### What search engine snippets suggest (unverified)
+### What the Wayback Machine reveals
 
-The only evidence about export content comes from search engine snippets, which are insufficient for a rigorous assessment:
+All 9 Wayback Machine captures of the certification page (spanning 2022-07-06 through 2024-08-04) show identical content: the **v5.0 certification page from December 2019**, listing (b)(6) Data Export — not (b)(10) EHI Export. Key observations:
 
-- The export reportedly uses **CDA (XML) format**, which strongly suggests C-CDA (Consolidated Clinical Document Architecture). If so, the export would represent a **standard-based projection** covering a clinical summary subset (demographics, problems, medications, allergies, vitals, labs, immunizations, procedures, clinical notes) but likely omitting:
-  - Billing/claims data (not representable in C-CDA)
-  - DME ordering data
-  - RPM/CCM data
-  - Custom specialty templates
-  - Insurance eligibility data
-  - Patient portal interaction data
+- The March 2024 capture (3 months after the v5.5 certification date of 2024-01-02) still shows v5.0 content
+- No (b)(10) documentation was ever visible on the archived page
+- No downloadable PDF was linked or captured
+- The page was rebuilt on Wix at some point between August 2024 and February 2026, and the certification path was dropped entirely
 
-- The export also reportedly includes **PDF format**, which provides human-readable output but is not computable — raising questions about whether the "computable format" requirement of (b)(10) is met solely through the CDA portion.
+### What search engine caches suggested (unverifiable)
 
-- A **downloadable PDF** was reportedly linked from the certification page describing the export format, suggesting at least some documentation existed. Its depth and quality cannot be evaluated.
+The prior report found search engine snippets describing: (1) "The attached document lists the details of exporting EHI data in CDA (XML) and pdf format for a single patient and multiple patients," and (2) a downloadable PDF titled "170.315 (b)(10) Electronic Health Information Export." However, this content was never captured by the Wayback Machine, and the prior report was also unable to retrieve the cached page or PDF. **These claims cannot be independently verified and are noted here only as unconfirmed leads.**
 
 ### Vendor's own content organization
 
-Not available — no data dictionary or entity listing exists in the collected artifacts.
+Not applicable — no data dictionary or export content documentation exists.
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-**Cannot be assessed from available artifacts.** No export documentation is accessible to determine what data domains are covered, how many entities/tables/fields are exported, or what level of detail is provided.
-
-The only signal is the search engine snippet reference to "CDA (XML) and PDF format," which, if taken at face value, suggests a C-CDA-based clinical summary rather than a native database export.
+**Cannot be assessed.** No export documentation is available to determine what data domains the export covers. The only hint — unverifiable search engine snippets suggesting CDA/XML and PDF format — would, if true, indicate a C-CDA-based clinical summary rather than a comprehensive native data model export.
 
 ### 5b. Standardized domain coverage (top-down)
 
-Without accessible documentation, coverage can only be inferred speculatively from the reported CDA/PDF format. The table below uses "❓ Unknown" for most domains because no primary evidence exists.
-
 | Domain | Coverage | Export Evidence | Gap Analysis |
-|---|---|---|---|
-| Demographics | ❓ Unknown | Likely in CDA if C-CDA is used, but unverified | Product stores this (a)(5) certified |
-| Encounters / visits | ❓ Unknown | Likely in CDA if C-CDA is used | Product stores this; core clinical function |
-| Problems / conditions | ❓ Unknown | Likely in CDA if C-CDA is used | Product stores this (a)(5) certified |
-| Medications / prescriptions | ❓ Unknown | Likely in CDA if C-CDA is used | Product stores this (a)(1), (b)(3) certified |
-| Allergies | ❓ Unknown | Likely in CDA if C-CDA is used | Product stores this (a)(1) certified |
-| Immunizations | ❓ Unknown | Likely in CDA if C-CDA is used | Product stores this (f)(1) certified |
-| Vitals | ❓ Unknown | Likely in CDA if C-CDA is used | Product stores this |
-| Lab results | ❓ Unknown | Likely in CDA if C-CDA is used | Product stores this (a)(2), (a)(3) certified |
-| Imaging / diagnostic reports | ❓ Unknown | May be partially in CDA | Product stores this (a)(3) certified |
-| Procedures | ❓ Unknown | Likely in CDA if C-CDA is used | Product stores this |
-| Clinical notes / documents | ❓ Unknown | Likely in CDA if C-CDA is used | Product stores this; core clinical function |
-| Care plans / goals | ❓ Unknown | Unknown | RPM/CCM modules likely generate care plans |
-| Orders / referrals | ❓ Unknown | May be partially in CDA | Product stores this (CPOE certified) |
-| Insurance / coverage | ❓ Unknown | Unlikely if CDA-only | Product stores insurance eligibility data |
-| Claims / billing | ❓ Unknown | Unlikely if CDA-only; C-CDA cannot represent billing | Unclear if billing data is in eZDocs vs. eZBill |
-| Payments | ❓ Unknown | Unlikely if CDA-only | Same ambiguity as billing |
-| Patient communications / portal | ❓ Unknown | Unlikely if CDA-only | Product has patient portal (eZHealthInfo) |
-| RPM/CCM data | ❓ Unknown | Unlikely if CDA-only; no standard CDA representation | Product has RPM and CCM modules |
-| DME orders | ❓ Unknown | Unlikely if CDA-only | Product has DME ordering capability |
+|--------|----------|----------------|--------------|
+| Demographics | ❓ Unknown | No documentation available | Product stores this (certified (a)(5)); cannot assess export |
+| Encounters / visits | ❓ Unknown | No documentation available | Product stores this; cannot assess export |
+| Problems / conditions / diagnoses | ❓ Unknown | No documentation available | Product stores this (certified (a)(5)); cannot assess export |
+| Medications / prescriptions | ❓ Unknown | No documentation available | Product stores this (certified (a)(1), (b)(3)); cannot assess export |
+| Allergies | ❓ Unknown | No documentation available | Product stores this (certified (a)(1)); cannot assess export |
+| Immunizations | ❓ Unknown | No documentation available | Product stores this (certified (f)(1)); cannot assess export |
+| Vitals | ❓ Unknown | No documentation available | Product stores this; cannot assess export |
+| Lab results | ❓ Unknown | No documentation available | Product stores this (certified (a)(2), (a)(3)); cannot assess export |
+| Imaging / diagnostic reports | ❓ Unknown | No documentation available | Product stores this (certified (a)(3)); cannot assess export |
+| Procedures | ❓ Unknown | No documentation available | Product likely stores this; cannot assess export |
+| Clinical notes / documents | ❓ Unknown | No documentation available | Product stores this; cannot assess export |
+| Care plans / goals | ❓ Unknown | No documentation available | Product may store this (CCM services); cannot assess export |
+| Orders / referrals | ❓ Unknown | No documentation available | Product stores this (CPOE certified); cannot assess export |
+| Insurance / coverage | ❓ Unknown | No documentation available | Product checks eligibility; may store limited data; cannot assess |
+| Claims / billing | ❓ Unknown | No documentation available | Unclear if stored in eZDocs vs separate eZBill service; cannot assess |
+| Payments | ❓ Unknown | No documentation available | Likely in separate eZBill service; may be N/A |
+| Patient communications / portal messages | ❓ Unknown | No documentation available | Patient portal (eZHealthInfo) exists; cannot assess export |
+| Specialty-specific (neurology, etc.) | ❓ Unknown | No documentation available | Product supports specialty templates; cannot assess export |
+
+**Every domain is unknown** because no export documentation is available.
 
 ## 6. Documentation Quality
 
-**No documentation is accessible for evaluation.**
+**There is no accessible documentation to assess.** The registered EHI documentation URL (dexter-solutions.com/certification) redirects to the vendor's marketing homepage. The Wayback Machine shows the page was never updated from the 2019 v5.0 certification to include v5.5 (b)(10) content.
 
-- The registered certification URL (`https://dexter-solutions.com/certification`) redirects to the vendor's marketing homepage.
-- The Wayback Machine's 9 captures (2022–2024) all show the older v5.0 certification page with (b)(6) Data Export — the v5.5 (b)(10) page was never archived.
-- Search engine snippets confirm a documentation PDF previously existed but it cannot be recovered.
-- A developer cannot build an import from the available materials. There are no schemas, no field definitions, no sample data, and no format specifications accessible anywhere.
+- No data dictionary exists in any reviewed artifact
+- No machine-readable schema or sample data is available
+- No prose description of export format, content, or process is accessible
+- A developer could not build an import tool from the available documentation because there is no documentation
 
-This represents a **compliance violation**: 170.315(b)(10) requires that "a description of the format used to create the export file(s) that is accessible via a publicly accessible hyperlink." The registered URL no longer serves this documentation.
+This represents a **compliance violation**: 170.315(b)(10) requires that "the export format(s) used must be accessible via a publicly accessible hyperlink" (45 CFR 170.315(b)(10)(ii)(B)). The registered URL no longer serves this content.
 
 ## 7. Overall Assessment
 
 ### Classification
 
-**Minimal/stub**: The EHI export documentation is entirely inaccessible. The registered certification URL redirects to the vendor's marketing homepage, and the previously published documentation (a PDF describing CDA/XML and PDF export) cannot be recovered from any public source. The fragmentary evidence from search engine snippets suggests the export may be a C-CDA-based clinical summary (standard-based projection) rather than a comprehensive native data model export, but this cannot be confirmed.
+**Minimal/stub**: Documentation is completely inaccessible. The registered URL redirects to the vendor's homepage, and no export documentation, data dictionary, schema, or sample data was available at the time of analysis. The Wayback Machine confirms the certification page was never updated from v5.0/(b)(6) to v5.5/(b)(10).
 
 ### Key Findings
 
-1. **Documentation completely inaccessible**: The registered URL (`https://dexter-solutions.com/certification`) redirects to the vendor's Wix-hosted marketing homepage. The certification page and linked PDF were lost during a site rebuild. No EHI export documentation exists at any publicly accessible URL. (Verified: `screenshot-certification-url-redirects-to-homepage.png`, `screenshot-certification-url-full-page.png`, and independent fetch on 2026-02-15.)
+1. **Documentation URL is broken**: The registered CHPL documentation URL (dexter-solutions.com/certification) redirects to the Dexter Solutions marketing homepage after a Wix site rebuild. No certification, compliance, or EHI export content is accessible. (Verified via HTTP request returning `<title>Home | Dexter Solutions Inc.</title>` and screenshot in `downloads/screenshot-certification-url-redirects-to-homepage.png`.)
 
-2. **Wayback Machine shows only older certification**: All 9 Wayback Machine captures (2022-07-06 through 2024-08-04) show the v5.0 certification with (b)(6) Data Export, not the current v5.5 certification with (b)(10) EHI Export. The (b)(10) documentation was posted after the last capture and removed before being re-captured. (Verified: `analysis/wayback_verification.json`)
+2. **Certification page was never updated for v5.5**: All 9 Wayback Machine captures (2022-07-06 through 2024-08-04) show the v5.0 (2019) certification page listing (b)(6) Data Export. The v5.5 certification (b)(10) content was never visible on the archived page, even 3+ months after the 2024-01-02 certification date.
 
-3. **Export likely CDA-based (unverified)**: Search engine snippets describe the export as "CDA (XML) and PDF format," suggesting a standard-based projection. If accurate, this would cover clinical summary data but likely miss billing, RPM/CCM, DME ordering, insurance, and patient portal data that eZDocs stores.
+3. **No data dictionary or export format specification exists in artifacts**: The `downloads/` folder contains only 2 screenshots. No PDF, HTML, JSON, XML, CSV, or any other format of export documentation was collected because none was available.
 
-4. **Active compliance violation**: The (b)(10) certification requirement mandates publicly accessible format documentation. The vendor is currently not meeting this requirement, creating a gap for any practice or patient trying to understand what an EHI export from eZDocs contains.
+4. **Unverifiable hints suggest C-CDA repackaging**: The prior report found search engine snippets referencing "CDA (XML) and PDF format" for the export. If accurate, this would suggest the export is a C-CDA clinical summary rather than a native database export — covering only a fraction of the product's stored data. However, this cannot be independently confirmed.
 
-5. **Small vendor with limited transparency**: Dexter Solutions is a ~28-employee company with limited web presence. The rebuilt Wix site contains only marketing content. No alternative documentation locations (product docs, knowledge base, support portal) were found.
+5. **Active compliance gap**: The (b)(10) certification requirement mandates publicly accessible export format documentation. Dexter Solutions is currently not meeting this requirement, creating a regulatory compliance issue.
 
 ### Summary Stats
 
 ```
 Classification:  Minimal/stub
-Export format:   CDA (XML) and PDF (per search engine snippets; unverified)
-Model type:      Standard projection (likely C-CDA; unverified)
-Entities:        N/A (no data dictionary accessible)
+Export format:   Unknown (unverified hints suggest CDA/XML + PDF)
+Model type:      Unknown (likely standard projection if CDA/XML)
+Entities:        N/A (no data dictionary)
 Fields:          N/A
 Descriptions:    N/A
 Sample data:     No
-Bulk export:     Reportedly yes (single and multiple patients; unverified)
-Domains covered: 0 of 15+ applicable domains verified (all unknown)
+Bulk export:     Unknown
+Domains covered: 0 of 15+ applicable domains verifiable
 ```
 
 ### Bottom Line
 
-No EHI export documentation is publicly accessible for eZDocs. The registered certification URL redirects to the vendor's marketing homepage, and neither the certification page nor the linked export format PDF can be recovered from any cached or archived source. A patient or provider requesting their complete health data from eZDocs would have no publicly available documentation to understand what they would receive, and the fragmentary evidence suggests the export may be limited to a C-CDA clinical summary — far short of "all electronic health information" the product stores.
+No usable EHI export documentation is publicly available for eZDocs. The registered documentation URL redirects to the vendor's homepage, the Wayback Machine shows the certification page was never updated for the (b)(10) criterion, and no data dictionary, schema, or sample data exists in any accessible artifact. A patient or provider requesting their complete health data would have no way to understand what the export contains, in what format, or how to request it — assuming the export functionality even exists as documented.

@@ -1,173 +1,191 @@
 # EHI Export Analysis: Patient First
 
 **Product**: PAS (Version 2015.0.0.1)
-**Analysis date**: 2026-02-15
-**CHPL ID**: 15.04.04.2140.PAS1.15.02.1.221212 (CHPL #11065)
+**Analysis date**: 2026-02-16
+**CHPL IDs**: 11065 (15.04.04.2140.PAS1.15.02.0.221212)
 
 ## 1. Product Context
 
-Patient First Corporation operates ~79 urgent care / primary care walk-in clinics across Virginia, Maryland, Pennsylvania, and New Jersey. PAS is their **self-developed, internal-only EHR system** — not sold or licensed externally. It is a full EHR covering clinical documentation, CPOE (medications, labs, imaging), e-prescribing (via Surescripts), on-site lab and x-ray, on-site medication dispensing, patient portal, billing, quality reporting, public health reporting, and a FHIR API. It is certified for 30+ ONC criteria.
+Patient First is a privately held chain of ~79 urgent care and primary care walk-in medical centers operating across Virginia, Maryland, Pennsylvania, and New Jersey. PAS is their **internally developed, proprietary EHR system** — built and maintained by Patient First's own MIS department, not sold or licensed externally. This is an unusual case: the healthcare provider organization is also the EHR developer.
 
-Key data domains PAS stores, relevant to export completeness:
-- **Clinical**: encounter notes, problem lists, medications, allergies, vitals, immunizations, lab orders/results, imaging orders, procedures, family history, implantable devices, clinical decision support interactions
-- **E-Prescribing**: ~479,000 prescriptions/quarter across 4 states
-- **Imaging**: on-site digital x-ray at every location
-- **Billing/Financial**: charges, claims, payments, statements, balances (patients can view/pay via portal)
-- **Occupational Health**: DOT physicals, workers' comp, drug testing, employer portal
-- **Documents**: scanned insurance cards, photo IDs, consult/referral documents
-- **Patient Portal**: secure messaging, lab results, visit history, billing
-- **Public Health**: immunization registry submissions, syndromic surveillance
+PAS is a **full EHR system** covering clinical documentation, CPOE (medications, labs, diagnostic imaging), e-prescribing (via Surescripts), drug-drug/drug-allergy interaction checks (Micromedex), clinical decision support, lab integration (on-site CLIA-approved labs at every location), digital x-ray imaging, transitions of care (C-CDA via DataMotion Direct messaging), a proprietary patient portal, quality reporting, public health reporting (immunization registries, syndromic surveillance), and a FHIR API. PAS is certified for 30+ ONC criteria.
 
-The product handles ~1.9M e-prescriptions, ~716K C-CDAs, ~240K portal logins, and ~3.3M syndromic surveillance messages per year (Q1 2025, annualized). This is a high-volume system with broad functionality for an urgent care chain.
+**Key data domains PAS stores** (relevant for assessing export completeness):
+- **Clinical**: encounter notes, problem lists, medication lists, allergy lists, vitals, family history, immunizations, implantable device records, lab orders/results, imaging orders, procedures, clinical decision support alerts
+- **Administrative**: demographics, insurance information, registration data
+- **Financial**: billing records, claims, payments, patient statements/balances
+- **Documents/Images**: x-ray images (DICOM), scanned insurance cards, photo IDs, consult/referral documents, drug screen result forms
+- **Communications**: secure patient-provider messages via portal
+- **Specialty**: occupational health (workers' comp, DOT physicals, drug testing, employer portal data)
+- **E-prescribing**: ~479,000 prescriptions per quarter across 4 states
+- **Telehealth**: integrated telehealth visits
+
+Operational scale (Q1 2025, annualized): ~1.9M e-prescriptions/year, ~716K transition-of-care C-CDAs/year, ~240K patient portal logins/year, ~3.3M syndromic surveillance messages/year, ~124 EHI exports/year, 0 third-party FHIR API applications connected.
 
 ## 2. Artifacts Reviewed
 
 | Artifact | Description | Informativeness |
 |---|---|---|
-| `mandatory-disclosure-page.html` (530 KB) | Full WordPress page with all mandatory disclosures. The EHI Export section is one paragraph + a 7-row HTML table. Verified against live site on 2026-02-15 — content identical. | **Primary source** — this IS the entire EHI export documentation |
-| `mandatory-disclosure-page-api.json` (26 KB) | WordPress REST API JSON of same page. Cleaner for parsing; same content. | Duplicate of above, useful for scripting |
-| `PatientFirst_Real_World_Test_Results_CY2025.pdf` (23 pages, 227 KB) | CY 2025 RWT report dated Feb 2, 2026. RWT Measure #3 covers b(10). | **Key secondary source** — reveals the b(10) metric is labeled "Number of C-CDA Batch Exports Sent" |
-| `screenshot-ehi-export-section.png` (213 KB) | Browser screenshot of the EHI Export section showing the paragraph and 7-row table | Confirms visual layout; matches parsed content |
-| `screenshot-page-top.png` (252 KB) | Screenshot of page header with certification details | Minimal additional value |
+| `mandatory-disclosure-page.html` (530 KB) | Full HTML of the mandatory disclosures WordPress page. Contains the EHI Export section: 1 paragraph + 7-row table. This is the **entire** EHI export documentation. | **Primary source** — the only substantive EHI export documentation |
+| `mandatory-disclosure-page-api.json` (26 KB) | WordPress REST API JSON for the same page. Easier to parse programmatically; content identical to HTML page. Page last modified 2026-02-02. | Useful for parsing; same content as HTML |
+| `PatientFirst_Real_World_Test_Results_CY2025.pdf` (23 pages, 227 KB) | CY 2025 Real World Testing Results. RWT Measure #3 (pp. 13–14) covers b(10) EHI exports. Reveals the metric is labeled "Number of C-CDA Batch Exports Sent" despite being the b(10) measure. Shows 31 exports in Q1 2025. | **Important** — provides usage data and reveals C-CDA/EHI conflation |
+| `screenshot-ehi-export-section.png` (213 KB) | Browser screenshot of the EHI Export section. Visually confirms the table content matches the parsed HTML. | Corroborative |
+| `screenshot-page-top.png` (252 KB) | Screenshot of page header showing certification details. | Minimally informative for export analysis |
 
-**No data dictionary, schema files, sample exports, or API documentation exist.** The entire EHI export documentation is ~150 words of prose and a 7-row × 4-column table.
+**No other artifacts exist.** There are no data dictionaries, JSON schemas, sample export files, C-CDA template specifications, user guides, or API documentation related to the EHI export. The entire documentation is the inline HTML section on the mandatory disclosures page.
+
+**Verified live page** (2026-02-16): The mandatory disclosure page at `https://www.patientfirst.com/mandatory-disclosure-for-ehr` is accessible and the EHI Export section is unchanged from the downloaded copy.
 
 ## 3. Export Mechanics
 
-- **Format**: Compressed ZIP archive containing files organized into 7 folders by category
-- **Mechanism**: Manual, one-time export initiated within the EHR ("EHI Export functionality allows health systems to do a manual one-time export of health data")
-- **Scope**: Single-patient export (the description says "a patient's record")
-- **Bulk capability**: The RWT measure description mentions "bulk patient exports" alongside individual requests, but no separate bulk mechanism is documented
-- **Access constraints/fees**: Not documented. The export appears to be an internal tool operated by Patient First staff — there is no self-service patient export described
-- **Volume**: 31 exports in Q1 2025 (20 VA, 6 MD, 5 PA, 0 NJ), annualized ~124/year across ~79 clinics — very low utilization
-
-**Notable RWT finding**: The b(10) testing metric in the CY 2025 RWT report (p. 13) is labeled **"Number of C-CDA Batch Exports Sent"** despite being associated with criterion 315(b)(10). The measurement description says "tracking and counting how many patients requested and received EHI exports of their health information by the EHR Module as well as number of bulk patient exports." The mismatch between the metric label ("C-CDA Batch Exports") and the intended scope (full EHI export) raises a question about whether the b(10) export is truly multi-format as documented, or primarily C-CDA-based in practice.
+- **Format**: Compressed (ZIP) archive containing files organized into 7 folders by category. Uses multiple file formats: XML (C-CDA), DCM (DICOM), JPG/PNG, PDF, EML, JSON.
+- **Mechanism**: Manual one-time export ("EHI Export functionality allows health systems to do a manual one-time export of health data"). No API-based export. No indication of automated or scheduled capabilities.
+- **Scope**: Single-patient export. The documentation describes exporting "a patient's record." No mention of bulk or multi-patient export, though the RWT metric references "bulk patient exports" in its description.
+- **Access constraints**: Not documented. No mention of fees, turnaround times, or who can request exports.
+- **Volume**: 31 exports in Q1 2025 across ~79 clinics (20 VA, 6 MD, 5 PA, 0 NJ). Annualized ~124/year — very low usage.
 
 ## 4. Export Content: What's In It
 
-The export contains 7 categories of data in a multi-format ZIP archive. There is **no data dictionary, no field-level documentation, no schema, and no sample data** for any category. Documentation exists only at the category level.
+The EHI export documentation provides **category-level descriptions only** — no field-level documentation, no entity/table definitions, no schemas. The entire content description is the 7-row table below.
 
 ### Vendor's own content organization
 
-| Category | Description (vendor's) | Folder | Format | Field-Level Docs | Schema |
-|---|---|---|---|---|---|
-| Medical Records | Medical records in industry-standard C-CDA format | `CCDA` | XML (C-CDA) | No | No (standard C-CDA, but no template/profile specified) |
-| X-Rays | X-Ray images | `Xray` | DCM (DICOM) | No | No (DICOM is self-describing) |
-| Scanned Images | Insurance Cards, Photo ID, etc. | `Scan/{type}` (e.g., `InsCard`, `PhotoID`) | JPG, PNG | No | N/A (images) |
-| Consults | Documents from referrals | `ConsultNotes` | PDF | No | N/A (documents) |
-| Messages | Secure Messages sent to and from the patient | `DirectSecureMessages` | EML | No | No |
-| Forms | Various forms, such as Drug Screen results | `Forms` | PDF | No | N/A (documents) |
-| Financials | Billing and Claim information | `BillingClaim` | JSON | No | No |
+| Category | Description | Folder Name | File Format | Field-Level Docs |
+|---|---|---|---|---|
+| Medical Records | Medical records in industry-standard C-CDA format | CCDA | XML (C-CDA) | No (C-CDA is an external standard, but no Patient First implementation guide, template list, or extension documentation is provided) |
+| X-Rays | X-Ray images | Xray | DCM (DICOM) | No (DICOM is self-describing, but no metadata documentation) |
+| Scanned Images | Insurance Cards, Photo ID, etc. | Scan (subfolders: InsCard, PhotoID, etc.) | JPG, PNG, etc. | No |
+| Consults | Documents from referrals | ConsultNotes | PDF | No |
+| Messages | Secure Messages sent to and from the patient | DirectSecureMessages | EML (Email File Format) | No |
+| Forms | Various forms, such as Drug Screen results | Forms | PDF | No |
+| Financials | Billing and Claim information | BillingClaim | JSON | **No** — no schema, no field definitions, no sample data |
 
-**Total entities/tables**: 7 top-level categories. No sub-entity or field-level breakdown is provided for any category.
+**Total entities/tables**: 7 high-level categories (not comparable to a data dictionary)
+**Total fields**: N/A — no field-level documentation exists for any category
+**Fields with descriptions**: N/A
+**Types documented**: Only file formats (C-CDA, DICOM, PDF, EML, JSON, image formats)
+**Relationships/foreign keys**: N/A
+**Value sets/code systems**: N/A
+**Sample data**: None provided
 
-**Total fields**: Unknown — no field-level documentation exists. The C-CDA format has a known structure (per the HL7 C-CDA standard), and DICOM is self-describing, but the JSON financial format and EML message structure are completely undocumented.
+### Notable observations
 
-**Key observations**:
-1. **Medical Records (C-CDA)**: The clinical data backbone. C-CDA is a well-defined standard, so a recipient familiar with C-CDA can parse this. However, no implementation guide, template IDs, C-CDA version, or custom extensions are documented. It is unknown which C-CDA sections are populated — a C-CDA can range from a bare-minimum clinical summary to a comprehensive document.
-2. **Financials (JSON)**: The only structured computable format besides C-CDA. No schema, no field names, no sample data — a recipient would need to reverse-engineer the JSON structure. This is the most significant documentation gap: billing data in an undocumented proprietary format.
-3. **Documents (PDF, JPG, PNG)**: Three of the 7 categories are non-computable document formats. These preserve originals but cannot be programmatically parsed for structured data.
-4. **DICOM**: A strong choice for x-ray export — DICOM is the native medical imaging standard and is self-describing with metadata headers.
-5. **EML**: Standard email format for messages, reasonable for preserving message content.
+1. **The Financials category is the only computable, vendor-native data**: The "BillingClaim" folder contains JSON — this is the only category where Patient First is exporting structured data in their own format. However, no schema, field definitions, or sample JSON structure are provided. A recipient would have to reverse-engineer the JSON format.
+
+2. **Medical Records rely entirely on C-CDA**: Clinical data is exported in "industry-standard C-CDA format" — meaning the export's clinical coverage is bounded by whatever C-CDA templates Patient First implements. No documentation specifies which C-CDA templates, sections, or entries are included, or whether any vendor extensions are used.
+
+3. **The RWT report labels the b(10) metric as "Number of C-CDA Batch Exports Sent"**: This is significant. The b(10) export is supposed to be a multi-format ZIP (per the disclosure page), but the RWT metric tracks only "C-CDA Batch Exports." This raises the question of whether the actual b(10) export in practice is just a C-CDA batch rather than the full multi-format ZIP described in the documentation. The section description mentions "patients requested and received EHI exports of their health information by the EHR Module as well as number of bulk patient exports," but the metric name specifically says "C-CDA Batch Exports."
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-The vendor organizes the export into 7 categories. The richest structured data is in two categories:
+The vendor organizes the export into 7 categories. In their terms:
 
-- **Medical Records (C-CDA)**: Contains the clinical data — problems, medications, allergies, vitals, procedures, lab results, immunizations, etc. However, C-CDA is a clinical summary standard; it captures a subset of what an EHR stores natively. Discrete data like individual lab order details, clinical decision support alerts, detailed encounter metadata, and custom clinical forms are typically lost in C-CDA translation.
-- **Financials (JSON)**: Contains billing and claims data in a computable format. This is notable — many vendors omit billing entirely from b(10) exports. However, the complete absence of documentation for this JSON format significantly reduces its utility.
+- **Medical Records (C-CDA)**: The broadest clinical data category, but its depth is unknown because no C-CDA implementation guide or template list is provided. Standard C-CDA would typically include: demographics, problems, medications, allergies, vitals, procedures, results, immunizations, encounters, care plans. But the specific content depends on Patient First's implementation.
+- **X-Rays (DICOM)**: Appropriate for an urgent care chain where on-site x-ray is standard at every location. DICOM files are self-describing and include imaging data plus metadata.
+- **Scanned Images**: Administrative documents (insurance cards, photo IDs) — relevant as part of the designated record set.
+- **Consults (PDF)**: Referral documents in non-computable format.
+- **Messages (EML)**: Patient-provider secure messages — a good inclusion often missing from other vendors' exports.
+- **Forms (PDF)**: Drug screen results and other clinical forms — in non-computable format.
+- **Financials (JSON)**: Billing and claims in computable format — good to include but undocumented.
 
-The remaining 5 categories are document/image-level exports:
-- **X-Rays (DICOM)**: Excellent inclusion for an urgent care chain with on-site imaging.
-- **Scanned Images**: Administrative documents (insurance cards, photo IDs).
-- **Consults (PDF)**: Referral documents — important for continuity of care.
-- **Messages (EML)**: Patient-provider secure messages.
-- **Forms (PDF)**: Miscellaneous forms including drug screen results.
+**Strengths**: The multi-format approach is practical. Including DICOM images, scanned documents, secure messages, and billing data goes beyond what many vendors offer. The export is clearly not just a C-CDA — it attempts to cover non-clinical and non-structured data.
 
-The export is **broader than typical C-CDA-only exports** and shows awareness that EHI goes beyond clinical summaries. The inclusion of billing, imaging, messages, and scanned documents reflects genuine effort. However, all non-C-CDA structured data is undocumented.
+**Weaknesses**: The clinical data appears to be entirely C-CDA-based (a standard projection, not native data model export). Without knowing which C-CDA templates are implemented, it's impossible to assess clinical data completeness. There are no discrete/structured exports of lab results, encounter details, or order records beyond what C-CDA captures. The financial JSON is completely undocumented.
 
 ### 5b. Standardized domain coverage (top-down)
 
 | Domain | Coverage | Export Evidence | Gap Analysis |
 |---|---|---|---|
-| Demographics | ⚠️ Partial | C-CDA includes demographics section; scanned photo IDs in `Scan/PhotoID` | C-CDA demographics is limited to USCDI elements. Registration details, extended contact info, and insurance plan details beyond scanned card images likely not fully captured |
-| Encounters / visits | ⚠️ Partial | C-CDA documents encounters but as summaries; visit history available in portal | C-CDA flattens encounter data. PAS tracks visits across ~79 locations — encounter-level metadata (site, provider, visit type, timestamps) may lose granularity |
-| Problems / conditions / diagnoses | ⚠️ Partial | C-CDA problem list section | Covered via C-CDA standard sections, but limited to what the C-CDA template includes |
-| Medications / prescriptions | ⚠️ Partial | C-CDA medications section | C-CDA includes medication lists. However, PAS processes ~479K e-prescriptions/quarter — the full prescription transaction records (Surescripts messages, dispensing records from on-site medication dispensing) are unlikely to be captured in C-CDA |
-| Allergies | ⚠️ Partial | C-CDA allergies section | Standard C-CDA coverage |
-| Immunizations | ⚠️ Partial | C-CDA immunizations section | Standard C-CDA coverage; ~16K immunization registry messages/quarter suggest significant immunization activity |
-| Vitals | ⚠️ Partial | C-CDA vital signs section | Standard C-CDA coverage |
-| Lab results | ⚠️ Partial | C-CDA results section | C-CDA includes results but PAS runs on-site CLIA labs at every location — discrete lab order data, order-level metadata, and full result panels may lose detail in C-CDA translation |
-| Imaging / diagnostic reports | ✅ Covered | `Xray` folder with DICOM files | Strong coverage — DICOM is the native imaging format. Includes the actual images, not just reports |
-| Procedures | ⚠️ Partial | C-CDA procedures section | Standard C-CDA coverage |
-| Clinical notes / documents | ⚠️ Partial | C-CDA may include notes sections; `ConsultNotes` (PDF) for referral documents; `Forms` (PDF) for miscellaneous forms | C-CDA may include some notes. Consults and forms are exported as PDFs (non-computable). Full progress notes, H&P documents, and encounter-specific notes from ~79 clinics are not explicitly documented as included |
-| Care plans / goals | ⚠️ Partial | C-CDA may include care plan section if populated | Unclear — depends on C-CDA template used |
-| Orders / referrals | ⚠️ Partial | `ConsultNotes` includes referral documents (PDF) | Referral documents are exported but as PDFs. Structured order data (lab orders, imaging orders, CPOE records) is not explicitly documented |
-| Insurance / coverage | ⚠️ Partial | Scanned insurance cards in `Scan/InsCard`; financial JSON may contain coverage data | Insurance card images are included but structured insurance/coverage data depends on undocumented JSON format |
-| Claims / billing | ⚠️ Partial | `BillingClaim` folder with JSON files | Billing data IS included — a notable positive. However, the JSON format is completely undocumented. No schema, no field names, no sample data. Impossible to assess depth without seeing actual data |
-| Payments | ❓ Unclear | May be in financial JSON | Patients can view/pay balances via portal, so PAS stores payment data. Whether payments are in the billing JSON is unknown |
-| Consents / directives | ❌ Not covered | No evidence in export categories | Not explicitly listed; may be in C-CDA or Forms but not documented |
-| Patient communications / portal messages | ✅ Covered | `DirectSecureMessages` folder with EML files | Secure messages between patient and provider are exported in standard email format |
-| Specialty: Occupational Health | ⚠️ Partial | Drug screen results mentioned in Forms (PDF) | Patient First does DOT physicals, workers' comp, and drug testing. Drug screen results are in Forms as PDF, but structured occupational health data (DOT exam records, workers' comp case details, employer-specific records) is not documented |
+| Demographics | ⚠️ Partial | Likely included in C-CDA `recordTarget`; no dedicated demographics export | C-CDA demographics are typically limited (name, DOB, sex, address, language, race/ethnicity). Richer registration data (emergency contacts, employer info, multi-address history) likely not captured. |
+| Encounters / visits | ⚠️ Partial | C-CDA may include encounter sections | Patient First handles millions of visits/year. C-CDA encounter documentation varies; no evidence of discrete encounter data export. |
+| Problems / conditions / diagnoses | ⚠️ Partial | Expected in C-CDA Problem section | Standard C-CDA coverage; no indication of whether PAS-specific problem data is fully represented. |
+| Medications / prescriptions | ⚠️ Partial | Expected in C-CDA Medications section | C-CDA captures medication lists, but ~479K prescriptions/quarter flow through PAS. Actual e-prescribing transaction records (Surescripts messages) and on-site medication dispensing records are unlikely to be in C-CDA. |
+| Allergies | ⚠️ Partial | Expected in C-CDA Allergies section | Standard C-CDA coverage. |
+| Immunizations | ⚠️ Partial | Expected in C-CDA Immunizations section | Standard C-CDA coverage; PAS sends ~16K immunization messages/quarter to registries. |
+| Vitals | ⚠️ Partial | Expected in C-CDA Vital Signs section | Standard C-CDA coverage. |
+| Lab results | ⚠️ Partial | Expected in C-CDA Results section | Every Patient First location has an on-site CLIA-approved lab. C-CDA results may lose granularity vs. PAS's internal structured lab data. |
+| Imaging / diagnostic reports | ✅ Covered | X-ray images exported as DICOM files in `Xray` folder | DICOM is the native imaging standard. This is a strong point — actual images, not just reports. |
+| Procedures | ⚠️ Partial | Expected in C-CDA Procedures section | Standard C-CDA coverage. |
+| Clinical notes / documents | ⚠️ Partial | Consult documents (PDF) in `ConsultNotes`; clinical forms (PDF) in `Forms` | Consult notes and forms are exported as PDFs (non-computable). It's unclear whether encounter progress notes, H&P notes, or other clinical narrative is included in the C-CDA or exported separately. |
+| Care plans / goals | ⚠️ Partial | May be in C-CDA if implemented | No evidence this is explicitly included. |
+| Orders / referrals | ⚠️ Partial | Consult documents suggest referrals exist; orders may be in C-CDA | PAS has CPOE for meds, labs, and imaging — structured order data is likely not fully captured in C-CDA. |
+| Insurance / coverage | ⚠️ Partial | Scanned insurance cards in `Scan/InsCard` folder | Insurance cards are images, not structured insurance plan data (payer, group, policy numbers, coverage dates). |
+| Claims / billing | ⚠️ Partial | JSON files in `BillingClaim` folder | Claims/billing data is exported in JSON — a computable format. However, no schema or field definitions exist, so the actual content and completeness is unknown. |
+| Payments | ❓ Unknown | Not explicitly mentioned; may be in `BillingClaim` JSON | Patient First's portal allows patients to view/pay balances. Payment data may or may not be in the billing JSON. |
+| Consents / directives | ❌ Not covered | No mention in export documentation | Unknown whether PAS stores advance directives or consent forms. Not a clear gap for urgent care. |
+| Patient communications / portal messages | ✅ Covered | EML files in `DirectSecureMessages` folder | Secure messages to/from the patient. This is a notable inclusion. |
+| Occupational health (specialty) | ⚠️ Partial | Drug screen results mentioned as PDF in `Forms` folder | Patient First offers DOT physicals, workers' comp, drug testing, and an employer portal. Drug screen results are included as PDFs, but structured occupational health data (DOT exam results, workers' comp case details, employer billing) is not clearly documented. |
 
-**Summary**: Of 19 applicable domains, 2 are clearly covered (imaging, portal messages), 14 are partially covered (primarily via C-CDA which provides some coverage but loses native granularity), 1 is not covered (consents), and 2 are unclear (payments, occupational health details). The C-CDA backbone provides baseline clinical coverage but acts as a lossy filter on PAS's native data model.
+**Summary**: Of 19 applicable domains, 2 are clearly covered (imaging, portal messages), 14 are partially covered (mostly via C-CDA with uncertain depth), 1 is not covered (consents — arguably N/A for urgent care), 1 is unknown (payments), and 1 is partially covered as a specialty domain. The fundamental problem is that clinical data completeness depends entirely on Patient First's C-CDA implementation, which is undocumented.
 
 ## 6. Documentation Quality
 
-The EHI export documentation is **minimal**. The entire specification consists of:
-- 2 sentences of prose describing the export concept (~50 words)
-- 1 sentence about the ZIP format
-- A 7-row × 4-column HTML table listing category, description, folder name, and file format
+**Overall**: Minimal. The entire EHI export documentation consists of a single paragraph and a 7-row HTML table on the mandatory disclosures page. There are no supplementary documents.
 
-**What's missing**:
-- **No data dictionary**: Zero field-level documentation for any export category
-- **No JSON schema**: The financial/billing JSON format is entirely undocumented — no field names, types, or structure
-- **No C-CDA implementation guide**: No C-CDA version, template IDs, profile, or section inventory specified
-- **No sample data**: No example export files of any kind
-- **No user/admin guide**: No instructions for requesting, generating, or receiving an export
-- **No relationship documentation**: No entity relationships, foreign keys, or cross-references between categories
-- **No value sets or code systems**: No documentation of coded values used in any format
+**What exists**:
+- A brief prose description of what the export is (ZIP archive of health data)
+- A table mapping 7 export categories to folder names and file formats
+- RWT results showing 31 exports in Q1 2025
 
-**Could a developer build an import from this documentation?** No. A developer could parse the C-CDA using standard C-CDA libraries (if they assume a standard C-CDA profile), view the DICOM images with standard DICOM tools, and read the EML messages with email clients. But the billing JSON would be impenetrable without reverse-engineering, and there would be no way to know what clinical data is in the C-CDA vs. what was lost in translation from PAS's native model.
+**What doesn't exist**:
+- No data dictionary for any export category
+- No JSON schema for the Financials/BillingClaim data
+- No C-CDA implementation guide, template list, or section inventory
+- No DICOM metadata documentation
+- No sample export files
+- No user guide for requesting or performing an export
+- No API documentation
+- No versioning or change history
+- No field definitions, value sets, relationships, or cardinality constraints
 
-The documentation quality is below what b(10) compliance requires for meaningful data portability. The export itself may contain useful data, but the documentation provides almost no guidance for interpreting it.
+**Could a developer build an import from this documentation?** No. A developer receiving this export would know the ZIP folder structure and file formats, but would have:
+- **For C-CDA**: general knowledge that it's "industry-standard" C-CDA, but no specifics about Patient First's implementation. They'd have to parse and reverse-engineer the XML.
+- **For Financials JSON**: no schema at all. Complete reverse-engineering required.
+- **For DICOM**: the DICOM standard is self-describing, so images would be interpretable.
+- **For PDFs/images**: viewable but not computable.
+- **For EML messages**: standard email format, generally interpretable.
 
 ## 7. Overall Assessment
 
 ### Classification
 
-**Standard-based projection** with ancillary native files.
+**Minimal/stub**
 
-The core clinical data is projected through C-CDA — a standard clinical summary format that captures a subset of the native EHR data model. The 6 additional categories (DICOM images, scanned documents, consult PDFs, secure messages, forms, and billing JSON) supplement the C-CDA with data types that C-CDA cannot represent, which is commendable. However, the clinical data backbone remains a C-CDA projection, not a native database export. There is no evidence that PAS's internal tables, custom fields, or proprietary data structures are exported in their native form (except possibly the billing JSON, which is undocumented).
+The export documentation is too thin to fully assess content completeness. What documentation exists describes a **multi-format collection** (not a native data model export and not purely a standard projection) that covers 7 categories at a high level. However:
+
+1. The clinical data core is C-CDA — a standard-based projection, not a native data model export. This means clinical data coverage is bounded by C-CDA capabilities and Patient First's implementation thereof.
+2. No data dictionary, schema, or field-level documentation exists for any category.
+3. The RWT metric labeling ("C-CDA Batch Exports Sent" for b(10)) raises questions about whether the actual export in practice matches the multi-format ZIP described in the documentation.
+4. Without sample data or schemas, it's impossible to verify whether the export genuinely contains "all EHI" or just a clinical summary with some ancillary files.
 
 ### Key Findings
 
-1. **Multi-format export goes beyond typical C-CDA repackaging**: The 7-category ZIP with DICOM images, billing JSON, secure messages (EML), and scanned documents is broader than most vendors' b(10) exports. Patient First shows awareness that EHI extends beyond clinical summaries. (Source: `mandatory-disclosure-page.html`, EHI Export section)
+1. **The RWT b(10) metric is labeled "Number of C-CDA Batch Exports Sent"** (RWT PDF, p. 13), despite the disclosure page describing a multi-format ZIP with 7 categories. This conflation raises a significant concern: is the actual b(10) export just a C-CDA batch, or is it the full ZIP? The metric description does mention "EHI exports" and "bulk patient exports," but the metric name specifically says "C-CDA Batch Exports."
 
-2. **Billing data included but completely undocumented**: The `BillingClaim` JSON is one of the most important categories — billing is a major gap for most vendors. However, with zero documentation (no schema, no field names, no sample data), a recipient cannot interpret the data. (Source: EHI Export table, "Financials" row)
+2. **Clinical data is entirely C-CDA-based** with no native data model export. The "Medical Records" category exports C-CDA XML — not PAS database tables. This means clinical data is projected through a standard that may lose PAS-specific detail, custom fields, occupational health assessments, and other data that doesn't map cleanly to C-CDA templates.
 
-3. **Clinical data funneled through C-CDA loses native granularity**: PAS is a full EHR with CPOE, on-site labs, e-prescribing, and on-site medication dispensing. C-CDA captures clinical summaries but not the full richness of the native data model — order details, CDS interactions, discrete lab panels, prescription transaction records, and encounter-level metadata are likely compressed or lost. (Source: C-CDA is listed as "industry-standard C-CDA format" with no extensions documented)
+3. **The Financials (BillingClaim JSON) is completely undocumented.** This is the only computable, vendor-native data export category, yet there is no schema, no field definitions, no sample data. A recipient cannot interpret this data without reverse-engineering.
 
-4. **RWT metric mislabeled, raising questions about export fidelity**: The b(10) Real World Testing metric is labeled "Number of C-CDA Batch Exports Sent" rather than "Number of EHI Exports Run," suggesting the export may be more C-CDA-centric in practice than the 7-category documentation implies. (Source: `PatientFirst_Real_World_Test_Results_CY2025.pdf`, p. 13)
+4. **The documentation is among the thinnest possible** — 1 paragraph and a 7-row table. No data dictionary, no schema, no sample data, no user guide. For a vendor that built their own EHR from scratch, the absence of any documentation about the underlying data model is a missed opportunity.
 
-5. **Documentation is a stub — 7 rows, no field-level detail**: The entire export documentation is a single HTML paragraph and table. No data dictionary, no schemas, no sample data, no user guide. This is among the thinnest b(10) documentation of any certified product. (Source: `mandatory-disclosure-page.html`)
+5. **The multi-format approach is conceptually sound** — including DICOM images, secure messages, scanned documents, and billing JSON alongside clinical C-CDA data goes beyond what many vendors offer. The intent appears genuine, but the execution and documentation fall short.
 
 ### Summary Stats
 
 ```
-Classification:  Standard-based projection (with ancillary native files)
-Export format:   Multi-format ZIP (C-CDA XML, DICOM, JSON, EML, PDF, JPG/PNG)
-Model type:      Standard projection (C-CDA) + native ancillary formats
-Entities:        7 categories (no sub-entity breakdown)
+Classification:  Minimal/stub
+Export format:   Mixed (C-CDA XML, DICOM, PDF, JPG/PNG, EML, JSON) in ZIP
+Model type:      Standard projection (C-CDA) + ancillary files
+Entities:        7 categories (no entity/table-level granularity)
 Fields:          N/A (no field-level documentation)
-Descriptions:    N/A (no field-level documentation)
+Descriptions:    N/A
 Sample data:     No
-Bulk export:     Unclear (mentioned in RWT but not documented)
-Domains covered: 2 of 19 fully, 14 of 19 partially (via C-CDA)
+Bulk export:     Unclear (documentation says single-patient; RWT mentions "bulk")
+Domains covered: 2 of 19 clearly covered; 14 partially (via undocumented C-CDA)
 ```
 
 ### Bottom Line
 
-Patient First's EHI export is better than a pure C-CDA repackaging — the inclusion of DICOM images, billing JSON, secure messages, and scanned documents shows genuine effort to export beyond clinical summaries. However, the clinical data backbone is still C-CDA (a lossy standard projection), the billing JSON is completely undocumented, and the total documentation is just 7 table rows with no field-level detail. A patient receiving this export would get their x-rays and messages but would have no way to interpret the billing data, and would receive only a C-CDA summary rather than the full granularity of their clinical record as stored in PAS.
+Patient First's EHI export is conceptually broader than many vendors' — the multi-format ZIP with DICOM images, secure messages, and billing JSON shows genuine effort to go beyond C-CDA. However, the documentation is too thin to assess actual completeness: no data dictionary, no schemas, no sample data, and the RWT report's "C-CDA Batch Exports" labeling raises concerns about whether the full multi-format export is actually delivered in practice. The biggest gap is the complete absence of field-level documentation — especially for the vendor-native billing JSON — which makes the export effectively unusable without significant reverse-engineering.

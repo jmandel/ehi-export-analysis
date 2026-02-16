@@ -1,213 +1,252 @@
 # EHI Export Analysis: Enable Healthcare Inc.
 
-**Product**: MDnet V10  
-**Analysis date**: 2026-02-15  
+**Product**: MDnet V10
+**Analysis date**: 2026-02-16
 **CHPL IDs**: 15.04.04.2719.MDne.10.01.1.191231 (CHPL ID 10247)
 
 ## 1. Product Context
 
-MDnet by Enable Healthcare Inc. is a cloud-based, ONC-certified EHR platform targeting ambulatory practices across multiple specialties (behavioral health, pediatrics, cardiology, internal medicine, urgent care, OBGYN). It is an integrated clinical, administrative, and financial system encompassing:
+MDnet is a cloud-based, ONC-certified Electronic Health Records platform by Enable Healthcare Inc. (East Hanover, NJ) designed as an integrated clinical, administrative, and financial management system for ambulatory healthcare practices. The product serves multiple specialties including mental/behavioral health, pediatrics, cardiology, internal medicine, urgent care, and OBGYN.
 
-- **Clinical EHR**: encounter documentation, problem lists, medication lists, allergy tracking, immunizations, family health history, implantable devices, lab results, vitals, AI-powered charting ("Lumina"), clinical decision support
-- **E-Prescribing**: electronic prescription transmission to pharmacies
-- **Practice Management**: appointment scheduling, patient check-in, multi-physician calendar management
-- **Medical Billing & RCM**: insurance eligibility verification, claim submission, denial management, branded "revQ" AI billing platform; Enable Healthcare also operates as a billing services company
-- **Patient Portal**: secure messaging, appointment booking, medical record access, co-payment management
-- **Telehealth**: integrated video visit capability
-- **Care Coordination**: chronic care management (CCM), remote patient monitoring (RPM), population health, annual wellness visits
-- **Document Management**: scanned paper records, fax management
+MDnet encompasses:
+- **Clinical EHR**: Encounter documentation, problem/medication/allergy lists, immunizations, family history, implantable devices, vitals, lab results, clinical decision support, AI-powered charting ("Lumina"/"enableAssist")
+- **E-Prescribing**: Electronic prescription transmission
+- **Practice Management**: Appointment scheduling, patient check-in, online booking
+- **Medical Billing & RCM**: Insurance eligibility verification, claim submission, denial management, revenue cycle management (branded "revQ")
+- **Patient Portal**: Record access, secure messaging, appointment scheduling, co-payment management
+- **Telehealth**: Integrated telemedicine
+- **Care Coordination**: Chronic Care Management (CCM), Remote Patient Monitoring (RPM), population health, Annual Wellness Visits
+- **Document Management**: Scanning of paper records, fax management
 - **Interoperability**: C-CDA exchange, Direct messaging, FHIR R4 API
 
-This product stores data across clinical, financial, administrative, and patient engagement domains. A complete (b)(10) export should cover all of these.
+Enable Healthcare also operates as a medical billing services company, making billing/claims data a core part of the product's data holdings. A complete EHI export should cover clinical encounters, demographics, medications, allergies, immunizations, labs, problems, procedures, vitals, care plans, billing/claims, insurance/coverage, prescriptions, scanned documents, patient portal messages, and care coordination data.
 
 ## 2. Artifacts Reviewed
 
 | Artifact | Description | Informativeness |
 |---|---|---|
-| `EHI_DATA_EXPort_GUIDE.pdf` | 9-page PDF (904 KB), "Data Interoperability & EHI Data Export Guide." Created 2023-12-28 by Rahul Dewan. Describes scope and 8 export methods. Pages 1–4 cover export methods; pages 5–9 describe an optional C-CDA incremental data exchange service. **Primary artifact.** | Medium — describes capabilities at a high level but provides no field-level documentation |
-| `fhir-capability-statement.json` | FHIR R4 CapabilityStatement (25 KB) from `ehifire.ehiconnect.com`. Lists 27 resource types. Standard US Core set. | Low — this is the (g)(10) API, not a (b)(10) export mechanism |
-| `fhir-portal-landing.png` | Screenshot of Enable Healthcare FHIR portal. Three cards: Testing Sandbox, Registration, Documentation. | Low — confirms FHIR portal exists |
-| `fhir-api-documentation-page.png` | Screenshot of Dynamic FHIR API documentation page. Shows SMART on FHIR authorization, client registration, Bulk Export. Branded "Dynamic FHIR" (third-party platform by Dynamic Health IT). | Low — confirms (g)(10) API documentation; no (b)(10) content |
+| `EHI_DATA_EXPort_GUIDE.pdf` | 9-page PDF (904 KB). Primary EHI export documentation. Describes scope, 8 export methods, and an optional incremental C-CDA data exchange service. Created 2023-12-28 from Word document by Rahul Dewan. | **Most informative** — the only substantive documentation |
+| `fhir-capability-statement.json` | FHIR R4 CapabilityStatement (25 KB). Lists 27 supported resource types with search parameters. Standard US Core set. | **Moderately informative** — confirms FHIR API scope |
+| `fhir-portal-landing.png` | Screenshot of FHIR portal at fhir.ehiconnect.com. Shows three cards: Testing Sandbox, Registration, Documentation. "Dynamic FHIR" branding (third-party platform by Dynamic Health IT). | **Low informativeness** — confirms portal exists |
+| `fhir-api-documentation-page.png` | Screenshot of FHIR API documentation page. Shows SMART on FHIR authorization, terms of use, client registration details. "Dynamic FHIR Server API works in conjunction with ConnectEHR version FHIR4-B." | **Low informativeness** — standard (g)(10) API docs, not (b)(10) specific |
 
-**Critical missing artifact**: The PDF references a CSV data dictionary at `https://emr.ehiconnect.com/docs/`. This URL returns HTTP 404 (verified 2026-02-15). No alternative URL was found. No Wayback Machine captures exist for this path. This data dictionary — the only artifact that would document the native data export — is inaccessible.
+**Critical missing artifact**: The PDF references a CSV data dictionary at `https://emr.ehiconnect.com/docs/` — this URL returns HTTP 404 (verified 2026-02-16). No alternative location found. The root `emr.ehiconnect.com` returns HTTP 403. Seven alternative paths probed — all 404. This is the single most important artifact for assessing the (b)(10) export and it is inaccessible.
 
 ## 3. Export Mechanics
 
-The PDF describes **8 export methods**, though not all are (b)(10) mechanisms:
+The EHI Data Export Guide describes **8 export methods**:
 
-| Method | Format | Type | Patient/Bulk | Mechanism |
-|---|---|---|---|---|
-| FHIR R4 API | FHIR JSON | Standard projection | Single + Bulk | API (portal at fhir.ehiconnect.com) |
-| C-CDA R2.1 Export | C-CDA XML | Standard projection | Single + Bulk | UI ("CCDA Export Tracker" in MDnet) |
-| CSV Full Data Set | CSV | Native data | Single + Bulk | Request from authorized users |
-| HL7 2.x ADT | HL7 v2 | Real-time feed | Per-event | Interface engine |
-| HL7 2.x SIU | HL7 v2 | Real-time feed | Per-event | Interface engine |
-| HL7 2.x DFT | HL7 v2 | Real-time feed | Per-event | Interface engine |
-| JSON Document Exchange | JSON + BASE-64 | Proprietary | Per-document | Real-time exchange |
-| EDI 837P/835 | EDI X12 | Standard claims | Bulk | Continuous feed |
+| # | Method | Format | Mode | Bulk? | Real-time? |
+|---|---|---|---|---|---|
+| 1 | FHIR APIs | FHIR R4 JSON/XML | SMART on FHIR API | Yes (Bulk Data) | No |
+| 2 | C-CDA R2.1 export | C-CDA R2.1 XML | Integrated "CCDA Export Tracker" UI | Yes | No |
+| 3 | CSV full data set | CSV | On-demand request | Yes | No |
+| 4 | HL7 2.x/3.x ADT | HL7 v2 ADT | Real-time interface | No | Yes |
+| 5 | HL7 2.x SIU | HL7 v2 SIU | Real-time interface | No | Yes |
+| 6 | HL7 2.x DFT | HL7 v2 DFT | Real-time interface | No | Yes |
+| 7 | JSON documents | JSON + BASE-64 | Real-time exchange | No | Yes |
+| 8 | EDI 837P/835 | EDI 837P/835 | Continuous feed | Yes | Yes |
 
-**Access constraints**: The PDF states exports are available to "authorized users" with "required access" granted. No mention of fees for the export itself, though the "Announce & Deliver" incremental C-CDA service is described as an "add-on additional service," implying a cost.
+**How export is obtained**: The C-CDA export uses an integrated "CCDA Export Tracker" accessible by authorized users within MDnet — options include full set, partial date-based, partial segment-based, or incremental. The CSV export is described as available to "authorized users" who can "request" it. The FHIR API requires SMART on FHIR registration. HL7, JSON, and EDI methods appear to be integration interfaces rather than user-initiated exports.
 
-**Key observation**: The CSV export (method 3) is described as covering "health, activity and financial data" — this is the only method that could constitute a genuine (b)(10) all-EHI export. However, its data dictionary is inaccessible, so the actual content and completeness cannot be verified.
+**Single-patient and bulk**: Both C-CDA and CSV support single-patient or all-patient export. FHIR supports both individual and bulk operations.
+
+**Optional add-on service**: Pages 5–9 describe an "Announce & Deliver" data exchange service using C-CDA R2.1 with incremental updates. This supports VPN P2P tunnels, SFTP (hosted by either party), or HTTPS web services. This appears to be a vendor-assisted integration service, not a self-service export.
+
+**Fees**: Not explicitly stated. The optional incremental C-CDA service is described as an "add-on" which implies additional cost.
+
+**Notable issue**: The HL7 DFT description (method 6) repeats the SIU text verbatim — a copy-paste error. DFT is supposed to handle financial transactions, but the document describes it as handling "patient appointments, appointment edits, appointments cancelation and check-in" (the SIU description).
 
 ## 4. Export Content: What's In It
 
 ### 4.1 What can be verified
 
-**C-CDA R2.1 Sections** (20 sections, per pages 6–7 of PDF):
+There is **no accessible data dictionary** for the CSV export — the referenced URL (`https://emr.ehiconnect.com/docs/`) returns 404. No sample data, no schemas (apart from the FHIR CapabilityStatement), and no field-level documentation exist in the available artifacts. The analysis below is therefore based on:
+1. The 20 C-CDA sections listed in the PDF
+2. The 27 FHIR resource types from the CapabilityStatement
+3. The descriptions of the 8 export methods in the PDF
 
-| # | Section | Standard C-CDA? |
+### 4.2 C-CDA R2.1 content (20 sections)
+
+The PDF lists these C-CDA sections (vendor's exact terms):
+
+| Section | Standard EHI Domain |
+|---|---|
+| Allergy | Allergies |
+| Assessment | Clinical notes |
+| Encounters | Encounters/visits |
+| Family History | Demographics (family) |
+| Functional Status | Clinical assessments |
+| Cognitive Status | Clinical assessments |
+| Immunizations | Immunizations |
+| Medical Equipment | Implantable devices |
+| Medications | Medications/prescriptions |
+| Lab Results | Lab results |
+| Problems | Problems/conditions |
+| Procedures | Procedures |
+| Reason for Visit | Encounters |
+| Referrals | Orders/referrals |
+| Social History | Demographics (social) |
+| Vitals | Vitals |
+| Care Plan | Care plans/goals |
+| Goal | Care plans/goals |
+| Health Concern | Problems/conditions |
+| Clinical Instructions | Clinical notes |
+
+These are standard C-CDA sections. No vendor-specific extensions or custom sections are described. Field-level detail is not provided — the vendor defers to the C-CDA R2.1 standard specification.
+
+### 4.3 FHIR R4 resources (27 types)
+
+From `fhir-capability-statement.json`:
+
+| Resource Type | Search Params | Profiles | Notes |
+|---|---|---|---|
+| Patient | 8 | 1 (US Core) | Has `patient-export` bulk operation |
+| Observation | 4 | 24 (vitals, labs, smoking, SDOH, etc.) | Broadest profile support |
+| DocumentReference | 7 | 1 | C-CDA documents only (LOINC 48764-5) |
+| Organization | 7 | 1 | |
+| ServiceRequest | 6 | 1 | |
+| MedicationRequest | 5 | 1 | |
+| Encounter | 5 | 1 | |
+| CarePlan | 4 | 1 | |
+| Condition | 4 | 3 (problems, encounter dx, health concerns) | |
+| DiagnosticReport | 4 | 2 (lab, note) | |
+| AllergyIntolerance | 3 | 1 | |
+| Goal | 3 | 1 | |
+| MedicationDispense | 3 | 1 | |
+| Coverage | 1 | 1 | Insurance coverage |
+| CareTeam | 2 | 1 | |
+| ClinicalImpression | 2 | 1 | |
+| Device | 2 | 1 (implantable) | |
+| Immunization | 2 | 1 | |
+| Location | 2 | 1 | |
+| Procedure | 2 | 1 | |
+| Practitioner | 2 | 1 | |
+| PractitionerRole | 2 | 1 | |
+| RelatedPerson | 2 | 1 | |
+| Specimen | 2 | 1 | |
+| Binary | 2 | 1 | |
+| Group | 0 | 0 | Bulk export operation only |
+| Provenance | 0 | 1 | |
+
+Total: 27 resource types, 86 search parameters. All US Core profiles — no vendor-specific extensions. Server-level `$export` operation is available (Bulk Data). This is a standard (g)(10) FHIR API, not a (b)(10)-specific mechanism.
+
+### 4.4 Other export methods (no field-level detail)
+
+| Method | What it covers (per PDF) | Documentation level |
 |---|---|---|
-| 1 | Allergy | Yes |
-| 2 | Assessment | Yes |
-| 3 | Encounters | Yes |
-| 4 | Family History | Yes |
-| 5 | Functional Status | Yes |
-| 6 | Cognitive Status | Yes |
-| 7 | Immunizations | Yes |
-| 8 | Medical Equipment | Yes |
-| 9 | Medications | Yes |
-| 10 | Lab Results | Yes |
-| 11 | Problems | Yes |
-| 12 | Procedures | Yes |
-| 13 | Reason for Visit | Yes |
-| 14 | Referrals | Yes |
-| 15 | Social History | Yes |
-| 16 | Vitals | Yes |
-| 17 | Care Plan | Yes |
-| 18 | Goal | Yes |
-| 19 | Health Concern | Yes |
-| 20 | Clinical Instructions | Yes |
-
-All 20 sections are standard C-CDA R2.1 sections. No vendor-specific extensions are documented.
-
-**FHIR R4 Resources** (27 types from CapabilityStatement):
-
-AllergyIntolerance, Binary, CarePlan, CareTeam, ClinicalImpression, Condition, Coverage, Device, DiagnosticReport, DocumentReference, Encounter, Goal, Group, Immunization, Location, MedicationDispense, MedicationRequest, Observation, Organization, Patient, Practitioner, PractitionerRole, Procedure, Provenance, RelatedPerson, ServiceRequest, Specimen
-
-This is the standard US Core resource set — no vendor-specific resources or custom extensions.
-
-**EDI Claims**: EDI 837P (professional claims) and 835 (remittance advice) are described as a "continuous feed." No field-level documentation is provided, but EDI 837P/835 formats are industry standards with defined structures.
-
-### 4.2 What cannot be verified
-
-**CSV Full Data Set Export**: The PDF claims this covers "health, activity and financial data" for single or all patients. The referenced data dictionary at `https://emr.ehiconnect.com/docs/` is inaccessible (HTTP 404). Without this data dictionary, the following are unknown:
-
-- How many tables/entities the CSV export contains
-- What fields are in each table
-- What data types are used
-- What relationships exist between tables
-- Whether billing, scheduling, portal messages, care coordination data, etc. are included
-- Whether fields have descriptions or value set definitions
-
-**No sample data files** of any format are provided or accessible.
+| CSV full data set | "Health, activity and financial data" | **Undocumented** — data dictionary URL returns 404 |
+| HL7 ADT | Demographics and payer information | Standard HL7 v2 — no MDnet-specific documentation |
+| HL7 SIU | Appointment scheduling data | Standard HL7 v2 — no MDnet-specific documentation |
+| HL7 DFT | Financial transactions (stated) | **Copy-paste error** — description matches SIU |
+| JSON documents | Scanned documents, faxes, custom reports | Described briefly — JSON with BASE-64 content |
+| EDI 837P/835 | Claims and remittance files | Standard EDI — no MDnet-specific documentation |
 
 ### Vendor's own content organization
 
-The PDF organizes export content by **method** rather than by data domain. There is no entity-level data dictionary available to present. The closest the vendor comes to content organization is:
-
-| Export Method | Vendor's Claimed Content | Documented Detail |
-|---|---|---|
-| C-CDA R2.1 | 20 clinical sections (listed above) | Section names only; relies on C-CDA standard for field definitions |
-| CSV Full Data Set | "Health, activity and financial data" | No detail — data dictionary URL is dead |
-| FHIR R4 API | 27 resource types (US Core) | Standard FHIR resource definitions |
-| HL7 ADT | "Demographics and payer information" | No field-level detail |
-| HL7 SIU | "Appointments, edits, cancellations, check-in" | No field-level detail |
-| HL7 DFT | Description is copy-paste of SIU (likely an error) | No field-level detail |
-| JSON Documents | "Scanned documents, faxes, custom reports" | Described as JSON with BASE-64 encoded content |
-| EDI 837P/835 | "Claim and remittance files" | Standard EDI format |
-
-**No entity/field inventory can be produced** because no data dictionary, schema, or sample data is accessible.
+The vendor does not organize content into categories. The PDF presents export methods, not data domains. The closest to a content inventory is the C-CDA section list (20 items) and the claim that the CSV export covers "health, activity and financial data." Without the CSV data dictionary, there is no entity-level or field-level inventory available from this vendor.
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-The vendor's documentation describes coverage through **methods** rather than **data domains**:
+The vendor's documentation describes coverage at three levels of specificity:
 
-- **Clinical data** is covered via C-CDA R2.1 (20 standard sections) and FHIR R4 (27 US Core resources). These are standard projections, not native data. They cover the standard clinical summary but not vendor-specific clinical data structures.
-- **Financial data** is claimed via CSV export (unverifiable) and EDI 837P/835 (claims/remittance only, no charges, payments, or insurance details beyond what EDI carries).
-- **Scheduling data** is covered via HL7 SIU messages (real-time feed, not bulk export).
-- **Demographics/payer data** is covered via HL7 ADT and FHIR Patient/Coverage resources.
-- **Documents** (scanned/faxed) are covered via JSON exchange.
+1. **C-CDA R2.1** (most specific): 20 clinical sections covering allergies, problems, medications, immunizations, labs, procedures, vitals, encounters, care plans, goals, referrals, social/family history, functional/cognitive status, and clinical instructions. This is standard clinical summary data — well-defined but limited to what C-CDA can represent.
 
-The **richest documented mechanism** is the C-CDA export, with 20 named sections and a detailed use case walkthrough (pages 6–9). The **thinnest** is the CSV export — described in a single paragraph with a dead link for details. Yet the CSV export is the only one that could constitute a true all-EHI export.
+2. **FHIR R4 API** (moderately specific): 27 US Core resource types. This overlaps heavily with C-CDA content. Notable additions: Coverage (insurance), MedicationDispense, Specimen, ClinicalImpression, ServiceRequest. But these are all standard US Core — no vendor-specific extensions that would indicate native data model exposure.
+
+3. **CSV export** (claimed but unverifiable): Described as "detailed export of health, activity and financial data." This is the only export method claimed to cover everything, including financial data. But the data dictionary is inaccessible, so the actual content cannot be verified.
+
+4. **EDI 837P/835** (specific to billing): Claims and remittance data in standard EDI format. This is genuinely financial data, but it's a separate feed — not integrated with the other export methods.
+
+5. **HL7 v2 interfaces** (real-time feeds): ADT for demographics/payer, SIU for scheduling, DFT for financial transactions. These are integration interfaces, not bulk export mechanisms.
+
+6. **JSON exchange** (specific to documents): Scanned documents, faxes, custom reports with BASE-64 encoded content. Narrow but addresses a data type (documents) that other methods don't.
+
+**Strongest area**: Clinical data via C-CDA and FHIR — standard and well-defined.
+**Weakest area**: Financial/billing data — claimed to be in CSV export but unverifiable; EDI 837P/835 covers claims but is a separate mechanism. The CSV data dictionary's inaccessibility is the single biggest documentation gap.
 
 ### 5b. Standardized domain coverage (top-down)
 
 | Domain | Coverage | Export Evidence | Gap Analysis |
 |---|---|---|---|
-| Demographics | ⚠️ Partial | C-CDA (standard demographics), FHIR Patient, HL7 ADT | Standard fields covered; vendor-specific demographics fields unknown |
-| Encounters / visits | ⚠️ Partial | C-CDA Encounters section, FHIR Encounter | Standard encounter data; visit-level detail (visit type, duration, facility specifics) unknown |
-| Problems / conditions | ✅ Covered | C-CDA Problems section, FHIR Condition | Standard coverage via C-CDA/FHIR |
-| Medications / prescriptions | ✅ Covered | C-CDA Medications section, FHIR MedicationRequest/MedicationDispense | Standard coverage; e-prescribing transaction details (pharmacy responses, fill status) unclear |
-| Allergies | ✅ Covered | C-CDA Allergy section, FHIR AllergyIntolerance | Standard coverage |
-| Immunizations | ✅ Covered | C-CDA Immunizations section, FHIR Immunization | Standard coverage |
-| Vitals | ✅ Covered | C-CDA Vitals section, FHIR Observation | Standard coverage |
-| Lab results | ✅ Covered | C-CDA Lab Results section, FHIR DiagnosticReport/Observation | Standard coverage |
-| Imaging / diagnostic reports | ⚠️ Partial | FHIR DiagnosticReport; no dedicated C-CDA imaging section listed | Product's imaging capabilities unclear; DiagnosticReport may cover radiology reports |
-| Procedures | ✅ Covered | C-CDA Procedures section, FHIR Procedure | Standard coverage |
-| Clinical notes / documents | ⚠️ Partial | FHIR DocumentReference, JSON document exchange for scanned docs | Scanned documents covered; structured clinical notes (SOAP notes, H&P) not explicitly addressed beyond C-CDA Assessment/Clinical Instructions |
-| Care plans / goals | ✅ Covered | C-CDA Care Plan, Goal, Health Concern sections; FHIR CarePlan, Goal | Standard coverage |
-| Orders / referrals | ✅ Covered | C-CDA Referrals section, FHIR ServiceRequest | Standard coverage |
-| Insurance / coverage | ⚠️ Partial | HL7 ADT "payer information," FHIR Coverage, CSV export claims | HL7 ADT and FHIR Coverage provide some payer data; depth of insurance details unknown |
-| Claims / billing | ⚠️ Partial | EDI 837P/835 for claims/remittance; CSV export claims "financial data" | EDI covers claim submissions and remittances in standard format; but charges, superbills, fee schedules, and full billing detail are unverifiable without the CSV data dictionary. Product has deep billing/RCM capabilities ("revQ"); significant gap if CSV doesn't cover it |
-| Payments | ⚠️ Partial | EDI 835 for remittance; CSV "financial data" claimed | EDI 835 covers payer remittance; patient payments, co-pays, adjustments unknown |
-| Consents / directives | ❌ Not covered | No mention in any export method | Product likely stores consent forms; gap |
-| Patient communications / portal messages | ❌ Not covered | No mention in any export method | Product has patient portal with secure messaging; gap |
-| Specialty-specific data | ❌ Not covered | No specialty-specific entities in any export | Product serves behavioral health, cardiology, pediatrics, OBGYN; any specialty-specific templates or assessments would not be captured by standard C-CDA/FHIR |
+| Demographics | ⚠️ Partial | C-CDA Social History, FHIR Patient (8 search params); HL7 ADT for demographics | C-CDA/FHIR provide standard demographic fields. No evidence of native-model export with full demographic detail (contacts, preferred language, employer, etc.) |
+| Encounters / visits | ✅ Covered | C-CDA Encounters + Reason for Visit sections; FHIR Encounter resource | Standard encounter data available via both formats |
+| Problems / conditions / diagnoses | ✅ Covered | C-CDA Problems + Health Concern sections; FHIR Condition (3 profiles: problems, encounter dx, health concerns) | Well-covered across both export formats |
+| Medications / prescriptions | ✅ Covered | C-CDA Medications section; FHIR MedicationRequest + MedicationDispense | Includes dispense data via FHIR, prescriptions via C-CDA |
+| Allergies | ✅ Covered | C-CDA Allergy section; FHIR AllergyIntolerance | Standard allergy data |
+| Immunizations | ✅ Covered | C-CDA Immunizations section; FHIR Immunization | Standard immunization records |
+| Vitals | ✅ Covered | C-CDA Vitals section; FHIR Observation (multiple vital sign profiles) | FHIR Observation has 24 supported profiles including pediatric measures |
+| Lab results | ✅ Covered | C-CDA Lab Results section; FHIR Observation (lab profile) + DiagnosticReport | Standard lab result data |
+| Imaging / diagnostic reports | ⚠️ Partial | FHIR DiagnosticReport (note profile); no imaging-specific export | Product's imaging capabilities are unclear; DiagnosticReport exists but imaging not prominent |
+| Procedures | ✅ Covered | C-CDA Procedures section; FHIR Procedure | Standard procedure records |
+| Clinical notes / documents | ⚠️ Partial | C-CDA Assessment + Clinical Instructions sections; FHIR DocumentReference (C-CDA only per LOINC 48764-5); JSON export for scanned docs | C-CDA and JSON cover structured notes and scanned documents, but full note content (free-text SOAP notes, AI-generated notes) unclear |
+| Care plans / goals | ✅ Covered | C-CDA Care Plan + Goal sections; FHIR CarePlan + Goal + CareTeam | Well-represented across both formats |
+| Orders / referrals | ✅ Covered | C-CDA Referrals section; FHIR ServiceRequest | Referral and order data present |
+| Insurance / coverage | ⚠️ Partial | FHIR Coverage resource; HL7 ADT includes payer information | Coverage data exists in FHIR but limited (1 search param). Detailed insurance data (policy details, copay structures) likely in CSV export but unverifiable |
+| Claims / billing | ⚠️ Partial | EDI 837P/835 provides claims and remittance files; CSV export claims "financial data" but no data dictionary | EDI covers claims in standard format, but this is a separate feed. The product does extensive billing/RCM — the depth of billing data export is unverifiable without the CSV data dictionary |
+| Payments | ⚠️ Partial | EDI 835 provides remittance/payment data; CSV export may include more | EDI 835 covers insurer payments; patient payments, co-pays, adjustments unclear |
+| Consents / directives | ❌ Not covered | No mention in any export method | Product may store consent data; no export evidence |
+| Patient communications / portal messages | ❌ Not covered | No mention in any export method | Product has patient portal with secure messaging; significant gap |
+| Specialty-specific data | ❌ Not covered | No specialty-specific export content described | Product serves multiple specialties (behavioral health, cardiology, pediatrics); no evidence of specialty-specific data in any export |
 
-**Key gaps**: Patient portal messages, consents/directives, and specialty-specific clinical data are not covered by any documented export method. Billing data coverage depends entirely on the unverifiable CSV export.
+**Key gap analysis findings**:
+- **Billing/claims**: MDnet is a billing/RCM platform (Enable Healthcare also offers billing services). The CSV export claims to cover "claim, adjudication and all other related data sets," but this is unverifiable. EDI 837P/835 covers standard claims but is a separate feed, not an integrated export. The gap between what MDnet stores (full RCM data) and what is documented is significant.
+- **Patient portal messages**: MDnet has a patient portal with secure messaging — these are EHI (used for care decisions) but not mentioned in any export method.
+- **Care coordination**: MDnet offers CCM, RPM, and population health features. Data from these programs (enrollment, monitoring data, care plans) is not specifically addressed in the export documentation, though some may be captured in C-CDA care plan sections.
 
 ## 6. Documentation Quality
 
-**Overall quality: Poor.**
+**Overall**: Poor. The documentation describes *that* exports exist but provides almost no detail about *what* they contain at the field level.
 
-- **No data dictionary**: The single most important documentation artifact — the CSV data dictionary — is inaccessible (dead URL, no alternatives found, no Wayback Machine captures). This makes it impossible to evaluate the native data export.
-- **No sample data**: No example files of any format are provided.
-- **No machine-readable schemas**: No XSD, JSON Schema, OpenAPI spec, or other programmatic format definition.
-- **No field-level documentation**: The C-CDA export lists section names but relies entirely on the C-CDA R2.1 standard for field definitions. No vendor-specific fields or extensions are documented.
-- **Copy-paste error**: The HL7 DFT description (method 6) repeats the SIU description verbatim — "real time updates on patient appointments, appointment edits, appointments cancelation and check-in" — rather than describing financial transactions.
-- **Format**: The 9-page PDF reads as a high-level implementation overview, not technical export documentation. Half of the document (pages 5–9) describes an optional data exchange service rather than the (b)(10) export itself.
+**Strengths**:
+- The scope statement is correct — it explicitly includes financial data alongside clinical data, which is the right framing for (b)(10)
+- The C-CDA incremental update use case (pages 5–9) is well-written and provides a genuinely helpful walkthrough of how the "Announce & Deliver" service works
+- The multi-format approach acknowledges that different data types require different formats
+- The FHIR CapabilityStatement is machine-readable and confirms the (g)(10) API scope
 
-**Could a developer build an import?** Not from these artifacts alone. The C-CDA and FHIR exports use recognized standards, so a developer familiar with those could consume them — but that's standard interoperability, not (b)(10). The CSV export, which is the actual "all EHI" mechanism, has zero documentation available. A developer would need to contact Enable Healthcare directly to understand the CSV file structure, relationships, and field definitions.
+**Weaknesses**:
+- **No accessible data dictionary**: The single most critical artifact — the CSV data dictionary at `https://emr.ehiconnect.com/docs/` — returns HTTP 404. Without it, the "full data set" claim is entirely unverifiable
+- **No sample data**: No example CSVs, C-CDAs, HL7 messages, EDI files, or JSON payloads
+- **No field-level documentation**: Beyond the C-CDA section names (which defer to the standard) and FHIR search parameters (also standard), there is zero field-level detail about what MDnet exports
+- **No schemas**: No XSD, JSON Schema, OpenAPI specs, or other machine-readable format definitions for non-FHIR exports
+- **Copy-paste error**: The DFT section (method 6) repeats the SIU description verbatim
+- **No relationship mapping**: No documentation of how records correlate across the 8 different export formats
+- **Training videos behind auth**: The PDF references training videos "embedded into MDNet" — inaccessible for documentation review
+
+**Could a developer build an import?** No. A developer receiving this documentation could implement FHIR and C-CDA consumption (since those follow published standards), but would have no basis for consuming the CSV export, JSON document exchange, or HL7 v2 interfaces without extensive back-and-forth with Enable Healthcare. The multi-format approach with 8 different formats and no field-level documentation for most of them makes independent implementation infeasible.
 
 ## 7. Overall Assessment
 
 ### Classification
 
-**Partial native export** — with significant caveats.
-
-The vendor *describes* a CSV "full data set export" that would cover health, activity, and financial data — which, if implemented as described, would constitute a native data export. However, the data dictionary documenting this export is inaccessible (HTTP 404), making the claim unverifiable. The verifiable export mechanisms (C-CDA, FHIR, EDI) are standard-based projections that cover clinical data and some billing data but miss vendor-specific data.
-
-Given that the CSV export's existence and scope cannot be verified from available documentation, and the only verifiable export mechanisms are standard projections, the practical reality is closer to a **standard-based projection** supplemented by EDI claims data. The "partial native export" classification gives benefit of the doubt to the vendor's stated CSV capability.
+**Partial native export** — The vendor claims a CSV export covering "health, activity and financial data" which, if the data dictionary were accessible, could represent a native data model export. However, the data dictionary URL is dead, making this unverifiable. The documented exports (C-CDA, FHIR) are standard-based projections. The overall picture is a product with the right *intent* (explicitly including financial data, offering CSV native export) but critically incomplete *documentation* (the only artifact that would validate the native export claim is inaccessible).
 
 ### Key Findings
 
-1. **The critical data dictionary is missing.** The CSV export data dictionary at `https://emr.ehiconnect.com/docs/` returns HTTP 404 with no alternative available. This is the only artifact that could validate the vendor's claim of a "full data set" export covering health, activity, and financial data. Without it, the (b)(10) export is effectively undocumented.
+1. **The CSV data dictionary is inaccessible** — the URL referenced in the PDF (`https://emr.ehiconnect.com/docs/`) returns HTTP 404 (verified 2026-02-16). This is the single most important artifact for evaluating the (b)(10) export and it is missing. Without it, the claimed "full data set" CSV export is entirely undocumented.
 
-2. **The verifiable exports are standard projections, not native data.** The C-CDA R2.1 (20 sections) and FHIR R4 (27 US Core resources) are standard clinical interoperability formats, not the vendor's native data model. They cover typical clinical summary data but inherently exclude billing detail, specialty-specific data, portal messages, and vendor-specific clinical structures.
+2. **The scope statement is correct but unsubstantiated** — the PDF explicitly states the export covers both health data and financial data including "claim, adjudication and all other related data sets." This is the right scope for (b)(10). But no evidence exists to verify this claim — no data dictionary, no sample files, no field lists.
 
-3. **Multi-format approach adds complexity without clarity.** Eight different export methods across 5+ formats (FHIR, C-CDA, CSV, HL7 v2, EDI, JSON) means a data consumer would need to integrate multiple disparate formats with no documentation on how they relate to each other or how to correlate records across formats.
+3. **The documented exports are standard-based projections** — C-CDA R2.1 (20 sections) and FHIR R4 (27 US Core resource types) cover standard clinical data but inherently cannot represent billing, custom forms, specialty data, or administrative data. The FHIR API is a standard (g)(10) implementation using Dynamic FHIR (third-party platform), not a (b)(10)-specific mechanism.
 
-4. **Financial data coverage is split and partial.** EDI 837P/835 covers claims and remittances in standard billing format, but the deeper billing data the product stores (charges, superbills, insurance details, patient payments, RCM workflow data) is only claimed via the inaccessible CSV export.
+4. **Multi-format fragmentation increases complexity** — a complete export requires consuming 5+ different formats (C-CDA, CSV, HL7 v2, EDI, JSON) with no documentation of how to correlate records across them. This is architecturally ambitious but practically difficult.
 
-5. **The PDF has quality issues.** The HL7 DFT description is a copy-paste error repeating the SIU text. The document is a Word-to-PDF conversion from December 2023 that appears to be a one-time compliance artifact rather than maintained technical documentation.
+5. **Patient portal messages and specialty data are absent** — MDnet has a patient portal with secure messaging and serves multiple specialties, but neither portal messages nor specialty-specific data appear in any export method.
 
 ### Summary Stats
 
-```
-Classification:  Partial native export (unverifiable — data dictionary inaccessible)
-Export format:   CSV (claimed), C-CDA R2.1, FHIR R4, EDI 837P/835, HL7 v2, JSON
-Model type:      Claimed native (CSV) + standard projections (C-CDA, FHIR)
-Entities:        N/A (data dictionary inaccessible)
-Fields:          N/A
-Descriptions:    N/A
-Sample data:     No
-Bulk export:     Yes (C-CDA, CSV, FHIR Bulk, EDI)
-Domains covered: 10 of 16 applicable domains (with caveats — most via standard projections only)
-```
+    Classification:  Partial native export
+    Export format:   Multi-format (C-CDA R2.1, CSV, FHIR R4, HL7 v2, EDI 837P/835, JSON)
+    Model type:      Hybrid (standard projections documented; native CSV export claimed but undocumented)
+    Entities:        27 FHIR resources + 20 C-CDA sections (CSV entity count unknown — data dictionary inaccessible)
+    Fields:          N/A (no field-level documentation for native export; 86 FHIR search parameters)
+    Descriptions:    N/A (data dictionary inaccessible)
+    Sample data:     No
+    Bulk export:     Yes (C-CDA bulk, FHIR Bulk Data, CSV all-patients)
+    Domains covered: 10 of 17 applicable domains (✅ or ⚠️)
 
 ### Bottom Line
 
-Enable Healthcare describes a CSV "full data set" export that could be a genuine all-EHI export, but the data dictionary documenting it is inaccessible (HTTP 404), making the claim unverifiable. The verifiable export mechanisms are standard C-CDA and FHIR projections covering typical clinical data, supplemented by EDI claims files. A patient or provider requesting their complete data would get clinical summaries via C-CDA/FHIR but likely lack full billing detail, portal messages, specialty-specific assessments, and consent records — unless the undocumented CSV export fills those gaps. The single biggest weakness is the inaccessible data dictionary: without it, neither patients nor developers can understand what the CSV export actually contains.
+Enable Healthcare has the right intent — their scope statement explicitly includes financial data and they describe a CSV export that could cover the full native data model. However, the critical documentation artifact (CSV data dictionary) is inaccessible, leaving the most important export method entirely undocumented. What *is* documented — C-CDA and FHIR — covers standard clinical data but misses billing detail, portal messages, and specialty-specific data that MDnet stores. A patient or provider requesting their data would receive clinical summaries in standard formats but would have no assurance of receiving complete billing, administrative, or specialty data.

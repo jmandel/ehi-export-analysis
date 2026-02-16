@@ -1,172 +1,170 @@
 # EHI Export Analysis: Sai Systems Digital LLC
 
 **Product**: PacEHR v20
-**Analysis date**: 2026-02-15
-**CHPL ID**: 15.04.04.3137.Pace.20.00.1.221229
+**Analysis date**: 2026-02-16
+**CHPL IDs**: 15.04.04.3137.Pace.20.00.1.221229
 
 ## 1. Product Context
 
-PacEHR is a cloud-based EHR designed specifically for Post-Acute Long-Term Care (PALTC) practitioners — physicians, nurse practitioners, and APRNs who provide bedside care in skilled nursing facilities (SNFs), assisted living, rehabilitation centers, and home health settings. It is developed by Saisystems International (branded as Saisystems Health), headquartered in Shelton, Connecticut. The product was launched in 2021 and targets mobile clinicians who visit multiple facilities.
+PacEHR is a cloud-based EHR designed specifically for Post-Acute Long-Term Care (PALTC) practitioners — physicians, NPs, and clinicians who provide bedside care in skilled nursing facilities (SNFs), assisted living, rehabilitation centers, and home health settings. It is part of the "TheSNFist Suite" by Saisystems Health (a division of Saisystems International, Inc., Shelton, CT). PacEHR was launched in 2021 and targets mobile clinicians who visit multiple facilities, not the facilities themselves (which typically use PointClickCare).
 
-PacEHR is part of the "TheSNFist® Suite" which bundles the EHR with billEHR® (charge capture), SNFConnect (communications), navigatEHR (business intelligence), and managed services for RCM, coding/billing, and payor enrollment.
+**Core data the product stores** (relevant to export completeness):
+- **Clinical encounter documentation**: Template-driven notes with voice-to-text, pre-populated past patient data — this is PacEHR's primary function
+- **Billing/coding data**: Integrated billing, charge capture via companion app billEHR, coding recommendations, claims management
+- **Medications/CPOE**: Certified for (a)(1) CPOE for medications, e-prescribing
+- **Demographics**: Certified for (a)(5)
+- **Implantable devices**: Certified for (a)(14)
+- **Transitions of care**: C-CDA exchange via (b)(1), Direct messaging via (h)(1)
+- **Quality measures**: Certified for (c)(1), MIPS/CCM reporting
+- **Scheduling**: Appointment scheduling listed as a feature
+- **Document management**: Listed as a feature
+- **Patient portal**: Listed on review sites (messaging, appointment scheduling)
 
-**Key data domains PacEHR stores** (relevant to export completeness):
-- **Clinical encounter documentation** — the product's core function: template-driven encounter notes with voice-to-text, macros, and pre-populated data from prior visits
-- **Medications / e-prescribing** — CPOE for medications, certified for (a)(1)
-- **Demographics** — patient demographics, certified for (a)(5)
-- **Implantable devices** — certified for (a)(14)
-- **Billing and coding** — integrated encounter billing, charge capture (billEHR), claims management, coding suggestions
-- **Transitions of care** — C-CDA document exchange, certified for (b)(1)
-- **Clinical quality measures** — MIPS/CCM reporting, certified for (c)(1)
-- **Patient portal** — listed as a feature (scheduling, messaging, records access)
-- **Document management** — listed as a feature on review sites
-
-**Architectural note**: PacEHR serves the visiting practitioner, not the SNF facility itself (which typically runs PointClickCare). PacEHR stores the practitioner's encounter documentation and billing — not the facility's nursing notes, vitals, or medication administration records. This narrows the expected EHI scope but still includes all data the practitioner generates about patients.
-
-**Not certified for**: (a)(2) CPOE for lab orders, (a)(3) CPOE for imaging, (a)(4) vital signs, (a)(6) problem list, (a)(7) medication list, (a)(8) allergy list, (e)(1) view-download-transmit. This suggests limited lab, imaging, and vitals data originating in PacEHR (though these may be pulled from the facility EHR via integration).
+**Not expected** (or limited): Lab orders/results (not certified for (a)(2)/(a)(3); a user review noted inability to add lab values), imaging orders, vitals (facility EHR typically handles these). The product is not the facility's system of record — it's the visiting practitioner's documentation and billing tool.
 
 ## 2. Artifacts Reviewed
 
-| Artifact | Description | Informativeness |
+| Artifact | Description | Informative? |
 |---|---|---|
-| `pacehr-ehi-main-page.html` (136 KB) | Main EHI export page at saisystems.com/health/pacehr-ehi/. ~362 words of substantive content describing EHI export capability. No data dictionary, schema, sample data, or field-level documentation. | Low — describes concept of EHI but provides no technical detail about what is actually exported |
-| `cures-update-fhir-api-docs.html` (185 KB) | FHIR API documentation at thesnfist.com/cures-update/. Documents 16 FHIR STU3 resource endpoints with search parameters. This is (g)(10) standardized API documentation, not (b)(10)-specific. | Moderate — shows what clinical data is available via FHIR API, but this is standard USCDI data, not comprehensive EHI |
-| `compliance-certificate-pacehr-v20.pdf` (1 page, 260 KB) | Drummond Group ONC certification compliance certificate. Confirms (b)(10) certification. | Low — confirms certification but provides no export detail |
-| `screenshot-ehi-main-page.png` (637 KB) | Screenshot of the EHI export page | Minimal — visual confirmation of page content |
-| `screenshot-cures-update-fhir-api-docs.png` (3.4 MB) | Screenshot of the FHIR API documentation page | Minimal — visual confirmation of page content |
+| `pacehr-ehi-main-page.html` (139,585 bytes) | Main EHI export page at saisystems.com/health/pacehr-ehi/. Contains ~370 words of substantive content: EHI definition, two use cases (bulk and single-patient), export format claim ("machine readable XML formats"), and link to FHIR API docs. **No data dictionary, no schema, no sample data, no export instructions.** | Low — establishes vendor claims but provides no technical detail |
+| `cures-update-fhir-api-docs.html` (189,075 bytes) | FHIR API documentation at thesnfist.com/cures-update/. Documents 16 standard US Core/USCDI FHIR resources with 29 API endpoints. Also contains Drummond certification disclosure and API Terms of Service. This is (g)(10) standardized API documentation. | Medium — provides the only technical substance, but documents (g)(10) not (b)(10) |
+| `compliance-certificate-pacehr-v20.pdf` (265,896 bytes, 1 page) | Drummond Group ONC Health IT compliance certificate confirming certification of PacEHR v20 for criteria including (b)(10). Dated 12/29/2022. | Low — confirms certification but says nothing about export content |
+| `screenshot-ehi-main-page.png` (651,704 bytes) | Screenshot of the EHI main page | Low — confirms page renders as expected |
+| `screenshot-cures-update-fhir-api-docs.png` (3,488,686 bytes) | Screenshot of the FHIR API docs page | Low — confirms page renders as expected |
 
-**Most informative artifact**: `cures-update-fhir-api-docs.html` — it is the only artifact with any technical specificity (FHIR resource types, search parameters, USCDI data element mappings).
-
-**Verification**: The live EHI page at https://saisystems.com/health/pacehr-ehi/ was checked on 2026-02-15 and returns HTTP 200 with content identical to the collected artifact. No additional documentation, data dictionary, or schema files have been added since collection.
+**Verification**: The live EHI page (checked 2026-02-16) is identical to the downloaded artifact (same file size: 139,585 bytes, same content). No changes since collection on 2026-02-14.
 
 ## 3. Export Mechanics
 
-- **Format**: Described as "machine readable XML formats" on the EHI page. The linked FHIR API documentation specifies `application/fhir+json` as the accepted format. These may refer to different mechanisms (C-CDA XML vs. FHIR JSON) or may be inconsistent documentation.
-- **Mechanism**: The only documented technical mechanism is the FHIR API (endpoint documentation at thesnfist.com/cures-update/). The EHI page also mentions "HL7, or native web service APIs" but provides no documentation for these.
-- **Single-patient vs bulk**: The EHI page describes both "bulk EHI export" (all patients for a practice/provider/department) and "single/multi-patient export." However, no technical instructions are provided for either.
-- **Access**: The page directs customers to "reach out to their dedicated Customer Success Manager" for integration details. No self-service export button, API keys, or automated process is documented.
-- **Fees**: Not mentioned.
+- **Format**: The EHI page claims "machine readable XML formats." The linked FHIR API documentation specifies `application/fhir+json`. These appear contradictory — the EHI page says XML, but the API docs say JSON.
+- **Mechanism**: The only documented technical mechanism is the FHIR API ("FHIR Server 1.0.0 for Cures Act Update"). The EHI page also mentions "HL7, or native web service APIs" as integration options but provides no documentation for these alternatives.
+- **Single-patient vs bulk**: The EHI page describes both: "Bulk EHI export enables export of all patient data belonging to a practice, provider, medical group, or department" and "Single/multi-patient export is useful when patients request their health information." However, no instructions or screenshots show how to perform either type.
+- **Access**: The page states customers should "reach out to their dedicated Customer Success Manager" for integration details. No self-service export interface is documented.
 
 ## 4. Export Content: What's In It
 
-### What the documentation actually provides
+### What the documentation provides
 
-The EHI export documentation consists of a single narrative webpage (~362 words) that:
-1. Defines EHI by citing the HIPAA Designated Record Set
-2. Describes two use cases (bulk and single/multi-patient)
-3. States the export is in "machine readable XML formats"
-4. Links to the FHIR API documentation
+The only technical documentation of export content is the FHIR API page, which documents **16 standard FHIR resources** mapped to **68 USCDI data elements** across **29 API endpoints**. These are entirely standard US Core / USCDI v1/v2 resources with no vendor-specific extensions or custom resources.
 
-**There is no data dictionary.** No tables, no fields, no types, no descriptions, no relationships, no value sets, no sample data.
-
-### FHIR API documentation (the only technical content)
-
-The linked FHIR API documentation covers 16 standard FHIR STU3 US Core resource types:
-
-| FHIR Resource | USCDI Data Elements | Search Parameters |
-|---|---|---|
-| AllergyIntolerance | Substance (Drug Class, Medication), Reaction | patient, date |
-| CarePlan | Assessment and Plan of Treatment | patient, date, status |
-| CareTeam | Care Team (v1); Member Name, Identifier, Role, Location, Telecom (v2) | patient, date, status |
-| Condition | Health Concern, Problems | patient |
-| Device | Unique Device Identifier(s) for Implantable Devices | patient |
-| DocumentReference | C-CDA documents | patient, period, status |
-| Encounter | (not specified) | patient, id |
-| Goal | (not specified) | patient, id |
-| Immunization | (not specified) | patient, date |
-| Location | (not specified) | id |
-| Medication | (not specified) | id |
-| MedicationRequest | (not specified) | patient |
-| Observation | (labs, vitals, smoking status — implied by USCDI) | patient, date |
-| Patient | Suffix, Sex, Date of Birth, Race, Ethnicity, Preferred Language, Address, Phone Number, Sexual Orientation (v2), Gender Identity (v2) | id, identifier, name, family, given, gender, birthdate, and 8 others |
-| Practitioner | (not specified) | id |
-| Procedure | (not specified) | patient, date |
-
-This is the standard US Core / USCDI v1/v2 resource set — identical to what any (g)(10)-certified product would expose. There are no vendor-specific extensions, no custom resources, and no documentation of data beyond what USCDI requires.
+There is **no data dictionary**, **no field-level documentation** beyond USCDI element names, **no schema files**, **no sample data**, and **no documentation of any data outside the USCDI clinical scope**.
 
 ### Vendor's own content organization
 
-The vendor does not organize its export by data categories. There is no data dictionary to present. The only structure comes from the FHIR resource types listed above, which are standard FHIR categories, not vendor-specific.
+The vendor does not organize the export content into categories. The FHIR API documentation lists resources in alphabetical order. Below is the complete inventory of documented resources:
+
+| FHIR Resource | USCDI Elements | USCDI Version | Search Parameters |
+|---|---|---|---|
+| AllergyIntolerance | 3 | v1 | patient, date |
+| CarePlan | 1 | v1 | patient, date, status |
+| CareTeam | 5 | v2 | patient, date, status |
+| Condition | 2 | v1 | patient |
+| Device | 1 | v1 | patient |
+| DocumentReference | 8 | v1 | patient, period, status |
+| Encounter | 5 | v2 | patient, id |
+| Goal | 1 | v1 | patient, target |
+| Immunization | 1 | v1 | patient, date |
+| Location | 4 | v1 | — |
+| Medication | 1 | v1 | — |
+| MedicationRequest | 1 | v1 | Patient |
+| Observation | 15 | v1 | patient, date |
+| Patient | 14 | v1/v2 | 15 params (id, identifier, name, family, given, gender, birthdate, deceased, death-date, email, phone, address-city, -state, -postalcode, -country) |
+| Practitioner | 5 | v1 | — |
+| Procedure | 1 | v1 | patient, date |
+| **Total** | **68** | | |
+
+The full inventory is in `analysis/full-entity-inventory.json` with all 68 USCDI elements enumerated per resource.
+
+### What's notably absent
+
+There is **zero documentation** of any data outside the standard USCDI/US Core scope:
+- No billing codes, charges, claims, or payment data
+- No encounter templates, macros, or custom clinical forms
+- No scheduling or appointment data
+- No document management metadata
+- No patient portal messages or communications
+- No quality measure / MIPS data
+- No facility census or practice management data
+- No coding recommendations or AI-generated suggestions
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-The vendor provides exactly one layer of documentation: a standard FHIR API covering 16 US Core resource types. This represents the (g)(10) standardized API for patient access and population-level data — not a comprehensive (b)(10) EHI export.
+The vendor's export documentation covers exactly one thing: the standard FHIR API per (g)(10). The documented resources map to standard USCDI clinical data classes — demographics, allergies, conditions, medications, immunizations, vitals, labs, procedures, clinical notes (as C-CDA documents), care plans, goals, encounters, care teams, devices, practitioners, and locations.
 
-The EHI page *claims* the export includes "medical records and billing records" and "enrollment, payment, claims adjudication" data (quoting the HIPAA Designated Record Set definition), but no billing, claims, or payment data appears anywhere in the FHIR API documentation. The only technical specificity provided contradicts the marketing text.
+The documentation does not use any vendor-specific categories. The 16 resources documented are the exact set required by (g)(10) with no additions. The Observation resource is the richest (15 USCDI elements covering labs and vitals), followed by Patient (14 elements covering demographics). Most clinical resources have just 1-2 elements documented at the USCDI data class level, not at the field level.
 
-There are zero vendor-specific data elements documented. Nothing about PacEHR's template-driven encounter notes, coding suggestions, charge capture data, practice configuration, or any other product-specific data.
+The EHI page's own definition of EHI explicitly lists "billing records" and "enrollment, payment, claims adjudication" as EHI — but the technical documentation provides no mechanism to export any of this data.
 
 ### 5b. Standardized domain coverage (top-down)
 
 | Domain | Coverage | Export Evidence | Gap Analysis |
 |---|---|---|---|
-| Demographics | ⚠️ Partial | `Patient` FHIR resource with USCDI v1/v2 elements (name, DOB, sex, race, ethnicity, language, address, phone) | Standard USCDI demographics only; no vendor-specific demographic fields documented |
-| Encounters / visits | ⚠️ Partial | `Encounter` FHIR resource (search by patient/id only) | No documentation of encounter content/structure; PacEHR's core workflow is encounter documentation — this is critically thin |
-| Problems / conditions | ⚠️ Partial | `Condition` FHIR resource with Health Concern and Problems | Standard USCDI; may be adequate if PacEHR pulls problem lists from facility EHR |
-| Medications / prescriptions | ⚠️ Partial | `Medication` + `MedicationRequest` FHIR resources | Standard USCDI; PacEHR is certified for CPOE (a)(1) so stores medication orders |
-| Allergies | ⚠️ Partial | `AllergyIntolerance` FHIR resource (substance, reaction) | Standard USCDI only |
-| Immunizations | ⚠️ Partial | `Immunization` FHIR resource | Standard USCDI only |
-| Vitals | ⚠️ Partial | `Observation` FHIR resource (implied by USCDI) | PacEHR not certified for (a)(4) vitals; may pull from facility EHR |
-| Lab results | ⚠️ Partial | `Observation` FHIR resource (implied by USCDI) | PacEHR not certified for lab CPOE; limited originating lab data expected |
-| Imaging / diagnostic reports | ❌ Not covered | No imaging FHIR resources documented | PacEHR not certified for imaging CPOE; likely N/A |
-| Procedures | ⚠️ Partial | `Procedure` FHIR resource | Standard USCDI only |
-| Clinical notes / documents | ⚠️ Partial | `DocumentReference` FHIR resource (C-CDA documents) | C-CDA summaries only — does **not** capture PacEHR's native template-driven encounter notes, macros, or voice-to-text documentation. This is PacEHR's core product function and a significant gap. |
-| Care plans / goals | ⚠️ Partial | `CarePlan` + `Goal` FHIR resources | Standard USCDI only |
-| Orders / referrals | ❌ Not covered | No referral resources documented | Unknown if PacEHR stores referral data |
-| Insurance / coverage | ❌ Not covered | No insurance/coverage data in FHIR API | PacEHR integrates with billing; insurance data likely stored |
-| Claims / billing | ❌ Not covered | No billing, claims, or charge data documented | PacEHR has integrated billing, charge capture (billEHR), and claims management. The EHI page itself cites "billing records" and "claims adjudication" as part of EHI. **Significant gap.** |
-| Payments | ❌ Not covered | No payment data documented | RCM services are part of the suite; payment data likely exists |
-| Consents / directives | ❌ Not covered | No consent resources documented | Unknown if stored |
-| Patient communications | ❌ Not covered | No messaging/portal data documented | Patient portal and SNFConnect are product features |
-| Specialty-specific (PALTC) | ❌ Not covered | No PALTC-specific data documented | PacEHR is purpose-built for PALTC with specialty-specific templates, census management, and multi-facility workflows. None of this is in the export. **Major gap.** |
+| Demographics | ⚠️ Partial | `Patient` resource (14 USCDI elements: name, DOB, sex, race, ethnicity, language, address, phone) | Standard USCDI demographics only; no insurance/coverage info, no facility affiliations |
+| Encounters / visits | ⚠️ Partial | `Encounter` resource (5 USCDI v2 elements: type, diagnosis, time, location, disposition) | Basic encounter metadata; does not include the rich template-driven encounter documentation that is PacEHR's core function |
+| Problems / conditions | ⚠️ Partial | `Condition` resource (2 elements: Health Concern, Problems) | Standard coded conditions only; no native problem list detail |
+| Medications / prescriptions | ⚠️ Partial | `Medication` + `MedicationRequest` (1 element each) | Standard FHIR medication resources; no CPOE order detail, no e-prescribing metadata |
+| Allergies | ⚠️ Partial | `AllergyIntolerance` (3 elements: substance drug class, substance medication, reaction) | Standard USCDI allergy data |
+| Immunizations | ⚠️ Partial | `Immunization` (1 element) | Standard USCDI |
+| Vitals | ⚠️ Partial | `Observation` (12 vital sign elements) | Standard USCDI vitals; PacEHR may have limited vitals data as facility EHR typically captures these |
+| Lab results | ⚠️ Partial | `Observation` (2 lab elements: tests, values/results) | Standard USCDI; PacEHR not certified for lab CPOE, so lab data may be minimal |
+| Imaging / diagnostic reports | ⚠️ Partial | `DocumentReference` includes "Imaging Narrative" as a note type | No dedicated imaging resource; product doesn't appear to handle imaging orders |
+| Procedures | ⚠️ Partial | `Procedure` (1 element) | Minimal — just coded procedure reference |
+| Clinical notes / documents | ⚠️ Partial | `DocumentReference` (8 C-CDA note types) + `CarePlan` (1 element) | C-CDA clinical documents are standardized summaries; **PacEHR's core value is its native template-driven encounter notes, which are not represented in the FHIR export** |
+| Care plans / goals | ⚠️ Partial | `CarePlan` (1 element) + `Goal` (1 element) | Minimal USCDI representation |
+| Orders / referrals | ❌ Not covered | No Order or ReferralRequest resources | Product handles CPOE for medications; no order data in export |
+| Insurance / coverage | ❌ Not covered | No Coverage or InsurancePlan resources | Product stores patient insurance for billing; significant gap |
+| Claims / billing | ❌ Not covered | No Claim, ChargeItem, or billing resources | **Product has integrated billing, charge capture (billEHR), and claims management — this is a core function; significant gap** |
+| Payments | ❌ Not covered | No Payment resources | If product processes payments via RCM, this is a gap |
+| Consents / directives | ❌ Not covered | No Consent resources | Unclear if product stores consent data |
+| Patient communications | ❌ Not covered | No Communication resources | Product has patient portal and SNFConnect; gap if messages are stored |
+| Specialty-specific (PALTC) | ❌ Not covered | No PALTC-specific data elements or resources | **PacEHR is purpose-built for PALTC with specialty-specific templates, census management, facility-level documentation — none of this appears in the export** |
 
 ## 6. Documentation Quality
 
-The EHI export documentation is **extremely thin** — among the most minimal possible while still having a page at the registered URL.
+The EHI export documentation is **extremely thin** — among the thinnest possible while having a page at the registered URL.
 
-- **No data dictionary**: Zero field-level documentation. No tables, entities, or schemas.
-- **No sample data**: No example exports, no screenshots of export output.
-- **No export instructions**: No step-by-step process for performing an export. Users are directed to contact their Customer Success Manager.
-- **No machine-readable artifacts**: No XSD, JSON Schema, CSV templates, or any other parseable format.
-- **Contradictory format claims**: The EHI page says "XML formats" while the FHIR API accepts `application/fhir+json`.
-- **The only technical documentation is the (g)(10) FHIR API**: This is standard API documentation for the Cures Act update, not (b)(10)-specific documentation. It covers 16 US Core resources — a standard clinical data projection, not a comprehensive EHI export.
+- **EHI page**: ~370 words of substantive content. Explains what EHI is (copying the regulatory definition), describes two use cases (bulk and single-patient), and states the format is "machine readable XML." Provides no technical guidance whatsoever.
+- **FHIR API page**: More substantial (~814 text fragments) but is standard (g)(10) API documentation, not (b)(10)-specific. Lists FHIR resource endpoints, search parameters, and USCDI element mappings. Includes API Terms of Service dated December 23, 2022.
+- **No data dictionary**: Not at the field level, not at the entity level. The only "documentation" of export content is the USCDI data element list per FHIR resource.
+- **No machine-readable schemas**: No JSON Schema, no XSD, no OpenAPI spec.
+- **No sample data**: No example exports, no sample FHIR bundles.
+- **No export instructions**: No step-by-step guide, no screenshots of UI.
+- **Format contradiction**: The EHI page says "XML formats" while the FHIR API says `application/fhir+json`.
 
-A developer reading this documentation would be able to call a standard FHIR API for USCDI clinical data. They would have **no way** to obtain a complete export of all data PacEHR stores — encounter notes in their native format, billing codes, charge capture data, claims, insurance information, practice census, patient communications, or any PALTC-specific data.
+A developer could not build a meaningful import from this documentation alone. They could call the FHIR API to get standard USCDI data, but that is (g)(10) functionality, not a comprehensive EHI export. The documentation provides no information about how to obtain billing data, native clinical notes, scheduling data, or any other vendor-specific content.
 
 ## 7. Overall Assessment
 
 ### Classification
 
-**Standard-based projection**: The EHI export documentation points exclusively to a standard FHIR STU3 API covering 16 US Core resources. This is the (g)(10) standardized API being repackaged as the (b)(10) EHI export. It covers a standard clinical summary — approximately the USCDI v1/v2 data set — but omits billing, specialty clinical data, native encounter documentation, and all vendor-specific data domains.
+**Standard-based projection**: The export is the vendor's (g)(10) FHIR API repackaged as a (b)(10) EHI export. It covers standard USCDI clinical data (approximately 16 FHIR resources, 68 USCDI data elements) but omits billing, native clinical documentation, scheduling, and specialty-specific PALTC data that PacEHR stores.
 
 ### Key Findings
 
-1. **Classic (g)(10) → (b)(10) repackaging**: The EHI export page links directly to the FHIR API documentation as its sole technical reference. The 16 documented FHIR resources are the standard US Core / USCDI set — identical to what any (g)(10)-certified product exposes. No additional (b)(10)-specific data is documented. (`pacehr-ehi-main-page.html`, `cures-update-fhir-api-docs.html`)
+1. **Textbook FHIR/(g)(10) repackaging as (b)(10)**: The EHI export page links directly to the (g)(10) FHIR API documentation as the export mechanism. The 16 documented resources are exactly the standard US Core/USCDI set with zero vendor-specific extensions. The FHIR API is titled "FHIR Server 1.0.0 for Cures Act Update" — it is the standardized API, not an EHI export tool.
 
-2. **No data dictionary or schema of any kind**: Across all 5 collected artifacts, there is zero field-level documentation of what data the export contains. No tables, no entities, no field names, no types, no relationships. (`files.json`, all artifacts reviewed)
+2. **Billing data completely absent**: PacEHR has integrated billing, the billEHR charge capture app, and claims management as core product features. The vendor's own EHI page defines EHI as including "billing records" and "enrollment, payment, claims adjudication." Yet no billing data appears in the documented export — a direct contradiction between what the vendor says EHI is and what they actually export.
 
-3. **Core product data missing from export**: PacEHR's primary value is template-driven PALTC encounter documentation with voice-to-text and customizable macros. None of this native encounter data structure appears in the FHIR API — only standardized C-CDA document references. (`cures-update-fhir-api-docs.html` — DocumentReference endpoint)
+3. **Native clinical documentation missing**: PacEHR's primary value proposition is its template-driven encounter documentation with voice-to-text. The FHIR API only exposes clinical notes as C-CDA documents (via DocumentReference), which are standardized summaries — the native encounter structure, templates, and macros are not represented.
 
-4. **Billing and claims data absent despite being cited in EHI definition**: The vendor's own EHI page defines EHI as including "billing records" and "claims adjudication" data, yet no billing, claims, charge capture, or payment data appears in the FHIR API documentation. PacEHR includes integrated billing and the billEHR charge capture app. (`pacehr-ehi-main-page.html`)
+4. **Documentation is near-empty**: The EHI-specific documentation consists of ~370 words of prose with no data dictionary, no schema, no sample data, and no export instructions. This is a compliance stub, not functional documentation.
 
-5. **~362 words of substantive EHI documentation total**: The entire EHI-specific content is a brief marketing-style description of EHI concepts with no technical substance. (Verified by text extraction from `pacehr-ehi-main-page.html`)
+5. **PALTC specialty data absent**: Despite being purpose-built for post-acute/long-term care with features like facility census management and PALTC-specific templates, no specialty-specific data appears in the export.
 
 ### Summary Stats
 
-```
-Classification:  Standard-based projection
-Export format:   FHIR STU3 JSON (documented) / XML (claimed on EHI page)
-Model type:      Standard projection (US Core / USCDI)
-Entities:        16 FHIR resource types
-Fields:          N/A (no field-level documentation)
-Descriptions:    N/A (no data dictionary)
-Sample data:     No
-Bulk export:     Claimed (text says "bulk EHI export") but no technical documentation
-Domains covered: 0 of 13 fully covered; 10 of 13 partially via standard FHIR; 3 not covered at all
-```
+    Classification:  Standard-based projection
+    Export format:   FHIR JSON (claimed "XML" on EHI page, but API docs specify application/fhir+json)
+    Model type:      Standard projection (US Core / USCDI v1/v2)
+    Entities:        16 FHIR resources
+    Fields:          68 USCDI data elements (not field-level)
+    Descriptions:    0% (USCDI element names only, no field-level descriptions)
+    Sample data:     No
+    Bulk export:     Claimed but undocumented
+    Domains covered: 0 of 13 fully covered; 11 partially via FHIR; 6 not covered at all
 
 ### Bottom Line
 
-PacEHR's EHI export is a standard FHIR API relabeled as a (b)(10) export, with no data dictionary, no schema, and no documentation of the product's native data model. A patient or provider would receive a USCDI clinical summary — standard demographics, conditions, medications, and C-CDA documents — but would miss PacEHR's native encounter documentation, billing/charge capture data, claims, insurance information, and all PALTC-specific clinical data that the product is purpose-built to manage. The single biggest gap is the absence of native encounter documentation, which is the product's core function.
+PacEHR's EHI export is its (g)(10) FHIR API relabeled as (b)(10). A patient or provider would get standard USCDI clinical data (demographics, conditions, medications, vitals, notes-as-C-CDA) but would miss billing/charge capture data, native encounter documentation, and PALTC-specific clinical data — all core functions of the product. The single biggest gap is the complete absence of billing data despite the vendor's own EHI definition explicitly including it.

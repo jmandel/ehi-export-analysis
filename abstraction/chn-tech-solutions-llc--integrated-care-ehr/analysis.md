@@ -1,215 +1,225 @@
 # EHI Export Analysis: CHN Tech Solutions LLC
 
-**Product**: Integrated Care EHR (ICE), Version 3  
-**Analysis date**: 2026-02-15  
-**CHPL ID**: 15.05.05.3133.CHTS.01.00.1.221213 (ID 11067)
+**Product**: Integrated Care EHR (ICE)  
+**Analysis date**: 2026-02-16  
+**CHPL IDs**: 11067 (15.05.05.3133.CHTS.01.00.1.221213)
 
 ## 1. Product Context
 
-Integrated Care EHR (ICE) is a cloud-based EHR built on the open-source OpenEMR platform, developed by CHN Tech Solutions LLC. The primary (and possibly only) deployment is at MyCHN (Community Health Network), a Federally Qualified Health Center (FQHC) with 19 locations in the greater Houston, Texas area. The product serves an FQHC population with these clinical capabilities:
+Integrated Care EHR (ICE) is a cloud-based EHR built on the open-source OpenEMR platform, developed by CHN Tech Solutions LLC. The product appears to serve primarily (possibly exclusively) MyCHN, a Federally Qualified Health Center (FQHC) operating 19 locations across the greater Houston/Gulf Coast area. CHN Tech Solutions is closely tied to MyCHN — the login portal is hosted at `ic-ehr.mychn.org`.
 
-- **Primary care** across adult, pediatric, and women's health specialties
-- **Behavioral health**: psychiatry, counseling, and Medication Assisted Therapy (MAT)
-- **Dental services**
-- **Pharmacy services**
-- **Screening/assessment tools**: SDOH, substance abuse, depression, fall risk, human trafficking, lead poisoning, vision, TB, smoking, dental, Zika
-- **FQHC billing**: facility billing, fee-for-service billing, patient ledgers, payor aging reports
-- **E-prescribing** (via NewCrop/SureScripts, transitioned from VeraDigm)
-- **Lab interfaces** with 20+ laboratories
-- **Radiology connectivity**
-- **Patient portal** with secure messaging and mobile apps
-- **Chronic care management** tracking, reporting, and billing
-- **UDS reporting** (critical for FQHC compliance)
+**Clinical workflows the product supports:**
+- Primary care, pediatrics, women's health/OB-GYN (including high-risk pregnancy)
+- Behavioral health (psychiatry, counseling, Medication Assisted Therapy)
+- SOAP-note-based documentation across multiple specialties
+- Extensive screening tools: SDOH, drug/alcohol abuse, depression, fall risk, human trafficking, lead poisoning, vision, TB, smoking, dental, Zika
 
-This product stores a wide range of clinical, billing, and specialty data. An adequate (b)(10) EHI export should cover all of these domains.
+**Billing/PM capabilities:**
+- FQHC facility billing
+- Traditional fee-for-service billing
+- Financial reports (payments, patient ledger, payor aging, charges/collections)
+
+**Other data domains:**
+- E-prescribing (via NewCrop/SureScripts)
+- Lab interfaces with 20+ laboratories
+- Radiology connectivity
+- Patient portal with secure messaging
+- Immunization reporting
+- UDS (Uniform Data System) reporting for FQHC compliance
+- Chronic care management tracking and billing
+- Scheduling and appointment tracking
+- Dental services (MyCHN provides dental care; the REST API includes `dental_issue` scopes)
+
+This is a feature-rich FQHC EHR. An adequate (b)(10) export should cover clinical documentation across multiple specialties, billing/claims data, insurance information, screening/assessment results, prescriptions, and dental records.
 
 ## 2. Artifacts Reviewed
 
 | Artifact | Size | Description | Informativeness |
 |---|---|---|---|
-| `ehi-export-page.html` | 46.2 KB | Main (b)(10) EHI export page — brief prose describing C-CDA as the export format, with links to HL7/IHE standards. No data dictionary, no field-level detail. | **Low** — establishes the export is C-CDA but provides no detail |
-| `ehi-export-page.png` | 209.3 KB | Screenshot of the above page | Low — confirms text content |
-| `ccd-operation-in-fhir.html` | 60.1 KB | Step-by-step tutorial for generating a CCD via FHIR `$docref` operation using Swagger UI (11 numbered steps with screenshots) | **Medium** — explains *how* to generate the export |
-| `ccd-operation-in-fhir-screenshot.png` | 592.5 KB | Screenshot of the tutorial page | Low — visual confirmation |
-| `fhir-api-page.html` | 66.7 KB | FHIR R4/US Core 3.1 API documentation — includes CCD section listing (21 sections), Bulk FHIR export endpoints, SMART on FHIR support, scope definitions | **High** — most informative artifact; lists CCD sections and FHIR resources |
-| `rest-api-page.html` | 76.1 KB | OpenEMR-based REST API documentation — scope listings revealing native data model (23 resource types), OIDC auth, client registration | **High** — reveals data domains the product stores beyond C-CDA |
-| `standard-api-page.html` | 80.5 KB | Near-duplicate of rest-api-page.html with minor formatting differences | Low — redundant |
-| `CCDA_Vol1_2022SEP_errata.pdf` | 962.9 KB (63 pages) | HL7 C-CDA Implementation Guide Volume 1 (Introductory Material) — **standard HL7 document, not vendor-specific** | **None for vendor assessment** — generic standard hosted on vendor's site |
-| `CCDA_Vol2_2022SEP_errata.pdf` | 6.9 MB (913 pages) | HL7 C-CDA Implementation Guide Volume 2 (Templates and Supporting Material) — **standard HL7 document, not vendor-specific** | **None for vendor assessment** — generic standard hosted on vendor's site |
+| `ehi-export-page.html` | 47 KB | Main (b)(10) EHI export page — 3 short paragraphs describing C-CDA as the export format, with links to IHE and HL7 standards | **Key** — defines the export mechanism |
+| `ccd-operation-in-fhir.html` | 62 KB | 11-step Swagger tutorial for generating a CCD via FHIR `$docref` operation | **Key** — only procedural documentation for the export |
+| `fhir-api-page.html` | 68 KB | FHIR R4/US Core 3.1 API documentation with Bulk FHIR, $docref CCD details, SMART on FHIR | **Key** — lists 21 CCD sections and 25 FHIR resource types |
+| `rest-api-page.html` | 78 KB | OpenEMR-based REST API documentation with OIDC auth and scope listings | **Informative** — reveals 23 native OpenEMR data types beyond FHIR |
+| `standard-api-page.html` | 82 KB | Duplicate of REST API page with minor formatting differences | **Redundant** |
+| `ehi-export-page.png` | 214 KB | Screenshot of the EHI export page | Low (visual duplicate of HTML) |
+| `ccd-operation-in-fhir-screenshot.png` | 607 KB | Screenshot of CCD tutorial with Swagger UI screenshots | Low (visual duplicate of HTML) |
+| `CCDA_Vol1_2022SEP_errata.pdf` | 986 KB / 63 pages | HL7 C-CDA IG Volume 1 — standard HL7 document, NOT vendor-specific | **Not informative** for this analysis |
+| `CCDA_Vol2_2022SEP_errata.pdf` | 7.2 MB / 913 pages | HL7 C-CDA IG Volume 2 — standard HL7 document, NOT vendor-specific | **Not informative** for this analysis |
 
-**Notable**: No data dictionary, no sample export files, no schema documentation, no vendor-specific field mappings exist among the artifacts. The two PDFs (976 pages total) are standard HL7 publications, not vendor documentation.
+**Most informative**: `ehi-export-page.html`, `fhir-api-page.html`, and `rest-api-page.html`. Together these define the export format, mechanism, CCD sections, and (via the REST API scopes) reveal what data domains the system stores but the CCD export doesn't cover.
+
+**Least informative**: The two C-CDA IG PDFs are standard HL7 documents hosted on the vendor's site for convenience. They contain no vendor-specific information about what ICE actually exports.
 
 ## 3. Export Mechanics
 
-- **Format**: C-CDA (Consolidated Clinical Document Architecture) XML document — a single CCD (Continuity of Care Document) per patient, generated on demand.
-- **Mechanism**: API-based. The export is performed via the FHIR `$docref` operation using the system's Swagger UI or programmatic API calls. The 11-step tutorial involves: registering an API client, configuring OAuth2 scopes, authenticating, selecting a patient, calling the `$docref` endpoint, and downloading the resulting C-CDA file via the Binary endpoint. There is no documented in-product UI button or menu for direct patient/provider-initiated export.
-- **Single-patient vs bulk**: The documented (b)(10) mechanism is **single-patient only** (one CCD per `$docref` call). The system also supports Bulk FHIR Export (system, group, and patient-level `$export`), but this is documented as the (g)(10) mechanism and exports FHIR resources, not C-CDA.
-- **Date filtering**: CCD generation supports optional start/end date parameters that filter encounter-related sections. If no dates are specified, full history is returned for all sections.
-- **Access constraints**: Requires OAuth2 authentication and specific scopes (`DocumentReference.$docref`, `DocumentReference.read`, `Binary.read`). The testing API endpoint (`chntech.from-tx.com`) is not DNS-resolvable (verified 2026-02-15; curl exit code 6). No production FHIR endpoint is published — the site states it "will be added when available."
-- **Fees**: Not documented.
+- **Format**: C-CDA XML (Consolidated Clinical Document Architecture) — a single CCD document per patient
+- **Mechanism**: FHIR `$docref` operation via Swagger UI. The tutorial walks through: (1) register an OAuth2 client, (2) set scopes, (3) authenticate, (4) select a patient, (5) call `$docref` endpoint, (6) download the resulting C-CDA binary
+- **Single-patient**: Yes — the `$docref` operation generates a CCD for one patient at a time
+- **Bulk capability**: The site documents FHIR Bulk Data Export (system, group, patient) for the (g)(10) criterion, but this is explicitly separate from the (b)(10) EHI export. The (b)(10) export is the CCD/$docref mechanism.
+- **Date filtering**: Optional start/end date parameters filter encounter-related sections; 8 sections always include the full medical record
+- **Access constraints**: Requires OAuth2 client registration. Only a testing endpoint is published (`chntech.from-tx.com`); no production endpoint is documented. The test endpoint's DNS did not resolve at collection time.
+- **Fees**: Not mentioned
 
 ## 4. Export Content: What's In It
 
-The export produces a standard C-CDA CCD document. There is **no vendor-specific data dictionary** — the vendor provides only CCD section names and defers entirely to the HL7 C-CDA Implementation Guide (913-page Vol. 2) for field-level detail.
+### What the export produces
 
-### CCD sections documented
+The (b)(10) export is a single C-CDA CCD document per patient containing **21 documented sections**. There is **no data dictionary**, **no field-level documentation**, **no sample data**, and **no vendor-specific schema**. The vendor relies entirely on the generic HL7 C-CDA Implementation Guide (913-page Vol 2) as the format specification.
 
-The FHIR API page (`fhir-api-page.html`) lists 21 CCD sections in two categories:
+### CCD Sections
 
-**Date-filtered sections (13)** — only include encounters within specified date range:
-1. History of Procedures
-2. Relevant DX Tests / LAB Data
-3. Functional Status
-4. Progress Notes
-5. Procedure Notes
-6. Laboratory Report Narrative
-7. Encounters
-8. Assessments
-9. Treatment Plan
-10. Goals
-11. Health Concerns
-12. Document Reason for Referral
-13. Mental Status
+The FHIR API page (`fhir-api-page.html`) documents the following CCD sections:
 
-**Full medical record sections (8)** — always include complete history:
-1. Demographics
-2. Allergies, Adverse Reactions, Alerts
-3. History of Medication Use
-4. Problem List
-5. Immunizations
-6. Social History
-7. Medical Equipment
-8. Vital Signs (latest recorded only)
+**Date-filterable sections** (13 sections — filtered by date range when specified):
 
-### What the CCD does NOT contain
+| Section | Source |
+|---|---|
+| History of Procedures | `fhir-api-page.html` |
+| Relevant DX Tests / LAB Data | `fhir-api-page.html` |
+| Functional Status | `fhir-api-page.html` |
+| Progress Notes | `fhir-api-page.html` |
+| Procedure Notes | `fhir-api-page.html` |
+| Laboratory Report Narrative | `fhir-api-page.html` |
+| Encounters | `fhir-api-page.html` |
+| Assessments | `fhir-api-page.html` |
+| Treatment Plan | `fhir-api-page.html` |
+| Goals | `fhir-api-page.html` |
+| Health Concerns | `fhir-api-page.html` |
+| Document Reason for Referral | `fhir-api-page.html` |
+| Mental Status | `fhir-api-page.html` |
 
-C-CDA is a clinical summary format. By design, it excludes:
-- Billing/claims data
-- Insurance/coverage information
-- Scheduling/appointment data
-- Patient portal messages
-- Prescription routing/transmission records
-- Dental records
-- Screening instrument responses (as structured data)
-- Custom form data
-- Documents/attachments beyond the generated summary
+**Full record sections** (8 sections — always include complete history):
 
-### OpenEMR native REST API: reveals additional data domains
+| Section | Source |
+|---|---|
+| Demographics | `fhir-api-page.html` |
+| Allergies, Adverse Reactions, Alerts | `fhir-api-page.html` |
+| History of Medication Use | `fhir-api-page.html` |
+| Problem List | `fhir-api-page.html` |
+| Immunizations | `fhir-api-page.html` |
+| Social History | `fhir-api-page.html` |
+| Medical Equipment | `fhir-api-page.html` |
+| Vital Signs (latest recorded) | `fhir-api-page.html` |
 
-The REST API documentation (`rest-api-page.html`) exposes 23 native resource types through OpenEMR-specific API scopes, revealing data the system stores but does NOT export via the (b)(10) C-CDA mechanism:
+### What the REST API reveals the system stores (but CCD doesn't export)
 
-| OpenEMR API Resource | In CCD Export? | Notes |
+The OpenEMR native REST API scopes (`rest-api-page.html`) reveal **23 data types** accessible via the native API. Many of these are NOT included in the C-CDA CCD export:
+
+| OpenEMR API Resource | In CCD? | Notes |
 |---|---|---|
-| allergy | ✅ Yes | Mapped to CCD Allergies section |
-| appointment | ❌ No | Scheduling data, not in CCD |
-| dental_issue | ❌ No | Dental-specific data, no CCD mapping |
-| document | ❌ No | Stored documents/attachments |
-| drug | Partial | Drug reference data; medications are in CCD |
-| encounter | ✅ Yes | Mapped to CCD Encounters section |
-| facility | N/A | Administrative/organizational data |
-| immunization | ✅ Yes | Mapped to CCD Immunizations section |
-| insurance | ❌ No | Patient insurance/coverage data |
-| insurance_company | N/A | Reference data |
-| insurance_type | N/A | Reference data |
-| list | Varies | Lists may map to various CCD sections |
-| medical_problem | ✅ Yes | Mapped to CCD Problem List |
-| medication | ✅ Yes | Mapped to CCD Medications section |
-| message | ❌ No | Patient/provider communications |
-| patient | ✅ Yes | Demographics in CCD |
-| practitioner | N/A | Provider reference data |
-| prescription | Partial | Rx list in CCD, but not routing/transmission detail |
-| procedure | ✅ Yes | Mapped to CCD Procedures section |
-| soap_note | Partial | May map to Progress Notes, but CCD doesn't carry full SOAP structure |
-| surgery | ❌ No | Surgical records — separate from generic procedures |
-| transaction | ❌ No | Financial transactions |
-| vital | ✅ Yes | Mapped to CCD Vital Signs (latest only) |
-
-### FHIR API resources (25 types)
-
-The FHIR API exposes standard US Core 3.1 resources: AllergyIntolerance, Appointment, Binary, CarePlan, CareTeam, Condition, Coverage, Device, DiagnosticReport, DocumentReference, Encounter, Goal, Group, Immunization, Location, Medication, MedicationRequest, Observation, Organization, Patient, Person, Practitioner, PractitionerRole, Procedure, Provenance.
-
-These FHIR resources overlap significantly with the CCD content but are not documented as the (b)(10) export mechanism.
+| `allergy` | Yes | Mapped to CCD Allergies section |
+| `appointment` | No | Scheduling data |
+| `dental_issue` | No | Dental clinical records |
+| `document` | No | Attached documents/files |
+| `drug` | Partial | Drug reference data vs medication history |
+| `encounter` | Yes | Mapped to CCD Encounters section |
+| `facility` | N/A | Provider facility info |
+| `immunization` | Yes | Mapped to CCD Immunizations section |
+| `insurance` | No | Patient insurance/coverage data |
+| `insurance_company` | No | Payor reference data |
+| `insurance_type` | No | Insurance type reference data |
+| `list` | Partial | Depends on list type |
+| `medical_problem` | Yes | Mapped to CCD Problem List |
+| `medication` | Yes | Mapped to CCD Medication Use |
+| `message` | No | Patient-provider messages |
+| `patient` | Yes | Mapped to CCD Demographics |
+| `practitioner` | N/A | Provider info |
+| `prescription` | No | Detailed prescription records beyond med list |
+| `procedure` | Yes | Mapped to CCD Procedures |
+| `soap_note` | Partial | CCD has Progress Notes but not full SOAP structure |
+| `surgery` | Partial | May map to CCD Procedures |
+| `transaction` | No | Billing/financial transactions |
+| `vital` | Yes | Mapped to CCD Vital Signs |
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-The vendor's EHI export is a single C-CDA CCD document per patient, containing 21 standard clinical summary sections. The vendor provides **no categorization of their own** — they simply list CCD section names and reference the HL7 standard.
+The vendor's EHI export is a **C-CDA CCD document** — a clinical summary format designed for transitions of care. The vendor does not organize their export into custom categories; they simply point to the 21 standard CCD sections.
 
-The export covers the standard clinical summary data that C-CDA is designed to carry: demographics, allergies, medications, problems, immunizations, vitals, procedures, encounters, lab results, progress notes, assessments, care plans, goals, and referrals. This is the same data that would be exchanged during a transition of care — it is essentially the vendor's (b)(1) Transitions of Care capability repackaged as (b)(10).
+The CCD covers the standard clinical summary domains well: demographics, allergies, medications, problems, immunizations, vitals, procedures, labs, encounters, notes, care plans, goals, referrals, mental status, and medical equipment.
 
-The REST API scope listing reveals the system stores significantly more data than the CCD exports: dental issues, insurance information, surgical records, financial transactions, stored documents, appointments, SOAP notes, and patient messages are all accessible through the native API but excluded from the EHI export.
+However, the CCD format structurally cannot carry several data types the system stores. The REST API scope list is the most revealing artifact because it exposes data domains (dental issues, insurance, transactions, SOAP notes, surgeries, prescriptions, messages, documents) that exist in the underlying OpenEMR database but are absent from the C-CDA export.
+
+The vendor provides no documentation specific to their CCD implementation — no field mapping, no customizations, no extensions. A developer wanting to understand the actual content of the exported CCD would need to: (1) generate one from the API, and (2) parse the resulting XML against the generic 913-page C-CDA IG.
 
 ### 5b. Standardized domain coverage (top-down)
 
 | Domain | Coverage | Export Evidence | Gap Analysis |
 |---|---|---|---|
-| Demographics | ✅ Covered | CCD Demographics section (full record) | Standard C-CDA demographics |
-| Encounters / visits | ✅ Covered | CCD Encounters section (date-filterable) | Encounter data present |
-| Problems / conditions / diagnoses | ✅ Covered | CCD Problem List (full record) | Standard problem list |
-| Medications / prescriptions | ⚠️ Partial | CCD History of Medication Use (full record) | Medication list present but prescription routing/transmission details (NewCrop/SureScripts) not included |
-| Allergies | ✅ Covered | CCD Allergies, Adverse Reactions, Alerts (full record) | Standard allergy list |
-| Immunizations | ✅ Covered | CCD Immunizations section (full record) | Standard immunization list |
-| Vitals | ⚠️ Partial | CCD Vital Signs — **latest recorded only** | Only most recent vitals; historical vitals not exported. Significant limitation. |
-| Lab results | ✅ Covered | CCD Relevant DX Tests / LAB Data, Laboratory Report Narrative (date-filterable) | Present, though unclear if all results from 20+ interfaced labs are fully represented |
-| Imaging / diagnostic reports | ⚠️ Partial | May be captured in CCD procedure/lab sections | No dedicated imaging section; unclear coverage of radiology interface results |
-| Procedures | ✅ Covered | CCD History of Procedures, Procedure Notes (date-filterable) | Present |
-| Clinical notes / documents | ⚠️ Partial | CCD Progress Notes (date-filterable) | Progress notes present but not the full richness of specialty SOAP notes (psychiatry, therapy, MAT, women's health). Stored documents/attachments not included. |
-| Care plans / goals | ✅ Covered | CCD Treatment Plan, Goals, Health Concerns (date-filterable) | Present |
-| Orders / referrals | ⚠️ Partial | CCD Document Reason for Referral (date-filterable) | Referral reasons present; order details unclear |
-| Insurance / coverage | ❌ Not covered | No insurance data in CCD; `insurance` scope exists in REST API | Product stores insurance data (FQHC billing requires it); **significant gap** |
-| Claims / billing | ❌ Not covered | No billing data in CCD; `transaction` scope in REST API | Product does FQHC facility billing and fee-for-service billing; **significant gap** |
-| Payments | ❌ Not covered | No payment data in CCD | Product tracks payments, patient ledgers, payor aging; **significant gap** |
-| Consents / directives | ❌ Not covered | No consent/directive section in CCD | Unknown if product stores advance directives |
-| Patient communications / portal messages | ❌ Not covered | No messaging in CCD; `message` scope in REST API | Product has patient portal with secure messaging; **gap** |
-| Specialty: Behavioral health (psychiatry, therapy, MAT) | ⚠️ Partial | May be captured in Progress Notes/Assessments sections | Product has dedicated psychiatry, therapy, and MAT modules; CCD likely loses specialty-specific structured data (screening instruments, assessment tools) |
-| Specialty: Dental | ❌ Not covered | No dental sections in CCD; `dental_issue` scope in REST API | MyCHN provides dental services; product has dental data; **gap** |
-| Specialty: Women's health / OBGYN | ⚠️ Partial | May be captured in generic clinical sections | Product has women's health module; CCD may not capture specialty-specific data |
-| Specialty: Screening assessments (SDOH, substance abuse, depression, etc.) | ⚠️ Partial | CCD Assessments and Social History sections | Product has 12+ screening tools; structured screening responses likely not fully represented in CCD template format |
+| Demographics | ✅ Covered | CCD "Demographics" section (full record) | Standard CCD demographics |
+| Encounters / visits | ✅ Covered | CCD "Encounters" section (date-filterable) | Present but detail level unknown |
+| Problems / conditions / diagnoses | ✅ Covered | CCD "Problem List" section (full record) | Standard CCD problem list |
+| Medications / prescriptions | ⚠️ Partial | CCD "History of Medication Use" (full record) | Medication list present; detailed prescription routing history (NewCrop/SureScripts) likely absent. REST API has separate `prescription` scope. |
+| Allergies | ✅ Covered | CCD "Allergies, Adverse Reactions, Alerts" (full record) | Standard CCD allergies |
+| Immunizations | ✅ Covered | CCD "Immunizations" section (full record) | Standard CCD immunizations |
+| Vitals | ⚠️ Partial | CCD "Vital Signs" — "shows the latest vitals recorded" | Only latest vitals, not full history — significant limitation |
+| Lab results | ✅ Covered | CCD "Relevant DX Tests / LAB Data" + "Laboratory Report Narrative" (date-filterable) | Present; coverage of results from 20+ interfaced labs unclear |
+| Imaging / diagnostic reports | ⚠️ Partial | No dedicated imaging section in CCD; may appear under lab/DX tests | Product has radiology connectivity; representation in CCD unclear |
+| Procedures | ✅ Covered | CCD "History of Procedures" + "Procedure Notes" (date-filterable) | Standard CCD procedures |
+| Clinical notes / documents | ⚠️ Partial | CCD "Progress Notes" + "Assessments" (date-filterable) | CCD includes progress notes but likely not full SOAP notes, specialty module notes (psychiatry, therapy, MAT), or attached documents. REST API has `soap_note` and `document` scopes. |
+| Care plans / goals | ✅ Covered | CCD "Treatment Plan" + "Goals" + "Health Concerns" (date-filterable) | Standard CCD care plan sections |
+| Orders / referrals | ✅ Covered | CCD "Document Reason for Referral" (date-filterable) | Referral reasons present; order details unclear |
+| Insurance / coverage | ❌ Not covered | No insurance data in CCD | Product stores insurance data (REST API has `insurance`, `insurance_company`, `insurance_type` scopes); significant gap |
+| Claims / billing | ❌ Not covered | No billing entities in CCD | Product has FQHC facility billing and fee-for-service billing; significant gap |
+| Payments | ❌ Not covered | No payment data in CCD | Product stores payment records, patient ledgers, payor aging; significant gap |
+| Consents / directives | ❌ Not covered | No consent/directive section in CCD | Unknown if product stores this data |
+| Patient communications / portal messages | ❌ Not covered | No messaging data in CCD | Product has patient portal with secure messaging; REST API has `message` scope; gap |
+| Specialty-specific: Behavioral health | ⚠️ Partial | CCD "Mental Status" + "Assessments" sections | Product has psychiatry, therapy, and MAT modules; CCD likely captures only summary, not full specialty documentation |
+| Specialty-specific: Dental | ❌ Not covered | No dental data in CCD | REST API has `dental_issue` scope; MyCHN provides dental services; gap |
+| Specialty-specific: Screening tools | ⚠️ Partial | May appear under CCD "Assessments" or "Functional Status" | Product has extensive SDOH, substance abuse, depression, fall risk, and other screenings; representation in CCD unclear |
 
-**Summary**: Of ~21 applicable domains, 6 are covered, 8 are partially covered, and 7 are not covered at all. The most significant gaps are billing/claims/payments, insurance/coverage, dental records, patient communications, and specialty screening data — all of which the product demonstrably stores (evidenced by REST API scopes and product feature documentation).
+**Summary**: Of 20 applicable domains, 7 are covered, 6 are partial, 6 are not covered, and 1 is N/A (consents — unclear if stored). The most significant gaps are **billing/claims/payments**, **insurance**, **dental records**, **patient portal messages**, and **detailed prescription records**.
 
 ## 6. Documentation Quality
 
-- **Data dictionary**: **None.** No field-level documentation exists. No mapping between EHR data fields and CCD elements. No description of how vendor-specific data is represented in the C-CDA output.
-- **Schema/format specification**: The vendor defers entirely to the HL7 C-CDA Implementation Guide (two PDFs totaling 976 pages) hosted on their site. These are standard documents, not vendor-customized.
-- **Sample data**: **None.** No sample CCD files, no example exports, no test data.
-- **Procedural documentation**: The 11-step Swagger tutorial for generating a CCD via `$docref` is clear and includes screenshots. A developer could follow it — if the API endpoint were accessible (it is not; DNS resolution fails for the test endpoint).
-- **Machine-readable artifacts**: None. No JSON schemas, no OpenAPI/Swagger definitions (the Swagger endpoint is unreachable), no FHIR CapabilityStatement or StructureDefinitions.
-- **Developer usability**: A developer would know the export produces a C-CDA CCD and would have a general tutorial on how to request one. They would have no vendor-specific information about the content, structure, or completeness of the resulting document. They would need to reverse-engineer any export they receive by reading the generic 913-page HL7 specification.
+**Clarity**: The documentation is well-organized across WordPress pages. The 11-step Swagger tutorial for CCD generation is practical and clear.
+
+**Completeness**: Extremely thin. The EHI export page itself is just 3 short paragraphs. There is:
+- **No data dictionary** — zero field-level definitions
+- **No schema documentation** — no mapping between EHR fields and CCD elements
+- **No sample data** — no example CCD documents
+- **No value set documentation** — vendor relies entirely on C-CDA standard value sets
+- **No vendor-specific customizations documented** — unclear if any data beyond standard CCD templates is included
+
+**Developer usability**: A developer could follow the Swagger tutorial to generate a CCD but would have no vendor-specific information about what the CCD contains. They would need to generate a sample CCD, inspect it, and cross-reference against the 913-page C-CDA IG Volume 2. The documentation answers "how to get a CCD" but not "what's in the CCD."
+
+**Machine-readable artifacts**: None. No JSON schemas, no sample data files, no structured data dictionary.
+
+**Honest assessment**: The documentation is insufficient for a developer to build an import or to understand what data is and isn't in the export. A patient or their representative cannot determine from this documentation what data they would receive.
 
 ## 7. Overall Assessment
 
 ### Classification
 
-**Standard-based projection.** The (b)(10) EHI export is a C-CDA CCD document generated via the FHIR `$docref` operation. This is the vendor's existing Transitions of Care / FHIR clinical summary capability relabeled as the EHI export. It covers standard clinical summary domains but excludes billing, insurance, dental, messaging, and specialty-specific data that the product stores.
+**Standard-based projection.** The (b)(10) EHI export is a C-CDA CCD document generated via the FHIR `$docref` operation. This is the vendor's existing FHIR API capability (documented alongside their (g)(10) Bulk FHIR implementation) repackaged as the EHI export. The export produces a standard clinical summary, not the vendor's native data model.
 
 ### Key Findings
 
-1. **The EHI export is a C-CDA CCD — a clinical summary format, not a comprehensive data export.** The 21 CCD sections cover standard clinical domains but structurally cannot carry billing, insurance, scheduling, dental, or messaging data. This is a textbook case of repackaging the (b)(1)/(g)(10) capability as (b)(10). (Source: `fhir-api-page.html`, `ehi-export-page.html`)
+1. **The (b)(10) export is the FHIR `$docref` CCD operation** — the vendor has equated their EHI export with C-CDA CCD generation. This is a textbook case of "C-CDA repackaging" (failure mode #1). The CCD is a clinical summary format that by design covers only a subset of patient data. (Source: `ehi-export-page.html`, `ccd-operation-in-fhir.html`)
 
-2. **The REST API scope listing reveals significant data the product stores but does not export.** The OpenEMR native API exposes 23 resource types including `dental_issue`, `insurance`, `transaction`, `surgery`, `soap_note`, and `message` — none of which are represented in the C-CDA export. (Source: `rest-api-page.html`)
+2. **The REST API scope list reveals the gap**: The OpenEMR native REST API exposes 23 data types including `dental_issue`, `insurance`, `insurance_company`, `insurance_type`, `transaction`, `soap_note`, `surgery`, `prescription`, `message`, and `document` — none of which are represented in the C-CDA export. (Source: `rest-api-page.html`)
 
-3. **There is no data dictionary, no sample data, and no vendor-specific documentation.** The vendor provides only CCD section names and links to generic HL7 standards. A developer cannot determine from these artifacts what specific data elements would appear in an export. (Source: all artifacts reviewed)
+3. **Billing, insurance, and dental data are completely absent** from the export despite being core capabilities of this FQHC-focused EHR. MyCHN operates dental services and FQHC facility billing; these are significant data domains with no export mechanism. (Source: `rest-api-page.html` scopes, product research)
 
-4. **The documented API endpoint is unreachable.** The test endpoint at `chntech.from-tx.com` fails DNS resolution (verified 2026-02-15). No production endpoint is published. This means the export mechanism cannot currently be tested or used by third parties. (Source: curl verification)
+4. **Vital signs export is limited to the latest recorded values only** — not the full history. This is noted explicitly in the FHIR API documentation. (Source: `fhir-api-page.html`)
 
-5. **Vital signs export is limited to the most recent values only.** Historical vital signs are not included in the CCD, which is an unusual limitation even within the C-CDA format. (Source: `fhir-api-page.html` — "Vital Signs (shows the latest vitals recorded for the patient)")
+5. **No vendor-specific documentation exists** — the two PDFs are standard HL7 C-CDA IG documents. There is no data dictionary, no field mapping, no sample data, and no documentation of any vendor customizations or extensions. (Source: PDF metadata shows HL7 authorship; `ehi-export-page.html` contains only 3 paragraphs of vendor content)
 
 ### Summary Stats
 
 ```
-Classification:  Standard-based projection
-Export format:   C-CDA XML (CCD document)
-Model type:      Standard projection (C-CDA R2.1)
-Entities:        21 CCD sections (not database entities)
+Classification:  Standard-based projection (C-CDA CCD via FHIR $docref)
+Export format:   C-CDA XML
+Model type:      Standard projection (CCD clinical summary)
+Entities:        21 CCD sections (no native tables/entities)
 Fields:          N/A (no field-level documentation)
-Descriptions:    N/A (defers to HL7 C-CDA standard)
+Descriptions:    N/A
 Sample data:     No
-Bulk export:     No (single-patient CCD; Bulk FHIR exists but is (g)(10), not (b)(10))
-Domains covered: 6 of 21 applicable domains fully covered; 8 partial; 7 not covered
+Bulk export:     No (single patient CCD generation; FHIR Bulk Export exists but for (g)(10))
+Domains covered: 7 of 20 applicable domains fully covered; 6 partial
 ```
 
 ### Bottom Line
 
-A patient requesting their complete EHI from Integrated Care EHR would receive a single C-CDA clinical summary document — effectively the same transition-of-care document their new provider would get. Their billing records, insurance information, dental records, screening assessment responses, patient portal messages, and specialty clinical documentation (behavioral health, MAT, women's health) would be absent. The single biggest gap is the complete absence of billing and financial data from a product that is specifically designed for FQHC billing — data that is squarely within the HIPAA designated record set.
+This is a minimal compliance effort. The vendor has pointed their (b)(10) certification at their existing FHIR `$docref` CCD generation capability, producing a standard clinical summary that covers perhaps 40-50% of the patient data the system stores. Billing, insurance, dental, prescriptions, patient messages, and attached documents — all stored in the underlying OpenEMR database — are completely absent from the export. A patient requesting "all their electronic health information" from this system would receive a clinical summary document, not their complete record.

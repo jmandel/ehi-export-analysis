@@ -1,227 +1,219 @@
 # EHI Export Analysis: BroadStreet Health LLC
 
 **Product**: BroadStreet, Version 1
-**Analysis date**: 2026-02-15
-**CHPL ID**: 15.05.05.3161.BRDS.01.00.1.231222
+**Analysis date**: 2026-02-16
+**CHPL IDs**: 15.05.05.3161.BRDS.01.00.1.231222 (CHPL ID 11410)
 
 ## 1. Product Context
 
-BroadStreet is an ONC-certified EHR developed by BroadStreet Health LLC (closely affiliated with Arsana Health / WashSense Inc.) for **post-acute and community-based healthcare providers**. Its target users include staff at skilled nursing facilities (SNFs), assisted living communities, and other long-term care settings. The company is very early-stage (1–10 employees, based in Cambridge, MA / Springfield, VT) with minimal market presence — no third-party reviews, no customer case studies, and a largely placeholder website.
+BroadStreet is an ONC-certified EHR developed by BroadStreet Health LLC (a subsidiary or DBA of Arsana Health / WashSense Inc.) for **post-acute and community-based healthcare settings** — specifically skilled nursing facilities (SNFs), assisted living facilities, residential care facilities, and home-based care. The company is extremely small (1–10 employees), based in Springfield, Vermont, and appears to be an early-stage startup with minimal market presence.
 
-**Data the product should store** (based on certified criteria and RWT plan):
+**What the product should store (based on certified criteria and product research):**
+- **Patient demographics** (a)(5)
+- **Medication orders** via CPOE (a)(1) and medication lists
+- **Laboratory orders** via CPOE (a)(2) and lab results
+- **Diagnostic imaging orders** via CPOE (a)(3)
+- **Problem lists / conditions**
+- **Allergies**
+- **Immunizations**
+- **Family health history** (a)(12)
+- **Implantable device records** (a)(14)
+- **Social, psychological, and behavioral data** (a)(15)
+- **Care plans** (b)(11)
+- **Clinical notes** (implied by charting and CQM capabilities)
+- **Clinical quality measure data** — depression screening, BMI, tobacco, falls, dementia, kidney health
+- **C-CDA documents** for transitions of care (b)(1)
+- **Patient-generated health data** (e)(3)
 
-- Patient demographics, family health history
-- Medication orders and lists (CPOE for medications — a)(1))
-- Laboratory orders (CPOE — a)(2))
-- Diagnostic imaging orders (CPOE — a)(3))
-- Problem lists, allergy lists
-- Immunization records
-- Implantable device records
-- Social, psychological, and behavioral data (a)(15))
-- Care plans
-- Clinical notes (progress notes, H&P — implied by the Notes HTML export format)
-- C-CDA documents (transitions of care — b)(1))
-- Clinical quality measure data (CQMs for depression, BMI, tobacco, falls, dementia, kidney health)
-- Patient-generated health data (e)(3))
-
-**What's notably absent from the product's known capabilities**: billing/claims functionality (not mentioned in any certification criteria or marketing), scheduling as a major module, and detailed nursing assessments (MDS/OASIS — expected for post-acute but not documented). The RWT plan describes testing at "on-site primary care at assisted living facility" and "on-site psychiatric care at skilled nursing facility."
-
-**For EHI completeness assessment**: The baseline expectation is primarily clinical data across the certified criteria domains. Billing is likely handled externally and may be N/A for this product.
+**What's unclear / likely absent in the product:**
+- **Billing/claims**: No billing-related certification criteria. Product research found no evidence of billing functionality. Billing is likely handled externally.
+- **Scheduling**: Not mentioned in any documentation.
+- **Nursing assessments (MDS/OASIS)**: Not documented despite post-acute focus where MDS is a core SNF workflow.
+- **eMAR (medication administration records)**: Not documented, though expected for post-acute care.
 
 ## 2. Artifacts Reviewed
 
 | Artifact | File | Size | Description | Informativeness |
 |---|---|---|---|---|
-| EHI Export page (rendered HTML) | `ehi-export-page-rendered.html` | 9,698 bytes | Full content of the EHI Export documentation page after JS hydration | **Most informative** — the primary (b)(10) documentation |
-| EHI Export page (screenshot) | `ehi-export-page.png` | 674 KB | Full-page screenshot confirming rendered content matches extracted HTML | Confirmatory |
-| EHI Export page (raw HTML) | `ehi-export-page-raw.html` | 4,194 bytes | Server-rendered SvelteKit shell — just a spinner, no content | Confirms SPA architecture |
-| FHIR Resources page (screenshot) | `fhir-resources-page.png` | 127 KB | Screenshot of (g)(10) FHIR API resource index — 12 clinical + 11 reference resources | **Informative** — enables comparison with EHI export FHIR list |
-| 2025 Real World Testing Plan | `BST-2025-RWT-Plan.pdf` | 184 KB, 15 pages | RWT plan with Test Case 4 for (b)(10) EHI Export | Moderately informative — confirms testing approach but vague on export content |
+| EHI Export page (rendered HTML) | `ehi-export-page-rendered.html` | 9,698 bytes | Full content of the EHI Export documentation page after JS hydration. **Primary artifact.** | ⭐ Most informative |
+| EHI Export page screenshot | `ehi-export-page.png` | 674 KB | Full-page screenshot confirming rendered HTML content matches | Confirmatory |
+| FHIR Resources page screenshot | `fhir-resources-page.png` | 127 KB | Screenshot of (g)(10) FHIR API resource listing — 12 clinical + 11 reference resources | Moderately informative |
+| Raw HTML (pre-JS) | `ehi-export-page-raw.html` | 4,194 bytes | SvelteKit app shell; confirms site requires JS to render | Minor |
+| 2025 RWT Plan | `BST-2025-RWT-Plan.pdf` | 184 KB, 15 pages | Real World Testing plan with Test Case 4 for (b)(10). Describes testing methodology but not export content. | Moderately informative |
 
-**No data dictionary, no sample data files, no schemas, no export format specifications** were found among the artifacts. The entire (b)(10) export documentation consists of a single web page.
+**No data dictionary, schema, sample data, or machine-readable artifacts were found.** The five artifacts above are the complete set.
 
 ## 3. Export Mechanics
 
-- **Format(s)**: Three formats described: CDA 2.1, FHIR R4, and BroadStreet Notes (HTML)
-- **Mechanism**: Not documented. No export instructions, no UI screenshots, no API endpoints specific to (b)(10). The RWT plan mentions "export requests" tracked via logs, suggesting a UI-triggered process. The FHIR resources are served from `portal.broadstreetcare.com/api/fhir/` (the (g)(10) API endpoint), and it is unclear whether the "(b)(10) FHIR R4 export" is anything beyond this same API.
-- **Single-patient vs bulk**: The RWT plan mentions both "individual and population-level EHI exports" and counts "single-patient exports to EHI." Both capabilities are claimed but not documented.
-- **Access constraints/fees**: Not documented. The mandatory disclosures page notes that Direct secure messaging (h)(1) requires an annual subscription via EMR Direct, but no fees for EHI export itself are mentioned.
+- **Format(s)**: Three formats are described: CDA 2.1 (XML), FHIR R4 (JSON/XML bundles), and BroadStreet Notes (HTML).
+- **Mechanism**: Not documented. No instructions exist for how to trigger an export, what UI buttons to use, or what API calls to make. The RWT Plan mentions "export requests" tracked via logs, and the (b)(10) test case references both individual and population-level exports, but gives no procedural detail.
+- **Single-patient vs bulk**: The RWT Plan states testing covers "both individual and population-level EHI exports," suggesting both are supported. No further detail.
+- **Access constraints or fees**: Not documented. No mention of fees for EHI export specifically. Direct secure messaging (h)(1) requires an annual subscription to EMR Direct, but this is separate.
 
 ## 4. Export Content: What's In It
 
-### 4.1 CDA 2.1 Section
+### What the documentation actually provides
 
-The EHI export page provides a **generic textbook description** of the CDA 2.1 standard — what headers and bodies are, that documents are human-readable and machine-processable. There is zero BroadStreet-specific content: no list of CDA sections populated, no template identifiers, no sample documents, no specification of which clinical data is included.
+The EHI export documentation page (`ehi-export-page-rendered.html`) is almost entirely **generic descriptions of the CDA and FHIR standards**, with minimal BroadStreet-specific content. There is **no data dictionary, no schema, no field-level documentation for the CDA or FHIR exports**, and no sample data.
 
-The only BroadStreet-specific statement is: *"Our system exports patient data in the form of CDA documents that adhere to the CDA 2.1 standard."*
+**CDA 2.1**: The page describes what CDA is (headers, bodies, sections, entries) in textbook terms. The only BroadStreet-specific statement is: *"Our system exports patient data in the form of CDA documents that adhere to the CDA 2.1 standard."* No BroadStreet-specific templates, section lists, profiles, or implementation detail is provided.
 
-Given the (b)(1) Transitions of Care certification with SVAP update to C-CDA R2.1 Companion Guide Release 3, this is very likely the same C-CDA used for transitions of care, not a distinct (b)(10) export.
+**FHIR R4**: The page lists 15 FHIR resource types with one-line generic descriptions (e.g., *"Patient: Information about an individual receiving care"*). These are standard FHIR definitions, not vendor-specific field documentation. The only BroadStreet-specific statement is: *"When exporting data in FHIR format, our system provides a bundle of FHIR resources."*
 
-### 4.2 FHIR R4 Section
+**BroadStreet Notes (HTML)**: This is the only section with BroadStreet-specific field-level documentation — 22 fields across 10 subsections describing the structure of exported clinical notes.
 
-The EHI export page lists **15 FHIR resource types** (extracted from `ehi-export-page-rendered.html`, excluding 3 non-resource bullet items about "Granular Data," "Web Standards," and "Extensibility" that describe FHIR features):
+### Vendor's own content organization
 
-| # | FHIR Resource | Description (from page) |
-|---|---|---|
-| 1 | Patient | Information about an individual receiving care |
-| 2 | Observation | Measurements or simple assertions made about a patient |
-| 3 | Medication | Details about a medication that can be prescribed |
-| 4 | Practitioner | Individual with a formal responsibility in the healthcare process |
-| 5 | Encounter | Interaction between a patient and the healthcare provider |
-| 6 | Procedure | Clinical activity or intervention performed on or for a patient |
-| 7 | Condition | Clinical condition, problem, or diagnosis |
-| 8 | Immunization | Record of an immunization given to a patient |
-| 9 | AllergyIntolerance | Adverse reaction or allergy a patient has to substances |
-| 10 | MedicationRequest | Request for a medication to be administered or dispensed |
-| 11 | CarePlan | Plan or protocol to manage a patient's specific health concerns |
-| 12 | Device | Medical device used on or for a patient |
-| 13 | DiagnosticReport | Findings and interpretation of diagnostic tests |
-| 14 | Appointment | Scheduled interaction between patient and healthcare provider |
-| 15 | Organization | Organization involved in the care of a patient |
+#### FHIR R4 Resources (listed on EHI Export page)
 
-**Comparison with (g)(10) FHIR API** (from `fhir-resources-page.png`):
+15 resources are listed on the EHI Export page. Separately, the FHIR API Resources page (screenshot: `fhir-resources-page.png`) lists 23 resources. There is notable divergence:
 
-The (g)(10) API serves **23 resources** (12 clinical + 11 reference). The EHI export page lists 15. The overlap is 14 resources. Key differences:
-
-- **On EHI page but NOT in (g)(10) API**: Appointment (1 resource)
-- **In (g)(10) API but NOT on EHI page**: CareTeam, DocumentReference, Goal, Location, PractitionerRole, Provenance, QuestionnaireResponse, RelatedPerson, ServiceRequest (9 resources)
-
-The EHI export page's FHIR list is a **subset** of the standard US Core resource set plus Appointment. The descriptions are generic FHIR standard text (e.g., "Information about an individual receiving care") — identical to what HL7 publishes — with no vendor-specific content, no extensions, no custom profiles.
-
-### 4.3 BroadStreet Notes (HTML) Section
-
-This is the **only vendor-specific export documentation**. It describes the structure of clinical notes exported as HTML documents. Parsed from the rendered page, it contains **10 sections with 20 named fields**:
-
-| Section | Fields | Field Names |
-|---|---|---|
-| Physician Information | 3 | Physician Name, Sent by, Date |
-| Visit and Patient Details | 6 | Date of Service, Type, Patient Name, Date of Birth, Gender, Advance Directive Code |
-| Medical Concerns | 2 | Allergies, Primary Concern |
-| Social History | 1 | Smoking Status |
-| Treatment Review | 0 | *(described as "typically include past and ongoing treatments")* |
-| Vital Examination | 3 | Blood Pressure, Pulse, Weight |
-| Assessment Plan | 2 | Diagnosis Code, Assessment |
-| Visit Details | 2 | Next Appointment, Reason for Next Visit |
-| Additional Notes | 0 | *(described as "any additional remarks")* |
-| Signature | 1 | Electronically Signed By |
-
-**Documentation quality for Notes fields**: Each field has a name and a one-sentence natural-language description. No data types, no constraints, no value sets (except "ICD code" for Diagnosis Code), no examples, no sample HTML output.
-
-### Vendor's Own Content Organization
-
-The vendor organizes the EHI export page into three top-level sections:
-
-| Export Format | Items Documented | Field-Level Detail | BroadStreet-Specific |
+| Resource | On EHI Export Page | On FHIR API Page | Category (vendor's) |
 |---|---|---|---|
-| CDA 2.1 | 5 generic bullet items | None | 1 sentence |
-| FHIR R4 | 15 resource types | None (resource-level only) | 1 sentence |
-| BroadStreet Notes (HTML) | 10 sections, 20 fields | Yes (name + description) | Yes |
+| AllergyIntolerance | ✅ | ✅ | Clinical Information |
+| Appointment | ✅ | ❌ | (EHI page only) |
+| CarePlan | ✅ | ✅ | Clinical Information |
+| CareTeam | ❌ | ✅ | Clinical Information |
+| Condition | ✅ | ✅ | Clinical Information |
+| Device | ✅ | ✅ | Resources and References |
+| DiagnosticReport | ✅ | ✅ | Clinical Information |
+| DocumentReference | ❌ | ✅ | Resources and References |
+| Encounter | ✅ | ✅ | Clinical Information |
+| Goal | ❌ | ✅ | Clinical Information |
+| Immunization | ✅ | ✅ | Clinical Information |
+| Location | ❌ | ✅ | Resources and References |
+| Medication | ✅ | ✅ | Clinical Information |
+| MedicationRequest | ✅ | ✅ | Clinical Information |
+| Observation | ✅ | ✅ | Clinical Information |
+| Organization | ✅ | ✅ | Resources and References |
+| Patient | ✅ | ✅ | Resources and References |
+| Practitioner | ✅ | ✅ | Resources and References |
+| PractitionerRole | ❌ | ✅ | Resources and References |
+| Procedure | ✅ | ✅ | Clinical Information |
+| Provenance | ❌ | ✅ | Resources and References |
+| QuestionnaireResponse | ❌ | ✅ | Resources and References |
+| RelatedPerson | ❌ | ✅ | Resources and References |
+| ServiceRequest | ❌ | ✅ | Resources and References |
 
-**Total across all formats**: 15 FHIR resource types (resource-level only, no fields) + 20 named fields in Notes HTML = effectively 20 documented fields total, plus generic standard descriptions.
+The FHIR resource list on the EHI Export page is essentially the **standard US Core resource set** — the same resources available through any (g)(10) FHIR API. No vendor-specific FHIR profiles, extensions, or custom resources are documented.
+
+#### BroadStreet Notes (HTML) — Field-level detail
+
+| Section | Field | Description |
+|---|---|---|
+| Physician Information | Physician Name | The name of the physician who provided the service |
+| Physician Information | Sent by | The individual who sent the documentation |
+| Physician Information | Date | The timestamp when the documentation was sent |
+| Visit and Patient Details | Date of Service | The date when the service was provided |
+| Visit and Patient Details | Type | The type of service provided (e.g., H&P) |
+| Visit and Patient Details | Patient Name | The full name of the patient |
+| Visit and Patient Details | Date of Birth | The birthdate of the patient |
+| Visit and Patient Details | Gender | The gender of the patient |
+| Visit and Patient Details | Advance Directive Code | Any code related to advance directives |
+| Medical Concerns | Allergies | Any known allergies |
+| Medical Concerns | Primary Concern | The main reason for the patient's visit |
+| Social History | Smoking Status | The patient's smoking habits |
+| Treatment Review | *(unstructured)* | Past and ongoing treatments |
+| Vital Examination | Blood Pressure | Systolic/Diastolic measurement |
+| Vital Examination | Pulse | Heart rate in beats per minute |
+| Vital Examination | Weight | Patient's weight |
+| Assessment Plan | Diagnosis Code | The ICD code for the diagnosis |
+| Assessment Plan | Assessment | Physician's findings and recommendations |
+| Visit Details | Next Appointment | Next scheduled appointment date and physician |
+| Visit Details | Reason for Next Visit | Purpose for upcoming visit |
+| Additional Notes | *(unstructured)* | Physician remarks |
+| Signature | Electronically Signed By | Who signed the document electronically |
+
+**Total: 22 fields across 10 sections. All 20 named fields have descriptions. No data types, constraints, value sets, or examples are provided.**
+
+#### CDA 2.1
+
+No BroadStreet-specific documentation. Only generic CDA standard descriptions.
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-The vendor's EHI export documentation describes three output formats that together cover a narrow range of clinical data:
+The vendor documents three export formats but provides almost no detail about what data each format actually contains:
 
-1. **CDA 2.1**: Completely unspecified. No BroadStreet-specific content. Likely just the C-CDA used for transitions of care (b)(1).
+1. **CDA 2.1**: No specific section or template documentation. Impossible to assess what clinical data is included.
+2. **FHIR R4**: Lists 15 standard FHIR resources — the standard US Core clinical data classes. No field-level detail, no extensions, no vendor-specific content. This appears to be a repackaging of the (g)(10) FHIR API.
+3. **BroadStreet Notes (HTML)**: The only vendor-specific export format. Documents a clinical note structure with 22 fields covering physician info, patient demographics, allergies, vitals, diagnoses, and assessment plans. This is a single-note format, not a comprehensive patient record export.
 
-2. **FHIR R4**: Lists 15 standard FHIR resource types — a subset of the US Core set. These correspond to USCDI data classes (demographics, conditions, medications, allergies, immunizations, vitals/labs via Observation, procedures, encounters, care plans, devices, diagnostic reports). No vendor-specific extensions, custom resources, or data beyond USCDI. This appears to be the same data served by the (g)(10) API.
-
-3. **BroadStreet Notes (HTML)**: The only genuinely vendor-specific component. Documents clinical notes with 20 fields covering physician info, patient demographics, allergies, vitals, diagnoses, and assessment plans. This represents a single document type — a clinical encounter note — not a comprehensive export.
-
-**Thinnest areas**: CDA section (no specifics at all), FHIR section (generic standard descriptions only). **Richest area**: Notes HTML (20 fields with descriptions, though still very basic).
+The documentation is thinnest in the areas that should be richest — the CDA and FHIR sections provide no BroadStreet-specific detail whatsoever. The Notes section is the only area with field-level documentation, but it describes just one document type (a clinical note), not a comprehensive data export.
 
 ### 5b. Standardized domain coverage (top-down)
 
 | Domain | Coverage | Export Evidence | Gap Analysis |
 |---|---|---|---|
-| Demographics | ⚠️ Partial | FHIR `Patient` resource listed; Notes HTML has Patient Name, DOB, Gender | Resource-level only; no field detail for FHIR Patient; Notes covers ~3 demographic fields |
-| Encounters / visits | ⚠️ Partial | FHIR `Encounter` listed; Notes HTML has Date of Service, Type | No encounter detail beyond resource name |
-| Problems / conditions / diagnoses | ⚠️ Partial | FHIR `Condition` listed; Notes HTML has Diagnosis Code (ICD) | Resource-level only |
-| Medications / prescriptions | ⚠️ Partial | FHIR `Medication`, `MedicationRequest` listed | Resource-level only; no eMAR documentation |
-| Allergies | ⚠️ Partial | FHIR `AllergyIntolerance` listed; Notes HTML has Allergies field | Resource-level only |
-| Immunizations | ⚠️ Partial | FHIR `Immunization` listed | Resource-level only |
-| Vitals | ⚠️ Partial | FHIR `Observation` listed; Notes HTML has BP, Pulse, Weight | 3 vitals in Notes; Observation is generic |
-| Lab results | ⚠️ Partial | FHIR `Observation`, `DiagnosticReport` listed | Product has CPOE for labs (a)(2); resource-level only |
-| Imaging / diagnostic reports | ⚠️ Partial | FHIR `DiagnosticReport` listed | Product has CPOE for imaging (a)(3); resource-level only |
-| Procedures | ⚠️ Partial | FHIR `Procedure` listed | Resource-level only |
-| Clinical notes / documents | ⚠️ Partial | BroadStreet Notes (HTML) with 20 fields | Only documents a single note type (encounter note). No mention of other note types |
-| Care plans / goals | ⚠️ Partial | FHIR `CarePlan` listed | Certified for (b)(11) care plan; resource-level only. Goal not listed on EHI page (though in g(10) API) |
-| Orders / referrals | ❌ Not covered | Not mentioned in EHI export documentation | CPOE criteria (a)(1-3) confirmed; ServiceRequest in (g)(10) but not on EHI page |
-| Insurance / coverage | ❌ Not covered | No mention | Likely N/A — no evidence product manages insurance data |
-| Claims / billing | ❌ Not covered | No mention | Likely N/A — no billing module documented anywhere |
-| Payments | ❌ Not covered | No mention | Likely N/A — no payment functionality documented |
-| Consents / directives | ⚠️ Partial | Notes HTML has "Advance Directive Code" field | Single field only |
-| Patient communications / portal messages | ❌ Not covered | No mention | Product certified for patient VDT (e)(1) and PGHD (e)(3), suggesting patient portal exists; portal messages not in export |
-| Specialty-specific (post-acute / long-term care) | ❌ Not covered | No mention of MDS assessments, nursing assessments, eMAR, fall risk tools, cognitive assessments, or other post-acute-specific data | **Significant gap**. Product is specifically designed for post-acute care. CQMs include falls screening (CMS139), dementia cognitive assessment (CMS149), depression screening (CMS2) — the underlying clinical data for these assessments is not documented in the export |
-| Family health history | ❌ Not covered | Not listed in FHIR resources or Notes HTML | Certified for (a)(12) family health history; absent from export documentation |
-| Social/behavioral data | ⚠️ Partial | Notes HTML: Smoking Status (1 field) | Certified for (a)(15) social, psychological, behavioral data; only smoking status documented |
-| Implantable devices | ⚠️ Partial | FHIR `Device` listed | Certified for (a)(14); resource-level only |
+| Demographics | ⚠️ Partial | FHIR Patient resource listed (no field detail); Notes HTML has Patient Name, DOB, Gender | Basic demographics present via FHIR Patient + Notes; depth unknown without field-level FHIR documentation |
+| Encounters / visits | ⚠️ Partial | FHIR Encounter resource listed; Notes HTML has Date of Service, Type | Resource listed but no field detail |
+| Problems / conditions / diagnoses | ⚠️ Partial | FHIR Condition resource listed; Notes has Diagnosis Code (ICD) | Resource listed; Notes has ICD code |
+| Medications / prescriptions | ⚠️ Partial | FHIR Medication + MedicationRequest listed | Resource listed but no field detail. eMAR (medication administration records) not mentioned — significant for post-acute care |
+| Allergies | ⚠️ Partial | FHIR AllergyIntolerance listed; Notes has Allergies field | Mentioned in both formats but no detail on allergy structure |
+| Immunizations | ⚠️ Partial | FHIR Immunization listed | Resource listed, no detail |
+| Vitals | ⚠️ Partial | FHIR Observation listed; Notes has BP, Pulse, Weight | Notes covers 3 vital signs; FHIR Observation presumably covers more |
+| Lab results | ⚠️ Partial | FHIR Observation + DiagnosticReport listed | Resources listed; product is certified for lab CPOE (a)(2) |
+| Imaging / diagnostic reports | ⚠️ Partial | FHIR DiagnosticReport listed | Resource listed; certified for imaging CPOE (a)(3) |
+| Procedures | ⚠️ Partial | FHIR Procedure listed | Resource listed, no detail |
+| Clinical notes / documents | ⚠️ Partial | BroadStreet Notes (HTML) — 22 fields documented | Only export format with vendor-specific detail; covers a single note type |
+| Care plans / goals | ⚠️ Partial | FHIR CarePlan listed; Goal on API page only | Certified for (b)(11) care plans |
+| Orders / referrals | ❌ Not covered | Not on EHI Export page; ServiceRequest on API page only | Certified for CPOE (a)(1-3); no order export documented on EHI page |
+| Insurance / coverage | ❌ Not covered | No evidence in any artifact | Product likely doesn't handle insurance internally — N/A if confirmed |
+| Claims / billing | ❌ Not covered | No evidence in any artifact | No billing certification criteria; likely N/A |
+| Payments | ❌ Not covered | No evidence | Likely N/A |
+| Consents / directives | ⚠️ Partial | Notes HTML has Advance Directive Code | Single field only |
+| Patient communications / portal messages | ❌ Not covered | No evidence | Product has patient portal (e)(1); messages may exist but not documented |
+| Specialty-specific (post-acute/SNF) | ❌ Not covered | No nursing assessments (MDS), no eMAR, no infection surveillance data, no fall risk assessments, no cognitive assessments | **Significant gap.** The product targets SNFs and assisted living. MDS assessments, eMAR, fall risk screening, and dementia cognitive assessments are core workflows. None appear in the export documentation. |
 
-**Summary**: Every domain marked "⚠️ Partial" is partial primarily because the documentation only identifies resource/entity names without field-level detail — making it impossible to assess actual depth of coverage. The most concerning gaps are:
-
-1. **Post-acute specialty data** (MDS, nursing assessments, eMAR, fall risk, cognitive assessments) — entirely absent despite being the product's core market
-2. **Family health history** — certified but missing from export
-3. **Orders/referrals** — CPOE certified but not in EHI export documentation
-4. **Patient portal communications** — portal exists but no export documentation
+**Key coverage finding:** Every domain listed as "⚠️ Partial" earns that rating because the only evidence is a FHIR resource name with a generic one-line description — there is no way to verify what data actually populates those resources. The coverage could be reasonable or it could be very thin; the documentation simply doesn't say.
 
 ## 6. Documentation Quality
 
-**Overall: Very poor.** The EHI export documentation is a single web page with approximately 1,500 words, most of which are generic descriptions of the CDA and FHIR standards copied from or paraphrasing HL7 specification text.
+**Rating: Very poor.**
 
-**What's present**:
-- Three export format names (CDA 2.1, FHIR R4, BroadStreet Notes HTML)
-- A list of 15 FHIR resource types with one-line standard descriptions
-- 20 field names for clinical notes with one-sentence descriptions
-- Links to external HL7 CDA and FHIR R4 documentation
+- **No data dictionary**: No table/field definitions exist for the CDA or FHIR exports. The Notes HTML section has field names and descriptions, but no types, constraints, value sets, or relationships.
+- **No export instructions**: No UI screenshots, no step-by-step guide, no API documentation for triggering an export.
+- **No sample data**: No example export files, sample bundles, or test data of any kind.
+- **No machine-readable schemas**: No JSON Schema, FHIR StructureDefinitions, XSD, or OpenAPI specs.
+- **No value set documentation**: The only coded field mentioned (Diagnosis Code = "ICD code") has no further specification.
+- **No relationship documentation**: How entities relate to each other across the three export formats is not described.
+- **Generic standard descriptions**: ~75% of the EHI Export page is textbook descriptions of the CDA and FHIR standards that could apply to any EHR system — not BroadStreet-specific documentation.
 
-**What's absent**:
-- ❌ No data dictionary (no table/field definitions beyond the 20 Notes fields)
-- ❌ No schema or format specification (no JSON Schema, XSD, or other machine-readable artifact)
-- ❌ No sample data or example export files
-- ❌ No export instructions (how to trigger, what UI to use, what files are produced)
-- ❌ No field data types or constraints
-- ❌ No relationship documentation
-- ❌ No value set or terminology documentation (only "ICD code" mentioned once)
-- ❌ No indication of export file packaging (ZIP? individual files? bundle?)
-- ❌ No documentation distinguishing (b)(10) from (g)(10) — the FHIR content appears identical
-
-**Could a developer build an import from this documentation?** No. The documentation does not specify file formats, field schemas, bundle structures, or data types. A developer would not know what files to expect, what format they're in, or how to parse them. The Notes HTML section provides field names but no HTML structure specification. The FHIR section provides resource type names but no profiles, extensions, or search parameters specific to (b)(10).
+**Could a developer build an import from this documentation alone?** No. A developer would know the export comes in CDA, FHIR, and HTML formats, and would have a 22-field structure for clinical notes, but would have no specification of what's in the CDA documents, which FHIR profiles are used, what extensions exist, how data is bundled, or how to actually request an export.
 
 ## 7. Overall Assessment
 
 ### Classification
 
-**Minimal/stub**: The documentation is too thin to verify what the export actually contains. What is documented amounts to (1) a generic restatement of the CDA and FHIR standards, (2) a list of 15 standard FHIR resource types that appear identical to the (g)(10) API, and (3) a simple 20-field clinical note structure. No data dictionary, no schemas, no sample data, no export instructions.
+**Standard-based projection.** The EHI export documentation describes a CDA 2.1 + FHIR R4 export that maps closely to the standard US Core / USCDI data classes — the same clinical summary data available through the (g)(10) FHIR API. The only vendor-specific addition is an HTML clinical note format with 22 fields. There is no evidence of a native data model export, no export of post-acute specialty data (MDS assessments, eMAR, fall risk, cognitive assessments), and no data dictionary.
 
 ### Key Findings
 
-1. **The (b)(10) export appears to be the (g)(10) FHIR API repackaged.** The FHIR resource list on the EHI export page is a subset (15 of 23) of the (g)(10) US Core resources. No vendor-specific extensions or additional data beyond USCDI are documented. The documentation does not explain how (b)(10) differs from (g)(10).
+1. **The (b)(10) export appears to be the (g)(10) FHIR API repackaged.** The FHIR resource list on the EHI Export page (15 resources) is a subset of the FHIR API page (23 resources), and the resource descriptions are generic FHIR definitions. No evidence exists that the EHI export provides any data beyond what the standard FHIR API serves. (Sources: `ehi-export-page-rendered.html`, `fhir-resources-page.png`)
 
-2. **Post-acute specialty data is entirely absent from the export documentation.** Despite being built for skilled nursing and assisted living facilities, there is no mention of MDS assessments, nursing assessments, eMAR, fall risk screening data, cognitive assessments, or other post-acute clinical workflows in the export.
+2. **Documentation is almost entirely generic standard descriptions, not vendor-specific.** Approximately 75% of the EHI Export page describes what CDA and FHIR *are* (structured documents, granular resources, web standards) rather than what BroadStreet *exports*. (Source: `ehi-export-page-rendered.html`)
 
-3. **The only vendor-specific documentation is a 20-field clinical note structure.** The BroadStreet Notes (HTML) section is the sole artifact that describes BroadStreet-specific data, but it covers only a single encounter note type with basic fields (demographics, vitals, diagnoses, assessment).
+3. **Post-acute specialty data is absent from the export documentation.** For a product targeting SNFs and assisted living, the export documentation contains no mention of MDS assessments, medication administration records (eMAR), fall risk screenings, cognitive assessments, or infection surveillance data — all core workflows in post-acute care. (Source: product-research.md cross-referenced with `ehi-export-page-rendered.html`)
 
-4. **No machine-readable artifacts exist.** No schemas, no sample data, no format specifications. The entire (b)(10) documentation is a single ~1,500-word web page.
+4. **The only BroadStreet-specific content is the HTML Notes structure — 22 fields describing a single clinical note type.** While this is genuine vendor-specific documentation, it covers only one document format, not a comprehensive patient record export. (Source: `ehi-export-page-rendered.html`)
 
-5. **The RWT plan confirms testing but is vague on content.** Test Case 4 describes tracking export "frequency and completion times" and verifying "compatibility with external systems" but does not specify what data is exported or what domains are covered.
+5. **The RWT Plan confirms the export exists and is tested in production**, but the (b)(10) test case describes tracking export frequency and completion times — not validating export completeness or content coverage. (Source: `BST-2025-RWT-Plan.pdf`, p. 10, Test Case 4)
 
 ### Summary Stats
 
 ```
-Classification:  Minimal/stub
-Export format:   CDA 2.1, FHIR R4, HTML (clinical notes)
-Model type:      Standard projection (FHIR/CDA) + proprietary note format
-Entities:        15 FHIR resource types + 1 note type (no native data model)
-Fields:          20 (Notes HTML only; FHIR fields not documented)
-Descriptions:    100% of 20 Notes fields have descriptions; 0% have types
+Classification:  Standard-based projection
+Export format:   CDA 2.1 (XML) + FHIR R4 (JSON) + HTML (Notes)
+Model type:      Standard projection (US Core / CDA), not native database
+Entities:        24 FHIR resources + 1 CDA document type + 1 HTML note type = 26 total
+Fields:          22 (only for HTML Notes; 0 field-level detail for FHIR/CDA)
+Descriptions:    100% of 22 Notes fields have descriptions; 0% for FHIR/CDA (no field-level docs)
 Sample data:     No
-Bulk export:     Claimed (RWT plan mentions population-level); not documented
-Domains covered: 0 of 15 fully covered; 12 of 15 partially (resource-name-only)
+Bulk export:     Yes (per RWT Plan: "population-level EHI exports")
+Domains covered: 0 of 13 fully covered; 11 of 13 partially (resource name only); 2 N/A
 ```
 
 ### Bottom Line
 
-BroadStreet's EHI export documentation is a minimal compliance stub — a single web page that mostly restates the CDA and FHIR standards with no vendor-specific detail. A patient or provider requesting their complete health data would receive, at best, a standard USCDI clinical summary via FHIR/C-CDA, missing specialty post-acute care data (nursing assessments, medication administration records, cognitive/behavioral assessments) that is the product's core value proposition. The biggest gap is the complete absence of post-acute-specific clinical data from the export documentation, combined with no data dictionary or schema to verify what's actually included.
+BroadStreet's EHI export documentation is a compliance checkbox, not a genuine data portability effort. The export appears to repackage the standard (g)(10) FHIR API as the (b)(10) EHI export, covering only the USCDI clinical summary data — a small fraction of what a post-acute EHR stores. The single biggest gap is the complete absence of post-acute specialty data (MDS assessments, eMAR, fall risk, cognitive assessments) from the export documentation, despite these being core workflows for the product's target market.

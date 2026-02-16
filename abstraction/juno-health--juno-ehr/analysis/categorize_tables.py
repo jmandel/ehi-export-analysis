@@ -1,144 +1,118 @@
-"""
-Categorize Juno EHR tables by domain based on naming patterns.
-"""
+"""Categorize JEHR tables by naming prefix/pattern to understand domain coverage."""
+
 import json
 
-with open('jehr_full_inventory.json') as f:
-    inventory = json.load(f)
+with open('table_index.json') as f:
+    data = json.load(f)
 
-# Define categorization rules based on table name prefixes/patterns
+jehr_tables = [t['name'] for t in data['jehr']['tables']]
+rtvx_tables = [t['name'] for t in data['rtvx']['tables']]
+
+# Define prefix-based categories
 categories = {
-    'Pharmacy / Prescriptions': lambda n: n.startswith('AU_') and not n.startswith('AU_NON'),
-    'Non-Verified Orders': lambda n: n.startswith('AU_NON'),
-    'Billing / Revenue Cycle': lambda n: any(n.startswith(p) for p in ['BILLINGITEM', 'BILLTYPE', 'RCM', 'CLAIM', 'CHARGEITEM', 'TRANSACTIONCODE']),
-    'Patient Demographics': lambda n: n.startswith('PATIENT') and 'BILLING' not in n,
-    'Encounter / Visit': lambda n: n.startswith('ENCOUNTER'),
-    'Coverage / Insurance': lambda n: n.startswith('COVERAGE'),
-    'Care Plan / Treatment Plan': lambda n: n.startswith('CAREPLAN') or n.startswith('CARETEAM') or n.startswith('TREATMENTPLAN'),
-    'Condition / Problem': lambda n: n.startswith('CONDITION'),
-    'Allergy': lambda n: n.startswith('ALLERGY'),
-    'Observation / Vitals': lambda n: n.startswith('OBSERVATION'),
-    'Medication': lambda n: n.startswith('MEDICATION') and not n.startswith('MEDICATIONBARCODE'),
-    'Medication Barcode': lambda n: n.startswith('MEDICATIONBARCODE'),
-    'Immunization': lambda n: n.startswith('IMMUNIZATION'),
-    'Surgery / Procedure': lambda n: n.startswith('SURGERY') or n.startswith('IMPLANTABLEDEVICE'),
-    'Procedure': lambda n: n.startswith('PROCEDURE') and 'SURGERY' not in n,
-    'Document / Notes': lambda n: n.startswith('DOCUMENT') or n.startswith('AMENDMENTREQUEST') or n.startswith('NARRATIVE'),
-    'Questionnaire / Assessment': lambda n: n.startswith('QUESTIONNAIRE'),
-    'Order': lambda n: n.startswith('ORDER'),
-    'Diagnostic Report': lambda n: n.startswith('DIAGNOSTICREPORT'),
-    'Schedule / Appointment': lambda n: n.startswith('SCHEDULE') or n.startswith('SLOT'),
-    'Group (Session)': lambda n: n == 'GROUP' or n.startswith('GROUP'),
-    'Goal': lambda n: n.startswith('GOAL'),
-    'Communication': lambda n: 'COMMUNICATION' in n and 'CLINICALCOMMUNICATION' not in n,
-    'Clinical Communication': lambda n: 'CLINICALCOMMUNICATION' in n,
-    'Consent': lambda n: n.startswith('CONSENT'),
-    'Service Request / Referral': lambda n: n.startswith('SERVICEREQUEST'),
-    'Specimen': lambda n: n.startswith('SPECIMEN'),
-    'Item / Charge': lambda n: n == 'ITEM' or n.startswith('ITEM'),
-    'Identifier': lambda n: n.startswith('IDENTIFIER'),
-    'Location (HCS)': lambda n: n.startswith('HCS') or n == 'LOCATION',
-    'Episode of Care': lambda n: n.startswith('EPISODEOFCARE'),
-    'Account': lambda n: n.startswith('ACCOUNT'),
-    'Task': lambda n: n.startswith('TASK'),
-    'Contact': lambda n: n.startswith('CONTACT') or n.startswith('EMERGENCYCONTACT'),
-    'Nurse Brain': lambda n: n.startswith('NURSEBRAIN'),
-    'Organization': lambda n: n.startswith('ORGANIZATION'),
-    'Timing': lambda n: n.startswith('TIMING'),
-    'Lookup Tables': lambda n: n.startswith('LK'),
-    'Coding / Value': lambda n: n in ['VALUE', 'VALUECODING', 'CODING'] or n.startswith('CODING'),
+    'Prescription/Pharmacy (AU_)': [],
+    'Allergy': [],
+    'Billing/Account': [],
+    'Care Plan/Treatment Plan': [],
+    'Condition/Problem': [],
+    'Document/Note': [],
+    'Encounter/Visit': [],
+    'Group Session': [],
+    'Immunization': [],
+    'Medication': [],
+    'Observation/Vital/Lab': [],
+    'Order': [],
+    'Patient/Demographics': [],
+    'Procedure/Surgery': [],
+    'Questionnaire/Assessment': [],
+    'Referral': [],
+    'Schedule/Appointment': [],
+    'Lookup Tables (LK)': [],
+    'Other': [],
 }
 
-# Categorize tables
-categorized = {}
-uncategorized = []
+def categorize(name):
+    n = name.upper()
+    if n.startswith('AU_PRESCRIPTION') or n.startswith('AU_'):
+        return 'Prescription/Pharmacy (AU_)'
+    if 'ALLERGY' in n or 'ALLERGEN' in n:
+        return 'Allergy'
+    if any(x in n for x in ['BILLING', 'ACCOUNT', 'CHARGE', 'CLAIM', 'COVERAGE', 'PAYER', 'PAYMENT', 'INVOICE', 'INSURANCE', 'COPAY', 'GUARANTOR', 'FINANCIAL']):
+        return 'Billing/Account'
+    if any(x in n for x in ['CAREPLAN', 'CARE_PLAN', 'TREATMENT_PLAN', 'TREATMENTPLAN', 'GOAL']):
+        return 'Care Plan/Treatment Plan'
+    if any(x in n for x in ['CONDITION', 'PROBLEM', 'DIAGNOSIS', 'DIAGNOS']):
+        return 'Condition/Problem'
+    if any(x in n for x in ['DOCUMENT', 'NOTE', 'NARRATIVE', 'AMENDMENT']):
+        return 'Document/Note'
+    if any(x in n for x in ['ENCOUNTER', 'ADMISSION', 'DISCHARGE', 'TRANSFER', 'VISIT', 'BED', 'CENSUS']):
+        return 'Encounter/Visit'
+    if any(x in n for x in ['GROUP_SESSION', 'GROUPSESSION', 'BEHAVIORAL']):
+        return 'Group Session'
+    if any(x in n for x in ['IMMUNIZATION', 'VACCINE', 'FORECAST']):
+        return 'Immunization'
+    if any(x in n for x in ['MEDICATION', 'DRUG', 'FORMULARY', 'PHARMACY', 'PRESCRIPTION', 'MED_']):
+        return 'Medication'
+    if any(x in n for x in ['OBSERVATION', 'VITAL', 'LAB', 'RESULT', 'SPECIMEN']):
+        return 'Observation/Vital/Lab'
+    if any(x in n for x in ['ORDER', 'ORDERABLE']):
+        return 'Order'
+    if any(x in n for x in ['PATIENT', 'PERSON', 'CONTACT', 'GUARDIAN', 'DEMOGRAPHIC', 'RACE', 'ETHNICITY', 'LANGUAGE', 'IDENTIFIER']):
+        return 'Patient/Demographics'
+    if any(x in n for x in ['PROCEDURE', 'SURGERY', 'SURGICAL', 'PERIOP', 'ANESTHES', 'IMPLANT']):
+        return 'Procedure/Surgery'
+    if any(x in n for x in ['QUESTIONNAIRE', 'QUESTION', 'ASSESSMENT', 'RESPONSE', 'SURVEY', 'FORM']):
+        return 'Questionnaire/Assessment'
+    if any(x in n for x in ['REFERRAL', 'CONSULT']):
+        return 'Referral'
+    if any(x in n for x in ['SCHEDULE', 'APPOINTMENT', 'SLOT', 'BOOKING', 'CALENDAR', 'AVAILABILITY']):
+        return 'Schedule/Appointment'
+    if n.startswith('LK'):
+        return 'Lookup Tables (LK)'
+    return 'Other'
 
-for name in sorted(inventory.keys()):
-    found = False
-    for cat, test in categories.items():
-        if test(name):
-            categorized.setdefault(cat, []).append(name)
-            found = True
-            break
-    if not found:
-        uncategorized.append(name)
+# Categorize JEHR
+jehr_cats = {}
+for t in jehr_tables:
+    cat = categorize(t)
+    if cat not in jehr_cats:
+        jehr_cats[cat] = []
+    jehr_cats[cat].append(t)
 
-# Print results
-print("=== DOMAIN CATEGORIZATION ===\n")
-for cat in sorted(categorized.keys(), key=lambda c: -len(categorized[c])):
-    tables = categorized[cat]
-    total_cols = sum(inventory[t]['column_count'] for t in tables)
-    print(f"{cat}: {len(tables)} tables, {total_cols} columns")
+print("=== JEHR Table Categories ===")
+for cat in sorted(jehr_cats.keys()):
+    tables = jehr_cats[cat]
+    print(f"\n{cat}: {len(tables)} tables")
+    # Show first 5
     for t in tables[:5]:
-        info = inventory[t]
-        print(f"  - {t}: {info['column_count']} cols")
+        print(f"  - {t}")
     if len(tables) > 5:
         print(f"  ... and {len(tables)-5} more")
 
-print(f"\nUncategorized: {len(uncategorized)} tables")
-for t in uncategorized:
-    info = inventory[t]
-    print(f"  - {t}: {info['column_count']} cols - {info['description'][:80]}")
+# Categorize RxTracker
+rtvx_cats = {}
+for t in rtvx_tables:
+    cat = categorize(t)
+    if cat not in rtvx_cats:
+        rtvx_cats[cat] = []
+    rtvx_cats[cat].append(t)
 
-# Save summary
-summary = {}
-for cat, tables in categorized.items():
-    total_cols = sum(inventory[t]['column_count'] for t in tables)
-    desc_cols = sum(inventory[t]['columns_with_descriptions'] for t in tables)
-    summary[cat] = {
-        'table_count': len(tables),
-        'total_columns': total_cols,
-        'described_columns': desc_cols,
-        'tables': tables
-    }
+print("\n=== RxTracker Table Categories ===")
+for cat in sorted(rtvx_cats.keys()):
+    tables = rtvx_cats[cat]
+    print(f"\n{cat}: {len(tables)} tables")
+    for t in tables:
+        print(f"  - {t}")
 
-summary['Uncategorized'] = {
-    'table_count': len(uncategorized),
-    'total_columns': sum(inventory[t]['column_count'] for t in uncategorized),
-    'described_columns': sum(inventory[t]['columns_with_descriptions'] for t in uncategorized),
-    'tables': uncategorized
+# Save categorized data
+cat_output = {
+    'jehr_categories': {k: v for k, v in sorted(jehr_cats.items())},
+    'rtvx_categories': {k: v for k, v in sorted(rtvx_cats.items())},
+    'jehr_summary': {k: len(v) for k, v in sorted(jehr_cats.items())},
+    'rtvx_summary': {k: len(v) for k, v in sorted(rtvx_cats.items())}
 }
 
-with open('jehr_domain_summary.json', 'w') as f:
-    json.dump(summary, f, indent=2)
+with open('table_categories.json', 'w') as f:
+    json.dump(cat_output, f, indent=2)
 
-# EHI domain mapping
-print("\n\n=== EHI DOMAIN MAPPING ===\n")
-ehi_domains = {
-    'Demographics': ['Patient Demographics', 'Contact'],
-    'Encounters / Visits': ['Encounter / Visit', 'Episode of Care'],
-    'Problems / Conditions': ['Condition / Problem'],
-    'Medications / Prescriptions': ['Pharmacy / Prescriptions', 'Medication', 'Medication Barcode', 'Non-Verified Orders'],
-    'Allergies': ['Allergy'],
-    'Immunizations': ['Immunization'],
-    'Vitals / Observations': ['Observation / Vitals'],
-    'Lab / Diagnostic Reports': ['Diagnostic Report', 'Specimen'],
-    'Procedures': ['Surgery / Procedure', 'Procedure'],
-    'Clinical Notes / Documents': ['Document / Notes', 'Clinical Communication', 'Nurse Brain', 'Narrative'],
-    'Care Plans / Goals': ['Care Plan / Treatment Plan', 'Goal'],
-    'Orders / Referrals': ['Order', 'Service Request / Referral', 'Task'],
-    'Insurance / Coverage': ['Coverage / Insurance'],
-    'Claims / Billing': ['Billing / Revenue Cycle', 'Account', 'Item / Charge'],
-    'Questionnaires / Assessments': ['Questionnaire / Assessment'],
-    'Scheduling': ['Schedule / Appointment'],
-    'Consent': ['Consent'],
-    'Patient Communications': ['Communication'],
-    'Group Therapy': ['Group (Session)'],
-}
-
-for domain, cats in ehi_domains.items():
-    total_tables = 0
-    total_cols = 0
-    for cat in cats:
-        if cat in summary:
-            total_tables += summary[cat]['table_count']
-            total_cols += summary[cat]['total_columns']
-    if total_tables > 0:
-        print(f"✅ {domain}: {total_tables} tables, {total_cols} columns")
-    else:
-        print(f"❌ {domain}: No tables found")
-
-# Lookup tables
-lk = summary.get('Lookup Tables', {})
-print(f"\nLookup/Reference tables: {lk.get('table_count', 0)} tables, {lk.get('total_columns', 0)} columns")
-
+print("\nSaved to table_categories.json")

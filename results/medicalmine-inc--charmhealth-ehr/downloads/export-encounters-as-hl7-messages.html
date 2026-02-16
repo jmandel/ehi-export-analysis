@@ -1,0 +1,1874 @@
+<!doctype html>
+<html><!-- InstanceBegin template="/Templates/billing-help-template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui, maximum-scale=1.0">
+
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Export Encounters as HL7 messages for Billing outside CharmHealth</title>
+<!-- InstanceEndEditable -->
+
+<!-- InstanceBeginEditable name="keywords" -->
+<meta content="Streamline billing outside CharmHealth by exporting Patient Encounter details as HL7 messages." name="description"/>
+<!-- InstanceEndEditable -->
+    
+<link rel="SHORTCUT ICON" href="../../images/favicon.ico"/>
+<link rel="stylesheet" type="text/css"  href="../css/resources.css"/>
+
+<!-- InstanceBeginEditable name="head" -->
+<style type="text/css">
+table {
+    border-left: 1px solid #DDD;
+    border-top: 1px solid #DDD;
+    text-align: left;
+}
+table th, table td {
+    border-right: 1px solid #DDD;
+    border-bottom: 1px solid #DDD;
+    padding: 15px 20px;
+}
+table th {
+    line-height: 1.6 !important;
+}
+table p {
+    line-height: 1.6 !important;
+    margin: 8px 0 !important;
+}
+</style>
+<!-- InstanceEndEditable -->
+
+</head>
+<body class="charm-bg">
+
+<!------- Header Include Start ------->
+<div id="header"></div>
+<script src="/js/charm-main.js"></script> 
+<script>
+    // Load external HTML into main page
+    function loadHTML(id, url) {
+      fetch(url)
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById(id).innerHTML = data;
+        });
+    }
+    loadHTML("header", "/charm-header.html");
+</script>
+<!------- Header Include End ------->
+    
+<div class="header">
+    <div class="cm-wd">
+        <div class="fl">
+            <span class="fl hd">Resource Center</span><br>
+            <h1>Billing</h1>
+        </div>
+        <div class="search-but">
+            <form id="cse-search-box" action="https://www.charmhealth.com/resources/search-results.html">
+                <div class="search-icon"></div>
+                <input type="text" placeholder="Search..." value="" class="newsearchbox fl" name="query">
+            </form>
+        </div>
+    </div>
+</div>
+ 
+<div class="cmfw content">
+    <div class="cm-wd">
+        <div class="content-list">
+            <ul id="menubar">
+                <li id="bar1"><a title="Configure Procedure Codes" href="procedure-codes.html">Configure Procedure Codes</a></li>
+                <li id="bar2"><a title="Configure Bill Settings" href="bill-settings.html">Configure Bill Settings</a></li>
+                <li id="bar32"><a title="Billing Setup Wizard" href="billing-setup-wizard.html">Billing Setup Wizard</a></li>
+                <li id="bar3"><a title="Invoice Templates" href="invoice-templates.html">Invoice Templates</a></li>
+                <li id="bar4"><a title="Receipt Templates" href="receipt-templates.html">Receipt Templates</a></li>
+                <li id="bar5"><a title="Configure Billing Templates" href="billing-templates.html">Configure Billing Templates</a></li>
+                <li id="bar6"><a title="Configure Claim Settings" href="configure-claim-settings.html">Configure Claim Settings</a></li>
+                <li id="bar7"><a title="Configure Billing Providers" href="billing-providers.html">Configure Billing Providers</a></li>
+                <li id="bar8"><a title="Configure Payers" href="payers.html">Configure Payers</a></li>
+                <li id="bar9"><a title="Configuring Patient Insurance" href="configuring-patient-insurance.html">Configuring Patient Insurance</a></li>
+                <li id="bar10"><a title="Configure Pay to Address" href="configure-pay-to-address.html">Configure Pay to Address</a></li>
+                <li id="bar11"><a title="Fee Schedules" href="fee-schedules.html">Fee Schedules</a></li>
+                <li id="bar12"><a title="Billing Packages" href="billing-packages.html">Billing Packages</a></li>
+                <li id="bar13"><a title="Associating Products with the Procedure Codes" href="associating-products-with-the-procedure-codes.html">Associating Products with the Procedure Codes</a></li>
+                <li id="bar14"><a title="Associating Procedure Codes with Lab Tests" href="associating-procedure-codes-with-lab-tests.html">Associating Procedure Codes with Lab Tests</a></li>
+                <li id="bar15"><a title="Billing Dashboard" href="billing-dashboard.html">Billing Dashboard</a></li>
+                <li id="bar16"><a title="Generating Bills" href="generating-bills.html">Generating Bills</a></li>
+                <li id="bar17"><a title="Invoices" href="invoices.html">Invoices</a></li>
+                <li id="bar31"><a title="Patient Billing Automation" href="patient-billing-automation.html">Patient Billing Automation</a></li>
+                <li id="bar18"><a title="Patient Billing - Manual" href="patient-billing.html">Patient Billing - Manual</a></li>
+                <li id="bar19"><a title="Sending outstanding invoices to collection" href="sending-outstanding-invoices-to-collection-agency.html">Sending outstanding Invoices to Collection Agency</a></li>
+                <li id="bar20"><a title="Receipts" href="receipts.html">Receipts</a></li>
+                <li id="bar21"><a title="Patient Statements" href="patient-statements.html">Patient Statements</a></li>
+                <li id="bar22"><a title="Claims" href="claims.html">Claims</a></li>
+                <li id="bar23"><a title="Automatic Invoice and Claim Generation" href="automatic-invoice-and-claim-generation.html">Automatic Invoice and Claim Generation</a></li>
+                <li id="bar24"><a title="EOBs" href="eobs.html">EOBs</a></li>
+                <li id="bar33"><a title="Export Encounters as HL7 Messages for Billing Outside CharmHealth" href="export-encounters-as-hl7-messages-for-billing-outside-charmhealth.html">Export Encounters as HL7 Messages for Billing Outside CharmHealth</a></li>
+                <li id="bar25"><a title="Online Patient Payment" href="online-patient-payment.html">Online Patient Payment</a></li>
+                <li id="bar26"><a title="Prior Authorization Tracking" href="prior-authorizations-and-visit-counter-tracking.html">Prior Authorization Tracking</a></li>
+                <li id="bar27"><a title="Bluefin Payment Gateway" href="bluefin-payment-gateway.html">Bluefin Payment Gateway</a></li>
+                <li id="bar28"><a title="Payment Collection from Calendar" href="payment-collection-from-calendar.html">Payment Collection from Calendar</a></li>
+                <li id="bar29"><a title="Reports" href="reports.html">Reports</a></li>
+                <li id="bar30"><a title="Workflow based FAQ" href="workflow-based-faq.html">Workflow based FAQ</a></li>
+            </ul>
+            <div class="list-menu-icon"><i></i></div>
+            <div class="leader">
+            <!-- InstanceBeginEditable name="breadCrumb" -->
+                <div align="center" class="cmfw">
+                    <div class="breadcrumb"><a class="link" href="../index.html">Home</a> &gt; <a class="link" href="../ehr-user-guide.html"> EHR User Guide</a> &gt; <span>Billing</span></div>
+                </div>
+                <!-- InstanceEndEditable -->
+            <!-- InstanceBeginEditable name="body" -->
+                <div class="cmfw mar-bot30">
+                    <h2>Export Encounters as HL7 Messages for Billing Outside CharmHealth</h2>
+                    <p>Practices can export Patient Encounter details in the HL7 format to share clinical and billing data with external systems. HL7 is a widely adopted healthcare standard that enables reliable data exchange between EHR and billing platforms. This export helps Practices transfer Encounter and Procedure details required for downstream billing processes.</p>
+                    <p>CharmHealth supports the following HL7 message types:</p>
+                    <ul class="list">
+                        <li><strong>DFT (P03) - Detail Financial Transaction</strong><br>
+                            Includes Encounter details, procedure codes, charges, Dx details, Patient insurance, demographics, and other financial transaction information required for billing and Claim processing.
+                        </li>
+                        <li><strong>ADT (A03) - Admit/Discharge/Transfer</strong><br>
+                            Includes Encounter and Procedure details, typically used to communicate visit-related information to downstream systems.
+                        </li>
+                    </ul>
+                    <p>To enable the export option, navigate to the <strong>'Settings &gt; Encounter &gt; Preferences'</strong> section and choose <strong>'Yes'</strong> for the <strong>'Show Export Encounter as HL7 for Billing option in Chart Notes'</strong> setting.<br><img title="Export Encounter Settings" alt="Export Encounter Settings" src="images/export-encounter-settings.jpg" style="max-width: 750px; width: 100%;" ></p>
+                    <p>To export the Encounters, follow the steps below.</p>
+                    <ol>
+                        <li>Navigate to <strong>'EHR Dashboard &gt; Chart Notes'</strong>.</li>
+                        <li>Click on the <strong>'More Actions' (...)</strong> icon in the top-right corner.</li>
+                        <li>Select the <strong>'Export Encounter as HL7 for Billing'</strong> option.<br><img title="Export Encounter Option in Chart Note" alt="Export Encounter Option in Chart Note" src="images/export-encounter-option-in-chart-note.jpg" style="max-width: 100%; width: 100%;" ></li>
+                        <li>Choose the date range to export the Encounter details. The selected date range must be within 7 days.<br><img title="Export Encounter for Billing" alt="Export Encounter for Billing" src="images/export-encounter-for-billing.jpg" style="max-width: 100%; width: 100%;" ></li>
+                        <li>Select the required HL7 Message Type. You can choose between:
+                            <ol style="list-style: lower-alpha;">
+                                <li>DFT_P03 - Post Detail Financial Transaction and</li>
+                                <li>ADT_A03 - Admit Discharge Transfer (Surveillance Report)</li>
+                            </ol>
+                        </li>
+                        <li>Enable the <strong>'Include Quick Rx'</strong> option to add prescription details to the HL7 file if needed.</li>
+                        <li>To download the Encounter summary PDF along with the HL7 files, enable the <strong>'Download Chart Note Summary PDF'</strong> option.</li>
+                        <li>Click on the <strong>'Download'</strong> button. The Encounters are scheduled for export and will be listed under the <strong>'HL7 Export History'</strong> section.</li>
+                        <li>Once the file is ready, click on the <strong>'Export'</strong> button to download the zip file.<br><img title="Export History" alt="Export History" src="images/export-history.jpg" style="max-width: 100%; width: 100%;" ></li>
+                    </ol>
+                    <p>The downloaded zip file contains the <strong>HL7 Message File (txt)</strong> and <strong>Encounter Summary PDF</strong> required for billing.</p>
+                    <p class="notes cmfw" style="margin-top: 0;"><strong>Note:</strong> Only Providers with the <strong>'Export Encounter as HL7 for Billing'</strong> privilege can export the Encounter in HL7 format.<br><img title="Export Encounter Role" alt="Export Encounter Role" src="images/export-encounter-role.jpg" style="max-width: 420px; width: 100%;" ></p>
+                    <p>Refer to the tables below to learn about the information included in the HL7 DFT-P03 and ADT-A03 messages.</p>
+                    <h3>Table 1: DFT-03 Segment Description</h3>
+                    <table cellpadding="8" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Segment</th>
+                                <th>Field</th>
+                                <th>Segment Description</th>
+                                <th>Comments</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>MSH</td>
+                                <td>1</td>
+                                <td>Field Separator</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>2</td>
+                                <td>Encoding Characters</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>3.1</td>
+                                <td>Sending Application</td>
+                                <td>'CharmEHR' is the default value</td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>4.1</td>
+                                <td>Facility Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>4.2</td>
+                                <td>Facility NPI</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>4.3</td>
+                                <td>Type of the ID Qualifier</td>
+                                <td>NPI is the default value</td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>7.1</td>
+                                <td>Date/Time of Message</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>9.1</td>
+                                <td>Message Code</td>
+                                <td>DFT is the default value</td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>9.2</td>
+                                <td>Trigger Event</td>
+                                <td>P03 is the default value</td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>9.3</td>
+                                <td>Message Structure</td>
+                                <td>DFT_P03 is the default value</td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>10</td>
+                                <td>Message ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>11.1</td>
+                                <td>Processing ID</td>
+                                <td>P - Production</td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>12.1</td>
+                                <td>Version</td>
+                                <td>2.5.1 is the default value</td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>15</td>
+                                <td>Accept Acknowledgement Type</td>
+                                <td>AL - Always</td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>16</td>
+                                <td>Application Acknowledgement Type</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>21.1</td>
+                                <td>Message Profile - Entity Identifier</td>
+                                <td>PH_SS-Ack is the default value</td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>21.2</td>
+                                <td>Message Profile - NameSpace ID</td>
+                                <td>SS Sender is the default value</td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>21.3</td>
+                                <td>Message Profile - Universal ID</td>
+                                <td>2.16.840.1.114222.4.10.3 is the default value</td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>21.4</td>
+                                <td>Message Profile - Universal ID Type</td>
+                                <td>ISO is the default value</td>
+                            </tr>
+                            <tr>
+                                <td>EVN</td>
+                                <td>2.1</td>
+                                <td>Recorded Time</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>EVN</td>
+                                <td>7.1</td>
+                                <td>Facility Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>EVN</td>
+                                <td>7.2</td>
+                                <td>Facility NPI</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>EVN</td>
+                                <td>7.3</td>
+                                <td>Facility ID Qualifier Type</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>1.1</td>
+                                <td>Sequence ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>3.1</td>
+                                <td>Patient Identifier - ID Number</td>
+                                <td>Patient Record ID</td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>3.4</td>
+                                <td>Assigning Authority</td>
+                                <td>Facility Information</td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>3.5</td>
+                                <td>Patient Identifier Type</td>
+                                <td>MR - Medical Record Number</td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>5.1</td>
+                                <td>Patient Last Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>5.2</td>
+                                <td>Patient First Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>5.3</td>
+                                <td>Patient Middle Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>7.1</td>
+                                <td>Patient Date of Birth</td>
+                                <td>Shown in YYYYMMDD format</td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>8</td>
+                                <td>Patient Gender</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>10.1</td>
+                                <td>Patient Race ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>10.2</td>
+                                <td>Patient Race Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>10.3</td>
+                                <td>Name of Race Coding System</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>11.1</td>
+                                <td>Patient Address Street Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>11.3</td>
+                                <td>Patient City</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>11.4</td>
+                                <td>Patient State</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>11.5</td>
+                                <td>Patient Zip Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>11.6</td>
+                                <td>Patient Country</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>11.7</td>
+                                <td>Patient Address Type</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>11.9</td>
+                                <td>Patient Country Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>13.2</td>
+                                <td>Patient Telecommunication Use Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>13.3</td>
+                                <td>Patient Telecommunication Equipment Type</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>13.6</td>
+                                <td>Telecommunication Area/City Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>13.7</td>
+                                <td>Telecommunication Number</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>16</td>
+                                <td>Patient Marital Status</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>19</td>
+                                <td>Patient SSN</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>22.1</td>
+                                <td>Patient Ethnicity ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>22.2</td>
+                                <td>Patient Ethnicity Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>22.3</td>
+                                <td>Patient Ethnicity - Name of Coding System</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PV1</td>
+                                <td>1</td>
+                                <td>Set ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PV1</td>
+                                <td>2</td>
+                                <td>Visit Type</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PV1</td>
+                                <td>3.4</td>
+                                <td>Assigned Patient Location - Facility Information</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PV1</td>
+                                <td>8.1</td>
+                                <td>Referring Doctor ID Number</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PV1</td>
+                                <td>8.2</td>
+                                <td>Referring Doctor Last Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PV1</td>
+                                <td>8.3</td>
+                                <td>Referring Doctor First Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PV1</td>
+                                <td>8.6</td>
+                                <td>Referring Doctor Prefix</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PV1</td>
+                                <td>19.1</td>
+                                <td>Visit Number</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PV1</td>
+                                <td>19.4</td>
+                                <td>Assigning Authority</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PV1</td>
+                                <td>19.5</td>
+                                <td>Visit Number Type</td>
+                                <td>VN - Visit Number is the default value</td>
+                            </tr>
+                            <tr>
+                                <td>PV1</td>
+                                <td>44</td>
+                                <td>Admit Date/Time</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PV2</td>
+                                <td>3.2</td>
+                                <td>Admit Reason</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PV2</td>
+                                <td>12</td>
+                                <td>Visit Description</td>
+                                <td>Chart Note Type</td>
+                            </tr>
+                            <tr>
+                                <td>FT1</td>
+                                <td>1</td>
+                                <td>Set ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>FT1</td>
+                                <td>4.1</td>
+                                <td>Transaction Date</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>FT1</td>
+                                <td>6</td>
+                                <td>Transaction Type</td>
+                                <td>CG - Charge</td>
+                            </tr>
+                            <tr>
+                                <td>FT1</td>
+                                <td>7.1</td>
+                                <td>Transaction Code ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>FT1</td>
+                                <td>7.2</td>
+                                <td>Transaction Code Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>FT1</td>
+                                <td>8</td>
+                                <td>Transaction Code Description</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>FT1</td>
+                                <td>10</td>
+                                <td>Transaction Quantity</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>FT1</td>
+                                <td>11.1</td>
+                                <td>Transaction Amount</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>FT1</td>
+                                <td>12.1</td>
+                                <td>Transaction Unit Amount</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>FT1</td>
+                                <td>19.1</td>
+                                <td>Diagnosis Code ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>FT1</td>
+                                <td>19.2</td>
+                                <td>Diagnosis Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>FT1</td>
+                                <td>20.2</td>
+                                <td>Physician Last Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>FT1</td>
+                                <td>20.3</td>
+                                <td>Physician First Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>FT1</td>
+                                <td>21.2</td>
+                                <td>Physician Last Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>FT1</td>
+                                <td>21.3</td>
+                                <td>Physician First Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>FT1</td>
+                                <td>25.1</td>
+                                <td>Procedure Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>FT1</td>
+                                <td>25.2</td>
+                                <td>Procedure Description</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>FT1</td>
+                                <td>26.1</td>
+                                <td>Modifier Set ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>FT1</td>
+                                <td>26.2</td>
+                                <td>Modifier</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>DG1</td>
+                                <td>1</td>
+                                <td>Diagnosis Set ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>DG1</td>
+                                <td>3.1</td>
+                                <td>Diagnosis Code ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>DG1</td>
+                                <td>3.2</td>
+                                <td>Diagnosis Code Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>DG1</td>
+                                <td>3.3</td>
+                                <td>Diagnosis Code - Name of Coding System</td>
+                                <td>I10C - Denotes ICD10 code</td>
+                            </tr>
+                            <tr>
+                                <td>DG1</td>
+                                <td>6</td>
+                                <td>Diagnosis Type</td>
+                                <td>F - Final</td>
+                            </tr>
+                            <tr>
+                                <td>OBX</td>
+                                <td>1</td>
+                                <td>Observation Set ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>OBX</td>
+                                <td>2</td>
+                                <td>Observation Value Type</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>OBX</td>
+                                <td>3.1</td>
+                                <td>Observation Identifier</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>OBX</td>
+                                <td>3.2</td>
+                                <td>Observation Identifier Text</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>OBX</td>
+                                <td>3.3</td>
+                                <td>Observation Identifier - Name of Coding System</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>OBX</td>
+                                <td>5</td>
+                                <td>Observation Value</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>OBX</td>
+                                <td>11</td>
+                                <td>Observation Result Status</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>1</td>
+                                <td>Set ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>3.1</td>
+                                <td>Guarantor Last Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>3.2</td>
+                                <td>Guarantor First Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>3.3</td>
+                                <td>Guarantor Middle Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>5.1</td>
+                                <td>Guarantor Address Street 1</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>5.2</td>
+                                <td>Guarantor Address Street 2</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>5.3</td>
+                                <td>Guarantor Address City</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>5.4</td>
+                                <td>Guarantor Address State</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>5.5</td>
+                                <td>Guarantor Address Zip Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>6.2</td>
+                                <td>Guarantor Telecommunication Use Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>6.3</td>
+                                <td>Guarantor Telecommunication Equipment Type</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>6.6</td>
+                                <td>Guarantor Telecommunication Area/City Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>6.7</td>
+                                <td>Guarantor Telecommunication Number</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>8</td>
+                                <td>Guarantor Date of Birth</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>9</td>
+                                <td>Guarantor Gender</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>11</td>
+                                <td>Guarantor Relationship to Patient</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>12</td>
+                                <td>Guarantor SSN</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>1</td>
+                                <td>Insurance Set ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>2.1</td>
+                                <td>Insurance Policy Number</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>2.2</td>
+                                <td>Insurance Plan Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>2.3</td>
+                                <td>Insurance - Coding System Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>3.1</td>
+                                <td>Insurance Payer ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>4.1</td>
+                                <td>Insurance Payer Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>8</td>
+                                <td>Insurance Policy Group Number</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>15</td>
+                                <td>Insurance Type</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>16.1</td>
+                                <td>Insured Last Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>16.2</td>
+                                <td>Insured First Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>19.3</td>
+                                <td>Insured City</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>19.4</td>
+                                <td>Insured State</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>19.5</td>
+                                <td>Insured Zip Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>19.6</td>
+                                <td>Insured Country Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>36</td>
+                                <td>Insurance ID Number</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>43</td>
+                                <td>Insured Gender</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN2</td>
+                                <td>2</td>
+                                <td>Insured Person's SSN</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN2</td>
+                                <td>63.2</td>
+                                <td>Insured Person's Telecommunication Use Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN2</td>
+                                <td>63.3</td>
+                                <td>Insured Person's Telecommunication Equipment Type</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN2</td>
+                                <td>63.6</td>
+                                <td>Insured Person's Telecommunication Area/City Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN2</td>
+                                <td>63.7</td>
+                                <td>Insured Person's Telecommunication Number</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>ACC</td>
+                                <td>1</td>
+                                <td>Accident Date</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>ACC</td>
+                                <td>2</td>
+                                <td>Accident Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>ACC</td>
+                                <td>4</td>
+                                <td>Auto Accident State</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h3>Table 2: ADT-A03 Segment Description</h3>
+                    <table cellpadding="8" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Segment</th>
+                                <th>Field</th>
+                                <th>Segment Description</th>
+                                <th>Comments</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>MSH</td>
+                                <td>1</td>
+                                <td>Field Separator</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>2</td>
+                                <td>Encoding Characters</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>3.1</td>
+                                <td>Sending Application</td>
+                                <td>'CharmEHR' is the default value</td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>4.1</td>
+                                <td>Facility Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>4.2</td>
+                                <td>Facility NPI</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>4.3</td>
+                                <td>Type of the ID Qualifier</td>
+                                <td>NPI is the default value</td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>7.1</td>
+                                <td>Date/Time of Message</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>9.1</td>
+                                <td>Message Code</td>
+                                <td>DFT is the default value</td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>9.2</td>
+                                <td>Trigger Event</td>
+                                <td>P03 is the default value</td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>9.3</td>
+                                <td>Message Structure</td>
+                                <td>DFT_P03 is the default value</td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>10</td>
+                                <td>Message ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>11.1</td>
+                                <td>Processing ID</td>
+                                <td>P - Production</td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>12.1</td>
+                                <td>Version</td>
+                                <td>2.5.1 is the default value</td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>15</td>
+                                <td>Accept Acknowledgement Type</td>
+                                <td>AL - Always</td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>16</td>
+                                <td>Application Acknowledgement Type</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>21.1</td>
+                                <td>Message Profile - Entity Identifier</td>
+                                <td>PH_SS-Ack is the default value</td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>21.2</td>
+                                <td>Message Profile - NameSpace ID</td>
+                                <td>SS Sender is the default value</td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>21.3</td>
+                                <td>Message Profile - Universal ID</td>
+                                <td>2.16.840.1.114222.4.10.3 is the default value</td>
+                            </tr>
+                            <tr>
+                                <td>MSH</td>
+                                <td>21.4</td>
+                                <td>Message Profile - Universal ID Type</td>
+                                <td>ISO is the default value</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>EVN</td>
+                                <td>2.1</td>
+                                <td>Recorded Time</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>EVN</td>
+                                <td>7.1</td>
+                                <td>Facility Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>EVN</td>
+                                <td>7.2</td>
+                                <td>Facility NPI</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>EVN</td>
+                                <td>7.3</td>
+                                <td>Facility ID Qualifier Type</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>1.1</td>
+                                <td>Sequence ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>3.1</td>
+                                <td>Patient Identifier - ID Number</td>
+                                <td>Patient Record ID</td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>3.4</td>
+                                <td>Assigning Authority</td>
+                                <td>Facility Information</td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>3.5</td>
+                                <td>Patient Identifier Type</td>
+                                <td>MR - Medical Record Number</td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>5.1</td>
+                                <td>Patient Last Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>5.2</td>
+                                <td>Patient First Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>5.3</td>
+                                <td>Patient Middle Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>5.4</td>
+                                <td>Patient Prefix</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>7.1</td>
+                                <td>Patient Date of Birth</td>
+                                <td>Shown in YYYYMMDD format</td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>8</td>
+                                <td>Patient Gender</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>10.1</td>
+                                <td>Patient Race ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>10.2</td>
+                                <td>Patient Race Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>10.3</td>
+                                <td>Name of Race Coding System</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>11.1</td>
+                                <td>Patient Address Street Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>11.3</td>
+                                <td>Patient City</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>11.4</td>
+                                <td>Patient State</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>11.5</td>
+                                <td>Patient Zip Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>11.6</td>
+                                <td>Patient Country</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>11.7</td>
+                                <td>Patient Address Type</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>11.9</td>
+                                <td>Patient Country Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>13.2</td>
+                                <td>Patient Telecommunication Use Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>13.3</td>
+                                <td>Patient Telecommunication Equipment Type</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>13.6</td>
+                                <td>Telecommunication Area/City Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>13.7</td>
+                                <td>Telecommunication Number</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>16</td>
+                                <td>Patient Marital Status</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>19</td>
+                                <td>Patient SSN</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>22.1</td>
+                                <td>Patient Ethnicity ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>22.2</td>
+                                <td>Patient Ethnicity Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PID</td>
+                                <td>22.3</td>
+                                <td>Patient Ethnicity - Name of Coding System</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PV1</td>
+                                <td>1</td>
+                                <td>Set ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PV1</td>
+                                <td>2</td>
+                                <td>Visit Type</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PV1</td>
+                                <td>19.1</td>
+                                <td>Visit Number</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PV1</td>
+                                <td>19.4</td>
+                                <td>Assigning Authority</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PV1</td>
+                                <td>19.5</td>
+                                <td>Visit Number Type</td>
+                                <td>VN - Visit Number is the default value</td>
+                            </tr>
+                            <tr>
+                                <td>PV1</td>
+                                <td>36</td>
+                                <td>Discharge Disposition</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PV1</td>
+                                <td>44</td>
+                                <td>Admit Date/Time</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PV1</td>
+                                <td>45</td>
+                                <td>Discharge Date/Time</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PV2</td>
+                                <td>3.2</td>
+                                <td>Admit Reason</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PV2</td>
+                                <td>12</td>
+                                <td>Visit Description</td>
+                                <td>Chart Note Type</td>
+                            </tr>
+                            <tr>
+                                <td>DG1</td>
+                                <td>1</td>
+                                <td>Diagnosis Set ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>DG1</td>
+                                <td>3.1</td>
+                                <td>Diagnosis Code ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>DG1</td>
+                                <td>3.2</td>
+                                <td>Diagnosis Code Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>DG1</td>
+                                <td>3.3</td>
+                                <td>Diagnosis Code - Name of Coding System</td>
+                                <td>I10C - Denotes ICD10 code</td>
+                            </tr>
+                            <tr>
+                                <td>DG1</td>
+                                <td>6</td>
+                                <td>Diagnosis Type</td>
+                                <td>F - Final</td>
+                            </tr>
+                            <tr>
+                                <td>PR1</td>
+                                <td>3.1</td>
+                                <td>Procedure Identifier</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PR1</td>
+                                <td>3.2</td>
+                                <td>Procedure Description</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>PR1</td>
+                                <td>5.1</td>
+                                <td>Procedure Date/Time</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>OBX</td>
+                                <td>1</td>
+                                <td>Observation Set ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>OBX</td>
+                                <td>2</td>
+                                <td>Observation Value Type</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>OBX</td>
+                                <td>3.1</td>
+                                <td>Observation Identifier</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>OBX</td>
+                                <td>3.2</td>
+                                <td>Observation Identifier Text</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>OBX</td>
+                                <td>3.3</td>
+                                <td>Observation Identifier - Name of Coding System</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>OBX</td>
+                                <td>5</td>
+                                <td>Observation Value</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>OBX</td>
+                                <td>11</td>
+                                <td>Observation Result Status</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>1</td>
+                                <td>Set ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>3.1</td>
+                                <td>Guarantor Last Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>3.2</td>
+                                <td>Guarantor First Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>3.3</td>
+                                <td>Guarantor Middle Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>5.1</td>
+                                <td>Guarantor Address Street 1</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>5.2</td>
+                                <td>Guarantor Address Street 2</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>5.3</td>
+                                <td>Guarantor Address City</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>5.4</td>
+                                <td>Guarantor Address State</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>5.5</td>
+                                <td>Guarantor Address Zip Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>6.2</td>
+                                <td>Guarantor Telecommunication Use Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>6.3</td>
+                                <td>Guarantor Telecommunication Equipment Type</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>6.6</td>
+                                <td>Guarantor Telecommunication Area/City Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>6.7</td>
+                                <td>Guarantor Telecommunication Number</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>8</td>
+                                <td>Guarantor Date of Birth</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>9</td>
+                                <td>Guarantor Gender</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>11</td>
+                                <td>Guarantor Relationship to Patient</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>GT1</td>
+                                <td>12</td>
+                                <td>Guarantor SSN</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>1</td>
+                                <td>Insurance Set ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>2.1</td>
+                                <td>Insurance Policy Number</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>2.2</td>
+                                <td>Insurance Plan Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>2.3</td>
+                                <td>Insurance - Coding System Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>3.1</td>
+                                <td>Insurance Payer ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>4.1</td>
+                                <td>Insurance Payer Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>5.1</td>
+                                <td>Payer Address - Street 1</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>5.2</td>
+                                <td>Payer Address - Street 2</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>5.3</td>
+                                <td>Payer City</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>5.4</td>
+                                <td>Payer State</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>5.5</td>
+                                <td>Payer Zip Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>8</td>
+                                <td>Insurance Policy Group Number</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>15</td>
+                                <td>Insurance Type</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>16.1</td>
+                                <td>Insured Last Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>16.2</td>
+                                <td>Insured First Name</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>17</td>
+                                <td>Insured Person's Relationship to Patient</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>18</td>
+                                <td>Insured's Date of Birth</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>19.1</td>
+                                <td>Insured Address</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>19.3</td>
+                                <td>Insured City</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>19.4</td>
+                                <td>Insured State</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>19.5</td>
+                                <td>Insured Zip Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>36</td>
+                                <td>Insurance ID Number</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN1</td>
+                                <td>43</td>
+                                <td>Insured Gender</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN2</td>
+                                <td>2</td>
+                                <td>Insured Person's SSN</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN2</td>
+                                <td>3.3.00</td>
+                                <td>Insured Person's Telecommunication Use Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN2</td>
+                                <td>3.3.00</td>
+                                <td>Insured Person's Telecommunication Equipment Type</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN2</td>
+                                <td>3.3.00</td>
+                                <td>Insured Person's Telecommunication Area/City Code</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>IN2</td>
+                                <td>3.3.00</td>
+                                <td>Insured Person's Telecommunication Number</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- InstanceEndEditable -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.image-pop-view {
+    background-color: rgba(255, 255, 255, 0.9);
+    display: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+.image-pop-view .plcl_icon {
+    background-color: rgb(255, 255, 255);
+    border-radius: 100px;
+    padding: 10px;
+}
+.plcl_icon::before, .plcl_icon::after {
+    background-color: #000;
+    width: 1px;
+}
+.plcl_icon::after {
+    margin: 0 0 0 -1px;
+}
+.image-pop-view img {
+    border: 3px solid white;
+    box-shadow: 0 0 8px rgba(0, 8, 77, 0.1);
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: 80% !important;
+    max-width: 90% !important;
+    transition: .5s ease-in-out;
+}
+</style>
+
+<!------- Image View Start ------>
+<div class="image-pop-view">
+    <div class="cmfw">
+        <div class="plcl_icon" id="vClose_Icon">&nbsp;</div>
+    </div>
+    <div id="ImgBox"></div>
+</div>
+<!------- Image View End ------>
+
+<!------- Footer Include Start ------->
+<div id="footer"></div>
+<script>
+    // Load external HTML into main page
+    function loadHTML(id, url) {
+      fetch(url)
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById(id).innerHTML = data;
+        });
+    }
+    loadHTML("footer", "/charm-footer.html");
+</script>
+<!------- Footer Include End ------->
+
+<script type="text/javascript" src="../../js/me-jquery.js"></script>
+<script>
+    $(".list-menu-icon").click(function (){
+        var wid = $(window).width();
+        if(wid < 1024) {
+            var element = $('.content-list');
+            var contentclass = element.attr("class");
+            if(contentclass == "content-list content-slide")
+            {
+                $('.content-list').removeClass('content-slide');
+                $('body').css({'overflow':'scroll'});
+            }
+            else
+            {
+                $('.content-list').addClass('content-slide');
+                $('body').css({'overflow':'hidden'});
+            }
+        }
+    });
+    $(window).resize(function() {
+        var wid = $(window).width();
+        if(wid > 1024) {
+            $('body').addClass('scroll');
+        }
+        else {
+            $('body').removeClass('scroll');
+        }
+    });
+    
+    window.onscroll = function () {
+        scroll();
+    };
+    scroll ();
+    function scroll () {
+        var scrollValue = window.pageYOffset;
+        $('#menubar').css({'top':137-scrollValue})
+        if(scrollValue>137) {
+            $('#menubar').css({'top':'0'})
+        }
+        
+    }
+</script>
+
+<script>
+$(".leader img").click(function(){
+    var IMGsrc = $(this).attr("src");
+    $(".image-pop-view #ImgBox").html('<img src="'+IMGsrc+'" />');
+    $(".image-pop-view").css({'display':'block'});
+});
+    
+$(".image-pop-view").click(function(){
+    $(".image-pop-view").css({'display':'none'});
+});
+    
+$(".image-pop-view .plcl_icon").click(function(){
+    $(".image-pop-view").css({'display':'none'});
+});
+    
+$(document).on('keydown',function(e){
+    keys=e.which;
+    if(keys==27)
+    {
+        $(".image-pop-view").css({'display':'none'});
+    }
+})
+</script>
+
+<!-- InstanceBeginEditable name="beforeendofbody" --><!-- InstanceEndEditable -->
+
+<!-- InstanceBeginEditable name="bottomCont" --> 
+<script>
+$('#bar33').addClass('selected');
+</script> 
+<!-- InstanceEndEditable -->
+
+</body>
+<!-- InstanceEnd --></html>

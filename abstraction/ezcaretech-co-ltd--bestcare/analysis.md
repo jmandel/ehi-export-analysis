@@ -1,169 +1,166 @@
 # EHI Export Analysis: ezCaretech Co., Ltd.
 
 **Product**: BESTCare 2.0B
-**Analysis date**: 2026-02-15
-**CHPL IDs**: 15.04.04.2610.BEST.02.00.1.180423 (CHPL ID 9665)
+**Analysis date**: 2026-02-16
+**CHPL IDs**: 15.04.04.2610.BEST.02.00.1.180423 (CHPL listing #9665)
 
 ## 1. Product Context
 
-BESTCare is a comprehensive hospital information system (HIS) developed by ezCaretech Co., Ltd., a South Korean healthcare IT company. Originally co-developed with Seoul National University Bundang Hospital (SNUBH), BESTCare is designed for large hospitals and university tertiary medical centers. The system achieved HIMSS EMRAM Stage 7 at SNUBH in 2010.
+BESTCare is a comprehensive hospital information system (HIS) built by ezCaretech Co., Ltd., a publicly traded South Korean healthcare IT company (KOSDAQ: 099750) originally spun off from Seoul National University Hospital's IT department. The product was co-developed with Seoul National University Bundang Hospital (SNUBH) — the first hospital outside North America to achieve HIMSS EMRAM Stage 7.
 
-In the US market, BESTCare is deployed primarily at Aurora Behavioral Healthcare's 14–16 psychiatric hospitals, operating as a behavioral health-specialized EHR variant. The FHIR capability statement explicitly references this deployment ("ezfhirstation-us-core-usa-aurora").
+BESTCare is designed for large hospitals and university tertiary medical centers. In the US market, it is deployed primarily at Aurora Behavioral Healthcare's 14 psychiatric hospitals as a behavioral-health-specialized variant.
 
-BESTCare is a comprehensive HIS with the following modules relevant to EHI scope:
-- **Clinical**: EMR with 3,000+ templates, CPOE (medications, labs, imaging, procedures), CDSS with drug interaction checking (Medi-Span/Lexicomp), closed-loop medication administration (barcode/RFID), nursing documentation, pharmacy, radiology, clinical pathways
-- **Administrative**: Billing, patient services/registration, inpatient services/bed management, social services, CRM
-- **Behavioral health variant**: Psychiatry-specific workflows, customizable behavioral health documentation forms
-- **Analytics**: Clinical data warehouse (CDW) with daily data extraction, 290 clinical quality indicators
-- **Integration**: HIE (HL7 V2.X, CDA), FHIR R4 API (US Core)
+The system is a full-scope HIS with broad data coverage relevant to EHI completeness assessment:
 
-The product holds 33 ONC certified criteria — one of the broadest certifications possible — including CPOE (medications, labs, imaging), demographics, family history, implantable devices, transitions of care, EHI export, CDS, CQMs, public health reporting (immunizations, syndromic surveillance, case reporting, cancer registry, antimicrobial reporting, health care surveys), and FHIR API access.
+- **Clinical modules**: EMR (3,000+ templates), CPOE (medications, labs, imaging, procedures), CDSS (drug interactions, dosing alerts), closed-loop medication administration (barcode/RFID), nursing documentation, pharmacy, radiology, clinical pathways
+- **Administrative/billing modules**: Billing, patient services, inpatient management, social services, CRM, activity-based costing
+- **Data/analytics**: Clinical data warehouse (290 indicators), business intelligence
+- **Integration**: HIE (HL7 V2.X, CDA), FHIR API (g)(10) certified
 
-Given this breadth, an adequate (b)(10) export should cover clinical documentation across multiple specialties, medication records (including administration), orders, lab results, imaging, billing/financial records, nursing documentation, and behavioral health-specific assessments.
+The product holds one of the broadest ONC certifications possible (33 criteria), including CPOE for medications, labs, and imaging; transitions of care; CQMs; public health reporting; and FHIR APIs. This is consistent with a system that stores extensive clinical, administrative, and billing data about patients.
 
 ## 2. Artifacts Reviewed
 
-| Artifact | Description | Informative? |
-|---|---|---|
-| `b.10_EHI_Export.pdf` (24.8 KB, 1 page) | Primary (b)(10) documentation. Describes CSV and Oracle DMP export formats. Contains ~150 words of substantive content. No data dictionary, schema, field definitions, or export instructions. | **Most informative** for understanding vendor's stated (b)(10) approach, but contains almost no technical detail |
-| `BESTCare2.0B_Certified_Health_IT_v3.0.pdf` (139 KB, 3 pages) | Lists 33 certified criteria and 13 CQMs. No technical detail about EHI export. Created June 2025. | Low — confirms certification only |
-| `fhir-capability-statement.json` (33 KB) | FHIR R4 CapabilityStatement for "ezfhirstation-us-core-usa-aurora". Documents 26 resource types (20 clinical, 6 infrastructure). Dated 2022-02-16. | Moderate — defines FHIR API scope |
-| `single-patient-api.html` (1.8 MB) | Single Patient API Guide from ezFHIRStation portal. Documents 20 US Core FHIR R4 profiles plus 12 vital sign sub-profiles with per-resource read/search details. | Moderate — this is (g)(10) documentation, not (b)(10) |
-| `multi-patient-api.html` (87 KB) | Multi Patient API Guide. Documents FHIR Bulk Data Export ($export) with NDJSON output at Patient, Group, and System levels. | Moderate — this is (g)(10) documentation, not (b)(10) |
-| `base-urls.html` (42 KB) | Service Base URLs for ezFHIRStation portal. Lists Authorization, Single Patient API, Multi Patient API, Application Access, and Inferno test tool endpoints. | Low — endpoint listing only |
-| `screenshot-single-patient-api.png` (257 KB) | Screenshot of Single Patient API Guide page | Low — visual confirmation only |
-| `screenshot-multi-patient-api.png` (273 KB) | Screenshot of Multi Patient API Guide page | Low — visual confirmation only |
-| `screenshot-onc-disclosures-page.png` (171 KB) | Screenshot of ONC mandatory disclosures page | Low — visual confirmation only |
-| RWT Results 2025 (fetched separately, not in downloads) | Real World Testing Results Report. Confirms 128 single-patient EHI exports were initiated, 126 completed (98.4% success rate), average 3.5 minutes. Population-level tested in mirrored environment. | Moderate — confirms the export function works but provides no detail on what data is included |
-| Mandatory Disclosures Letter (fetched separately) | States "(b)(10) allows to export electronic health information (EHI)" with standard licensing fee language. No technical detail. | Low — cost structure only |
+| # | Artifact | Size | Description | Informativeness |
+|---|---------|------|-------------|-----------------|
+| 1 | `b.10_EHI_Export.pdf` | 24.8 KB, 1 page | Primary (b)(10) documentation. Names CSV and Oracle DMP formats; contains no data dictionary, schema, or field definitions. Links to FHIR portal. | **Most critical** — this is the entire (b)(10) documentation |
+| 2 | `BESTCare2.0B_Certified_Health_IT_v3.0.pdf` | 138.8 KB, 3 pages | List of 33 certified criteria and 13 CQMs. No technical EHI export detail. | Low — confirms certification only |
+| 3 | `fhir-capability-statement.json` | 33.3 KB | FHIR R4 CapabilityStatement from ezFHIRStation. 26 resource types (standard US Core). Named "ezfhirstation-us-core-usa-aurora". | Moderate — documents the (g)(10) FHIR API scope |
+| 4 | `single-patient-api.html` | 1.87 MB | Single Patient API Guide. Documents 30 US Core FHIR R4 profiles with must-have/must-support fields and search parameters. | Moderate — documents FHIR API, not (b)(10) |
+| 5 | `multi-patient-api.html` | 87.0 KB | Multi Patient API Guide. Documents FHIR Bulk Data Export ($export) with NDJSON output. | Moderate — documents (g)(10) bulk API |
+| 6 | `base-urls.html` | 41.6 KB | Service Base URLs for ezFHIRStation portal (authorization, APIs, testing). | Low |
+| 7 | `screenshot-onc-disclosures-page.png` | 171.3 KB | Screenshot of ONC mandatory disclosures page. Confirms EHI Export PDF is the sole (b)(10) documentation link. | Low |
+| 8 | `screenshot-single-patient-api.png` | 257.2 KB | Screenshot of Single Patient API page showing US Core resource documentation. | Low |
+| 9 | `screenshot-multi-patient-api.png` | 273.3 KB | Screenshot of Multi Patient API page showing Bulk Data Export endpoints. | Low |
+
+Additionally verified by fetching from the live ONC disclosures page:
+- **Mandatory Disclosures Letter** (fetched live): Describes (b)(10) in one sentence — "This capacity allows to export electronic health information (EHI)." Mentions license fee, implementation fee, and recurring maintenance fee. No technical detail.
+- **Real World Testing Results 2025** (fetched live): Confirms 128 single-patient EHI exports were initiated in the reporting period with a 98.4% success rate (126 completed) and 3.5-minute average completion time. Population-level exports were tested in a production-mirrored environment only. No detail on what data elements were included.
 
 ## 3. Export Mechanics
 
-The (b)(10) PDF describes two export mechanisms:
+The (b)(10) PDF (`b.10_EHI_Export.pdf`) describes two export capabilities:
 
-### Native export (CSV / Oracle DMP)
-- **Formats**: CSV (comma-separated values) and Oracle DMP (Oracle binary database dump)
-- **Single-patient**: "BESTCare2.0B allows a user to export electronic health information (EHI) for a single patient at any time without developer assistance"
-- **Multi-patient**: "BESTCare2.0B can export all the data for a patient population in our standardized format"
-- **Mechanism**: The PDF implies a UI-driven export ("without developer assistance") but provides no screenshots, workflow description, or step-by-step instructions
-- **Maintenance**: "BESTCare2.0B updates all formats on a quarterly schedule unless otherwise indicated by Oracle"
-- **Access constraints**: Standard software license fee, implementation fee, and recurring maintenance fee (per mandatory disclosures)
+- **Single Patient Export**: Allows a user to export EHI for a single patient "at any time without developer assistance." No UI screenshots, workflow description, or access instructions are provided.
+- **Multi-Patient Export**: Can export "all the data for a patient population." No further detail on how this is initiated or scoped.
 
-The RWT 2025 results confirm the export is functional: 128 single-patient exports initiated, 126 completed successfully (98.4%), averaging 3.5 minutes. Population-level exports were tested only in a mirrored environment "due to operational constraints on production bulk exports."
+**Format(s):**
+- **CSV**: Comma-separated values files. No documentation of file structure (one file per table? one per domain? column headers?).
+- **Oracle DMP**: Oracle binary database dump files. Proprietary format requiring Oracle tools to read.
 
-### FHIR API (cross-referenced from the PDF)
-The PDF's "Section II: API documentation" links to the ezFHIRStation FHIR developer portal at `portal.ezcaretech.com:30112/baseUrls`. This is the (g)(10) Standardized API documentation — standard FHIR R4 US Core with Bulk Data Export. It is a separate system from the CSV/Oracle DMP export.
+**FHIR API** (linked from PDF Section II via "Click Here"):
+- The FHIR portal at `portal.ezcaretech.com:30112` documents a standard (g)(10) FHIR API — not a separate (b)(10) mechanism. This is the ezFHIRStation US Core implementation supporting both single-patient (SMART on FHIR) and multi-patient (Bulk Data Export via $export) access.
+
+**Access constraints**: The mandatory disclosures letter states a one-time software license fee, implementation service fee, and recurring maintenance fee are required. License fee is per-facility based on bed or provider count.
+
+**Bulk export**: The RWT results report notes population-level exports were restricted to a production-mirrored environment "to avoid system performance impact," suggesting bulk export has operational constraints in production.
 
 ## 4. Export Content: What's In It
 
-### The core problem: no documentation of export contents
+### 4a. Native Export (CSV / Oracle DMP) — Undocumented
 
-The primary (b)(10) PDF provides **zero information** about what data is included in the CSV or Oracle DMP export files. Specifically, there is:
+The (b)(10) PDF provides **zero documentation** of what the CSV or Oracle DMP exports contain. There is:
 - No data dictionary
-- No table/entity listing
+- No table listing
 - No field/column definitions
 - No schema documentation
-- No sample data or example files
-- No description of CSV file structure (how many files, what each contains, column headers)
-- No description of the Oracle DMP schema (which tables, relationships, data types)
-- No instructions for interpreting the exported data
+- No sample data
+- No description of how tables relate to each other
+- No description of how CSV files are organized (naming convention, one per table, etc.)
 
-The entire substantive content of the PDF (excluding generic format definitions of CSV and Oracle DMP) amounts to approximately 150 words. The CSV and Oracle DMP descriptions are generic definitions of what these formats are — not documentation of what BESTCare's export files contain.
+The only content-related claim is that the multi-patient export can export "all the data for a patient population." The RWT report states exports "included all required EHI data elements" but does not specify what those elements are.
 
-### FHIR API coverage (for reference — this is (g)(10), not the native export)
+An Oracle DMP *could* theoretically contain the entire database — making it potentially the most comprehensive possible export. But without any documentation, this is unknowable and unusable.
 
-The FHIR CapabilityStatement documents 26 resource types. The 20 clinical resource types with search support are:
+### 4b. FHIR API — Standard US Core (Not Native)
 
-| Resource Type | Interactions | Search Parameters |
-|---|---|---|
-| AllergyIntolerance | read, search | clinical-status, patient |
-| CarePlan | read, search | category, date, patient, status |
-| CareTeam | read, search | patient, status |
-| Condition | read, search | category, clinical-status, code, onset-date, patient |
-| Device | read, search | patient, type |
-| DiagnosticReport | read, search | category, code, date, patient, status |
-| DocumentReference | read, search | _id, category, date, patient, period, type |
-| Encounter | read, search | _id, class, date, identifier, patient, status, type |
-| Goal | read, search | lifecycle-status, patient, target-date |
-| Immunization | read, search | date, patient, status |
-| Location | read, search | address, address-city, address-postalcode, address-state, name |
-| Medication | read, search | — |
-| MedicationRequest | read, search | authoredon, encounter, intent, patient, status |
-| Observation | read, search | category, code, date, patient, status |
-| Organization | read, search | address, name |
-| Patient | read, search | _id, birthdate, family, gender, given, identifier, name |
-| Practitioner | read, search | _id, identifier, name |
-| PractitionerRole | read, search | practitioner, specialty |
-| Procedure | read, search | code, date, patient, status |
-| Provenance | read | — |
+The FHIR API is documented but is a **(g)(10) implementation**, not a native (b)(10) export. It covers the standard US Core profile set:
 
-The Single Patient API Guide documents 20 US Core profiles plus 12 vital sign sub-profiles (blood pressure, body height, body weight, body temperature, heart rate, pediatric BMI for age, pediatric head circumference, pediatric weight for height, pulse oximetry, respiratory rate, and a general vital signs profile).
+| # | Resource Type | Category | Interactions | Search Params |
+|---|--------------|----------|-------------|---------------|
+| 1 | AllergyIntolerance | Clinical | read, search-type | 4 |
+| 2 | CarePlan | Clinical | read, search-type | 3 |
+| 3 | CareTeam | Clinical | read, search-type | 2 |
+| 4 | Condition | Clinical | read, search-type | 4 |
+| 5 | Device | Clinical | read, search-type | 2 |
+| 6 | DiagnosticReport | Diagnostics | read, search-type | 5 |
+| 7 | DocumentReference | Documents | read, search-type | 5 |
+| 8 | Encounter | Clinical | read, search-type | 4 |
+| 9 | Goal | Clinical | read, search-type | 3 |
+| 10 | Immunization | Clinical | read, search-type | 3 |
+| 11 | Medication | Medications | read, search-type | 0 |
+| 12 | MedicationRequest | Medications | read, search-type | 4 |
+| 13 | Observation | Diagnostics | read, search-type | 5 |
+| 14 | Patient | Demographics | read, search-type | 7 |
+| 15 | Procedure | Clinical | read, search-type | 3 |
+| 16 | Provenance | Administrative | read, search-type | 0 |
+
+Plus supporting/infrastructure types: Binary, CodeSystem, Endpoint, Group, Location, Medication, OperationDefinition, Organization, Practitioner, PractitionerRole, ValueSet.
+
+The Single Patient API documents 30 US Core profiles (including vital signs sub-profiles: Blood Pressure, Body Height, Body Weight, Body Temperature, Heart Rate, Respiratory Rate, Pulse Oximetry, Pediatric BMI for Age, Pediatric Weight for Height, and Smoking Status).
+
+The FHIR CapabilityStatement is named "ezfhirstation-us-core-usa-aurora" — explicitly referencing the Aurora Behavioral Healthcare deployment and confirming this is a standard US Core implementation with no vendor extensions for behavioral health or other specialty data.
 
 ### Vendor's own content organization
 
-There is no vendor-provided content organization for the native export. The vendor does not list tables, entities, categories, or fields anywhere in the (b)(10) documentation. The only content organization available is the FHIR resource type listing above, which covers the (g)(10) API, not the (b)(10) export.
+The vendor does not organize content into categories. The (b)(10) PDF has no data dictionary at all. The FHIR API follows the standard US Core profile organization. There is no vendor-specific content organization to present.
 
-**No entity/field table can be produced** because the vendor provides no data dictionary.
+**Since there is no data dictionary, no entity/field inventory table can be generated.** The full-entity-inventory.json in the analysis directory captures what is available from the FHIR CapabilityStatement and API documentation — 26 resource types with their search parameters and profile references — but this documents the (g)(10) API, not the (b)(10) native export.
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-The vendor's documentation provides two layers:
+The vendor's (b)(10) documentation describes two components:
 
-1. **Native export (CSV/Oracle DMP)**: Claims to export EHI for single patients and patient populations. Uses the phrase "all the data for a patient population" for multi-patient export. **However, there is zero documentation of what "all the data" includes.** An Oracle DMP could theoretically contain the entire database, but the vendor provides no confirmation or documentation of scope.
+1. **CSV / Oracle DMP export**: Claims to export "all the data" but provides zero documentation of content. Coverage is unknowable from the available documentation.
 
-2. **FHIR API**: Standard US Core clinical data — 20 resource types covering demographics, conditions, medications, allergies, labs, vital signs, immunizations, encounters, procedures, care plans, goals, implantable devices, clinical notes, and provenance. This is a well-defined but narrow subset (~20% of what a comprehensive HIS like BESTCare stores).
+2. **FHIR API** (cross-referenced from (b)(10) PDF): Covers the standard US Core clinical data subset — 16 patient-facing resource types and 10 supporting types. This is the standard USCDI v1 clinical summary data set, with no vendor-specific extensions or additional behavioral health content.
 
-The vendor provides no categories, modules, or groupings for the native export content. The FHIR API covers standard clinical domains but explicitly excludes billing, orders (non-medication), pharmacy administration, nursing documentation, behavioral health-specific content, and all administrative data.
+The FHIR API is adequately documented for its own purpose (a (g)(10) API), but it represents only a clinical summary subset — demographics, conditions, medications, allergies, labs, vitals, immunizations, procedures, care plans, encounters, and clinical notes. It does not cover billing, orders beyond medication requests, specialty assessments, nursing documentation, or administrative data.
 
 ### 5b. Standardized domain coverage (top-down)
 
 | Domain | Coverage | Export Evidence | Gap Analysis |
 |---|---|---|---|
-| Demographics | ⚠️ Partial | FHIR Patient resource; native export undocumented | FHIR covers US Core demographics. Native export may include more but is undocumented. Product stores extensive registration data. |
-| Encounters / visits | ⚠️ Partial | FHIR Encounter resource; native export undocumented | FHIR Encounter is limited. Product manages full inpatient/outpatient encounters. |
-| Problems / conditions / diagnoses | ⚠️ Partial | FHIR Condition resource; native export undocumented | FHIR covers basic problem list. Product has CPOE and clinical pathways with richer diagnostic data. |
-| Medications / prescriptions | ⚠️ Partial | FHIR MedicationRequest, Medication resources; native export undocumented | FHIR covers prescriptions. Product has closed-loop medication administration (CLMA), pharmacy dispensing — these are not in FHIR. |
-| Allergies | ⚠️ Partial | FHIR AllergyIntolerance resource; native export undocumented | FHIR covers standard allergy data. Product integrates Medi-Span/Lexicomp for drug interaction checking. |
-| Immunizations | ⚠️ Partial | FHIR Immunization resource; native export undocumented | FHIR covers standard immunization data. Product is certified for immunization registry reporting. |
-| Vitals | ⚠️ Partial | FHIR Observation (12 vital sign profiles); native export undocumented | FHIR covers standard vitals. |
-| Lab results | ⚠️ Partial | FHIR DiagnosticReport, Observation resources; native export undocumented | FHIR covers basic lab results. Product has comprehensive CPOE for lab orders. |
-| Imaging / diagnostic reports | ⚠️ Partial | FHIR DiagnosticReport for reports/notes; native export undocumented | FHIR covers report text. Product has full radiology module with imaging workflow. |
-| Procedures | ⚠️ Partial | FHIR Procedure resource; native export undocumented | Basic procedure records via FHIR. Product manages comprehensive procedural ordering via CPOE. |
-| Clinical notes / documents | ⚠️ Partial | FHIR DocumentReference resource; native export undocumented | FHIR supports document references. Product has 3,000+ clinical templates, extensive EMR documentation. |
-| Care plans / goals | ⚠️ Partial | FHIR CarePlan, CareTeam, Goal resources; native export undocumented | FHIR covers basic care plan data. Product has 104+ clinical pathways with variance tracking. |
-| Orders / referrals | ❌ Not covered | Not in FHIR API; native export undocumented | Product has comprehensive CPOE (medications, labs, imaging, procedures). Only medication orders appear in FHIR. Significant gap if native export doesn't include these. |
-| Insurance / coverage | ❌ Not covered | Not in FHIR API; native export undocumented | Product stores insurance/enrollment data. No evidence in any documented export. |
-| Claims / billing | ❌ Not covered | Not in FHIR API; native export undocumented | Product has billing module. No evidence in any documented export. |
-| Payments | ❌ Not covered | Not in FHIR API; native export undocumented | Product has financial systems. No evidence in any documented export. |
-| Consents / directives | ❌ Not covered | Not in FHIR API; native export undocumented | Product supports electronic consent (iPad/PC signature). No evidence in any documented export. |
-| Patient communications / portal messages | ❌ Not covered | Not in FHIR API; native export undocumented | Product is certified for patient access. No evidence of portal message export. |
-| Specialty-specific (behavioral health) | ❌ Not covered | Not in FHIR API; native export undocumented | Product is deployed at 14 psychiatric hospitals with behavioral health-specific workflows and forms. No evidence of psychiatric assessment export. **This is a significant gap given the US deployment context.** |
+| Demographics | ⚠️ Partial | FHIR Patient resource (US Core); native export undocumented | FHIR covers basic demographics; product likely stores richer registration data (insurance at registration, emergency contacts, etc.) |
+| Encounters / visits | ⚠️ Partial | FHIR Encounter resource (US Core); native export undocumented | FHIR has basic encounters; product manages full inpatient workflows, bed management — likely much richer natively |
+| Problems / conditions | ⚠️ Partial | FHIR Condition resource (US Core); native export undocumented | Standard problem list via FHIR; product's 3,000+ templates likely capture richer diagnostic context |
+| Medications / prescriptions | ⚠️ Partial | FHIR MedicationRequest + Medication (US Core); native export undocumented | Prescription data via FHIR; product has closed-loop medication administration (barcode/RFID verification records) not in FHIR |
+| Allergies | ⚠️ Partial | FHIR AllergyIntolerance (US Core); native export undocumented | Standard allergy data via FHIR |
+| Immunizations | ⚠️ Partial | FHIR Immunization (US Core); native export undocumented | Standard immunization records via FHIR |
+| Vitals | ⚠️ Partial | FHIR Observation (vital signs profiles: BP, height, weight, temp, heart rate, resp rate, pulse ox); native export undocumented | Standard vitals via FHIR |
+| Lab results | ⚠️ Partial | FHIR DiagnosticReport + Observation (lab profiles); native export undocumented | Standard lab results via FHIR; product's full lab workflow may include more |
+| Imaging / diagnostic reports | ⚠️ Partial | FHIR DiagnosticReport (report/note exchange profile); native export undocumented | Basic report data via FHIR; product has dedicated radiology module likely with richer data |
+| Procedures | ⚠️ Partial | FHIR Procedure (US Core); native export undocumented | Basic procedure records via FHIR |
+| Clinical notes / documents | ⚠️ Partial | FHIR DocumentReference (US Core); native export undocumented | Document references via FHIR; product has 3,000+ templates — likely much richer native documentation model |
+| Care plans / goals | ⚠️ Partial | FHIR CarePlan + CareTeam + Goal (US Core); native export undocumented | Standard care plan data via FHIR; product has clinical pathways with variance tracking not in FHIR |
+| Orders / referrals | ❌ Not covered | No order resources in FHIR beyond MedicationRequest; native export undocumented | Product has full CPOE (meds, labs, imaging, procedures). Only medication orders appear in FHIR. Significant gap. |
+| Insurance / coverage | ❌ Not covered | No insurance resources in FHIR; native export undocumented | Product stores patient insurance/enrollment data. No evidence in documented export. |
+| Claims / billing | ❌ Not covered | No billing resources in FHIR; native export undocumented | Product has billing module. No evidence in documented export. Significant gap. |
+| Payments | ❌ Not covered | No payment resources in FHIR; native export undocumented | Product likely handles payment processing. No evidence in documented export. |
+| Consents / directives | ❌ Not covered | No consent resources in FHIR; native export undocumented | Product has electronic consent (iPad/PC signature). Not in documented export. |
+| Patient communications | ❌ Not covered | No communication resources in FHIR; native export undocumented | N/A — no strong evidence of patient portal/messaging capabilities in US deployment |
+| Specialty-specific (behavioral health) | ❌ Not covered | No behavioral health extensions in FHIR; native export undocumented | US deployment is at psychiatric hospitals (Aurora). FHIR API has zero behavioral health-specific content. **Major gap.** |
 
-**Key assessment caveat**: The native CSV/Oracle DMP export *may* cover many or all of these domains. The problem is that the documentation provides zero evidence either way. All domains are marked based on what can be verified from the available documentation. The "Partial" ratings for clinical domains reflect that the FHIR API provides some coverage but cannot be confirmed as the full (b)(10) export mechanism, and the native export is completely undocumented.
+**Key finding**: Every domain is rated at best "Partial" because the only documented export mechanism is the FHIR API, which provides only the US Core clinical summary. The native CSV/Oracle DMP export *may* cover additional domains but is completely undocumented, so coverage cannot be assessed. The behavioral health gap is particularly notable given the US deployment at 14 psychiatric hospitals.
 
 ## 6. Documentation Quality
 
-The (b)(10) export documentation quality is **extremely poor**:
+**Overall quality: Very poor.**
 
-- **Data dictionary**: None. Zero tables, entities, fields, or columns are documented.
-- **Schema**: None. No machine-readable schema for either CSV or Oracle DMP format.
-- **Sample data**: None. No example export files or sample records.
-- **Export instructions**: None. No screenshots, workflow description, or step-by-step guide for initiating an export.
-- **File structure**: Not described. It is unknown whether the CSV export produces one file or many, what column headers look like, or how relationships between records are expressed.
-- **Oracle DMP interpretation**: Not addressed. Oracle DMP is a proprietary binary format requiring Oracle database tools to import. No guidance is provided on how a third party would interpret the dump.
-- **Value sets / code systems**: None documented for the native export. The FHIR API uses standard US Core value sets.
-- **Relationships**: Not documented. No foreign keys, entity relationships, or data model diagrams.
+- **Data dictionary**: None. Zero tables, columns, or fields are defined for the native CSV/Oracle DMP export.
+- **Schema**: None for the native export. A FHIR CapabilityStatement exists but documents the (g)(10) API, not the (b)(10) export.
+- **Field descriptions**: None for native export. FHIR profiles provide standard US Core field semantics.
+- **Value sets / code systems**: None for native export. FHIR uses standard US Core terminologies.
+- **Relationships / foreign keys**: Not documented.
+- **Sample data**: None.
+- **Export instructions**: None. No screenshots, no step-by-step workflow, no description of how a user initiates an export.
+- **Machine-readable artifacts**: The FHIR CapabilityStatement is machine-readable but documents the API, not the (b)(10) export.
 
-**Could a developer build an import from this documentation?** No. A developer receiving the (b)(10) PDF would know only that the export files are CSV and Oracle DMP. They would have no knowledge of:
-- What data is in the files
-- How files are structured or named
-- What columns/tables exist
-- How to relate records across files/tables
-- What codes or identifiers are used
+**Could a developer build an import?** Not from this documentation. A developer would know the export produces CSV files and Oracle DMP files but would have no idea what columns the CSVs contain, how files are named, how tables relate, or how to interpret any of the data. The Oracle DMP format is a proprietary binary that requires Oracle database tools — a significant portability barrier.
 
-The FHIR API portal (ezFHIRStation) is adequately documented for its purpose as a (g)(10) Standardized API, with per-resource read/search documentation, parameter tables, and response field descriptions. However, this is not (b)(10) documentation — it documents a different regulatory requirement and covers only the US Core clinical subset.
+The entire (b)(10) documentation is approximately **150 words** on a single page. Created September 30, 2023, in Microsoft Word 2013, by Eunsol Lee.
 
 ## 7. Overall Assessment
 
@@ -171,36 +168,34 @@ The FHIR API portal (ezFHIRStation) is adequately documented for its purpose as 
 
 **Minimal/stub**
 
-The (b)(10) documentation is a single page with ~150 words of substantive content. It names two export formats (CSV and Oracle DMP) but provides no data dictionary, no schema, no field definitions, no sample data, and no export instructions. The FHIR API documentation linked from the PDF is (g)(10) documentation being cross-referenced, not genuine (b)(10) documentation.
+The (b)(10) documentation is a single-page PDF that names two export formats (CSV and Oracle DMP) but provides no data dictionary, no schema, no field definitions, no sample data, and no user instructions. The FHIR API documentation linked from the PDF is a (g)(10) implementation that covers only the US Core clinical summary subset.
 
-While the underlying export mechanism (CSV + Oracle DMP) *could* be comprehensive — an Oracle database dump is one of the most complete export formats possible — the documentation provides no evidence of what is actually exported. The RWT 2025 results confirm the export function works (128 single-patient exports, 98.4% success rate) but still provide no detail on export contents, stating only that "export files were complete and usable."
+While the native CSV/Oracle DMP export could theoretically be comprehensive (an Oracle DMP could contain the entire database), the documentation is so thin that the export's content and usability cannot be assessed. A stub classification is warranted because the documentation fails to demonstrate that the export covers "all electronic health information."
 
 ### Key Findings
 
-1. **The (b)(10) PDF is essentially empty.** At 1 page and ~150 words of content, it is among the most minimal (b)(10) documentation possible. It defines what CSV and Oracle DMP formats are (generic definitions) but says nothing about what BESTCare exports. (Source: `b.10_EHI_Export.pdf`)
+1. **The (b)(10) documentation is ~150 words with zero data content specification.** The single-page PDF (`b.10_EHI_Export.pdf`, created 2023-09-30) names CSV and Oracle DMP as export formats but provides no data dictionary, no table listing, no field definitions, no schema, and no sample data.
 
-2. **The FHIR API is (g)(10), not (b)(10).** The PDF's "Click Here" link leads to the ezFHIRStation FHIR developer portal, which documents the (g)(10) Standardized API with 26 US Core resource types. This is a textbook case of (g)(10)/(b)(10) conflation. The FHIR API covers only standard clinical data. (Source: `fhir-capability-statement.json`, `single-patient-api.html`, `multi-patient-api.html`)
+2. **The FHIR API is explicitly conflated with (b)(10).** The PDF's "API documentation" section links directly to the (g)(10) FHIR portal (`portal.ezcaretech.com:30112`). The FHIR server is named "ezfhirstation-us-core-usa-aurora" and implements exactly the standard US Core profile set (26 resource types, 30 profiles) with no vendor extensions.
 
-3. **No data dictionary exists anywhere in the documentation.** Across all 9 artifacts reviewed (PDFs, HTML pages, JSON, screenshots) and supplementary materials (RWT results, mandatory disclosures), there is zero documentation of tables, fields, columns, schemas, or data models for the native export. (Source: comprehensive artifact review)
+3. **Behavioral health data — the core US use case — is absent from documented exports.** BESTCare's US deployment is at Aurora Behavioral Healthcare's 14 psychiatric hospitals. The FHIR API contains zero behavioral health-specific content (no psychiatric assessments, no behavioral health forms, no PHQ-9/GAD-7 structured data beyond what's in US Core). The native export is undocumented.
 
-4. **The Oracle DMP format raises portability concerns.** Oracle DMP is a proprietary binary format that requires Oracle database tools to import. Without schema documentation, a recipient would need to reverse-engineer the database structure. This undermines the practical usability of the export even if the data coverage is comprehensive. (Source: `b.10_EHI_Export.pdf`)
+4. **Oracle DMP format raises portability concerns.** The proprietary binary format requires Oracle database tools to import. Combined with zero schema documentation, a recipient would need to reverse-engineer the entire data model.
 
-5. **Behavioral health-specific data is unaddressed.** BESTCare is deployed at 14 US psychiatric hospitals (Aurora Behavioral Healthcare) with psychiatry-specific workflows and customizable forms. None of the documentation — not the native export PDF, not the FHIR API — mentions psychiatric assessments, behavioral health forms, or specialty-specific data structures. (Source: `product-research.md`, `fhir-capability-statement.json` naming "usa-aurora")
+5. **Real-world testing confirms the export mechanism exists and functions** (128 single-patient exports, 98.4% success rate, 3.5-min average in the 2025 RWT report) but provides no detail on what data elements were included.
 
 ### Summary Stats
 
-```
-Classification:  Minimal/stub
-Export format:   CSV, Oracle DMP (native); FHIR R4 NDJSON (API — cross-referenced, not (b)(10))
-Model type:      Unknown — native export is undocumented; FHIR API is standard projection
-Entities:        0 documented (native export); 20 clinical resource types (FHIR API)
-Fields:          0 documented (native export); N/A (FHIR API uses US Core profiles)
-Descriptions:    N/A (no data dictionary)
-Sample data:     No
-Bulk export:     Yes (native multi-patient described; FHIR Bulk Data Export documented)
-Domains covered: 0 of 15 verifiable (native export undocumented); ~10 of 15 partially via FHIR API
-```
+    Classification:  Minimal/stub
+    Export format:   CSV, Oracle DMP (native); FHIR R4 NDJSON (API)
+    Model type:      Undocumented native + standard projection (FHIR US Core)
+    Entities:        0 (native export); 26 resource types (FHIR API)
+    Fields:          0 (native export); ~52 search parameters (FHIR API)
+    Descriptions:    N/A (no data dictionary)
+    Sample data:     No
+    Bulk export:     Yes (FHIR $export); unclear for native CSV/DMP
+    Domains covered: 0 of 15 confirmed; up to 12 of 15 partial via FHIR (clinical only)
 
 ### Bottom Line
 
-A patient or provider receiving this export would get either CSV files or an Oracle database dump with no documentation to interpret the contents. The (b)(10) documentation is a single page that says nothing about what data is exported, making it impossible to assess whether the export is complete. The vendor's FHIR API covers ~20 standard clinical resource types but omits billing, orders, behavioral health-specific data, and administrative records — and it is a separate (g)(10) system being cross-referenced, not the actual (b)(10) export. The single biggest gap is the **complete absence of a data dictionary** — without one, even a technically comprehensive database dump is unusable to a third party.
+ezCaretech's (b)(10) documentation is among the thinnest possible — a single page naming two file formats with no content specification whatsoever. A patient or provider receiving this export would get CSV files and/or an Oracle binary dump with no way to interpret what the data means. The most significant gap is the complete absence of behavioral health documentation from the export of a system deployed at 14 US psychiatric hospitals. The FHIR API, while functional, is a standard US Core implementation that covers perhaps 20% of what a full hospital information system stores.

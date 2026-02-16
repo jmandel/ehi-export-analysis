@@ -1,187 +1,217 @@
 # EHI Export Analysis: PCE Systems
 
 **Product**: PCE Care Management v9.4
-**Analysis date**: 2026-02-15
-**CHPL ID**: 15.04.04.2125.PCEC.94.01.1.221205
+**Analysis date**: 2026-02-16
+**CHPL IDs**: 15.04.04.2125.PCEC.94.01.1.221205 (CHPL ID 11045)
 
 ## 1. Product Context
 
-PCE Care Management is a behavioral health EHR developed by PCE Systems (Farmington Hills, MI, ~11–50 employees) serving Michigan's public community mental health system. Its customer base consists of Community Mental Health Service Programs (CMHSPs) and Prepaid Inpatient Health Plans (PIHPs) serving Medicaid beneficiaries with mental illness, substance use disorders, and developmental disabilities. PCE claims its clients encompass over 70% of Michigan's Medicaid mental health budget (as of 2013).
+PCE Care Management is a behavioral health EHR built for Michigan's community mental health system. PCE Systems (Farmington Hills, MI; ~11–50 employees) is the dominant EHR vendor across Michigan's Community Mental Health Service Programs (CMHSPs) and Prepaid Inpatient Health Plans (PIHPs), serving populations with serious mental illness, substance use disorders, and developmental disabilities. As of 2013, PCE claimed coverage of over 70% of Michigan's Medicaid mental health budget.
 
-**Data domains the product is known to store** (based on product research and API evidence):
-- **Clinical**: demographics, allergies, conditions/diagnoses, medications, immunizations, procedures, vitals, lab results, clinical notes/documents, care plans, care teams, goals, diagnostic reports, implantable devices
-- **Behavioral health-specific**: individualized treatment plans, clinical assessments (e.g., MichiCANS), intake/discharge records, incident reports, consent directives (42 CFR Part 2 / Michigan Mental Health Code)
-- **Billing/financial**: claims, insurance/coverage, service information reporting for Medicaid
-- **Care coordination**: provider information exchange (PIX), cross-agency record sharing, social service referrals
-- **Patient-facing**: patient portal (CEHR)
-- **Documents**: scanned documents, PDFs, non-computable files
+**Clinical workflows the product supports:**
+- Intake and assessment (including MichiCANS structured assessments)
+- Individualized treatment plan creation and tracking
+- Clinical documentation and progress notes
+- Care coordination across providers
+- Discharge planning
+- Incident reporting
 
-This is a comprehensive behavioral health EHR, not a limited-scope module. It is certified across 44 ONC criteria, including (b)(10) EHI export.
+**Billing / PM capabilities:**
+- Integrated billing with claims submission (confirmed by CMHPSM website, FHIR Claim/Coverage resources)
+- Insurance/coverage management
+- Service information reporting for Medicaid
+
+**Specialty features:**
+- PIX (Provider Information Exchange) — a behavioral health HIE connecting PCE implementations across Michigan
+- eConsent Management System for 42 CFR Part 2 (substance use disorder privacy) and Michigan Mental Health Code
+- MI Care Connect Portal for community partners
+- Patient portal (CEHR) with SMART on FHIR OAuth2
+
+**Baseline for export completeness:** A complete EHI export should cover demographics, clinical assessments (including behavioral health–specific instruments like MichiCANS), treatment plans, encounter notes, medications, diagnoses, billing/claims, insurance/coverage, consent records, documents/scanned files, and care coordination data.
 
 ## 2. Artifacts Reviewed
 
-| Artifact | Size | Description | Informativeness |
-|---|---|---|---|
-| `b10_documentation.pdf` | 889 KB, 3 pages | EHI Export (b)(10) format specification. Describes the ZIP container structure, NDJSON format, data types, and self-describing `documentation.json` schema — but does **not** enumerate which resources or fields are actually exported. | **Core artifact** for understanding export mechanics; uninformative for content coverage |
-| `PIX_9_4_API_Documentation.pdf` | 1.9 MB, 87 pages | FHIR (g)(10) API documentation covering SMART on FHIR OAuth2, 22 FHIR resource types, and field-level data element definitions (pages 65–78). Dated April 23, 2025. | **Most informative** — only public enumeration of PCE's data model, but describes the FHIR API, not the (b)(10) export |
-| `capability-statement.json` | 42.6 KB | FHIR CapabilityStatement from production endpoint. Declares 22 resource types (21 clinical + Group) with FHIR v4.0.1, US Core Server conformance, and Bulk Data support. | Confirms API resource set; machine-readable |
-| `g10APIInfo.html` | 2.3 KB | Landing page with links to API and EHI Export documentation, plus FHIR API base URLs (production and test at `w3.pcesecure.com`). | Navigation only |
-| `landing-page-screenshot.png` | 56 KB | Screenshot of the landing page. | Minimal |
-
-**No sample export data, no `documentation.json`, and no data dictionary for the (b)(10) export were available.** The only field-level documentation is for the FHIR (g)(10) API, not the (b)(10) EHI export.
+| Artifact | Description | Informativeness |
+|---|---|---|
+| `b10_documentation.pdf` (3 pages, 889 KB, dated Nov 20, 2023) | EHI Export (b)(10) format specification. Describes the export container: password-protected ZIP with `meta.json`, `documentation.json` (embedded schema), and per-patient NDJSON files plus non-computable files. Does NOT enumerate resources or fields. | **Medium** — tells us the format but not the content |
+| `PIX_9_4_API_Documentation.pdf` (87 pages, 1.9 MB, dated Jan 6, 2025) | FHIR (g)(10) API documentation. Covers SMART on FHIR OAuth2, all API operations, USCDI v1 mapping, and Data Elements section (pp. 65–78) with field-level definitions for 22 FHIR resource types plus 3 helper types. Includes appendices on costs and terms of use. | **High** — only public enumeration of PCE's data model, though this is the FHIR API model, not the native (b)(10) export model |
+| `capability-statement.json` (42 KB) | FHIR R4 CapabilityStatement from production endpoint (`w3.pcesecure.com`). Machine-readable declaration of 22 supported FHIR resources. Declares conformance to US Core Server and FHIR Bulk Data. | **Medium** — confirms resource list and bulk data support |
+| `g10APIInfo.html` (2.3 KB) | Landing page with links to both documentation PDFs and FHIR API base URLs (test and production). | **Low** — just a link page |
+| `landing-page-screenshot.png` (56 KB) | Screenshot of the landing page. | **Low** — visual confirmation only |
 
 ## 3. Export Mechanics
 
-- **Format**: Password-protected ZIP files containing:
-  - `meta.json` — export process metadata (who ran it, when)
-  - `documentation.json` — self-describing JSON schema with all resource definitions, property names, data types, and descriptions
-  - `Patient_[EHRPatientId]/` subdirectories — one per patient, containing NDJSON files per resource type and a `Files/` subdirectory for non-computable attachments (scanned documents, PDFs)
-- **Serialization**: NDJSON (Newline-Delimited JSON), with 7 supported data types: CLOB, DATE, DECIMAL, INTEGER, RESOURCE (cross-reference), STRING, TIMESTAMP
-- **Mechanism**: Initiated by "authorized EHR users" through the EHR system — a purpose-built export function, not a repurposed FHIR Bulk Data endpoint
-- **Single-patient vs bulk**: Supports both per-patient and all-patient export
-- **Access constraints**: Export is performed by authorized EHR users; password protection on ZIP files. No mention of fees for the export itself (API has setup fees per Appendix C, but that's separate)
-- **Key design feature**: The actual data dictionary is embedded in `documentation.json` within the export ZIP itself — it is not published separately
+- **Format**: Password-protected ZIP files containing NDJSON (Newline-Delimited JSON) files per resource type, plus non-computable files (scanned documents, PDFs) in a `Files/` subdirectory. A `meta.json` file records export metadata (who ran it, when) and a `documentation.json` file contains the complete self-describing data dictionary (resource definitions, property names, types, descriptions).
+- **Mechanism**: Initiated by "authorized EHR users" through the EHR system (UI-based). This is a purpose-built (b)(10) export function, distinct from the FHIR API.
+- **Single-patient vs bulk**: Supports both per-patient and all-patient export ("Data may be exported per patient or for all patients within the EHR" — b10_documentation.pdf, p. 1).
+- **Access constraints**: Export is available to authorized EHR users. The password for the ZIP is "provided with the zip file(s)." No public pricing or fees specific to (b)(10) export are documented. The API documentation (Appendix C) mentions a one-time setup fee for API access, but this appears to apply to the (g)(10) FHIR API, not the (b)(10) export.
+- **Data types supported**: CLOB, DATE, DECIMAL, INTEGER, RESOURCE (cross-references), STRING, TIMESTAMP.
 
 ## 4. Export Content: What's In It
 
-### The fundamental evidence gap
+### The fundamental limitation
 
-The (b)(10) documentation (3 pages) describes only the **container format** — how data is packaged — but does not enumerate **what data** is exported. The documentation states that `documentation.json` contains "a list of all possible resource definitions" (emphasis on "all"), but this file is only available inside an actual export ZIP, which was not provided as a public artifact.
+The (b)(10) export documentation explicitly states that the data dictionary — the list of resources and their fields — is embedded in the `documentation.json` file within the export ZIP itself. The public documentation describes only the container format. This means **the specific resources, field names, and data types exported are not publicly knowable** without performing an actual export.
 
-**We cannot determine from the available documentation how many resources, tables, or fields the (b)(10) export contains.** The prior agent's report correctly identified this gap.
+The documentation states `documentation.json` contains "a list of all possible resource definitions" (emphasis on "all"), which suggests the export may cover the full native data model.
 
-### What the FHIR API documentation tells us (indirect evidence only)
+### What the FHIR API reveals (proxy for the native model)
 
-The API documentation (87 pages) is the only public source of field-level data definitions from PCE. It documents 22 FHIR resource types with a total of approximately 288 fields (277 across 22 clinical/business resources, plus ~11 for PractitionerRole which the parser couldn't fully extract due to PDF formatting). All fields include attribute names, data types, and descriptions. The resources conform to US Core 4.0.0 profiles.
+Since the (b)(10) export content is not publicly documented, the FHIR (g)(10) API documentation serves as the only public window into PCE's data model. The API documentation (pp. 65–78) defines 25 data elements: 22 FHIR resources plus 3 helper types. Parsed from the PDF, these contain **318 total fields, 314 with descriptions (98.7%), all 318 with data types.**
 
-**However, this documents the (g)(10) FHIR API, not the (b)(10) export.** The (b)(10) export uses a different format (NDJSON in ZIP) with its own schema (`documentation.json`), and could contain either more or fewer resources than the API. The b(10) documentation's use of "all possible resource definitions" suggests it may export more than the FHIR subset, but this cannot be verified.
+However, the FHIR API is a USCDI-conformant projection — it necessarily represents a subset of PCE's native data model. The (b)(10) export, which uses a proprietary NDJSON format with its own schema, likely includes additional resources (e.g., behavioral health assessments, consent records, treatment plans beyond CarePlan) that cannot be expressed in standard FHIR profiles.
 
-### FHIR API resource inventory (for reference, not b(10) export)
+### FHIR API entity inventory
 
-| Resource | Fields | Descriptions | Notes |
-|---|---|---|---|
-| AllergyIntolerance | 11 | 11 | US Core profile |
-| CarePlan | 15 | 15 | US Core profile |
-| CareTeam | 8 | 8 | US Core profile |
-| Claim | 21 | 21 | Not standard USCDI; includes line items, modifiers, paid/total amounts |
-| Condition | 10 | 10 | US Core profile |
-| Coverage | 8 | 8 | Insurance coverage |
-| Device | 21 | 21 | US Core Implantable Device profile |
-| DiagnosticReport | 15 | 15 | US Core Lab + Report/Note profiles |
-| DocumentReference | 17 | 17 | US Core profile; includes base64 content |
-| Encounter | 15 | 15 | US Core profile; includes discharge disposition |
-| Goal | 9 | 9 | US Core profile |
-| HealthcareService | 6 | 6 | Service availability info |
-| Immunization | 19 | 19 | US Core profile |
-| Location | 14 | 14 | US Core profile |
-| MedicationRequest | 16 | 16 | US Core profile; includes dosage, refills |
-| Observation | 15 | 15 | Vitals, smoking status per US Core |
-| Organization | 12 | 12 | US Core; includes NPI, CLIA |
-| Patient | 16 | 16 | US Core; includes race, ethnicity, birth sex |
-| Practitioner | 13 | 13 | US Core; includes qualifications |
-| PractitionerRole | ~11 | ~11 | US Core; PDF formatting prevented exact parse |
-| Procedure | 7 | 7 | US Core profile |
-| Provenance | 9 | 9 | US Core; author + transmitter agents |
+The full parsed inventory is saved in `analysis/full-entity-inventory.json`. Summary:
 
-**Total**: 22 clinical/business resources, ~288 fields, 100% with descriptions.
+| Entity | Fields | Described | Types | Profile/Category |
+|---|---|---|---|---|
+| Address | 9 | 9 | 9 | Helper type |
+| AllergyIntolerance | 12 | 12 | 12 | US Core 4.0.0 |
+| CarePlan | 15 | 15 | 15 | US Core 4.0.0 |
+| CareTeam | 9 | 9 | 9 | US Core 4.0.0 |
+| Claim | 22 | 22 | 22 | Base FHIR |
+| Coded Element | 4 | 4 | 4 | Helper type |
+| Condition | 10 | 10 | 10 | US Core 4.0.0 |
+| Coverage | 8 | 8 | 8 | Base FHIR |
+| Device | 21 | 21 | 21 | US Core 4.0.0 |
+| Diagnostic Report | 15 | 15 | 15 | US Core 4.0.0 |
+| Document Reference | 17 | 17 | 17 | US Core 4.0.0 |
+| Encounter | 16 | 15 | 16 | US Core 4.0.0 |
+| Goal | 9 | 9 | 9 | US Core 4.0.0 |
+| Healthcare Service | 11 | 11 | 11 | Base FHIR |
+| Immunization | 19 | 19 | 19 | US Core 4.0.0 |
+| Location | 14 | 14 | 14 | Base FHIR |
+| Medication Request | 16 | 16 | 16 | US Core 4.0.0 |
+| Message | 4 | 4 | 4 | Helper type |
+| Observation | 16 | 15 | 16 | US Core 4.0.0 |
+| Organization | 12 | 12 | 12 | US Core 4.0.0 |
+| Patient | 16 | 16 | 16 | US Core 4.0.0 |
+| Practitioner | 13 | 13 | 13 | US Core 4.0.0 |
+| Practitioner Role | 11 | 10 | 11 | US Core 4.0.0 |
+| Procedure | 8 | 7 | 8 | US Core 4.0.0 |
+| Provenance | 11 | 11 | 11 | US Core 4.0.0 |
 
-The Claim resource (21 fields including `billablePeriod`, `item:productOrService`, `item:modifier`, `paid:value`, `total:value`) and Coverage resource (8 fields) are notable — they go beyond standard USCDI v1 requirements and indicate PCE stores and exposes billing/insurance data.
+**Totals**: 25 entities, 318 fields, 314 described (98.7%), 318 typed (100%).
+
+Notable: The API includes **Claim** (22 fields) and **Coverage** (8 fields) resources, going beyond standard USCDI v1 requirements. This confirms PCE stores and exposes billing/insurance data through their FHIR API.
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-The (b)(10) documentation provides no content enumeration. Based solely on the (b)(10) format spec:
+The vendor does not publish an explicit content inventory for the (b)(10) export. Based on the FHIR API data elements (the only public enumeration):
 
-- **Structured data**: NDJSON files organized per-patient, per-resource type. Resource types and fields are defined in `documentation.json`, which is embedded in the export itself.
-- **Unstructured data**: A `Files/` subdirectory per patient for non-computable files (scanned documents, PDFs). Resources reference these files via `fileName` or `imageName` properties.
-- **Cross-references**: The RESOURCE data type supports inter-resource linking via `resource` name and `id`.
+**Well-represented domains** (via FHIR API):
+- **Patient demographics** (Patient: 16 fields) — comprehensive demographics including race, ethnicity, language, addresses, contacts
+- **Clinical documentation** (DocumentReference: 17 fields, DiagnosticReport: 15 fields) — supports both structured reports and unstructured documents, plus the `Files/` directory for scanned documents
+- **Claims/billing** (Claim: 22 fields, Coverage: 8 fields) — one of the richest entities in the API, includes billable periods, service codes, modifiers, paid/total amounts, insurance references
+- **Medications** (MedicationRequest: 16 fields) — prescriptions with dosage, dispense instructions, refills
+- **Immunizations** (Immunization: 19 fields) — detailed with lot numbers, sites, funding sources
+- **Encounters** (Encounter: 16 fields) — visit types, periods, participants, diagnoses, discharge dispositions
 
-The vendor's documentation explicitly claims the export contains "all possible resource definitions" — but without the `documentation.json` or sample data, this cannot be verified.
+**Present but limited** (via FHIR API):
+- **Care plans** (CarePlan: 15 fields) — generic FHIR CarePlan conforming to US Core; unlikely to capture PCE's full behavioral health treatment plan model
+- **Goals** (Goal: 9 fields) — basic goal tracking
+- **Procedures** (Procedure: 8 fields) — relatively thin
 
-The FHIR API provides indirect evidence of data the product stores, organized around US Core FHIR resources plus Claim and Coverage. If the (b)(10) export mirrors or exceeds this, it would cover standard clinical data plus some billing. If it only mirrors the FHIR set, it would miss behavioral health-specific data (assessments, treatment plans, incident reports, consent directives).
+**Unknown / not visible through FHIR API:**
+- Behavioral health assessments (MichiCANS, intake assessments, etc.)
+- Consent directives (42 CFR Part 2 consent records)
+- Incident reports
+- Treatment plan details beyond FHIR CarePlan
+- PIX/HIE exchange metadata
+- Social service referrals
+- Patient portal (CEHR) messages
+
+The (b)(10) export may well include these domains in its native NDJSON format, but this cannot be verified from public documentation.
 
 ### 5b. Standardized domain coverage (top-down)
 
 | Domain | Coverage | Export Evidence | Gap Analysis |
 |---|---|---|---|
-| Demographics | ⚠️ Partial (inferred) | No (b)(10) content spec; FHIR API has Patient (16 fields) | Product stores demographics; likely in export but unverifiable |
-| Encounters / visits | ⚠️ Partial (inferred) | No (b)(10) content spec; FHIR API has Encounter (15 fields) | Product stores encounters; likely in export but unverifiable |
-| Problems / conditions | ⚠️ Partial (inferred) | No (b)(10) content spec; FHIR API has Condition (10 fields) | Likely covered |
-| Medications / prescriptions | ⚠️ Partial (inferred) | No (b)(10) content spec; FHIR API has MedicationRequest (16 fields) | Likely covered |
-| Allergies | ⚠️ Partial (inferred) | No (b)(10) content spec; FHIR API has AllergyIntolerance (11 fields) | Likely covered |
-| Immunizations | ⚠️ Partial (inferred) | No (b)(10) content spec; FHIR API has Immunization (19 fields) | Likely covered |
-| Vitals | ⚠️ Partial (inferred) | No (b)(10) content spec; FHIR API has Observation (15 fields) | Likely covered |
-| Lab results | ⚠️ Partial (inferred) | No (b)(10) content spec; FHIR API has DiagnosticReport + Observation | Likely covered |
-| Imaging / diagnostic reports | ⚠️ Partial (inferred) | No (b)(10) content spec; FHIR API has DiagnosticReport (15 fields) | Likely covered |
-| Procedures | ⚠️ Partial (inferred) | No (b)(10) content spec; FHIR API has Procedure (7 fields) | Likely covered |
-| Clinical notes / documents | ⚠️ Partial (inferred) | No (b)(10) content spec; FHIR API has DocumentReference (17 fields); b(10) has Files/ folder | Likely covered including non-computable attachments |
-| Care plans / goals | ⚠️ Partial (inferred) | No (b)(10) content spec; FHIR API has CarePlan (15) + Goal (9) | Likely covered |
-| Orders / referrals | ❌ Not evidenced | No dedicated resource in API or export docs | Product may handle referrals (signed MiHIN referrals pledge); gap uncertain |
-| Insurance / coverage | ⚠️ Partial (inferred) | No (b)(10) content spec; FHIR API has Coverage (8 fields) | Likely covered |
-| Claims / billing | ⚠️ Partial (inferred) | No (b)(10) content spec; FHIR API has Claim (21 fields) | Product does billing/claims submission; Claim resource is present in API but unclear if in (b)(10) export |
-| Payments | ❌ Not evidenced | No payment resource in API or export docs; Claim has `paid:value` field | Product processes payments; partial data exists in Claim |
-| Consents / directives | ❌ Not evidenced | No Consent resource in API or export docs | **Significant gap**: PCE has an explicit eConsent Management System for 42 CFR Part 2 and Michigan Mental Health Code. No evidence this critical behavioral health data is in the export |
-| Patient communications | ❌ Not evidenced | API docs mention a "Message" data element but it's for error messages, not patient communications | Unknown if patient portal messages are exported |
-| Specialty: Behavioral health assessments | ❌ Not evidenced | No assessment-specific resources in API or export docs | **Significant gap**: MichiCANS and other clinical assessments are core to the product. No evidence they're in either the FHIR API or (b)(10) export |
-| Specialty: Treatment plans | ⚠️ Partial (inferred) | FHIR CarePlan may partially represent these | Individualized behavioral health treatment plans are more detailed than a standard FHIR CarePlan; likely incomplete representation |
-| Specialty: Incident reports | ❌ Not evidenced | No resource for incidents in API or export docs | Product stores incident reports (per CMHPSM); no evidence in export |
+| Demographics | ⚠️ Partial | Patient (16 fields) in FHIR API; likely more in native export | FHIR projection covers USCDI demographics; native export may include additional behavioral health–specific demographic fields |
+| Encounters / visits | ⚠️ Partial | Encounter (16 fields) in FHIR API | Standard encounter data present; unknown if native export captures behavioral health–specific encounter details |
+| Problems / conditions / diagnoses | ⚠️ Partial | Condition (10 fields) in FHIR API | Standard conditions present; behavioral health diagnostic details may be richer in native model |
+| Medications / prescriptions | ⚠️ Partial | MedicationRequest (16 fields) in FHIR API | Present in FHIR; unknown if native export includes medication administration details |
+| Allergies | ⚠️ Partial | AllergyIntolerance (12 fields) in FHIR API | Present |
+| Immunizations | ⚠️ Partial | Immunization (19 fields) in FHIR API | Present with good detail |
+| Vitals | ⚠️ Partial | Observation (16 fields) in FHIR API | Present (vital signs are a subcategory of Observation) |
+| Lab results | ⚠️ Partial | Observation + DiagnosticReport in FHIR API | Present |
+| Imaging / diagnostic reports | ⚠️ Partial | DiagnosticReport (15 fields), DocumentReference (17 fields) in FHIR API | Present for reports; images may be in Files/ directory |
+| Procedures | ⚠️ Partial | Procedure (8 fields) in FHIR API | Present but thin |
+| Clinical notes / documents | ⚠️ Partial | DocumentReference (17 fields) + Files/ directory for non-computable files | Strong — the export explicitly includes scanned documents and PDFs in a Files/ subdirectory |
+| Care plans / goals | ⚠️ Partial | CarePlan (15 fields), Goal (9 fields) in FHIR API | FHIR CarePlan unlikely to capture full behavioral health treatment plans; significant uncertainty |
+| Orders / referrals | ❌ Not covered | No evidence in any artifact | Product likely handles referrals (PIX, MiHIN Interoperable Referrals Pledge); not visible in FHIR API or export documentation |
+| Insurance / coverage | ⚠️ Partial | Coverage (8 fields) in FHIR API | Present; Medicaid coverage management is core to this product |
+| Claims / billing | ⚠️ Partial | Claim (22 fields) in FHIR API | Present with good detail (service codes, modifiers, amounts); unknown if native export includes additional billing tables |
+| Payments | ❌ Not covered | No evidence in any artifact | Product handles claims but payment details are not visible |
+| Consents / directives | ❌ Not covered | No evidence in any artifact | Significant gap — PCE has a dedicated eConsent Management System for 42 CFR Part 2 and Michigan Mental Health Code; consent data is EHI and should be exported |
+| Patient communications / portal messages | ❌ Not covered | No evidence in any artifact | CEHR patient portal exists; message data is not visible in export documentation |
+| Specialty-specific (behavioral health) | ❌ Not covered | No evidence in any artifact | **Critical gap in documentation** — MichiCANS assessments, structured intake forms, behavioral health treatment plan details, incident reports, and substance use disorder treatment records are core to this product but not visible in any public export documentation |
 
-**Key finding**: Every domain assessment is qualified with "inferred" because there is no direct evidence of what the (b)(10) export contains. The most concerning gaps are in behavioral health-specific data — assessments, consent directives, and incident reports — which are core to the product's purpose but have no representation in any available documentation.
+**Important caveat**: All "⚠️ Partial" ratings reflect that the FHIR API data is a confirmed proxy for the native (b)(10) export model, which may be more comprehensive. The "❌ Not covered" ratings mean there is no evidence in any public artifact — but the native export's `documentation.json` may well include these domains. The vendor's deliberate design of a separate, native-format (b)(10) export (rather than repackaging FHIR) suggests an intent to export more than the FHIR API surface.
 
 ## 6. Documentation Quality
 
-**The (b)(10) export documentation is a format specification, not a content specification.** It tells you:
-- ✅ How the export is packaged (ZIP, NDJSON, per-patient directories)
-- ✅ What data types are supported (7 types)
-- ✅ How cross-references work (RESOURCE type)
-- ✅ How non-computable files are included (Files/ subdirectory)
-- ❌ What resources/entities are exported
-- ❌ What fields each resource contains
-- ❌ What value sets or code systems are used
-- ❌ What relationships exist between resources
-- ❌ Any sample data or example `documentation.json`
+**For the (b)(10) export itself**: Poor. The documentation is 3 pages describing the container format only. There is no public data dictionary, no resource enumeration, no field definitions, no sample data, no sample `documentation.json`, and no user guide for initiating the export. The self-describing nature of `documentation.json` within the export is technically sound but means the export's content is completely opaque to external review.
 
-**Could a developer build an import from this documentation alone?** No. A developer would know the container format but would have no idea what data to expect until they received an actual export and examined the `documentation.json` file inside it.
+**For the (g)(10) FHIR API**: Good. The 87-page API documentation includes:
+- USCDI v1 data class mapping (p. 8)
+- Complete API operations with URL patterns, parameters, and return values
+- Data Elements section (pp. 65–78) with field-level definitions: attribute name, data type, and description for each resource
+- 98.7% of fields have descriptions; 100% have data types
+- Appendices with access request form, terms of use, and cost information
+- Revision history
 
-**Self-describing format mitigation**: The embedded `documentation.json` means the schema always travels with the data, which is a sound engineering choice. But it fails the transparency test — no one can evaluate the export's completeness without performing one.
+**Could a developer build an import?** From the (b)(10) documentation alone, no — they would need an actual export file containing `documentation.json` to understand the schema. From the FHIR API documentation, yes, for the FHIR-standard resources. The gap is that the (b)(10) export likely contains vendor-native resources not documented publicly.
 
-**API documentation quality**: The 87-page FHIR API documentation is much better — it has field-level definitions with attribute names, data types, and descriptions for all 22 resources, plus OAuth2 flows, search parameters, and USCDI mapping. But this documents a different system ((g)(10) API, not (b)(10) export).
+**Machine-readable artifacts**: The FHIR CapabilityStatement at `w3.pcesecure.com` is a machine-readable declaration of supported resources. No machine-readable (b)(10) schema is publicly available.
 
 ## 7. Overall Assessment
 
 ### Classification
 
-**Minimal/stub** — The (b)(10) export documentation is too thin to assess actual content coverage. While the export *mechanism* is well-designed (purpose-built NDJSON export with self-describing schema, not a repurposed FHIR endpoint), the public documentation provides zero visibility into what data is actually exported. There is no data dictionary, no sample data, no resource enumeration, and no way to evaluate completeness without performing an actual export.
+**Minimal/stub** — with important nuance.
 
-The export *could* be comprehensive — the format supports it, and the language "all possible resource definitions" is promising. But based on available evidence, this cannot be confirmed.
+The (b)(10) export mechanism itself appears thoughtfully designed: a purpose-built, native-format export with NDJSON, cross-references, self-describing schema, and non-computable file support. This is architecturally superior to many vendors' approaches. However, the **public documentation is a 3-page format specification with zero content enumeration**. Without access to an actual export's `documentation.json`, it is impossible to assess what the export contains, how many entities/tables it covers, or whether it includes behavioral health–specific data. The export may be comprehensive or minimal — there is no public evidence either way.
+
+The FHIR API documentation (87 pages, 318 fields across 25 entities) is decent but represents a standard USCDI projection, not the native export model. It notably includes Claim and Coverage resources beyond USCDI requirements.
 
 ### Key Findings
 
-1. **The (b)(10) export is architecturally distinct from the FHIR API** — PCE built a separate, purpose-built export function using NDJSON in ZIP files with a self-describing JSON schema. This is a positive signal that they didn't just rebrand their FHIR Bulk Data endpoint as (b)(10). However, the actual content is entirely opaque from the public documentation.
+1. **The (b)(10) export is a purpose-built, native-format system** — not a repackaged FHIR or C-CDA export. PCE explicitly designed a separate export mechanism with NDJSON, a self-describing JSON schema (`documentation.json`), cross-references between resources, and a `Files/` directory for non-computable content. This is architecturally sound. (Source: `b10_documentation.pdf`, all 3 pages)
 
-2. **The only public data dictionary describes the (g)(10) API, not the (b)(10) export** — The 87-page API documentation enumerates 22 FHIR resources with ~288 fields, all with descriptions. But this is a FHIR R4 / US Core projection, not the native data model, and it's for a different certification criterion.
+2. **The data dictionary is entirely hidden from public view.** The `documentation.json` containing "all possible resource definitions" is embedded in the export ZIP itself. No sample `documentation.json`, no list of resources, no field counts are publicly available. This makes external compliance assessment impossible. (Source: `b10_documentation.pdf`, p. 2)
 
-3. **Behavioral health-specific data — the product's core domain — has no representation in any available documentation** — MichiCANS assessments, individualized treatment plans (beyond generic CarePlan), incident reports, and 42 CFR Part 2 consent directives are central to this product but absent from both the API and the (b)(10) export docs.
+3. **The FHIR API goes beyond USCDI** by including Claim (22 fields) and Coverage (8 fields) resources. This confirms PCE stores billing/insurance data and exposes it through APIs. (Source: `PIX_9_4_API_Documentation.pdf`, pp. 67–68; `capability-statement.json`)
 
-4. **The FHIR API includes Claim and Coverage resources** — This is notable because it goes beyond standard USCDI v1 requirements, with the Claim resource including line items, modifiers, and payment amounts (21 fields). This suggests billing data is at least partially available via API, though its presence in the (b)(10) export is unconfirmed.
+4. **Behavioral health–specific data (the product's core value) is not visible in any public documentation.** MichiCANS assessments, 42 CFR Part 2 consent records, structured treatment plans, intake/discharge records, and incident reports are all core to this EHR but have no representation in either the FHIR API or the (b)(10) documentation. (Source: absent from all downloaded artifacts; product capabilities per `product-research.md`)
 
-5. **The self-describing `documentation.json` approach is sound engineering but poor transparency** — Having the schema embedded in the export means it's always in sync with the data. But it means no external party can assess export completeness without actually running the export.
+5. **Both single-patient and bulk export are supported**, and the export is initiated by authorized EHR users through the system UI. (Source: `b10_documentation.pdf`, p. 1)
 
 ### Summary Stats
 
 ```
-Classification:  Minimal/stub
-Export format:   NDJSON in password-protected ZIP
-Model type:      Unknown — could be native database or standard projection; documentation.json is not publicly available
-Entities:        N/A (no data dictionary for b(10) export)
-Fields:          N/A
-Descriptions:    N/A
+Classification:  Minimal/stub (well-designed format, but zero public content documentation)
+Export format:   NDJSON in password-protected ZIP (native format)
+Model type:      Native database (separate from FHIR API)
+Entities:        N/A (not publicly documented; embedded in documentation.json)
+Fields:          N/A (not publicly documented)
+Descriptions:    N/A (not publicly documented; documentation.json contains descriptions per spec)
 Sample data:     No
 Bulk export:     Yes (per-patient and all-patient)
-Domains covered: Cannot be determined from available documentation
+Domains covered: Unverifiable from public documentation
+```
+
+FHIR API (for reference, not the (b)(10) export):
+```
+Entities:        25 (22 FHIR resources + 3 helper types)
+Fields:          318
+Descriptions:    98.7% (314/318)
 ```
 
 ### Bottom Line
 
-PCE Systems built a thoughtfully designed (b)(10) export mechanism with a self-describing schema, per-patient NDJSON files, non-computable file support, and cross-reference capabilities. However, the public documentation is a 3-page format specification that says nothing about what data is actually exported. The product's core behavioral health data (assessments, consent directives, incident reports) has no representation in any public artifact. Until PCE publishes the `documentation.json` schema or a sample export, it is impossible for a patient, provider, or third party to evaluate whether this export meets the "all electronic health information" requirement of (b)(10).
+PCE Systems built a technically sound (b)(10) export mechanism with a native NDJSON format, self-describing schema, and non-computable file support — better architecture than many vendors. However, the public documentation is essentially a 3-page format specification that tells you nothing about what data is actually exported. A patient, provider, or regulator cannot determine whether behavioral health assessments, consent records, treatment plans, or billing data are included without performing an actual export and examining `documentation.json`. The single biggest gap is the complete absence of a public data dictionary — the export could be comprehensive, but there is no way to verify this from the available artifacts.

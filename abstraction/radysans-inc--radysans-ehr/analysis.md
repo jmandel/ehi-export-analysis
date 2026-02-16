@@ -1,211 +1,201 @@
 # EHI Export Analysis: Radysans, Inc
 
 **Product**: Radysans EHR v5.0
-**Analysis date**: 2026-02-15
-**CHPL ID**: 15.04.04.2912.Rady.05.00.1.191231 (CHPL #10253)
+**Analysis date**: 2026-02-16
+**CHPL IDs**: 15.04.04.2912.Rady.05.00.1.191231 (CHPL #10253)
 
 ## 1. Product Context
 
-Radysans EHR is an integrated ambulatory EHR and practice management platform targeting small outpatient clinics and physician practices. It is a cloud-hosted SaaS product (ehr.cutecharts.com) developed by Radysans, Inc, a very small vendor based in Apex, NC. The only identifiable customer is Mann ENT, an otolaryngology practice in the Raleigh-Durham area.
+Radysans EHR is an integrated ambulatory EHR and practice management platform targeting small outpatient clinics and physician practices. It is cloud-hosted (at ehr.cutecharts.com) and offered as a SaaS subscription. The company is based in Apex, North Carolina and appears to have a very small customer base (one identifiable customer: Mann ENT, an otolaryngology practice).
 
 The product comprises several integrated modules relevant to EHI scope:
 
-- **EMR**: Clinical documentation including problems, medications, allergies, vitals, lab results, immunizations, procedures, implantable devices, social/behavioral data, clinical notes, and care plans. Certified across CPOE (a)(1)–(a)(4), CDS (a)(9), demographics (a)(5), and other clinical criteria.
-- **Practice Management (PMS)**: Enterprise scheduling, patient registration (including scanned photos/insurance cards), referral management, message routing, and business intelligence reports.
-- **e-Billing**: Charge capture, claim scrubbing, electronic claim submission to 2,500+ payers, denial tracking, EOB/ERA processing, payment posting, and patient statement generation.
-- **Patient Portal**: Patient and caregiver access to health information, certified for View/Download/Transmit (e)(1).
-- **Transcription Services**: Medical transcription with long-term storage.
+- **EMR Module**: Clinical documentation, CPOE for medications/labs/imaging, clinical decision support, drug interaction checks, problem lists, allergies, vital signs, immunizations, implantable devices, social/psychological/behavioral data, care plans.
+- **Practice Management (PMS)**: Enterprise scheduling (multi-location, multi-provider), patient registration with document scanning (photos, insurance cards), referral management with pre-authorization, message/task routing.
+- **eBilling Module**: Charge capture, claim scrubbing, electronic claims submission to 2,500+ payers, payment posting/reconciliation, denial tracking, EOB/ERA processing, patient statement generation.
+- **Patient Portal**: Patient access to health information, patient representative login.
+- **Transcription Services**: Medical transcription with long-term storage and retrieval.
+- **Order Entry**: CPOE for medications, labs, and imaging.
 
-This baseline establishes that a complete EHI export should cover clinical data, billing/claims records, insurance information, referral tracking, and patient-generated data — not just USCDI clinical summaries.
+The product is certified across 40+ ONC criteria including (b)(10) EHI Export. For a complete EHI export, one would expect coverage of clinical data, billing/claims records, insurance data, and referral management — all of which are used to make decisions about patients.
 
 ## 2. Artifacts Reviewed
 
-| Artifact | Description | Size/Scope | Informativeness |
-|---|---|---|---|
-| `B-10-Documentation.pdf` | Primary (b)(10) EHI export documentation | 1 page, 61 KB, created 2023-11-27 | **Most informative for (b)(10) scope** — but extremely thin |
-| `G10ApplicationAccessTermsandCondition.pdf` | FHIR R4 API documentation for (g)(10) | 41 pages, 311 KB, last modified 2025-06-25 | Detailed API docs with 18 FHIR resource endpoints and sample JSON |
-| `RadysansEHRCostsandLimitations.pdf` | Mandatory Disclosure Statement | 2 pages, 582 KB | Confirms data portability fee; minimal detail |
-| `fhir-endpoint-bundle.json` | FHIR Endpoint/Organization bundle | 1.2 KB | Confirms API base URL at ehrwebapi.cutecharts.com/radywebapi |
-| `screenshot-onc-certification-page.png` | Screenshot of ONC certification page | 275 KB | Shows page layout and link structure |
+| Artifact | Description | Informativeness |
+|---|---|---|
+| `B-10-Documentation.pdf` (61 KB, 1 page) | The primary (b)(10) EHI export documentation. Lists 22 C-CDA sections and references FHIR Bulk Data. No data dictionary, no field-level detail. | **Low** — names sections only |
+| `G10ApplicationAccessTermsandCondition.pdf` (311 KB, 41 pages) | The (g)(10) FHIR API documentation. Covers 18 FHIR resource types with OAuth2 flow, endpoint URLs, search parameters, and full sample JSON responses. | **Medium** — implicitly documents field structure via samples |
+| `RadysansEHRCostsandLimitations.pdf` (582 KB, 2 pages) | Mandatory Disclosure Statement. Confirms a one-time per-provider fee for data extraction. | **Low** — fee/cost info only |
+| `fhir-endpoint-bundle.json` (1.2 KB) | FHIR Bundle with Endpoint and Organization resources. Confirms API base URL. | **Low** — confirms FHIR endpoint exists |
+| `screenshot-onc-certification-page.png` (275 KB) | Screenshot of the ONC certification page. | **Low** — navigation context |
 
-The B-10 document is the only artifact that directly addresses (b)(10) compliance. The G10 document provides the most technical detail but is (g)(10) API documentation that the B-10 document simply references.
+The most informative artifact is the G10 API documentation PDF, which provides sample JSON outputs that implicitly show what fields each FHIR resource contains. However, this is (g)(10) documentation repurposed for (b)(10), not purpose-built EHI export documentation.
 
 ## 3. Export Mechanics
 
-- **Formats**: C-CDA XML and FHIR R4 JSON
-- **Mechanism**: The B-10 document says the application provides export "for a single patient as well as for patient population." The FHIR path uses Bulk Data export via the (g)(10) API at `https://ehrwebapi.cutecharts.com/radywebapi/`. The C-CDA mechanism is not detailed — no instructions are provided for how to initiate or receive the C-CDA bulk export.
-- **Single-patient vs bulk**: The document claims both ("single patient as well as for patient population"), but no operational details are provided for either path.
-- **Access constraints**: The Mandatory Disclosure Statement lists data portability as requiring a "one-time fee per provider upon request of data extraction," suggesting this is a vendor-assisted process rather than a self-service feature.
-- **No worked examples**: There are no instructions, screenshots, or process documentation showing how to actually trigger or receive an export.
+- **Format(s)**: C-CDA XML documents and FHIR R4 JSON via Bulk Data API
+- **Mechanism**: The B-10 document states the system supports "bulk export" for both single patient and patient population. The FHIR path uses standard OAuth2/SMART authorization (documented in G10 PDF). The mandatory disclosure statement mentions "One-time fee per provider upon request of data extraction," suggesting a vendor-assisted process rather than pure self-service.
+- **Single-patient**: Yes (stated in B-10 document)
+- **Bulk capability**: Yes (stated in B-10 document; FHIR Bulk Data referenced)
+- **Access constraints**: Requires OAuth2 credentials for FHIR API. Data portability incurs a one-time per-provider fee (`RadysansEHRCostsandLimitations.pdf`).
 
 ## 4. Export Content: What's In It
 
-### Overview
+### No Data Dictionary
 
-The (b)(10) export documentation describes two standard clinical data formats — C-CDA and FHIR — that together cover only the USCDI v1 data classes. There is **no data dictionary, no field-level documentation, no schema, and no sample export files** beyond the FHIR sample JSON responses embedded in the (g)(10) API document.
+There is **no data dictionary** provided. The B-10 documentation is a single-page PDF that lists C-CDA section names and points to the FHIR API documentation. There are no field definitions, no entity-relationship diagrams, no value set specifications, and no mapping between internal data model and export format.
 
-### C-CDA Export
+### C-CDA Export Content
 
-The B-10 document lists 22 C-CDA sections:
+The B-10 document (`B-10-Documentation.pdf`) lists 22 C-CDA sections. These are the standard C-CDA sections corresponding to USCDI v1 data classes. The document provides section names only — no field-level detail, no description of what data populates each section, and no vendor-specific extensions. The reader is referred to the HL7 C-CDA specification for format details.
 
-| # | C-CDA Section |
-|---|---|
-| 1 | Allergies, Adverse Reactions, Alerts |
-| 2 | Assessment Plan |
-| 3 | Chief Complaint |
-| 4 | Cognitive Status |
-| 5 | Demographics |
-| 6 | Reason for Visit / Encounters |
-| 7 | Family History |
-| 8 | Functional Status |
-| 9 | Goals |
-| 10 | Health Concerns |
-| 11 | Immunizations |
-| 12 | Instructions |
-| 13 | Lab Results |
-| 14 | Medical Equipment UDI |
-| 15 | Medications |
-| 16 | Plan of Care |
-| 17 | Problem List |
-| 18 | Procedures |
-| 19 | Reason for Referral |
-| 20 | Social History |
-| 21 | Plan of Treatment |
-| 22 | Vitals |
+### FHIR Export Content
 
-These are standard C-CDA sections corresponding to USCDI v1 requirements. No field-level detail, no sample files, and no documentation of what fields within each section are populated.
+The G10 documentation (`G10ApplicationAccessTermsandCondition.pdf`, 41 pages) documents 18 FHIR resource types. Each resource section includes:
+- Endpoint URL
+- Search parameters (2–7 per resource)
+- Sample JSON output
 
-### FHIR Export
+All 18 resources have sample outputs included in the documentation.
 
-The (g)(10) document describes 18 FHIR R4 resource types, all conforming to US Core STU 3.1.1 profiles:
+### Vendor's own content organization
 
-| # | FHIR Resource | Parameters Documented | Sample Output Provided |
+The vendor does not organize content into custom categories. The C-CDA sections follow the HL7 standard naming, and the FHIR resources follow US Core STU 3.1.1. There are no vendor-specific groupings, extensions, or custom resources.
+
+**C-CDA Sections (22 total, from `B-10-Documentation.pdf`):**
+
+| Section Name | Format | Documentation Detail |
+|---|---|---|
+| Allergies, Adverse Reactions, Alerts | C-CDA XML | Name only |
+| Assessment Plan | C-CDA XML | Name only |
+| Chief Complaint | C-CDA XML | Name only |
+| Cognitive Status | C-CDA XML | Name only |
+| Demographics | C-CDA XML | Name only |
+| Reason for Visit / Encounters | C-CDA XML | Name only |
+| Family History | C-CDA XML | Name only |
+| Functional Status | C-CDA XML | Name only |
+| Goals | C-CDA XML | Name only |
+| Health Concerns | C-CDA XML | Name only |
+| Immunizations | C-CDA XML | Name only |
+| Instructions | C-CDA XML | Name only |
+| Lab Results | C-CDA XML | Name only |
+| Medical Equipment UDI | C-CDA XML | Name only |
+| Medications | C-CDA XML | Name only |
+| Plan of Care | C-CDA XML | Name only |
+| Problem List | C-CDA XML | Name only |
+| Procedures | C-CDA XML | Name only |
+| Reason for Referral | C-CDA XML | Name only |
+| Social History | C-CDA XML | Name only |
+| Plan of Treatment | C-CDA XML | Name only |
+| Vitals | C-CDA XML | Name only |
+
+**FHIR Resources (18 total, from `G10ApplicationAccessTermsandCondition.pdf`):**
+
+| Resource Type | Search Parameters | Has Sample Output | Category |
 |---|---|---|---|
-| 1 | AllergyIntolerance | Clinical-Status, Patient | Yes |
-| 2 | CarePlan | Category, Date, Patient, Status | Yes |
-| 3 | CareTeam | Patient, Status | Yes |
-| 4 | Condition | Category, Clinical-Status, Patient, Onset-Date | Yes |
-| 5 | Device | Patient, Type | Yes |
-| 6 | DiagnosticReport | Status, Patient, Category, Code, Date | Yes |
-| 7 | DocumentReference | _id, Status, Patient, Category, Type, Date, Period | Yes |
-| 8 | Encounter | _id, Class, Date, Identifier, Patient, Status, Type | Yes |
-| 9 | Goal | Lifecycle-status, Patient, Target-date | Yes |
-| 10 | Immunization | Patient, Status, Date | Yes |
-| 11 | MedicationRequest | Status, Intent, Patient, Encounter, Authoredon | Yes |
-| 12 | Observation | Status, Category, Code, Date, Patient | Yes |
-| 13 | Organization | Name, Address | Yes |
-| 14 | Patient | _id, Birthdate, Family, Gender, Given, Identifier, Name | Yes |
-| 15 | Practitioner | Name, Identifier | Yes |
-| 16 | PractitionerRole | Specialty, Practitioner | Yes |
-| 17 | Procedure | Status, Patient, Date, Code | Yes |
-| 18 | Provenance | Patient, Id | Yes |
+| AllergyIntolerance | Clinical-Status, Patient | Yes | Clinical |
+| CarePlan | Category, Date, Patient, Status | Yes | Clinical |
+| CareTeam | Patient, Status | Yes | Clinical |
+| Condition | Category, Clinical-Status, Patient, Onset-Date | Yes | Clinical |
+| Device | Patient, Type | Yes | Clinical |
+| DiagnosticReport | Status, Patient, Category, Code, Date | Yes | Clinical |
+| DocumentReference | _id, Status, Patient, Category, Type, Date, Period | Yes | Clinical |
+| Encounter | _id, Class, Date, Identifier, Patient, Status, Type | Yes | Clinical |
+| Goal | Lifecycle-status, Patient, Target-date | Yes | Clinical |
+| Immunization | Patient, Status, Date | Yes | Clinical |
+| MedicationRequest | Status, Intent, Patient, Encounter, Authoredon | Yes | Clinical |
+| Observation | Status, Category, Code, Date, Patient | Yes | Clinical |
+| Organization | Name, Address | Yes | Administrative |
+| Patient | _id, Birthdate, Family, Gender, Given, Identifier, Name | Yes | Demographics |
+| Practitioner | Name, Identifier | Yes | Administrative |
+| PractitionerRole | Specialty, Practitioner | Yes | Administrative |
+| Procedure | Status, Patient, Date, Code | Yes | Clinical |
+| Provenance | Patient, Id | Yes | Infrastructure |
 
-These 18 resources are exactly the US Core required resource types — no vendor extensions, no non-US-Core resources, no custom profiles. The sample outputs use standard terminologies (SNOMED CT, LOINC, RxNorm, CVX) and contain synthetic test data (e.g., patient "ALICE NEWMAN," practitioner "Albert Davis" at "RADYSANS MU STAGE THREE PRACTICE").
-
-### What's Missing
-
-There is **no native data model export**. The vendor does not expose any internal database tables, proprietary data structures, or vendor-specific fields. The entire export is a projection of internal data into two interoperability standards (C-CDA and FHIR) that were designed for clinical summary exchange, not comprehensive data export.
-
-Absent from the export:
-- Billing records (claims, charges, payments, EOBs, ERAs, denial logs)
-- Insurance/coverage data
-- Appointment/scheduling data
-- Referral management records (administrative tracking, pre-authorizations)
-- Patient registration documents (scanned photos, insurance cards)
-- Transcription records
-- Portal activity and patient communications
-- Custom forms or specialty-specific assessments
+These 18 resources are exactly the US Core STU 3.1.1 required set — no more, no less. There are no vendor-specific FHIR resources, no custom extensions, and no resources for billing, claims, insurance, scheduling, or any administrative/financial data.
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-The vendor does not organize the export into custom categories — they simply list C-CDA sections and FHIR US Core resources. The two formats overlap substantially: both cover the same USCDI v1 clinical data classes (demographics, problems, medications, allergies, labs, vitals, immunizations, procedures, encounters, care plans, goals, clinical notes via DocumentReference, devices/UDI, social history, and provenance).
+The vendor's export consists of two standard clinical data exchange formats:
 
-The export coverage is a 1:1 match with the US Core / USCDI v1 specification. There is no evidence of any data beyond what's required by the (g)(10) certification criterion. The (b)(10) export is functionally identical to the (g)(10) API output.
+1. **C-CDA**: 22 standard sections covering USCDI v1 clinical data classes. No field-level documentation beyond section names. This is a clinical summary format — by definition it captures a patient's clinical snapshot, not the full record.
+
+2. **FHIR R4 US Core**: 18 resource types matching US Core STU 3.1.1. The G10 document provides the most detail — each resource has a sample JSON output showing actual field structures and coded values (SNOMED, LOINC, RxNorm, CVX). But these are standard FHIR resources with no vendor extensions.
+
+The coverage is exclusively clinical. The vendor has not documented any export of billing, claims, insurance, scheduling, referral tracking, transcription, or any other administrative/financial data that the product stores.
 
 ### 5b. Standardized domain coverage (top-down)
 
 | Domain | Coverage | Export Evidence | Gap Analysis |
 |---|---|---|---|
-| Demographics | ✅ Covered | C-CDA Demographics section; FHIR Patient resource (7 search params) | Standard US Core coverage only |
-| Encounters / visits | ✅ Covered | C-CDA Reason for Visit / Encounters; FHIR Encounter resource | Basic encounter data; no scheduling detail |
-| Problems / conditions | ✅ Covered | C-CDA Problem List; FHIR Condition resource | Standard coverage |
-| Medications / prescriptions | ✅ Covered | C-CDA Medications; FHIR MedicationRequest resource | Prescription orders covered; no MAR or dispensing data |
-| Allergies | ✅ Covered | C-CDA Allergies section; FHIR AllergyIntolerance resource | Standard coverage |
-| Immunizations | ✅ Covered | C-CDA Immunizations; FHIR Immunization resource | Standard coverage |
-| Vitals | ✅ Covered | C-CDA Vitals; FHIR Observation resource | Standard coverage |
-| Lab results | ✅ Covered | C-CDA Lab Results; FHIR DiagnosticReport + Observation | Standard coverage |
-| Imaging / diagnostic reports | ⚠️ Partial | FHIR DiagnosticReport resource could include imaging; no dedicated imaging entity | Product supports CPOE for diagnostic imaging (a)(3); imaging orders/results may be thin |
-| Procedures | ✅ Covered | C-CDA Procedures; FHIR Procedure resource | Standard coverage |
-| Clinical notes / documents | ⚠️ Partial | FHIR DocumentReference resource; C-CDA sections for Chief Complaint, Assessment Plan | No evidence of transcription records being included; DocumentReference may not cover all note types |
-| Care plans / goals | ✅ Covered | C-CDA Plan of Care/Treatment, Goals; FHIR CarePlan, Goal, CareTeam | Standard coverage |
-| Orders / referrals | ⚠️ Partial | C-CDA Reason for Referral section | Clinical referral reason only; no administrative referral tracking, no pre-auth records |
-| Insurance / coverage | ❌ Not covered | No insurance entities in export | Product captures insurance data in PMS registration module; **significant gap** |
-| Claims / billing | ❌ Not covered | No billing entities in export | Product has full e-Billing module (charge capture, claims, denials, EOBs/ERAs); **major gap** |
-| Payments | ❌ Not covered | No payment entities in export | Product handles payment posting and reconciliation; **significant gap** |
-| Consents / directives | ❌ Not covered | No consent entities in export | Product scans regulatory documents; may store consent records; gap if present |
-| Patient communications / portal messages | ❌ Not covered | No messaging entities in export | Product has patient portal and Message Manager; gap for patient-facing communications |
-| Specialty-specific (ENT) | ❌ Not covered | No specialty entities in export | Known customer is ENT practice; any specialty clinical data is absent |
+| Demographics | ✅ Covered | C-CDA Demographics section; FHIR Patient resource (7 search params, sample output) | Standard USCDI demographics |
+| Encounters / visits | ✅ Covered | C-CDA Reason for Visit/Encounters; FHIR Encounter resource | Clinical encounter data; no scheduling/appointment data |
+| Problems / conditions / diagnoses | ✅ Covered | C-CDA Problem List; FHIR Condition resource | Standard problem list |
+| Medications / prescriptions | ✅ Covered | C-CDA Medications; FHIR MedicationRequest resource | Prescription data present; no medication administration records |
+| Allergies | ✅ Covered | C-CDA Allergies section; FHIR AllergyIntolerance resource | Standard allergy data |
+| Immunizations | ✅ Covered | C-CDA Immunizations; FHIR Immunization resource | Standard immunization records |
+| Vitals | ✅ Covered | C-CDA Vitals; FHIR Observation resource | Standard vital signs |
+| Lab results | ✅ Covered | C-CDA Lab Results; FHIR DiagnosticReport + Observation resources | Lab results present |
+| Imaging / diagnostic reports | ⚠️ Partial | FHIR DiagnosticReport may include imaging; no dedicated imaging section evident in samples | Product supports CPOE for diagnostic imaging; unclear if imaging reports are fully captured |
+| Procedures | ✅ Covered | C-CDA Procedures; FHIR Procedure resource | Standard procedure records |
+| Clinical notes / documents | ✅ Covered | C-CDA has multiple note-related sections (Chief Complaint, Assessment Plan, etc.); FHIR DocumentReference resource | Clinical notes present; transcription records unclear |
+| Care plans / goals | ✅ Covered | C-CDA Goals, Plan of Care, Plan of Treatment; FHIR CarePlan, Goal, CareTeam resources | Standard care planning data |
+| Orders / referrals | ✅ Covered | C-CDA Reason for Referral; FHIR MedicationRequest (order intent) | Clinical referral reasons present; referral tracking/pre-auth data absent |
+| Insurance / coverage | ❌ Not covered | No insurance/coverage resources in export | Product has insurance eligibility verification and registration with insurance card scanning; **significant gap** |
+| Claims / billing | ❌ Not covered | No billing resources in export | Product has full eBilling module with charge capture, claim submission, denial tracking, EOB/ERA; **major gap** |
+| Payments | ❌ Not covered | No payment resources in export | Product handles payment posting, reconciliation, patient statements; **significant gap** |
+| Consents / directives | ❌ Not covered | No consent resources in export | No evidence product stores formal advance directives; likely N/A but uncertain |
+| Patient communications / portal messages | ❌ Not covered | No communication resources in export | Product has patient portal with representative access; gap if messaging exists |
+| Specialty-specific (ENT) | ❌ Not covered | No specialty-specific data in export beyond standard USCDI | Known customer is ENT practice; any ENT-specific clinical data (audiograms, procedural detail) would be absent |
 
-**Summary**: 10 of 19 domains have standard clinical coverage via C-CDA/FHIR. 3 domains have partial coverage. 6 domains have no coverage at all. The missing domains include the product's entire billing/financial stack (claims, payments, insurance), which represents a substantial portion of patient-related EHI.
+**Summary**: 12 of 17 applicable domains are covered, but all coverage is limited to what C-CDA and FHIR US Core natively support. The entire billing/financial domain (3 domains: insurance, claims, payments) is absent despite being a core product capability. Specialty-specific clinical data is also absent.
 
 ## 6. Documentation Quality
 
-The (b)(10) documentation is **exceptionally thin**:
+**Overall: Very poor.** The (b)(10) documentation is a single page listing section/resource names with no vendor-specific detail.
 
-- **1 page** of documentation for the entire EHI export
-- **No data dictionary** — not even a list of fields within C-CDA sections or FHIR resources
-- **No schema files** — no XSD for C-CDA output, no FHIR StructureDefinitions, no proprietary schemas
-- **No sample export files** — the only sample data is in the (g)(10) API document's inline JSON examples
-- **No export instructions** — no UI screenshots, no step-by-step process, no API call sequences for bulk export
-- **No relationship documentation** — no ERD, no foreign key descriptions
-- **No value set documentation** — beyond what's implicit in FHIR sample outputs (SNOMED, LOINC, RxNorm)
+- **Data dictionary**: None provided
+- **Field-level documentation**: None for C-CDA; implicit via FHIR sample outputs only
+- **Value sets**: Not documented (standard terminologies visible in FHIR samples: SNOMED, LOINC, RxNorm, CVX)
+- **Relationships**: Not documented (standard FHIR references visible in samples)
+- **Sample data**: FHIR sample JSON outputs exist in the G10 document (1 example per resource type), but no sample C-CDA files
+- **Machine-readable schemas**: None (no XSD, no FHIR StructureDefinitions, no JSON Schema)
+- **Export instructions**: No step-by-step instructions for initiating an export; the B-10 document states capability but not process
 
-The (g)(10) document (41 pages) provides meaningful technical detail for FHIR API access — OAuth2 flow, endpoint URLs, search parameters, and sample JSON for all 18 resource types. A developer could build a FHIR client from it. However, this is API documentation, not EHI export documentation. It tells you how to query the FHIR API, not what comprehensive EHI is available or how to obtain a full patient record.
-
-A developer attempting to build an import system from these documents would:
-- Know the FHIR resource types and their search parameters (from the g10 doc)
-- Know the C-CDA section names (from the b10 doc)
-- **Not know** what fields are populated within each resource/section
-- **Not know** how to initiate the actual export process
-- **Not know** what data is excluded from the export
-- **Not know** anything about the internal data model
+**Could a developer build an import from this documentation?** A developer familiar with C-CDA and FHIR could build a consumer for the standard portions, since the formats are well-specified by HL7. However, they would have no insight into vendor-specific data, no understanding of what data is or isn't included beyond the standard, and no way to verify completeness. The documentation provides no information about the internal data model, what data is excluded from the export, or how to handle vendor-specific nuances.
 
 ## 7. Overall Assessment
 
 ### Classification
 
-**Standard-based projection**
-
-The export is entirely composed of two interoperability standards (C-CDA and FHIR R4 US Core) that were designed for clinical data exchange, not comprehensive data export. There is no native data model exposure and no data beyond what the (g)(10) FHIR API already provides. The (b)(10) documentation is a 1-page reference to the existing (g)(10) infrastructure, not an independent export capability.
+**Standard-based projection**: The EHI export is entirely composed of existing C-CDA and FHIR US Core capabilities repackaged as the (b)(10) mechanism. There is no native database export, no data dictionary, and no vendor-specific content. The export covers the USCDI v1 clinical data subset but omits the product's billing, scheduling, insurance, and specialty clinical data.
 
 ### Key Findings
 
-1. **The (b)(10) export is the (g)(10) API repackaged.** The entire 1-page B-10 document lists C-CDA sections (standard clinical summary sections) and then refers the reader to the (g)(10) API documentation. The 18 FHIR resources are exactly the US Core required set with no extensions. This is a textbook example of repurposing existing clinical interoperability infrastructure as an "EHI export."
+1. **Classic C-CDA/FHIR repackaging**: The (b)(10) documentation explicitly points to C-CDA sections and the (g)(10) FHIR API as the two export mechanisms. The 18 FHIR resources match exactly the US Core STU 3.1.1 required set — no additions, no extensions (`G10ApplicationAccessTermsandCondition.pdf`, sections 1.1–1.18).
 
-2. **The product's entire billing/financial module is absent from the export.** Radysans EHR includes a full e-Billing suite (charge capture, claim submission to 2,500+ payers, denial tracking, EOB/ERA processing, payment posting), yet zero billing entities appear in the export. This is a significant EHI gap — billing records about patients are squarely within the designated record set.
+2. **Complete absence of billing/financial data**: The product has a full eBilling module with claims, payments, EOBs/ERAs, and denial tracking, yet no billing or financial resources appear in the export. This is a significant EHI gap given billing records are explicitly part of the HIPAA designated record set.
 
-3. **No data dictionary exists.** There is no field-level documentation of any kind — no table definitions, no field descriptions, no types, no value sets, no relationships. The only technical detail comes from the (g)(10) FHIR sample outputs, which are example-based rather than formal specifications.
+3. **One-page (b)(10) documentation with no data dictionary**: The entire EHI export documentation is a single-page PDF (`B-10-Documentation.pdf`, 61 KB) listing 22 C-CDA section names and deferring to the FHIR API docs. No field-level detail, no entity definitions, no schema, no sample files.
 
-4. **Export may require vendor assistance and a fee.** The Mandatory Disclosure Statement lists data portability as requiring a "one-time fee per provider upon request of data extraction," suggesting this is not a self-service capability.
+4. **Fee-gated export**: The mandatory disclosure statement (`RadysansEHRCostsandLimitations.pdf`) confirms a "one-time fee per provider upon request of data extraction" for data portability, suggesting this is a vendor-assisted process rather than self-service.
 
-5. **Documentation is among the thinnest possible while still existing.** A single page listing C-CDA section names and a pointer to the FHIR API docs meets the bare minimum of having "documentation" for (b)(10) but provides almost no actionable information about the export's scope, content, or process.
+5. **G10 API doc is the only substantive artifact**: The 41-page G10 document with sample FHIR JSON outputs provides more detail than the actual (b)(10) documentation, but it's standard FHIR API documentation, not EHI export documentation.
 
 ### Summary Stats
 
-```
-Classification:  Standard-based projection
-Export format:   C-CDA XML + FHIR R4 JSON
-Model type:      Standard projection (US Core / USCDI v1)
-Entities:        22 C-CDA sections + 18 FHIR resources (overlapping; ~18 unique data categories)
-Fields:          N/A (no field-level documentation)
-Descriptions:    N/A
-Sample data:     Inline FHIR examples only (no standalone sample files)
-Bulk export:     Claimed but not detailed
-Domains covered: 10 of 16 applicable domains (with 3 partial)
-```
+    Classification:  Standard-based projection
+    Export format:   C-CDA XML + FHIR R4 JSON
+    Model type:      Standard projection (C-CDA + US Core FHIR)
+    Entities:        22 C-CDA sections + 18 FHIR resources (no native entities)
+    Fields:          N/A (no data dictionary; fields defined by standards)
+    Descriptions:    N/A (no vendor-specific field documentation)
+    Sample data:     Partial (FHIR sample outputs in G10 doc; no C-CDA samples)
+    Bulk export:     Yes (claimed for both C-CDA and FHIR Bulk Data)
+    Domains covered: 12 of 17 applicable domains (clinical only)
 
 ### Bottom Line
 
-Radysans EHR's (b)(10) export is a clinical summary repackaged as comprehensive EHI. A patient or provider would receive standard USCDI clinical data (problems, medications, allergies, labs, vitals, immunizations, procedures, encounters, notes, care plans) but would get none of their billing history, insurance records, claims, payments, referral tracking, or any specialty-specific data. The single biggest gap is the complete absence of the product's billing and financial data — a core module that generates patient-specific records clearly within the EHI designated record set.
+Radysans EHR's (b)(10) export is a textbook case of repackaging existing C-CDA and FHIR API capabilities as an EHI export. A patient or provider would receive a clinical summary covering standard USCDI data (problems, meds, allergies, labs, vitals, etc.) but would get none of the billing, claims, insurance, payment, or scheduling data that the product stores — data that is squarely within the HIPAA designated record set. The single biggest gap is the complete absence of billing/financial data from a product that has a full eBilling and revenue cycle management module.

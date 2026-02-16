@@ -1,132 +1,138 @@
 # EHI Export Analysis: Sargas Pharmaceutical Adherence and Compliance International
 
 **Product**: Sargas International's Chronic Care Management Cloud dba hru2day  
-**Analysis date**: 2026-02-15  
-**CHPL ID**: 15.05.05.2306.SPAC.01.00.0.211014 (internal ID 10702)
+**Analysis date**: 2026-02-16  
+**CHPL ID**: 15.05.05.2306.SPAC.01.00.0.211014
 
 ## 1. Product Context
 
-Sargas International (SPAC International) is a small, niche vendor based in Bakersfield, CA, specializing in **chronic care management (CCM), remote patient monitoring (RPM), and medication therapy monitoring (MTM)**. The product — branded "hru2day" — is **not a full EHR** but a modular platform that supplements a practice's existing EHR with CCM/RPM/MTM-specific capabilities. It achieved ONC HIT **Modular** EHR certification (version 21.9, certified 2021-10-14).
+Sargas International (SPAC International) operates a cloud-based chronic care management (CCM) platform branded "hru2day." It is **not a full EHR** — it holds ONC Modular EHR certification (version 21.9, certified 2021-10-14) and focuses exclusively on Medicare CCM, Principal Care Management (PCM), Remote Patient Monitoring (RPM), and Medication Therapy Monitoring (MTM). The company also operates a 24/7 clinical call center that performs care management services on behalf of physician practices.
 
-The platform's core data includes:
-- **Care plans**: comprehensive, addressing physical, mental, cognitive, psychosocial, functional, and environmental domains
-- **Care coordination logs**: documenting 20+ minutes/month of CCM services (200,000+ interactions logged per the vendor's website)
+Per vendor materials and the hru2day website, the platform serves 200+ practices and 20,000+ patients with 200,000+ recorded interactions. The product stores:
+
+- **Patient demographics** and chronic condition problem lists
+- **Comprehensive care plans** (physical, mental, cognitive, psychosocial, functional, environmental domains)
+- **Medication lists and allergies**, medication adherence tracking, and side effect reporting (the company's founding use case, originally for oncology)
 - **RPM device data**: glucose, blood pressure, heart rate, oxygen saturation, weight from FDA-approved home monitoring devices
-- **Medication adherence records**: the company's founding use case — tracking adherence, reminders, and side effects (originally for oncology patients)
-- **Demographics, problem lists, medication lists, allergies**: standard clinical data
-- **Billing-relevant time tracking**: linked to CPT codes for CCM (99490 etc.), PCM (99424–99427), and RPM
-- **Patient consent records**, secure messages, referral and care transition records
+- **Care coordination logs**: the 20+ minutes/month of CCM service documentation
+- **Secure messages** between patients, care teams, and providers
+- **Time tracking** for CCM/PCM/RPM services (linked to CPT codes 99490, 99491, 99487, 99489, 99439, 99424–99427)
+- **Patient consent records** (required for CCM billing)
+- **Clinical summaries** and reconciliation data
 
-The product operates a 24/7 clinical call center as part of its managed-service model — SPAC staff perform care management on behalf of contracting physician practices. The platform serves ~200 practices and ~20,000 patients.
+The certified criteria are narrow: CPOE for medications/labs/imaging (a)(1)–(a)(3), demographics (a)(5), clinical information reconciliation (e)(2), EHI export (b)(10), FHIR API (g)(10), and security criteria. Notably absent: e-prescribing, transitions of care, patient portal view/download/transmit, and public health reporting.
 
-For EHI export assessment, the key question is whether the export captures the **specialized data that differentiates this product** — care plans, care coordination logs, RPM telemetry, medication adherence tracking, and CCM time documentation — or only the clinical summary data (demographics, problems, medications, allergies) that any C-CDA would contain.
+This product's data footprint is **deep on care management and medication adherence but narrow compared to a full EHR**. The relevant question for (b)(10) assessment is whether the export captures the CCM-specific data (care plans, coordination logs, RPM readings, adherence tracking) — not whether it captures traditional EHR data the product doesn't store.
 
 ## 2. Artifacts Reviewed
 
-| Artifact | Description | Informativeness |
-|---|---|---|
-| `SPAC-Export.pdf` (380 KB, 1 page) | The entire EHI export documentation. Six sentences stating the export is a ZIP containing C-CDA XMLs (per encounter) and PDF attachments. No data dictionary, no field-level detail, no sample data. | **Primary artifact** — but extremely thin |
-| `screenshot-certification-page.png` (236 KB) | Screenshot of vendor's "Certified EHR Technology" page. Certification boilerplate and link to mandatory disclosures. | Not informative for EHI export assessment |
+| # | Artifact | Type | Size | What It Tells Us |
+|---|----------|------|------|-----------------|
+| 1 | `downloads/SPAC-Export.pdf` | PDF, 1 page | 379,759 bytes | **Primary (and only) EHI export documentation.** 6 sentences describing the export format: a ZIP containing C-CDA XML documents (per encounter) and PDF attachments. No data dictionary, no field-level detail, no sample data, no schema, no instructions for performing the export. Created 2023-12-19, last modified 2025-11-25. 109 words of substantive content. |
+| 2 | `downloads/screenshot-certification-page.png` | PNG screenshot | 235,885 bytes | Screenshot of vendor's Certified EHR Technology page. Contains certification boilerplate and a link to mandatory disclosures. No EHI export documentation. |
 
-Only two artifacts were collected. The PDF is the sole source of information about the EHI export. No data dictionary, schema, sample data, or API documentation exists in any reviewed artifact.
+**Additionally verified** (not in downloads but checked independently):
+- `ONC-HIT-CERTIFICATE-DISCLOSURE_ver_21_9_Revised-25.pdf` (2 pages, from vendor website): Lists certified criteria and pricing. Confirms (b)(10) certification. No additional EHI export technical detail.
+- The vendor's certification page at `spacinternational.com/certified-ehr-technology.php`: Links to mandatory disclosures and a capabilities statement. No EHI export documentation beyond the SPAC-Export.pdf.
+
+**Most informative artifact**: `SPAC-Export.pdf` — though it is extremely minimal.  
+**Least informative**: The screenshot, which adds nothing beyond what the PDF provides.
 
 ## 3. Export Mechanics
 
-- **Format**: ZIP file containing per-encounter C-CDA XML documents (in nested ZIP archives) and PDF files from the patient's chart
-- **Standard**: C-CDA (Consolidated Clinical Document Architecture)
-- **Mechanism**: Not documented. The PDF does not describe how to initiate an export — no UI instructions, no API endpoint, no description of who can perform it.
-- **Single-patient vs bulk**: Not documented. The language ("the patient EHI export") implies single-patient.
-- **Access constraints or fees**: Not documented in the export documentation. The mandatory disclosures page (per the screenshot) links to a separate document that may address pricing but was not collected as an artifact.
+Based on the SPAC-Export.pdf (the sole documentation):
+
+- **Format**: ZIP archive containing:
+  - C-CDA XML documents (one per patient encounter), nested in ZIP archives within the outer ZIP
+  - PDF files attached to the patient's chart (described as "machine readable PDF")
+- **Mechanism**: Not documented. No instructions for how to initiate the export, from which screen, by which user role, or through what workflow.
+- **Single-patient vs bulk**: Not documented. The language says "patient EHI export" (singular), suggesting single-patient scope.
+- **Access constraints or fees**: Not documented in the EHI export materials. The mandatory disclosures PDF mentions "one time implementation fee and yearly maintenance charge" for the ONC certified portals generally, but no fees specific to EHI export.
 
 ## 4. Export Content: What's In It
 
-The documentation provides **no field-level or section-level detail** about what the export contains. The entire description is:
+The documentation provides **no field-level, section-level, or entity-level detail** about what the export contains. The entirety of the content description is:
 
-> "The patient EHI export contains data from the patient's chart. [...] The export file itself is a zip file. It contains zip files of C-CDAs and PDF files attached to the patient's chart (machine readable PDF). Information for each patient encounter is available C-CDA format in zip archive."
+> "The patient EHI export contains data from the patient's chart."
 
-### What can be inferred
+The export format is C-CDA XML per encounter plus PDF attachments. There is:
 
-Since the export is stated to be C-CDA documents, the content is constrained by what C-CDA supports. Standard C-CDA sections would typically include:
-- Demographics
-- Problems / conditions
-- Medications
-- Allergies
-- Encounters
-- Procedures
-- Results (if any)
-- Care Plan (if populated)
-- Vital signs (if populated)
-
-However, **no documentation confirms which C-CDA sections are actually populated**, whether vendor extensions are used, or what level of detail is included. There is no sample C-CDA file to inspect.
-
-The PDF attachments mentioned could contain any documents from the patient chart, but no inventory or description of what types of PDFs are included is provided.
+- **No data dictionary**: zero entities, zero fields documented
+- **No schema or profile**: no indication of which C-CDA template(s), which sections are populated, or which optional sections are included
+- **No sample data**: no example C-CDA documents or PDFs
+- **No value sets or code systems**: not documented
+- **No relationships**: not documented
+- **No machine-readable artifacts**: only a 1-page PDF with prose
 
 ### Vendor's own content organization
 
-The vendor provides **no content organization**. There is no data dictionary, no entity listing, no table of fields, and no categorization of data domains. The sole claim is "data from the patient's chart" in C-CDA and PDF format.
+The vendor provides no content organization. No tables, categories, or entity groupings are described. The only structure conveyed is:
 
-| Entity/Table | Fields | Described | Types | Category (vendor's) |
-|---|---|---|---|---|
-| *None documented* | N/A | N/A | N/A | N/A |
+| Component | Format | Description (vendor's words) |
+|-----------|--------|------------------------------|
+| Patient encounter data | C-CDA XML | "Information for each patient encounter is available C-CDA format in zip archive" |
+| Chart attachments | PDF | "PDF files attached to the patient's chart (machine readable PDF)" |
+
+No further breakdown is provided. There are **0 entities and 0 fields** documented.
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-The vendor's documentation describes exactly **zero** data entities, fields, or sections. The only content claim is that the export contains "data from the patient's chart" in C-CDA format (per encounter) plus PDF attachments.
+The vendor describes only that the export includes C-CDA documents per encounter and PDF attachments from the chart. Without a data dictionary or sample data, it is impossible to determine which C-CDA sections are populated or how comprehensively. At best, a C-CDA export would include standard sections (demographics, problems, medications, allergies, encounters). At worst, the C-CDAs could be minimal templates with sparse population.
 
-Since no data dictionary, sample data, or section-level documentation exists, it is impossible to verify what the export actually includes. The use of C-CDA as the export format imposes structural limitations: C-CDA is a clinical document standard designed for health information exchange of summary clinical data. It has well-defined sections for demographics, problems, medications, allergies, encounters, procedures, results, and vital signs — but **it is not designed to represent**:
-- Care coordination activity logs
-- RPM device time-series data
-- Medication adherence tracking
-- CCM/PCM/RPM service time documentation
-- Call center interaction records
+The PDF attachments could theoretically contain additional clinical documents, but their nature and scope are completely undocumented.
 
-These are the core data types that differentiate hru2day from a standard clinical summary.
+The vendor's documentation provides **zero visibility** into whether the export includes the product's core data: care plans, care coordination logs, RPM device readings, medication adherence records, time tracking, or secure messages.
 
 ### 5b. Standardized domain coverage (top-down)
 
 | Domain | Coverage | Export Evidence | Gap Analysis |
-|---|---|---|---|
-| Demographics | ⚠️ Partial | C-CDA standard section (if populated) — but no documentation confirms | Product stores demographics; C-CDA likely includes basic demographics but coverage unverifiable |
-| Encounters / visits | ⚠️ Partial | C-CDA generated per encounter — but no section-level detail | Product logs encounters; C-CDA should reference encounters but completeness unknown |
-| Problems / conditions | ⚠️ Partial | C-CDA standard section (if populated) | Core to CCM (chronic conditions); C-CDA likely includes problems but no confirmation |
-| Medications / prescriptions | ⚠️ Partial | C-CDA standard section (if populated) | Product maintains medication lists; likely in C-CDA but unverifiable |
-| Allergies | ⚠️ Partial | C-CDA standard section (if populated) | Product stores allergies; likely in C-CDA but unverifiable |
-| Immunizations | N/A | No evidence | Product does not appear to store immunization data |
-| Vitals | ⚠️ Partial | C-CDA vital signs section (if populated) | RPM device data (glucose, BP, HR, SpO2, weight) is core to this product; C-CDA vitals section cannot represent time-series device telemetry — **significant likely gap** |
-| Lab results | ❌ Not covered | No evidence | Product is certified for CPOE for labs (a)(2), implying orders are placed, but no evidence lab results are stored or exported |
-| Imaging / diagnostic reports | ❌ Not covered | No evidence | Product is certified for CPOE for imaging (a)(3), but no evidence imaging results are stored |
-| Procedures | ⚠️ Partial | C-CDA standard section (if populated) | Unclear what procedures the product documents |
-| Clinical notes / documents | ⚠️ Partial | PDF attachments from patient chart included in export | PDFs described but no detail on types or completeness |
-| Care plans / goals | ⚠️ Partial | C-CDA has a Care Plan section | Care plans are the **core product capability** (comprehensive, multi-domain); C-CDA's Care Plan section is unlikely to capture the full structured richness — **significant likely gap** |
-| Orders / referrals | ⚠️ Partial | No specific evidence | Product supports referrals and care transitions but no export documentation |
-| Insurance / coverage | ❌ Not covered | No evidence | Product likely stores insurance info for CCM billing; C-CDA does not support this — **gap** |
-| Claims / billing | ❌ Not covered | No evidence | Product tracks CCM/PCM/RPM service time linked to CPT codes; this is billing-relevant EHI with no C-CDA analog — **significant gap** |
-| Payments | N/A | No evidence | Product does not appear to process payments directly |
-| Consents / directives | ❌ Not covered | No evidence | Product requires patient consent for CCM enrollment; no evidence this is in the export — **gap** |
-| Patient communications / portal messages | ❌ Not covered | No evidence | Product supports secure messaging and call center interactions (200,000+ logged); no C-CDA representation — **significant gap** |
-| Specialty: Medication adherence tracking | ❌ Not covered | No evidence | This is the company's **founding specialty** (Drug Adherence® for oncology); adherence records, side effect reports, reminders — no C-CDA analog — **significant gap** |
-| Specialty: RPM device telemetry | ❌ Not covered | No evidence | Time-series data from glucose monitors, BP cuffs, pulse oximeters, scales; C-CDA cannot represent this — **significant gap** |
-| Specialty: Care coordination logs | ❌ Not covered | No evidence | Logs documenting 20+ min/month of CCM services; core to product purpose and billing justification; no C-CDA analog — **significant gap** |
+|--------|----------|-----------------|--------------|
+| Demographics | ⚠️ Partial | C-CDA typically includes demographics, but no confirmation of which fields | Product stores demographics (certified for (a)(5)); likely present in C-CDA but undocumented |
+| Encounters / visits | ⚠️ Partial | Documentation says "each patient encounter" gets a C-CDA | Encounter structure likely present but content unknown |
+| Problems / conditions | ⚠️ Partial | C-CDA standard section; product certified for (a)(5) problem list | Likely present in C-CDA but undocumented |
+| Medications / prescriptions | ⚠️ Partial | C-CDA standard section; product certified for (a)(1) CPOE-meds | Likely present but medication adherence tracking (core product feature) almost certainly not captured in C-CDA |
+| Allergies | ⚠️ Partial | C-CDA standard section | Likely present but undocumented |
+| Immunizations | N/A | Not documented | Product does not appear to store immunization data |
+| Vitals | ⚠️ Partial | C-CDA has a vitals section | RPM device readings (glucose, BP, HR, SpO2, weight) are the product's core data; C-CDA vitals section cannot represent continuous time-series device telemetry. **Significant potential gap.** |
+| Lab results | ❌ Not covered | No evidence | Product has CPOE for labs but unclear if results are stored; no evidence in export |
+| Imaging / diagnostic reports | ❌ Not covered | No evidence | Product has CPOE for imaging but unclear if results are stored |
+| Procedures | N/A | Not documented | Product is not a procedure-documentation system |
+| Clinical notes / documents | ⚠️ Partial | PDF attachments from chart included | Some documents may be captured as PDFs, but scope is unknown |
+| Care plans / goals | ❌ Not covered | No evidence | **Critical gap.** Care plans are the core product feature (comprehensive plans covering physical, mental, cognitive, psychosocial, functional, environmental domains). C-CDA has a care plan section but no evidence the vendor populates it, and the structured richness of their care plans likely exceeds what C-CDA can represent. |
+| Orders / referrals | ❌ Not covered | No evidence | Product has CPOE; unclear if orders are in the export |
+| Insurance / coverage | ❌ Not covered | No evidence | Product likely stores some insurance info for Medicare CCM billing |
+| Claims / billing | ❌ Not covered | No evidence | CCM/PCM/RPM time tracking and billing documentation are core to the product but have no C-CDA analog |
+| Payments | N/A | Not documented | Medicare billing appears to be done by the physician practice, not through this system |
+| Consents / directives | ❌ Not covered | No evidence | Patient consent records are required for CCM and stored in the system; not evidenced in export |
+| Patient communications | ❌ Not covered | No evidence | Secure messaging is a product feature; no evidence in export |
+| Specialty: Medication adherence tracking | ❌ Not covered | No evidence | **Critical gap.** This is the company's founding specialty (Drug Adherence® for oncology). Adherence records, side effect reports, and adherence monitoring data have no C-CDA representation. |
+| Specialty: RPM device telemetry | ❌ Not covered | No evidence | **Critical gap.** Continuous device readings (glucose, BP, HR, SpO2, weight) are a core product feature. C-CDA cannot represent time-series device data. |
+| Specialty: Care coordination logs | ❌ Not covered | No evidence | **Critical gap.** 200,000+ logged care coordination interactions are core to CCM services and billing support. No C-CDA representation exists. |
 
-All "⚠️ Partial" ratings reflect that C-CDA *could* contain these sections but no documentation confirms they are populated. Without sample data or a section-level description, these cannot be upgraded to "✅ Covered."
+**Summary**: Of 15 applicable domains, 0 are confirmed covered, 5 are partially/presumably covered (based on C-CDA being a standard format), and 10 show no evidence of coverage. The product's three most distinctive data types — care plans, RPM device telemetry, and care coordination logs — all appear to be absent from the export.
 
 ## 6. Documentation Quality
 
-The export documentation is **critically deficient**:
+The export documentation is **among the thinnest possible** while still existing:
 
-- **Data dictionary**: None
-- **Field definitions**: None
-- **C-CDA section listing**: None — not even which standard C-CDA sections are populated
-- **Sample data**: None
-- **Machine-readable schema**: None
-- **Export instructions**: None — no description of how to initiate, who can request, what parameters exist
-- **PDF organization**: None — no description of what types of PDFs are included or how they're structured in the ZIP
+- **1 page, 109 words, 6 sentences** — describes only the container format (ZIP with C-CDAs and PDFs)
+- **No data dictionary**: zero tables, zero fields, zero descriptions
+- **No schema or profile**: no indication of which C-CDA template, which sections, or which extensions
+- **No sample data**: no example export files
+- **No instructions**: no guidance on how to perform the export (what screen, what role, what workflow)
+- **No machine-readable artifacts**: no JSON schema, no FHIR CapabilityStatement, no C-CDA template OIDs
+- **No API documentation**: the export mechanism is completely undescribed
 
-A developer given this document could not build an import. They would know only: "it's a ZIP with C-CDAs and PDFs inside." They could parse C-CDA XML generically, but would have no vendor-specific guidance on what to expect, what sections are populated, what extensions might be used, or what the PDFs contain.
+A developer given this documentation could determine only that the export produces a ZIP file containing C-CDA XML and PDF files. They could not:
+- Determine which data elements are included
+- Build an import process
+- Validate the completeness of an export
+- Understand the relationship between documents
+- Know how to request or trigger an export
 
-The documentation consists of 6 sentences on a single page, 3 of which are definitions of commonly known file formats (ZIP, PDF, C-CDA). The substantive content is 3 sentences. This reads as a minimal compliance artifact — the absolute minimum text needed to claim (b)(10) documentation exists.
+The documentation quality is insufficient for any practical use beyond knowing the file format.
 
 ## 7. Overall Assessment
 
@@ -134,34 +140,34 @@ The documentation consists of 6 sentences on a single page, 3 of which are defin
 
 **Minimal/stub**
 
-The documentation is too thin to assess what is actually exported. The 6-sentence PDF provides no data dictionary, no field-level detail, no sample data, and no export instructions. The choice of C-CDA as the sole structured export format is fundamentally mismatched with the product's core data — a chronic care management platform's most important data (care coordination logs, RPM device telemetry, medication adherence tracking, CCM time documentation) has no C-CDA representation. Even if the C-CDA export contains well-populated clinical sections, the majority of the product's distinctive data likely cannot be expressed in C-CDA format.
+The documentation is too thin to confirm what is actually exported, but the described format (C-CDA per encounter + PDF attachments) is structurally incapable of capturing this product's core data domains (care coordination logs, RPM device telemetry, medication adherence tracking, comprehensive care plans, CCM time tracking). Even if the C-CDAs are well-populated, a C-CDA-only export for a chronic care management platform represents a fundamental mismatch between export format and product data model. The documentation is a 109-word compliance artifact, not a genuine export specification.
 
 ### Key Findings
 
-1. **The entire EHI export documentation is 6 sentences on 1 page** (`SPAC-Export.pdf`, 380 KB). Three of those sentences define common file formats (ZIP, PDF, C-CDA). The substantive content is 3 sentences. No data dictionary, field definitions, sample data, schema, or export instructions exist.
+1. **The entire EHI export documentation is a single 1-page PDF with 109 words** (`SPAC-Export.pdf`). It describes only the container format — no data dictionary, no field definitions, no sample data, no schema, and no export instructions.
 
-2. **C-CDA is structurally inadequate for this product's core data.** hru2day is a chronic care management / RPM / medication adherence platform. Its most distinctive and voluminous data — care coordination logs (200,000+ interactions), RPM device telemetry (glucose, BP, HR, SpO2, weight time-series), medication adherence tracking, and CCM/PCM/RPM service time documentation — cannot be represented in C-CDA format. The export likely captures only the clinical summary layer (demographics, problems, meds, allergies) while missing the bulk of the product's actual data.
+2. **The export format (C-CDA + PDF) is fundamentally mismatched with the product's core data.** hru2day is a chronic care management platform whose most important data — care coordination logs (200,000+ interactions), RPM device telemetry (glucose, BP, HR, SpO2, weight), medication adherence tracking, and CCM time-based billing records — cannot be represented in C-CDA documents. This appears to be a clinical summary export being repurposed as (b)(10).
 
-3. **No way to verify coverage.** Without sample data, a C-CDA section listing, or any field-level documentation, it is impossible to confirm what the export actually includes. Every domain assessment is necessarily speculative.
+3. **Zero entities and zero fields are documented.** There is no data dictionary of any kind. It is impossible to determine from the documentation what specific data elements are included in or excluded from the export.
 
-4. **Billing-relevant EHI is almost certainly absent.** The product tracks service time linked to CPT codes (99490, 99437, 99487, etc.) for Medicare CCM/PCM/RPM billing. This time tracking data is billing-relevant EHI that has no C-CDA analog and is not mentioned in the export documentation.
+4. **The product's three most distinctive capabilities are likely unrepresented**: (a) comprehensive care plans across physical/mental/cognitive/psychosocial/functional/environmental domains, (b) RPM device data from FDA-approved monitors, and (c) care coordination activity logs supporting Medicare CCM billing. None of these have standard C-CDA representations.
 
-5. **The PDF attachments are an unknown wildcard.** The export includes "PDF files attached to the patient's chart (machine readable PDF)" — but no description of what these contain. They could potentially include care plans, consent forms, or other documents, but this is speculative.
+5. **No export mechanism is described.** The documentation does not explain how to initiate an export, who can perform it, or any parameters involved.
 
 ### Summary Stats
 
 ```
 Classification:  Minimal/stub
-Export format:   C-CDA XML + PDF (in ZIP archive)
+Export format:   ZIP (C-CDA XML + PDF)
 Model type:      Standard projection (C-CDA)
-Entities:        N/A (no data dictionary)
-Fields:          N/A (no data dictionary)
+Entities:        0 (no data dictionary)
+Fields:          0 (no field-level documentation)
 Descriptions:    N/A
 Sample data:     No
 Bulk export:     Unclear
-Domains covered: 0 of 15 confirmed; up to 7 of 15 possible (if C-CDA sections populated)
+Domains covered: 0 of 15 confirmed; 5 of 15 presumed partial (based on C-CDA standard sections)
 ```
 
 ### Bottom Line
 
-This is one of the thinnest EHI export implementations possible. A 6-sentence PDF with no data dictionary, combined with a C-CDA-based export format that is fundamentally mismatched with the product's core data domains (care coordination, RPM telemetry, medication adherence), means that a patient would almost certainly receive only a fraction of their data. The product's most valuable and distinctive information — care management logs, device monitoring readings, adherence tracking, and billing documentation — likely has no path into the export at all.
+A patient or provider requesting their data from hru2day would receive C-CDA clinical summaries and PDF chart attachments — likely capturing basic demographics, problems, medications, and allergies, but almost certainly missing the product's core data: care coordination logs, RPM device readings, medication adherence records, and comprehensive care plans. The 109-word documentation provides no visibility into what is actually exported. This is a compliance checkbox, not a genuine EHI export capability. The single biggest gap is the structural mismatch between the C-CDA export format and the product's specialized care management data model.

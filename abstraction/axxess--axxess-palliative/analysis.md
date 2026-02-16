@@ -1,162 +1,176 @@
 # EHI Export Analysis: Axxess
 
-**Product**: Axxess Palliative
-**Analysis date**: 2026-02-15
+**Product**: Axxess Palliative  
+**Analysis date**: 2026-02-16  
 **CHPL IDs**: 11620 (15.99.04.3134.AXXE.02.03.1.250313)
 
 ## 1. Product Context
 
-Axxess Palliative is a cloud-based EHR and practice management system designed specifically for palliative care delivery, serving physicians and nurse practitioners in home-based palliative care settings. It is part of the broader Axxess platform (9,000+ organizations, 800,000+ users). The product was certified in March 2025 (Version 3.0.2022) across 27 ONC criteria.
+Axxess Palliative is a cloud-based EHR and practice management system designed specifically for palliative care delivery. It is part of the broader Axxess platform (serving 9,000+ home-based care organizations) and was certified in March 2025 (Version 3.0.2022).
 
-Based on vendor materials and help center documentation, the product stores data across these functional areas:
+The product stores a rich set of data across these functional areas:
 
-- **Clinical documentation**: Visit notes, vital signs, symptom assessments, diagnoses, medications (with eMAR), allergies, infectious disease tracking, implantable devices, family health history, advance directives, comprehensive plan of care, physician communications
-- **Orders management**: Medication orders, DME orders, supply orders, order workflows with read-back verification
-- **IDG (Interdisciplinary Group) Center**: Meeting scheduling, agendas, summaries, sign-in sheets, patient review documentation
-- **Billing**: Medicare Part B billing, multi-payer claims via Axxess Revenue Cycle Management integration, CPT codes, ERA processing
-- **Intake/scheduling**: Patient intake from referral through admission, scheduling with calendar views, insurance eligibility checking
-- **Administration**: Referral tracking, payer/insurance management, authorized contacts, pharmacy and DME vendor management
+- **Clinical**: Visit notes, vital signs, symptom assessments/ratings, diagnoses, medications (with eMAR), allergies, infectious disease tracking, implantable devices, family health history, advance directives, comprehensive plan of care, physician communications
+- **Orders**: Medication orders, DME orders, supply orders, order workflows with read-back/verification
+- **IDG (Interdisciplinary Group)**: Meeting schedules, agendas, summaries, sign-in sheets, team assignments, patient review documentation
+- **Billing**: Direct Medicare Part B billing, multi-payer claims via Axxess Revenue Cycle Management, CPT codes, ERA processing, insurance eligibility
+- **Administration**: Patient intake, referral tracking, scheduling, payer/insurance management, pharmacy/DME vendor management
 
-This establishes the baseline: a complete EHI export should cover clinical records, specialty palliative care data (symptom assessments, IDG records, comprehensive plans of care), billing/claims, orders, and administrative patient data.
+This establishes the baseline: a compliant EHI export should cover clinical documentation, palliative-specific assessments, orders, IDG records, and billing/claims data.
 
 ## 2. Artifacts Reviewed
 
-| Artifact | Type | Size | Informativeness |
-|---|---|---|---|
-| `b10-electronic-health-information-export.pdf` | EHI export documentation | 1 page, 148 KB | **Primary artifact** — describes export format and process; no data dictionary |
-| `Axxess-CEHRT-Disclosures-V3.0.2022.pdf` | CEHRT transparency disclosures | 3 pages, 210 KB | **Low** — one-sentence description of (b)(10) capability among 27 criteria |
-| `cehrt-page-screenshot.png` | Screenshot of CEHRT page | 2.5 MB | **Minimal** — shows page layout and document links |
+| Artifact | Description | Informativeness |
+|---|---|---|
+| `b10-electronic-health-information-export.pdf` | 1-page PDF (148 KB). Primary EHI export documentation. Describes export as C-CDA 2.1 XML and PDF in ZIP format. Contains a 4-step export process. No data dictionary, no schema, no sample data. Created 2023-12-15 by Charles Daprix. Contains an internal note left in the public document. | **Primary but extremely thin** |
+| `Axxess-CEHRT-Disclosures-V3.0.2022.pdf` | 3-page PDF (210 KB). CEHRT transparency disclosures listing all 27 certified criteria with brief descriptions. (b)(10) entry states export covers "all of a single patient's or population of patient's electronic health information." Created 2025-06-20. | **Secondary — confirms (b)(10) claim but adds no technical detail** |
+| `cehrt-page-screenshot.png` | Full-page screenshot of the CEHRT compliance hub at `axxess.com/cehrt/`. Shows two-column layout with links to certification documents. | **Minimal — confirms page structure** |
 
-All three artifacts were directly examined. The b10 PDF text was extracted with `pdftotext -layout` and verified against the prior report's claims. The CEHRT disclosures PDF was similarly extracted. Both PDFs' metadata was verified with `pdfinfo`.
-
-**Total documentation for the (b)(10) export: 1 page of substantive content.** No data dictionary, no schema, no sample data, no machine-readable artifacts of any kind.
+**Verification**: The CEHRT page at `https://www.axxess.com/cehrt/` is live (HTTP 200 as of 2026-02-16). The same two PDFs and no additional EHI export documentation are linked. No data dictionary, schema, sample export, or help article about the "Download Patient Chart" feature was found on the site.
 
 ## 3. Export Mechanics
 
-- **Format**: C-CDA 2.1 XML and PDF, packaged in a ZIP archive. Each patient's data is in a subfolder labeled `LASTNAME_FIRSTNAME`.
-- **Mechanism**: UI-driven. Navigate to Patients → Download Patient Chart → select Branch, date range, patient(s), and file format → click "Request Documents" (enters processing queue) → when status shows "Ready," click "Export" to download the ZIP.
-- **Single-patient vs bulk**: Both. The UI allows selection of single or multiple patients.
-- **Access constraints**: Per the CEHRT disclosures PDF, "All costs are included within software license fees according to contract terms and conditions." No additional fees documented.
-- **Process maturity indicator**: The b10 PDF (created 2023-12-15) ends with an internal note: *"This should comply with what we need and buy us time to finish the feature in the overall direction we are thinking."* This sentence was left in the publicly-facing document and strongly suggests the export was developed as a minimal compliance measure rather than a thorough implementation.
+- **Format**: C-CDA 2.1 XML and PDF, packaged in a ZIP file. Each patient's data is in a subfolder named `LASTNAME_FIRSTNAME`.
+- **Mechanism**: UI-based. Navigate to Patients → Download Patient Chart → specify parameters (branch, date range, patients, format) → Request Documents → wait for "Ready" status → click Export to download ZIP.
+- **Single-patient**: Yes
+- **Bulk/population**: Yes (multiple patients can be selected)
+- **Access constraints**: Requires "appropriate permissions" (no further detail)
+- **Fees**: "All costs are included within software license fees according to contract terms and conditions" (per CEHRT Disclosures PDF, page 1)
 
 ## 4. Export Content: What's In It
 
 ### What the documentation tells us
 
-The b10 PDF provides **zero detail** about what data is included in the export. The entire description of content is:
+The b10 PDF provides **zero detail** about what data is included in the export. It states only:
+- XML files contain "comprehensive patient data, conforming to the C-CDA version 2.1 specification"
+- PDF files are in "a widely accepted industry standard"
 
-> "XML: Comprehensive patient data, conforming to the C-CDA version 2.1 specification."
-> "PDF: A widely accepted industry standard."
-
-There is:
-- **No data dictionary** — not at any level (entity, table, field, section)
-- **No enumeration of C-CDA sections or templates** used
-- **No field-level documentation** of any kind
-- **No sample export files**
-- **No schema or machine-readable specification** beyond referencing "C-CDA version 2.1"
-- **No description of what the PDF export contains** (rendered clinical documents? Full chart? Selected forms?)
+There is no data dictionary. There are:
+- **0 entities/tables** documented
+- **0 fields** documented
+- **0 field descriptions**, types, value sets, or relationships
+- **No sample data** or machine-readable schema
+- **No specification** of which C-CDA sections or templates are populated
+- **No documentation** of what the PDF export contains
 
 ### Vendor's own content organization
 
-The vendor provides no content organization. There is no breakdown of data categories, tables, entities, or sections. The entire content documentation is the two bullet points quoted above.
+The vendor provides no content organization whatsoever. There is no breakdown by category, module, section, or data type. The entire technical specification is: "C-CDA version 2.1 XML" and "PDF."
 
 | Entity/Table | Fields | Described | Types | Category |
 |---|---|---|---|---|
-| *(none documented)* | 0 | 0 | N/A | N/A |
+| *(none documented)* | — | — | — | — |
 
-### What we can infer
+### What can be inferred from C-CDA 2.1
 
-The export format is C-CDA 2.1. Standard C-CDA documents include sections for demographics, problems, medications, allergies, procedures, results, vital signs, immunizations, encounters, plan of care, social history, and functional status. However, without sample data or template documentation, we cannot confirm which C-CDA sections Axxess actually populates.
+Since the export is described as C-CDA 2.1, the following sections are *implied* by the standard (but not confirmed by the vendor):
 
-C-CDA 2.1 does **not** have standard sections for billing records, claims, CPT codes, ERA data, palliative-specific symptom assessments, IDG meeting records, DME/supply orders, or many other data types that Axxess Palliative stores.
+- Demographics (recordTarget)
+- Problems/Conditions
+- Medications
+- Allergies and Intolerances
+- Vital Signs
+- Immunizations
+- Procedures
+- Results (lab/diagnostic)
+- Encounters
+- Plan of Treatment
+- Social History
+- Advance Directives
 
-The PDF format component could theoretically contain additional data (rendered documents, forms, notes), but there is no documentation of what it includes.
+However, C-CDA 2.1 is a clinical summary standard. It does **not** have standard sections for billing records, palliative-specific assessments, IDG meeting documentation, DME/supply orders, or insurance/claims data. None of these domains are addressed or even mentioned in the export documentation.
+
+### Internal note
+
+The b10 PDF ends with the sentence: *"This should comply with what we need and buy us time to finish the feature in the overall direction we are thinking."* This internal note, left in the public-facing document, explicitly indicates the documentation (and potentially the export itself) was created as an interim compliance artifact.
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-The vendor provides no categorization or detail about export content. The only statement is that the export produces "comprehensive patient data" in C-CDA 2.1 format. Without a data dictionary, sample data, or even a list of C-CDA sections, it is impossible to assess coverage from the vendor's documentation alone.
+The vendor's documentation is so thin that there is essentially nothing to describe bottom-up. The export is characterized in a single sentence as "comprehensive patient data, conforming to the C-CDA version 2.1 specification." No categories, no modules, no sections, no entities are enumerated.
 
-The choice of C-CDA 2.1 as the sole structured format is itself informative: C-CDA is a clinical summary exchange standard, not a native data model export. It is designed for transitions of care, not for exporting "all electronic health information." This strongly suggests the export covers only the clinical summary slice of the patient record.
+The only content organization comes from the C-CDA standard itself, not from the vendor. If the export genuinely produces valid C-CDA 2.1 documents, it would contain standard clinical summary sections — but even this cannot be confirmed without sample data or section-level documentation.
 
 ### 5b. Standardized domain coverage (top-down)
 
 | Domain | Coverage | Export Evidence | Gap Analysis |
 |---|---|---|---|
-| Demographics | ⚠️ Partial | Likely in C-CDA header, but no confirmation | Product stores demographics (certified under (a)(5)); C-CDA typically includes basic demographics |
-| Encounters / visits | ⚠️ Partial | C-CDA may include encounter sections | Product stores visit notes; C-CDA encounter sections are typically thin |
-| Problems / conditions / diagnoses | ⚠️ Partial | C-CDA typically includes problem list | Product stores diagnoses; likely present but unconfirmed |
-| Medications / prescriptions | ⚠️ Partial | C-CDA typically includes medications section | Product stores medication profiles with eMAR; C-CDA unlikely to capture full eMAR detail |
-| Allergies | ⚠️ Partial | C-CDA typically includes allergies section | Product stores allergies; likely present but unconfirmed |
-| Immunizations | ⚠️ Partial | C-CDA has immunizations section | Unclear if palliative care product stores immunizations significantly |
-| Vitals | ⚠️ Partial | C-CDA typically includes vital signs | Product stores vitals; likely present but unconfirmed |
-| Lab results | N/A | Product does not appear to have lab ordering/results | No lab certification criteria; not a gap |
-| Imaging / diagnostic reports | N/A | No evidence product stores imaging data | Not a gap |
-| Procedures | ⚠️ Partial | C-CDA has procedures section | Likely present but unconfirmed |
-| Clinical notes / documents | ⚠️ Partial | PDF component may contain rendered notes; C-CDA may include notes as unstructured text | Product stores extensive visit documentation; coverage depth unknown |
-| Care plans / goals | ⚠️ Partial | C-CDA has plan of care section | Product stores comprehensive palliative plan of care; C-CDA section unlikely to capture full specialty detail |
-| Orders / referrals | ❌ Not covered | No evidence in C-CDA standard sections for DME, supply, or medication orders as managed in the product | Product stores medication, DME, and supply orders with workflow data; significant gap |
-| Insurance / coverage | ❌ Not covered | C-CDA does not have insurance/payer sections | Product stores insurance/payer information and eligibility data; significant gap |
-| Claims / billing | ❌ Not covered | C-CDA has no billing sections | Product handles Medicare Part B billing, multi-payer claims, CPT codes, ERA; significant gap |
-| Payments | ❌ Not covered | C-CDA has no payment sections | Product processes ERA and payment data; significant gap |
-| Consents / directives | ⚠️ Partial | C-CDA has advance directives section | Product stores advance directives; may be partially covered |
-| Specialty-specific (Palliative Care) | ❌ Not covered | C-CDA has no standard sections for palliative-specific data | Product stores symptom ratings/assessments, IDG meeting records, palliative-specific plan of care detail, physician communications; **critical gap** |
+| Demographics | ⚠️ Partial | Implied by C-CDA 2.1 recordTarget; not confirmed by vendor | Product stores demographics (Section 1); C-CDA likely includes basic demographics but vendor doesn't specify which fields |
+| Encounters / visits | ⚠️ Partial | Implied by C-CDA 2.1 Encounters section; not confirmed | Product has visit documentation; C-CDA may include encounter summaries but not full visit notes with palliative-specific detail |
+| Problems / conditions / diagnoses | ⚠️ Partial | Implied by C-CDA 2.1 Problems section; not confirmed | Product stores diagnoses; likely partially covered by C-CDA |
+| Medications / prescriptions | ⚠️ Partial | Implied by C-CDA 2.1 Medications section; not confirmed | Product has eMAR and medication profiles; C-CDA may include medication list but not administration records |
+| Allergies | ⚠️ Partial | Implied by C-CDA 2.1 Allergies section; not confirmed | Likely partially covered |
+| Immunizations | ⚠️ Partial | Implied by C-CDA 2.1 Immunizations section; not confirmed | May or may not be applicable to palliative care product |
+| Vitals | ⚠️ Partial | Implied by C-CDA 2.1 Vital Signs section; not confirmed | Product records vitals; likely partially covered |
+| Lab results | N/A | Product does not appear to include lab ordering/results management | No lab certification criteria |
+| Imaging / diagnostic reports | N/A | No evidence product stores imaging data | Not part of product scope |
+| Procedures | ⚠️ Partial | Implied by C-CDA 2.1 Procedures section; not confirmed | May be partially covered |
+| Clinical notes / documents | ⚠️ Partial | PDF format may capture rendered notes; C-CDA may include notes as unstructured text | Product stores extensive visit notes; depth of coverage unknown |
+| Care plans / goals | ⚠️ Partial | Implied by C-CDA 2.1 Plan of Treatment section; not confirmed | Product has palliative-specific Comprehensive Plan of Care; C-CDA Plan of Treatment section is generic and likely misses palliative-specific detail |
+| Orders / referrals | ❌ Not covered | No evidence in documentation; C-CDA has no standard orders section | Product stores medication, DME, and supply orders; **significant gap** |
+| Insurance / coverage | ❌ Not covered | No evidence in documentation; C-CDA does not cover insurance | Product stores insurance/payer data; **significant gap** |
+| Claims / billing | ❌ Not covered | No evidence in documentation; C-CDA does not cover billing | Product does Medicare Part B billing and multi-payer claims; **significant gap** |
+| Payments | ❌ Not covered | No evidence in documentation; C-CDA does not cover payments | Product processes ERA; **significant gap** |
+| Consents / directives | ⚠️ Partial | Implied by C-CDA 2.1 Advance Directives section; not confirmed | Product stores advance directives; may be partially covered |
+| Patient communications | ❌ Not covered | No evidence; C-CDA has no communications section | Product has physician communications; gap |
+| Specialty-specific (palliative care) | ❌ Not covered | No evidence; C-CDA has no palliative-specific sections | Product stores symptom ratings/assessments, IDG meeting records, palliative-specific care plans; **critical gap** — this is the product's core differentiating data |
 
-**Note on coverage ratings**: All domains marked "⚠️ Partial" are assessed based on what C-CDA 2.1 *typically* includes, not on confirmed evidence from this vendor. Without sample data or section-level documentation, we cannot confirm any domain is actually covered. Every clinical domain could equally be rated "❌ Not covered" given the absence of evidence.
+**Summary**: Of 15 applicable domains, 0 are confirmed covered, 9 are partially implied (by the C-CDA standard, not by vendor documentation), and 6 are not covered at all. The uncovered domains include the product's core specialty data (palliative-specific assessments, IDG records) and all billing/financial data.
 
 ## 6. Documentation Quality
 
-The export documentation quality is **extremely poor** — among the worst possible for a certified product:
+The export documentation quality is **extremely poor** — among the worst possible:
 
-- **Total substantive documentation**: 1 page (~150 words of actual content)
+- **Completeness**: A single page with no technical content beyond format names (C-CDA 2.1, PDF) and a 4-step export procedure
 - **Data dictionary**: None
-- **Field-level documentation**: None (0 fields documented)
-- **C-CDA template/section specification**: None
+- **Field definitions**: None (0 fields documented)
+- **Types/constraints**: None
+- **Value sets/code systems**: None
+- **Relationships/foreign keys**: None
 - **Sample data**: None
-- **Schema or machine-readable artifacts**: None
-- **Value sets or code systems**: None
-- **Relationship documentation**: None
-- **PDF export content description**: None
+- **Machine-readable schema**: None
+- **C-CDA template/section specification**: None — the vendor doesn't even list which C-CDA sections are populated
+- **PDF export specification**: None — no documentation of what the PDF export contains
 
-A developer attempting to build an import from this documentation would know only that the export is "C-CDA 2.1 XML" and "PDF" in a ZIP file. They would need to obtain actual export files and reverse-engineer the structure entirely.
+A developer could not build an import from this documentation. They would know only that the output is "C-CDA 2.1 XML in a ZIP" and would need to reverse-engineer everything from actual exports.
 
-The internal note left in the public document — *"This should comply with what we need and buy us time to finish the feature in the overall direction we are thinking"* — indicates the documentation was drafted as an interim compliance artifact. The b10 PDF was created 2023-12-15, yet the product was not certified until 2025-03-13. There is no evidence the documentation was updated between initial drafting and certification, and the internal note was never removed.
+The internal note left in the document — *"This should comply with what we need and buy us time to finish the feature"* — is a candid indicator that this was treated as a compliance checkbox, not a genuine data portability effort.
 
 ## 7. Overall Assessment
 
 ### Classification
 
-**Minimal/stub**
+**Standard-based projection**
 
-The export documentation is too thin to assess actual content, and the export format (C-CDA 2.1) is structurally incapable of representing the full scope of data a palliative care EHR stores. The internal note in the documentation confirms this was treated as a compliance checkbox. There is no data dictionary, no schema, no sample data, and no evidence of effort to document or export data beyond what a standard clinical summary provides.
+The export is explicitly described as C-CDA 2.1 XML (plus rendered PDFs). C-CDA is a clinical document standard designed for transitions of care, not a comprehensive data export format. This is functionally equivalent to the vendor's (b)(1) Transitions of Care capability repackaged as (b)(10). The documentation provides no evidence of any content beyond what C-CDA covers — no native database tables, no billing data, no specialty-specific palliative care data.
 
 ### Key Findings
 
-1. **The entire (b)(10) export documentation is a single page with ~150 words of content** — no data dictionary, no field documentation, no sample data, no schema. This is among the most minimal export documentation possible for a certified product. (`b10-electronic-health-information-export.pdf`, 1 page)
+1. **C-CDA repackaging as (b)(10)**: The export uses C-CDA 2.1, a clinical summary standard, as its sole structured format. C-CDA structurally cannot represent billing records, palliative-specific assessments, IDG meeting data, or orders management — all core data domains this product stores. This is the classic failure mode of pointing an existing clinical document export at the (b)(10) requirement. *(Source: `b10-electronic-health-information-export.pdf`)*
 
-2. **The export uses C-CDA 2.1 as its sole structured format**, which is a clinical summary exchange standard — not a native data model export. C-CDA cannot represent billing records, palliative-specific assessments, IDG meeting data, orders workflows, or insurance information that the product stores. This is functionally a (b)(1) Transitions of Care export repackaged as (b)(10).
+2. **Zero documentation depth**: There is no data dictionary, no field definitions, no schema, no sample data, and no specification of which C-CDA sections or templates are populated. The entire technical specification fits in four sentences. *(Source: `b10-electronic-health-information-export.pdf`, 1 page, 148 KB)*
 
-3. **An internal note was left in the public document**: *"This should comply with what we need and buy us time to finish the feature in the overall direction we are thinking."* This confirms the export was developed as a minimal compliance measure. (`b10-electronic-health-information-export.pdf`, final line)
+3. **Internal note left in public document**: The b10 PDF ends with "This should comply with what we need and buy us time to finish the feature in the overall direction we are thinking" — an internal planning note that was not removed before publication. This explicitly acknowledges the export was a placeholder compliance artifact. *(Source: `b10-electronic-health-information-export.pdf`, last line)*
 
-4. **Palliative care specialty data is entirely unaddressed.** The product's core differentiator — symptom assessments, IDG meeting records, comprehensive palliative plans of care, physician communications — has no representation in C-CDA and is not documented in the export.
+4. **Critical specialty data gaps**: Axxess Palliative's core differentiating data — palliative-specific symptom assessments, IDG meeting records, comprehensive palliative care plans — has no representation in C-CDA and no evidence of inclusion in the export. This is the product's reason for existing, and it appears to be absent from the export. *(Based on product research vs. export documentation)*
 
-5. **Billing and financial data is absent.** The product handles Medicare Part B billing, multi-payer claims, CPT codes, and ERA processing. C-CDA has no billing sections, and the documentation provides no indication that billing data is exported in any format.
+5. **Billing/financial data absent**: The product handles Medicare Part B billing, multi-payer claims, CPT codes, and ERA processing. None of this has any representation in C-CDA, and the export documentation makes no mention of billing data. *(Based on product research vs. C-CDA 2.1 standard scope)*
 
 ### Summary Stats
 
 ```
-Classification:  Minimal/stub
-Export format:   C-CDA 2.1 XML + PDF, in ZIP
-Model type:      Standard projection (C-CDA clinical summary)
-Entities:        N/A (no data dictionary)
-Fields:          N/A (no fields documented)
+Classification:  Standard-based projection (C-CDA repackaging)
+Export format:   C-CDA 2.1 XML + PDF in ZIP
+Model type:      Standard projection (C-CDA)
+Entities:        0 documented (N/A — no data dictionary)
+Fields:          0 documented (N/A — no data dictionary)
 Descriptions:    N/A
 Sample data:     No
-Bulk export:     Yes (multi-patient selection supported)
-Domains covered: 0 confirmed of 13 applicable (up to ~9 inferred from C-CDA, 0 verified)
+Bulk export:     Yes (multiple patients)
+Domains covered: 0 of 15 confirmed; 9 of 15 implied by C-CDA standard
 ```
 
 ### Bottom Line
 
-This is a textbook case of a vendor repackaging their existing C-CDA/Transitions of Care export as a (b)(10) "all EHI" export. A patient or provider would receive a clinical summary — likely demographics, problem lists, medications, allergies, and vitals — but would almost certainly not receive billing records, palliative-specific clinical assessments, IDG documentation, orders, or insurance data. The internal note left in the documentation confirms this was a compliance shortcut, not a genuine effort to enable comprehensive health information export.
+This is a textbook case of C-CDA/FHIR repackaging: the vendor points to their existing clinical document export and calls it "(b)(10)." The export documentation consists of a single page with no data dictionary and an internal note acknowledging it was a placeholder. A patient or provider requesting their complete EHI would receive a clinical summary that likely omits billing records, palliative-specific assessments, IDG meeting documentation, and orders — the very data that makes this product specialized for palliative care.

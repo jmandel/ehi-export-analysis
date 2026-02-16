@@ -1,0 +1,608 @@
+{
+  "artifacts_reviewed": [
+    {
+      "file": "compliance-page.html",
+      "size_bytes": 195649,
+      "type": "HTML page",
+      "description": "Main EHI compliance page. Contains ~3 paragraphs on EHI export plus generic CSV/HTML format definitions. No data dictionary.",
+      "informativeness": "low"
+    },
+    {
+      "file": "compliance-page.png",
+      "size_bytes": 1216286,
+      "type": "Screenshot",
+      "description": "Full-page screenshot of compliance page confirming rendered content matches HTML parse.",
+      "informativeness": "low (confirmatory)"
+    },
+    {
+      "file": "API_Document.html",
+      "size_bytes": 358852,
+      "type": "Swagger UI HTML",
+      "description": "Pre-rendered Swagger UI documenting 4 REST API endpoints. The main export endpoint returns C-CDA 2.1 with 19 toggleable sections.",
+      "informativeness": "medium (most informative artifact)"
+    },
+    {
+      "file": "developer-portal-api-docs.png",
+      "size_bytes": 176776,
+      "type": "Screenshot",
+      "description": "Screenshot of Oracle APEX developer portal with embedded Swagger UI iframe.",
+      "informativeness": "low (confirmatory)"
+    },
+    {
+      "file": "fhir-service-base-bundle.json",
+      "size_bytes": 1224,
+      "type": "FHIR Bundle JSON",
+      "description": "FHIR R4 service base URL bundle pointing to InteropEngine sandbox. Separate from (b)(10) export.",
+      "informativeness": "low (not EHI export)"
+    },
+    {
+      "file": "enrichment/api-docs.json",
+      "size_bytes": 14167,
+      "type": "Extracted JSON",
+      "description": "Structured extraction of API_Document.html: 4 endpoints, all parameters, 19 C-CDA sections, 8 error codes.",
+      "informativeness": "medium (structured version of API_Document.html)"
+    },
+    {
+      "file": "public-fhir-api-page.html",
+      "size_bytes": 196924,
+      "type": "HTML page",
+      "description": "Public FHIR API page. Documents (g)(10) FHIR API via InteropEngine, not (b)(10) EHI export.",
+      "informativeness": "low (not EHI export)"
+    }
+  ],
+  "compliance_page": {
+    "source": "compliance-page.html",
+    "section_title": "I. Electronic Health Information Export",
+    "full_text": "Electronic Health Information Export\nSingle Patient Export\nMedi-EHR allows a user to export electronic health information (EHI) for a single patient at any time without developer assistance using the following standardized file formats explained below\nMulti-Patient Export\nMedi-EHR can export all the data for a patient population in our standardized format explained below\nFile Formats\nThese are standardized formats. Medi-EHR updates all formats on a quarterly schedule unless otherwise indicated. If a specific update or patch is released about one of these formats, then an on-demand update is made.\nCSV\nA comma-separated values (CSV) file is a delimited text file that uses a comma to separate values. Each line of the file is a data record. Each record consists of one or more fields, separated by commas. The use of the comma as a field separator is the source of the name for this file format.\nHTML\nThe HyperText Markup Language, or HTML, is the standard markup language for documents designed to be displayed in a web browser.\nII. API documentation\nClick Here\nfor details",
+    "mentions_csv": true,
+    "mentions_html": true,
+    "csv_description": "Generic definition of CSV format. No field list, no data dictionary, no schema.",
+    "html_description": "Generic definition of HTML format. No structure details.",
+    "single_patient_export": true,
+    "multi_patient_export": true,
+    "has_data_dictionary": false,
+    "has_sample_data": false,
+    "has_field_definitions": false,
+    "has_schema": false,
+    "api_documentation_link": "https://proda.mediemr.net:8443/pls/htmldb/f?p=300:10"
+  },
+  "api_documentation": {
+    "source": "API_Document.html (parsed via enrichment/api-docs.json)",
+    "api_title": "Medi-EMR - v2.1",
+    "api_version": "2.1",
+    "server_url": "https://proda.mediemr.net/patient/v1",
+    "endpoint_count": 4,
+    "endpoints": [
+      {
+        "method": "POST",
+        "path": "/mediehrlogintest.php",
+        "summary": "Test Login",
+        "parameter_count": 3,
+        "parameters": [
+          "OFFICE",
+          "ACCESS_TOKEN",
+          "USERNAME"
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/mediehrgetpatient.php",
+        "summary": "Get the Patients Unique Id by patient details",
+        "parameter_count": 11,
+        "parameters": [
+          "OFFICE",
+          "ACCESS_TOKEN",
+          "USERNAME",
+          "PATIENT_FIRSTNAME",
+          "PATIENT_LASTNAME",
+          "PATIENT_MIDDLENAME",
+          "PATIENT_SSN",
+          "PATIENT_BIRTHDATE_MMDDYYYY",
+          "PATIENT_EMAIL",
+          "PATIENT_MOBILE",
+          "PATIENT_MOTHERSMAIDENNAME"
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/mediehrrotatetokens.php",
+        "summary": "Get fresh Access token and Refresh token",
+        "parameter_count": 3,
+        "parameters": [
+          "OFFICE",
+          "REFRESH_TOKEN",
+          "USERNAME"
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/mediehrgetpatientdata.php",
+        "summary": "Get the patient data in CCDA 2.1 format by MRN",
+        "parameter_count": 27,
+        "parameters": [
+          "OFFICE",
+          "ACCESS_TOKEN",
+          "USERNAME",
+          "USERNAME",
+          "PATIENT_MRN",
+          "START_DATE_MMDDYYYY",
+          "END_DATE_MMDDYYYY",
+          "ALL_DATA_CATEGORIES",
+          "PAT_ALLERGY",
+          "PAT_MEDS",
+          "PAT_PROBLEM",
+          "PAT_ENCOUNTER",
+          "PAT_IMMUNIZATION",
+          "PAT_VITALS",
+          "PAT_SOCHX",
+          "PAT_PROCEDURES",
+          "PAT_LABS",
+          "PAT_IMPLANTABLEDEVICES",
+          "PAT_GOALS",
+          "PAT_FUNCTIONALSTATUS",
+          "PAT_COGNITIVESTATUS",
+          "PAT_REFERRAL",
+          "PAT_ASSESSMENT",
+          "PAT_CARETEAM",
+          "PAT_HEALTH_CONCERNS",
+          "PAT_PLANOFTREAT",
+          "PAT_DI_REPORT"
+        ]
+      }
+    ],
+    "ccda_sections": [
+      {
+        "parameter": "PAT_ALLERGY",
+        "section_name": "Allergies",
+        "toggle": "S (show) / H (hide)"
+      },
+      {
+        "parameter": "PAT_MEDS",
+        "section_name": "Medications",
+        "toggle": "S (show) / H (hide)"
+      },
+      {
+        "parameter": "PAT_PROBLEM",
+        "section_name": "Problems",
+        "toggle": "S (show) / H (hide)"
+      },
+      {
+        "parameter": "PAT_ENCOUNTER",
+        "section_name": "Encounters",
+        "toggle": "S (show) / H (hide)"
+      },
+      {
+        "parameter": "PAT_IMMUNIZATION",
+        "section_name": "Immunizations",
+        "toggle": "S (show) / H (hide)"
+      },
+      {
+        "parameter": "PAT_VITALS",
+        "section_name": "Vitals",
+        "toggle": "S (show) / H (hide)"
+      },
+      {
+        "parameter": "PAT_SOCHX",
+        "section_name": "Social History",
+        "toggle": "S (show) / H (hide)"
+      },
+      {
+        "parameter": "PAT_PROCEDURES",
+        "section_name": "Procedures",
+        "toggle": "S (show) / H (hide)"
+      },
+      {
+        "parameter": "PAT_LABS",
+        "section_name": "Labs",
+        "toggle": "S (show) / H (hide)"
+      },
+      {
+        "parameter": "PAT_IMPLANTABLEDEVICES",
+        "section_name": "Implantable Devices",
+        "toggle": "S (show) / H (hide)"
+      },
+      {
+        "parameter": "PAT_GOALS",
+        "section_name": "Goals",
+        "toggle": "S (show) / H (hide)"
+      },
+      {
+        "parameter": "PAT_FUNCTIONALSTATUS",
+        "section_name": "Functional Status",
+        "toggle": "S (show) / H (hide)"
+      },
+      {
+        "parameter": "PAT_COGNITIVESTATUS",
+        "section_name": "Cognitive Status",
+        "toggle": "S (show) / H (hide)"
+      },
+      {
+        "parameter": "PAT_REFERRAL",
+        "section_name": "Referrals",
+        "toggle": "S (show) / H (hide)"
+      },
+      {
+        "parameter": "PAT_ASSESSMENT",
+        "section_name": "Assessment",
+        "toggle": "S (show) / H (hide)"
+      },
+      {
+        "parameter": "PAT_CARETEAM",
+        "section_name": "Care team",
+        "toggle": "S (show) / H (hide)"
+      },
+      {
+        "parameter": "PAT_HEALTH_CONCERNS",
+        "section_name": "Health concerns",
+        "toggle": "S (show) / H (hide)"
+      },
+      {
+        "parameter": "PAT_PLANOFTREAT",
+        "section_name": "Plan of treatment",
+        "toggle": "S (show) / H (hide)"
+      },
+      {
+        "parameter": "PAT_DI_REPORT",
+        "section_name": "Diagnostic and imaging report",
+        "toggle": "S (show) / H (hide)"
+      }
+    ],
+    "ccda_section_count": 19,
+    "error_codes": [
+      {
+        "code": "10",
+        "text": "Internal Error occured"
+      },
+      {
+        "code": "20",
+        "text": "Username or email not correct for the given office"
+      },
+      {
+        "code": "30",
+        "text": "Error Invalid Login - Access and Refresh tokens Removed"
+      },
+      {
+        "code": "40",
+        "text": "Either the FirstName or LastName or MRN or SSN required"
+      },
+      {
+        "code": "50",
+        "text": "No patients found with the given details"
+      },
+      {
+        "code": "60",
+        "text": "More than one patients found with the given information please include some more details to narrow down the search"
+      },
+      {
+        "code": "70",
+        "text": "Start date is required"
+      },
+      {
+        "code": "90",
+        "text": "Patient MRN is required"
+      }
+    ],
+    "authentication": "Proprietary access/refresh token (not OAuth 2.0, not SMART on FHIR)",
+    "response_format": "C-CDA 2.1 XML",
+    "has_duplicate_username_param": true
+  },
+  "fhir_bundle": {
+    "source": "fhir-service-base-bundle.json",
+    "bundle_type": "collection",
+    "entry_count": 2,
+    "resources": [
+      {
+        "resourceType": "Endpoint",
+        "id": "medi-ehr-base-endpoint-1",
+        "name": "medi-ehr-base endpoint"
+      },
+      {
+        "resourceType": "Organization",
+        "id": "OFF605",
+        "name": "MiniCert Location"
+      }
+    ],
+    "fhir_server": "sandbox-r4.interopengine.com (InteropEngine - third party)",
+    "is_production": false,
+    "note": "This is the (g)(10) standardized FHIR API, separate from (b)(10) EHI export"
+  },
+  "full_entity_inventory": {
+    "export_type": "C-CDA 2.1 clinical document (standard-based projection)",
+    "total_entities": 19,
+    "total_fields": 0,
+    "fields_with_descriptions": 0,
+    "documentation_level": "section-name-only (no field-level detail)",
+    "entities": [
+      {
+        "entity_name": "PAT_ALLERGY",
+        "display_name": "Allergies and Adverse Reactions",
+        "format": "C-CDA 2.1 XML section",
+        "fields": "N/A - no field-level documentation provided",
+        "field_count": null,
+        "fields_with_descriptions": 0,
+        "types_documented": false,
+        "relationships_documented": false,
+        "value_sets_documented": false,
+        "category": "Clinical",
+        "documentation_level": "section-name-only",
+        "notes": "Only the section name and toggle parameter (S/H) are documented. No field-level detail."
+      },
+      {
+        "entity_name": "PAT_MEDS",
+        "display_name": "Medications",
+        "format": "C-CDA 2.1 XML section",
+        "fields": "N/A - no field-level documentation provided",
+        "field_count": null,
+        "fields_with_descriptions": 0,
+        "types_documented": false,
+        "relationships_documented": false,
+        "value_sets_documented": false,
+        "category": "Clinical",
+        "documentation_level": "section-name-only",
+        "notes": "Only the section name and toggle parameter (S/H) are documented. No field-level detail."
+      },
+      {
+        "entity_name": "PAT_PROBLEM",
+        "display_name": "Problems / Diagnoses",
+        "format": "C-CDA 2.1 XML section",
+        "fields": "N/A - no field-level documentation provided",
+        "field_count": null,
+        "fields_with_descriptions": 0,
+        "types_documented": false,
+        "relationships_documented": false,
+        "value_sets_documented": false,
+        "category": "Clinical",
+        "documentation_level": "section-name-only",
+        "notes": "Only the section name and toggle parameter (S/H) are documented. No field-level detail."
+      },
+      {
+        "entity_name": "PAT_ENCOUNTER",
+        "display_name": "Encounters",
+        "format": "C-CDA 2.1 XML section",
+        "fields": "N/A - no field-level documentation provided",
+        "field_count": null,
+        "fields_with_descriptions": 0,
+        "types_documented": false,
+        "relationships_documented": false,
+        "value_sets_documented": false,
+        "category": "Clinical",
+        "documentation_level": "section-name-only",
+        "notes": "Only the section name and toggle parameter (S/H) are documented. No field-level detail."
+      },
+      {
+        "entity_name": "PAT_IMMUNIZATION",
+        "display_name": "Immunizations",
+        "format": "C-CDA 2.1 XML section",
+        "fields": "N/A - no field-level documentation provided",
+        "field_count": null,
+        "fields_with_descriptions": 0,
+        "types_documented": false,
+        "relationships_documented": false,
+        "value_sets_documented": false,
+        "category": "Clinical",
+        "documentation_level": "section-name-only",
+        "notes": "Only the section name and toggle parameter (S/H) are documented. No field-level detail."
+      },
+      {
+        "entity_name": "PAT_VITALS",
+        "display_name": "Vital Signs",
+        "format": "C-CDA 2.1 XML section",
+        "fields": "N/A - no field-level documentation provided",
+        "field_count": null,
+        "fields_with_descriptions": 0,
+        "types_documented": false,
+        "relationships_documented": false,
+        "value_sets_documented": false,
+        "category": "Clinical",
+        "documentation_level": "section-name-only",
+        "notes": "Only the section name and toggle parameter (S/H) are documented. No field-level detail."
+      },
+      {
+        "entity_name": "PAT_SOCHX",
+        "display_name": "Social History",
+        "format": "C-CDA 2.1 XML section",
+        "fields": "N/A - no field-level documentation provided",
+        "field_count": null,
+        "fields_with_descriptions": 0,
+        "types_documented": false,
+        "relationships_documented": false,
+        "value_sets_documented": false,
+        "category": "Clinical",
+        "documentation_level": "section-name-only",
+        "notes": "Only the section name and toggle parameter (S/H) are documented. No field-level detail."
+      },
+      {
+        "entity_name": "PAT_PROCEDURES",
+        "display_name": "Procedures",
+        "format": "C-CDA 2.1 XML section",
+        "fields": "N/A - no field-level documentation provided",
+        "field_count": null,
+        "fields_with_descriptions": 0,
+        "types_documented": false,
+        "relationships_documented": false,
+        "value_sets_documented": false,
+        "category": "Clinical",
+        "documentation_level": "section-name-only",
+        "notes": "Only the section name and toggle parameter (S/H) are documented. No field-level detail."
+      },
+      {
+        "entity_name": "PAT_LABS",
+        "display_name": "Laboratory Results",
+        "format": "C-CDA 2.1 XML section",
+        "fields": "N/A - no field-level documentation provided",
+        "field_count": null,
+        "fields_with_descriptions": 0,
+        "types_documented": false,
+        "relationships_documented": false,
+        "value_sets_documented": false,
+        "category": "Clinical",
+        "documentation_level": "section-name-only",
+        "notes": "Only the section name and toggle parameter (S/H) are documented. No field-level detail."
+      },
+      {
+        "entity_name": "PAT_IMPLANTABLEDEVICES",
+        "display_name": "Implantable Devices",
+        "format": "C-CDA 2.1 XML section",
+        "fields": "N/A - no field-level documentation provided",
+        "field_count": null,
+        "fields_with_descriptions": 0,
+        "types_documented": false,
+        "relationships_documented": false,
+        "value_sets_documented": false,
+        "category": "Clinical",
+        "documentation_level": "section-name-only",
+        "notes": "Only the section name and toggle parameter (S/H) are documented. No field-level detail."
+      },
+      {
+        "entity_name": "PAT_GOALS",
+        "display_name": "Goals",
+        "format": "C-CDA 2.1 XML section",
+        "fields": "N/A - no field-level documentation provided",
+        "field_count": null,
+        "fields_with_descriptions": 0,
+        "types_documented": false,
+        "relationships_documented": false,
+        "value_sets_documented": false,
+        "category": "Clinical",
+        "documentation_level": "section-name-only",
+        "notes": "Only the section name and toggle parameter (S/H) are documented. No field-level detail."
+      },
+      {
+        "entity_name": "PAT_FUNCTIONALSTATUS",
+        "display_name": "Functional Status",
+        "format": "C-CDA 2.1 XML section",
+        "fields": "N/A - no field-level documentation provided",
+        "field_count": null,
+        "fields_with_descriptions": 0,
+        "types_documented": false,
+        "relationships_documented": false,
+        "value_sets_documented": false,
+        "category": "Clinical",
+        "documentation_level": "section-name-only",
+        "notes": "Only the section name and toggle parameter (S/H) are documented. No field-level detail."
+      },
+      {
+        "entity_name": "PAT_COGNITIVESTATUS",
+        "display_name": "Cognitive Status",
+        "format": "C-CDA 2.1 XML section",
+        "fields": "N/A - no field-level documentation provided",
+        "field_count": null,
+        "fields_with_descriptions": 0,
+        "types_documented": false,
+        "relationships_documented": false,
+        "value_sets_documented": false,
+        "category": "Clinical",
+        "documentation_level": "section-name-only",
+        "notes": "Only the section name and toggle parameter (S/H) are documented. No field-level detail."
+      },
+      {
+        "entity_name": "PAT_REFERRAL",
+        "display_name": "Referrals",
+        "format": "C-CDA 2.1 XML section",
+        "fields": "N/A - no field-level documentation provided",
+        "field_count": null,
+        "fields_with_descriptions": 0,
+        "types_documented": false,
+        "relationships_documented": false,
+        "value_sets_documented": false,
+        "category": "Clinical",
+        "documentation_level": "section-name-only",
+        "notes": "Only the section name and toggle parameter (S/H) are documented. No field-level detail."
+      },
+      {
+        "entity_name": "PAT_ASSESSMENT",
+        "display_name": "Assessment",
+        "format": "C-CDA 2.1 XML section",
+        "fields": "N/A - no field-level documentation provided",
+        "field_count": null,
+        "fields_with_descriptions": 0,
+        "types_documented": false,
+        "relationships_documented": false,
+        "value_sets_documented": false,
+        "category": "Clinical",
+        "documentation_level": "section-name-only",
+        "notes": "Only the section name and toggle parameter (S/H) are documented. No field-level detail."
+      },
+      {
+        "entity_name": "PAT_CARETEAM",
+        "display_name": "Care Team Members",
+        "format": "C-CDA 2.1 XML section",
+        "fields": "N/A - no field-level documentation provided",
+        "field_count": null,
+        "fields_with_descriptions": 0,
+        "types_documented": false,
+        "relationships_documented": false,
+        "value_sets_documented": false,
+        "category": "Clinical",
+        "documentation_level": "section-name-only",
+        "notes": "Only the section name and toggle parameter (S/H) are documented. No field-level detail."
+      },
+      {
+        "entity_name": "PAT_HEALTH_CONCERNS",
+        "display_name": "Health Concerns",
+        "format": "C-CDA 2.1 XML section",
+        "fields": "N/A - no field-level documentation provided",
+        "field_count": null,
+        "fields_with_descriptions": 0,
+        "types_documented": false,
+        "relationships_documented": false,
+        "value_sets_documented": false,
+        "category": "Clinical",
+        "documentation_level": "section-name-only",
+        "notes": "Only the section name and toggle parameter (S/H) are documented. No field-level detail."
+      },
+      {
+        "entity_name": "PAT_PLANOFTREAT",
+        "display_name": "Plan of Treatment",
+        "format": "C-CDA 2.1 XML section",
+        "fields": "N/A - no field-level documentation provided",
+        "field_count": null,
+        "fields_with_descriptions": 0,
+        "types_documented": false,
+        "relationships_documented": false,
+        "value_sets_documented": false,
+        "category": "Clinical",
+        "documentation_level": "section-name-only",
+        "notes": "Only the section name and toggle parameter (S/H) are documented. No field-level detail."
+      },
+      {
+        "entity_name": "PAT_DI_REPORT",
+        "display_name": "Diagnostic and Imaging Reports",
+        "format": "C-CDA 2.1 XML section",
+        "fields": "N/A - no field-level documentation provided",
+        "field_count": null,
+        "fields_with_descriptions": 0,
+        "types_documented": false,
+        "relationships_documented": false,
+        "value_sets_documented": false,
+        "category": "Clinical",
+        "documentation_level": "section-name-only",
+        "notes": "Only the section name and toggle parameter (S/H) are documented. No field-level detail."
+      }
+    ],
+    "additional_formats_claimed": {
+      "csv": {
+        "documented": false,
+        "description": "Mentioned on compliance page but no field list, no schema, no sample data"
+      },
+      "html": {
+        "documented": false,
+        "description": "Mentioned on compliance page but no structure details"
+      }
+    },
+    "missing_domains": [
+      "Billing / Claims / Payments",
+      "Insurance / Coverage",
+      "Consent forms",
+      "Clinical notes / documents (beyond C-CDA structured sections)",
+      "Patient portal messages",
+      "Workers compensation / no-fault claims",
+      "Behavioral health assessments",
+      "ASC surgical data",
+      "Residential treatment records",
+      "Scanned documents / images",
+      "Telemedicine records",
+      "Prescription / e-prescribing history"
+    ]
+  }
+}

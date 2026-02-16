@@ -1,197 +1,170 @@
 # EHI Export Analysis: NovoMedici, LLC
 
 **Product**: NovoClinical v1.0
-**Analysis date**: 2026-02-15
-**CHPL ID**: 10805 (15.02.05.3015.Novo.01.01.1.220131)
+**Analysis date**: 2026-02-16
+**CHPL IDs**: 10805 (15.02.05.3015.Novo.01.01.1.220131)
 
 ## 1. Product Context
 
-NovoClinical is a cloud-based ambulatory EHR and practice management system developed by NovoMedici, LLC, a small vendor (~5–9 employees) based in Ogden, Utah. The product targets small to mid-sized medical practices and is marketed as an all-in-one platform combining clinical documentation, billing/RCM, scheduling, e-prescribing, patient portal, telemedicine, and chronic care management.
+NovoClinical is a cloud-based, all-in-one ambulatory EHR and practice management system developed by NovoMedici, LLC (Ogden, Utah). It targets small to mid-sized ambulatory medical practices across multiple specialties (general practice, cardiology, gastroenterology, OB/GYN, pediatrics, dermatology, etc.). The product integrates clinical documentation, billing/revenue cycle management, scheduling, e-prescribing, patient portal, telemedicine, and chronic care management into a single platform. It was certified 2022-01-31 against a broad set of ONC criteria including (b)(10) EHI export.
 
-**Data domains the product stores** (based on product research and vendor feature pages):
-- **Clinical**: charting with customizable templates, problem lists, medication lists, allergy lists, implantable device lists, clinical notes, vital signs, lab orders/results, imaging (via RIS/PACS integration), immunizations
-- **Prescribing**: e-prescriptions, medication history
-- **Billing/RCM**: claims, billing codes (ICD-10, UB-04), payment records, DME billing, statements, credit card payments, claim scrubbing
-- **Scheduling**: appointments, patient check-in, reminders
-- **Patient portal**: secure messaging, patient-entered demographics/history, e-signed documents
-- **Telemedicine**: virtual visit records
-- **Chronic care management**: care plans, monitoring data
-- **Communication**: e-fax, text messaging, direct messaging
-- **Public health reporting**: immunization registries, syndromic surveillance, cancer case reports
+Key data domains the product stores, relevant to export completeness assessment:
 
-The product's own navigation bar (visible in the export PDF screenshot) confirms modules for: Appointment, Doc. And Notes, Patient, Communication, Coding, Accounting, Reports, Admin, Inventory, Su Admin. This breadth of functionality establishes a high baseline for what a complete EHI export should cover.
+- **Clinical**: Charting with customizable templates, problem lists, medication lists, allergy lists, implantable device lists, vitals, lab orders/results, imaging integration (RIS/PACS), immunizations, clinical notes, care plans
+- **Prescribing**: E-prescriptions, medication history
+- **Billing/RCM**: Claims, billing codes (ICD-10, UB-04), payments, DME billing, statements, accounts receivable, claim scrubbing
+- **Scheduling/Administrative**: Appointments, patient check-in, referrals, tasks
+- **Patient Portal**: Secure messages, patient-entered demographics/history, e-signed documents
+- **Telemedicine**: Virtual visit records
+- **Chronic Care Management**: Care plans, monitoring data
+- **Communications**: E-fax, text messages, direct messages
+
+The product's navigation bar (visible in the export UI screenshot) confirms modules for: Appointment, Doc. And Notes, Patient, Communication, Coding, Accounting, Reports, Admin, Inventory, Su Admin — indicating a broad feature set well beyond clinical documentation.
 
 ## 2. Artifacts Reviewed
 
-| Artifact | Description | Informativeness |
-|---|---|---|
-| `Novoclinical-Data-Export-Format.pdf` (129 KB, 1 page) | The entire EHI export documentation. Contains 3 sentences describing C-CDA + CSV export formats, navigation instructions, and one screenshot of the export UI. Created 2023-10-07 with Microsoft Word. | **Primary artifact** — but extremely thin |
-| `screenshot-meaningful-use-page.png` (193 KB) | Screenshot of vendor's Meaningful Use / mandatory disclosures page. Lists links to regulatory disclosures, API docs, and API terms of use. Footer links to "EMR Data Export" (same PDF). | Low — confirms no additional EHI export documentation exists on the vendor site |
+| Artifact | Type | Size | Description | Informativeness |
+|---|---|---|---|---|
+| `Novoclinical-Data-Export-Format.pdf` | PDF, 1 page | 129 KB | The entire EHI export documentation. Contains a title, two bullet points describing C-CDA and CSV formats, navigation instructions (3 sentences total), and a screenshot of the export UI. Created 2023-10-07 with Microsoft Word. | **Primary source; extremely minimal** |
+| `screenshot-meaningful-use-page.png` | PNG screenshot | 193 KB | Screenshot of vendor's Meaningful Use page at novomedici.com. Lists links to mandatory disclosures, API terms, and an "EMR Data Export" footer link that points to the same PDF. Confirms no additional EHI export documentation exists on the vendor's site. | Contextual only |
 
-**Additional verification performed**:
-- The vendor's Meaningful Use page (https://www.novomedici.com/meaningful-use/) was fetched live and confirmed accessible. It contains links to mandatory disclosures, application access, patient selection, and API terms — no additional EHI export documentation.
-- The footer "EMR Data Export" link (https://www.novomedici.com/emr-data-export/) returns HTTP 404.
-- The PDF URL (S3) was verified accessible (HTTP 200, Last-Modified: 2023-10-08).
-- No additional EHI-related documentation was found on the vendor's website.
+**Verification performed:**
+- The PDF URL (`https://s3.amazonaws.com/novoclinical.miscellaneous/Novoclinical+Data+Export+Format.pdf`) returns HTTP 200 as of 2026-02-16 (Last-Modified: 2023-10-08, unchanged).
+- The vendor's meaningful use page (`https://www.novomedici.com/meaningful-use/`) is still accessible. The "EMR Data Export" link in the footer still points to the same PDF.
+- No dedicated `/emr-data-export/` page exists (returns 404).
+- The API documents page contains only FHIR/Smart-on-FHIR API links for (g)(10), not (b)(10) documentation.
 
 ## 3. Export Mechanics
 
-- **Format**: ZIP file containing C-CDA XML documents and CSV files
-- **Mechanism**: UI-based. Clinic administrators navigate to Communication > Data Export within NovoClinical
-- **Patient scope**: Supports both single-patient export and group/bulk export of multiple or all patients
-- **Controls**: The export UI allows filtering by doctor, frequency (monthly), date range, and specific patient selection
-- **Access constraints**: Available to clinic administrators (role-restricted)
-- **Fees**: Not documented in the export PDF; mandatory disclosures document not examined for fee information
+- **Format**: ZIP file containing C-CDA XML documents (one per patient) and CSV files (for demographics and appointments)
+- **Mechanism**: UI-based. Clinic administrators navigate to Communication > Data Export within NovoClinical.
+- **Single-patient vs bulk**: Both. The UI supports specific patient export or group export of all/multiple patients.
+- **Selection controls** (visible in screenshot): Doctor filter (dropdown, default "All Doctors"), frequency (dropdown, default "MONTHLY"), date/time picker, appointment date range (FROM/TO), patient search field.
+- **Access constraints**: Export is restricted to clinic administrators per the documentation.
+- **Fees**: Not mentioned in the export documentation. The vendor's mandatory disclosures document (linked from the meaningful use page) may address this but was not part of the EHI export artifacts.
 
 ## 4. Export Content: What's In It
 
-The export documentation describes exactly two components:
+The export documentation describes exactly two data categories in a total of three sentences:
 
-### 4a. C-CDA Documents
-> "Each patient will have a C-CDA document in the exported data."
+1. **C-CDA (Consolidated Clinical Document Architecture)**: "Each patient will have a C-CDA document in the exported data." No further specification — no document type (CCD vs. Discharge Summary vs. other), no template version, no section list, no details about what clinical data is included.
 
-This is the entirety of the C-CDA specification. The documentation does not specify:
-- Which C-CDA document type (CCD, Continuity of Care Document, Discharge Summary, etc.)
-- Which C-CDA template version or implementation guide
-- Which sections are populated (problems, medications, allergies, procedures, results, etc.)
-- Whether any vendor-specific extensions are included
-- What data elements map to which C-CDA fields
-
-A standard C-CDA clinical summary would typically cover: demographics, problems, medications, allergies, procedures, results, vital signs, immunizations, and possibly clinical notes. However, without specification, the actual content is unknown.
-
-### 4b. CSV Files
-> "CSV – Comma separated value, used for patient demography, Appointments."
-
-Two data domains are explicitly mentioned for CSV export:
-1. **Patient demography** — no column definitions, no field count, no sample data
-2. **Appointments** — no column definitions, no field count, no sample data
-
-The documentation provides zero field-level detail for either CSV file. Column names, data types, delimiters, encoding, date formats, and value sets are all undocumented.
-
-### What's NOT in the export (based on the documentation)
-
-The following modules visible in NovoClinical's own navigation bar (per the screenshot in the PDF) have **no mention** in the export documentation:
-- **Coding** — billing codes, ICD-10, CPT
-- **Accounting** — financial records, payments, claims
-- **Doc. And Notes** — clinical documents beyond what C-CDA may contain
-- **Communication** — secure messages, faxes, direct messages
-- **Inventory** — medical supplies/equipment tracking
-- **Reports** — generated reports
+2. **CSV**: "Comma separated value, used for patient demography, Appointments." No column definitions, no field names, no data types, no encoding specifications, no sample data.
 
 ### Vendor's own content organization
 
-The vendor does not provide a data dictionary, so there is no entity/table/field structure to present. The entire documented export is:
+The vendor provides no data dictionary, no schema, and no field-level documentation of any kind. The only "organization" is the two format-level bullet points:
 
-| Component | Format | Documented Scope | Fields Documented | Descriptions |
-|---|---|---|---|---|
-| Patient clinical data | C-CDA XML | "a C-CDA document" per patient | 0 | None |
-| Patient demography | CSV | "patient demography" | 0 | None |
-| Appointments | CSV | "Appointments" | 0 | None |
+| Entity/Category | Format | Fields Documented | Descriptions | Types | Vendor Description |
+|---|---|---|---|---|---|
+| C-CDA document (per patient) | XML (C-CDA) | 0 | N/A | N/A | "Each patient will have a C-CDA document in the exported data" |
+| Patient demography | CSV | 0 | N/A | N/A | "Comma separated value, used for patient demography" |
+| Appointments | CSV | 0 | N/A | N/A | "Comma separated value, used for ... Appointments" |
 
-**Total documented entities: 3 (at the format level only)**
-**Total documented fields: 0**
-**Fields with descriptions: 0**
+**Total documented entities**: 3 (at format/category level only)
+**Total documented fields**: 0
+**Fields with descriptions**: 0
+**Fields with types**: 0
+
+There is no data dictionary to parse. The complete content of the export documentation has been extracted to `analysis/full-entity-inventory.json` and `analysis/artifact-summary.json`.
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-The vendor's export documentation describes exactly three categories of data:
+The vendor's documentation describes two components:
 
-1. **C-CDA clinical data**: One C-CDA document per patient. No specifics on what clinical data is included. If this is a standard CCD, it would cover a clinical summary (problems, medications, allergies, results, vitals, immunizations, procedures) but not billing, custom forms, or detailed notes.
+1. **C-CDA documents**: Presumably standard clinical summary content (problems, medications, allergies, lab results, vitals, immunizations, procedures). However, the documentation does not specify which C-CDA sections are populated, so the actual clinical coverage is unknown. C-CDA is a clinical document standard and by design cannot represent billing records, scheduling details, communications, portal messages, or custom clinical forms.
 
-2. **Demographics (CSV)**: Patient demographic information. No field definitions.
+2. **CSV for demographics and appointments**: Two administrative data categories. Without column definitions, the depth of coverage is unknown — "patient demography" could mean 5 fields or 50.
 
-3. **Appointments (CSV)**: Appointment/scheduling data. No field definitions.
-
-The documentation is so thin that it's impossible to precisely assess depth in any category. The C-CDA component could contain anywhere from a minimal clinical summary to a reasonably complete clinical record, but there's no way to know from the documentation alone.
-
-What is clear: billing, coding, accounting, communications, documents/notes (beyond C-CDA), and other modules visible in the product's own UI are entirely absent from the export documentation.
+The vendor makes no mention of:
+- Billing or financial data of any kind
+- Clinical notes or documents beyond what C-CDA might contain
+- Prescribing history beyond C-CDA medication sections
+- Lab or imaging orders (as distinct from results)
+- Patient portal data (messages, patient-entered forms)
+- Telemedicine encounter data
+- Chronic care management records
+- Communication records (fax, SMS, direct messages)
+- Insurance/coverage information
+- Referrals or care coordination data
+- Custom templates or specialty-specific clinical data
 
 ### 5b. Standardized domain coverage (top-down)
 
 | Domain | Coverage | Export Evidence | Gap Analysis |
 |---|---|---|---|
-| Demographics | ⚠️ Partial | CSV for "patient demography" mentioned; 0 fields documented | Product stores demographics; CSV export exists but completely undocumented |
-| Encounters / visits | ⚠️ Partial | Appointments CSV mentioned; C-CDA may contain encounter data | Appointment data exported as CSV; clinical encounter detail depends on C-CDA content (unspecified) |
-| Problems / conditions | ⚠️ Partial | Likely in C-CDA if standard sections populated | No explicit confirmation; depends entirely on C-CDA implementation |
-| Medications / prescriptions | ⚠️ Partial | Likely in C-CDA if standard sections populated | E-prescribing is a product feature; C-CDA may carry medication lists but not full Rx history |
-| Allergies | ⚠️ Partial | Likely in C-CDA if standard sections populated | No explicit confirmation |
-| Immunizations | ⚠️ Partial | Likely in C-CDA if standard sections populated | Product certified for immunization reporting (f)(1); C-CDA may include |
-| Vitals | ⚠️ Partial | Likely in C-CDA if standard sections populated | No explicit confirmation |
-| Lab results | ⚠️ Partial | Likely in C-CDA if standard results section populated | No explicit confirmation |
-| Imaging / diagnostic reports | ⚠️ Partial | May be in C-CDA if results section populated | Product integrates with RIS/PACS; unclear if imaging data is in export |
-| Procedures | ⚠️ Partial | Likely in C-CDA if standard sections populated | No explicit confirmation |
-| Clinical notes / documents | ⚠️ Partial | May be in C-CDA notes section; "Doc. And Notes" module exists in product | Product has dedicated Doc. And Notes module; C-CDA may carry some notes but unlikely to capture all |
-| Care plans / goals | ❌ Not covered | No mention in export documentation | Product has Chronic Care Management module; no CCM data in export |
-| Orders / referrals | ❌ Not covered | No mention in export documentation | Product supports referrals and order tracking; not in export |
-| Insurance / coverage | ❌ Not covered | No mention in export documentation | Product handles patient eligibility verification; not in export |
-| Claims / billing | ❌ Not covered | No mention in export documentation | Product has full billing/RCM module (claims, coding, UB-04, DME); **significant gap** |
-| Payments | ❌ Not covered | No mention in export documentation | Product processes payments and credit cards; not in export |
-| Consents / directives | ❌ Not covered | No mention in export documentation | Patient portal has e-signature for documents; not in export |
-| Patient communications / portal messages | ❌ Not covered | No mention in export documentation | Product has secure messaging, patient portal; not in export |
+| Demographics | ⚠️ Partial | CSV for "patient demography" — no fields specified | Present but undocumented; depth unknown |
+| Encounters / visits | ⚠️ Partial | Appointments CSV; C-CDA may include encounter data | Appointments listed; clinical encounters may be in C-CDA but unspecified |
+| Problems / conditions / diagnoses | ⚠️ Partial | Likely in C-CDA (standard section) | No confirmation; depends on C-CDA template used |
+| Medications / prescriptions | ⚠️ Partial | Likely in C-CDA (standard section) | No confirmation; e-prescribing history may not be fully captured |
+| Allergies | ⚠️ Partial | Likely in C-CDA (standard section) | No confirmation |
+| Immunizations | ⚠️ Partial | Likely in C-CDA (standard section) | No confirmation |
+| Vitals | ⚠️ Partial | Likely in C-CDA (standard section) | No confirmation |
+| Lab results | ⚠️ Partial | Likely in C-CDA (standard section) | No confirmation; lab orders likely missing |
+| Imaging / diagnostic reports | ⚠️ Partial | May be in C-CDA | Product integrates RIS/PACS; unclear if imaging data is in export |
+| Procedures | ⚠️ Partial | Likely in C-CDA (standard section) | No confirmation |
+| Clinical notes / documents | ⚠️ Partial | May be in C-CDA | Product has "Doc. And Notes" module; unclear if notes are fully exported |
+| Care plans / goals | ❌ Not covered | No evidence | Product offers chronic care management with care plans; gap |
+| Orders / referrals | ❌ Not covered | No evidence | Product supports referrals; gap |
+| Insurance / coverage | ❌ Not covered | No evidence | Product does eligibility verification; gap |
+| Claims / billing | ❌ Not covered | No evidence | Product has full billing/RCM module (Coding, Accounting visible in nav bar); **significant gap** |
+| Payments | ❌ Not covered | No evidence | Product processes payments including credit cards; gap |
+| Consents / directives | ❌ Not covered | No evidence | Patient portal supports e-signatures; gap |
+| Patient communications / portal messages | ❌ Not covered | No evidence | Product has patient portal with secure messaging; gap |
+| Specialty-specific data | ❌ Not covered | No evidence | Product serves multiple specialties with customizable templates; gap |
 
-**Note on "Partial" ratings**: Many clinical domains are rated ⚠️ Partial rather than ✅ Covered because the documentation never confirms what C-CDA sections are populated. A C-CDA *could* contain these data elements, but the vendor provides zero specifics. The export may be better than documented, but the documentation itself provides no assurance.
-
-**Key gaps**:
-- **Billing/RCM** is the most significant gap. NovoClinical is marketed as "Medical Billing Software for Small Business" with claims, coding, UB-04, DME billing, payment processing, and accounting. None of this appears in the export.
-- **Clinical notes** beyond C-CDA summaries. The product has a dedicated "Doc. And Notes" module, suggesting rich clinical documentation that likely exceeds what a standard C-CDA captures.
-- **Patient communications and portal data** — secure messages, patient-entered data, e-signed documents.
-- **Chronic care management** — care plans, monitoring data for chronic conditions.
+**Summary**: Of 19 applicable domains, 0 are confirmed covered, 10 are partially covered (assumed via unspecified C-CDA content), and 9 are not covered at all. The documentation is too thin to confirm coverage of even the C-CDA-based domains.
 
 ## 6. Documentation Quality
 
-The documentation quality is **extremely poor** — among the worst possible while still technically having documentation.
+The export documentation is among the most minimal possible for a certified EHR product:
 
-**What exists**:
-- A single-page PDF (3 sentences + 1 screenshot)
-- Confirmation that the export produces a ZIP file with C-CDA and CSV components
-- Navigation instructions for triggering the export
+- **Total documentation**: 1 page, 3 sentences of text, 1 screenshot
+- **Data dictionary**: None
+- **Field definitions**: None for any format
+- **Schema or format specification**: None (CSV columns undefined, C-CDA template/sections unspecified)
+- **Sample data**: None
+- **Value sets or code systems**: None
+- **Relationships between files**: Not documented (how C-CDA and CSV files relate is unexplained)
+- **Machine-readable artifacts**: None
+- **Import guidance**: None
 
-**What's entirely missing**:
-- ❌ Data dictionary (none)
-- ❌ Field definitions for CSV files (zero fields documented)
-- ❌ C-CDA section/template specification (none)
-- ❌ Schema or format specification (none)
-- ❌ Sample data files (none)
-- ❌ Value sets or code system documentation (none)
-- ❌ Relationship documentation between C-CDA and CSV files (none)
-- ❌ Machine-readable artifacts of any kind (none)
-
-**Could a developer build an import from this documentation?** No. A developer receiving this documentation would know only that they'll receive a ZIP containing "a C-CDA" and "CSV files for demographics and appointments." They would have to reverse-engineer every aspect of the actual data format from the export files themselves. The documentation provides essentially zero technical guidance.
+A developer receiving an export from NovoClinical would have to reverse-engineer both the CSV column structure and the C-CDA template usage entirely from the export files themselves. The documentation provides no actionable technical detail beyond "there will be a C-CDA file and CSV files in a ZIP."
 
 ## 7. Overall Assessment
 
 ### Classification
 
-**Minimal/stub**: The documentation is a single page that names two file formats (C-CDA and CSV) with no field-level detail. The export appears to cover only a clinical summary (C-CDA) plus basic demographics and appointments (CSV), omitting billing, coding, accounting, communications, care management, and other data domains that the product stores. This is a compliance checkbox, not a genuine effort to enable EHI portability.
+**Minimal/stub**: The documentation is too thin to meaningfully assess export completeness. The export appears to be a C-CDA clinical summary plus two CSV files for demographics and appointments — a narrow projection covering a small fraction of what NovoClinical stores. There is no data dictionary, no field-level documentation, and no evidence that billing, specialty, portal, or communication data is exported.
 
 ### Key Findings
 
-1. **The entire EHI export documentation is 3 sentences on a single page.** The PDF (`Novoclinical-Data-Export-Format.pdf`, 1 page, created 2023-10-07) contains no data dictionary, no field definitions, no schemas, no sample data — zero technical detail beyond naming C-CDA and CSV as formats.
+1. **Entire EHI export documentation is 3 sentences on 1 page.** The PDF (`Novoclinical-Data-Export-Format.pdf`, 129 KB, created 2023-10-07) contains a title, two bullet points, navigation instructions, and a screenshot. No data dictionary, schema, or field definitions exist.
 
-2. **Billing and financial data — a core product capability — is completely absent from the export.** NovoClinical is marketed as billing software and has dedicated Coding and Accounting modules visible in the export screenshot's own navigation bar. None of this data is addressed in the export documentation.
+2. **Export is C-CDA + two CSV categories, not a native data model export.** The documented export produces C-CDA documents (one per patient) and CSV files for demographics and appointments. This is a standard-based projection covering at most standard clinical summary data plus basic admin fields — not the vendor's native data model.
 
-3. **The export is a C-CDA repackaging plus two minimal CSV files.** This is the classic (b)(10) failure mode: the vendor points to their existing C-CDA clinical summary and calls it EHI export. C-CDA covers only a standard clinical summary — not the full designated record set.
+3. **Billing and RCM data — a core product feature — is entirely absent from the export.** NovoClinical markets itself as "Medical Billing Software for Small Business" and has dedicated Coding and Accounting modules visible in the navigation bar. No billing, claims, payment, or financial data is mentioned in the export documentation.
 
-4. **Zero fields are documented across all export components.** Neither the C-CDA content nor the CSV columns are specified at any level of detail. A recipient has no way to know what data to expect without generating an actual export and reverse-engineering it.
+4. **Zero fields are documented.** Neither the C-CDA content (sections, templates) nor the CSV files (column names, types) are specified at any level of detail. A recipient cannot know what data to expect without performing the export and examining the files.
 
-5. **The product's own UI reveals the gap.** The screenshot embedded in the export PDF shows navigation modules (Coding, Accounting, Doc. And Notes, Communication, Inventory) whose data is entirely unaddressed by the export — the vendor's own artifact inadvertently documents the incompleteness.
+5. **No additional documentation exists on the vendor's site.** The meaningful use page links only to this same PDF; the API documents page covers (g)(10) FHIR APIs, not (b)(10) EHI export; there is no dedicated EMR data export web page (returns 404).
 
 ### Summary Stats
 
 ```
 Classification:  Minimal/stub
-Export format:   C-CDA XML + CSV, delivered as ZIP
+Export format:   C-CDA (XML) + CSV, delivered as ZIP
 Model type:      Standard projection (C-CDA) + minimal CSV
-Entities:        3 (C-CDA document, demographics CSV, appointments CSV)
-Fields:          0 documented
-Descriptions:    N/A (no fields documented)
+Entities:        3 (category-level only: C-CDA doc, demographics CSV, appointments CSV)
+Fields:          0 (no field-level documentation)
+Descriptions:    N/A (0 fields documented)
 Sample data:     No
-Bulk export:     Yes (group export of multiple/all patients)
-Domains covered: 2 of 15 applicable domains confirmed; ~8 more possible via unspecified C-CDA content
+Bulk export:     Yes (group export of all/multiple patients)
+Domains covered: 0 of 19 confirmed; 10 of 19 assumed partial via unspecified C-CDA
 ```
 
 ### Bottom Line
 
-NovoClinical's EHI export is a minimal compliance stub: a C-CDA clinical summary plus two undocumented CSV files covering demographics and appointments. The product stores extensive billing, coding, accounting, communications, and care management data — none of which appears in the export. A patient or provider requesting their complete health information would receive, at best, a clinical summary covering a fraction of what NovoClinical stores about them, with no documentation to help them understand even that fraction.
+NovoClinical's EHI export documentation is a single-page PDF with three sentences — one of the thinnest (b)(10) submissions possible. The export appears to repackage standard C-CDA clinical summaries and two basic CSV files, omitting billing/RCM data (a core product feature), portal messages, care plans, communications, and specialty-specific data. A patient or provider would receive a narrow clinical summary, not a complete copy of their electronic health information.

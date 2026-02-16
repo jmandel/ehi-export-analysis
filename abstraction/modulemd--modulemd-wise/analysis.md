@@ -1,215 +1,189 @@
-# EHI Export Analysis: ModuleMD
+# EHI Export Analysis: ModuleMD, Inc.
 
-**Product**: ModuleMD WISE™  
-**Analysis date**: 2025-07-17  
-**CHPL ID**: 15.04.04.2980.Modu.10.01.1.221219 (internal ID 11092)
+**Product**: ModuleMD WISE™
+**Analysis date**: 2025-07-15
+**CHPL IDs**: 15.04.04.3123.WISE.10.00.1.221219 (CHPL #11092)
 
 ## 1. Product Context
 
-ModuleMD WISE™ is a cloud-based, specialty-focused EHR designed primarily for allergy and immunology practices, serving over 300 practice locations with 10+ million patient records. It combines clinical EHR capabilities with practice management and revenue cycle management (RCM) in a single platform.
+ModuleMD WISE™ is a specialty-focused EHR platform primarily serving allergy and immunology practices, with over 300 practices and 10 million patient records. The product integrates clinical EMR, practice management (PM), and revenue cycle management (RCM) into a single platform. Key data domains relevant to EHI export completeness:
 
-**Key data domains the product stores:**
+**Specialty clinical data (allergy/immunology)**:
+- Skin prick testing and intradermal testing with wheal/flare measurements
+- Immunotherapy management: vial mixing/compounding, injection tracking, dosing schedules, reaction monitoring
+- USP 797 compliance: compounding logs, sterility testing, environmental monitoring
+- Spirometry/PFT data with trend analysis
+- Infusion center management: IV scheduling, drug administration, monitoring
+- SkinSight AI diagnostic imaging for dermatological conditions
+- JOSH AI-powered clinical dictation
 
-- **Clinical (general)**: Demographics, encounters, diagnoses, medications, allergies, immunizations, vitals, lab results, clinical notes, care plans, referrals
-- **Allergy/immunology specialty**: Skin testing (prick and intradermal), immunotherapy (vial mixing, injection tracking, dosing schedules), USP 797 compliance tracking, environmental/food allergen panels
-- **Pulmonology**: Spirometry testing, PFT results, ATS/ERS compliance data
-- **Infusion center**: Infusion management (biologic infusions, chemotherapy), chair scheduling, medication tracking, adverse reaction monitoring
-- **Practice management**: Scheduling, patient registration, insurance verification
-- **Billing/RCM**: Claims submission, charge capture, payment posting, denial management, accounts receivable, ERA/EOB processing
-- **Patient portal**: Secure messaging, document access, appointment requests
+**General clinical data**: Demographics, encounters, diagnoses, medications, allergies, vitals, lab results, clinical notes, care plans, referrals, immunizations, patient portal communications.
 
-The product's navigation tabs (visible in the export PDF screenshots) confirm modules for: General, Billing, Schedule, EMR, Allergy, Meaningful Use, Menu Privileges, and Data Export.
+**Practice management / billing / RCM**: Appointment scheduling, charge capture, claims submission and tracking, ERA/EOB processing, patient statements, insurance verification, A/R management, denial management, financial reporting.
 
-This is a deep specialty EHR with data far beyond what standard clinical summaries can represent. Allergy skin test panels, immunotherapy mixing protocols, spirometry waveforms, and infusion management records are all examples of specialty data that have no C-CDA or FHIR equivalent.
+**Patient engagement**: Patient portal, secure messaging, appointment reminders, educational materials, telehealth.
 
-*(Source: `product-research.md`; navigation tabs confirmed on page 6 of the PDF)*
+This breadth — especially the deep specialty clinical data and integrated billing — establishes a high bar for what a complete EHI export should cover.
 
 ## 2. Artifacts Reviewed
 
-| # | Artifact | Description | Informativeness |
-|---|----------|-------------|-----------------|
-| 1 | `B10-Data-Export-Process-Flow-Document_compressed.pdf` (448 KB, 9 pages) | The **sole** EHI export documentation artifact. A process flow guide showing UI screenshots of how to request and download an export. No data dictionary, schema, or sample data. | **Primary source** — but extremely thin. Mostly screenshots of the export request workflow. |
+Only **one artifact** was collected:
 
-**Additional verification performed:**
-- Checked the ONC mandatory disclosures page at `https://modulemd.com/onc-certified/` — contains only certification details and fee disclosures. No additional EHI export documentation, data dictionary, or technical specification is linked.
-- Confirmed PDF metadata: Author Rajesh Dandu, created 2023-11-20 in Microsoft Word 2016, compressed via iLovePDF, 9 letter-size pages.
+| Artifact | Description | Informative? |
+|---|---|---|
+| `B10-Data-Export-Process-Flow-Document_compressed.pdf` | 9-page process flow document (448 KB). Author: Rajesh Dandu. Created: 2023-11-20. Shows step-by-step UI screenshots for initiating a data export. | **Low** — documents only the UI workflow, not the content or structure of what is exported. No data dictionary, schema, sample data, or field-level documentation of any kind. |
 
-No other artifacts exist. There is no data dictionary, no schema file, no sample data export, no API documentation, and no supplementary technical specification. The entire (b)(10) export documentation package is a single 9-page process flow document.
-
-*(Source: `files.json`, PDF metadata via `pdfinfo`)*
+No other artifacts were available: no HTML data dictionary, no JSON/XML schema, no sample export files, no supplementary documentation.
 
 ## 3. Export Mechanics
 
-The export is initiated through a UI workflow:
-
-- **Access path**: Administration → Practice Setup → Data Export → +New Export
-- **Patient selection**: Single patient (by name or account number), multiple patients, or all patients via "Select All Patients" checkbox
-- **Configuration options**: Archive Name, File Type (dropdown — **values not enumerated in documentation**), Encryption Key (optional password protection), Comments
-- **Processing**: A backend batch program runs daily. Exports go through a 3-step pipeline:
-  1. **New** — request submitted
-  2. **InProgress** — data generated into folders
-  3. **Completed** — data copied from physical server to cloud, download URL generated
-- **Delivery**: Download via time-limited URL with expiry date. Download is available **only to the requestor** (other users cannot see the download icon).
-- **Patient portal**: Individual patients can also download their C-CDA files from the Patient Portal under Documents.
-
-**Format**: The document confirms C-CDA XML output. Downloaded files are organized as ZIP archives (e.g., `QAT_1.zip`, `QAT_2.zip`, `QAT_3.zip`) containing patient folders with files named like `QAT-1-11142023_ClinicalSummary` — indicating C-CDA Clinical Summary documents.
-
-**Ambiguity about CSV**: Page 1 of the PDF states: *"The documentation for the export format consists of information on the structure and syntax for how the EHI will be exported by the product such as, for example, Consolidated-Clinical Document Architecture (C-CDA) document(s) or data dictionary for comma separated values (csv) file(s)."* This mentions CSV as a possible format, and a "File Type" dropdown is shown on page 4, but its values are never enumerated. The screenshots exclusively show C-CDA XML output. Whether CSV export actually exists or is a planned/template feature is unknown from the documentation.
-
-**Bulk capability**: Yes — "Select All Patients" checkbox enables bulk export of the entire patient population.
-
-**Fees**: The ONC mandatory disclosures page lists license, implementation, and subscription fees but does not mention any specific fee for (b)(10) export.
-
-*(Source: PDF pages 1–8, `https://modulemd.com/onc-certified/`)*
+- **Format**: C-CDA XML (ClinicalSummary). All screenshots and file examples in the PDF show XML files named `*_ClinicalSummary`. Page 1 mentions CSV as a possible format ("data dictionary for comma separated values (csv) file(s)"), but no CSV output, documentation, or examples are provided anywhere in the document. A "File Type" dropdown is visible on page 4 but its value is blank/undocumented.
+- **Mechanism**: UI-driven. Navigate to Administration >> Practice Setup >> Data Export >> +New Export. Select patient(s), name the archive, optionally set an encryption key, and submit.
+- **Processing**: A backend batch program runs daily to process export requests. Status progresses: New → InProgress → Completed. Not real-time.
+- **Single-patient vs bulk**: Supports both. Can select a single patient, multiple patients, or "Select All Patients" via checkbox (pages 2–3).
+- **Access constraints**: Download link is visible only to the requestor. Downloads have expiry dates. Optional encryption key/password protection. Single patients can also download their C-CDA from the Patient Portal under Documents (page 8).
+- **Fees**: Not documented.
 
 ## 4. Export Content: What's In It
 
-### What can be determined
+### What the documentation tells us
 
-Based on the sole artifact, the confirmed export content is:
+The documentation provides **zero information** about the content or structure of the exported data. There is:
 
-- **C-CDA Clinical Summary XML documents**, one per patient, packaged in ZIP archives
-- File naming convention: `{PatientID}-{Date}_ClinicalSummary` (e.g., `QAT-1-11142023_ClinicalSummary`, `DevAsthma7-6-11172023_ClinicalSummary`)
+- No data dictionary
+- No schema or field listing
+- No description of which C-CDA sections are populated
+- No sample data files
+- No entity/table listing
+- No relationship documentation
+- No value set definitions
 
-A standard C-CDA Clinical Summary (CCD) typically includes:
-- Patient demographics
-- Problems/conditions
-- Medications
-- Allergies
-- Immunizations
-- Vital signs
-- Lab results
-- Procedures
-- Encounters (summary)
-- Care plan (if populated)
+The only evidence of export content comes from file naming patterns visible in screenshots:
 
-### What cannot be determined
+- **Page 7**: ZIP files (`QAT_1.zip`, `QAT_2.zip`, `QAT_3.zip`) containing per-patient folders
+- **Page 8**: File named `QAT-1-11142023_ClinicalSummary` (XML Document) within a patient folder
+- **Page 8**: Patient Portal showing `DevAsthma7-6-11172023_ClinicalSummary.xml`
 
-The documentation provides **zero field-level detail**:
-
-- **No data dictionary** — there is no listing of tables, fields, or data elements
-- **No schema** — no XML schema, JSON schema, or data model documentation
-- **No sample data** — no example C-CDA files or CSV files are provided
-- **No field descriptions** — no explanation of what data elements are included or excluded
-- **No relationship documentation** — no foreign keys, no entity-relationship diagrams
-- **No value sets** — no code systems, terminology bindings, or enumerated values
-- **No mapping to product modules** — no explanation of how the product's clinical, billing, allergy, or specialty data maps to export content
+The `_ClinicalSummary` naming pattern indicates standard C-CDA Clinical Summary documents.
 
 ### Vendor's own content organization
 
-The vendor does not organize or categorize the export content in any way. The documentation is purely a process flow for requesting exports. The only content-related information is:
+The vendor provides no content organization. There is no breakdown by category, no entity listing, no field inventory. The entire documentation is a process guide.
 
-| Evidence Item | Source | What it tells us |
-|---|---|---|
-| "C-CDA in XML files" | PDF page 7 | Export format is C-CDA XML |
-| `_ClinicalSummary` filename suffix | PDF pages 7–8 | Document type is Clinical Summary (CCD) |
-| ZIP folder per patient | PDF page 7 | One archive per patient |
-| CSV mentioned in intro text | PDF page 1 | CSV may exist but is completely undocumented |
-| "File Type" dropdown | PDF page 4 | Suggests multiple format options, but values not shown |
+### Inferred content (from C-CDA standard)
 
-**Entity/table/field counts**: N/A — no data dictionary exists.
+Since the export produces C-CDA ClinicalSummary documents, standard sections would typically include:
 
-*(Source: `analysis/pdf_analysis_output.json`)*
+| C-CDA Section (inferred) | Fields | Described | Types | Category |
+|---|---|---|---|---|
+| Demographics (recordTarget) | N/A | N/A | N/A | Standard C-CDA |
+| Allergies and Intolerances | N/A | N/A | N/A | Standard C-CDA |
+| Medications | N/A | N/A | N/A | Standard C-CDA |
+| Problem List | N/A | N/A | N/A | Standard C-CDA |
+| Procedures | N/A | N/A | N/A | Standard C-CDA |
+| Results (Laboratory) | N/A | N/A | N/A | Standard C-CDA |
+| Vital Signs | N/A | N/A | N/A | Standard C-CDA |
+| Immunizations | N/A | N/A | N/A | Standard C-CDA |
+| Encounters | N/A | N/A | N/A | Standard C-CDA |
+| Plan of Treatment | N/A | N/A | N/A | Standard C-CDA |
+| Goals | N/A | N/A | N/A | Standard C-CDA |
+| Social History | N/A | N/A | N/A | Standard C-CDA |
+
+**Critical caveat**: These sections are inferred from the C-CDA standard, not verified from the vendor's documentation or sample data. The vendor provides no information about which sections are actually populated, what fields are included, or whether any vendor-specific extensions exist.
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-The vendor provides no categorization of export content. The only confirmed output is C-CDA Clinical Summary XML documents. C-CDA Clinical Summaries are a standardized clinical document format that represents a defined subset of patient data — primarily the "core clinical data" overlap with USCDI.
+The vendor does not organize or describe their export content in any way. The entire documentation is a UI process guide. Based on the C-CDA ClinicalSummary format, the export likely covers basic clinical summary data — the same data typically exported under § 170.315(b)(1) Transitions of Care.
 
-A C-CDA CCD does **not** include:
-
-- Billing records, claims, charges, payments
-- Insurance/coverage details beyond basic payer name
-- Specialty-specific clinical data (allergy skin test results, immunotherapy protocols, spirometry waveforms, infusion management records)
-- Custom assessment forms
-- Detailed encounter notes (full progress notes, H&P, consult notes — may be partially represented as free text sections)
-- Imaging reports (may be partially represented)
-- Patient portal communications/messages
-- Detailed referral records
-
-Given that ModuleMD WISE™ is a specialty allergy/immunology EHR with integrated billing/RCM, the C-CDA export represents a small fraction of the data the product stores about patients.
+C-CDA Clinical Summary is a **constrained clinical document format** designed for care transitions, not for comprehensive data export. It is structurally incapable of representing:
+- Specialty-specific clinical data (allergy skin tests, immunotherapy protocols, vial compounding)
+- Billing records, claims, and revenue cycle data
+- Practice management data
+- Custom forms and assessments
+- Infusion center operational data
+- USP 797 compliance records
+- Spirometry/PFT raw data and trends
+- AI-generated diagnostic imaging results
 
 ### 5b. Standardized domain coverage (top-down)
 
 | Domain | Coverage | Export Evidence | Gap Analysis |
 |---|---|---|---|
-| Demographics | ⚠️ Partial | C-CDA patient header (name, DOB, address, contact) | C-CDA provides basic demographics but lacks the full detail the product stores (e.g., employer info, emergency contacts, custom fields) |
-| Encounters / visits | ⚠️ Partial | C-CDA Encounters section | Summary-level only; visit details, appointment history likely incomplete |
-| Problems / conditions / diagnoses | ⚠️ Partial | C-CDA Problems section | Active problem list likely included; historical diagnoses may be incomplete |
-| Medications / prescriptions | ⚠️ Partial | C-CDA Medications section | Active medications likely included; prescription history, e-prescribing details may be thin |
-| Allergies | ⚠️ Partial | C-CDA Allergies section | Basic allergy list included but **not** the specialty allergy testing data (skin test panels, intradermal results, environmental/food allergen panels) that is core to this product |
-| Immunizations | ⚠️ Partial | C-CDA Immunizations section | Standard immunizations likely included but **not** immunotherapy protocols (vial mixing, injection tracking, dosing schedules) |
-| Vitals | ⚠️ Partial | C-CDA Vital Signs section | Basic vitals likely included |
-| Lab results | ⚠️ Partial | C-CDA Results section | Standard labs likely included; spirometry/PFT results may not map to C-CDA |
-| Imaging / diagnostic reports | ⚠️ Partial | Possibly in C-CDA Results section | Unclear; no evidence of imaging data in export |
-| Procedures | ⚠️ Partial | C-CDA Procedures section | Basic procedure list; infusion management details unlikely in C-CDA |
-| Clinical notes / documents | ⚠️ Partial | Possibly in C-CDA Notes section | C-CDA may include note text but format/completeness unknown |
-| Care plans / goals | ⚠️ Partial | C-CDA Care Plan section (if populated) | Unknown depth |
-| Orders / referrals | ⚠️ Partial | Possibly in C-CDA sections | Unknown |
-| Insurance / coverage | ❌ Not covered | No evidence of insurance data in C-CDA Clinical Summary | Product stores insurance/coverage data; **gap** |
-| Claims / billing | ❌ Not covered | No billing entities in export | Product has full RCM/billing module; **significant gap** |
-| Payments | ❌ Not covered | No payment data in export | Product processes payments; **significant gap** |
-| Consents / directives | ❌ Not covered | No evidence in export | Unknown if product stores consent data |
-| Patient communications / portal messages | ❌ Not covered | No messaging data in export | Product has patient portal with messaging; **gap** |
-| Allergy skin testing (specialty) | ❌ Not covered | No skin test data in C-CDA | Core specialty function of product; **major gap** |
-| Immunotherapy management (specialty) | ❌ Not covered | No immunotherapy data in C-CDA | Core specialty function of product; **major gap** |
-| Spirometry / PFT (specialty) | ❌ Not covered | No spirometry data in C-CDA | Product feature; **gap** |
-| Infusion management (specialty) | ❌ Not covered | No infusion data in C-CDA | Product feature; **gap** |
+| Demographics | ⚠️ Partial | C-CDA recordTarget (inferred — not verified) | C-CDA carries basic demographics; product likely stores richer contact, insurance, and preference data |
+| Encounters / visits | ⚠️ Partial | C-CDA Encounters section (inferred) | C-CDA carries encounter summaries, but not full encounter documentation with specialty workflow data |
+| Problems / conditions / diagnoses | ⚠️ Partial | C-CDA Problem List (inferred) | Likely present as standard problem list; may miss specialty-specific condition tracking |
+| Medications / prescriptions | ⚠️ Partial | C-CDA Medications section (inferred) | Standard medication list; likely misses immunotherapy dosing schedules and compounding details |
+| Allergies | ⚠️ Partial | C-CDA Allergies section (inferred) | Standard allergy list only; **critical gap** — skin test results (wheal/flare measurements), intradermal testing data, and detailed allergy workup data are the product's core specialty and cannot be represented in C-CDA |
+| Immunizations | ⚠️ Partial | C-CDA Immunizations section (inferred) | Standard immunization records; immunotherapy injection tracking and reaction monitoring are distinct from standard immunizations |
+| Vitals | ⚠️ Partial | C-CDA Vital Signs section (inferred) | Basic vitals likely covered; spirometry/PFT data unlikely to fit standard C-CDA vitals |
+| Lab results | ⚠️ Partial | C-CDA Results section (inferred) | Standard lab results; specialty lab panels may not be fully represented |
+| Imaging / diagnostic reports | ❌ Not covered | No evidence | Product includes SkinSight AI diagnostic imaging; C-CDA does not carry image data or AI analysis results |
+| Procedures | ⚠️ Partial | C-CDA Procedures section (inferred) | Standard procedure list; infusion administration details, compounding procedures unlikely to be included |
+| Clinical notes / documents | ⚠️ Partial | C-CDA may contain note sections (inferred) | Some notes may be in C-CDA; AI-dictated notes, specialty templates unlikely to be fully represented |
+| Care plans / goals | ⚠️ Partial | C-CDA Plan of Treatment / Goals (inferred) | Basic care plan data; immunotherapy treatment protocols and escalation schedules unlikely |
+| Orders / referrals | ⚠️ Partial | C-CDA may contain referral data (inferred) | Basic referral info possible; detailed order workflows unlikely |
+| Insurance / coverage | ❌ Not covered | No evidence in C-CDA export | Product has insurance verification and management; C-CDA does not carry this data. **Significant gap.** |
+| Claims / billing | ❌ Not covered | No evidence in C-CDA export | Product has full RCM with claims submission, ERA/EOB, denial management. **Major gap.** |
+| Payments | ❌ Not covered | No evidence in C-CDA export | Product manages patient payments, statements, A/R. **Significant gap.** |
+| Consents / directives | ❌ Not covered | No evidence | No documentation of consent data in export |
+| Patient communications / portal messages | ❌ Not covered | No evidence | Product has patient portal with messaging; not in C-CDA |
+| Specialty: Allergy skin testing | ❌ Not covered | No evidence | **Critical gap** — this is the product's core specialty. Skin prick/intradermal test results, wheal/flare measurements, testing panels are not representable in C-CDA |
+| Specialty: Immunotherapy management | ❌ Not covered | No evidence | **Critical gap** — vial mixing, injection tracking, dose escalation, reaction monitoring are core product features with no C-CDA equivalent |
+| Specialty: USP 797 compliance | ❌ Not covered | No evidence | Compounding logs, sterility testing, environmental monitoring — N/A for standard EHI but related clinical compounding data may qualify |
+| Specialty: Spirometry/PFT | ❌ Not covered | No evidence | Raw PFT data and trends not representable in C-CDA |
+| Specialty: Infusion center | ❌ Not covered | No evidence | IV drug administration records, monitoring data not in C-CDA |
 
-**Summary**: All clinical domains receive "Partial" rather than "Covered" because while C-CDA likely includes basic data for each, the lack of any documentation means we cannot confirm completeness. All specialty and billing domains are clearly not covered by a C-CDA Clinical Summary.
+**Summary**: Of ~20 applicable EHI domains, 0 are fully covered, ~10 are partially covered (inferred from C-CDA standard, not verified), and ~10 are not covered at all. Every "partial" rating is generous — it assumes the C-CDA includes the relevant sections, which cannot be confirmed from the documentation.
 
 ## 6. Documentation Quality
 
-The documentation quality is **extremely poor** for a (b)(10) export:
+The documentation quality is **extremely poor** for the purposes of (b)(10) compliance:
 
-- **No data dictionary**: Zero documentation of what data elements are in the export
-- **No schema**: No machine-readable or human-readable description of the export structure
-- **No sample data**: No example files to inspect
-- **Process-only documentation**: The 9-page PDF is entirely about *how to request* an export, not *what the export contains*
-- **Ambiguous format**: CSV is mentioned but never described; the File Type dropdown is shown but its options are hidden
-- **No technical specification**: A developer could not build an import from this documentation. They would know how to click buttons to request an export, but would have no idea what fields, formats, or structure to expect in the output.
+- **No data dictionary**: Zero information about what data elements are in the export.
+- **No schema**: No machine-readable or human-readable description of the export structure.
+- **No sample data**: No example files to inspect.
+- **No field documentation**: Not a single field name, type, or description is provided.
+- **No content description**: The document never states what clinical data is included — only how to click through the UI to request an export.
+- **Process-only documentation**: The 9-page PDF is entirely devoted to screenshots of the export UI workflow (how to select patients, submit a request, check status, download files).
+- **File Type dropdown undocumented**: Page 4 shows a "File Type" dropdown but its value is blank and options are never listed. This is the only hint that formats other than C-CDA might exist.
+- **CSV mentioned but undocumented**: Page 1 references CSV as a possible format, but no CSV-related documentation, schema, or examples appear anywhere.
 
-The document reads as an internal user guide for the export request workflow, not as technical documentation of the export format and content. It answers "how do I request an export?" but not "what will I get?"
-
-**Could a developer build an import?** No. A developer would receive ZIP files containing C-CDA XML and would need to reverse-engineer the schema from the files themselves. No field mapping, no data dictionary, no relationship documentation exists.
+**Could a developer build an import from this documentation?** No. The documentation provides no information about the structure or content of the exported data. A developer would need to request an actual export, examine the files, and reverse-engineer the format — which is possible for C-CDA XML (since it's a standard) but defeats the purpose of (b)(10) documentation.
 
 ## 7. Overall Assessment
 
 ### Classification
 
-**Standard-based projection**
-
-The export is confirmed to be C-CDA Clinical Summary XML documents. This is a standard clinical document format that covers a defined subset of patient data — primarily the clinical summary data that overlaps with USCDI. It is not the vendor's native data model. There is no evidence of native database export, and the C-CDA Clinical Summary format inherently cannot represent the specialty allergy/immunology data, billing/RCM data, or practice management data that is core to what ModuleMD WISE™ stores.
-
-The mention of CSV as a possible format introduces ambiguity — if CSV export exists and includes native database tables, the classification could be different. But with zero documentation of CSV content and all screenshots showing C-CDA, the evidence supports classifying this as a standard-based projection.
+**Standard-based projection**: The export is C-CDA ClinicalSummary XML — the same clinical summary format used for Transitions of Care under § 170.315(b)(1). This covers a small fraction of the data ModuleMD WISE stores, particularly missing all specialty allergy/immunology data, all billing/RCM data, and all practice management data. The documentation is so thin it borders on "minimal/stub," but the export itself does appear to function (ZIP files with per-patient C-CDA documents), so "standard-based projection" is the more accurate classification.
 
 ### Key Findings
 
-1. **C-CDA Clinical Summary repackaged as (b)(10) export**: The export produces C-CDA XML Clinical Summary documents per patient. This is the same format used for Transitions of Care [(b)(1)] and patient access, not a purpose-built EHI export. The `_ClinicalSummary` filename suffix confirms this. *(PDF pages 7–8)*
+1. **C-CDA repackaging as (b)(10)**: The export produces ClinicalSummary XML files — effectively the same output as Transitions of Care. This is a textbook case of repackaging an existing C-CDA export as the (b)(10) EHI export, covering perhaps 15–20% of the data the product stores. (Evidence: PDF pages 7–8, file naming pattern `*_ClinicalSummary`.)
 
-2. **Zero data dictionary or field documentation**: The entire (b)(10) documentation is a 9-page process flow PDF with UI screenshots. There is no data dictionary, no schema, no sample data, and no description of what data elements are exported. *(All 9 pages reviewed; `analysis/pdf_analysis_output.json`)*
+2. **Complete absence of specialty data**: ModuleMD WISE's core value proposition — allergy skin testing, immunotherapy management, vial compounding, spirometry, infusion center management — produces rich structured data that has no C-CDA equivalent. None of this data appears in the export. (Evidence: no mention of specialty data anywhere in the 9-page PDF; C-CDA standard has no sections for these data types.)
 
-3. **All specialty data missing from export**: ModuleMD WISE™'s core value proposition — allergy skin testing, immunotherapy management, spirometry, infusion center management — has no representation in a C-CDA Clinical Summary. These are the most important data domains this product uniquely stores, and they are entirely absent from the export. *(Product capabilities per `product-research.md`; C-CDA limitations are inherent to the format)*
+3. **No billing/RCM data**: The product includes full revenue cycle management (claims, ERA/EOB, denial management, A/R), but C-CDA carries no billing data. The export omits this entire domain. (Evidence: absence from C-CDA format; product capabilities documented in `product-research.md`.)
 
-4. **Billing/RCM data entirely absent**: The product includes a full billing and revenue cycle management module (claims, payments, ERA/EOB processing), confirmed by the "Billing" tab visible in screenshots. None of this data appears in the C-CDA export. *(PDF page 6 shows Billing tab; no billing content in C-CDA)*
+4. **No data dictionary or content documentation whatsoever**: The vendor's entire (b)(10) documentation is a 9-page UI walkthrough. There is zero information about what data elements are exported — no field names, no types, no descriptions, no schema. (Evidence: full text extraction and page-by-page visual review of the PDF.)
 
-5. **Ambiguous CSV mention never elaborated**: Page 1 references "data dictionary for comma separated values (csv) file(s)" as a possible export format, and a File Type dropdown exists, but neither the dropdown values nor any CSV documentation is provided anywhere. *(PDF pages 1 and 4)*
+5. **CSV format mentioned but not documented**: Page 1 references CSV as a possible export format and a File Type dropdown exists (page 4), but no CSV-related documentation is provided. If CSV export exists and provides native data model access, it is entirely undocumented. (Evidence: PDF page 1 text, page 4 screenshot.)
 
 ### Summary Stats
 
 ```
 Classification:  Standard-based projection
-Export format:   C-CDA XML (Clinical Summary)
+Export format:   C-CDA XML (ClinicalSummary)
 Model type:      Standard projection (C-CDA)
 Entities:        N/A (no data dictionary)
 Fields:          N/A (no data dictionary)
 Descriptions:    N/A
 Sample data:     No
-Bulk export:     Yes (Select All Patients option)
-Domains covered: 0 of 19 fully covered; ~10 of 19 partially via C-CDA
+Bulk export:     Yes (select all patients)
+Domains covered: 0 of ~20 fully covered; ~10 of ~20 partially covered (inferred, not verified)
 ```
 
 ### Bottom Line
 
-ModuleMD WISE™'s (b)(10) export is a C-CDA Clinical Summary repackaged as an EHI export, accompanied by a 9-page process flow guide with no data dictionary or technical documentation. For a specialty allergy/immunology EHR with integrated billing/RCM, this export misses the product's most distinctive and valuable data — allergy skin testing, immunotherapy protocols, spirometry results, infusion management records, and all billing/financial data. A patient or provider receiving this export would get a basic clinical summary but would lose the vast majority of their specialty care records and all financial data.
+ModuleMD WISE's (b)(10) export is a C-CDA Clinical Summary repackaging with no data dictionary and no documentation of export content. For a specialty allergy/immunology EHR with integrated billing and deep specialty workflows, this export misses the vast majority of stored EHI — including all allergy skin testing data, immunotherapy records, billing/RCM data, and practice management data. The single biggest gap is the complete absence of the specialty clinical data that is the product's core differentiator.

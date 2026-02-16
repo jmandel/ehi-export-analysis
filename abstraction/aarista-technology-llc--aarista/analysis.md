@@ -1,190 +1,169 @@
 # EHI Export Analysis: Aarista Technology LLC
 
-**Product**: Aarista v1.0
-**Analysis date**: 2026-02-15
-**CHPL ID**: 15.04.04.3168.Aari.01.00.1.230808 (CHPL #11329)
+**Product**: Aarista EHR System v1.0
+**Analysis date**: 2026-02-16
+**CHPL IDs**: 15.04.04.3168.Aari.01.00.1.230808 (CHPL ID 11329)
 
 ## 1. Product Context
 
-Aarista is a certified EHR platform purpose-built for **post-acute and outpatient care**, primarily serving skilled nursing facilities (SNFs), long-term care facilities, and assisted living facilities. It is developed by Aarista Technology LLC, closely linked to Altea Healthcare. As of 2024, the platform served over 70,000 patients across 14 states.
+Aarista is a certified EHR platform purpose-built for **post-acute and outpatient care**, targeting skilled nursing facilities (SNFs), long-term care facilities, and assisted living facilities. It serves 70,000+ patients across 14 states (as of August 2024). The developer, Aarista Technology LLC, is closely linked to Altea Healthcare, a post-acute care provider services organization.
 
-The product combines clinical EHR functionality with an AI/ML analytics layer ("Aari"). Key capabilities relevant to export completeness include:
+**Key capabilities relevant to EHI export completeness:**
 
-- **Clinical documentation**: Progress notes with smart templates for multiple specialties (wound care, psychiatry, cardiology, nephrology), voice-enabled dictation, customizable workflows
-- **Practice management/billing**: Revenue cycle management with billing documentation, encounter/diagnosis coding, RVU tracking, compliance metrics
-- **Care management**: Annual Wellness Visit (AWV) and Chronic Care Management (CCM) workflows, care coordination
-- **Ordering/prescribing**: E-prescribing for controlled and non-controlled medications
+- **Clinical documentation**: Patient profiles, clinical notes with customizable smart templates (wound care, psychiatry, cardiology, nephrology), voice-enabled dictation ("Smart Scribe"), AI-enhanced documentation
+- **Practice management / billing**: Revenue cycle management, billing documentation, compliance tracking, RVU tracking, coding trends
+- **Care management**: Annual Wellness Visit (AWV) workflows, Chronic Care Management (CCM) workflows, care coordination tracking
+- **Ordering & prescribing**: E-prescribing for controlled and non-controlled medications
+- **Telehealth & RPM**: Integrated telemedicine, remote patient monitoring for vital signs
 - **Scheduling**: Smart Scheduler with drag-and-drop appointments
-- **Telehealth & RPM**: Integrated virtual consultations, remote patient monitoring
-- **Integrations**: Bidirectional data exchange with PCC, MatrixCare, Epic, Cerner, and others
-- **Insurance/coverage**: Patient insurance management
+- **AI/analytics**: "Aari" neural network for risk prediction, patient population risk stratification, real-time condition alerts
+- **Integrations**: Bidirectional EHR integration with PCC, MatrixCare, Epic, Cerner, and others
 
-The product holds a broad ONC certification covering (a)(1)–(a)(5), (a)(12), (a)(14), (b)(1), (b)(10), (b)(11), (c)(1), (e)(3), (g)(7)–(g)(10), and (h)(1). This is a comprehensive clinical certification.
-
-**Baseline expectation**: A complete EHI export should cover demographics, encounters/clinical notes, problems, medications, allergies, immunizations, vitals, labs, procedures, insurance, billing/claims, care plans, and any specialty-specific assessments.
+The product holds a broad ONC certification covering (a)(1)–(a)(5), (a)(12), (a)(14), (b)(1), (b)(10), (b)(11), (c)(1), (e)(3), (g)(7)–(g)(10), and (h)(1). Certified 2023-08-08.
 
 ## 2. Artifacts Reviewed
 
-| Artifact | Description | Informativeness |
-|----------|-------------|-----------------|
-| `Aarista_EHI_Export.pdf` (183 KB, 8 pages) | EHI Export Data Dictionary — lists 7 data tables with 154 fields, field names and SQL Server data types. Created 2023-11-28 by Michael Mai. Retrieved from Wayback Machine; confirmed byte-identical to live version at both `alteahc.com` and `aarista.com` as of 2026-02-15. | **Primary artifact** — the only documentation of what the export contains |
-| `b10-Real-World-Test-Plan-2025.pdf` (205 KB, 5 pages) | Real World Testing Plan for b(10), scanned document signed 10/15/2024. Describes test methodology for ambulatory and post-acute care settings. | **Supplementary** — confirms export tool exists and mentions format as "C-CDA files or FHIR APIs" |
-| Mandatory Disclosures (`.docx`, live on aarista.com) | Disclosures letter listing product capabilities and fees. Notes FHIR API access requires "additional annual subscription per production instance." | **Minor** — confirms product scope, reveals FHIR API cost |
+| Artifact | Description | Size | Informativeness |
+|---|---|---|---|
+| `Aarista_EHI_Export.pdf` | Data Dictionary for Aarista EHI Export — 8-page PDF listing 7 data tables with field names and SQL Server data types. Created 2023-11-28 by Michael Mai. Retrieved from Wayback Machine (original URL returns 403). | 183 KB, 8 pages | **Primary artifact** — the only EHI export documentation. Contains all table/field definitions. |
+| `b10-Real-World-Test-Plan-2025.pdf` | Real World Testing Plan 2025 for (b)(10) — 5-page scanned PDF describing test methodology, care settings, expected outcomes. Signed by Michael Mai on 10/15/2024. | 205 KB, 5 pages | **Secondary** — confirms export exists for single-patient and population-level, mentions "C-CDA files or FHIR APIs" as format but contradicts the data dictionary structure. |
 
-**Note on site accessibility**: The prior report stated both `alteahc.com` and `aarista.com` returned HTTP 403. As of 2026-02-15, both sites are live and returning HTTP 200. The EHI Export PDF is directly accessible at its registered URL. The PDF content is byte-identical to the Wayback Machine version (MD5: `7899ad9b157c7d2176bb22e4b7cf383e`), confirming the data dictionary has not been updated since its original creation in November 2023.
+Both artifacts were retrieved from the Wayback Machine since both vendor domains (alteahc.com, aarista.com) return HTTP 403 on all paths as of the collection date.
+
+No sample data files, JSON schemas, machine-readable specifications, or additional documentation were available.
 
 ## 3. Export Mechanics
 
-- **Format**: Unspecified. The data dictionary says only "Export data files are machine readable file formats." Data types are SQL Server column types (nvarchar, int, date, datetime, float, bit), suggesting a flat file (likely CSV/TSV) derived from database views. The Real World Test Plan references "C-CDA files or FHIR APIs" as possible formats, but the data dictionary structure does not align with either standard.
-- **Mechanism**: The Real World Test Plan states "Our export tool enables users with the appropriate permissions to generate and download EHI exports" — this suggests a **UI-based export tool** (not vendor-assisted). The b(10) certification requires executability "at any time without developer assistance."
-- **Single-patient**: Yes — 5 of the 7 tables are prefixed "Single Patient."
-- **Bulk/population**: Yes — 2 tables are prefixed "Practice Patients" for facility-wide export. The test plan confirms "a population of patients within a specified date and time range."
-- **Access constraints**: The Mandatory Disclosures document notes that use of the FHIR API requires "an additional annual subscription per production instance." It is unclear whether the b(10) export tool itself has separate costs.
+- **Format**: Unspecified. The data dictionary states only "Export data files are machine readable file formats" without naming the actual format. The data types are SQL Server column types (nvarchar, int, date, datetime, float, bit), suggesting flat files (likely CSV/TSV) derived from database tables or views. The RWT plan separately mentions "C-CDA files or FHIR APIs" but the data dictionary's structure is neither C-CDA nor FHIR — it describes flat, denormalized tables.
+- **Mechanism**: The data dictionary overview states "Customers can request to export individual patients or all patients for the practice." The RWT plan states the export tool "enables users with the appropriate permissions to generate and download EHI exports for a single patient or a population of patients within a specified date and time range." This implies a UI-based export initiated by the customer.
+- **Single-patient**: Yes — Tables 1–5 are explicitly prefixed "Single Patient."
+- **Bulk export**: Yes — Tables 6–7 are prefixed "Practice Patients" and cover population-level export.
+- **Access constraints**: The RWT plan mentions "appropriate permissions" are required. No fees mentioned.
+- **Developer assistance**: The RWT plan explicitly states the capability can be "execute[d] at any time without developer assistance" per §170.315(b)(10)(i)(B).
 
 ## 4. Export Content: What's In It
 
-The data dictionary defines **7 tables with 154 total fields**. Zero fields have descriptions beyond the field name itself. All fields have SQL Server data types documented. No value sets, no relationships/foreign keys, no sample data, and no machine-readable schema are provided.
+### Data Dictionary Overview
 
-### Verified field counts (from `analysis/parsed_data_dictionary.json`)
+The data dictionary defines **7 tables** with a total of **154 fields**. Zero fields have descriptions — only field names and SQL Server data types are provided. No value sets, foreign keys, relationships, or sample data are documented.
 
-| Table | Fields | Required | Category |
-|-------|--------|----------|----------|
-| Single Patient - Patient Demographics | 28 | 4 | Single Patient |
-| Single Patient - Patient Addresses | 10 | 7 | Single Patient |
-| Single Patient - Patient Contacts | 20 | 13 | Single Patient |
-| Single Patient - Patient Insurances | 24 | 12 | Single Patient |
-| Single Patient - Patient Encounters – Clinical and Billing | 31 | 5 | Single Patient |
-| Practice Patients - Patient Demographics and Billing Encounters | 15 | 7 | Practice (Bulk) |
-| Practice Patients - Patient Demographics and Clinical Encounters | 25 | 1 | Practice (Bulk) |
-| **Total** | **154** | **49** | |
+Source: `Aarista_EHI_Export.pdf` (8 pages), parsed via `analysis/parse_data_dictionary.py` → `analysis/full-entity-inventory.json`
 
-### Table-by-table content
+### Vendor's own content organization
 
-**Single Patient - Patient Demographics** (28 fields): Names, DOB, SSN, administrative gender, MBI#, Medicaid#, preferred/previous names, mother's maiden name, gender at birth, gender identity, sexual orientation, race, ethnicity, marital/employment/military status, language preferences, date of death, PCP info (NPI, name, phone). Several typos present: "Ethnithity" (Ethnicity), "Mother Mainder Name" (Mother Maiden Name).
+The vendor organizes the export into two scopes: **Single Patient** (5 tables, 113 fields) and **Practice Patients** (2 tables, 41 fields).
 
-**Single Patient - Patient Addresses** (10 fields): Address type, street address, city/state/zip, plus communication type (phone/email) with preferred indicator. Appears to combine physical addresses and communication endpoints in one table.
-
-**Single Patient - Patient Contacts** (20 fields): Emergency contacts and guarantors with relationship, contact info, and full address. Includes flags for is_emergency_contact and is_guarantor.
-
-**Single Patient - Patient Insurances** (24 fields): Insurance type, payer type/name, insurance name, group, policy number, effective date, prior authorization, policy holder demographics and full contact info.
-
-**Single Patient - Patient Encounters – Clinical and Billing** (31 fields): The core encounter table. Repeats patient demographics (name, DOB, address, phone) per encounter. Clinical content is stored as **free-text blobs** in nvarchar(4000) fields: chief complaint ("Chief Comlaint" [sic]), HPI ("Historhy of Present Illness" [sic]), past surgical/medical/family/social history, immunizations, ROS, vital signs, physical exam, labs ("L:abs" [sic]), radiology, plan, disclaimer. Five fields are marked "multiple records" within single nvarchar fields (medications, problems, allergies, assessment, billing) — the serialization format for these is not documented.
-
-**Practice Patients - Patient Demographics and Billing Encounters** (15 fields): Bulk billing export with TIN, NPI, MRN, patient name/DOB/gender, visit date, Medicaid#, encounter code, diagnosis code, modifiers, place of service, and primary/secondary/tertiary insurer names. Note: TIN is described as "9 digits- hardcoded for now."
-
-**Practice Patients - Patient Demographics and Clinical Encounters** (25 fields): A **generic/EAV-style table** mixing all clinical data types into a single flat structure with columns: Name, Description, Code, Codesys, Category (constant string), Status, Textresult, Numresult, Units, plus various dates and medication-specific fields (strength, sig, dispense, refills). Four fields have "n/a" as their data type (Dispense Number, Sig Number, Ordering Provider NPI, Refill Times), suggesting they are not yet implemented.
+| Table Name | Fields | Required | Multi-valued | Scope | Category |
+|---|---|---|---|---|---|
+| Single Patient - Patient Demographics | 28 | 4 | 0 | Single patient | Demographics |
+| Single Patient - Patient Addresses | 10 | 7 | 0 | Single patient | Demographics |
+| Single Patient - Patient Contacts | 20 | 13 | 0 | Single patient | Demographics |
+| Single Patient - Patient Insurances | 24 | 12 | 0 | Single patient | Insurance |
+| Single Patient - Patient Encounters – Clinical and Billing | 31 | 5 | 5 | Single patient | Clinical / Billing |
+| Practice Patients - Patient Demographics and Billing Encounters | 16 | 8 | 0 | Practice-wide | Billing |
+| Practice Patients - Patient Demographics and Clinical Encounters | 25 | 1 | 0 | Practice-wide | Clinical |
+| **Totals** | **154** | **50** | **5** | | |
 
 ### Key structural observations
 
-1. **Free-text blobs dominate clinical data**: The single-patient encounter table stores most clinical information as unstructured nvarchar(4000) text rather than discrete, coded data elements. This means vital signs, labs, physical exam findings, etc. are not individually queryable or parseable without knowing the internal text format.
+**Encounters table (31 fields)**: This is the core clinical content table, but it stores most clinical data as **free-text blobs** in nvarchar(4000) fields. Chief Complaint, HPI, Physical Exam, Review of Systems, Vital Signs, Labs, Radiology, and Plan are all single text fields. Five fields (Medications, Problems List, Allergies, Assessment, Billing) are annotated as "multiple records" within nvarchar fields, but no serialization format is documented.
 
-2. **Multi-record fields with unknown serialization**: Medications, problems, allergies, assessment, and billing are described as "multiple records" within single nvarchar fields. How records are delimited (pipe-separated? newline? JSON array?) is not documented.
+**Practice Clinical table (25 fields)**: Uses a **generic EAV-like structure** with Name, Description, Code, Codesys, Category, Status columns. The "Category" field is listed as "constant string" type, implying it discriminates between different clinical data types (labs, medications, problems, etc.) that are all stored in the same flat table. This is more structured than the encounters table but mixes heterogeneous data types without documenting the Category values.
 
-3. **Redundant patient demographics**: Patient name, DOB, and address are repeated in the encounter table rather than linked via a foreign key. No relationships between tables are documented.
+**Notable field-level issues** (typos preserved from source):
+- "Mother Mainder Name" (should be Mother Maiden Name)
+- "Ethnithity" (should be Ethnicity)
+- "Chief Comlaint" (should be Chief Complaint)
+- "Historhy of Present Illness" (should be History of Present Illness)
+- "L:abs" (should be Labs)
 
-4. **Generic clinical table**: The Practice-level clinical encounters table uses an EAV (entity-attribute-value) pattern, mixing labs, medications, vitals, and other clinical items into one flat structure. The "Category" column presumably discriminates between data types, but valid category values are not documented.
-
-5. **Several "n/a" fields**: Four fields in the practice clinical encounters table have "n/a" as their data type, suggesting incomplete implementation.
+**Fields marked "n/a"**: In the Practice Clinical table, 4 fields (Dispense Number, Sig Number, Ordering Provider NPI, Refill Times) have data type "n/a" — suggesting they are defined in the schema but not yet implemented.
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-The vendor's data dictionary organizes content into 7 tables spanning two modes: single-patient export (5 tables) and practice-wide export (2 tables).
+The vendor's export covers two main areas:
 
-**Demographics/administrative data (4 tables, 82 fields)**: This is the richest area. Patient demographics (28 fields) are reasonably thorough, including USCDI v1 demographic elements (gender identity, sexual orientation, race, ethnicity, language) as well as Medicare/Medicaid identifiers. Addresses, contacts, and insurance tables add substantial detail. Insurance coverage (24 fields) captures payer, policy, and policy holder information.
+**Demographics and administrative data** (4 tables, 82 fields): Comprehensive patient demographics including USCDI-relevant fields (race, ethnicity, gender identity, sexual orientation, preferred language). Addresses, contacts (emergency and guarantor), and insurance details with policy holder information. This is the strongest area of the export.
 
-**Clinical encounter data (1 single-patient table, 31 fields)**: This table attempts to capture an entire encounter as a flat record. While it covers the major clinical sections of a progress note (CC, HPI, ROS, PE, assessment, plan, medications, problems, allergies, immunizations, vitals, labs, radiology, surgical/medical/family/social history), nearly everything is stored as free-text blobs. Only a few fields (progress notes type, DOS, provider, facility) are discrete. Billing codes are included as a "multiple records" field.
+**Clinical encounter data** (2 tables, 56 fields for single-patient encounters + practice clinical): The single-patient encounters table captures the full clinical note structure (CC, HPI, ROS, PE, assessment, plan) but as free-text blobs. The practice-level clinical table provides a more structured representation with code, code system, and category fields, plus medication-specific columns (strength, sig, dispense, refills).
 
-**Practice-level billing (1 table, 15 fields)**: A summary billing table with encounter/diagnosis codes, modifiers, place of service, and insurer names. Relatively thin — no charges, payments, adjustments, or claim status.
-
-**Practice-level clinical (1 table, 25 fields)**: A generic table that attempts to capture all structured clinical data types (labs, medications, etc.) in a single EAV-style structure. Includes coded data elements (Code, Codesys, Category) but category values are undocumented.
+**Billing data** (encounter-level and practice-level): The encounters table includes a "Billing" multi-record field. The practice billing table adds TIN, NPI, encounter codes, diagnosis codes, modifiers, place of service, and insurer names. This is a thin but present billing representation.
 
 ### 5b. Standardized domain coverage (top-down)
 
 | Domain | Coverage | Export Evidence | Gap Analysis |
-|--------|----------|-----------------|--------------|
-| Demographics | ✅ Covered | `Patient Demographics` (28 fields), `Patient Addresses` (10 fields), `Patient Contacts` (20 fields) | Thorough; includes USCDI demographics |
-| Encounters / visits | ⚠️ Partial | `Patient Encounters – Clinical and Billing` has DOS, provider, facility, progress notes type | Encounter metadata is minimal; encounter is just a container for free-text note sections |
-| Problems / conditions / diagnoses | ⚠️ Partial | "Problems List" field (nvarchar 270, multiple records) in encounters; "Diagnosis Code" in billing table; generic clinical table has Code/Codesys | Problems are free-text blobs in encounter table; structured codes only in bulk tables |
-| Medications / prescriptions | ⚠️ Partial | "Medications" field (nvarchar 500, multiple records) in encounters; generic clinical table has medication-specific fields (strength, sig, dispense, refills) | Single-patient medications are free-text; bulk table has structured medication fields but 4 medication columns show "n/a" type — apparently not implemented |
-| Allergies | ⚠️ Partial | "Allergies" field (nvarchar 500, multiple records) in encounters | Free-text blob only; no coded allergy data in single-patient export |
-| Immunizations | ⚠️ Partial | "Immunizations" field (nvarchar 4000) in encounters | Free-text blob only |
-| Vitals | ⚠️ Partial | "Vital Signs" field (nvarchar 4000) in encounters; possible in generic clinical table | Free-text blob in single-patient; may be structured in bulk clinical table via Category discriminator |
-| Lab results | ⚠️ Partial | "L:abs" [sic] field (nvarchar 4000) in encounters; generic clinical table has Numresult, Units, Textresult | Free-text blob in single-patient; bulk table has structured results but undocumented categories |
-| Imaging / diagnostic reports | ⚠️ Partial | "Radiology" field (nvarchar 4000) in encounters | Free-text blob only |
-| Procedures | ⚠️ Partial | "Past Surgical History" (nvarchar 4000) in encounters; encounter/diagnosis codes in billing table | Surgical history is free-text; billing codes provide some procedure data |
-| Clinical notes / documents | ✅ Covered | Full encounter note structure: CC, HPI, ROS, PE, assessment, plan, plus progress notes type | This is the core export — clinical notes are well-represented, though as free-text |
-| Care plans / goals | ❌ Not covered | No care plan table or fields in export | Product is certified under (b)(11) for care plans; this is a gap |
-| Orders / referrals | ❌ Not covered | No order or referral tables or fields | Product has e-prescribing; ordering data is missing |
-| Insurance / coverage | ✅ Covered | `Patient Insurances` (24 fields) | Thorough; includes payer, policy, and holder details |
-| Claims / billing | ⚠️ Partial | `Patient Encounters – Clinical and Billing` has "Billing" field; `Practice Patients – Billing Encounters` (15 fields) has encounter/diagnosis codes, modifiers, POS | Billing data exists but is thin — no charges, payments, adjustments, or claim lifecycle data despite product having RCM features |
-| Payments | ❌ Not covered | No payment fields in any table | Product has revenue cycle management; payment data is a gap |
-| Consents / directives | ❌ Not covered | No consent or advance directive fields | Unclear whether product stores these |
-| Patient communications / portal messages | ❌ Not covered | No communication or portal tables | Unclear whether product has patient portal |
-| Specialty-specific (post-acute care) | ❌ Not covered | No post-acute-specific assessments, wound care documentation, or CCM/AWV-specific data structures | Product emphasizes specialty templates (wound care, psychiatry, etc.) and AWV/CCM workflows; these may be captured in free-text encounter notes but are not separately identifiable |
-
-**Coverage summary**: 3 of 15 applicable domains are adequately covered (demographics, clinical notes, insurance). 8 domains are partially covered (data present but as free-text blobs or minimal structure). 4 domains appear not covered at all (care plans, orders/referrals, payments, specialty-specific data).
+|---|---|---|---|
+| Demographics | ✅ Covered | `Patient Demographics` (28 fields), `Patient Addresses` (10 fields), `Patient Contacts` (20 fields) — name, DOB, SSN, MBI, Medicaid#, race, ethnicity, gender identity, sexual orientation, language, PCP | Thorough; includes USCDI v1 elements |
+| Encounters / visits | ✅ Covered | `Patient Encounters – Clinical and Billing` (31 fields) — DOS, facility, provider, progress notes type | Present but thin on structured encounter metadata |
+| Problems / conditions / diagnoses | ⚠️ Partial | "Problems List" field (nvarchar(270), multi-record) in encounters; "Category" discriminator in practice clinical table; Diagnosis Code in practice billing | Present but as free-text blobs in encounters; somewhat structured in practice clinical table. No standalone problems table. |
+| Medications / prescriptions | ⚠️ Partial | "Medications" field (nvarchar(500), multi-record) in encounters; medication-specific columns in practice clinical table (Strength, Sig, Dispense, Refills) | Product has e-prescribing capability. The practice clinical table has medication-specific fields, but 4 of them are "n/a" (not implemented). No standalone prescription/dispensing table. |
+| Allergies | ⚠️ Partial | "Allergies" field (nvarchar(500), multi-record) in encounters | Free-text blob only; no structured allergy data |
+| Immunizations | ⚠️ Partial | "Immunizations" field (nvarchar(4000)) in encounters | Free-text blob only |
+| Vitals | ⚠️ Partial | "Vital Signs" field (nvarchar(4000)) in encounters; Numresult/Units in practice clinical | Free-text in encounters; may be more structured in practice clinical table via Category discriminator |
+| Lab results | ⚠️ Partial | "L:abs" field (nvarchar(4000)) in encounters; Textresult/Numresult/Units in practice clinical | Free-text blob in encounters; structured result fields exist in practice clinical table |
+| Imaging / diagnostic reports | ⚠️ Partial | "Radiology" field (nvarchar(4000)) in encounters | Free-text blob only |
+| Procedures | ⚠️ Partial | "Past Surgical History" field (nvarchar(4000)) in encounters | Free-text surgical history; no structured procedure table |
+| Clinical notes / documents | ✅ Covered | Full note structure in encounters: CC, HPI, ROS, PE, Assessment, Plan, Family/Social/Medical/Surgical History | Present but entirely as free-text blobs (nvarchar(4000)); represents the traditional SOAP note structure |
+| Care plans / goals | ❌ Not covered | No care plan table or fields | Product is certified for (b)(11) Care Plan; this is a gap |
+| Orders / referrals | ❌ Not covered | Order Date exists in practice clinical table; no standalone orders entity | Product supports e-prescribing and ordering; gap |
+| Insurance / coverage | ✅ Covered | `Patient Insurances` (24 fields) — type, payer, policy details, policy holder info | Solid coverage |
+| Claims / billing | ⚠️ Partial | "Billing" multi-record field in encounters; `Practice Billing Encounters` (16 fields) — TIN, NPI, encounter/diagnosis codes, modifiers, place of service, insurers | Product has RCM features; billing data present but thin (single encounter code, single diagnosis code per row — unclear how multiple diagnoses per encounter are handled) |
+| Payments | ❌ Not covered | No payment data in any table | If the product tracks payments as part of RCM, this is a gap |
+| Consents / directives | ❌ Not covered | No consent or advance directive fields | Unknown whether product stores these |
+| Patient communications / portal | ❌ Not covered | No patient messaging or portal data | Unknown whether product has patient portal |
+| Specialty-specific (post-acute care) | ❌ Not covered | No specialty-specific tables for wound care, CCM, AWV, or other post-acute workflows | Product has specialized templates for wound care, psychiatry, cardiology, nephrology, plus AWV and CCM workflows. None of these appear as distinct export entities. Significant gap given the product's post-acute focus. |
 
 ## 6. Documentation Quality
 
-The documentation quality is **low**. While a data dictionary exists (many vendors provide nothing), it has significant shortcomings:
+**Overall: Low.** The documentation is a basic data dictionary consisting only of field names and SQL Server data types. It lacks nearly everything a developer would need to work with the export:
 
-**What's provided**:
-- Field names (154 total across 7 tables)
-- SQL Server data types with lengths
-- Required field indicators (asterisks)
+- **No field descriptions**: Zero of 154 fields have descriptions. Field names are the only guide (e.g., "Codesys" — what code systems? "Category" — what are the valid values?).
+- **No value sets**: Fields like "Administrative Gender," "Race," "Ethnithity," "Progress Notes Type," and "Category" have no enumerated values.
+- **No relationships**: No foreign keys, join conditions, or entity-relationship documentation. How does a single-patient encounter link to demographics? Presumably by patient identity, but this isn't documented.
+- **No format specification**: The actual export file format (CSV, JSON, XML, etc.) is never specified. "Machine readable file formats" is the only statement.
+- **No serialization documentation**: Five fields are noted as "multiple records" in a single nvarchar field, but the delimiter/structure is not documented.
+- **No sample data**: No example exports provided.
+- **No machine-readable artifacts**: No JSON schema, XSD, DDL, or CSV header specification.
+- **Several typos**: "Ethnithity," "Mother Mainder Name," "Chief Comlaint," "Historhy of Present Illness," "L:abs" — suggesting limited editorial review.
+- **Stale**: Created November 2023 at certification time; byte-identical copy posted in 2025 confirms no updates.
+- **Contradictory format claims**: The data dictionary describes flat SQL Server-derived tables, while the RWT plan mentions "C-CDA files or FHIR APIs." These are fundamentally different structures.
 
-**What's missing**:
-- **Field descriptions**: 0 of 154 fields have any description beyond the field name itself (0%)
-- **Value sets / code systems**: No enumerated values for any coded field (e.g., valid values for "Administrative Gender," "Category," "Progress Notes Type," "Communication Type")
-- **Relationships**: No foreign keys, join fields, or entity-relationship documentation between the 7 tables
-- **Multi-record serialization**: Five fields are noted as "multiple records" but the delimiter/format is not specified
-- **Export file format**: The actual output format (CSV, JSON, XML, delimiter, encoding) is never specified
-- **Sample data**: None
-- **Machine-readable schema**: No XSD, JSON Schema, DDL, or CSV header specification
-- **Instructions**: No procedure for how to perform the export
-
-**Editorial quality**: Multiple typos are present in field names: "Ethnithity" (Ethnicity), "Mother Mainder Name" (Mother Maiden Name), "Chief Comlaint" (Chief Complaint), "Historhy of Present Illness" (History of Present Illness), "L:abs" (Labs). This suggests minimal editorial review.
-
-**Staleness**: The document was created 2023-11-28 (at certification time) and has not been updated since — the 2025 version hosted on aarista.com is byte-identical. Created in Microsoft Word for Microsoft 365.
-
-**Could a developer import this data?** Not without significant reverse-engineering. They would lack: the file format, the delimiter for multi-valued fields, valid values for coded fields, how to join tables, and what the Category values mean in the generic clinical encounters table. The free-text clinical blobs would require parsing an unknown text format to extract structured clinical data.
+A developer receiving this export would be unable to reliably parse multi-valued fields, distinguish between clinical data categories in the generic practice clinical table, or understand what code systems are used — without direct vendor assistance.
 
 ## 7. Overall Assessment
 
 ### Classification
 
-**Partial native export**
-
-The export represents a native database projection (SQL Server types, flat tables) rather than a standard (C-CDA, FHIR), which is directionally correct for a b(10) export. However, it has significant structural and coverage weaknesses: clinical data is predominantly free-text blobs rather than discrete coded elements, billing data is thin despite the product having RCM capabilities, and several data domains the product stores (care plans, orders, payments, specialty assessments) are absent from the export.
+**Partial native export.** The data dictionary describes a native database projection (SQL Server column types, denormalized tables) rather than a standard-based representation. However, it has significant coverage gaps — particularly in specialty clinical data, care plans, orders, and structured clinical content — and the documentation is too thin to be usable without vendor assistance.
 
 ### Key Findings
 
-1. **Clinical data is mostly free-text blobs, not structured data.** The encounter table stores nearly all clinical content (vitals, labs, physical exam, etc.) as nvarchar(4000) text fields. While the data is technically "exported," a receiving system cannot parse or interpret it without reverse-engineering the text format. This undermines the practical utility of the export.
+1. **Export is a thin native database projection with 7 tables and 154 fields** — sourced from `Aarista_EHI_Export.pdf`, this represents a modest schema with basic coverage of demographics, insurance, encounters, and billing. Compare to vendors with hundreds of tables covering the same domains.
 
-2. **Zero field descriptions out of 154 fields (0%).** The data dictionary provides only field names and SQL types — no definitions, no value sets, no code systems, no relationships. A developer cannot reliably interpret or import this data from the documentation alone.
+2. **Clinical content is largely free-text blobs** — the encounters table stores most clinical data (ROS, PE, vitals, labs, radiology, assessment, plan) as nvarchar(4000) text fields, making structured data extraction very difficult. Only the practice-level clinical table offers some structured representation (code, code system, category, results).
 
-3. **Export file format is never specified.** Despite being the core deliverable, the actual output format (CSV? JSON? XML? What delimiter? What encoding?) is never stated. The Real World Test Plan mentions "C-CDA files or FHIR APIs" but the data dictionary's flat SQL-typed tables are inconsistent with either standard.
+3. **Zero field descriptions across all 154 fields** — the data dictionary provides only names and SQL types. No value sets, no code system documentation, no relationships, no sample data. The format of the export files themselves is never specified.
 
-4. **Several data domains the product stores are absent.** Care plans (certified under (b)(11)), e-prescribing orders, payment/financial data (despite RCM features), and specialty-specific assessments (wound care, AWV, CCM workflows) have no representation in the export.
+4. **Specialty/post-acute clinical workflows are absent** — despite the product's focus on post-acute care with specialized templates (wound care, CCM, AWV, psychiatry), none of these appear in the export. Care plans (certified under (b)(11)) are also missing.
 
-5. **Documentation has not been updated since certification.** The 2023-11-28 PDF is byte-identical to the current version. Multiple typos in field names ("Ethnithity," "Chief Comlaint," "L:abs") suggest it was created hastily for certification and never revisited.
+5. **Documentation is stale and contradictory** — created at certification time (Nov 2023) and never updated. The RWT plan (Oct 2024) mentions "C-CDA files or FHIR APIs" as the export format, which contradicts the flat-table structure in the data dictionary.
 
 ### Summary Stats
 
 ```
 Classification:  Partial native export
-Export format:   Unspecified ("machine readable file formats")
-Model type:      Native database projection (SQL Server types)
-Entities:        7
+Export format:   Unspecified ("machine readable file formats"); SQL Server types suggest CSV/TSV
+Model type:      Native database projection
+Entities:        7 tables
 Fields:          154
 Descriptions:    0% (0 of 154 fields have descriptions)
 Sample data:     No
-Bulk export:     Yes (practice-level tables)
-Domains covered: 3 of 15 applicable domains adequately; 8 partially
+Bulk export:     Yes (practice-level tables for population export)
+Domains covered: 7 of 15 applicable domains (✅ or ⚠️ partial)
 ```
 
 ### Bottom Line
 
-Aarista's EHI export provides a minimal skeleton of its data model — 7 tables with 154 fields — but the heavy reliance on free-text blobs for clinical data, the complete absence of field descriptions, and the failure to specify the export file format make this export of limited practical utility. A patient or provider receiving this export would get demographic and insurance data in structured form, but clinical data would arrive as opaque text blocks that cannot be reliably parsed or imported into another system. The biggest gap is structural: even data that is technically "exported" is not usable without significant reverse-engineering effort.
+The Aarista EHI export provides a minimal data dictionary with 7 flat tables covering demographics, insurance, encounters, and basic billing — but clinical data is mostly stored as unstructured text blobs, the export format is never specified, and zero fields have descriptions. The most significant gap is the absence of the product's specialty post-acute care data (wound care, CCM, AWV templates, care plans) — the very workflows that define this product's value proposition. A patient or provider would get a rough outline of their clinical record but not the structured, specialty-specific data that drives care decisions in post-acute settings.

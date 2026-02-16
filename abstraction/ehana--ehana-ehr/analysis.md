@@ -1,196 +1,173 @@
 # EHI Export Analysis: eHana
 
-**Product**: eHana EHR
-**Analysis date**: 2025-07-15
-**CHPL ID**: 15.04.04.2594.eHan.19.00.1.191206
+**Product**: eHana EHR  
+**Analysis date**: 2025-07-18  
+**CHPL IDs**: 15.04.04.2594.eHan.19.00.1.191206
 
 ## 1. Product Context
 
-eHana EHR is a cloud-based behavioral health electronic health record system designed primarily for Massachusetts nonprofit behavioral health organizations. According to product research, eHana supports:
+eHana EHR is a cloud-based behavioral health EHR purpose-built for behavioral health and human service organizations, with deep penetration in the Massachusetts market (10,000+ monthly active users, 900+ sites, 150,000+ clients). The product serves outpatient mental health, SUD/addiction, ESP/MCI (Emergency Services Program/Mobile Crisis Intervention), CBHI programs, I/DD, residential services, and justice-involved populations.
 
-- **Clinical documentation**: Progress notes, treatment plans, behavioral health assessments (including CANS — Child and Adolescent Needs and Strengths), group notes, e-prescribing via DrFirst integration
-- **Billing and practice management**: HIPAA-compliant 837/835 claim processing, ERA posting, superbill generation, insurance verification, batch billing
-- **Scheduling**: Appointment management with recurring appointments
-- **Multi-program enrollment**: Tracking clients across multiple behavioral health programs with enrollment/discharge dates
-- **Patient portal**: Secure messaging, document sharing
-- **Specialty behavioral health**: CANS assessments, substance use tracking, behavioral health-specific workflow tools
+**Data domains the product stores** (per vendor website and product research):
+- **Clinical documentation**: Service notes, clinical assessments, treatment plans, progress notes, CANS assessments, incident reports — 600,000+ documents/month
+- **Demographics**: Multi-program client demographics, enrollment across programs
+- **Medications**: E-prescribing with EPCS and PDMP integration
+- **Billing/claims**: Automated claims (837/835), eligibility management, complex behavioral health billing rules, zero-paid and bundled claims for MassHealth
+- **Scheduling**: Client and employee scheduling, front-desk check-in
+- **Care coordination**: Cross-program notifications, secure messaging, DIRECT messaging, patient portal
+- **Scanned documents**: OCR-processed documents filed into client charts
+- **Specialty behavioral health**: CANS assessments, ESP/MCI workflows, CBHI/CSA/IHT/TM/ICC programs, I/DD-specific data
 
-The product reportedly generates over 600,000 clinical documents per month across its user base. This baseline establishes that a complete EHI export should cover behavioral health-specific assessments, billing/claims data, multi-program enrollment, scheduling context, and e-prescribing records — in addition to standard clinical data.
+This breadth of data domains is the baseline against which export completeness must be measured.
 
 ## 2. Artifacts Reviewed
 
-| Artifact | Description | Informative? |
+| Artifact | Description | Informativeness |
 |---|---|---|
-| `EHI_Export.pdf` (15 pages) | The sole EHI export documentation. Image-based PDF (created via "Microsoft: Print To PDF" from Google Docs, 2023-05-10). Contains 18 C-CDA section descriptions, each with overview text, a UI screenshot ("HTML Element"), and sample C-CDA XML ("XML Element"). No extractable text (pdftotext returns empty). | **Primary artifact** — the only (b)(10)-specific documentation |
-| `SmartOnFHIR-API-Doc.pdf` (68 pages) | SMART on FHIR API documentation for §170.315(g)(10). Describes FHIR R4 endpoints, OAuth2 flows, and supported USCDI resources. Separate from (b)(10). | Context only — not EHI export documentation |
-| `fhir-base-urls.csv` | Four rows: test and prod FHIR server endpoints and auth server endpoints. Prod URLs listed as "available upon request." | Minimal — confirms FHIR infrastructure exists |
-| `screenshot-ehana.com.png` | Screenshot of eHana website | Minimal |
+| `downloads/EHI_Export.pdf` (1.5 MB, 15 pages) | **Primary artifact.** Image-based PDF documenting the C-CDA XML export format. Contains 18 sections, each with an overview, UI screenshot, and XML element example. Created 2023-05-10 by "maralee.mies" via Microsoft Print to PDF from a Google Doc. | **Most informative** — sole source for export content |
+| `downloads/SmartOnFHIR-API-Doc.pdf` (703 KB, 68 pages) | SMART on FHIR API documentation for §170.315(g)(10). Separate from (b)(10) EHI export. Documents OAuth2/SMART App Launch and FHIR R4 resource access. | Context only — not (b)(10) |
+| `downloads/fhir-base-urls.csv` (282 bytes, 4 rows) | Lists FHIR server and auth server endpoints (test/prod). Production URLs listed as "available upon request." | Minimal — (g)(10) infrastructure only |
+| `downloads/screenshot-certification-page.png` (517 KB) | Screenshot of ehana.com/certification-documentation page showing EHI Export link. | Minimal — confirms page layout |
 
-**Key finding**: Only one artifact (`EHI_Export.pdf`) documents the (b)(10) EHI export. There is no data dictionary, no schema, no sample export file, and no machine-readable specification.
+**Key observation:** The entire (b)(10) EHI export documentation consists of a single 15-page PDF. There is no data dictionary, no machine-readable schema, no sample export file, and no supplemental documentation.
 
 ## 3. Export Mechanics
 
-- **Format**: C-CDA R2 (Clinical Document Architecture Release 2) XML
-- **Mechanism**: Not clearly documented. The PDF title page states compliance with §170.315(b)(10) but does not describe how a user initiates an export (UI button, API call, or vendor-assisted process).
-- **Single-patient vs bulk**: Not specified. C-CDA is inherently a single-patient document format; the documentation shows single-patient examples only.
-- **Access constraints or fees**: Not documented.
-
-The PDF opens with: "Electronic Health Information (EHI) Export" and states it follows the CDA R2 format for §170.315(b)(10) compliance. Beyond this, there is no procedural documentation.
+- **Format**: CDA R2 / C-CDA (Consolidated Clinical Document Architecture) XML
+- **Mechanism**: Not explicitly described in the documentation. The PDF describes what data elements are included but does not document the user interface, API endpoint, or workflow for initiating an export. The certification documentation page refers to "export" in general terms.
+- **Single-patient vs bulk**: Not documented. C-CDA is inherently a single-patient document format. No evidence of bulk/population-level export capability.
+- **Access constraints**: Not documented. Production FHIR endpoints are "available upon request" (per `fhir-base-urls.csv`), but this pertains to (g)(10), not (b)(10).
+- **Fees**: Not documented in the artifacts.
 
 ## 4. Export Content: What's In It
 
-### Structure of the documentation
+The export is a standard C-CDA clinical summary document containing 18 sections. The documentation (EHI_Export.pdf) presents each section with:
+1. A brief **overview** sentence describing what the section stores
+2. An **HTML Element** — a UI screenshot showing how the data appears in eHana's interface
+3. An **XML Element** — a C-CDA XML code snippet showing the element structure with sample data
 
-The 15-page PDF documents 18 C-CDA sections. Each section follows an identical three-part format:
-
-1. **Overview**: A 1-2 sentence description of the section
-2. **HTML Element**: A screenshot of how the data appears in the eHana UI
-3. **XML Element**: A sample C-CDA XML snippet showing the structured data
-
-There is **no data dictionary**. There are no field-level specifications, no cardinality/optionality documentation, no value set enumerations beyond what's visible in the XML snippets, and no relationship documentation.
-
-### What a C-CDA inherently contains
-
-A C-CDA document is a standardized clinical summary. It represents a **projection** of the EHR's native data model into a fixed set of clinical sections. By definition, C-CDA cannot represent:
-
-- Billing/claims data (837/835 transactions)
-- Insurance/coverage details beyond basic payer info
-- Multi-program enrollment records
-- Behavioral health-specific assessments (e.g., CANS instruments)
-- Scheduling data
-- Custom clinical forms or assessments
-- E-prescribing transaction history
-- Patient portal messages
+There is **no formal data dictionary**. The documentation does not provide field-level definitions, data types, cardinality, optionality, or value set bindings beyond what is visible in the XML snippets. The XML examples use standard C-CDA template OIDs and code systems (SNOMED-CT, LOINC, RxNorm, CDC Race/Ethnicity, CVX, NDC) but these are properties of the C-CDA standard, not vendor-specific documentation.
 
 ### Vendor's own content organization
 
-The vendor organizes the export into 18 numbered sections. All are standard C-CDA sections — no vendor extensions or custom sections are documented.
+The PDF organizes content as 18 C-CDA sections listed in a table of contents on page 1. The sections and their visible fields (extracted from visual inspection of all 15 rendered pages):
 
-| # | Section Name | Key Data Elements | LOINC Code | Code Systems | Pages |
-|---|---|---|---|---|---|
-| 1 | Electronic Chart / Patient Data | Name, DOB, gender, race, ethnicity, language, telecom, address | N/A | HL7 AdminGender, CDC Race/Ethnicity | 2–3 |
-| 2 | Vital Signs | Vital type, value+units, time | 8716-3 | LOINC | 3–4 |
-| 3 | Immunization | Vaccine (CVX), manufacturer, lot#, date | 11369-6 | CVX | 4 |
-| 4 | Allergies, Adverse Reactions, Alerts | Allergen (RxNorm/SNOMED), reaction, severity, status | 48765-2 | SNOMED-CT, RxNorm | 5 |
-| 5 | History of Medication Use | Medication (RxNorm/NDC), start/end date, frequency, instructions, status | 10160-0 | RxNorm, NDC | 6 |
-| 6 | Instructions | Instruction text, date | 69730-0 | LOINC | 7 |
-| 7 | Functional and Cognitive Status | Assessment type, status, date | 47420-5 | SNOMED-CT, LOINC | 7–8 |
-| 8 | Chief Complaint / Reason For Visit | Complaint text, date | 46239-0 | — | 8 |
-| 9 | Problem List | Diagnosis (SNOMED), status, onset/resolution | 11450-4 | SNOMED-CT | 9 |
-| 10 | Social History | Smoking status (SNOMED), birth sex | 29762-2 | SNOMED-CT | 10 |
-| 11 | Encounters | Type, date/time, provider, diagnoses, location | 46240-8 | CPT | 10 |
-| 12 | Results | Result type (LOINC), value+units, range, interpretation | 30954-2 | LOINC | 10 |
-| 13 | Procedures | Procedure (SNOMED), date, status, provider | 47519-4 | SNOMED-CT | 11 |
-| 14 | Reason for Referral | Referral reason text, date, status | 42349-1 | SNOMED-CT | 11 |
-| 15 | Implantable Devices | Device UDI, name, assigning authority | N/A | SNOMED-CT | 12 |
-| 16 | Health Concerns | Concern text, date | 75310-3 | LOINC | 13 |
-| 17 | Assessment and Plan | Assessment narrative, plan items, date | 51847-2 | LOINC | 14 |
-| 18 | Goals | Goal text, date | 61146-7 | LOINC | 15 |
+| Section | Fields Visible | Code Systems | Pages |
+|---|---|---|---|
+| Electronic Chart / Patient Data | 8 | AdministrativeGender, CDC Race/Ethnicity | 2–3 |
+| Vital Signs | 4 | LOINC | 4 |
+| Immunization | 4 | CVX | 5 |
+| Allergies, Adverse Reactions, Alerts | 5 | RxNorm, SNOMED-CT | 5–6 |
+| History of Medication Use | 5 | RxNorm, NDC | 6–7 |
+| Instructions | 3 | — | 7–8 |
+| Functional and Cognitive Status | 4 | SNOMED-CT | 8 |
+| Chief Complaint / Reason For Visit | 2 | — | 9 |
+| Problem List | 4 | SNOMED-CT, ICD-10-CM | 9–10 |
+| Social History | 2 | SNOMED-CT, AdministrativeSex | 10 |
+| Encounters | 4 | CPT | 11 |
+| Results | 5 | LOINC | 12 |
+| Procedures | 4 | SNOMED-CT | 13 |
+| Reason for Referral | 2 | — | 13–14 |
+| Implantable Devices | 4 | — | 14 |
+| Health Concerns | 3 | — | 14–15 |
+| Assessment and Plan | 1 | — | 15 |
+| Goals | 3 | — | 15 |
 
-**Total**: 18 sections, ~77 distinct data elements visible across all XML examples, 8 standard code systems referenced (SNOMED-CT, LOINC, RxNorm, NDC, CVX, CPT, HL7 AdministrativeGender, CDC Race/Ethnicity).
+**Totals**: 18 sections, 67 fields visible across all sections. All 67 fields have brief descriptions and data type indicators (as CDA data types like CE, TS, PQ). 18 fields reference specific code systems. Only 11 fields show explicit sample values in the screenshots.
 
-All 18 sections are standard C-CDA sections using standard template OIDs (e.g., `2.16.840.1.113883.10.20.22.2.5.1` for Problem List). No vendor-specific extensions, custom sections, or behavioral health-specific templates are present.
+The complete field-level inventory is in `analysis/full-entity-inventory.json`.
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-The export covers exactly what a standard C-CDA R2.1 clinical summary contains — no more, no less. The 18 sections map to standard USCDI v1 data classes:
+The export covers exactly what a standard C-CDA clinical summary covers — the 18 sections are standard C-CDA sections found in any certified EHR's clinical summary document. There is no evidence of vendor-specific extensions, custom sections, or additional data beyond what the C-CDA standard defines. The sections cover:
 
-- **Demographics**: Standard patient header (name, DOB, gender, race, ethnicity, address, phone)
-- **Clinical observations**: Vitals, allergies, medications, problems, results, procedures, immunizations, social history, functional status
-- **Care narrative**: Chief complaint, assessment & plan, instructions, health concerns, goals
-- **Referrals**: Reason for referral
-- **Device tracking**: Implantable devices
-- **Encounters**: Basic encounter records
+- **Demographics** (1 section, 8 fields): Name, DOB, sex, race, ethnicity, language, address, phone
+- **Clinical observations** (4 sections, 17 fields): Vital signs, immunizations, allergies, problem list
+- **Medications** (1 section, 5 fields): Prescribed/concurrent medications
+- **Encounters** (2 sections, 6 fields): Visit records, chief complaint
+- **Lab/diagnostics** (1 section, 5 fields): Lab results
+- **Care planning** (3 sections, 7 fields): Health concerns, assessment & plan, goals
+- **Procedures** (1 section, 4 fields)
+- **Devices** (1 section, 4 fields): Implantable devices with UDI
+- **Social/behavioral** (1 section, 2 fields): Smoking status, birth sex only
+- **Care coordination** (1 section, 2 fields): Reason for referral
+- **Other** (2 sections, 7 fields): Instructions, functional/cognitive status
 
-This is the standard C-CDA content set. It is essentially the same data available through the product's FHIR API (documented in the separate 68-page SmartOnFHIR-API-Doc.pdf). The (b)(10) export adds nothing beyond what (g)(10) already provides.
-
-**What is entirely absent** — and this is the critical gap — is everything that makes eHana a *behavioral health* EHR:
-
-- No billing/claims data (837/835 transactions, superbills, charge records)
-- No insurance/coverage details
-- No multi-program enrollment records
-- No behavioral health assessments (CANS, substance use screenings)
-- No custom clinical forms or behavioral health-specific documentation templates
-- No e-prescribing transaction history (only current medication list)
-- No patient portal messages
-- No clinical document content beyond what fits in C-CDA sections (progress notes, treatment plans as structured documents)
-- No payment records
+This is a **clinical summary**, not a comprehensive data export. The thinnest sections are Assessment and Plan (1 free-text field) and Chief Complaint (2 fields). Social History is limited to smoking status and birth sex — extremely thin for a behavioral health EHR.
 
 ### 5b. Standardized domain coverage (top-down)
 
 | Domain | Coverage | Export Evidence | Gap Analysis |
 |---|---|---|---|
-| Demographics | ✅ Covered | Section 1: name, DOB, gender, race, ethnicity, language, telecom, address | Standard C-CDA header; adequate for basic demographics |
-| Encounters / visits | ⚠️ Partial | Section 11: encounter type, date, provider, diagnoses | Basic encounter records only; no encounter-level notes or detailed visit documentation |
-| Problems / conditions | ✅ Covered | Section 9: SNOMED-coded diagnoses with status, onset/resolution | Standard problem list |
-| Medications / prescriptions | ⚠️ Partial | Section 5: medication list with RxNorm/NDC codes, dates, frequency | Medication list only; no e-prescribing transaction history or prescription details |
-| Allergies | ✅ Covered | Section 4: allergen, reaction, severity, status | Standard allergy section |
-| Immunizations | ✅ Covered | Section 3: CVX-coded vaccines, manufacturer, lot# | Standard immunization section |
-| Vitals | ✅ Covered | Section 2: LOINC-coded vitals with values and units | Standard vital signs |
-| Lab results | ✅ Covered | Section 12: LOINC-coded results with values, ranges, interpretation | Standard results section |
-| Imaging / diagnostic reports | ❌ Not covered | No imaging section in C-CDA export | If product stores imaging orders/reports, this is a gap |
-| Procedures | ✅ Covered | Section 13: SNOMED-coded procedures with dates and status | Standard procedures section |
-| Clinical notes / documents | ⚠️ Partial | Section 17 (Assessment and Plan) contains narrative text; no dedicated notes section | eHana generates 600K+ docs/month — progress notes, treatment plans, group notes are core product features but not exported as documents |
-| Care plans / goals | ⚠️ Partial | Section 18 (Goals) and Section 16 (Health Concerns) | Basic goals and concerns; no structured treatment/care plans |
-| Orders / referrals | ⚠️ Partial | Section 14 (Reason for Referral) | Referral reason text only; no structured orders |
-| Insurance / coverage | ❌ Not covered | No insurance entities in export | Product handles insurance verification and billing — significant gap |
-| Claims / billing | ❌ Not covered | No billing entities in export | Product processes 837/835 claims, generates superbills — **major gap** |
-| Payments | ❌ Not covered | No payment records in export | Product processes ERA/835 payments — significant gap |
-| Consents / directives | ❌ Not covered | No consent section in export | Unknown if product stores structured consents |
-| Patient communications / portal messages | ❌ Not covered | No communications in export | Product has patient portal — gap if messages are stored |
-| Specialty-specific (behavioral health) | ❌ Not covered | No behavioral health assessments (CANS, substance use screenings), no program enrollment, no behavioral health-specific forms | **Critical gap** — this is the product's core differentiator |
+| Demographics | ⚠️ Partial | "Electronic Chart / Patient Data" (8 fields): name, DOB, sex, race, ethnicity, language, address, phone | Basic demographics present. Missing: insurance/enrollment info, emergency contacts, multi-program enrollment data that eHana stores |
+| Encounters / visits | ⚠️ Partial | "Encounters" section (4 fields) with CPT codes | Basic encounter records. Missing: service documentation with date/time, service type, location, program code, modifiers — the core of behavioral health service notes |
+| Problems / conditions / diagnoses | ✅ Covered | "Problem List" (4 fields) with SNOMED-CT and ICD-10-CM | Standard problem list coverage |
+| Medications / prescriptions | ⚠️ Partial | "History of Medication Use" (5 fields) with RxNorm/NDC | Medication list present, but eHana has full e-prescribing with EPCS/PDMP — prescribing workflow data, refill history, PDMP queries likely not captured in C-CDA |
+| Allergies | ✅ Covered | "Allergies, Adverse Reactions, Alerts" (5 fields) with RxNorm, SNOMED-CT | Standard allergy documentation |
+| Immunizations | ✅ Covered | "Immunization" (4 fields) with CVX codes | Standard immunization records |
+| Vitals | ✅ Covered | "Vital Signs" (4 fields) with LOINC | Standard vital signs |
+| Lab results | ✅ Covered | "Results" (5 fields) with LOINC | Standard lab results |
+| Procedures | ✅ Covered | "Procedures" (4 fields) with SNOMED-CT | Standard procedure records |
+| Clinical notes / documents | ❌ Not covered | "Assessment and Plan" has 1 free-text field; "Instructions" has 3 fields | **Major gap.** eHana generates 600,000+ clinical documents/month — service notes, progress notes, clinical assessments, treatment plans, CANS assessments, incident reports. None of these appear as structured or unstructured data in the C-CDA export. |
+| Care plans / goals | ⚠️ Partial | "Goals" (3 fields), "Health Concerns" (3 fields), "Assessment and Plan" (1 field) | Free-text only. No structured treatment plan data. |
+| Orders / referrals | ⚠️ Partial | "Reason for Referral" (2 fields) | Referral reason text only. No order data. |
+| Insurance / coverage | ❌ Not covered | No insurance/enrollment entities in export | **Significant gap.** eHana manages eligibility verification and insurance information. Not in export. |
+| Claims / billing | ❌ Not covered | No billing entities in export | **Critical gap.** eHana has comprehensive billing (837/835 processing, claims generation, billing dashboards). None exported. |
+| Payments | ❌ Not covered | No payment entities in export | Product processes 835 remittance — payment data not exported. |
+| Consents / directives | ❌ Not covered | No consent entities in export | Not in C-CDA export. |
+| Patient communications / portal messages | ❌ Not covered | No messaging entities in export | eHana has a patient portal with secure messaging. Not exported. |
+| Specialty-specific (behavioral health) | ❌ Not covered | Social History limited to smoking/birth sex | **Critical gap.** eHana's core value is behavioral health: CANS assessments, ESP/MCI workflows, CBHI programs, I/DD data, service notes, program enrollment, incident reports. None of this is in the C-CDA export. |
+| Imaging / diagnostic reports | N/A | Not in export | eHana is behavioral health-focused; imaging is not a core capability. |
+| Scanned documents | ❌ Not covered | No document attachment entities | eHana stores OCR-scanned documents in client charts. Not exported. |
 
-**Summary**: 7 of 19 applicable domains are adequately covered, 5 are partially covered, and 7 are not covered at all. The uncovered domains include the product's core behavioral health functionality and its entire billing/claims processing capability.
+**Summary**: 6 of 18 applicable domains are adequately covered (all standard clinical data). 5 domains are partially covered. 7 domains with data the product stores are not covered at all — including the three most critical for a behavioral health EHR: clinical notes/service documentation, billing/claims, and specialty behavioral health data.
 
 ## 6. Documentation Quality
 
-The documentation is **minimal**:
+The documentation is **minimal and not independently usable**:
 
-- **No data dictionary**: There is no field-level specification document. The only field information comes from eyeballing sample XML snippets in the PDF.
-- **No machine-readable artifacts**: No schema (XSD, JSON Schema), no sample export file, no API specification. The PDF itself is image-based with no extractable text.
-- **No export procedure documentation**: How to initiate an export, what parameters are available, and how the output is delivered are all undocumented.
-- **No relationship documentation**: No foreign keys, no data model diagrams.
-- **No value set documentation**: Code systems are visible in XML snippets (SNOMED, LOINC, RxNorm, etc.) but no value set bindings are specified.
-- **No completeness specification**: No documentation of which fields are always present vs. optional, or what happens when data is missing.
+- **No data dictionary**: No formal field definitions, cardinality, optionality, or value set bindings. The XML snippets implicitly reference standard C-CDA template OIDs and code systems, but these are properties of the standard, not vendor documentation.
+- **No machine-readable schema**: No JSON schema, XSD, or other parseable artifact. The documentation is an image-based PDF that cannot even be text-searched.
+- **No sample export file**: Only XML fragments shown in screenshots. No complete C-CDA document is provided. A developer cannot validate their parser against actual output.
+- **No export workflow documentation**: The PDF does not explain how to initiate an export, whether it's per-patient or bulk, or how the output is delivered.
+- **Image-based PDF**: The entire document is scanned/printed images — `pdftotext` returns empty output. The PDF was created by printing a Google Doc to "Microsoft: Print To PDF" (per PDF metadata: Creator "maralee.mies", Producer "Microsoft: Print To PDF", CreationDate 2023-05-10). This makes the documentation non-searchable, non-accessible, and difficult to process.
 
-The 15-page PDF is essentially a C-CDA template walkthrough with screenshots. A developer could not build an import pipeline from this documentation alone — they would need to rely on the C-CDA R2.1 standard specification and guess at eHana-specific behaviors.
-
-**Could a developer use this?** Only if they already know C-CDA. The documentation adds almost nothing beyond what the C-CDA standard itself specifies. The XML snippets use standard template OIDs, standard code systems, and standard structures.
+A developer could not build an import system from this documentation alone. They would need to refer to the C-CDA Implementation Guide independently and hope eHana's output conforms to it without extensions.
 
 ## 7. Overall Assessment
 
 ### Classification
 
-**Standard-based projection**: The (b)(10) EHI export is a C-CDA R2 clinical summary. It covers the same USCDI data classes available through the product's FHIR API and contains no vendor-specific extensions, no native database tables, and no data beyond what C-CDA supports. This is a textbook example of C-CDA/FHIR repackaging being labeled as "(b)(10)."
+**Standard-based projection.** The (b)(10) EHI export is a C-CDA clinical summary document containing 18 standard sections. It is not an export of eHana's native data model. It covers standard clinical summary data but omits the majority of what the product stores — billing, service documentation, behavioral health assessments, program enrollment, scanned documents, and messaging.
 
 ### Key Findings
 
-1. **The export is a standard C-CDA document, not a native data export.** All 18 sections use standard C-CDA R2.1 template OIDs with no vendor extensions. This is functionally identical to a patient summary and covers perhaps 20-30% of the data eHana stores about patients. (Source: `EHI_Export.pdf`, all 15 pages)
+1. **C-CDA repackaging as (b)(10)**: The export is a standard C-CDA clinical summary with 18 sections and 67 visible fields. This is the same format used for transitions of care and patient access — it is not a purpose-built EHI export. No vendor extensions or custom sections are present.
 
-2. **The product's core behavioral health features are entirely absent from the export.** CANS assessments, behavioral health-specific documentation templates, multi-program enrollment, substance use screenings, and other specialty features that differentiate eHana are not represented in any of the 18 C-CDA sections. (Source: product-research.md for capabilities; `EHI_Export.pdf` for absence)
+2. **Critical behavioral health data missing**: eHana's core value — behavioral health service documentation (600,000+ docs/month), CANS assessments, ESP/MCI workflows, program enrollment, and specialty clinical data — is entirely absent from the export. The Social History section contains only smoking status and birth sex, which is essentially meaningless for a behavioral health EHR.
 
-3. **All billing and claims data is missing.** eHana processes HIPAA 837/835 claims, generates superbills, manages ERA posting, and handles insurance verification. None of this appears in the export — C-CDA has no billing sections. (Source: product-research.md for billing capabilities; `EHI_Export.pdf` sections 1-18 for absence)
+3. **Billing/claims data missing**: Despite comprehensive billing capabilities (837/835 processing, claims generation, eligibility management), no billing or financial data appears in the export.
 
-4. **Documentation is minimal and not developer-usable.** The sole artifact is a 15-page image-based PDF with screenshots and XML snippets. No data dictionary, no schema, no sample files, no export procedure documentation. (Source: `EHI_Export.pdf`, `files.json` confirming no other EHI-specific artifacts)
+4. **Documentation is an image-based PDF**: The sole documentation artifact is a 15-page scanned PDF that cannot be text-searched. It provides no data dictionary, no sample export file, no machine-readable schema, and no export workflow instructions.
 
-5. **The (b)(10) export adds nothing beyond (g)(10) FHIR API.** The 18 C-CDA sections map directly to USCDI v1 data classes, which are the same data available through the product's SMART on FHIR API documented in `SmartOnFHIR-API-Doc.pdf`. The (b)(10) requirement exists precisely because FHIR/C-CDA clinical summaries are insufficient — yet that is exactly what this export provides.
+5. **Single artifact**: The entire (b)(10) export documentation consists of one PDF. There are no supplementary schemas, sample files, or detailed specifications.
 
 ### Summary Stats
 
 ```
 Classification:  Standard-based projection
-Export format:   C-CDA R2 (CDA R2 XML)
-Model type:      Standard projection (C-CDA)
-Entities:        18 C-CDA sections (standard, no extensions)
-Fields:          ~77 data elements visible across XML examples (no formal field specification)
-Descriptions:    N/A (no data dictionary; only overview sentences per section)
-Sample data:     No (XML snippets in PDF only, no downloadable sample)
+Export format:   C-CDA (CDA R2) XML
+Model type:      Standard projection (C-CDA clinical summary)
+Entities:        18 (C-CDA sections)
+Fields:          67 (visible in documentation)
+Descriptions:    100% (brief descriptions per field, but no formal data dictionary)
+Sample data:     No (XML fragments in screenshots only, no complete sample file)
 Bulk export:     Unclear (not documented)
-Domains covered: 7 of 19 applicable domains fully covered; 5 partial
+Domains covered: 6 of 17 applicable domains fully covered
 ```
 
 ### Bottom Line
 
-eHana's (b)(10) EHI export is a standard C-CDA clinical summary relabeled as an "EHI Export." It covers basic clinical data (demographics, vitals, medications, problems, allergies, labs) but entirely omits the product's core behavioral health features (CANS assessments, program enrollment, behavioral health forms), all billing/claims data, and patient portal communications. A patient or provider requesting their complete health information through this export would receive a clinical summary missing the majority of data eHana stores — particularly the behavioral health-specific information that is the product's primary purpose.
+eHana's (b)(10) export is a standard C-CDA clinical summary being labeled as an EHI export. It covers basic clinical data (demographics, meds, allergies, vitals, labs, problems) but omits the behavioral health service documentation, assessments, billing/claims, and specialty program data that constitute the core of what eHana stores about patients. For a behavioral health EHR that generates 600,000+ clinical documents per month and manages complex MassHealth billing, exporting only an 18-section C-CDA clinical summary represents a small fraction of the designated record set. The single biggest gap is the complete absence of behavioral health clinical documentation — the very data that makes eHana a behavioral health EHR.

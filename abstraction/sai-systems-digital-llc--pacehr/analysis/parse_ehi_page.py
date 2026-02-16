@@ -1,61 +1,85 @@
-"""Parse the PacEHR EHI main page HTML to extract substantive content."""
+#!/usr/bin/env python3
+"""Parse the main EHI export page to extract substantive content and word counts."""
+
+import json
 from html.parser import HTMLParser
-import re
+
+DOWNLOADS = "/home/jmandel/hobby/ehi-export-analysis/results/sai-systems-digital-llc--pacehr/downloads"
+OUTPUT = "/home/jmandel/hobby/ehi-export-analysis/abstraction/sai-systems-digital-llc--pacehr/analysis"
 
 class TextExtractor(HTMLParser):
     def __init__(self):
         super().__init__()
         self.text_parts = []
-        self.in_script = False
-        self.in_style = False
-    
+        self.skip = False
+        self.skip_tags = {'script', 'style', 'head'}
     def handle_starttag(self, tag, attrs):
-        if tag == 'script': self.in_script = True
-        if tag == 'style': self.in_style = True
-    
+        if tag in self.skip_tags:
+            self.skip = True
     def handle_endtag(self, tag):
-        if tag == 'script': self.in_script = False
-        if tag == 'style': self.in_style = False
-    
+        if tag in self.skip_tags:
+            self.skip = False
     def handle_data(self, data):
-        if not self.in_script and not self.in_style:
-            text = data.strip()
-            if text:
-                self.text_parts.append(text)
+        if not self.skip:
+            t = data.strip()
+            if t:
+                self.text_parts.append(t)
 
-with open('/home/jmandel/hobby/ehi-export-analysis/results/sai-systems-digital-llc--pacehr/downloads/pacehr-ehi-main-page.html', 'r') as f:
-    html = f.read()
+with open(f"{DOWNLOADS}/pacehr-ehi-main-page.html") as f:
+    content = f.read()
 
-# Extract all text
 parser = TextExtractor()
-parser.feed(html)
+parser.feed(content)
 
-# Find the substantive EHI content (filter out navigation/footer boilerplate)
-all_text = '\n'.join(parser.text_parts)
+# Filter for substantive text (skip nav, footer boilerplate)
+all_text = parser.text_parts
 
-# Look for EHI-related content
-ehi_keywords = ['EHI', 'Electronic Health Information', 'export', 'designated record', 'bulk', 'FHIR', 'XML', 'patient data']
-lines = all_text.split('\n')
-relevant = []
-for i, line in enumerate(lines):
-    if any(kw.lower() in line.lower() for kw in ehi_keywords):
-        # Include context
-        start = max(0, i-1)
-        end = min(len(lines), i+2)
-        for j in range(start, end):
-            if lines[j] not in relevant:
-                relevant.append(lines[j])
+# Find the EHI-specific content by looking for key phrases
+ehi_content_start = None
+ehi_content_end = None
+for i, t in enumerate(all_text):
+    if "Electronic Health Information (EHI) All Data Export" in t and ehi_content_start is None:
+        ehi_content_start = i
+    if "Saisystems Health PALTC Practice Support" in t and i > 10:
+        ehi_content_end = i
+        break
 
-print("=== EHI-Related Content ===")
-print('\n'.join(relevant))
-print(f"\n=== Stats ===")
-print(f"Total text segments: {len(parser.text_parts)}")
-print(f"HTML file size: {len(html)} bytes")
+substantive = all_text[ehi_content_start:ehi_content_end] if ehi_content_start else []
+substantive_text = " ".join(substantive)
+word_count = len(substantive_text.split())
 
-# Also extract all links
-import re
-links = re.findall(r'href="([^"]*)"', html)
-ehi_links = [l for l in links if any(kw in l.lower() for kw in ['ehi', 'export', 'fhir', 'cures', 'api', 'data', 'dictionary', 'schema'])]
-print(f"\nRelevant links found:")
-for l in ehi_links:
-    print(f"  {l}")
+output = {
+    "source_file": "pacehr-ehi-main-page.html",
+    "file_size_bytes": len(content),
+    "total_text_fragments": len(all_text),
+    "substantive_content_fragments": len(substantive),
+    "substantive_word_count": word_count,
+    "substantive_content": substantive,
+    "has_data_dictionary": False,
+    "has_schema": False,
+    "has_sample_data": False,
+    "has_field_definitions": False,
+    "has_export_instructions": False,
+    "has_screenshots": False,
+    "links_to_fhir_api": True,
+    "claims_xml_format": True,
+    "claims_bulk_export": True,
+    "claims_single_patient_export": True,
+    "mentions_billing": True,  # in the EHI definition
+    "documents_billing_export": False  # but not in the technical docs
+}
+
+with open(f"{OUTPUT}/ehi-page-analysis.json", "w") as f:
+    json.dump(output, f, indent=2)
+
+print(f"EHI Main Page Analysis")
+print(f"  File size: {len(content):,} bytes")
+print(f"  Substantive content: {len(substantive)} text fragments, {word_count} words")
+print(f"  Data dictionary: No")
+print(f"  Schema files: No")
+print(f"  Sample data: No")
+print(f"  Field definitions: No")
+print(f"  Export instructions: No")
+print(f"\nSubstantive content:")
+for line in substantive:
+    print(f"  {line}")

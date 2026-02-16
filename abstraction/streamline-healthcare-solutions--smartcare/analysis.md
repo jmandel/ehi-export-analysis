@@ -1,190 +1,173 @@
 # EHI Export Analysis: Streamline Healthcare Solutions
 
 **Product**: SmartCare R6
-**Analysis date**: 2026-02-15
-**CHPL IDs**: 15.04.04.2855.Smar.R6.01.1.220915 (CHPL ID 10987)
+**Analysis date**: 2026-02-16
+**CHPL IDs**: 10987 (15.04.04.2855.Smar.R6.01.1.220915)
 
 ## 1. Product Context
 
-SmartCare is a comprehensive, cloud-based (Azure) EHR built exclusively for **behavioral health and human services**. It serves community mental health centers, CCBHCs, substance use disorder treatment providers, foster care/adoption agencies, IDD service providers, and managed behavioral health organizations. The product is a single integrated platform covering:
+SmartCare is a comprehensive, cloud-based (Azure) EHR built exclusively for **behavioral health and human services**. Developed by Streamline Healthcare Solutions (~400 employees, ~$60M revenue), it targets community mental health centers, CCBHCs, substance use disorder treatment providers, foster care/adoption agencies, IDD service providers, and managed behavioral health organizations.
 
-- **Clinical care management**: Progress notes, treatment plans, assessments, care plans, the "golden thread" linking presenting problems → diagnoses → goals → interventions → progress notes — the core clinical workflow for behavioral health.
-- **Behavioral health specialty data**: Custom screening tools (PHQ-9, AUDIT, etc.), substance use disorder records, IDD habilitation records, foster care/adoption tracking.
-- **Revenue cycle management**: Claims processing (837), denial management, reimbursement tracking, billing.
-- **MCO module**: Provider contracts, credentialing, claims adjudication, authorization tracking, utilization management, capitation management, 835 remittance advice.
-- **Inpatient/residential**: Bed management, medication administration records.
-- **ePrescribing**: Surescripts integration, prescription management.
-- **Patient portal**: Secure messaging, patient engagement.
-- **Primary care integration**: Orders, lab results, flow sheets, referral tracking.
-- **Business intelligence**: Data warehouse, reporting dashboards.
+The product is a single integrated platform covering:
 
-This is relevant because the (b)(10) requirement demands export of **all** EHI the product stores — not just standard clinical summary data. For a behavioral health EHR, the specialty-specific clinical data (treatment plans, assessments, screening tools, golden thread documentation) and billing data represent the majority of what the product stores about patients.
+- **Clinical care**: Progress notes, treatment plans, assessments, care plans, outcome tracking, "golden thread" documentation (linking presenting problems → diagnoses → treatment goals → interventions → progress notes — a core behavioral health compliance requirement)
+- **Inpatient/residential**: Medication administration records, bed management
+- **Primary care integration**: Scheduling, orders, flow sheets, referral tracking, ePrescribing via Surescripts
+- **Revenue cycle management**: Claims processing (837), remittance (835), denial management, claim scrubbing
+- **MCO module**: Provider contract/rate management, electronic claims adjudication, authorization tracking, utilization management, capitated arrangements
+- **Specialty services**: IDD, foster care/adoption, substance use disorder
+- **Patient portal, telehealth, mobile access, business intelligence**
+
+This product context is critical: SmartCare stores deep behavioral health clinical data (custom assessments, screening tools like PHQ-9/AUDIT/DAST, treatment plans, progress notes), extensive billing/claims data, MCO administration data, and specialty-specific records for IDD, foster care, and SUD populations. A compliant (b)(10) export should cover these domains.
 
 ## 2. Artifacts Reviewed
 
 | Artifact | Description | Informativeness |
 |---|---|---|
-| `downloads/ehi-export-page.html` (130,589 bytes) | Full HTML of the EHI export documentation page from `streamlinehealthcare.com/electronic-health-information-export/` | **Primary artifact** — contains the entirety of vendor's EHI export documentation |
-| `downloads/ehi-export-page-wp-api.json` (15,215 bytes) | WordPress REST API JSON for the page; cleaner content, confirms publish date (2023-11-16) and last modified (2023-12-05) | Useful for structured parsing; confirms page metadata |
-| `downloads/ehi-export-page-full.png` (363,450 bytes) | Full-page screenshot of EHI export page | Visual confirmation of page layout |
-| `downloads/ehi-export-page-top.png` (215,019 bytes) | Viewport screenshot of page top | Minor — shows page header |
-| 2025 RWT Results PDF (from live site, 21 pages) | Real World Testing results (Jan 2026) covering 90-day period ending Aug 2025 | **Critical** — confirms 0 customer usage of EHI export |
-| 2025 RWT Test Plan PDF (from live site) | Test plan for 2025 RWT cycle | Confirms b(10) test methodology |
-| 2024 RWT Results PDF (from live site) | 2024 Real World Testing results | Notes: b(10) not measured in 2024; b(6) Data Export also showed 0 usage |
-| Live EHI export page (verified 2026-02-15) | Current state of the EHI export documentation page | Confirmed identical to downloaded version — no updates since Dec 2023 |
+| `ehi-export-page.html` (130 KB) | Full HTML of the EHI export documentation page from `streamlinehealthcare.com/electronic-health-information-export/`. Contains all substantive content: ~326 words of prose plus a list of 17 C-CDA section names with links to HL7 specs. | **Primary source** — this is the entirety of the vendor's (b)(10) documentation |
+| `ehi-export-page-wp-api.json` (15 KB) | WordPress REST API response for the same page. Confirms publication date (2023-11-16) and last modification (2023-12-05). Contains the same content in cleaner form. | **Useful** — confirmed page dates and provided cleaner HTML for parsing |
+| `ehi-export-page-full.png` (363 KB) | Full-page screenshot showing the complete EHI export page. Visually confirms the page fits on a single screen with no hidden content. | **Confirmatory** — verified no content missed by HTML extraction |
+| `ehi-export-page-top.png` (215 KB) | Viewport screenshot of the page header area. | **Minimal value** — subset of the full screenshot |
 
-**Most informative**: `ehi-export-page-wp-api.json` (the actual export documentation) and the 2025 RWT Results PDF. **Least informative**: The screenshots, which add nothing beyond what's in the HTML/JSON.
-
-There are **no downloadable files** — no data dictionary, no sample exports, no schema documentation, no PDF documentation. The entire EHI export documentation consists of a single web page with 326 words of substantive content.
+**No downloadable files exist** — no PDFs, no data dictionaries, no sample data, no schemas, no ZIP files. The entire (b)(10) documentation is a single web page. The live URL (verified 2026-02-16) returns identical content to the downloaded artifact.
 
 ## 3. Export Mechanics
 
-- **Format**: C-CDA 2.2 (Consolidated Clinical Document Architecture) — XML-based patient summary documents
-- **Mechanism**: UI-based ("without developer assistance"); detailed instructions available only through customer help desk documentation (not public)
-- **Single-patient**: Yes — claimed on the documentation page
-- **Bulk/population export**: Yes — claimed on the documentation page ("export of all electronic health information of the patient population")
-- **Access constraints**: Limited to system administrators and permissioned SmartCare users
-- **Fees**: No additional cost for Streamline customers
-- **Actual usage**: Per 2025 RWT Results, **0 export files were created** across all customer environments during the 90-day evaluation period. The report states: "While the functionality has been fully implemented, tested, and successfully demonstrated, there has been no customer adoption to date." The 2024 RWT (which measured b(6) Data Export, a related criterion) also reported 0 usage.
+- **Format**: C-CDA 2.2 (HL7 Consolidated Clinical Document Architecture) — XML-based patient summary documents
+- **Mechanism**: UI-based; the page states export is available "without developer assistance." Detailed setup instructions are "available to all Streamline customers in the help desk documentation" (not publicly accessible).
+- **Single-patient vs bulk**: Both — the page claims support for "a single patient or a population at any time"
+- **Access constraints**: "Limited to system administrators and SmartCare users as permissioned by the Streamline customer's roles and permissions"
+- **Fees**: "No additional cost for Streamline customers"
+
+The page explicitly describes the export files as "CCDAs or patient summary documents" — the vendor uses the term "patient summary" themselves, which accurately describes the scope of C-CDA but is a narrow interpretation of "all electronic health information."
 
 ## 4. Export Content: What's In It
 
-The export produces C-CDA 2.2 documents containing **17 standard C-CDA sections**. The documentation lists these sections by name with links to the generic HL7 C-CDA 2.2 StructureDefinitions on `build.fhir.org`. There is **no vendor-specific field-level documentation** — no data dictionary, no field descriptions, no type information, no value sets, no relationships, no sample data.
+The export consists of C-CDA 2.2 documents containing 17 standard sections. There is **no data dictionary**, **no field-level documentation**, **no sample data**, and **no schema** beyond links to the generic HL7 C-CDA 2.2 StructureDefinitions.
+
+The vendor provides zero information about:
+- What specific data elements populate each section
+- What code systems are used (though the product supports SNOMED CT, LOINC, RxNorm, ICD-10-CM per their marketing materials)
+- Whether any vendor-specific extensions or custom sections are included
+- How SmartCare-internal data maps to C-CDA structures
 
 ### Vendor's own content organization
 
-The vendor organizes the 17 sections into three groups:
+The vendor organizes the export into 17 C-CDA sections, categorized by entry requirement:
 
-**Entries Required (7 sections):**
+| C-CDA Section | Entry Requirement | HL7 OID |
+|---|---|---|
+| Allergies and Intolerances Section | Entries required | 2.16.840.1.113883.10.20.22.2.6.1 |
+| Medications Section | Entries required | 2.16.840.1.113883.10.20.22.2.1.1 |
+| Problem Section | Entries required | 2.16.840.1.113883.10.20.22.2.5.1 |
+| Procedures Section | Entries required | 2.16.840.1.113883.10.20.22.2.7.1 |
+| Results Section | Entries required | 2.16.840.1.113883.10.20.22.2.3.1 |
+| Immunizations Section | Entries required | 2.16.840.1.113883.10.20.22.2.2.1 |
+| Vital Signs Section | Entries required | 2.16.840.1.113883.10.20.22.2.4.1 |
+| Advance Directives Section | Entries optional | 2.16.840.1.113883.10.20.22.2.21 |
+| Encounters Section | Entries optional | 2.16.840.1.113883.10.20.22.2.22 |
+| Family History Section | Not specified | 2.16.840.1.113883.10.20.22.2.15 |
+| Functional Status Section | Not specified | 2.16.840.1.113883.10.20.22.2.14 |
+| Medical Equipment Section | Not specified | 2.16.840.1.113883.10.20.22.2.23 |
+| Payers Section | Not specified | 2.16.840.1.113883.10.20.22.2.18 |
+| Plan of Treatment Section | Not specified | 2.16.840.1.113883.10.20.22.2.10 |
+| Social History Section | Not specified | 2.16.840.1.113883.10.20.22.2.17 |
+| Mental Status Section | Not specified | 2.16.840.1.113883.10.20.22.2.56 |
+| Nutrition Section | Not specified | 2.16.840.1.113883.10.20.22.2.57 |
 
-| Section | Fields | Described | Types | Category |
-|---|---|---|---|---|
-| Allergies and Intolerances Section | N/A | N/A | N/A | Entries Required |
-| Medications Section | N/A | N/A | N/A | Entries Required |
-| Problem Section | N/A | N/A | N/A | Entries Required |
-| Procedures Section | N/A | N/A | N/A | Entries Required |
-| Results Section | N/A | N/A | N/A | Entries Required |
-| Immunizations Section | N/A | N/A | N/A | Entries Required |
-| Vital Signs Section | N/A | N/A | N/A | Entries Required |
+**Summary**: 17 sections total — 7 with entries required, 2 with entries optional, 8 with unspecified entry requirements. All links point to the generic HL7 C-CDA 2.2 specification on `build.fhir.org`; no vendor-specific documentation, templates, or implementation guides are provided.
 
-**Entries Optional (2 sections):**
-
-| Section | Fields | Described | Types | Category |
-|---|---|---|---|---|
-| Advance Directives Section | N/A | N/A | N/A | Entries Optional |
-| Encounters Section | N/A | N/A | N/A | Entries Optional |
-
-**Other Sections (8 sections):**
-
-| Section | Fields | Described | Types | Category |
-|---|---|---|---|---|
-| Family History Section | N/A | N/A | N/A | Other |
-| Functional Status Section | N/A | N/A | N/A | Other |
-| Medical Equipment Section | N/A | N/A | N/A | Other |
-| Payers Section | N/A | N/A | N/A | Other |
-| Plan of Treatment Section | N/A | N/A | N/A | Other |
-| Social History Section | N/A | N/A | N/A | Other |
-| Mental Status Section | N/A | N/A | N/A | Other |
-| Nutrition Section | N/A | N/A | N/A | Other |
-
-All field counts are "N/A" because the vendor provides **zero field-level documentation**. The only documentation is the section names and links to the generic HL7 C-CDA 2.2 specification. There is no indication of what SmartCare-specific data maps into each section, what code systems are used, what extensions (if any) exist, or what the actual export looks like.
+These 17 sections are the standard sections of a C-CDA Continuity of Care Document (CCD). This is not a custom or extended export — it is the standard clinical summary document format.
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-The vendor's documentation describes a standard C-CDA patient summary document. The 17 sections are the standard sections from the HL7 C-CDA 2.2 specification — there is nothing specific to SmartCare, behavioral health, or any specialty domain. This is the same set of sections that would appear in a Continuity of Care Document (CCD) generated for clinical data exchange between providers.
+The vendor's export covers exactly what a standard C-CDA patient summary covers: a clinical snapshot suitable for care transitions between providers. The 17 sections map to standard clinical summary data — allergies, medications, problems, procedures, lab results, immunizations, vitals, encounters, payers, social history, advance directives, functional status, mental status, nutrition, family history, plan of treatment, and medical equipment.
 
-The documentation makes no mention of:
-- Any behavioral health-specific content
-- Treatment plans or progress notes beyond what's in standard C-CDA
-- Custom assessments or screening tools
-- Billing or claims data
-- MCO module data
-- Substance use disorder-specific data
-- Foster care or IDD data
-- Any vendor extensions to the C-CDA standard
+The vendor provides **no categories of their own** — they simply list the C-CDA section names. There is no indication of vendor-specific extensions, additional sections, or supplementary data beyond the standard C-CDA format.
 
-The "Mental Status Section" and "Functional Status Section" are standard C-CDA sections, not behavioral health-specific extensions. They are generic sections defined by HL7, not SmartCare customizations.
+Notably, the Mental Status Section and Nutrition Section (both added in C-CDA 2.1) are included, which could theoretically carry some behavioral health-relevant data. However, without sample data or field-level documentation, there is no way to assess whether these sections are meaningfully populated with SmartCare's behavioral health data or are simply empty/minimal.
 
 ### 5b. Standardized domain coverage (top-down)
 
 | Domain | Coverage | Export Evidence | Gap Analysis |
 |---|---|---|---|
-| Demographics | ⚠️ Partial | C-CDA header contains patient demographics per standard, but no section-level detail documented | C-CDA includes basic demographics in the header; depth unknown without sample data |
-| Encounters / visits | ⚠️ Partial | Encounters Section (entries optional) | Marked as "entries optional" — unclear what encounter detail is included |
-| Problems / conditions / diagnoses | ✅ Covered | Problem Section (entries required) | Standard C-CDA coverage; behavioral health diagnoses may or may not be fully represented |
-| Medications / prescriptions | ✅ Covered | Medications Section (entries required) | Standard coverage; ePrescribing history depth unknown |
+| Demographics | ⚠️ Partial | C-CDA header includes patient demographics, but no dedicated section with full demographic detail | C-CDA carries basic demographics (name, DOB, gender, address) in the header; likely misses SmartCare's full enrollment, program, and contact data |
+| Encounters / visits | ⚠️ Partial | Encounters Section (entries optional) | Present but entries are optional; depth of encounter data (visit types, durations, behavioral health service codes) unknown |
+| Problems / conditions / diagnoses | ✅ Covered | Problem Section (entries required) | Standard C-CDA coverage; whether behavioral health diagnoses are fully represented is unknown |
+| Medications / prescriptions | ✅ Covered | Medications Section (entries required) | Standard C-CDA coverage; SmartCare has Surescripts ePrescribing integration — prescription history depth unclear |
 | Allergies | ✅ Covered | Allergies and Intolerances Section (entries required) | Standard C-CDA coverage |
 | Immunizations | ✅ Covered | Immunizations Section (entries required) | Standard C-CDA coverage |
 | Vitals | ✅ Covered | Vital Signs Section (entries required) | Standard C-CDA coverage |
 | Lab results | ✅ Covered | Results Section (entries required) | Standard C-CDA coverage |
-| Imaging / diagnostic reports | ❌ Not covered | No imaging-specific section | Product has primary care integration with order entry; imaging results gap if product stores them |
+| Imaging / diagnostic reports | ❌ Not covered | No imaging or diagnostic report section in the 17 listed sections | SmartCare does not appear to be an imaging-focused product, but if diagnostic reports exist, they are not exported; likely **N/A** for most deployments |
 | Procedures | ✅ Covered | Procedures Section (entries required) | Standard C-CDA coverage |
-| Clinical notes / documents | ❌ Not covered | No notes section in the export | **Major gap**: SmartCare's core value is clinical documentation — progress notes, treatment plans, assessments, the "golden thread" documentation. None of this appears in the export. |
-| Care plans / goals | ⚠️ Partial | Plan of Treatment Section | Standard C-CDA section; unlikely to capture SmartCare's structured treatment plans |
-| Orders / referrals | ❌ Not covered | No orders section | Product has order entry and referral tracking |
-| Insurance / coverage | ⚠️ Partial | Payers Section | Standard C-CDA payer information; unlikely to capture full insurance/enrollment detail |
-| Claims / billing | ❌ Not covered | No billing data in C-CDA | **Major gap**: SmartCare has full revenue cycle management (837 claims, denial management). None exported. |
-| Payments | ❌ Not covered | No payment data in C-CDA | Product handles reimbursement tracking |
-| Consents / directives | ⚠️ Partial | Advance Directives Section (entries optional) | Standard section; marked as optional |
-| Patient communications / portal messages | ❌ Not covered | No communication data in C-CDA | Product has patient portal with secure messaging |
-| Specialty: Behavioral health assessments | ❌ Not covered | No behavioral health-specific content | **Critical gap**: SmartCare is a behavioral health EHR. Custom screening tools (PHQ-9, AUDIT, etc.), behavioral health assessments, and structured clinical forms are the product's core data and are entirely absent from the export. |
-| Specialty: Substance use disorder | ❌ Not covered | No SUD-specific content | Product serves SUD treatment providers; SUD records absent |
-| Specialty: Foster care / adoption | ❌ Not covered | No foster care content | Product serves foster care agencies; this data is absent |
-| Specialty: IDD services | ❌ Not covered | No IDD-specific content | Product serves IDD providers; habilitation records absent |
-| Specialty: MCO administration | ❌ Not covered | No MCO data in C-CDA | Product has full MCO module (authorization, utilization management, capitation). Entirely absent. |
+| Clinical notes / documents | ❌ Not covered | No Notes Section in the 17 listed sections | **Major gap.** SmartCare's core value proposition is clinical documentation — progress notes, H&P, treatment plan narratives, behavioral health session notes. None of this appears in the export. C-CDA can carry clinical notes, but no Notes Section is listed. |
+| Care plans / goals | ⚠️ Partial | Plan of Treatment Section | Only "plan of treatment" — the vendor's rich treatment planning with golden thread documentation, outcome tracking, and care plan features are unlikely to be fully represented in this single C-CDA section |
+| Orders / referrals | ❌ Not covered | No orders or referrals section listed | SmartCare supports order entry and referral tracking; not represented in the export |
+| Insurance / coverage | ⚠️ Partial | Payers Section | C-CDA Payers Section carries basic insurance information; unlikely to capture SmartCare's full enrollment, authorization, and managed care data |
+| Claims / billing | ❌ Not covered | No billing/claims entities in export | **Major gap.** SmartCare has a full revenue cycle management module with claims (837), remittance (835), denial management — none exportable |
+| Payments | ❌ Not covered | No payment data in export | SmartCare processes payments and tracks reimbursements; not exported |
+| Consents / directives | ⚠️ Partial | Advance Directives Section (entries optional) | Only advance directives; broader consent management not represented |
+| Patient communications / portal messages | ❌ Not covered | No portal/communication section | SmartCare has a patient portal with secure messaging; not exported |
+| Specialty: Behavioral health assessments | ❌ Not covered | No section for behavioral health screening tools, assessments, or custom forms | **Critical gap.** This is a behavioral health EHR; PHQ-9, AUDIT, DAST, custom intake forms, screening instruments — the core clinical data for this product type — have no C-CDA representation |
+| Specialty: Substance use disorder | ❌ Not covered | No SUD-specific data in export | SmartCare serves SUD treatment providers; treatment records, 42 CFR Part 2 data not exported |
+| Specialty: Foster care / adoption | ❌ Not covered | No foster care data in export | SmartCare serves foster care agencies; case records not exported |
+| Specialty: IDD services | ❌ Not covered | No IDD service data in export | SmartCare serves IDD providers; service plans, habilitation records not exported |
+| Specialty: MCO administration | ❌ Not covered | No MCO data in export | SmartCare has an entire MCO module (provider contracts, authorization tracking, utilization management); none exported |
 
-**Summary**: Of 22 assessed domains, 6 are covered (standard C-CDA clinical data), 5 are partially covered, and **11 are not covered** — including the product's core specialty domains (behavioral health, SUD, foster care, IDD) and billing/MCO administration.
+**Summary**: Of 22 assessed domains (including 5 specialty domains relevant to this product), 7 are covered via standard C-CDA sections, 4 have partial coverage, and 11 are not covered at all. The missing domains include the product's most distinctive and data-rich capabilities: behavioral health assessments, treatment plans with golden thread documentation, billing/claims, MCO administration, SUD records, foster care records, and IDD service data.
 
 ## 6. Documentation Quality
 
-The EHI export documentation is **extremely thin**:
+The documentation quality is **extremely poor**:
 
-- **Total substantive content**: 326 words on a single web page (verified via `analysis/ehi-page-analysis.json`)
+- **Total substantive content**: ~326 words on a single web page (published 2023-11-16, last modified 2023-12-05)
 - **Data dictionary**: None
-- **Field-level documentation**: None — not a single field name, type, or description
-- **Schema/profile documentation**: None — only links to generic HL7 C-CDA 2.2 StructureDefinitions (17 links to `build.fhir.org`)
+- **Field-level documentation**: None — not even a list of data elements within each C-CDA section
+- **Schema/profile documentation**: None — only links to the generic HL7 C-CDA 2.2 StructureDefinitions, which are the external standard, not vendor-specific documentation
 - **Sample data**: None
-- **Machine-readable artifacts**: None
-- **Export instructions**: Not public — "available to all Streamline customers in the help desk documentation"
-- **Value sets / code systems**: Not documented (product research mentions SNOMED CT, LOINC, RxNorm, ICD-10-CM, but the export documentation does not)
-- **Relationships**: N/A (C-CDA is a document, not a relational model)
+- **Machine-readable artifacts**: None (no schemas, no example files, no downloadable content of any kind)
+- **Export instructions**: Referenced but locked behind customer help desk ("available to all Streamline customers in the help desk documentation")
+- **Screenshots**: None
 
-**Could a developer build an import from this documentation?** No. A developer would learn only that the export is "a C-CDA" with 17 standard sections. They would have no information about SmartCare-specific data mapping, OID assignments, vocabulary choices, extensions, or how behavioral health data is (or isn't) represented. The documentation is functionally equivalent to saying "we export C-CDA" with no further detail.
+**Could a developer build an import from this documentation?** No. A developer would know only that the export is "a C-CDA" with 17 possible sections. They would have no information about SmartCare-specific OIDs, vocabulary choices, template usage, extension patterns, or data mapping decisions. They would need to obtain an actual export file and reverse-engineer it.
+
+The documentation essentially says: "We export C-CDA files. Here are the standard C-CDA section definitions." This is the equivalent of saying "we export JSON" and linking to json.org.
 
 ## 7. Overall Assessment
 
 ### Classification
 
-**Standard-based projection** — The export is a C-CDA 2.2 patient summary document. It is not the vendor's native data model but a projection of a small subset of SmartCare data into the HL7 C-CDA standard. This is the same type of document already available through clinical data exchange (transitions of care) and provides clinical summary coverage but entirely misses the vendor-specific behavioral health, billing, MCO, and specialty data that constitutes the majority of what SmartCare stores about patients.
+**Standard-based projection** — The EHI export is a standard C-CDA 2.2 patient summary document with no evidence of vendor-specific extensions or additional data beyond what the C-CDA standard defines. This is a clinical summary format being presented as a comprehensive EHI export.
 
 ### Key Findings
 
-1. **The export is a standard C-CDA patient summary, not an EHI export.** The 17 sections listed are the standard C-CDA 2.2 sections — the same content available through transitions of care (b)(1). This covers standard clinical summary data (allergies, meds, problems, labs, vitals, immunizations) but omits everything that makes SmartCare a behavioral health EHR. There is no data dictionary, no field-level documentation, and no evidence of vendor-specific extensions.
+1. **The export is a standard C-CDA clinical summary, not a comprehensive EHI export.** The vendor explicitly describes the files as "CCDAs or patient summary documents" — a patient summary covers a narrow slice of what this behavioral health EHR stores. The 17 listed sections are the standard CCD sections with no vendor extensions. (`ehi-export-page-wp-api.json`, content field)
 
-2. **Zero customer adoption.** The 2025 RWT Results (January 2026, 21 pages) report that during the 90-day evaluation period across all customer environments, 0 export files were created, 0 on-demand executions occurred, and 0 population exports were generated. The 2024 RWT (which measured the related b(6) Data Export criterion) also reported 0 usage. This feature has never been used by any customer.
+2. **The product's most distinctive data is entirely absent from the export.** SmartCare is purpose-built for behavioral health — its core value is treatment plans, progress notes, custom assessments (PHQ-9, AUDIT, etc.), golden thread documentation, SUD records, foster care tracking, and IDD service plans. None of these have any representation in a C-CDA document. The export omits the very data that differentiates this product from a general-purpose EHR.
 
-3. **The product's core data domains are entirely absent from the export.** SmartCare is purpose-built for behavioral health with treatment plans, progress notes, screening tools, golden thread documentation, SUD records, foster care tracking, IDD services, and MCO administration. None of these appear in the C-CDA export. The export covers approximately 6 of 22 applicable data domains assessed.
+3. **Billing and MCO data is completely missing.** SmartCare includes full revenue cycle management (837/835 claims processing, denial management) and an MCO module (provider contracts, authorization tracking, utilization management, capitated arrangements). None of this is in the C-CDA export.
 
-4. **Documentation is among the thinnest possible.** The entire EHI export documentation is 326 words on a single web page. There are zero data dictionary entries, zero field descriptions, zero sample files, and zero machine-readable schemas. Setup instructions are behind a customer login wall.
+4. **Documentation is near-empty.** The entire (b)(10) documentation is ~326 words with zero downloadable artifacts, no data dictionary, no sample data, no schema, and no field-level documentation. Setup instructions are locked behind a customer help desk login.
 
-5. **No updates since December 2023.** The documentation page was published November 16, 2023 and last modified December 5, 2023. The live page (verified February 15, 2026) is identical to the downloaded version — no updates in over two years.
+5. **The export appears to be a repackaging of existing clinical summary capability.** C-CDA generation is a standard EHR function used for care transitions (certified under criterion (b)(1)). Using the same C-CDA output as the (b)(10) EHI export adds no incremental data access — patients and providers get no data beyond what was already available through standard clinical document exchange.
 
 ### Summary Stats
 
 ```
-Classification:  Standard-based projection
+Classification:  Standard-based projection (C-CDA repackaging)
 Export format:   C-CDA 2.2 (XML)
-Model type:      Standard projection (HL7 C-CDA)
-Entities:        17 C-CDA sections (no native entities)
-Fields:          N/A (no field-level documentation)
-Descriptions:    N/A (0% — no fields documented)
+Model type:      Standard projection (not native database)
+Entities:        17 C-CDA sections (standard, no vendor extensions)
+Fields:          N/A (no field-level documentation provided)
+Descriptions:    N/A (no data dictionary)
 Sample data:     No
-Bulk export:     Yes (claimed, but 0 usage)
-Domains covered: 6 of 22 applicable domains (+ 5 partial)
+Bulk export:     Yes (single-patient and population claimed)
+Domains covered: 7 of 22 applicable domains (with 4 additional partial)
 ```
 
 ### Bottom Line
 
-SmartCare's EHI export is a standard C-CDA patient summary repackaged as a (b)(10) export. For a behavioral health EHR whose core value is specialty clinical documentation (treatment plans, assessments, screening tools, progress notes) and integrated billing/MCO administration, a C-CDA export covers a small fraction of the patient's designated record set. The single biggest gap is the complete absence of behavioral health-specific clinical data — the very reason this product exists.
+SmartCare's EHI export is a textbook example of C-CDA repackaging: the vendor takes its existing clinical summary document — already available for care transitions — and labels it as the (b)(10) EHI export. For a **behavioral health** EHR, this is particularly inadequate because the vast majority of the product's valuable data (behavioral health assessments, treatment plans, progress notes, billing, MCO administration, SUD/foster care/IDD specialty records) has no representation in a C-CDA document. A patient requesting their complete health information from SmartCare would receive a generic clinical summary while their behavioral health treatment history, billing records, and specialty-specific data remain inaccessible.

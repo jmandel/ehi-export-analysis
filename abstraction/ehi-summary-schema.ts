@@ -41,12 +41,14 @@ export interface EhiExportSummary {
    * §170.315(b)(10) EHI export requirement. It should reflect a balanced
    * assessment across ALL of the following dimensions:
    *
-   * **Coverage (weight ~30%)**:
+   * **Coverage (weight ~40%)**:
    * - What fraction of the product's known data domains are represented in the
    *   export? Check Section 5b's domain coverage table.
    * - Are there certified capabilities (e.g., care plans under (b)(11),
    *   implantable devices under (a)(14)) with NO export representation?
    * - Does the export cover clinical, billing, administrative, and specialty data?
+   * - Does the export cover the full Designated Record Set, or just clinical
+   *   summaries?
    *
    * **Documentation quality (weight ~25%)**:
    * - What percentage of fields have descriptions? (Section 7 Summary Stats)
@@ -66,12 +68,6 @@ export interface EhiExportSummary {
    * - Could a developer build an import from the documentation alone?
    * - Are there machine-readable schemas (JSON Schema, DDL, XSD)?
    * - Is the export self-service or does it require vendor assistance?
-   *
-   * **Regulatory alignment (weight ~10%)**:
-   * - Does the export cover the full Designated Record Set, or just clinical
-   *   summaries?
-   * - Is the export available without fees or excessive restrictions?
-   * - Has the documentation been maintained since certification?
    *
    * **Scoring guide**:
    * - 0–1: No meaningful export (empty docs, just a paragraph saying "we comply")
@@ -95,4 +91,55 @@ export interface EhiExportSummary {
    * - "comprehensive_native" → typically 7–10
    */
   holistic_score: number;
+
+  /**
+   * Whether the export faithfully represents the product's internal data model,
+   * or launders it through a standardized clinical summary format that drops
+   * unmapped fields.
+   *
+   * Derive this by comparing the export format (Sections 3-4) against what the
+   * product actually stores (Section 1 product context + product-research.md).
+   * A product that manages 50 entity types internally but exports only a C-CDA
+   * bundle is hiding data. A product that genuinely stores FHIR resources
+   * natively and exports them fully is not.
+   *
+   * - "native" — Export uses the product's own data structures (proprietary
+   *   tables, entities, database dumps). Also applies if the product genuinely
+   *   stores data as FHIR resources internally and exports those resources fully.
+   * - "summary_with_supplements" — Core clinical data mapped to C-CDA/FHIR,
+   *   with some native-format supplements covering domains the summary format
+   *   can't represent (billing, custom/specialty data, etc.). Supplements may
+   *   range from substantial to thin or token.
+   * - "summary_only" — Export is entirely a C-CDA/FHIR clinical summary
+   *   with no native data whatsoever. Vendor equates "clinical summary"
+   *   with "all EHI."
+   */
+  export_fidelity: "native" | "summary_with_supplements" | "summary_only";
+
+  /**
+   * Whether patient-provider communications that the product manages are
+   * represented in the EHI export.
+   *
+   * Many EHR products include patient portals, secure messaging, phone call
+   * logging, or other communication tools. These communications are part of
+   * the designated record set (used for care decisions) and should be in the
+   * export. Derive this by comparing what communication features the product
+   * offers (Section 1 product context + product-research.md) against what
+   * appears in the export (Sections 4-5).
+   *
+   * - "not_applicable" — Product has no patient communication features
+   *   (no portal, no secure messaging, no phone/call logging)
+   * - "included" — Communications are present in the export with meaningful
+   *   structure (e.g., message bodies, timestamps, sender/recipient,
+   *   thread hierarchies, read status — whatever is relevant)
+   * - "partial" — Some communication data appears in the export but is
+   *   incomplete or poorly structured (e.g., message bodies without
+   *   timestamps, flat lists with no threading, missing replies, or
+   *   only a subset of communication types covered)
+   * - "excluded" — Product supports patient communications but they are
+   *   absent from the documented export
+   * - "unclear" — Cannot determine from available documentation whether
+   *   communications are covered
+   */
+  patient_communications: "not_applicable" | "included" | "partial" | "excluded" | "unclear";
 }

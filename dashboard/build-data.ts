@@ -25,10 +25,15 @@ interface Vendor {
   product_name: string;
   summary: string;
   holistic_score: number;
+  export_fidelity: string;
+  patient_communications: string;
   chpl_ids: number[];
+  ehi_documentation_url: string;
   has_analysis: boolean;
   has_research: boolean;
   has_report: boolean;
+  has_entity_inventory: boolean;
+  has_analysis_stats: boolean;
   analysis_files: string[];
   download_files: string[];
 }
@@ -56,12 +61,14 @@ for (const slug of absDirs) {
   let developer = "";
   let family = "";
   let chplIds: number[] = [];
+  let ehiDocUrl = "";
   const metaPath = join(absDir, "metadata.json");
   if (existsSync(metaPath)) {
     const meta = await Bun.file(metaPath).json();
     developer = meta.developer?.name ?? meta.vendor_slug ?? "";
     family = meta.product_name ?? slug.split("--")[1] ?? "";
     chplIds = (meta.certified_products ?? []).map((p: any) => p.chpl_id);
+    ehiDocUrl = meta.ehi_documentation_url ?? "";
   } else {
     // Derive from slug
     const parts = slug.split("--");
@@ -119,6 +126,10 @@ for (const slug of absDirs) {
     );
   }
 
+  // Check for entity inventory and stats in analysis dir
+  const hasEntityInventory = existsSync(join(absDir, "analysis", "full-entity-inventory.json"));
+  const hasAnalysisStats = existsSync(join(absDir, "analysis", "analysis-stats.json"));
+
   vendors.push({
     slug,
     developer,
@@ -126,10 +137,15 @@ for (const slug of absDirs) {
     product_name: summary.product_name ?? "",
     summary: summary.summary ?? "",
     holistic_score: summary.holistic_score ?? 0,
+    export_fidelity: summary.export_fidelity ?? "",
+    patient_communications: summary.patient_communications ?? "",
     chpl_ids: chplIds,
+    ehi_documentation_url: ehiDocUrl,
     has_analysis: hasAnalysis,
     has_research: hasResearch,
     has_report: hasReport,
+    has_entity_inventory: hasEntityInventory,
+    has_analysis_stats: hasAnalysisStats,
     analysis_files: analysisFiles,
     download_files: downloadFiles,
   });
@@ -139,6 +155,28 @@ for (const slug of absDirs) {
 vendors.sort((a, b) => a.holistic_score - b.holistic_score);
 
 await Bun.write(join(DATA, "vendors.json"), JSON.stringify(vendors, null, 2));
+
+// Build file index for in-app folder viewer — recursive nested representation
+import { statSync } from "fs";
+interface DirEntry { name: string; type: "file" | "dir"; children?: DirEntry[]; }
+function buildTree(dir: string): DirEntry[] {
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir).filter(f => !f.startsWith(".")).map(f => {
+    const full = join(dir, f);
+    const isDir = statSync(full).isDirectory();
+    return isDir
+      ? { name: f, type: "dir" as const, children: buildTree(full) }
+      : { name: f, type: "file" as const };
+  });
+}
+const fileIndex: Record<string, { downloads: DirEntry[]; analysis: DirEntry[] }> = {};
+for (const v of vendors) {
+  fileIndex[v.slug] = {
+    downloads: buildTree(join(DATA, "downloads", v.slug)),
+    analysis: buildTree(join(DATA, "analysis-scripts", v.slug)),
+  };
+}
+await Bun.write(join(DATA, "file-index.json"), JSON.stringify(fileIndex));
 
 console.log(`Dashboard data built: ${vendors.length} vendors`);
 console.log(`  Analyses: ${vendors.filter((v) => v.has_analysis).length}`);

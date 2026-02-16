@@ -1,167 +1,154 @@
 # EHI Export Analysis: Avon Health
 
 **Product**: Avon EMR 1.0
-**Analysis date**: 2026-02-15
+**Analysis date**: 2026-02-16
 **CHPL IDs**: 11636 (15.04.04.3227.Avon.01.00.1.250514)
 
 ## 1. Product Context
 
-Avon Health is an early-stage startup (founded 2021, ONC-certified May 2025) building a cloud-based, "AI-first" all-in-one EMR and practice management platform for ambulatory care. The product targets primary care, behavioral health, women's health, pediatrics, geriatrics, hospice, and virtual care practices.
+Avon EMR is a cloud-based, all-in-one ambulatory EMR and practice management platform built by Avon Health, a startup founded in 2021 and ONC-certified in May 2025. The product targets ambulatory practices across multiple specialties (primary care, behavioral health, women's health, pediatrics, hospice, geriatrics) and virtual care companies.
 
-Based on the vendor's own documentation site (guides.avonhealth.com), the product has **18 functional modules** visible in the sidebar navigation: Patient registration, Organization member registration, Scheduling, Messaging, Forms, Tasks, Care plans, Documents, Visit notes, Prescriptions, Labs, Eligibility checks, Invoices, Superbills, Revenue cycle management, Fax, Courses, and Automations.
+The platform is modular, with toggleable features spanning:
 
-For assessing export completeness, the key data domains the product stores include:
-- **Clinical**: Visit notes, care plans, prescriptions/medications, lab orders and results, allergies, immunizations, vital signs, procedures, clinical documents, imaging orders
-- **Patient engagement**: Messaging (in-app, 2-way SMS), forms/intake, patient education courses, patient portal
-- **Financial/billing**: Invoices, superbills, insurance eligibility, revenue cycle management, payment collection
-- **Administrative**: Scheduling, tasks, fax records, custom fields/objects
+- **Clinical documentation**: Visit notes, care plans, documents, AI Scribe (auto-generated note drafts)
+- **Prescriptions**: E-prescribing, fulfillment tracking
+- **Lab & imaging**: Lab orders to 1,000+ labs, imaging orders, parsed results
+- **Scheduling**: Virtual/in-person appointments, patient self-scheduling, group sessions
+- **Patient engagement**: Patient portal, messaging (in-app, 2-way SMS), intake forms, courses (patient education)
+- **Billing & RCM**: Insurance eligibility checks, invoices, superbills, payment collection, revenue cycle management
+- **Administration**: Custom fields, custom objects, custom pages, automations, tasks, fax
 
-The product is also certified for (a)(14) Implantable Device List, (a)(12) Family Health History, and (h)(1) Immunization Registry Reporting, confirming it stores these data types.
+The sidebar navigation of the vendor's guides site (`guides.avonhealth.com`) confirms 20+ distinct functional modules including Messaging, Tasks, Invoices, Superbills, Revenue Cycle Management, Eligibility Checks, Fax, Courses, Custom Fields, Custom Objects, and AI Scribe — all of which represent data that could be part of the designated record set.
 
 ## 2. Artifacts Reviewed
 
-| Artifact | Description | Informational Value |
+| Artifact | Description | Informativeness |
 |---|---|---|
-| `downloads/ehi-export.html` (52,873 bytes) | Primary EHI export documentation page from guides.avonhealth.com/docs/ehi-export. Contains export mechanism, format description, and data categories. Embedded Next.js markdoc JSON confirms text content. | **Primary artifact** — sole source of export documentation |
-| `downloads/ehi-export-page-screenshot.png` (466 KB) | Full-page screenshot of the EHI export documentation page | Confirms HTML content matches rendered page; shows sidebar with all product modules |
-| `downloads/certification-page-screenshot.png` (664 KB) | Screenshot of avonhealth.com/meaningful-use ONC certification page | Confirms certification criteria list, links to EHI Export Documentation and API Documentation |
-| Live verification: guides.avonhealth.com/docs/ehi-export | Fetched live page on 2026-02-15 | Content identical to collected HTML artifact — no updates since collection |
-| Live verification: docs.avonhealth.com/patient | REST API documentation for Patient resource | Shows 24 patient fields with types and descriptions — demonstrates the vendor *has* field-level data model detail but did not include it in EHI export documentation |
+| `downloads/ehi-export.html` (52,873 bytes) | Full HTML of the EHI export documentation page at `guides.avonhealth.com/docs/ehi-export`. Single page with 388 words of substantive content. Lists 4 data categories and 24 data items at category level. No data dictionary, no schema, no sample data. | **Primary artifact** — contains all available export documentation |
+| `downloads/ehi-export-page-screenshot.png` (466 KB) | Full-page screenshot of the EHI export documentation page. Visually confirms the HTML content: heading structure, bulleted data category lists, and sidebar navigation showing product modules. | Corroborative — confirms HTML content matches rendered page |
+| `downloads/certification-page-screenshot.png` (664 KB) | Full-page screenshot of the ONC certification page at `avonhealth.com/meaningful-use`. Lists all certified criteria, certification date (May 14, 2025), product name (Avon EMR 1.0), CHPL number, costs section, MFA details, SVAP notice (WCAG 2.1 AA), and links to EHI Export Documentation and API Documentation. | Corroborative — confirms (b)(10) certification and links |
 
-**Most informative**: The EHI export HTML page and the sidebar navigation (which inventories all product modules, establishing the baseline for coverage assessment).
+**Verification**: The live page at `https://guides.avonhealth.com/docs/ehi-export` was fetched during this analysis and matches the collected HTML artifact exactly — same content, same structure, no changes since collection on 2026-02-15.
 
-**Least informative**: The screenshots confirm but don't add information beyond the HTML.
-
-**Notable absence**: No data dictionary, no sample export files, no schema, no CSV column documentation. The entire EHI export documentation is a single web page with approximately 300 words of substantive content.
+**Notable absence**: No downloadable artifacts (PDFs, ZIPs, CSVs, JSON schemas, XLSX data dictionaries) were found on either the certification page or the EHI export documentation page. The entire (b)(10) documentation consists of a single web page.
 
 ## 3. Export Mechanics
 
 - **Format**: ZIP file containing CSV files, PDF documents, and PNG images
-- **Mechanism**:
-  - *Single patient*: Admin navigates to patient profile → clicks "Export EHI" button (self-service via UI)
-  - *Patient population*: Must email support@avonhealth.com with subject "Patient Population b10 Export Request" — handled manually by Avon Support team
-- **Single-patient**: Yes, self-service
-- **Bulk export**: Yes, but vendor-assisted (manual request via email)
-- **Access constraints**: Population export depends on "size of data, time and efforts required to manage the server resources" per documentation. No fees mentioned for the export itself (product is subscription-based).
+- **Single-patient export**: Admin navigates to a patient's profile and clicks "Export EHI" button (self-service)
+- **Population export**: Must email `support@avonhealth.com` with subject line "Patient Population b10 Export Request" — handled manually by support team "as it depends on size of data, time and efforts required to manage the server resources"
+- **Access constraints**: Requires admin role. Population export is vendor-assisted, not self-service.
+- **Fees**: Not mentioned in the export documentation. The certification page states users pay a monthly fee for the EMR; no separate export fee is documented.
+- **Relationship to FHIR/API**: The export is clearly distinct from the vendor's REST/FHIR API (documented separately at `docs.avonhealth.com`). This is a native export mechanism, not a repackaged API.
 
 ## 4. Export Content: What's In It
 
-### What the documentation tells us
+### Documentation level
 
-The export documentation lists **4 data categories** containing **24 named data items**. These are described at a category level only — there are no field names, no data types, no column definitions, no CSV file names, no relationships, and no sample data.
+The documentation provides **category-level descriptions only**. There is:
 
-There is **no data dictionary**. The documentation provides zero field-level detail. For example, "Lab results" is listed as an item but there is no information about what columns a lab result CSV would contain, what coding systems are used, or how results link to orders.
+- ❌ No data dictionary (no field/column names, no data types)
+- ❌ No schema (no XSD, JSON Schema, DDL, or OpenAPI spec)
+- ❌ No sample export files or example CSVs
+- ❌ No documentation of CSV file structure (which CSVs are generated, what columns each contains)
+- ❌ No documentation of relationships between entities
+- ❌ No documentation of coded values or value sets
+- ❌ No documentation of how many CSV files compose an export
 
-### What we can infer about the export format
-
-The export produces CSVs (for structured data), PDFs (for documents), and PNGs (for images). The population export organizes files into per-patient folders named `<FirstName><LastName>_<MRN>`. Beyond this, the documentation provides no information about:
-- How many CSV files are generated
-- What each CSV file contains
-- Column names, data types, or formats
-- Relationships between CSV files
-- Coded values or value sets
+The export documentation consists of 24 named data items organized into 4 categories. Each item is a single phrase (e.g., "Lab results," "Insurance claims") with no further elaboration.
 
 ### Vendor's own content organization
 
-The documentation organizes export content into 4 categories with the following items:
+The vendor organizes data into 4 categories. Since no field-level detail exists, the table below reflects the entirety of what is documented:
 
-| Category (vendor's) | Data Item | Field Count | Types Documented |
-|---|---|---|---|
-| Demographics | Name | N/A | No |
-| Demographics | Date of birth | N/A | No |
-| Demographics | Sex | N/A | No |
-| Demographics | Race and ethnicity | N/A | No |
-| Demographics | Language preferences | N/A | No |
-| Demographics | Addresses | N/A | No |
-| Clinical Information | Allergies and adverse reactions | N/A | No |
-| Clinical Information | Medications, including prescription history and active medications | N/A | No |
-| Clinical Information | Problem list (diagnoses) | N/A | No |
-| Clinical Information | Immunizations | N/A | No |
-| Clinical Information | Family history | N/A | No |
-| Clinical Information | Vital signs | N/A | No |
-| Clinical Information | Procedures | N/A | No |
-| Clinical Information | Surgical history | N/A | No |
-| Clinical Information | Lab results | N/A | No |
-| Clinical Information | Imaging results | N/A | No |
-| Clinical Information | Clinical notes (progress notes, H&P, discharge summaries) | N/A | No |
-| Clinical Information | Care plans | N/A | No |
-| Administrative and Billing Information | Appointments | N/A | No |
-| Administrative and Billing Information | Insurance details | N/A | No |
-| Administrative and Billing Information | Insurance claims | N/A | No |
-| Administrative and Billing Information | Payment history | N/A | No |
-| Other Documents | Forms | N/A | No |
-| Other Documents | Uploaded documents (PDFs) and images (PNGs) | N/A | No |
+| Category | Items Listed | Field-Level Detail | Types | Descriptions |
+|---|---|---|---|---|
+| Demographics | 6 | None | No | No |
+| Clinical Information | 12 | None | No | No |
+| Administrative and Billing Information | 4 | None | No | No |
+| Other Documents | 2 | None | No | No |
+| **Total** | **24** | **None** | **No** | **No** |
 
-**No field counts are available** — the documentation lists data items at a category level (e.g., "Lab results") without any indication of what fields each item contains. The full inventory is saved to `analysis/export-inventory.json`.
+**Demographics** (6 items): Name, Date of birth, Sex, Race and ethnicity, Language preferences, Addresses
+
+**Clinical Information** (12 items): Allergies and adverse reactions; Medications, including prescription history and active medications; Problem list (diagnoses); Immunizations; Family history; Vital signs; Procedures; Surgical history; Lab results; Imaging results; Clinical notes (e.g., progress notes, history and physical, discharge summaries); Care plans
+
+**Administrative and Billing Information** (4 items): Appointments, Insurance details, Insurance claims, Payment history
+
+**Other Documents** (2 items): Forms; Uploaded documents (PDFs) and images (PNGs)
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-The vendor organizes the export into 4 categories:
+The vendor claims the export "includes all electronic health information (EHI) that is part of the designated record set." The 4 categories span demographics, clinical data, billing/administrative data, and documents — a reasonable scope statement.
 
-1. **Demographics** (6 items): Basic patient identity — name, DOB, sex, race/ethnicity, language, addresses. These are category-level labels, not fields, but they align with standard USCDI demographic data elements.
+However, the documentation is at such a high level that coverage claims cannot be verified. "Insurance claims" could mean full claim detail with CPT/ICD codes, amounts, and adjudication data — or it could mean a simple list of claim IDs. Without field-level documentation or sample data, it's impossible to assess depth.
 
-2. **Clinical Information** (12 items): The largest category, covering core clinical data — allergies, medications, problems, immunizations, family history, vitals, procedures, surgical history, labs, imaging, clinical notes, and care plans. This is a reasonable clinical checklist that maps well to USCDI v1 data classes.
+**Comparison to product modules**: The product's guides sidebar lists 20+ functional modules. Several modules that store patient-facing data are **not mentioned** in the export documentation:
 
-3. **Administrative and Billing Information** (4 items): Appointments, insurance details, insurance claims, and payment history. This is the thinnest category relative to the product's billing capabilities.
+- **Messaging** (in-app messaging, 2-way SMS, internal notes) — not listed
+- **Superbills** (procedure codes, diagnosis codes) — not listed
+- **Invoices** — not listed
+- **Eligibility checks** (insurance verification data) — not listed
+- **Revenue cycle management** (detailed RCM data beyond "insurance claims") — not listed
+- **Courses** (patient education content and progress) — not listed
+- **Tasks** (clinical task assignments) — not listed
+- **Custom fields / Custom objects** (user-defined patient data) — not listed
+- **AI Scribe** (transcriptions, AI-generated note drafts) — not listed
+- **Implantable device list** (certified under (a)(14)) — not listed
+- **Smoking status** — not listed
 
-4. **Other Documents** (2 items): Forms and uploaded documents/images.
-
-**Key observations**:
-- The clinical category is relatively complete for a general ambulatory EMR.
-- The billing category is thin — the product has dedicated modules for Invoices, Superbills, Eligibility checks, and Revenue cycle management (visible in the sidebar), but the export documentation only mentions "Insurance details," "Insurance claims," and "Payment history." Superbills, invoices, and eligibility data are not mentioned.
-- Several product modules have no representation in the export documentation (see gap analysis below).
+The vendor's broad claim may cover these via the CSV export, but the documentation does not confirm it.
 
 ### 5b. Standardized domain coverage (top-down)
 
 | Domain | Coverage | Export Evidence | Gap Analysis |
 |---|---|---|---|
-| Demographics | ⚠️ Partial | Listed: Name, DOB, Sex, Race/ethnicity, Language, Addresses | Items listed but no field-level detail. API docs show the patient model has 24+ fields (MRN, SSN, pronouns, gender, sexual orientation, phone, email, status, custom_data, etc.) — unclear if these are all in the export. |
-| Encounters / visits | ⚠️ Partial | "Appointments" listed under Administrative; "Clinical notes" listed under Clinical | Appointments are listed but visit/encounter records as a clinical entity are not explicitly mentioned. It's unclear whether encounter-level metadata (providers, diagnoses linked to visit, etc.) is exported. |
-| Problems / conditions / diagnoses | ✅ Covered | "Problem list (diagnoses)" listed under Clinical Information | Listed at category level. No detail on coding systems (SNOMED CT is used per product research). |
-| Medications / prescriptions | ✅ Covered | "Medications, including prescription history and active medications" listed under Clinical Information | Listed at category level. The product has a dedicated Prescriptions module with e-prescribing integration — unclear if full Rx transaction data (pharmacy, fill status, sig) is included or just a medication list. |
-| Allergies | ✅ Covered | "Allergies and adverse reactions" listed under Clinical Information | Listed at category level. |
-| Immunizations | ✅ Covered | "Immunizations" listed under Clinical Information | Listed at category level. Product is certified for (h)(1) Immunization Registry Reporting. |
-| Vitals | ✅ Covered | "Vital signs" listed under Clinical Information | Listed at category level. |
-| Lab results | ✅ Covered | "Lab results" listed under Clinical Information | Listed at category level. Product integrates with 1000+ labs per product research. |
-| Imaging / diagnostic reports | ✅ Covered | "Imaging results" listed under Clinical Information | Listed at category level. |
-| Procedures | ✅ Covered | "Procedures" and "Surgical history" listed under Clinical Information | Two separate items cover this domain. |
-| Clinical notes / documents | ✅ Covered | "Clinical notes (e.g., progress notes, history and physical, discharge summaries)" and "Uploaded documents (PDFs) and images (PNGs)" | Notes and documents both listed. Visit notes are a major product module. |
-| Care plans / goals | ✅ Covered | "Care plans" listed under Clinical Information | Product has a dedicated Care plans module and is certified for (b)(11). |
-| Orders / referrals | ❌ Not covered | No mention of orders or referrals in export | Product supports lab orders and imaging orders. Order data is not explicitly listed in the export. Potential gap. |
-| Insurance / coverage | ✅ Covered | "Insurance details" listed under Administrative and Billing | Listed at category level. |
-| Claims / billing | ⚠️ Partial | "Insurance claims" and "Payment history" listed | Product has Invoices, Superbills, Eligibility checks, and Revenue cycle management modules — none explicitly mentioned in export. "Insurance claims" may partially cover this, but superbill-level detail (CPT/ICD codes, modifiers) and invoice data are not mentioned. |
-| Payments | ✅ Covered | "Payment history" listed under Administrative and Billing | Listed at category level. |
-| Consents / directives | ❌ Not covered | No mention in export | Unclear if the product stores advance directives. Not a confirmed gap since the product doesn't appear to have a dedicated consents module. |
-| Patient communications / portal messages | ❌ Not covered | No mention of messages in export | Product has a dedicated Messaging module (in-app, 2-way SMS, internal notes). This is a **significant gap** — patient messages are part of the designated record set. |
-| Specialty-specific data | N/A | No specialty-specific items in export | Product claims to serve behavioral health, women's health, pediatrics, etc. but does not appear to have specialty-specific clinical templates or assessments documented in the guides. Custom fields may serve this purpose but are not mentioned in export. |
-| Family history | ✅ Covered | "Family history" listed under Clinical Information | Product is certified for (a)(12) Family Health History. |
-| Implantable devices | ❌ Not covered | No mention in export | Product is certified for (a)(14) Implantable Device List. This data type should be in the export. Gap. |
-| Custom fields/objects | ❌ Not covered | No mention in export | Product supports custom fields and custom objects (visible in guides sidebar under "Extensions"). API docs confirm `custom_data` field on patients. If used clinically, this is EHI. |
+| Demographics | ⚠️ Partial | 6 items listed (name, DOB, sex, race/ethnicity, language, addresses) | Items listed but no field detail. Missing: contact info (phone, email), emergency contacts, marital status, identifiers (MRN listed in folder naming only). Product stores these (patient portal requires contact info). |
+| Encounters / visits | ⚠️ Partial | "Appointments" listed under Administrative | Appointments mentioned, but visit/encounter records (with providers, reasons, durations) are not explicitly described. Product has visit notes and scheduling modules. |
+| Problems / conditions / diagnoses | ⚠️ Partial | "Problem list (diagnoses)" listed | Mentioned but no detail on coding system (SNOMED, ICD-10), status, onset dates, etc. |
+| Medications / prescriptions | ⚠️ Partial | "Medications, including prescription history and active medications" listed | Mentioned but unclear if full e-prescribing data (pharmacy, fill status, SIG) is included. Product has prescriptions module. |
+| Allergies | ⚠️ Partial | "Allergies and adverse reactions" listed | Named but no field detail. |
+| Immunizations | ⚠️ Partial | "Immunizations" listed | Named but no field detail. Certified under (h)(1) for registry reporting. |
+| Vitals | ⚠️ Partial | "Vital signs" listed | Named but no field detail. |
+| Lab results | ⚠️ Partial | "Lab results" listed | Named but no detail on structure (panels, reference ranges, ordering info). Product integrates with 1,000+ labs. |
+| Imaging / diagnostic reports | ⚠️ Partial | "Imaging results" listed | Named but no field detail. |
+| Procedures | ⚠️ Partial | "Procedures" and "Surgical history" listed | Two separate items named but no field detail. |
+| Clinical notes / documents | ⚠️ Partial | "Clinical notes (e.g., progress notes, history and physical, discharge summaries)" listed; PDFs exported | Likely exported as PDF documents rather than structured data. No detail on note types or structure. |
+| Care plans / goals | ⚠️ Partial | "Care plans" listed | Named but no field detail. Product has care plan templates module. |
+| Orders / referrals | ❌ Not covered | Not mentioned in export documentation | Product supports lab orders, imaging orders, and referring providers. Absence from documentation is a gap. |
+| Insurance / coverage | ⚠️ Partial | "Insurance details" listed | Named but no field detail. |
+| Claims / billing | ⚠️ Partial | "Insurance claims" listed | Named but unclear scope. Superbills, invoices, eligibility checks, and RCM data are product features not mentioned in export. |
+| Payments | ⚠️ Partial | "Payment history" listed | Named but no field detail. Product has patient payments integration. |
+| Consents / directives | ❌ Not covered | Not mentioned | Product may store consent via forms module, but not explicitly listed. |
+| Patient communications / portal messages | ❌ Not covered | Not mentioned | Product has messaging module (in-app, 2-way SMS) — significant gap if not exported. |
+| Family history | ⚠️ Partial | "Family history" listed | Named but no field detail. |
+
+**Summary**: Every listed domain is rated ⚠️ Partial rather than ✅ Covered because the documentation provides only category names with zero field-level detail. It is impossible to confirm actual coverage depth. Three domains with product evidence (orders/referrals, consents, patient communications) are not mentioned at all.
 
 ## 6. Documentation Quality
 
-The EHI export documentation is **minimal**. It consists of a single web page (~300 words of substantive content) that provides:
+The EHI export documentation is a **single web page with 388 words** of substantive content. It is the thinnest documentation possible that still acknowledges what EHI is and what the export contains.
 
-**What it does well**:
-- Correctly defines EHI scope (cites designated record set, HIPAA, exclusions)
-- Clearly describes two export types (single patient, population)
-- Specifies the export format (ZIP with CSVs, PDFs, PNGs)
-- Lists data categories at a high level
+**What's present**:
+- Correct definition of EHI scope (references HIPAA designated record set, excludes psychotherapy notes and litigation materials)
+- Clear description of two export mechanisms (single patient and population)
+- Export format description (ZIP with CSVs, PDFs, PNGs)
+- High-level data category listing (24 items in 4 groups)
 
-**What it lacks**:
-- **No data dictionary**: Zero field-level documentation. No column names, no data types, no descriptions.
-- **No sample data**: No example CSV files, no sample export output.
-- **No schema**: No machine-readable format specification (no JSON Schema, XSD, DDL, etc.).
-- **No CSV documentation**: No information about how many CSV files are generated, what each contains, or how they relate.
-- **No value sets**: No coded value documentation despite the product using SNOMED CT and CDC code sets (per API docs).
-- **No relationship documentation**: No description of how entities link together.
-- **No screenshots**: No visual documentation of the export interface or output.
+**What's absent**:
+- No data dictionary or field-level documentation of any kind
+- No sample export files or worked examples
+- No schema or machine-readable format specification
+- No documentation of CSV file names, column headers, or data types
+- No relationship documentation (how entities link to each other)
+- No value set or code system documentation
+- No versioning or changelog
 
-**Could a developer build an import?** No. A developer receiving this export would get a ZIP file with CSV files and would need to reverse-engineer the column structure, data types, relationships, and coded values entirely from the data itself. The documentation provides no technical guidance.
+**Could a developer build an import from this documentation?** No. A developer receiving an export ZIP would have to reverse-engineer every CSV file's structure, guess at data types and relationships, and interpret coded values without documentation. The documentation tells you *what topics* are covered but nothing about *how the data is structured*.
 
-**Contrast with API documentation**: The vendor's REST API docs at docs.avonhealth.com include field-level detail for at least the Patient resource (24+ fields with names, types, descriptions, and value sets). This demonstrates the vendor has the capability to document their data model but chose not to for the (b)(10) export.
+**Machine-readable artifacts**: None. The only artifact is an HTML page with prose and bullet lists.
 
 ## 7. Overall Assessment
 
@@ -169,35 +156,34 @@ The EHI export documentation is **minimal**. It consists of a single web page (~
 
 **Minimal/stub**
 
-The documentation is too thin to assess what is actually exported. The vendor lists 24 data items across 4 categories at a category level only, with no field-level detail, no sample data, no schema, and no CSV column documentation. While the export mechanism itself (ZIP with CSVs) suggests a potentially genuine native data export rather than a C-CDA/FHIR repackaging, the documentation provides insufficient detail to verify what the export actually contains or how complete it is.
+The documentation is too thin to assess actual export content or quality. While the vendor describes a genuine native export mechanism (ZIP with CSVs — not a repackaged FHIR/C-CDA export), the documentation provides only 24 category-level item names with no field-level detail, no schema, and no sample data. It is impossible to determine from the documentation alone what the CSV files actually contain, how many there are, or how they are structured.
 
 ### Key Findings
 
-1. **No data dictionary or field-level documentation exists.** The entire EHI export documentation is a single web page listing 24 data items by name (e.g., "Lab results," "Medications") with zero field-level detail. This is among the thinnest documentation possible while still being a documentation page. (Source: `downloads/ehi-export.html`)
+1. **The export mechanism is genuinely native** — a ZIP file with CSV, PDF, and PNG files, separate from the vendor's FHIR/REST API. This is the right approach for (b)(10), but the documentation does not support evaluation of its completeness.
 
-2. **The export format is genuinely native, not a C-CDA/FHIR repackaging.** The export produces a ZIP with CSV files, PDFs, and PNGs — this is clearly distinct from the vendor's (g)(10) FHIR API and C-CDA endpoint (available at `/v2/patients/:id/ccda`). This is a positive signal that the vendor has built a separate (b)(10) mechanism. (Source: `downloads/ehi-export.html`, `downloads/certification-page-screenshot.png`)
+2. **Documentation consists of 388 words on a single web page** — 24 data items listed as bullet points across 4 categories, with zero field-level detail. No data dictionary, no schema, no sample data, no CSV structure documentation.
 
-3. **Patient messaging data is absent from the export despite being a core product module.** The product has a dedicated Messaging module supporting in-app, 2-way SMS, and internal notes — all visible in the sidebar navigation. Messages between patients and care teams are EHI (part of the designated record set). None are mentioned in the export. (Source: `downloads/ehi-export-page-screenshot.png` sidebar, `downloads/ehi-export.html`)
+3. **Population export requires manual vendor involvement** — users must email support@avonhealth.com rather than triggering it through the UI. This suggests the export infrastructure is not fully automated.
 
-4. **Billing coverage is thin relative to the product's financial capabilities.** The product has 5 billing/financial modules (Invoices, Superbills, Eligibility checks, Revenue cycle management, Payment collection) but the export lists only 3 generic items: "Insurance details," "Insurance claims," and "Payment history." Superbills, invoices, and eligibility data are not mentioned. (Source: `downloads/ehi-export.html`, `downloads/ehi-export-page-screenshot.png` sidebar)
+4. **Multiple product modules storing patient data are absent from the export documentation** — Messaging, Superbills, Invoices, Eligibility Checks, Custom Fields/Objects, AI Scribe, and Implantable Device List are product features with patient data that are not mentioned in the export categories. The vendor's claim that the export includes "all EHI" may cover these, but the documentation does not confirm it.
 
-5. **Population export requires manual vendor assistance.** Bulk export is not self-service — it requires emailing support@avonhealth.com and is described as depending on "size of data, time and efforts required to manage the server resources." This suggests incomplete automation of the export infrastructure. (Source: `downloads/ehi-export.html`)
+5. **The product is early-stage** (certified May 2025, startup founded 2021) — the thin documentation is consistent with a recently certified product that has not yet invested in comprehensive export documentation.
 
 ### Summary Stats
 
 ```
 Classification:  Minimal/stub
-Export format:   ZIP containing CSV, PDF, PNG
-Model type:      Appears native (CSV-based), but undocumented
+Export format:   CSV, PDF, PNG in ZIP archive
+Model type:      Appears to be native database export (not standard projection)
 Entities:        N/A (no data dictionary; 24 data items listed at category level)
 Fields:          N/A (no field-level documentation)
-Descriptions:    N/A (no fields documented)
+Descriptions:    N/A
 Sample data:     No
 Bulk export:     Yes (vendor-assisted via email request)
-Domains covered: 11 of 17 applicable domains listed, but without field-level detail
-                 to verify actual coverage
+Domains covered: 0 of 16 confirmed covered; 13 of 16 listed at category level without detail
 ```
 
 ### Bottom Line
 
-Avon Health has built a separate (b)(10) export mechanism (ZIP with CSVs) rather than repackaging their FHIR/C-CDA output, which is a positive design choice. However, the documentation is a single page listing data categories with no field-level detail, no sample data, and no schema — making it impossible to verify what is actually exported or to programmatically consume the export. The biggest gaps are the complete absence of a data dictionary and the omission of patient messaging data and detailed billing data from the documented export categories.
+Avon Health has built what appears to be a genuine native EHI export (ZIP of CSVs, not a FHIR/C-CDA repackaging), but the documentation is too thin to evaluate. A patient or provider would receive a ZIP file with no schema, no data dictionary, and no documentation of the CSV structure — they would have to reverse-engineer the export to use it. The biggest gap is the complete absence of field-level documentation: 24 bullet points is not a data dictionary.

@@ -1,156 +1,167 @@
 # EHI Export Analysis: CareCloud, Inc.
 
 **Product**: CareCloud Prime v2.0
-**Analysis date**: 2026-02-15
-**CHPL IDs**: 11504 (CHPL Product Number: 15.04.04.2790.Clou.02.02.1.240821)
+**Analysis date**: 2026-02-16
+**CHPL IDs**: 11504 (15.04.04.2790.Clou.02.02.1.240821)
 
 ## 1. Product Context
 
-CareCloud Prime is a cloud-based, ONC-certified EHR platform from CareCloud, Inc. (NASDAQ: CCLD), serving over 40,000 ambulatory providers across a broad range of specialties. Priced at $249/provider/month, it is the company's flagship product, certified across 40+ ONC criteria.
+CareCloud Prime is a cloud-based, ONC-certified EHR platform from CareCloud, Inc. (NASDAQ: CCLD), serving ambulatory practices across a broad range of specialties. Priced at $249/provider/month, it is the company's flagship product, covering over 40,000 providers according to vendor claims.
 
-The platform is an integrated suite encompassing:
+The product is an integrated suite encompassing:
 
-- **Clinical EHR (CareCloud Charts)**: Charting with customizable templates, CPOE for medications/labs/imaging, e-prescribing (including EPCS), clinical decision support, AI-powered ambient documentation (cirrusAI Notes)
-- **Practice Management (CareCloud Central)**: Scheduling, patient registration, insurance eligibility verification, claims submission and tracking, advanced claim scrubbing (CollectiveIQ), contract management
-- **Revenue Cycle Management (RCM)**: End-to-end billing services, denial management and AI-powered appeals, payment processing, patient statements
-- **Patient Engagement (Breeze + Community)**: Patient portal with scheduling, check-in, intake forms, secure messaging, prescription refill requests, consent forms, online bill pay, telehealth
-- **Reporting & Public Health**: CQMs, population health analytics, immunization/syndromic/cancer registry reporting
+- **Clinical Documentation & Charting** (CareCloud Charts): customizable templates, AI-powered ambient documentation (cirrusAI Notes), CPOE for medications, labs, and imaging, e-prescribing including EPCS
+- **Practice Management** (CareCloud Central): scheduling, patient registration, insurance eligibility verification, claims submission and tracking, claim scrubbing (CollectiveIQ), contract management
+- **Revenue Cycle Management**: end-to-end billing, denial management, payment processing, patient statements
+- **Patient Engagement** (Breeze portal): patient scheduling, intake forms, secure messaging, bill pay, telehealth, consent forms
+- **Reporting & Analytics**: clinical quality measures, population health, practice performance dashboards
+- **Public Health Reporting**: immunization registry, syndromic surveillance, cancer case, electronic lab, healthcare surveys
 
-This breadth means the EHI export should cover clinical data, billing/claims, insurance, patient portal communications, documents, and specialty-specific clinical content. The product stores far more than what a standard C-CDA clinical summary captures.
+This broad scope — clinical, billing/RCM, patient engagement, practice management — is the baseline for assessing export completeness. The product stores substantial data across clinical, financial, administrative, and patient-communication domains.
 
 ## 2. Artifacts Reviewed
 
 | Artifact | Description | Informativeness |
 |---|---|---|
-| `certification_b10_ehi_export_documentation.pdf` (1.15 MB, 12 pages) | The sole EHI export documentation. Created 2024-09-12 in Microsoft Word 2016 by "JAHANZAIB NISAR." Contains: overview (p3), single-patient export instructions with screenshot (p4), bulk export instructions with screenshot (p5), C-CDA data dictionary (pp6–10), PDF export descriptions (p11), FHIR mention and timeliness statement (p12). | **Primary artifact** — everything substantive is here |
-| `screenshot-cc-prime-page-top.png` (859 KB) | Screenshot of the CareCloud Prime marketing page top. Confirms the registered URL is a product page, not an EHI documentation page. | Low |
-| `screenshot-footer-ehi-link.png` (201 KB) | Screenshot showing the PDF link in the page footer under "Real World Testing Plan." | Low — confirms navigation path only |
+| `certification_b10_ehi_export_documentation.pdf` (1.15 MB, 12 pages) | The sole EHI export documentation. Contains C-CDA data dictionary (pp. 6–10), single/bulk export instructions with screenshots (pp. 3–5), brief non-clinical PDF export descriptions (p. 11), one-sentence FHIR mention (p. 12). Created 2024-09-12 by Jahanzaib Nisar in Microsoft Word 2016. | **Primary source** — contains all substantive export documentation |
+| `screenshot-cc-prime-page-top.png` (859 KB) | Screenshot of the CareCloud Prime marketing page. Confirms the registered URL is a product page, not dedicated EHI documentation. | Low — contextual only |
+| `screenshot-footer-ehi-link.png` (201 KB) | Screenshot showing the PDF link location in the page footer under "Real World Testing Plan" heading. | Low — contextual only |
 
-**No sample data, no machine-readable schemas, no additional API documentation.** The entire EHI export documentation consists of a single 12-page PDF.
+No sample data files, machine-readable schemas, FHIR endpoint documentation, or additional data dictionaries were found.
 
 ## 3. Export Mechanics
 
-- **Format**: Clinical data in C-CDA XML (HL7 CDA R2, C-CDA 2.1 August 2015); non-clinical data (demographics/insurance, appointments, billing, messages, documents) in PDF; FHIR mentioned but undocumented.
-- **Mechanism**: UI-driven. Single-patient export via CCDA Report → CCDA Export Tab → search patient → Generate → Download XML. Bulk export via CCDA Report → Data Portability Tab → select date range → Export → ZIP of XML files. PDF exports via the application's "Reports" section (p11).
-- **Single-patient**: Yes, via CCDA Export tab (p4 screenshot shows a "Patient Chart Summary" for "John Doe" with demographics).
-- **Bulk capability**: Yes, via Data Portability tab (p5 screenshot shows pagination "1 – 10 of 93" patients and a ZIP download dialog).
-- **Access constraints**: Practice administrator must grant access to users for EHI export. No fees mentioned. No developer assistance required (p12).
-- **FHIR**: Page 12 states "CareCloud PRIME FHIR server creates a single-patient FHIR resource Document Reference and supports FHIR Bulk Data EHI Export for patient population as described in §170.315(b)(10)(ii)." This is a single sentence with zero further documentation — no resource types, endpoints, profiles, or examples.
+- **Format**: Multi-format hybrid:
+  - Clinical data → C-CDA XML (HL7 CDA R2, C-CDA 2.1 August 2015)
+  - Non-clinical data (demographics/insurance, appointments, billing, messages, advance directives, documents) → PDF
+  - FHIR mentioned but undocumented
+- **Mechanism**: UI-based export within the application
+  - **Single patient**: CCDA Report → CCDA Export Tab → select patient → Generate → Download XML
+  - **Bulk export**: CCDA Report → Data Portability Tab → select date range → Export → downloads ZIP of XML files
+  - **Non-clinical**: Reports section → export appointments, demographics, insurance, messages, claims in PDF format
+- **Single-patient vs. bulk**: Both supported for C-CDA clinical data. Bulk produces ZIP of patient C-CDA files. PDF non-clinical exports appear to be per-patient (documentation unclear on bulk capability for these).
+- **Access constraints**: Practice administrator grants access to users for EHI export. Users can export at any time without developer assistance. No fees mentioned in the documentation.
 
 ## 4. Export Content: What's In It
 
-The export has two documented components: structured C-CDA XML for clinical data, and PDF printouts for non-clinical data.
+### C-CDA Clinical Data (Pages 6–10)
 
-### C-CDA Clinical Data Dictionary (pp6–10)
+The PDF documents 24 C-CDA sections containing 82 data elements. Each element is listed with its name, XPATH/entry reference (where applicable), code system OID, and code system name. **No descriptive text** accompanies any field — just names and technical references.
 
-The data dictionary maps 24 C-CDA sections to XPATHs and code systems, containing **82 total data elements**. Each element includes a name, an XPATH or template ID entry, and (where applicable) a code system OID and name. There are no textual descriptions of what each element means — identification is by name and XPATH only. Data types and cardinality are not documented (they are implicit in the C-CDA standard). Value sets are identified by OID but not enumerated. No relationships between sections are documented.
+Of the 82 C-CDA fields:
+- **30** have XPATH/entry references
+- **27** have code system identifiers
+- **0** have descriptive text beyond the field name
 
-### PDF Non-Clinical Exports (p11)
+This is a standard C-CDA data dictionary — it documents the structure of the C-CDA output by mapping to standard template IDs and code systems. It does not describe vendor-specific extensions, custom fields, or anything beyond what the C-CDA 2.1 standard defines.
 
-Six categories are listed, each with a single boilerplate sentence ("This file offers a comprehensive view of [X], structured for clarity and ease of access"):
+### Non-Clinical PDF Exports (Page 11)
 
-1. **Patient Demographic/Insurance** — no field documentation
-2. **Advance Directive** — no field documentation
-3. **Appointments** — no field documentation
-4. **Provider-to-Patient Messages** — no field documentation
-5. **Billing Data (Claim)** — mentions "CPT, ICD, Modifier" (3 named fields)
-6. **Documents** — "signed progress notes, available lab results, radiology reports, and any other scanned or uploaded document" in PDF format
+Six categories are listed, each receiving a single boilerplate sentence. Only Billing Data mentions any specific fields (CPT, ICD, Modifier — 3 field names with no types, descriptions, or structure). The remaining five categories (Demographics/Insurance, Advance Directive, Appointments, Messages, Documents) have **zero field-level documentation**.
 
-No field-level detail, no schema, no sample files for any PDF export.
+The PDF format makes these exports non-computable — a receiving system cannot programmatically parse billing claims, appointment data, or messages from PDF files.
+
+### FHIR Export (Page 12)
+
+A single sentence: "CareCloud PRIME FHIR server creates a single-patient FHIR resource Document Reference and supports FHIR Bulk Data EHI Export for patient population as described in §170.315(b)(10)(ii)."
+
+No resource types listed, no endpoint URLs, no profiles, no examples. This appears to reference their (g)(10) FHIR API capability, but no documentation supports assessment of what FHIR resources are included.
 
 ### Vendor's own content organization
 
-| Section / Category | Elements | Code Systems | Format | Documentation Depth |
-|---|---|---|---|---|
-| Patient Demographics/Information | 6 | AdministrativeGender, Race & Ethnicity - CDC | C-CDA XML | XPATH + code system OIDs |
-| Provider's name and office contact | 3 | — | C-CDA XML | XPATH only |
-| Date and Location of visit | 2 | — | C-CDA XML | XPATH only |
-| Chief Complaint and Reason for visit | 1 | — | C-CDA XML | XPATH only |
-| Encounters | 5 | CPT, SNOMED, ICD10 | C-CDA XML | XPATH + code system OIDs |
-| Immunizations | 9 | CVX, CPT-4, NCI Thesaurus, SNOMED | C-CDA XML | XPATH + code system OIDs |
-| Instructions | 1 | SNOMED | C-CDA XML | XPATH + code system OIDs |
-| Treatment Plan | 2 | LOINC | C-CDA XML | XPATH + code system OIDs |
-| Social History | 3 | LOINC, SNOMED | C-CDA XML | XPATH + code system OIDs |
-| Problems | 3 | SNOMED, ICD10 | C-CDA XML | XPATH + code system OIDs |
-| Medications | 5 | RxNorm, NDC | C-CDA XML | XPATH + code system OIDs |
-| Medication Allergies | 4 | RxNorm, SNOMED | C-CDA XML | XPATH + code system OIDs |
-| Laboratory Tests | 4 | LOINC | C-CDA XML | XPATH + code system OIDs |
-| Laboratory Information | 5 | — | C-CDA XML | XPATH only |
-| Laboratory value(s)/result(s) | 5 | LOINC | C-CDA XML | XPATH + code system OIDs |
-| Vitals | 2 | LOINC | C-CDA XML | XPATH + code system OIDs |
-| Goal | 3 | — | C-CDA XML | XPATH only |
-| Procedures | 2 | CPT-4, SNOMED, HCPCS | C-CDA XML | XPATH + code system OIDs |
-| Care team member(s) | 3 | — | C-CDA XML | XPATH only |
-| Reason for Referral | 1 | SNOMED | C-CDA XML | XPATH only |
-| Medical Equipment | 2 | SNOMED | C-CDA XML | XPATH + code system OIDs |
-| Mental Status | 4 | SNOMED | C-CDA XML | XPATH + code system OIDs |
-| Functional Status | 4 | SNOMED | C-CDA XML | XPATH + code system OIDs |
-| Health Concern | 3 | SNOMED | C-CDA XML | XPATH + code system OIDs |
-| *Patient Demographic/Insurance* | *0 documented* | — | PDF | *One sentence, no fields* |
-| *Advance Directive* | *0 documented* | — | PDF | *One sentence, no fields* |
-| *Appointments* | *0 documented* | — | PDF | *One sentence, no fields* |
-| *Provider-to-Patient Messages* | *0 documented* | — | PDF | *One sentence, no fields* |
-| *Billing Data (Claim)* | *3 named (CPT, ICD, Modifier)* | — | PDF | *One sentence, 3 field names* |
-| *Documents* | *0 documented* | — | PDF | *One sentence, no fields* |
+| Section | Fields | Has XPATH | Has Code System | Format | Category |
+|---|---|---|---|---|---|
+| Patient Demographics/Information | 6 | 5 | 2 | C-CDA XML | Clinical |
+| Provider Information | 3 | 3 | 0 | C-CDA XML | Clinical |
+| Date and Location of Visit | 2 | 2 | 0 | C-CDA XML | Clinical |
+| Chief Complaint and Reason for Visit | 1 | 0 | 0 | C-CDA XML | Clinical |
+| Encounters | 5 | 1 | 2 | C-CDA XML | Clinical |
+| Immunizations | 9 | 1 | 3 | C-CDA XML | Clinical |
+| Instructions | 1 | 1 | 1 | C-CDA XML | Clinical |
+| Treatment Plan | 2 | 2 | 1 | C-CDA XML | Clinical |
+| Social History | 3 | 1 | 2 | C-CDA XML | Clinical |
+| Problems | 3 | 1 | 1 | C-CDA XML | Clinical |
+| Medications | 5 | 1 | 1 | C-CDA XML | Clinical |
+| Medication Allergies | 4 | 1 | 3 | C-CDA XML | Clinical |
+| Laboratory Tests | 4 | 0 | 1 | C-CDA XML | Clinical |
+| Laboratory Information | 5 | 0 | 0 | C-CDA XML | Clinical |
+| Laboratory Results | 5 | 1 | 1 | C-CDA XML | Clinical |
+| Vitals | 2 | 1 | 1 | C-CDA XML | Clinical |
+| Goals | 3 | 1 | 0 | C-CDA XML | Clinical |
+| Procedures | 2 | 1 | 1 | C-CDA XML | Clinical |
+| Care Team Members | 3 | 1 | 0 | C-CDA XML | Clinical |
+| Reason for Referral | 1 | 1 | 1 | C-CDA XML | Clinical |
+| Medical Equipment / Implanted Devices | 2 | 1 | 1 | C-CDA XML | Clinical |
+| Mental Status | 4 | 1 | 1 | C-CDA XML | Clinical |
+| Functional Status | 4 | 1 | 1 | C-CDA XML | Clinical |
+| Health Concerns | 3 | 1 | 1 | C-CDA XML | Clinical |
+| Patient Demographic/Insurance (PDF) | 0 | — | — | PDF | Non-clinical |
+| Advance Directive (PDF) | 0 | — | — | PDF | Non-clinical |
+| Appointments (PDF) | 0 | — | — | PDF | Non-clinical |
+| Provider-to-Patient Messages (PDF) | 0 | — | — | PDF | Non-clinical |
+| Billing Data / Claims (PDF) | 3 | — | — | PDF | Non-clinical |
+| Documents (PDF) | 0 | — | — | PDF | Non-clinical |
 
-**Totals**: 24 C-CDA sections with 82 elements + 6 PDF categories with 3 named fields = **85 documented data elements across 30 categories**.
+**Totals**: 24 C-CDA sections (82 fields), 6 PDF exports (3 field names), 1 FHIR mention (0 documented fields). Grand total: 85 documented data elements across 31 sections.
+
+Full inventory saved to `analysis/full-entity-inventory.json`.
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-The vendor divides its export into two tracks:
+The vendor organizes the export into three tiers:
 
-**C-CDA track (pages 6–10)**: This is standard C-CDA 2.1 clinical summary content. The 24 sections and 82 elements map directly to standard CDA template IDs — demographics, problems, medications, allergies, labs, vitals, immunizations, procedures, encounters, care plans, goals, social history, mental/functional status, health concerns, referrals, medical equipment, and care team. This is essentially a standard USCDI/US Core clinical summary. The documentation is a code system mapping table, not a vendor-native data dictionary — it describes C-CDA output structure, not the underlying CareCloud data model.
+1. **C-CDA Clinical Data** (24 sections, 82 fields): This is the most detailed portion. It maps standard C-CDA sections — demographics, problems, medications, allergies, labs, vitals, immunizations, procedures, encounters, care plans, goals, social history, mental/functional status, health concerns, implanted devices, care team, and referrals. This is essentially the USCDI / US Core clinical summary set. The documentation is a standard C-CDA implementation guide mapping, not a vendor-specific data dictionary — it tells you what C-CDA sections are produced, but not what vendor-specific data underlies them or how complete the mapping is.
 
-**PDF track (page 11)**: Six categories of non-clinical data exported as PDF files. This is where the vendor addresses billing, insurance, appointments, messages, and documents — the data domains that C-CDA does not cover. However, documentation is essentially zero: each category gets one boilerplate sentence with no field-level detail. The billing export mentions "CPT, ICD, Modifier" but nothing about charges, amounts, dates of service, payer information, claim status, payments, adjustments, or any other billing field. PDF is a non-computable format — there is no way to programmatically parse or import this data.
+2. **PDF Non-Clinical Exports** (6 categories, essentially undocumented): Demographics/insurance, advance directives, appointments, messages, billing claims, and documents are exported as PDFs. Each gets a single boilerplate sentence. Only billing mentions specific data elements (CPT, ICD, Modifier). This tier nominally addresses some gaps the C-CDA doesn't cover (billing, appointments, messages), but the PDF format and lack of documentation make it impossible to assess completeness or usability.
 
-**FHIR track (page 12)**: A single sentence claiming FHIR Bulk Data EHI Export support. Completely undocumented — no resource types, no endpoint URLs, no profiles, no examples. Cannot be assessed.
+3. **FHIR Export** (1 sentence, fully undocumented): Mentioned but provides no actionable detail. Cannot be assessed.
+
+The C-CDA clinical tier is the richest, but it is a standard projection, not a native data model export. The PDF tier attempts broader coverage but is non-computable and undocumented. The FHIR tier is a placeholder.
 
 ### 5b. Standardized domain coverage (top-down)
 
 | Domain | Coverage | Export Evidence | Gap Analysis |
 |---|---|---|---|
-| Demographics | ⚠️ Partial | C-CDA: 6 elements (name, sex, DOB, race, ethnicity, language). PDF: "Patient Demographic/Insurance" (undocumented) | C-CDA covers basic demographics. Contact info, address, emergency contacts unclear — may be in undocumented PDF export. Product stores detailed registration data (Central module). |
-| Encounters / visits | ✅ Covered | C-CDA: Encounters section (5 elements: code, performer, diagnosis, location, date) with CPT/SNOMED/ICD10 coding | Standard C-CDA encounter data present |
-| Problems / conditions | ✅ Covered | C-CDA: Problems section (3 elements) with SNOMED and ICD10 coding | Adequately represented |
-| Medications / prescriptions | ⚠️ Partial | C-CDA: Medications section (5 elements: medication, directions, start/end date, status) with RxNorm/NDC | Medication list is present, but product has full e-prescribing with EPCS, Surescripts integration, drug interaction records. Prescription workflow data (Rx history, pharmacy responses, controlled substance logs) not in C-CDA. |
-| Allergies | ✅ Covered | C-CDA: Medication Allergies section (4 elements: substance, reaction, severity, status) with RxNorm/SNOMED | Standard allergy data present |
-| Immunizations | ✅ Covered | C-CDA: Immunizations section (9 elements) with CVX/CPT-4 coding — richest section | Well-represented |
-| Vitals | ✅ Covered | C-CDA: Vitals section (2 elements: observation, date/time) with LOINC | Standard vitals present |
-| Lab results | ✅ Covered | C-CDA: Three lab-related sections (14 combined elements) with LOINC coding | Well-represented with test info, results, reference ranges, interpretation |
-| Imaging / diagnostic reports | ⚠️ Partial | PDF Documents export mentions "radiology reports" but with no field documentation | Radiology reports mentioned as PDFs only; no structured imaging order or report data |
-| Procedures | ✅ Covered | C-CDA: Procedures section (2 elements) with CPT-4/SNOMED/HCPCS | Standard procedure data present |
-| Clinical notes / documents | ⚠️ Partial | PDF Documents export: "signed progress notes, available lab results, radiology reports, and any other scanned or uploaded document" | Documents exported as PDFs — covers document content but loses any structured metadata. No documentation of what metadata is preserved. |
-| Care plans / goals | ✅ Covered | C-CDA: Treatment Plan (2 elements), Goal (3 elements), Health Concern (3 elements) | Adequately represented in C-CDA |
-| Orders / referrals | ⚠️ Partial | C-CDA: Reason for Referral (1 element, SNOMED). No lab/imaging order data beyond what's in results. | Product has full CPOE (medications, labs, imaging). Only referral reasons are in the export; order workflow data missing. |
-| Insurance / coverage | ⚠️ Partial | PDF: "Patient Demographic/Insurance" — no fields documented | Insurance data is claimed to be exported, but as an undocumented PDF. Product does eligibility verification and contract management — none of that detail is documented. |
-| Claims / billing | ⚠️ Partial | PDF: "Billing Data (Claim)" — mentions CPT, ICD, Modifier only. No charges, amounts, payments, payer info, claim status, denial data. | Product has full RCM with CollectiveIQ claim scrubbing, denial management, contract management, payment processing. The export mentions 3 code fields — this is a tiny fraction of the billing data the product stores. |
-| Payments | ❌ Not covered | No evidence of payment data in the export | Product processes insurance and patient payments, manages patient statements and balances. Not in export. |
-| Consents / directives | ⚠️ Partial | PDF: "Advance Directive" (undocumented). C-CDA has no consent section. | Advance directives mentioned; patient consent forms (Breeze portal e-signatures) not addressed. |
-| Patient communications / portal messages | ⚠️ Partial | PDF: "Provider-to-Patient Messages" (undocumented) | Messages exported as undocumented PDF. Product has full secure messaging, prescription refill requests, appointment requests via Breeze portal — only "messages" mentioned. |
-| Specialty-specific | ❌ Not covered | No specialty-specific data entities in the export | Product serves 40+ specialties with customizable templates. No specialty-specific clinical data structures appear in the export beyond what C-CDA provides generically. |
-
-**Summary**: Of 18 applicable domains, 7 are adequately covered (all via standard C-CDA), 9 are partially covered (either via undocumented PDF exports or with significant structural gaps), and 2 have no evidence of coverage.
+| Demographics | ⚠️ Partial | C-CDA: 6 fields (name, sex, DOB, race, ethnicity, language); PDF: "demographics and insurance" (no fields documented) | C-CDA covers basic demographics per USCDI. PDF presumably adds more but is undocumented and non-computable. Product stores extensive registration data (contacts, addresses, employer, etc.) — unclear how much is exported. |
+| Encounters / visits | ✅ Covered | C-CDA: Encounters section (5 fields — code, performer, diagnosis, location, date); Date and Location of Visit (2 fields) | Standard encounter summary via C-CDA. Adequate for clinical encounters. |
+| Problems / conditions | ✅ Covered | C-CDA: Problems section (3 fields — problem code SNOMED/ICD10, status, active date) | Standard problem list. |
+| Medications / prescriptions | ⚠️ Partial | C-CDA: Medications section (5 fields — medication code RxNorm/NDC, directions, start/end date, status) | C-CDA covers medication list. However, product has ePrescribing/EPCS — detailed prescription records, pharmacy transactions, controlled substance logs are not addressed. |
+| Allergies | ✅ Covered | C-CDA: Medication Allergies (4 fields — substance, reaction, severity, status) | Standard allergy list. |
+| Immunizations | ✅ Covered | C-CDA: Immunizations (9 fields — vaccine CVX/CPT-4, date, status, route, site, manufacturer, dose, lot, notes) | Well-documented section with the most fields of any C-CDA section. |
+| Vitals | ✅ Covered | C-CDA: Vitals (2 fields — observation LOINC, date/time) | Standard vitals via C-CDA. |
+| Lab results | ✅ Covered | C-CDA: Laboratory Tests (4 fields), Laboratory Information (5 fields), Laboratory Results (5 fields) — 14 fields total across 3 sections | Lab data is the most thoroughly documented domain with dedicated sections for test metadata, lab information, and results. |
+| Imaging / diagnostic reports | ⚠️ Partial | PDF Documents export includes "radiology reports"; C-CDA Procedures covers imaging procedures | Radiology reports exported as PDF documents. No structured imaging data or DICOM references. |
+| Procedures | ✅ Covered | C-CDA: Procedures (2 fields — procedure code CPT-4/SNOMED/HCPCS, date) | Standard procedure list. |
+| Clinical notes / documents | ⚠️ Partial | PDF Documents export: "signed progress notes, available lab results, radiology reports, and any other scanned or uploaded document" | Notes exported as PDF documents. No structured note content, no note types enumerated, no field-level detail. |
+| Care plans / goals | ✅ Covered | C-CDA: Treatment Plan (2 fields), Goals (3 fields), Health Concerns (3 fields) | Standard C-CDA care plan sections. |
+| Orders / referrals | ⚠️ Partial | C-CDA: Reason for Referral (1 field — SNOMED); CPOE orders for meds/labs/imaging flow through respective sections | Referral reasons are included, but detailed order records (order status, fulfillment, ordering provider workflows) are not documented. |
+| Insurance / coverage | ⚠️ Partial | PDF: "demographics and insurance details" — no fields documented | Product stores insurance/eligibility data extensively (CareCloud Central). PDF export nominally includes insurance but with zero field documentation and non-computable format. |
+| Claims / billing | ⚠️ Partial | PDF: "billing data (CPT, ICD, Modifier)" — 3 field names only | Product has full RCM capabilities (claims submission, tracking, scrubbing, denial management, appeals). The PDF export mentions only 3 data elements. This is a major documentation gap — it's impossible to tell if the actual PDF export includes claim amounts, dates of service, payer information, payment status, or just procedure/diagnosis codes. |
+| Payments | ❌ Not covered | No payment data mentioned in export documentation | Product processes insurance and patient payments, patient statements, bill pay. Not mentioned in export. Significant gap. |
+| Consents / directives | ⚠️ Partial | PDF: "Advance Directive" — no fields documented; Breeze portal collects consent forms with e-signatures | Advance directives nominally included as PDF but undocumented. Patient consent forms from Breeze portal not mentioned. |
+| Patient communications / portal messages | ⚠️ Partial | PDF: "Provider-to-Patient Messages" — no fields documented | Messages nominally included as PDF. Breeze portal has extensive secure messaging, appointment requests, prescription refill requests — unclear if all are captured. PDF format makes these non-computable. |
+| Specialty-specific data | ❌ Not covered | No specialty-specific content in the export documentation | Product supports multiple specialties with customizable templates and workflows. No specialty-specific assessments, forms, or data are documented in the export. |
 
 ## 6. Documentation Quality
 
-**Overall**: Poor. The documentation cannot support a developer attempting to import or process this export.
+The export documentation is a **12-page PDF that allocates 5 pages to C-CDA section mappings and gives all non-clinical exports a single page of boilerplate sentences**.
 
-**Strengths**:
-- The C-CDA data dictionary (pp6–10) provides XPATH entries and code system OIDs for 82 data elements across 24 sections. This is useful for someone familiar with C-CDA but adds minimal information beyond what the C-CDA 2.1 standard itself defines.
-- UI screenshots (pp4–5) show the actual export interface for both single and bulk export, confirming the workflow exists.
+**What's documented reasonably:**
+- The C-CDA data dictionary (pp. 6–10) maps CDA sections to XPATHs, template IDs, and code systems. This is adequate for someone already familiar with C-CDA — it tells you which standard sections are populated. However, it contains no vendor-specific information. A developer familiar with C-CDA 2.1 could process the XML output without this documentation.
 
-**Weaknesses**:
-- **No field-level documentation for non-clinical exports**: 6 PDF export categories get one boilerplate sentence each. The billing export — for a product with comprehensive RCM capabilities — is described only as "CPT, ICD, Modifier."
-- **No sample data files**: There are no example exports (XML or PDF) to examine.
-- **No machine-readable schemas**: No JSON schema, no XSD customization, no FHIR CapabilityStatement.
-- **FHIR export completely undocumented**: A single sentence claiming FHIR Bulk Data support with zero actionable detail.
-- **No data types or cardinality**: The C-CDA dictionary relies entirely on implicit C-CDA standard definitions.
-- **No relationships documented**: No explanation of how C-CDA files relate to PDF files, or how data is linked across export components.
-- **No descriptions**: Data element names only; no textual explanation of what each element contains or how it's populated in CareCloud Prime.
+**What's poorly documented or undocumented:**
+- All 6 PDF non-clinical exports receive identical boilerplate ("This file offers a comprehensive view of [X], structured for clarity and ease of access") with no field-level documentation
+- Billing data mentions 3 field names (CPT, ICD, Modifier) but no types, no structure, no example
+- FHIR export is a single sentence with no endpoint, resource types, or profiles
+- No sample data for any format
+- No machine-readable schema
+- No documentation of relationships between C-CDA, PDF, and FHIR exports
+- No documentation of how files are organized in the export package
 
-A developer receiving this export would be able to process the C-CDA XML using standard C-CDA parsers, but would have no way to programmatically handle the PDF exports and no way to understand what's in them without manually inspecting samples.
+**Could a developer build an import from this documentation alone?**
+For the C-CDA portion — yes, because C-CDA is a well-known standard and the documentation identifies which sections are present. For the PDF exports — no, because PDFs have no defined structure and no fields are documented. For the FHIR export — no, because nothing is documented. A developer would need to request actual sample exports to understand the non-clinical data.
 
 ## 7. Overall Assessment
 
@@ -158,36 +169,36 @@ A developer receiving this export would be able to process the C-CDA XML using s
 
 **Standard-based projection**
 
-The export is fundamentally a C-CDA clinical summary supplemented by PDF printouts of non-clinical data. The C-CDA portion covers the standard USCDI clinical summary domains (problems, medications, allergies, labs, vitals, immunizations, procedures, encounters, care plans). The non-clinical data (billing, insurance, appointments, messages, documents) is exported as unstructured PDF — not the vendor's native data model, not computable, and not documented at the field level.
+The export is primarily a C-CDA clinical summary supplemented by undocumented PDF exports for non-clinical data. The C-CDA portion covers the standard USCDI clinical data elements — this is the same clinical summary used for care transitions and patient access, repackaged as the (b)(10) EHI export. The PDF exports nominally extend coverage to billing, appointments, and messages, but the PDF format is non-computable and the lack of documentation makes it impossible to verify these exports are comprehensive.
 
-This is not a native data model export. There is no evidence that CareCloud exports its internal database tables, relational structure, or vendor-specific data fields. The C-CDA output is a standardized projection of clinical data, and the PDF output is a print-format rendering of non-clinical data.
+This is not a native database export. There is no evidence that the vendor exports their internal data model, custom fields, specialty-specific templates, or any data structure beyond what the C-CDA standard defines. The 85 documented data elements across 31 sections represent a tiny fraction of what a full-featured EHR/PM/RCM system like CareCloud Prime stores.
 
 ### Key Findings
 
-1. **The export is a C-CDA clinical summary, not a comprehensive EHI export.** The 24 C-CDA sections and 82 data elements are standard C-CDA 2.1 content — essentially a clinical summary document. This covers perhaps 30–40% of the data CareCloud Prime stores about patients. (Source: `certification_b10_ehi_export_documentation.pdf`, pp6–10; analysis script `parse_ccda_dictionary.py`)
+1. **C-CDA repackaging as (b)(10)**: The clinical data export is a standard C-CDA document — the same output used for (b)(1)/(b)(2) care transitions. The data dictionary on pp. 6–10 maps standard C-CDA sections, not vendor-specific data. This covers USCDI clinical data but not the breadth of data the product stores. (Source: `certification_b10_ehi_export_documentation.pdf`, pp. 6–10)
 
-2. **Non-clinical data is exported as unstructured PDFs with no documentation.** Billing, insurance, appointments, messages, and documents are exported as PDF files. PDF is a non-computable format; a third party cannot programmatically import or process this data. Each category receives a single boilerplate sentence of documentation. (Source: PDF p11)
+2. **Non-clinical data exported as non-computable PDFs**: Billing, appointments, messages, insurance, and documents are exported as PDFs — a print format with no programmatic structure. This makes the non-clinical portion of the export essentially unusable for data portability. (Source: `certification_b10_ehi_export_documentation.pdf`, p. 11)
 
-3. **Billing/RCM coverage is nominal.** CareCloud has comprehensive RCM capabilities (CollectiveIQ claim scrubbing, denial management, payment processing, contract management), but the export mentions only "CPT, ICD, Modifier" for billing — three code fields in a PDF. Charges, amounts, payments, adjustments, claim status, denial reasons, and payer information are not documented. (Source: PDF p11 vs. product-research.md billing capabilities)
+3. **6 out of 6 PDF export categories have zero field-level documentation**: Each receives an identical boilerplate sentence. Only billing data mentions 3 field names (CPT, ICD, Modifier). This makes it impossible to assess what these exports actually contain. (Source: `certification_b10_ehi_export_documentation.pdf`, p. 11)
 
-4. **FHIR export is claimed but entirely undocumented.** Page 12 contains a single sentence asserting FHIR Bulk Data EHI Export support. No resource types, endpoints, profiles, or examples are provided. This claim cannot be evaluated. (Source: PDF p12)
+4. **Major coverage gaps in billing/RCM despite product's deep capabilities**: The product offers full revenue cycle management (CollectiveIQ claim scrubbing, denial management, payment processing, contract management). The export documents billing as a PDF with 3 field names. Payments are not mentioned at all. (Source: product-research.md; `certification_b10_ehi_export_documentation.pdf`, p. 11)
 
-5. **No sample data or machine-readable artifacts.** The entire export documentation is a single 12-page PDF with no sample exports, no schemas, and no API documentation.
+5. **FHIR export is a placeholder**: One sentence mentions FHIR Bulk Data EHI Export with zero specifics — no resources, no endpoints, no profiles. (Source: `certification_b10_ehi_export_documentation.pdf`, p. 12)
 
 ### Summary Stats
 
 ```
 Classification:  Standard-based projection
-Export format:   C-CDA XML + PDF (FHIR claimed but undocumented)
-Model type:      Standard projection (C-CDA 2.1) + unstructured PDF printouts
-Entities:        24 C-CDA sections + 6 PDF categories = 30 total
-Fields:          82 C-CDA data elements + 3 named PDF fields = 85
-Descriptions:    0% (names and XPATHs only; no textual descriptions)
+Export format:   C-CDA XML + PDF + FHIR (mentioned only)
+Model type:      Standard projection (C-CDA 2.1)
+Entities:        31 sections (24 C-CDA + 6 PDF + 1 FHIR)
+Fields:          85 (82 C-CDA + 3 PDF billing field names)
+Descriptions:    0% (no fields have descriptive text)
 Sample data:     No
-Bulk export:     Yes (ZIP of C-CDA XMLs via Data Portability tab)
-Domains covered: 7 of 18 applicable domains adequately; 9 partial; 2 not covered
+Bulk export:     Yes (C-CDA bulk via ZIP; unclear for PDF exports)
+Domains covered: 8 of 17 applicable domains fully; 8 partial; 1 not covered
 ```
 
 ### Bottom Line
 
-CareCloud Prime's EHI export is a standard C-CDA clinical summary with PDF printouts bolted on for billing and administrative data. A patient would get a usable clinical summary but not a complete, computable copy of their data. The single biggest gap is that the product's extensive billing/RCM data — one of its core value propositions — is reduced to an undocumented PDF mentioning three code fields, and the entire non-clinical data layer is exported in a format that cannot be programmatically processed or imported.
+CareCloud Prime's (b)(10) export is a C-CDA clinical summary repackaged as an EHI export, supplemented by undocumented PDF exports for non-clinical data. A patient or provider would receive a standard clinical summary in C-CDA XML plus PDF printouts of billing, appointments, and messages — but the PDFs are non-computable, the billing data is barely documented (3 field names), and major domains like payments, specialty-specific data, and detailed prescription records appear absent. The single biggest gap is the use of PDF for non-clinical data, which makes the billing, insurance, appointment, and messaging portions of the export essentially unusable for data portability or import into another system.

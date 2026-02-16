@@ -1,142 +1,142 @@
 # EHI Export Analysis: Office Practicum
 
-**Product**: Office Practicum 21  
-**Analysis date**: 2026-02-15  
-**CHPL ID**: 15.04.04.3048.Offi.21.02.1.221121 (CHPL listing 11049)
+**Product**: Office Practicum (Version 21)
+**Analysis date**: 2026-02-16
+**CHPL ID**: 15.04.04.3048.Offi.21.02.1.221121
 
 ## 1. Product Context
 
-Office Practicum (OP) is a pediatric-specialty EHR and practice management platform developed by Connexin Software, Inc. It serves over 9,000 pediatricians across 48–49 states and is the dominant vendor in the pediatric EHR market. The product is an integrated platform covering:
+Office Practicum (OP) is a pediatric-specialty EHR, practice management, and revenue cycle management platform developed by Connexin Software, Inc. It serves over 9,000 pediatricians across 48–49 states and is described as the only EHR "built by pediatricians for pediatricians."
 
-- **Clinical EHR**: SOAP notes, pediatric-specific templates (175+ school/camp forms, sick visit templates, preventive exam templates aligned with AAP Periodicity Schedule), growth charts (including specialty curves for Down Syndrome, preemie), developmental assessments, VacLogic immunization forecasting engine, behavioral health monitoring (PHQ-9, GAD-7), allergy tracking, medication management with EPCS
-- **Practice management**: Scheduling with well-visit recalls, patient flow tracking, real-time insurance eligibility validation
-- **Billing & RCM**: Electronic superbill charges auto-generated during documentation, claims processing, payment posting, denial tracking, clearinghouse integration, revenue analysis
-- **Lab integration**: Electronic lab orders and results (reference and in-house labs)
-- **Patient portal**: Secure messaging, self-registration, online records access, prescription refill requests
-- **Document management**: Scanning, bi-directional eFax
-- **e-Prescribing**: Full EPCS support via Surescripts
-- **Telehealth**: Via RemedyConnect acquisition
-- **Interoperability**: C-CDA, FHIR API (g)(10), immunization registry reporting
+The product is an end-to-end platform combining:
 
-This is a feature-rich product storing extensive patient data across clinical, billing, scheduling, document, and engagement domains. A complete EHI export should cover all of these.
+- **Clinical / EHR**: SOAP note-based documentation, pediatric growth charts (including specialty curves for Down Syndrome and preemie patients), VacLogic immunization forecasting, 175+ school/camp form templates, developmental assessments, behavioral health monitoring (PHQ-9, GAD-7), allergy tracking, medication management, clinical decision support
+- **e-Prescribing**: EPCS support, Surescripts integration
+- **Lab integration**: Electronic ordering, result receiving, in-house device connectivity
+- **Practice management**: Scheduling, patient flow tracking, well-visit recalls, insurance eligibility verification
+- **Billing & RCM**: Electronic superbills, claims processing, payment posting, denial tracking, clearinghouse integration, revenue analysis
+- **Patient portal**: Secure messaging, self-registration, lab result access, prescription refill requests
+- **Telehealth**: Video-based virtual care (via RemedyConnect acquisition)
+- **Document management**: Scanning, bi-directional eFax, referral workflows
+
+This is a feature-rich product that stores extensive clinical, billing, scheduling, and patient engagement data. A complete EHI export would need to cover demographics (with pediatric family/guardian relationships), clinical documentation, growth data, immunizations, behavioral health screenings, medications, allergies, labs, billing/claims, scanned documents, referrals, school/camp forms, insurance data, and patient communications.
 
 ## 2. Artifacts Reviewed
 
-| Artifact | Description | Informativeness |
-|---|---|---|
-| `onc-certification-page.html` (397 KB) | Registered URL page; contains the entire EHI export documentation — 3 paragraphs (~129 words) under "Electronic Health Information Export" heading | **Primary source** — contains all available EHI export documentation |
-| `onc-certification-info-disclosures.html` (404 KB) | Mandatory disclosures page; contains identical EHI export text in an accordion section, plus links to RWT plan/results PDFs | Duplicate of above; links to RWT PDFs are informative |
-| `OP_RWT_Results_Report_2025.pdf` (943 KB, 10 pages) | 2025 Real World Testing results; page 7 reports 2,861 single-patient EHI exports and 20 bulk exports across 5 practices in Q4 2025 | Confirms feature is functional and used; **no technical detail** about export content |
-| `screenshot-registered-url-ehi-section.png` (351 KB) | Screenshot of the EHI export section on the registered URL page | Visual confirmation of the text content |
-| `screenshot-ehi-export-accordion-expanded.png` (311 KB) | Screenshot of the EHI export accordion expanded on the disclosures page | Visual confirmation of the text content |
-| `screenshot-registered-url-onccert.png` (416 KB) | Screenshot of the ONC certification section on the registered URL page | Context only |
-| `screenshot-disclosures-page-top.png` (770 KB) | Screenshot of the mandatory disclosures page top section | Context only |
+| # | Artifact | Type | Size | What It Tells Us | Value |
+|---|---|---|---|---|---|
+| 1 | `onc-certification-page.html` | HTML | 407 KB | Registered ONC certification URL. Contains the EHI export section: 3 paragraphs (~130 words) describing CSV export via built-in SQL query. No data dictionary, no downloadable files. | **Primary** |
+| 2 | `onc-certification-info-disclosures.html` | HTML | 414 KB | Mandatory disclosures page with accordion sections. EHI export section text is **identical** to artifact #1. | Duplicate |
+| 3 | `OP_RWT_Results_Report_2025.pdf` | PDF | 965 KB, 10 pages | 2025 Real World Testing Results. Page 7: EHI Export section reports 2,861 single-patient exports and 20 bulk exports across 5 practices in Q4 2025. No technical detail about export contents. | Supplementary |
+| 4–7 | Screenshots (4 files) | PNG | 318–789 KB each | Visual captures of the HTML pages confirming the content. | Corroborative |
 
-**Additionally verified via live web fetch** (2026-02-15): The registered URL page at `https://www.officepracticum.com/op/population-health/onc-certification` was re-fetched live and confirmed to contain the same EHI export text with no updates or additional links.
+**Most informative**: Artifact #1 (the certification page HTML) — it contains 100% of the available EHI export documentation. **Least informative**: The screenshots, which simply visually confirm what the HTML source already shows.
 
-**Additionally reviewed** (not in downloads/):
-- 2024 RWT Results (fetched live): Reports only 5 single-patient and 6 bulk EHI exports in Q4 2024. Notes "EHI Export functionality was newly introduced."
-- 2023 RWT Results (fetched live): Notes that a new button and tab were added in December 2023 to improve the EHI export workflow, separating it from CDA generation. No technical detail about export contents.
-- 2025 RWT Plan (fetched live): Describes metric as counting single-patient and population exports. Acknowledges "this functionality is outside the daily workflow" and clients may not use it.
+All claims from the prior agent report about artifact contents were verified and found accurate. The PDF does produce text via `pdftotext` (contrary to the prior report's note about "image-based PDF"), though the output is minimal; visual inspection of rendered pages confirmed the content.
 
 ## 3. Export Mechanics
 
 - **Format**: CSV (comma-separated values)
-- **Mechanism**: Built-in SQL query accessible via the product's "Database Viewer" tool. The single-patient export uses a pre-built stored query named "Single patient EHI export." The multi-patient export is described separately but with no detail on how it is initiated.
-- **Single-patient**: Yes — via the named SQL query "Single patient EHI export"
-- **Bulk/population**: Yes — described as exporting "all the data for a patient population"
-- **UI evolution**: Per the 2023 RWT, a new button and tab were added in December 2023 to streamline the export (previously, EHI export and CDA generation shared the same interface)
-- **Access constraints**: No fees mentioned for the export itself. The feature appears available to all OP customers.
-- **Developer assistance**: Not required for single-patient export (per documentation). Multi-patient export documentation is ambiguous on this point.
+- **Mechanism**: Built-in SQL query accessible through the application's "Database Viewer" feature
+  - Single-patient: A stored SQL query named "Single patient EHI export" — user runs it without developer assistance
+  - Multi-patient: Described as "export all the data for a patient population" in CSV format
+- **Single-patient**: Yes — explicitly documented
+- **Bulk/multi-patient**: Yes — explicitly documented
+- **Access constraints**: The documentation states the export can be performed "without developer assistance," implying it is a user-accessible feature within the application UI
+- **Fees**: Not mentioned in any artifact
+
+The reference to a "Database Viewer stored SQL query" suggests the export runs directly against the database, which *could* indicate comprehensive coverage — but without seeing the query definition or its output, this cannot be confirmed.
 
 ## 4. Export Content: What's In It
 
-### What the documentation tells us
+### What the documentation provides
 
-**Nothing.** The entire public EHI export documentation is 129 words (including the heading and a generic definition of CSV). Stripping the CSV definition paragraph (which is filler — it defines what a CSV file is), the substantive content is approximately 75 words across two paragraphs.
+The entire publicly available EHI export documentation consists of **three paragraphs totaling approximately 130 words** (verified by script; see `analysis/full-entity-inventory.json`). The complete text is:
 
-The documentation provides:
-- The name of the SQL query ("Single patient EHI export")
-- The output format (CSV)
-- Two export modes (single patient, multi-patient)
+> **Single Patient Export**
+> Office Practicum allows a user to export electronic health information (EHI) for a single patient at any time via a Database Viewer stored SQL query built into OP named "Single patient EHI export" without developer assistance. The exported files are in .csv file format explained below
+>
+> **Multi-Patient Export**
+> Office Practicum can export all the data for a patient population in .csv file format explained below:
+>
+> **CSV**
+> A comma-separated values (CSV) file is a delimited text file that uses a comma to separate values. Each line of the file is a data record. Each record consists of one or more fields, separated by commas. The use of the comma as a field separator is the source of the name for this file format.
 
-The documentation does **not** provide:
-- Any list of tables or entities exported
-- Any field names, types, or descriptions
-- Any data dictionary or schema
-- Any sample data or example output
-- Any information about how many CSV files are produced
-- Any information about relationships between files
-- Any information about what clinical domains are covered
-- Any value sets, code systems, or coded field documentation
-- Any instructions beyond the query name
+### What is absent
+
+- **No data dictionary**: Zero tables, entities, or fields are documented
+- **No schema**: No entity-relationship diagrams, no table definitions, no field specifications
+- **No sample data**: No example CSV files showing what the output looks like
+- **No field-level documentation**: No column names, data types, value sets, or descriptions
+- **No export instructions**: Beyond naming the SQL query, no step-by-step procedure
+- **No content inventory**: No list of what data domains, tables, or categories are included
+- **No downloadable files**: The entire documentation is inline HTML text
+- **No machine-readable artifacts**: No JSON schemas, no XML definitions, no CSV templates
+
+The third paragraph ("CSV") is entirely generic — it defines what a CSV file is. This contributes zero information about the export itself and reads as filler content.
 
 ### Vendor's own content organization
 
-There is no vendor-provided content organization. No tables, entities, fields, or categories are documented anywhere in the publicly available artifacts.
+There is no vendor-provided content organization. No entities, tables, or fields are documented at all.
 
-| Entity/Table | Fields | Described | Types | Category |
+| Entity/Table | Fields | Described | Types | Category (vendor's) |
 |---|---|---|---|---|
-| *(none documented)* | — | — | — | — |
+| *(none documented)* | 0 | 0 | N/A | N/A |
 
-### What we can infer (but not confirm)
-
-The mention of a "Database Viewer stored SQL query" suggests the export runs directly against OP's underlying database, which *could* mean the export extracts data from the native data model rather than projecting through a standard like C-CDA or FHIR. The 2023 RWT explicitly distinguishes EHI export from CDA generation ("a new button and tab were added" to separate "CDAs and full EHI"), confirming the EHI export is not simply a C-CDA repackaging.
-
-However, without a data dictionary, schema, sample output, or any documentation of the query's scope, it is impossible to determine what tables or fields the query actually returns.
+**Total entities documented: 0. Total fields documented: 0.**
 
 ## 5. Coverage Assessment
 
 ### 5a. What the vendor covers (bottom-up)
 
-The vendor provides **zero information** about what data domains the export covers. The documentation uses the phrase "export electronic health information (EHI) for a single patient" and "export all the data for a patient population," implying comprehensive coverage, but provides no evidence to support this claim.
+The vendor's documentation provides **no information** about what data is included in the export. The only substantive claims are:
 
-There is no data dictionary, no table listing, no field listing, and no categorization of export content. The vendor's own organization of their export content is nonexistent.
+1. The export produces CSV files
+2. It is driven by a "Database Viewer stored SQL query"
+3. Both single-patient and multi-patient modes exist
+
+The phrase "export electronic health information (EHI) for a single patient" and "export all the data for a patient population" implies comprehensive coverage, but without any table listing, field inventory, or sample data, there is zero evidence to evaluate this claim.
+
+The Real World Testing report (page 7 of `OP_RWT_Results_Report_2025.pdf`) confirms the feature is functional — 2,861 single-patient exports and 20 bulk exports were performed across 5 practices in Q4 2025 — but adds no information about what data these exports contain.
 
 ### 5b. Standardized domain coverage (top-down)
 
+Because no data dictionary, schema, or sample data exists, **no domain can be confirmed as covered**. Every domain is assessed based solely on the product's known capabilities (Section 1) and the absence of any evidence in the export documentation.
+
 | Domain | Coverage | Export Evidence | Gap Analysis |
 |---|---|---|---|
-| Demographics | ❓ Unknown | No documentation | Product stores extensive demographics including family/guardian relationships; cannot assess |
-| Encounters / visits | ❓ Unknown | No documentation | Product stores encounter data (SOAP notes, visit templates); cannot assess |
-| Problems / conditions / diagnoses | ❓ Unknown | No documentation | Product stores diagnoses; cannot assess |
-| Medications / prescriptions | ❓ Unknown | No documentation | Product stores medications and EPCS data; cannot assess |
-| Allergies | ❓ Unknown | No documentation | Product stores allergy data; cannot assess |
-| Immunizations | ❓ Unknown | No documentation | Product stores extensive immunization data (VacLogic); cannot assess |
-| Vitals | ❓ Unknown | No documentation | Product stores vitals and growth chart data; cannot assess |
-| Lab results | ❓ Unknown | No documentation | Product stores lab orders and results; cannot assess |
-| Imaging / diagnostic reports | ❓ Unknown | No documentation | Limited imaging capability in ambulatory pediatric context; cannot assess |
-| Procedures | ❓ Unknown | No documentation | Product stores procedure data; cannot assess |
-| Clinical notes / documents | ❓ Unknown | No documentation | Product stores extensive clinical notes (SOAP, templates, forms); cannot assess |
-| Care plans / goals | ❓ Unknown | No documentation | Product may store care plans; cannot assess |
-| Orders / referrals | ❓ Unknown | No documentation | Product stores referral data; cannot assess |
-| Insurance / coverage | ❓ Unknown | No documentation | Product stores insurance and eligibility data; cannot assess |
-| Claims / billing | ❓ Unknown | No documentation | Product has full billing/RCM module (superbills, claims, payments, denials); cannot assess |
-| Payments | ❓ Unknown | No documentation | Product stores payment data; cannot assess |
-| Patient communications / portal messages | ❓ Unknown | No documentation | Product has patient portal with secure messaging; cannot assess |
-| Specialty-specific (pediatric) | ❓ Unknown | No documentation | Product stores pediatric-specific data (growth charts, developmental assessments, school/camp forms, behavioral health screenings); cannot assess |
+| Demographics | ❓ Unknown | No documentation | Product stores demographics incl. family/guardian links; cannot confirm coverage |
+| Encounters / visits | ❓ Unknown | No documentation | Product stores encounter data; cannot confirm coverage |
+| Problems / conditions / diagnoses | ❓ Unknown | No documentation | Product stores problem lists; cannot confirm coverage |
+| Medications / prescriptions | ❓ Unknown | No documentation | Product stores medications and EPCS data; cannot confirm coverage |
+| Allergies | ❓ Unknown | No documentation | Product stores allergy data; cannot confirm coverage |
+| Immunizations | ❓ Unknown | No documentation | Product stores immunization records (VacLogic); cannot confirm coverage |
+| Vitals | ❓ Unknown | No documentation | Product stores vitals and growth charts; cannot confirm coverage |
+| Lab results | ❓ Unknown | No documentation | Product stores lab orders and results; cannot confirm coverage |
+| Imaging / diagnostic reports | ❓ Unknown | No documentation | Product likely stores some diagnostic data; cannot confirm coverage |
+| Procedures | ❓ Unknown | No documentation | Product stores procedure data; cannot confirm coverage |
+| Clinical notes / documents | ❓ Unknown | No documentation | Product stores SOAP notes, visit notes, templates; cannot confirm coverage |
+| Care plans / goals | ❓ Unknown | No documentation | Product may store care plans; cannot confirm coverage |
+| Orders / referrals | ❓ Unknown | No documentation | Product stores referral workflows; cannot confirm coverage |
+| Insurance / coverage | ❓ Unknown | No documentation | Product stores insurance and eligibility data; cannot confirm coverage |
+| Claims / billing | ❓ Unknown | No documentation | Product has full billing/RCM capability; cannot confirm coverage |
+| Payments | ❓ Unknown | No documentation | Product stores payment records; cannot confirm coverage |
+| Patient communications / portal messages | ❓ Unknown | No documentation | Product has patient portal with secure messaging; cannot confirm coverage |
+| Specialty-specific (pediatric) | ❓ Unknown | No documentation | Product stores growth charts, developmental assessments, school/camp forms, behavioral health screenings; cannot confirm coverage |
 
-**Every domain is "Unknown."** The documentation is so thin that no coverage assessment is possible. This is not a case where we can identify specific gaps — we cannot confirm coverage of *any* domain, despite the product clearly storing data across all of them.
+**It is impossible to assess coverage because the documentation does not describe what data is exported.** This is not a case of partial documentation — it is a near-total absence of documentation. The export *may* be comprehensive (the "Database Viewer stored SQL query" mechanism suggests it could pull from the full database), but there is no public evidence to support or refute this.
 
 ## 6. Documentation Quality
 
-The EHI export documentation is **critically deficient**:
+The export documentation is **critically deficient**:
 
-- **Data dictionary**: None
-- **Schema**: None
-- **Field documentation**: None (zero fields documented)
-- **Table/entity documentation**: None (zero entities documented)
-- **Sample data**: None
-- **Machine-readable artifacts**: None
-- **Value sets / code systems**: None
-- **Relationships / foreign keys**: None
-- **Export instructions**: Minimal — only the name of the SQL query
+- **Completeness**: The documentation describes the existence of the export and its output format (CSV). It provides no information about what data is exported — zero tables, zero fields, zero data types, zero value sets, zero relationships.
+- **Developer usability**: A developer receiving CSV files from this export would have no documentation to work from. They would need to reverse-engineer the meaning of every column header. There are no schemas, no sample data, no field descriptions, no import guides.
+- **Machine-readable artifacts**: None. No JSON schemas, XML definitions, CSV templates, or any other structured artifact.
+- **Accessibility**: The documentation is inline HTML on two web pages (which contain identical text). No downloadable files exist.
+- **Generic filler**: One-third of the documentation (the "CSV" paragraph) is a generic definition of the CSV format that provides zero information about the actual export. This reads as padding to fill the documentation section.
 
-A developer receiving data from this export would have CSV file(s) with column headers and no documentation explaining what any column means, what values are expected, how files relate to each other, or what data domains are covered. Reverse-engineering would be the only option.
-
-The third paragraph of the documentation — a generic definition of what a CSV file is — is notable as filler. It adds zero information about the export and reads as padding to make the section appear longer.
-
-The 2023 and 2024 RWT results provide slightly more context (the feature was enhanced with a dedicated UI button in December 2023, usage grew from 11 exports in 2024 to 2,881 in 2025), but no RWT document contains any information about export content.
+A developer tasked with integrating data from this export would be operating entirely blind. The documentation is insufficient to build an import, to validate data completeness, or even to understand what tables or fields to expect.
 
 ## 7. Overall Assessment
 
@@ -144,36 +144,34 @@ The 2023 and 2024 RWT results provide slightly more context (the feature was enh
 
 **Minimal/stub**
 
-The export documentation is too thin to assess what the export contains. Three paragraphs totaling ~129 words (of which ~50 are a generic CSV definition) constitute the entire public documentation. There is no data dictionary, no schema, no sample data, no field-level documentation, and no information about which data domains are covered.
-
-The export mechanism (a built-in SQL query against the database) and the 2023 RWT's distinction between "CDAs and full EHI" suggest this *may* be a genuine native database export rather than a C-CDA repackaging. However, without any documentation of what the query actually returns, this cannot be confirmed. The classification is "minimal/stub" because the documentation provides insufficient evidence to evaluate the export's completeness.
+The documentation is too thin to assess what the export contains. The three paragraphs (~130 words) describe only that an export exists, it produces CSV files, and there are single-patient and multi-patient modes. No data dictionary, no schema, no sample data, no field definitions, and no content inventory are provided. While the export mechanism (a "Database Viewer stored SQL query") suggests it *may* provide database-level access, the complete absence of documentation makes it impossible to verify this or assess coverage.
 
 ### Key Findings
 
-1. **Documentation is essentially nonexistent.** The entire EHI export documentation is ~75 substantive words (excluding the generic CSV definition). Zero tables, zero fields, zero data domains are documented. This is among the thinnest EHI export documentation possible while technically existing. (Source: `onc-certification-page.html`, verified via live web fetch 2026-02-15)
+1. **Near-total documentation absence**: The entire publicly available EHI export documentation is ~130 words across 3 paragraphs. One-third of that text is a generic definition of CSV files. Zero tables, zero fields, and zero data types are documented. (Source: `onc-certification-page.html`, verified by `analysis/extract_ehi_documentation.py`)
 
-2. **The export is not a C-CDA or FHIR repackaging.** The 2023 RWT results confirm that the EHI export was separated from CDA generation with a dedicated button/tab in December 2023. The mechanism — a "Database Viewer stored SQL query" — suggests native database-level extraction. This is a positive signal, but without documentation of what the query returns, it cannot be confirmed. (Source: 2023 RWT Results PDF, fetched live)
+2. **Export mechanism suggests potential**: The reference to a "Database Viewer stored SQL query built into OP" implies the export runs against the database directly, which *could* mean comprehensive data coverage. However, without the query definition or output schema being public, this remains unverifiable. (Source: `onc-certification-page.html`)
 
-3. **The feature is actively used in production.** RWT results show 2,861 single-patient and 20 bulk exports in Q4 2025, up dramatically from 5 single-patient and 6 bulk exports in Q4 2024. This confirms the feature works and is being adopted. (Source: `OP_RWT_Results_Report_2025.pdf`, page 7)
+3. **Feature is actively used**: The 2025 RWT report documents 2,861 single-patient exports and 20 bulk exports across 5 practices in Q4 2025, confirming the feature exists and functions in production. (Source: `OP_RWT_Results_Report_2025.pdf`, page 7)
 
-4. **Coverage cannot be assessed at all.** For a product with extensive clinical, billing, scheduling, document management, and pediatric specialty capabilities, the documentation provides zero evidence of what is or isn't included in the export. No domain can be confirmed as covered.
+4. **No downloadable technical artifacts**: Unlike vendors who provide data dictionaries, schema documents, or sample files, Office Practicum provides zero downloadable artifacts related to the EHI export. All documentation is inline HTML text.
 
-5. **No downloadable artifacts exist.** All documentation is inline HTML text — no PDFs, schemas, sample files, data dictionaries, or any other downloadable documentation beyond RWT reports (which contain no export content detail).
+5. **Product is data-rich but export is undocumented**: Office Practicum stores extensive pediatric-specific data across clinical, billing, scheduling, and patient engagement domains. The gap between the product's data richness and the export documentation's emptiness is stark.
 
 ### Summary Stats
 
 ```
 Classification:  Minimal/stub
 Export format:   CSV
-Model type:      Likely native database (inferred from "Database Viewer stored SQL query"; unconfirmed)
-Entities:        N/A (no data dictionary)
-Fields:          N/A (no data dictionary)
-Descriptions:    N/A
+Model type:      Unknown (likely native database via SQL query, but undocumented)
+Entities:        0 documented
+Fields:          0 documented
+Descriptions:    N/A (no fields documented)
 Sample data:     No
-Bulk export:     Yes (per documentation and RWT results: 20 bulk exports in Q4 2025)
-Domains covered: 0 of 17 confirmed (all unknown due to absent documentation)
+Bulk export:     Yes
+Domains covered: 0 of 18 confirmable (documentation insufficient to assess any domain)
 ```
 
 ### Bottom Line
 
-Office Practicum's EHI export appears to be a functional feature — actively used in production with thousands of exports — but its public documentation is among the worst available. A patient, provider, or developer receiving this export would get CSV files with no explanation of what they contain, how they're structured, or what data domains they cover. The single biggest gap is the complete absence of a data dictionary: without one, the export is a black box.
+Office Practicum's EHI export documentation is among the most minimal possible while technically existing. The ~130 words of public documentation tell a reader only that the export exists and produces CSV files — nothing about what data is included, how it's structured, or how to interpret it. While the "Database Viewer stored SQL query" mechanism hints that the underlying export *may* be comprehensive, the complete absence of a data dictionary, schema, sample data, or content inventory means a patient, provider, or developer cannot determine what they would actually receive. The single biggest gap is the total lack of transparency about export contents.
