@@ -1,0 +1,2677 @@
+{
+  "product": "Enablemypractice",
+  "version": "EHR 5.0",
+  "developer": "EnableDoc LLC",
+  "source_document": "Enabledoc-Exporting-Data-Guide-2023-updated-11202023.pdf",
+  "source_url": "https://www.enabledoc.com/wp-content/uploads/2023/11/Enabledoc-Exporting-Data-Guide-2023-updated-11202023.pdf",
+  "entities": [
+    {
+      "entity": "Organization",
+      "field_count": 16,
+      "fields": [
+        {
+          "name": "source",
+          "description": "A value representing the source of the data captured within this record",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "identifier",
+          "description": "A unique organization identifier",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "description": "Name used for the organization",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "address-line-1",
+          "description": "The house number, apartment number, street name, and similar address information.",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "address-line-2",
+          "description": "The house number, apartment number, street name, and similar address",
+          "requirement": "preferred",
+          "type": "unknown"
+        },
+        {
+          "name": "information. Optional string address\u27a2 city",
+          "description": "A city specified in an address",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "addresscountry",
+          "description": "A country specified in an address",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "address postal code",
+          "description": "A postal code specified in an address",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "address-state",
+          "description": "A state specified in an address",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "type",
+          "description": "Kind of organization",
+          "requirement": "preferred",
+          "type": "code"
+        },
+        {
+          "name": "type-system",
+          "description": "The code system for which the type code belongs",
+          "requirement": "preferred",
+          "type": "code"
+        },
+        {
+          "name": "alias",
+          "description": "A list of alternate names that the organization is known as, or was known as in the past",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "phone",
+          "description": "A phone number for the organization",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "email",
+          "description": "An email address for the organization",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "part-of",
+          "description": "The organization of which this organization",
+          "requirement": "preferred",
+          "type": "unknown"
+        },
+        {
+          "name": "forms a part Preferred See section",
+          "description": "Organization",
+          "requirement": "preferred",
+          "type": "unknown"
+        }
+      ]
+    },
+    {
+      "entity": "Encounter Data",
+      "field_count": 9,
+      "fields": [
+        {
+          "name": "source",
+          "description": "A value representing the source of the data captured within this record -",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "identifier",
+          "description": "A unique encounter identifier",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "status",
+          "description": "The current state of the encounter",
+          "requirement": "required",
+          "type": "code",
+          "value_set": "Encounter Status"
+        },
+        {
+          "name": "subject",
+          "description": "The patient present at the encounter",
+          "requirement": "required",
+          "type": "reference(Patient)"
+        },
+        {
+          "name": "start-date",
+          "description": "The start date or date-time of the encounter",
+          "requirement": "required",
+          "type": "dateTime"
+        },
+        {
+          "name": "class",
+          "description": "The classification of the patient encounter (e.g. inpatient, emergency, etc.)",
+          "requirement": "required",
+          "type": "code",
+          "value_set": "V3 Value SetActEncounterCode"
+        },
+        {
+          "name": "participant",
+          "description": "An identifier for an individual involved in the encounter other than the patient",
+          "requirement": "required",
+          "type": "reference(Practitioner)"
+        },
+        {
+          "name": "end-date",
+          "description": "The end date or date-time of the encounter",
+          "requirement": "preferred",
+          "type": "dateTime"
+        },
+        {
+          "name": "type",
+          "description": "The specific type of encounter",
+          "requirement": "preferred",
+          "type": "code"
+        }
+      ]
+    },
+    {
+      "entity": "Patient",
+      "field_count": 37,
+      "fields": [
+        {
+          "name": "source",
+          "description": "A value representing the source of the data captured within this record.",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "identifier",
+          "description": "A unique patient identifier",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "organization",
+          "description": "The organization that is the custodian of the patient record See Section: Organization",
+          "requirement": "preferred",
+          "type": "reference(Organization)"
+        },
+        {
+          "name": "gender",
+          "description": "The administrative gender of the patient",
+          "requirement": "required",
+          "type": "code",
+          "value_set": "AdministrativeGender"
+        },
+        {
+          "name": "birthdate",
+          "description": "The patient\u2019s date of birth",
+          "requirement": "required",
+          "type": "date"
+        },
+        {
+          "name": "addresspostalcode",
+          "description": "A postalCode specified in an address",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "address-state",
+          "description": "A state specified in an address",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "race",
+          "description": "The race of the patient",
+          "requirement": "required",
+          "type": "unknown",
+          "value_set": "OMB Race Categories"
+        },
+        {
+          "name": "race-text",
+          "description": "A free-text representation of the patient\u2019s race",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "ethnicity",
+          "description": "The ethnicity of the patient",
+          "requirement": "required",
+          "type": "unknown",
+          "value_set": "OMB Ethnicity Categories"
+        },
+        {
+          "name": "ethnicity-text",
+          "description": "A free-text representation of the patient\u2019s ethnicity",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "first",
+          "description": "The first name of the patient",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "middle",
+          "description": "The middle name of the patient",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "family",
+          "description": "The family name of the patient",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "email",
+          "description": "An email address for the patient",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "phone",
+          "description": "A phone number for the patient",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "deceased",
+          "description": "This patient has been marked as deceased, or has a death date entered",
+          "requirement": "preferred",
+          "type": "boolean"
+        },
+        {
+          "name": "death-date",
+          "description": "The date of death of the patient",
+          "requirement": "preferred",
+          "type": "dateTime"
+        },
+        {
+          "name": "address-line-1",
+          "description": "The house number, apartment number, street name, and similar address information.",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "address-line-2",
+          "description": "The house number, apartment number, street name, and similar address information.",
+          "requirement": "optional",
+          "type": "string"
+        },
+        {
+          "name": "marital-status",
+          "description": "The marital (civil) status of the patient",
+          "requirement": "preferred",
+          "type": "code"
+        },
+        {
+          "name": "marital-statustext",
+          "description": "A free-text representation of the patient\u2019s marital status",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "mrn",
+          "description": "The medical record number used for the patient at this organization",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "language",
+          "description": "A language which may be used to communicate with the patient about his or her",
+          "requirement": "preferred",
+          "type": "unknown"
+        },
+        {
+          "name": "health Preferred See values",
+          "description": "Common Languages",
+          "requirement": "preferred",
+          "type": "unknown"
+        },
+        {
+          "name": "languagepreferred",
+          "description": "Indicates whether or not the patient prefers this language",
+          "requirement": "preferred",
+          "type": "boolean",
+          "value_set": "common languages"
+        },
+        {
+          "name": "languageproficiencylevel",
+          "description": "The level of proficiency for this mode of communication and language",
+          "requirement": "preferred",
+          "type": "code",
+          "value_set": "v3 Code System LanguageAbilityProficiency"
+        },
+        {
+          "name": "languageproficiencytype",
+          "description": "The mode of communication (spoken, written, etc.) for the proficiency",
+          "requirement": "preferred",
+          "type": "code",
+          "value_set": "v3 Code System LanguageAbilityMode"
+        },
+        {
+          "name": "language-text",
+          "description": "A free-text representation of the communication language",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "birth-sex",
+          "description": "The sex assigned to the patient at birth",
+          "requirement": "preferred",
+          "type": "unknown",
+          "value_set": "Birth Sex"
+        },
+        {
+          "name": "primarycaregiver",
+          "description": "The relationship of the patient\u2019s primary caregiver to the patient",
+          "requirement": "preferred",
+          "type": "unknown"
+        },
+        {
+          "name": "text",
+          "description": "A free-text representation of the patient\u2019s relationship to their primary caregiver",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "gender-identity",
+          "description": "The gender with which the patient identifies",
+          "requirement": "preferred",
+          "type": "unknown",
+          "value_set": "genderidentity"
+        },
+        {
+          "name": "text",
+          "description": "A free-text representation of the patient\u2019s gender identity",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "religiousaffiliation",
+          "description": "Coded religious affiliation of the patient",
+          "requirement": "preferred",
+          "type": "unknown"
+        },
+        {
+          "name": "religiousaffiliation-text",
+          "description": "A free-text representation of the religious affiliation of the patient",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "note",
+          "description": "Any other notes and comments made about the patient",
+          "requirement": "preferred",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "entity": "Location",
+      "field_count": 15,
+      "fields": [
+        {
+          "name": "source",
+          "description": "A value representing the source of the data captured within this record",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "identifier",
+          "description": "A unique location identifier",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "description": "Name of the location as used by humans",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "alias",
+          "description": "A list of alternate names that the location is known as, or was known as, in the past",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "description",
+          "description": "Additional details about the location that could be displayed as further information to identify the location beyond its name",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "type",
+          "description": "Indicates the type of function performed at the location",
+          "requirement": "preferred",
+          "type": "code"
+        },
+        {
+          "name": "address-text",
+          "description": "A free-text representation of an address of the location",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "address-line-1",
+          "description": "The house number, apartment number, street name, and similar address information.",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "address-line-2",
+          "description": "The house number, apartment number, street name, and similar address information.",
+          "requirement": "optional",
+          "type": "string"
+        },
+        {
+          "name": "address-city",
+          "description": "A city specified in an address",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "address-country",
+          "description": "A country specified in an address",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "addresspostalcode",
+          "description": "A postal code specified in an address",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "address-state",
+          "description": "A state specified in an address",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "organization",
+          "description": "The organization responsible for provisioning and upkeep See section: Organization",
+          "requirement": "preferred",
+          "type": "reference(Organization)"
+        },
+        {
+          "name": "part-of",
+          "description": "Another location this one is physically a part of See this section: Location",
+          "requirement": "preferred",
+          "type": "reference(Location)"
+        }
+      ]
+    },
+    {
+      "entity": "Practitioner",
+      "field_count": 14,
+      "fields": [
+        {
+          "name": "source",
+          "description": "A value representing the source of the data captured within this record",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "identifier",
+          "description": "A unique practitioner identifier",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "active",
+          "description": "Whether the practitioner record is active",
+          "requirement": "required",
+          "type": "boolean"
+        },
+        {
+          "name": "npi",
+          "description": "The National Provider Identifier of the practitioner",
+          "requirement": "preferred",
+          "type": "integer"
+        },
+        {
+          "name": "first",
+          "description": "The first given name of the practitioner",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "family",
+          "description": "The family name of the practitioner",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "email",
+          "description": "An email address for the practitioner",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "phone",
+          "description": "A phone number for the practitioner",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "discipline-1",
+          "description": "The professional discipline of the practitioner",
+          "requirement": "preferred",
+          "type": "code"
+        },
+        {
+          "name": "discipline-2",
+          "description": "The professional discipline of the practitioner",
+          "requirement": "optional",
+          "type": "code"
+        },
+        {
+          "name": "discipline-3",
+          "description": "The professional discipline of the practitioner",
+          "requirement": "optional",
+          "type": "code"
+        },
+        {
+          "name": "discipline-4",
+          "description": "The professional discipline of the practitioner",
+          "requirement": "optional",
+          "type": "code"
+        },
+        {
+          "name": "discipline-5",
+          "description": "The professional discipline of the practitioner",
+          "requirement": "optional",
+          "type": "code"
+        },
+        {
+          "name": "qualificationcode",
+          "description": "Coded representation of the practitioner\u2019s qualification.",
+          "requirement": "preferred",
+          "type": "unknown",
+          "value_set": "hl7VSdegreeLicenseCertificate"
+        }
+      ]
+    },
+    {
+      "entity": "Procedure",
+      "field_count": 10,
+      "fields": [
+        {
+          "name": "source",
+          "description": "A value representing the source of the data captured within this record",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "code",
+          "description": "A code that identifies the specific procedure that was performed",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "identifier",
+          "description": "A unique identifier for the procedure record",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "encounter",
+          "description": "An identifier for the encounter during which this procedure was performed or to",
+          "requirement": "preferred",
+          "type": "unknown"
+        },
+        {
+          "name": "which this record is tightly associated Required See section",
+          "description": "Encounter",
+          "requirement": "preferred",
+          "type": "unknown"
+        },
+        {
+          "name": "date",
+          "description": "The date or date-time when the procedure was performed",
+          "requirement": "required",
+          "type": "dateTime"
+        },
+        {
+          "name": "status",
+          "description": "A code specifying the state of the procedure",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "subject",
+          "description": "An identifier for the patient on which the procedure was performed",
+          "requirement": "required",
+          "type": "unknown"
+        },
+        {
+          "name": "code-system",
+          "description": "The code system to which the procedure code belongs",
+          "requirement": "preferred",
+          "type": "code"
+        },
+        {
+          "name": "based-on",
+          "description": "An identifier for the service request that initiated this procedure",
+          "requirement": "preferred",
+          "type": "reference(ServiceRequest)"
+        }
+      ]
+    },
+    {
+      "entity": "Service Request",
+      "field_count": 10,
+      "fields": [
+        {
+          "name": "source",
+          "description": "A value representing the source of the data captured within this record",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "identifier",
+          "description": "A unique identifier for the service request record",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "record is tightly associated Required See Section",
+          "description": "Encounter",
+          "requirement": "preferred",
+          "type": "unknown"
+        },
+        {
+          "name": "authored",
+          "description": "The date or date-time when the service request was signed",
+          "requirement": "required",
+          "type": "dateTime"
+        },
+        {
+          "name": "intent",
+          "description": "A code specifying the kind of service request (proposal, plan, order, etc.)",
+          "requirement": "required",
+          "type": "code",
+          "value_set": "RequestIntent"
+        },
+        {
+          "name": "requester",
+          "description": "The individual that initiated the request and has responsibility for its activation",
+          "requirement": "required",
+          "type": "reference(Practitioner)"
+        },
+        {
+          "name": "status",
+          "description": "A code specifying the current state of the order or referral",
+          "requirement": "required",
+          "type": "code",
+          "value_set": "RequestStatus"
+        },
+        {
+          "name": "subject",
+          "description": "The patient on whom the service is to be performed",
+          "requirement": "required",
+          "type": "reference(Patient)"
+        },
+        {
+          "name": "code",
+          "description": "A code that identifies a particular service that has been requested",
+          "requirement": "preferred",
+          "type": "code"
+        },
+        {
+          "name": "code-system",
+          "description": "The code system to which the service request code belongs",
+          "requirement": "preferred",
+          "type": "code"
+        }
+      ]
+    },
+    {
+      "entity": "Family Member History",
+      "field_count": 17,
+      "fields": [
+        {
+          "name": "source",
+          "description": "A value representing the source of the data captured within this record",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "identifier",
+          "description": "A unique identifier for this record",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "status",
+          "description": "A code specifying the status of the record of the family history of a specific family",
+          "requirement": "preferred",
+          "type": "code"
+        },
+        {
+          "name": "member Required code See Values",
+          "description": "FamilyHistoryStatus",
+          "requirement": "preferred",
+          "type": "unknown"
+        },
+        {
+          "name": "patient",
+          "description": "The patient for whom this family member history is recorded",
+          "requirement": "required",
+          "type": "reference(Patient)"
+        },
+        {
+          "name": "relationship",
+          "description": "The type of relationship this person has to the patient (father, mother, brother, etc.)",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "date",
+          "description": "The date or date-time when the history was recorded or last updated",
+          "requirement": "preferred",
+          "type": "dateTime"
+        },
+        {
+          "name": "birth-sex",
+          "description": "The birth sex of the family member",
+          "requirement": "preferred",
+          "type": "unknown",
+          "value_set": "AdministrativeGender"
+        },
+        {
+          "name": "born",
+          "description": "An exact or approximate date of birth of the relative",
+          "requirement": "preferred",
+          "type": "date"
+        },
+        {
+          "name": "age",
+          "description": "An exact or approximate age of the relative (in years)",
+          "requirement": "preferred",
+          "type": "integer"
+        },
+        {
+          "name": "estimated-age",
+          "description": "If true, indicates that the age value specified is an estimated value",
+          "requirement": "preferred",
+          "type": "boolean"
+        },
+        {
+          "name": "deceased",
+          "description": "The relative has been marked as deceased, or has a death date entered",
+          "requirement": "preferred",
+          "type": "boolean"
+        },
+        {
+          "name": "condition",
+          "description": "A code that identifies the condition that the relative",
+          "requirement": "preferred",
+          "type": "code"
+        },
+        {
+          "name": "conditionsystem",
+          "description": "The code system to which the condition code belongs",
+          "requirement": "preferred",
+          "type": "code"
+        },
+        {
+          "name": "conditionoutcome",
+          "description": "Indicates what happened following the condition",
+          "requirement": "preferred",
+          "type": "code"
+        },
+        {
+          "name": "conditiononset",
+          "description": "When the condition first manifested",
+          "requirement": "preferred",
+          "type": "dateTime"
+        },
+        {
+          "name": "condition-note",
+          "description": "Additional information about the condition",
+          "requirement": "preferred",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "entity": "Immunization",
+      "field_count": 13,
+      "fields": [
+        {
+          "name": "source",
+          "description": "A value representing the source of the data captured within this record",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "identifier",
+          "description": "A unique identifier for the immunization record",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "date",
+          "description": "The date or date-time that the vaccine was/was to be administered",
+          "requirement": "preferred",
+          "type": "dateTime"
+        },
+        {
+          "name": "patient",
+          "description": "The patient who received the immunization",
+          "requirement": "required",
+          "type": "reference(Patient)"
+        },
+        {
+          "name": "status",
+          "description": "The current state of the immunization event",
+          "requirement": "required",
+          "type": "unknown",
+          "value_set": "Immunization Status Codes"
+        },
+        {
+          "name": "vaccine-code",
+          "description": "A code representing the vaccine that was/was to be administered",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "values",
+          "description": "Vaccine Administered Value Set",
+          "requirement": "preferred",
+          "type": "unknown"
+        },
+        {
+          "name": "location",
+          "description": "The service delivery location or facility where the vaccine administration occurred",
+          "requirement": "preferred",
+          "type": "unknown"
+        },
+        {
+          "name": "Preferred See section",
+          "description": "Location",
+          "requirement": "preferred",
+          "type": "unknown"
+        },
+        {
+          "name": "performer",
+          "description": "The individual or organization who was involved in the immunization event",
+          "requirement": "preferred",
+          "type": "unknown"
+        },
+        {
+          "name": "see section",
+          "description": "Practitioner",
+          "requirement": "preferred",
+          "type": "unknown"
+        },
+        {
+          "name": "reaction",
+          "description": "The observation of a reaction that followed the immunization event",
+          "requirement": "preferred",
+          "type": "unknown"
+        },
+        {
+          "name": "section",
+          "description": "Condition",
+          "requirement": "preferred",
+          "type": "unknown"
+        }
+      ]
+    },
+    {
+      "entity": "AllergyIntolerance",
+      "field_count": 10,
+      "fields": [
+        {
+          "name": "source",
+          "description": "A value representing the source of the data captured within this record",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "category",
+          "description": "The category of the identified substance",
+          "requirement": "required",
+          "type": "unknown",
+          "value_set": "AllergyIntoleranceCategory"
+        },
+        {
+          "name": "identifier",
+          "description": "A unique identifier for the allergy/intolerance record",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "patient",
+          "description": "The patient who has the allergy/intolerance",
+          "requirement": "required",
+          "type": "reference(Patient)"
+        },
+        {
+          "name": "reactionmanifestation",
+          "description": "Clinical symptoms and signs associated with the event",
+          "requirement": "required",
+          "type": "unknown"
+        },
+        {
+          "name": "values",
+          "description": "SNOMED CT Clinical Findings",
+          "requirement": "preferred",
+          "type": "unknown"
+        },
+        {
+          "name": "asserter",
+          "description": "The individual who is the source of the information about the recorded",
+          "requirement": "preferred",
+          "type": "unknown"
+        },
+        {
+          "name": "allergy/intolerance Preferred see section",
+          "description": "Practitioner",
+          "requirement": "preferred",
+          "type": "unknown"
+        },
+        {
+          "name": "clinical-status",
+          "description": "The clinical status of the allergy/intolerance",
+          "requirement": "preferred",
+          "type": "unknown",
+          "value_set": "AllergyIntolerance Clinical Status Codes"
+        },
+        {
+          "name": "code",
+          "description": "A code that identifies the allergy/intolerance",
+          "requirement": "preferred",
+          "type": "code"
+        }
+      ]
+    },
+    {
+      "entity": "Care Plan",
+      "field_count": 10,
+      "fields": [
+        {
+          "name": "source",
+          "description": "A value representing the source of the data captured within this record",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "identifier",
+          "description": "A unique identifier for the care plan record",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "status",
+          "description": "Status of the care plan: active, on hold, revoked, completed, etc.",
+          "requirement": "required",
+          "type": "unknown"
+        },
+        {
+          "name": "intent",
+          "description": "Intent: proposal, plan, order, or option",
+          "requirement": "required",
+          "type": "unknown",
+          "value_set": "Care Plan Intent"
+        },
+        {
+          "name": "subject",
+          "description": "The patient for whom this care plan is designed",
+          "requirement": "required",
+          "type": "reference(Patient)"
+        },
+        {
+          "name": "encounter",
+          "description": "The encounter created as part of this care plan",
+          "requirement": "required",
+          "type": "reference(Encounter)"
+        },
+        {
+          "name": "start",
+          "description": "The starting date of the care plan",
+          "requirement": "required",
+          "type": "dateTime"
+        },
+        {
+          "name": "end",
+          "description": "The ending date of the care plan",
+          "requirement": "required",
+          "type": "dateTime"
+        },
+        {
+          "name": "created",
+          "description": "When the care plan was first recorded",
+          "requirement": "required",
+          "type": "dateTime"
+        },
+        {
+          "name": "based-on",
+          "description": "A care plan on which this one is based",
+          "requirement": "preferred",
+          "type": "reference(CarePlan)"
+        }
+      ]
+    },
+    {
+      "entity": "Medication Administration",
+      "field_count": 17,
+      "fields": [
+        {
+          "name": "source",
+          "description": "A value representing the source of the data captured within this record",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "identifier",
+          "description": "A unique identifier for the medication administration record",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "dosagequantity",
+          "description": "The quantity associated with the administered medication dosage",
+          "requirement": "required",
+          "type": "decimal"
+        },
+        {
+          "name": "dosage-unit",
+          "description": "The units associated with the administered medication dosage",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "dosage-route",
+          "description": "The route or path of administration of a therapeutic agent into or onto the patient",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "effective-start",
+          "description": "The start date or date-time of the medication administration",
+          "requirement": "required",
+          "type": "dateTime"
+        },
+        {
+          "name": "medication",
+          "description": "A code for the medication being administered",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "status",
+          "description": "A code specifying the current state of the administration",
+          "requirement": "required",
+          "type": "code",
+          "value_set": "Medication administration status codes"
+        },
+        {
+          "name": "subject",
+          "description": "The patient receiving the medication",
+          "requirement": "required",
+          "type": "reference(patient)"
+        },
+        {
+          "name": "category",
+          "description": "The type of medication administration",
+          "requirement": "preferred",
+          "type": "code"
+        },
+        {
+          "name": "context",
+          "description": "The encounter or episode of care during which the medication administration was",
+          "requirement": "preferred",
+          "type": "unknown"
+        },
+        {
+          "name": "performed Preferred see section",
+          "description": "Encounter",
+          "requirement": "preferred",
+          "type": "unknown"
+        },
+        {
+          "name": "effective-end",
+          "description": "The end date or date-time of the medication administration",
+          "requirement": "preferred",
+          "type": "dateTime"
+        },
+        {
+          "name": "medicationsystem",
+          "description": "The code system to which the medication code belongs",
+          "requirement": "preferred",
+          "type": "code"
+        },
+        {
+          "name": "performer",
+          "description": "The individual who administered the medication see Section: Practitioner",
+          "requirement": "preferred",
+          "type": "reference(Practitioner)"
+        },
+        {
+          "name": "reason-given",
+          "description": "A code indicating why the medication was given",
+          "requirement": "preferred",
+          "type": "code"
+        },
+        {
+          "name": "request",
+          "description": "The original request or order to administer the medication",
+          "requirement": "preferred",
+          "type": "reference(MedicationRequest)"
+        }
+      ]
+    },
+    {
+      "entity": "MedicationRequest",
+      "field_count": 11,
+      "fields": [
+        {
+          "name": "source",
+          "description": "A value representing the source of the data captured within this record",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "identifier",
+          "description": "A unique identifier for the medication request record",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "status",
+          "description": "A code specifying the current state of the order or prescription",
+          "requirement": "required",
+          "type": "code",
+          "value_set": "Medicationrequest status"
+        },
+        {
+          "name": "authored",
+          "description": "The date or date-time when the order or prescription was initially written or authored",
+          "requirement": "required",
+          "type": "dateTime"
+        },
+        {
+          "name": "dosagequantity",
+          "description": "The quantity associated with the requested medication dosage",
+          "requirement": "required",
+          "type": "decimal"
+        },
+        {
+          "name": "dosage-unit",
+          "description": "The units associated with the requested medication dosage",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "intent",
+          "description": "A code specifying the kind of medication request (proposal, plan, order, etc.)",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "see values",
+          "description": "Medication request intent",
+          "requirement": "preferred",
+          "type": "unknown"
+        },
+        {
+          "name": "medication",
+          "description": "A code for the medication being requested",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "requester",
+          "description": "The individual or organization that initiated the request and has responsibility for its",
+          "requirement": "preferred",
+          "type": "unknown"
+        },
+        {
+          "name": "activation Required see section",
+          "description": "Practitioner",
+          "requirement": "preferred",
+          "type": "unknown"
+        }
+      ]
+    },
+    {
+      "entity": "Observation",
+      "field_count": 24,
+      "fields": [
+        {
+          "name": "source",
+          "description": "A value representing the source of the data captured within this record",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "encounter",
+          "description": "The encounter during which this observation is made",
+          "requirement": "required",
+          "type": "reference(Encounter)"
+        },
+        {
+          "name": "code",
+          "description": "A code that describes what was observed",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "date",
+          "description": "The clinically relevant date or datetime for the observation",
+          "requirement": "required",
+          "type": "dateTime"
+        },
+        {
+          "name": "status",
+          "description": "The status of the observation result value",
+          "requirement": "required",
+          "type": "unknown",
+          "value_set": "ObservationStatus"
+        },
+        {
+          "name": "subject",
+          "description": "The patient that the observation is about",
+          "requirement": "required",
+          "type": "reference(Patient)"
+        },
+        {
+          "name": "category",
+          "description": "A code that classifies the general type of observation being made",
+          "requirement": "preferred",
+          "type": "code",
+          "value_set": "Observation Category Codes"
+        },
+        {
+          "name": "code-system",
+          "description": "The code system to which the observation code belongs",
+          "requirement": "preferred",
+          "type": "code"
+        },
+        {
+          "name": "code-text",
+          "description": "A free-text representation of the observation code",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "value-code",
+          "description": "The coded value determined as a result of making the observation",
+          "requirement": "preferred",
+          "type": "code"
+        },
+        {
+          "name": "value-codesystem",
+          "description": "The code system to which the observation value code belongs",
+          "requirement": "preferred",
+          "type": "code"
+        },
+        {
+          "name": "value-codetext",
+          "description": "A free-text representation of the observation value code",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "value-date",
+          "description": "The date-time value determined as a result of making the observation",
+          "requirement": "preferred",
+          "type": "dateTime"
+        },
+        {
+          "name": "value-datestart",
+          "description": "The starting date-time value determined as a result of making the observation",
+          "requirement": "preferred",
+          "type": "dateTime"
+        },
+        {
+          "name": "value-dateend",
+          "description": "The ending date-time determined as a result of making the observation",
+          "requirement": "preferred",
+          "type": "dateTime"
+        },
+        {
+          "name": "valuequantity",
+          "description": "The quantity determined as a result of making the observation",
+          "requirement": "preferred",
+          "type": "decimal"
+        },
+        {
+          "name": "value-unit",
+          "description": "The units of the quantity determined as a result of making the observation",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "value-string",
+          "description": "The information determined as a result of making the observation",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "start-date",
+          "description": "The start of the clinically relevant time period for the observation",
+          "requirement": "preferred",
+          "type": "dateTime"
+        },
+        {
+          "name": "end-date",
+          "description": "The end of the clinically relevant time period for the observation",
+          "requirement": "preferred",
+          "type": "dateTime"
+        },
+        {
+          "name": "device",
+          "description": "An identifier for the device used to generate the observation data",
+          "requirement": "preferred",
+          "type": "string"
+        },
+        {
+          "name": "devicesystem",
+          "description": "The namespace of the device identifier",
+          "requirement": "preferred",
+          "type": "uri"
+        },
+        {
+          "name": "performer",
+          "description": "The individual responsible for the observation",
+          "requirement": "preferred",
+          "type": "reference(Practitioner)"
+        },
+        {
+          "name": "note-text",
+          "description": "Comments about the observation",
+          "requirement": "preferred",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "entity": "Medication Statement",
+      "field_count": 11,
+      "fields": [
+        {
+          "name": "source",
+          "description": "A value representing the source of the data captured within this record",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "identifier",
+          "description": "A unique identifier for the medication statement record",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "status",
+          "description": "A code representing the state of this medication\u2019s use",
+          "requirement": "required",
+          "type": "code",
+          "value_set": "Medication status codes"
+        },
+        {
+          "name": "subject",
+          "description": "The patient who was/is taking the medication",
+          "requirement": "required",
+          "type": "reference(Patient)"
+        },
+        {
+          "name": "medication",
+          "description": "A code for the medication which the statement is about",
+          "requirement": "required",
+          "type": "code"
+        },
+        {
+          "name": "dosage-quantity",
+          "description": "The quantity associated with the medication statement dosage",
+          "requirement": "required",
+          "type": "decimal"
+        },
+        {
+          "name": "dosage-unit",
+          "description": "The units associated with the medication statement dosage",
+          "requirement": "required",
+          "type": "string"
+        },
+        {
+          "name": "effective-start",
+          "description": "The date or date-time when the patient began taking the medication",
+          "requirement": "required",
+          "type": "dateTime"
+        },
+        {
+          "name": "medicationsystem",
+          "description": "The code system to which the medication code belongs",
+          "requirement": "preferred",
+          "type": "code"
+        },
+        {
+          "name": "category",
+          "description": "The type of medication usage",
+          "requirement": "preferred",
+          "type": "code"
+        },
+        {
+          "name": "context",
+          "description": "The encounter or episode of care that establishes the context for this medication statement",
+          "requirement": "preferred",
+          "type": "unknown"
+        }
+      ]
+    }
+  ],
+  "value_sets": [
+    {
+      "name": "Encounter status",
+      "values": [
+        {
+          "code": "planned",
+          "display": "planned"
+        },
+        {
+          "code": "arrived",
+          "display": "arrived"
+        },
+        {
+          "code": "triaged",
+          "display": "triaged"
+        },
+        {
+          "code": "in-progress",
+          "display": "in-progress"
+        },
+        {
+          "code": "onleave",
+          "display": "onleave"
+        },
+        {
+          "code": "finished",
+          "display": "finished"
+        },
+        {
+          "code": "cancelled",
+          "display": "cancelled"
+        },
+        {
+          "code": "entered-in-error",
+          "display": "entered-in-error"
+        },
+        {
+          "code": "unknown",
+          "display": "unknown"
+        }
+      ]
+    },
+    {
+      "name": "Encounter status",
+      "values": [
+        {
+          "code": "planned",
+          "display": "planned"
+        },
+        {
+          "code": "arrived",
+          "display": "arrived"
+        },
+        {
+          "code": "triaged",
+          "display": "triaged"
+        },
+        {
+          "code": "in-progress",
+          "display": "in-progress"
+        },
+        {
+          "code": "onleave",
+          "display": "onleave"
+        },
+        {
+          "code": "finished",
+          "display": "finished"
+        },
+        {
+          "code": "cancelled",
+          "display": "cancelled"
+        },
+        {
+          "code": "entered-in-error",
+          "display": "entered-in-error"
+        },
+        {
+          "code": "unknown",
+          "display": "unknown"
+        }
+      ]
+    },
+    {
+      "name": "administrativegender",
+      "values": [
+        {
+          "code": "male",
+          "display": "Male"
+        },
+        {
+          "code": "female",
+          "display": "Female"
+        },
+        {
+          "code": "other",
+          "display": "Other"
+        },
+        {
+          "code": "unknown",
+          "display": "unknown"
+        }
+      ]
+    },
+    {
+      "name": "V3 Code System LanguageAbilityProficiency",
+      "values": [
+        {
+          "code": "E",
+          "display": "Excellent"
+        },
+        {
+          "code": "F",
+          "display": "Fair"
+        },
+        {
+          "code": "G",
+          "display": "Good"
+        },
+        {
+          "code": "P",
+          "display": "Poor"
+        }
+      ]
+    },
+    {
+      "name": "v3 Code System LanguageAbilityMode",
+      "values": [
+        {
+          "code": "ESGN",
+          "display": "Expressed signed"
+        },
+        {
+          "code": "ESP",
+          "display": "Expressed spoken"
+        },
+        {
+          "code": "EWR",
+          "display": "Expressed written"
+        },
+        {
+          "code": "RSGN",
+          "display": "Received signed"
+        },
+        {
+          "code": "RSP",
+          "display": "Received spoken"
+        },
+        {
+          "code": "RWR",
+          "display": "Received written"
+        }
+      ]
+    },
+    {
+      "name": "V3 Value SetActEncounterCode",
+      "values": [
+        {
+          "code": "AMB",
+          "display": "ambulatory"
+        },
+        {
+          "code": "EMER",
+          "display": "emergency"
+        },
+        {
+          "code": "FLD",
+          "display": "field"
+        },
+        {
+          "code": "HH",
+          "display": "home health"
+        },
+        {
+          "code": "IMP",
+          "display": "inpatient encounter"
+        },
+        {
+          "code": "ACUTE",
+          "display": "inpatient acute"
+        },
+        {
+          "code": "NONAC",
+          "display": "inpatient non-acute"
+        },
+        {
+          "code": "OBSENC",
+          "display": "observation encounter"
+        },
+        {
+          "code": "PRENC",
+          "display": "pre-admission"
+        },
+        {
+          "code": "SS",
+          "display": "short stay"
+        },
+        {
+          "code": "VR",
+          "display": "virtual"
+        },
+        {
+          "code": "Vaccine",
+          "display": "Administered"
+        }
+      ]
+    },
+    {
+      "name": "OMB Race Categories",
+      "values": [
+        {
+          "code": "1002-5",
+          "display": "American Indian or Alaska Native"
+        },
+        {
+          "code": "2028-9",
+          "display": "Asian"
+        },
+        {
+          "code": "2054-5",
+          "display": "Black or African American"
+        },
+        {
+          "code": "2076-8",
+          "display": "Native Hawaiian or Other Pacific Islander"
+        },
+        {
+          "code": "2106-3",
+          "display": "White"
+        },
+        {
+          "code": "2131-1",
+          "display": "Other Race"
+        },
+        {
+          "code": "ASKU",
+          "display": "asked but unknown"
+        },
+        {
+          "code": "UNK",
+          "display": "unknown"
+        }
+      ]
+    },
+    {
+      "name": "OMB Ethnicity Categories",
+      "values": [
+        {
+          "code": "2135-2",
+          "display": "Hispanic or Latino"
+        },
+        {
+          "code": "2186-5",
+          "display": "Not Hispanic or Latino"
+        },
+        {
+          "code": "ASKU",
+          "display": "asked but unknown"
+        },
+        {
+          "code": "UNK",
+          "display": "unknown"
+        }
+      ]
+    },
+    {
+      "name": "common languages",
+      "values": [
+        {
+          "code": "ar",
+          "display": "Arabisk"
+        },
+        {
+          "code": "bn",
+          "display": "Bengali"
+        },
+        {
+          "code": "cs",
+          "display": "Czech"
+        },
+        {
+          "code": "da",
+          "display": "Danish"
+        },
+        {
+          "code": "de",
+          "display": "German"
+        },
+        {
+          "code": "de-AT",
+          "display": "German (Austria)"
+        },
+        {
+          "code": "de-CH",
+          "display": "German (Switzerland)"
+        },
+        {
+          "code": "de-DE",
+          "display": "German (Germany)"
+        },
+        {
+          "code": "el",
+          "display": "Greek"
+        },
+        {
+          "code": "en",
+          "display": "English"
+        },
+        {
+          "code": "en-AU",
+          "display": "English (Australia)"
+        },
+        {
+          "code": "en-CA",
+          "display": "English (Canada)"
+        },
+        {
+          "code": "en-GB",
+          "display": "English (Great Britain)"
+        },
+        {
+          "code": "en-IN",
+          "display": "English (India)"
+        },
+        {
+          "code": "en-NZ",
+          "display": "English (New Zeland)"
+        },
+        {
+          "code": "en-SG",
+          "display": "English (Singapore)"
+        },
+        {
+          "code": "en-US",
+          "display": "English (United States)"
+        },
+        {
+          "code": "es",
+          "display": "Spanish"
+        },
+        {
+          "code": "es-AR",
+          "display": "Spanish (Argentina)"
+        },
+        {
+          "code": "es-ES",
+          "display": "Spanish (Spain)"
+        },
+        {
+          "code": "es-UY",
+          "display": "Spanish (Uruguay)"
+        },
+        {
+          "code": "fi",
+          "display": "Finnish"
+        },
+        {
+          "code": "fr",
+          "display": "French"
+        },
+        {
+          "code": "fr-BE",
+          "display": "French (Belgium)"
+        },
+        {
+          "code": "fr-CH",
+          "display": "French (Switzerland)"
+        }
+      ]
+    },
+    {
+      "name": "hl7VSdegreeLicenseCertificate",
+      "values": [
+        {
+          "code": "PN",
+          "display": "Advanced Practice Nurse"
+        },
+        {
+          "code": "AAS",
+          "display": "Associate of Applied Science"
+        },
+        {
+          "code": "AA",
+          "display": "Associate of Arts"
+        },
+        {
+          "code": "ABA",
+          "display": "Associate of Business Administration"
+        },
+        {
+          "code": "AE",
+          "display": "Associate of Engineering"
+        },
+        {
+          "code": "AS",
+          "display": "Associate of Science"
+        },
+        {
+          "code": "BA",
+          "display": "Bachelor of Arts"
+        },
+        {
+          "code": "BBA",
+          "display": "Bachelor of Business Administration"
+        },
+        {
+          "code": "BE",
+          "display": "Bachelor or Engineering"
+        },
+        {
+          "code": "BFA",
+          "display": "Bachelor of Fine Arts"
+        },
+        {
+          "code": "BN",
+          "display": "Bachelor of Nursing"
+        },
+        {
+          "code": "BS",
+          "display": "Bachelor of Science"
+        },
+        {
+          "code": "BSL",
+          "display": "Bachelor of Science - Law"
+        },
+        {
+          "code": "BSN",
+          "display": "Bachelor on Science - Nursing"
+        },
+        {
+          "code": "BT",
+          "display": "Bachelor of Theology"
+        },
+        {
+          "code": "CER",
+          "display": "Certificate"
+        },
+        {
+          "code": "CANP",
+          "display": "Certified Adult Nurse Practitioner"
+        },
+        {
+          "code": "CMA",
+          "display": "Certified Medical Assistant"
+        },
+        {
+          "code": "CNP",
+          "display": "Certified Nurse Practitioner"
+        },
+        {
+          "code": "CNM",
+          "display": "Certified Nurse Midwife"
+        },
+        {
+          "code": "CRN",
+          "display": "Certified Registered Nurse"
+        },
+        {
+          "code": "CNS",
+          "display": "Certified Nurse Specialist"
+        },
+        {
+          "code": "CPNP",
+          "display": "Certified Pediatric Nurse Practitioner"
+        },
+        {
+          "code": "CTR",
+          "display": "Certified Tumor Registrar"
+        },
+        {
+          "code": "DIP",
+          "display": "Diploma"
+        }
+      ]
+    },
+    {
+      "name": "EventStatus",
+      "values": [
+        {
+          "code": "preparation",
+          "display": "Preparation"
+        },
+        {
+          "code": "in-progress",
+          "display": "In Progress"
+        },
+        {
+          "code": "not-done",
+          "display": "Not Done"
+        },
+        {
+          "code": "on-hold",
+          "display": "On Hold"
+        },
+        {
+          "code": "stopped",
+          "display": "Stopped"
+        },
+        {
+          "code": "completed",
+          "display": "Completed"
+        },
+        {
+          "code": "entered-in-error",
+          "display": "Entered in Error"
+        }
+      ]
+    },
+    {
+      "name": "RequestIntent",
+      "values": [
+        {
+          "code": "proposal",
+          "display": "Proposal"
+        },
+        {
+          "code": "plan",
+          "display": "Plan"
+        },
+        {
+          "code": "directive",
+          "display": "Directive"
+        },
+        {
+          "code": "order",
+          "display": "Order"
+        },
+        {
+          "code": "original-order",
+          "display": "Original Order"
+        },
+        {
+          "code": "reflex-order",
+          "display": "Reflex Order"
+        },
+        {
+          "code": "filler-order",
+          "display": "Filler Order"
+        },
+        {
+          "code": "instance-order",
+          "display": "Instance Order"
+        },
+        {
+          "code": "option",
+          "display": "Option"
+        }
+      ]
+    },
+    {
+      "name": "Requeststatus",
+      "values": [
+        {
+          "code": "draft",
+          "display": "Draft"
+        },
+        {
+          "code": "active",
+          "display": "Active"
+        },
+        {
+          "code": "on-hold",
+          "display": "On Hold"
+        },
+        {
+          "code": "revoked",
+          "display": "Revoked"
+        },
+        {
+          "code": "completed",
+          "display": "Completed"
+        },
+        {
+          "code": "entered-in-error",
+          "display": "Entered in Error"
+        },
+        {
+          "code": "unknown",
+          "display": "Unknown"
+        }
+      ]
+    },
+    {
+      "name": "FamilyHistoryStatus",
+      "values": [
+        {
+          "code": "partial",
+          "display": "Partial"
+        },
+        {
+          "code": "completed",
+          "display": "Completed"
+        },
+        {
+          "code": "entered-in-error",
+          "display": "Entered in Error"
+        },
+        {
+          "code": "health-unknown",
+          "display": "Health Unknown"
+        }
+      ]
+    },
+    {
+      "name": "Immunization Status Codes",
+      "values": [
+        {
+          "code": "completed",
+          "display": "Completed"
+        },
+        {
+          "code": "entered-in-error",
+          "display": "Entered in Error"
+        },
+        {
+          "code": "not-done",
+          "display": "Not Done"
+        }
+      ]
+    },
+    {
+      "name": "Medication Status Codes",
+      "values": [
+        {
+          "code": "active",
+          "display": "Active"
+        },
+        {
+          "code": "completed",
+          "display": "Completed"
+        },
+        {
+          "code": "entered-in-error",
+          "display": "Entered in Error"
+        },
+        {
+          "code": "intended",
+          "display": "Intended"
+        },
+        {
+          "code": "Code",
+          "display": "Display"
+        },
+        {
+          "code": "stopped",
+          "display": "Stopped"
+        },
+        {
+          "code": "on-hold",
+          "display": "On Hold"
+        },
+        {
+          "code": "unknown",
+          "display": "Unknown"
+        },
+        {
+          "code": "not-taken",
+          "display": "Not Taken"
+        }
+      ]
+    },
+    {
+      "name": "Medication administration category codes",
+      "values": [
+        {
+          "code": "inpatient",
+          "display": "Inpatient"
+        },
+        {
+          "code": "outpatient",
+          "display": "Outpatient"
+        },
+        {
+          "code": "community",
+          "display": "Community"
+        }
+      ]
+    },
+    {
+      "name": "Medication administration status codes",
+      "values": [
+        {
+          "code": "in-progress",
+          "display": "In Progress"
+        },
+        {
+          "code": "not-done",
+          "display": "Not Done"
+        },
+        {
+          "code": "on-hold",
+          "display": "On Hold"
+        },
+        {
+          "code": "completed",
+          "display": "Completed"
+        },
+        {
+          "code": "entered-in-error",
+          "display": "Entered in Error"
+        },
+        {
+          "code": "stopped",
+          "display": "Stopped"
+        },
+        {
+          "code": "unknown",
+          "display": "Unknown"
+        }
+      ]
+    },
+    {
+      "name": "Vaccine Administered Value Set",
+      "values": [
+        {
+          "code": "54",
+          "display": "adenovirus vaccine, type 4, live, oral"
+        },
+        {
+          "code": "55",
+          "display": "adenovirus vaccine, type 7, live, oral"
+        },
+        {
+          "code": "82",
+          "display": "adenovirus vaccine, unspecified formulation"
+        },
+        {
+          "code": "24",
+          "display": "anthrax vaccine"
+        },
+        {
+          "code": "19",
+          "display": "Bacillus Calmette-Guerin vaccine"
+        },
+        {
+          "code": "27",
+          "display": "botulinum antitoxin"
+        },
+        {
+          "code": "26",
+          "display": "cholera vaccine, unspecified formulation"
+        },
+        {
+          "code": "29",
+          "display": "cytomegalovirus immune globulin, intravenous"
+        },
+        {
+          "code": "56",
+          "display": "dengue fever vaccine"
+        },
+        {
+          "code": "12",
+          "display": "diphtheria antitoxin"
+        },
+        {
+          "code": "28",
+          "display": "diphtheria and tetanus toxoids, adsorbed for pediatric use"
+        },
+        {
+          "code": "20",
+          "display": "diphtheria, tetanus toxoids and acellular pertussis vaccine"
+        },
+        {
+          "code": "106",
+          "display": "diphtheria, tetanus toxoids and acellular pertussis vaccine, 5 pertussis antigens"
+        },
+        {
+          "code": "107",
+          "display": "diphtheria, tetanus toxoids and acellular pertussis vaccine,"
+        },
+        {
+          "code": "unspecified",
+          "display": "formulation"
+        },
+        {
+          "code": "110",
+          "display": "DTaP-hepatitis B and poliovirus vaccine"
+        },
+        {
+          "code": "50",
+          "display": "DTaP-Haemophilus influenzae type b conjugate vaccine"
+        },
+        {
+          "code": "120",
+          "display": "diphtheria, tetanus toxoids and acellular pertussis vaccine,"
+        },
+        {
+          "code": "Haemophilus",
+          "display": "influenzae type b conjugate, and poliovirus vaccine,"
+        },
+        {
+          "code": "inactivated",
+          "display": "(DTaP-Hib-IPV)"
+        },
+        {
+          "code": "130",
+          "display": "Diphtheria, tetanus toxoids and acellular pertussis vaccine, and"
+        },
+        {
+          "code": "poliovirus",
+          "display": "vaccine, inactivated"
+        },
+        {
+          "code": "01",
+          "display": "diphtheria, tetanus toxoids and pertussis vaccine"
+        },
+        {
+          "code": "22",
+          "display": "DTP-Haemophilus influenzae type b conjugate vaccine"
+        },
+        {
+          "code": "102",
+          "display": "DTP- Haemophilus influenzae type b conjugate and hepatitis b vaccine"
+        },
+        {
+          "code": "57",
+          "display": "hantavirus vaccine"
+        },
+        {
+          "code": "52",
+          "display": "hepatitis A vaccine, adult dosage"
+        },
+        {
+          "code": "83",
+          "display": "hepatitis A vaccine, pediatric/ adolescent dosage, 2 dose schedule"
+        },
+        {
+          "code": "84",
+          "display": "hepatitis A vaccine, pediatric/ adolescent dosage, 3 dose schedule"
+        }
+      ]
+    },
+    {
+      "name": "AllergyIntoleranceCategory",
+      "values": [
+        {
+          "code": "food",
+          "display": "Food"
+        },
+        {
+          "code": "medication",
+          "display": "Medication"
+        },
+        {
+          "code": "environment",
+          "display": "Environment"
+        },
+        {
+          "code": "biologic",
+          "display": "Biologic"
+        }
+      ]
+    },
+    {
+      "name": "AllergyIntoleranceCriticality",
+      "values": [
+        {
+          "code": "low",
+          "display": "Low Risk"
+        },
+        {
+          "code": "high",
+          "display": "High Risk"
+        },
+        {
+          "code": "unable-to-assess",
+          "display": "Unable to Assess Risk"
+        }
+      ]
+    },
+    {
+      "name": "AllergyIntoleranceSeverity",
+      "values": [
+        {
+          "code": "mild",
+          "display": "Mild"
+        },
+        {
+          "code": "moderate",
+          "display": "Moderate"
+        },
+        {
+          "code": "severe",
+          "display": "Severe"
+        }
+      ]
+    },
+    {
+      "name": "AllergyIntoleranceType",
+      "values": [
+        {
+          "code": "allergy",
+          "display": "Allergy"
+        },
+        {
+          "code": "intolerance",
+          "display": "Intolerance"
+        }
+      ]
+    },
+    {
+      "name": "AllergyIntolerance Clinical Status Codes",
+      "values": [
+        {
+          "code": "active",
+          "display": "Active"
+        },
+        {
+          "code": "inactive",
+          "display": "Inactive"
+        },
+        {
+          "code": "resolved",
+          "display": "Resolved"
+        }
+      ]
+    },
+    {
+      "name": "Birth Sex",
+      "values": [
+        {
+          "code": "F",
+          "display": "Female"
+        },
+        {
+          "code": "M",
+          "display": "Male"
+        },
+        {
+          "code": "ASKU",
+          "display": "asked but unknown"
+        },
+        {
+          "code": "OTH",
+          "display": "other"
+        },
+        {
+          "code": "UNK",
+          "display": "unknown"
+        }
+      ]
+    },
+    {
+      "name": "SNOMED CT Clinical Findings",
+      "values": [
+        {
+          "code": "404684003",
+          "display": "Clinical finding (finding)"
+        },
+        {
+          "code": "109006",
+          "display": "Anxiety disorder of childhood OR"
+        },
+        {
+          "code": "adolescence",
+          "display": "122003 Choroidal hemorrhage"
+        },
+        {
+          "code": "127009",
+          "display": "Spontaneous abortion with laceration of cervix"
+        },
+        {
+          "code": "129007",
+          "display": "Homoiothermia"
+        },
+        {
+          "code": "134006",
+          "display": "Decreased hair growth"
+        },
+        {
+          "code": "140004",
+          "display": "Chronic pharyngitis"
+        },
+        {
+          "code": "144008",
+          "display": "Normal peripheral vision"
+        },
+        {
+          "code": "150003",
+          "display": "Abnormal bladder continence"
+        },
+        {
+          "code": "151004",
+          "display": "Gonococcal meningitis"
+        },
+        {
+          "code": "162004",
+          "display": "Severe manic bipolar I disorder without psychotic features"
+        },
+        {
+          "code": "165002",
+          "display": "Accident-prone"
+        },
+        {
+          "code": "168000",
+          "display": "Typhlolithiasis"
+        },
+        {
+          "code": "171008",
+          "display": "Injury of ascending right colon without open wound into abdominal cavity"
+        },
+        {
+          "code": "172001",
+          "display": "Endometritis following molar AND/OR ectopic pregnancy"
+        },
+        {
+          "code": "175004",
+          "display": "Supraorbital neuralgia"
+        },
+        {
+          "code": "177007",
+          "display": "Poisoning by sawfly larvae"
+        },
+        {
+          "code": "179005",
+          "display": "Apraxia of dressing"
+        },
+        {
+          "code": "181007",
+          "display": "Hemorrhagic bronchopneumonia"
+        },
+        {
+          "code": "183005",
+          "display": "Autoimmune pancytopenia"
+        },
+        {
+          "code": "184004",
+          "display": "Withdrawal arrhythmia"
+        },
+        {
+          "code": "188001",
+          "display": "Injury of intercostal artery"
+        },
+        {
+          "code": "192008",
+          "display": "Congenital syphilitic hepatomegaly"
+        },
+        {
+          "code": "193003",
+          "display": "Benign hypertensive renal disease"
+        },
+        {
+          "code": "195005",
+          "display": "Illegal abortion with endometritis"
+        }
+      ]
+    },
+    {
+      "name": "RequestStatus",
+      "values": [
+        {
+          "code": "draft",
+          "display": "Draft"
+        },
+        {
+          "code": "active",
+          "display": "Active"
+        },
+        {
+          "code": "on-hold",
+          "display": "On Hold"
+        },
+        {
+          "code": "revoked",
+          "display": "Revoked"
+        },
+        {
+          "code": "completed",
+          "display": "Completed"
+        },
+        {
+          "code": "entered-in-error",
+          "display": "Entered in Error"
+        },
+        {
+          "code": "unknown",
+          "display": "Unknown"
+        }
+      ]
+    },
+    {
+      "name": "Care Plan Intent",
+      "values": [
+        {
+          "code": "proposal",
+          "display": "Proposal"
+        },
+        {
+          "code": "plan",
+          "display": "Plan"
+        },
+        {
+          "code": "order",
+          "display": "Order"
+        },
+        {
+          "code": "option",
+          "display": "Option"
+        }
+      ]
+    },
+    {
+      "name": "Medicationrequest Status",
+      "values": [
+        {
+          "code": "active",
+          "display": "Active"
+        },
+        {
+          "code": "on-hold",
+          "display": "On Hold"
+        },
+        {
+          "code": "cancelled",
+          "display": "Cancelled"
+        },
+        {
+          "code": "completed",
+          "display": "Completed"
+        },
+        {
+          "code": "entered-in-error",
+          "display": "Entered in Error"
+        },
+        {
+          "code": "stopped",
+          "display": "Stopped"
+        },
+        {
+          "code": "draft",
+          "display": "Draft"
+        },
+        {
+          "code": "unknown",
+          "display": "Unknown"
+        }
+      ]
+    },
+    {
+      "name": "Medication Request Intent",
+      "values": [
+        {
+          "code": "proposal",
+          "display": "Proposal"
+        },
+        {
+          "code": "plan",
+          "display": "Plan"
+        },
+        {
+          "code": "order",
+          "display": "Order"
+        },
+        {
+          "code": "original-order",
+          "display": "Original Order"
+        },
+        {
+          "code": "reflex-order",
+          "display": "Reflex Order"
+        },
+        {
+          "code": "filler-order",
+          "display": "Filler Order"
+        },
+        {
+          "code": "instance-order",
+          "display": "Instance Order"
+        },
+        {
+          "code": "option",
+          "display": "Option"
+        }
+      ]
+    }
+  ],
+  "export_formats": [
+    {
+      "name": "C-CDA",
+      "description": "Data exported using USCDI v1 AND HL7 CDA R2 Implementation Guide: C-CDA Templates for Clinical Notes R2.1 Companion Guide, Release 2-US Realm, October 2019 standard."
+    },
+    {
+      "name": "Attachments",
+      "description": "Attached files (images, excel, word, PDF) grouped as a .zip file by patient, downloaded by patient name."
+    },
+    {
+      "name": "Notes",
+      "description": "Notes grouped as a .zip file by patient, downloaded by patient name. Notes text can be exported from the PDF."
+    },
+    {
+      "name": "Excel",
+      "description": "Data organized by Excel tab for structured clinical data entities."
+    }
+  ],
+  "excel_tab_names": [
+    "Condition",
+    "Coverage",
+    "Encounter",
+    "Organization",
+    "Patient",
+    "Practitioner",
+    "Procedure",
+    "ServiceRequest",
+    "FamilyMemberHistory",
+    "Immunization",
+    "Location",
+    "MedicationAdministration",
+    "MedicationRequest",
+    "MedicationStatement",
+    "Observation"
+  ]
+}

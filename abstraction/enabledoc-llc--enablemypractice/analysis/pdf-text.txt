@@ -1,0 +1,851 @@
+                                  Enablemypractice Date Export Guide
+
+Your Administrator must grant you access to the Data Export Screen to perform these functions. Please
+perform these steps to select export of system data to C-CDA and Excel and ability to download Patient
+Notes and file attachments.
+
+    1. Click Registration.
+    2. Click Data Export and this screen appears:
+
+
+
+
+    3. Click Custom Export.
+    4. Select a specific patient or check all.
+    5. Select a begin and end date or select all.
+    6. Set a time to run the data export.
+    7. Click if you want the export to recur by day, days of the week, monthly or annually.
+    8. Select the type of CDA file, Excel file to export, Notes, and Attachments.
+    9. Type a Comment.
+    10. Click Export.
+    11. When the Export is complete, the file information appears in the table at the bottom.
+    12. Click Download to download the file.
+
+Export Options
+C-CDA Files Structure
+Data is exported using USCDI v1 AND HL7® CDA® R2 Implementation Guide: C-CDA Templates for Clinical
+Notes R2.1 Companion Guide, Release 2-US Realm, October 2019 standard.
+
+Attachments
+Attached files (images, excel, word, PDF) are grouped as a .zip file by patient and will download by
+patient name.
+
+Notes:
+
+
+
+
+EnableDoc LLC Confidential 2023                                                                          1
+Notes are grouped as a .zip file by patient and will download by patient name. Notes text can be
+exported from the PDF.
+
+
+Excel File
+This data is organized by Excel tab for the following data:
+Condition: A clinical condition, problem, or diagnosis of concern.
+Coverage: Insurance or medical plan or a payment agreement.
+Encounter: An interaction between a patient and clinician for the purpose of providing care or assessing
+the health of a patient.
+    ● Organization: A grouping of people or organizations with a common purpose.
+    ● Patient: Demographics and other administrative information about an individual receiving health
+         related services.
+    ● Practitioner: A person who is directly or indirectly involved in the provisioning of healthcare.
+    ● Encounter: An interaction between a patient and clinician for the purpose of providing care or
+         assessing the health of a patient.
+    ● Procedure: An action that is or was performed on or for a patient. This can be a physical
+         intervention like an operation, or less invasive like long term services, counseling, or
+         hypnotherapy.
+    ● ServiceRequest: A record of a request for service such as diagnostic investigations, treatments,
+         or operations to be performed.
+    ● FamilyMemberHistory: Information about patient’s relatives
+    ● Immunization: A record of the administration of a vaccine to a patient, or a record of an
+         immunization as reported by a patient, a clinician or another party.
+    ● Location: Details and position information for a physical place.
+    ● MedicationAdministration: A record of a patient consuming or otherwise being administered a
+         medication.
+    ● MedicationRequest: An order or request for both supply of medication and instructions for
+         administration to a patient.
+    ● MedicationStatement: A record of a medication that is or was being consumed by a patient.
+    ● Observation: A measurement or simple assertion made about a patient, device or other subject.
+
+
+
+
+Organization
+    ➢ source: A value representing the source of the data captured within this record Required code
+    ➢ identifier: A unique organization identifier Required string
+    ➢ name: Name used for the organization Required string
+    ➢ address-line-1: The house number, apartment number, street name, and similar address
+      information. Required string
+    ➢ address-line-2: The house number, apartment number, street name, and similar address
+      information. Optional string address-
+    ➢ city: A city specified in an address Required string
+    ➢ addresscountry: A country specified in an address Required string
+    ➢ address postal code: A postal code specified in an address Required string
+    ➢ address-state: A state specified in an address Required string
+    ➢ type: Kind of organization Preferred code
+
+
+EnableDoc LLC Confidential 2023                                                                       2
+   ➢ type-system: The code system for which the type code belongs Preferred uri
+   ➢ alias: A list of alternate names that the organization is known as, or was known as in the past
+     Preferred string
+   ➢ phone: A phone number for the organization Preferred string
+   ➢ email: An email address for the organization Preferred string
+   ➢ part-of: The organization of which this organization
+   ➢ forms a part Preferred See section: Organization
+
+
+
+Encounter Data
+   ➢ source: A value representing the source of the data captured within this record - Required code
+   ➢ identifier: A unique encounter identifier Required string
+   ➢ status: The current state of the encounter Required code See Values: Encounter Status
+   ➢ subject: The patient present at the encounter Required See Section: Patient
+   ➢ start-date: The start date or date-time of the encounter Required dateTime
+   ➢ class: The classification of the patient encounter (e.g. inpatient, emergency, etc.) Required code -
+     See Values: V3 Value SetActEncounterCode
+   ➢ participant: An identifier for an individual involved in the encounter other than the patient
+     Required See Section Practitioner
+   ➢ end-date: The end date or date-time of the encounter Preferred dateTime
+   ➢ type: The specific type of encounter Preferred code
+
+
+Patient
+   ➢ source: A value representing the source of the data captured within this record. Required code
+   ➢ identifier: A unique patient identifier Required string
+   ➢ organization: The organization that is the custodian of the patient record See Section:
+     Organization
+   ➢ gender: The administrative gender of the patient Required code See values:
+     AdministrativeGender
+   ➢ birthdate: The patient’s date of birth Required date
+   ➢ addresspostalcode: A postalCode specified in an address Required string
+   ➢ address-state: A state specified in an address Required string
+   ➢ race: The race of the patient Required See values: OMB Race Categories
+   ➢ race-text: A free-text representation of the patient’s race Required string
+   ➢ ethnicity: The ethnicity of the patient Required See values: OMB Ethnicity Categories
+   ➢ ethnicity-text: A free-text representation of the patient’s ethnicity Required string
+   ➢ first: The first name of the patient Preferred string
+   ➢ middle: The middle name of the patient Preferred string
+   ➢ family: The family name of the patient Preferred string
+   ➢ email: An email address for the patient Preferred string
+   ➢ phone: A phone number for the patient Preferred string
+
+
+
+EnableDoc LLC Confidential 2023                                                                         3
+   ➢ deceased: This patient has been marked as deceased, or has a death date entered Preferred
+     boolean
+   ➢ death-date: The date of death of the patient Preferred dateTime
+   ➢ address-line-1: The house number, apartment number, street name, and similar address
+     information. Preferred String
+   ➢ address-line-2: The house number, apartment number, street name, and similar address
+     information. Optional string
+   ➢ marital-status: The marital (civil) status of the patient Preferred code
+   ➢ marital-statustext: A free-text representation of the patient’s marital status Preferred string
+   ➢ mrn: The medical record number used for the patient at this organization Preferred string
+   ➢ language: A language which may be used to communicate with the patient about his or her
+     health Preferred See values: Common Languages
+   ➢ languagepreferred: Indicates whether or not the patient prefers this language Preferred boolean
+     See value: common languages
+   ➢ languageproficiencylevel: The level of proficiency for this mode of communication and language
+     Preferred See values: v3 Code System LanguageAbilityProficiency
+   ➢ languageproficiencytype: The mode of communication (spoken, written, etc.) for the proficiency
+     Preferred See values: v3 Code System LanguageAbilityMode
+   ➢ language-text: A free-text representation of the communication language Preferred string
+   ➢ birth-sex: The sex assigned to the patient at birth Preferred see values: Birth Sex
+   ➢ primarycaregiver: The relationship of the patient’s primary caregiver to the patient Preferred
+   ➢ text: A free-text representation of the patient’s relationship to their primary caregiver Preferred
+     string
+   ➢ gender-identity: The gender with which the patient identifies Preferred See values:
+     genderidentity
+   ➢ text: A free-text representation of the patient’s gender identity Preferred string
+   ➢ religiousaffiliation: Coded religious affiliation of the patient Preferred
+   ➢ religiousaffiliation-text: A free-text representation of the religious affiliation of the patient
+     Preferred string
+   ➢ note: Any other notes and comments made about the patient Preferred string
+
+
+Location
+   ➢ source: A value representing the source of the data captured within this record Required code
+   ➢ identifier: A unique location identifier Required string
+   ➢ name: Name of the location as used by humans Required string
+   ➢ alias: A list of alternate names that the location is known as, or was known as, in the past
+     Preferred string
+   ➢ description: Additional details about the location that could be displayed as further information
+     to identify the location beyond its name Preferred string
+   ➢ type: Indicates the type of function performed at the location Preferred code
+   ➢ address-text: A free-text representation of an address of the location Preferred string
+
+
+EnableDoc LLC Confidential 2023                                                                          4
+   ➢ address-line-1: The house number, apartment number, street name, and similar address
+     information. Preferred string
+   ➢ address-line-2: The house number, apartment number, street name, and similar address
+     information. Optional string
+   ➢ address-city: A city specified in an address Preferred string
+   ➢ address-country: A country specified in an address Preferred string
+   ➢ addresspostalcode: A postal code specified in an address Preferred string
+   ➢ address-state: A state specified in an address Preferred string
+   ➢ organization: The organization responsible for provisioning and upkeep See section: Organization
+   ➢ part-of: Another location this one is physically a part of See this section: Location
+
+
+Practitioner
+   ➢ source: A value representing the source of the data captured within this record Required code
+   ➢ identifier: A unique practitioner identifier Required string
+   ➢ active: Whether the practitioner record is active Required boolean
+   ➢ npi:The National Provider Identifier of the practitioner Preferred integer
+   ➢ first: The first given name of the practitioner Preferred string
+   ➢ family: The family name of the practitioner Preferred string
+   ➢ email: An email address for the practitioner Preferred string
+   ➢ phone: A phone number for the practitioner Preferred string
+   ➢ discipline-1: The professional discipline of the practitioner Preferred code
+   ➢ discipline-2: The professional discipline of the practitioner Optional code
+   ➢ discipline-3: The professional discipline of the practitioner Optional code
+   ➢ discipline-4: The professional discipline of the practitioner Optional code
+   ➢ discipline-5: The professional discipline of the practitioner Optional code
+   ➢ qualificationcode: Coded representation of the practitioner’s qualification. Preferred see values:
+     hl7VSdegreeLicenseCertificate
+
+
+Procedure
+   ➢ source: A value representing the source of the data captured within this record Required code
+   ➢ code: A code that identifies the specific procedure that was performed Required code
+   ➢ identifier: A unique identifier for the procedure record Required string
+   ➢ encounter: An identifier for the encounter during which this procedure was performed or to
+     which this record is tightly associated Required See section: Encounter
+   ➢ date: The date or date-time when the procedure was performed Required dateTime
+   ➢ status: A code specifying the state of the procedure Required code EventStatus
+   ➢ subject: An identifier for the patient on which the procedure was performed Required Seec
+     Section: Patient
+   ➢ code-system: The code system to which the procedure code belongs Preferred uri
+
+
+
+
+EnableDoc LLC Confidential 2023                                                                       5
+   ➢ based-on: An identifier for the service request that initiated this procedure Preferred See
+     Section: ServiceRequest
+
+
+Service Request
+   ➢ source: A value representing the source of the data captured within this record Required code
+   ➢ identifier: A unique identifier for the service request record Required string
+   ➢ encounter The encounter during which this service request is made or to which this
+   ➢ record is tightly associated Required See Section: Encounter
+   ➢ authored: The date or date-time when the service request was signed Required dateTime
+   ➢ intent: A code specifying the kind of service request (proposal, plan, order, etc.) Required code
+     See Values: RequestIntent
+   ➢ requester: The individual that initiated the request and has responsibility for its activation
+     Required See Section: Practitioner
+   ➢ status: A code specifying the current state of the order or referral Required see values:
+     RequestStatus
+   ➢ subject: The patient on whom the service is to be performed Required See Section: Patient
+   ➢ code: A code that identifies a particular service that has been requested Preferred code
+   ➢ code-system: The code system to which the service request code belongs Preferred uri
+
+
+Family Member History
+   ➢ source: A value representing the source of the data captured within this record Required code
+   ➢ identifier: A unique identifier for this record Required string
+   ➢ status: A code specifying the status of the record of the family history of a specific family
+     member Required code See Values: FamilyHistoryStatus
+   ➢ patient: The patient for whom this family member history is recorded Required See Section:
+     Patient
+   ➢ relationship: The type of relationship this person has to the patient (father, mother, brother, etc.)
+     Required code
+   ➢ date: The date or date-time when the history was recorded or last updatedPreferred dateTime
+   ➢ birth-sex: The birth sex of the family member Preferred See value: AdministrativeGender
+   ➢ born: An exact or approximate date of birth of the relative Preferred date
+   ➢ age: An exact or approximate age of the relative (in years) Preferred integer
+   ➢ estimated-age: If true, indicates that the age value specified is an estimated value Preferred
+     boolean
+   ➢ deceased: The relative has been marked as deceased, or has a death date entered Preferred
+     boolean
+   ➢ note A general note about the relative Preferred string
+   ➢ condition: A code that identifies the condition that the relative Preferred code
+   ➢ conditionsystem: The code system to which the condition code belongs Preferred uri
+   ➢ conditionoutcome: Indicates what happened following the condition Preferred code
+
+
+
+EnableDoc LLC Confidential 2023                                                                          6
+   ➢ conditiononset: When the condition first manifested Preferred dateTime
+   ➢ condition-note: Additional information about the condition Preferred string
+
+
+Immunization
+   ➢ source: A value representing the source of the data captured within this record Required code
+   ➢ identifier: A unique identifier for the immunization record Required string
+   ➢ date: The date or date-time that the vaccine was/was to be administeredRequired dateTime
+   ➢ patient: The patient who received the immunization Required See Section: Patient
+   ➢ status: The current state of the immunization event Required See value: Immunization Status
+     Codes
+   ➢ vaccine-code: A code representing the vaccine that was/was to be administered Required See
+     values: Vaccine Administered Value Set
+   ➢ location: The service delivery location or facility where the vaccine administration occurred
+   ➢ Preferred See section: Location
+   ➢ performer: The individual or organization who was involved in the immunization event Preferred
+     see section: Practitioner
+   ➢ reaction: The observation of a reaction that followed the immunization event Preferred see
+     section: Condition
+
+
+
+
+AllergyIntolerance
+   ➢ source: A value representing the source of the data captured within this record Required code
+   ➢ category: The category of the identified substance Required See values:
+     AllergyIntoleranceCategory
+   ➢ identifier: A unique identifier for the allergy/intolerance record Required string
+   ➢ patient: The patient who has the allergy/intolerance Required see section: Patient
+   ➢ reactionmanifestation: Clinical symptoms and signs associated with the event Required see
+     values: SNOMED CT Clinical Findings
+   ➢ asserter: The individual who is the source of the information about the recorded
+     allergy/intolerance Preferred see section: Practitioner
+   ➢ clinical-status: The clinical status of the allergy/intolerance Preferred see values:
+     AllergyIntolerance Clinical Status Codes
+   ➢ code: A code that identifies the allergy/intolerance Preferred code
+
+
+
+
+Care Plan
+   ➢ source: A value representing the source of the data captured within this record Required code
+   ➢ identifier: A unique identifier for the care plan record Required string
+
+
+
+EnableDoc LLC Confidential 2023                                                                      7
+   ➢ status: Status of the care plan: active, on hold, revoked, completed, etc. Required see vales:
+     RequestStatus
+   ➢ intent: Intent: proposal, plan, order, or option Required see values: Care Plan Intent
+   ➢ subject: The patient for whom this care plan is designed Required see section: Patient
+   ➢ encounter: The encounter created as part of this care plan Required see section: Encounter
+   ➢ start: The starting date of the care plan Required dateTime
+   ➢ end: The ending date of the care plan Required dateTime
+   ➢ created: When the care plan was first recorded Required dateTime
+   ➢ based-on: A care plan on which this one is based Preferred see section CarePlan
+
+
+Medication Administration
+   ➢ source: A value representing the source of the data captured within this record Required code
+   ➢ identifier: A unique identifier for the medication administration record Required string
+   ➢ dosagequantity: The quantity associated with the administered medication dosage Required
+     decimal
+   ➢ dosage-unit: The units associated with the administered medication dosage Required string
+   ➢ dosage-route: The route or path of administration of a therapeutic agent into or onto the patient
+     Required code SNOMED CT Route Codes
+   ➢ effective-start: The start date or date-time of the medication administration Required dateTime
+   ➢ medication: A code for the medication being administered Required code
+   ➢ status: A code specifying the current state of the administration Required see values: Medication
+     administration status codes
+   ➢ subject: The patient receiving the medication Required see section: patient
+   ➢ category: The type of medication administration Preferred code Medication administration
+     category codes
+   ➢ context: The encounter or episode of care during which the medication administration was
+     performed Preferred see section: Encounter
+   ➢ effective-end: The end date or date-time of the medication administration Preferred dateTime
+   ➢ medicationsystem: The code system to which the medication code belongs Preferred uri
+   ➢ performer: The individual who administered the medication see Section: Practitioner
+   ➢ reason-given: A code indicating why the medication was given Preferred code
+   ➢ request: The original request or order to administer the medication Preferred see section:
+     MedicationRequest
+
+
+MedicationRequest
+   ➢ source: A value representing the source of the data captured within this record Required code
+   ➢ identifier: A unique identifier for the medication request record Required string
+   ➢ status: A code specifying the current state of the order or prescription Required see values:
+     Medicationrequest status
+
+
+
+
+EnableDoc LLC Confidential 2023                                                                       8
+   ➢ authored: The date or date-time when the order or prescription was initially written or authored
+     Required dateTime
+   ➢ dosagequantity: The quantity associated with the requested medication dosage Required
+     decimal
+   ➢ dosage-unit: The units associated with the requested medication dosage Required string
+   ➢ intent: A code specifying the kind of medication request (proposal, plan, order, etc.) Required
+     see values: Medication request intent
+   ➢ medication: A code for the medication being requested Required code
+   ➢ requester: The individual or organization that initiated the request and has responsibility for its
+     activation Required see section: Practitioner
+
+
+
+
+Observation
+   ➢ source: A value representing the source of the data captured within this record Required code
+   ➢ identifierL A unique identifier for the observation record Required string
+   ➢ encounter: The encounter during which this observation is made Required see section:
+     Encounter
+   ➢ code: A code that describes what was observed Required code
+   ➢ date: The clinically relevant date or datetime for the observation Required dateTime
+   ➢ status: The status of the observation result value Required see value: ObservationStatus
+   ➢ subject: The patient that the observation is about Required see section: Patient
+   ➢ category: A code that classifies the general type of observation being made Preferred see values:
+     Observation Category Codes
+   ➢ code-system: The code system to which the observation code belongs Preferred uri
+   ➢ code-text: A free-text representation of the observation code Preferred string
+   ➢ value-code: The coded value determined as a result of making the observation Preferred code
+   ➢ value-codesystem: The code system to which the observation value code belongs Preferred uri
+   ➢ value-codetext: A free-text representation of the observation value code Preferred string
+   ➢ value-date: The date-time value determined as a result of making the observation Preferred
+     dateTime
+   ➢ value-datestart: The starting date-time value determined as a result of making the observation
+     Preferred dateTime
+   ➢ value-dateend: The ending date-time determined as a result of making the observation
+     Preferred dateTime
+   ➢ valuequantity: The quantity determined as a result of making the observation Preferred decimal
+   ➢ value-unit: The units of the quantity determined as a result of making the observation Preferred
+     string
+   ➢ value-string: The information determined as a result of making the observation Preferred string
+   ➢ start-date: The start of the clinically relevant time period for the observation Preferred dateTime
+   ➢ end-date: The end of the clinically relevant time period for the observation Preferred dateTime
+
+
+
+EnableDoc LLC Confidential 2023                                                                        9
+    ➢ device: An identifier for the device used to generate the observation data Preferred string
+    ➢ devicesystem: The namespace of the device identifier Preferred uri
+    ➢ performer: The individual responsible for the observation Preferred see section: Practitioner
+    ➢ note-text: Comments about the observation Preferred string
+
+
+Medication Statement
+source: A value representing the source of the data captured within this record Required code
+
+identifier: A unique identifier for the medication statement record Required string
+
+status: A code representing the state of this medication’s use Required see values: Medication status
+codes
+
+subject: The patient who was/is taking the medication Required see section: Patient
+
+medication: A code for the medication which the statement is about Required code
+
+dosage-quantity: The quantity associated with the medication statement dosage Required decimal
+
+dosage-unit: The units associated with the medication statement dosage Required string
+
+effective-start: The date or date-time when the patient began taking the medication Required dateTime
+
+medicationsystem: The code system to which the medication code belongs Preferred uri
+
+category: The type of medication usage Preferred code
+
+context: The encounter or episode of care that establishes the context for this medication statement
+
+
+
+
+VALUES
+Encounter status
+    ➢ planned
+    ➢ arrived
+    ➢ triaged
+    ➢ in-progress
+    ➢ onleave
+    ➢ finished
+    ➢ cancelled
+    ➢ entered-in-error
+    ➢ unknown
+
+
+
+
+EnableDoc LLC Confidential 2023                                                                         10
+Encounter status
+   ➢ planned
+   ➢ arrived
+   ➢ triaged
+   ➢ in-progress
+   ➢ onleave
+   ➢ finished
+   ➢ cancelled
+   ➢ entered-in-error
+   ➢ unknown
+
+
+
+
+administrativegender
+   ➢ male - Male
+   ➢ female - Female
+   ➢ other - Other
+   ➢ unknown
+
+
+
+
+V3 Code System LanguageAbilityProficiency
+   ➢ E - Excellent
+   ➢ F - Fair
+   ➢ G - Good
+   ➢ P - Poor
+
+
+
+
+v3 Code System LanguageAbilityMode
+   ➢ ESGN Expressed signed
+   ➢ ESP Expressed spoken
+   ➢ EWR Expressed written
+   ➢ RSGN Received signed
+   ➢ RSP Received spoken
+   ➢ RWR Received written
+
+
+
+
+EnableDoc LLC Confidential 2023             11
+V3 Value SetActEncounterCode
+   ➢ AMB ambulatory
+   ➢ EMER emergency
+   ➢ FLD field
+   ➢ HH home health
+   ➢ IMP inpatient encounter
+   ➢ ACUTE inpatient acute
+   ➢ NONAC inpatient non-acute
+   ➢ OBSENC observation encounter
+   ➢ PRENC pre-admission
+   ➢ SS short stay
+   ➢ VR virtual
+   ➢ Vaccine Administered
+
+
+OMB Race Categories
+   ➢ 1002-5 American Indian or Alaska Native
+   ➢ 2028-9 Asian
+   ➢ 2054-5 Black or African American
+   ➢ 2076-8 Native Hawaiian or Other Pacific Islander
+   ➢ 2106-3 White
+   ➢ 2131-1 Other Race
+   ➢ ASKU asked but unknown
+   ➢ UNK unknown
+
+
+
+
+OMB Ethnicity Categories
+   ➢ 2135-2 Hispanic or Latino
+   ➢ 2186-5 Not Hispanic or Latino
+   ➢ ASKU asked but unknown
+   ➢ UNK unknown
+
+
+
+
+common languages
+   ➢ ar Arabisk
+   ➢ bn Bengali
+   ➢ cs Czech
+   ➢ da Danish
+   ➢ de German
+   ➢ de-AT German (Austria)
+
+
+EnableDoc LLC Confidential 2023                         12
+   ➢ de-CH German (Switzerland)
+   ➢ de-DE German (Germany)
+   ➢ el Greek
+   ➢ en English
+   ➢ en-AU English (Australia)
+   ➢ en-CA English (Canada)
+   ➢ en-GB English (Great Britain)
+   ➢ en-IN English (India)
+   ➢ en-NZ English (New Zeland)
+   ➢ en-SG English (Singapore)
+   ➢ en-US English (United States)
+   ➢ es Spanish
+   ➢ es-AR Spanish (Argentina)
+   ➢ es-ES Spanish (Spain)
+   ➢ es-UY Spanish (Uruguay)
+   ➢ fi Finnish
+   ➢ fr French
+   ➢ fr-BE French (Belgium)
+   ➢ fr-CH French (Switzerland)
+
+
+hl7VSdegreeLicenseCertificate
+   ➢ PN Advanced Practice Nurse
+   ➢ AAS Associate of Applied Science
+   ➢ AA Associate of Arts
+   ➢ ABA Associate of Business Administration
+   ➢ AE Associate of Engineering
+   ➢ AS Associate of Science
+   ➢ BA Bachelor of Arts
+   ➢ BBA Bachelor of Business Administration
+   ➢ BE Bachelor or Engineering
+   ➢ BFA Bachelor of Fine Arts
+   ➢ BN Bachelor of Nursing
+   ➢ BS Bachelor of Science
+   ➢ BSL Bachelor of Science - Law
+   ➢ BSN Bachelor on Science - Nursing
+   ➢ BT Bachelor of Theology
+   ➢ CER Certificate
+   ➢ CANP Certified Adult Nurse Practitioner
+   ➢ CMA Certified Medical Assistant
+   ➢ CNP Certified Nurse Practitioner
+   ➢ CNM Certified Nurse Midwife
+
+
+
+EnableDoc LLC Confidential 2023                 13
+   ➢ CRN Certified Registered Nurse
+   ➢ CNS Certified Nurse Specialist
+   ➢ CPNP Certified Pediatric Nurse Practitioner
+   ➢ CTR Certified Tumor Registrar
+   ➢ DIP Diploma
+
+
+EventStatus
+   ➢ preparation Preparation
+   ➢ in-progress In Progress
+   ➢ not-done Not Done
+   ➢ on-hold On Hold
+   ➢ stopped Stopped
+   ➢ completed Completed
+   ➢ entered-in-error Entered in Error
+
+
+
+
+RequestIntent
+   ➢ proposal Proposal
+   ➢ plan Plan
+   ➢ directive Directive
+   ➢ order Order
+   ➢ original-order Original Order
+   ➢ reflex-order Reflex Order
+   ➢ filler-order Filler Order
+   ➢ instance-order Instance Order
+   ➢ option Option
+
+
+Requeststatus
+   ➢ draft Draft
+   ➢ active Active
+   ➢ on-hold On Hold
+   ➢ revoked Revoked
+   ➢ completed Completed
+   ➢ entered-in-error Entered in Error
+   ➢ unknown Unknown
+
+
+
+
+FamilyHistoryStatus
+   ➢ partial Partial
+
+
+EnableDoc LLC Confidential 2023                    14
+   ➢ completed Completed
+   ➢ entered-in-error Entered in Error
+   ➢ health-unknown Health Unknown
+
+
+
+
+Immunization Status Codes
+   ➢ completed Completed
+   ➢ entered-in-error Entered in Error
+   ➢ not-done Not Done
+
+
+
+
+Medication Status Codes
+   ➢ active Active
+   ➢ completed Completed
+   ➢ entered-in-error Entered in Error
+   ➢ intended Intended
+   ➢ Code Display
+   ➢ stopped Stopped
+   ➢ on-hold On Hold
+   ➢ unknown Unknown
+   ➢ not-taken Not Taken
+
+
+Medication administration category codes
+   ➢ inpatient Inpatient
+   ➢ outpatient Outpatient
+   ➢ community Community
+
+
+
+
+Medication administration status codes
+   ➢ in-progress In Progress
+   ➢ not-done Not Done
+   ➢ on-hold On Hold
+   ➢ completed Completed
+   ➢ entered-in-error Entered in Error
+   ➢ stopped Stopped
+   ➢ unknown Unknown
+
+
+
+
+EnableDoc LLC Confidential 2023            15
+Vaccine Administered Value Set
+    ➢ 54 adenovirus vaccine, type 4, live, oral
+    ➢ 55 adenovirus vaccine, type 7, live, oral
+    ➢ 82 adenovirus vaccine, unspecified formulation
+    ➢ 24 anthrax vaccine
+    ➢ 19 Bacillus Calmette-Guerin vaccine
+    ➢ 27 botulinum antitoxin
+    ➢ 26 cholera vaccine, unspecified formulation
+    ➢ 29 cytomegalovirus immune globulin, intravenous
+    ➢ 56 dengue fever vaccine
+    ➢ 12 diphtheria antitoxin
+    ➢ 28 diphtheria and tetanus toxoids, adsorbed for pediatric use
+    ➢ 20 diphtheria, tetanus toxoids and acellular pertussis vaccine
+    ➢ 106 diphtheria, tetanus toxoids and acellular pertussis vaccine, 5 pertussis antigens
+    ➢ 107 diphtheria, tetanus toxoids and acellular pertussis vaccine,
+    ➢ unspecified formulation
+    ➢ 110 DTaP-hepatitis B and poliovirus vaccine
+    ➢ 50 DTaP-Haemophilus influenzae type b conjugate vaccine
+    ➢ 120 diphtheria, tetanus toxoids and acellular pertussis vaccine,
+    ➢ Haemophilus influenzae type b conjugate, and poliovirus vaccine,
+    ➢ inactivated (DTaP-Hib-IPV)
+    ➢ 130 Diphtheria, tetanus toxoids and acellular pertussis vaccine, and
+    ➢ poliovirus vaccine, inactivated
+    ➢ 01 diphtheria, tetanus toxoids and pertussis vaccine
+    ➢ 22 DTP-Haemophilus influenzae type b conjugate vaccine
+    ➢ 102 DTP- Haemophilus influenzae type b conjugate and hepatitis b vaccine
+    ➢ 57 hantavirus vaccine
+    ➢ 52 hepatitis A vaccine, adult dosage
+    ➢ 83 hepatitis A vaccine, pediatric/ adolescent dosage, 2 dose schedule
+    ➢ 84 hepatitis A vaccine, pediatric/ adolescent dosage, 3 dose schedule
+
+
+AllergyIntoleranceCategory
+    ➢ food Food
+    ➢ medication Medication
+    ➢ environment Environment
+    ➢ biologic Biologic
+
+
+AllergyIntoleranceCriticality
+    ➢ low Low Risk
+    ➢ high High Risk
+
+
+
+EnableDoc LLC Confidential 2023                                                               16
+    ➢ unable-to-assess Unable to Assess Risk
+
+
+AllergyIntoleranceSeverity
+    ➢ mild Mild
+    ➢ moderate Moderate
+    ➢ severe Severe
+
+
+AllergyIntoleranceType
+    ➢ allergy Allergy
+    ➢ intolerance Intolerance
+
+
+AllergyIntolerance Clinical Status Codes
+    ➢ active Active
+    ➢ inactive Inactive
+    ➢ resolved Resolved
+
+
+
+
+Birth Sex
+    ➢ F Female
+    ➢ M Male
+    ➢ ASKU asked but unknown
+    ➢ OTH other
+    ➢ UNK unknown
+
+
+
+
+SNOMED CT Clinical Findings
+    ➢ 404684003 Clinical finding (finding)
+    ➢ 109006 Anxiety disorder of childhood OR
+    ➢ adolescence 122003 Choroidal hemorrhage
+    ➢ 127009 Spontaneous abortion with laceration of cervix
+    ➢ 129007 Homoiothermia
+    ➢ 134006 Decreased hair growth
+    ➢ 140004 Chronic pharyngitis
+    ➢ 144008 Normal peripheral vision
+    ➢ 150003 Abnormal bladder continence
+    ➢ 151004 Gonococcal meningitis
+    ➢ 162004 Severe manic bipolar I disorder without psychotic features
+    ➢ 165002 Accident-prone
+
+
+
+EnableDoc LLC Confidential 2023                                           17
+   ➢ 168000 Typhlolithiasis
+   ➢ 171008 Injury of ascending right colon without open wound into abdominal cavity
+   ➢ 172001 Endometritis following molar AND/OR ectopic pregnancy
+   ➢ 175004 Supraorbital neuralgia
+   ➢ 177007 Poisoning by sawfly larvae
+   ➢ 179005 Apraxia of dressing
+   ➢ 181007 Hemorrhagic bronchopneumonia
+   ➢ 183005 Autoimmune pancytopenia
+   ➢ 184004 Withdrawal arrhythmia
+   ➢ 188001 Injury of intercostal artery
+   ➢ 192008 Congenital syphilitic hepatomegaly
+   ➢ 193003 Benign hypertensive renal disease
+   ➢ 195005 Illegal abortion with endometritis
+
+
+RequestStatus
+   ➢ draft Draft
+   ➢ active Active
+   ➢ on-hold On Hold
+   ➢ revoked Revoked
+   ➢ completed Completed
+   ➢ entered-in-error Entered in Error
+   ➢ unknown Unknown
+
+
+Care Plan Intent
+   ➢ proposal Proposal
+   ➢ plan Plan
+   ➢ order Order
+   ➢ option Option
+
+
+
+
+Medicationrequest Status
+   ➢ active Active
+   ➢ on-hold On Hold
+   ➢ cancelled Cancelled
+   ➢ completed Completed
+   ➢ entered-in-error Entered in Error
+   ➢ stopped Stopped
+   ➢ draft Draft
+   ➢ unknown Unknown
+
+
+
+EnableDoc LLC Confidential 2023                                                        18
+Medication Request Intent
+   ➢ proposal Proposal
+   ➢ plan Plan
+   ➢ order Order
+   ➢ original-order Original Order
+   ➢ reflex-order Reflex Order
+   ➢ filler-order Filler Order
+   ➢ instance-order Instance Order
+   ➢ option Option
+
+
+
+
+EnableDoc LLC Confidential 2023      19
+
