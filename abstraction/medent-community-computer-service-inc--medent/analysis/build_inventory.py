@@ -253,23 +253,6 @@ def main():
         }
         entities.append(entity)
     
-    # Handle Financial entity (references ASCII Field List)
-    # The PDF itself just has a few header fields; the real content is the ASCII list
-    financial_text = extract_pdf_text(PDF_DIR / "Financial_File_Specification.pdf")
-    fin_known = get_known_field_names(enrichment_data, "Financial_File_Specification.pdf")
-    fin_fields = parse_pdf_with_known_fields(financial_text, fin_known) if fin_known else []
-    if not fin_fields:
-        fin_fields = [{"name": "financial_data", "description": "References 750-field ASCII Field List for configurable billing fields", "example": ""}]
-    
-    entities.append({
-        "entity_name": "Financial",
-        "source_file": "Financial_File_Specification.pdf",
-        "category": "Billing / Financial",
-        "field_count": len(fin_fields),
-        "note": "Header fields only; actual financial content comes from 750-field ASCII Field List",
-        "fields": fin_fields
-    })
-    
     # Load ASCII Field List
     with open(ASCII_JSON) as f:
         ascii_data = json.load(f)

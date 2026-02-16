@@ -157,6 +157,18 @@ def categorize_object(name: str, description: str) -> str:
     if "coding" in name_lower:
         return "Coding & Terminology"
 
+    # Immunizations
+    if name_lower == "injections":
+        return "Immunizations"
+
+    # User reference
+    if name_lower == "revised_by":
+        return "Demographics & Administration"
+
+    # Extended values
+    if name_lower == "extended_value_names":
+        return "Demographics & Administration"
+
     return "Other"
 
 
