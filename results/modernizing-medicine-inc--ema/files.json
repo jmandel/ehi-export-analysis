@@ -1,0 +1,70 @@
+{
+  "collection_date": "2026-02-15",
+  "url": "https://www.modmed.com/onc-certification/",
+  "final_url": "https://www.modmed.com/onc-certification/",
+  "access_status": "accessible",
+  "files": [
+    {
+      "path": "downloads/onc-certification-page.png",
+      "source_url": "https://www.modmed.com/onc-certification/",
+      "size_bytes": 755013,
+      "description": "Full-page screenshot of the ModMed ONC certification page showing EMA certification status, mandatory disclosures, and the EHI Export Documentation section with a link to the data dictionary PDF. Captured via Chrome DevTools."
+    },
+    {
+      "path": "downloads/ModMed-EMA-EHI-Export-Data-Dictionary.pdf",
+      "source_url": "https://www.modmed.com/wp-content/uploads/2026/01/crp-13749-ModMed-EMA-EHI-Export-Data-Dictionary-for-Single-Patient-Export.pdf",
+      "size_bytes": 772645,
+      "description": "Overview EHI Export Data Dictionary — 96-page PDF documenting the ModMed EMA Single Patient Export. Contains a table inventory of ~411 database tables organized in 17 groupings (Patient, PM Financials, eLab, Prescription, Ophth Pretesting, etc.), with descriptions, relationships, longitudinal tracking indicators, product/vertical assignments, and refresh frequencies. Includes 8 appendices with value sets for ophthalmology usage, visual acuity, fax status, patient history, visit billing, immunization, cancer log, and HPI follow-up. Links to the separate detailed field-level data dictionary on page 78.",
+      "curl_command": "curl -sL 'https://www.modmed.com/wp-content/uploads/2026/01/crp-13749-ModMed-EMA-EHI-Export-Data-Dictionary-for-Single-Patient-Export.pdf' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36' -H 'Referer: https://www.modmed.com/onc-certification/' -o ModMed-EMA-EHI-Export-Data-Dictionary.pdf"
+    },
+    {
+      "path": "downloads/ModMed-EMA-Detailed-Data-Dictionary.pdf",
+      "source_url": "https://www.modmed.com/wp-content/uploads/2026/01/crp-13749-ModMed-EMA_Single-Patient-EHI-Export-Data-Dictionary.pdf",
+      "size_bytes": 867625,
+      "description": "Detailed field-level Data Dictionary — 210-page PDF (originally Google Sheets .xlsx export) containing 5,250 field entries across ~257 tables. Each entry has IDX, Grouping, Table, Column, Description, Data Type, Nullable, Field Length, and Values/Coding Schema. Discovered via hyperlink on page 78 of the overview PDF. Required browser cookies for download due to Cloudflare protection.",
+      "curl_command": "curl -sL 'https://www.modmed.com/wp-content/uploads/2026/01/crp-13749-ModMed-EMA_Single-Patient-EHI-Export-Data-Dictionary.pdf' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36' -H 'Referer: https://www.modmed.com/onc-certification/' -H 'Cookie: [browser session cookies required]' -o ModMed-EMA-Detailed-Data-Dictionary.pdf"
+    },
+    {
+      "path": "downloads/overview-dd-xml.xml",
+      "source_url": null,
+      "size_bytes": 666286,
+      "description": "Intermediate XML output from pdftohtml -xml for the overview data dictionary PDF. Used as input for the enrichment extraction script. Generated locally, not downloaded."
+    },
+    {
+      "path": "downloads/detailed-dd-xml.xml",
+      "source_url": null,
+      "size_bytes": 3493638,
+      "description": "Intermediate XML output from pdftohtml -xml for the detailed data dictionary PDF. Used as input for the enrichment extraction script. Generated locally, not downloaded."
+    },
+    {
+      "path": "downloads/enrichment/extract-overview-dd.ts",
+      "source_url": null,
+      "size_bytes": 5931,
+      "description": "TypeScript extraction script (Bun) that parses the overview PDF XML to produce a structured JSON inventory of all 411 tables with groupings, descriptions, relationships, and metadata."
+    },
+    {
+      "path": "downloads/enrichment/extract-detailed-dd.ts",
+      "source_url": null,
+      "size_bytes": 8280,
+      "description": "TypeScript extraction script (Bun) that parses the detailed data dictionary PDF XML to produce structured JSON of all 5,250 field entries with table, column, description, data type, nullability, field length, and coding schema."
+    },
+    {
+      "path": "downloads/enrichment/overview-table-inventory.json",
+      "source_url": null,
+      "size_bytes": 216586,
+      "description": "Structured JSON extraction of the overview data dictionary: 411 table entries with idx, grouping, table name, description, relationships, longitudinal tracking, product/vertical, financial priority, and refresh frequency."
+    },
+    {
+      "path": "downloads/enrichment/detailed-data-dictionary.json",
+      "source_url": null,
+      "size_bytes": 1662014,
+      "description": "Structured JSON extraction of the detailed data dictionary: 5,250 field entries across 257 tables with idx, grouping, table, column, description, dataType, nullable, fieldLength, and valuesCodingSchema. Includes statistics on groupings and table field counts."
+    },
+    {
+      "path": "downloads/enrichment/README.md",
+      "source_url": null,
+      "size_bytes": 2488,
+      "description": "Documentation for the enrichment extraction scripts, including run commands, input/output file descriptions, and known parsing limitations (~2-3% of entries affected by wrapped table names and column alignment issues)."
+    }
+  ]
+}
