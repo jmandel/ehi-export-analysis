@@ -1,0 +1,366 @@
+MDCare EMR/PMS
+         Version: V5.1
+
+
+
+
+§170.315(b)(10)Electronic HealthInformation –
+                       Export(Documentation)
+
+
+
+
+                                                1
+Contents                                  Page No#
+
+  1. Overview                                 3
+        a. Single Patient Export              4
+        b. Bulk Patients Export               6
+  2. CCD Output Format                        8
+        a. Standard referenced                8
+        b. Sections in the C-CDA Output       8
+
+
+
+
+                                                     2
+Overview
+
+MDCareEMRV5.1 meets the certification criterion §170.315(b)(10) Electronic Health Information - Export by implementing the
+CCD Export for Single Patient and Bulk Patients. Based on specific user roles, this helps the clinical users to generate the Clinical
+Care Document in accordance with the standards specified in § 170.205(a)(4) HL7® Implementation Guide for CDA® Release 2:
+Consolidated CDA Templates for Clinical Notes (US Realm), Draft Standard for Trial Use Release 2.1, August 2015
+
+
+MDCareEMRV5.1 will generate complete electronic health information in C-CDA,XML and PDF formats.
+
+
+To achieve this, we have implemented,
+      Single Patient Data Export and Bulk Patients Data Export that can be in the CCD format and also can be printed in PDF
+       format.
+      Ability to download the Images / Clinical notes on demand and can be printed in PDF format.
+
+
+
+
+                                                                                                                                        3
+Single PatientExport:
+
+        Home page  Records Tab  ‘EHI-Export’
+        Clicking on ‘Add Request’ button navigates to ‘EHI-Export-Request’ window
+        Select ‘Single patient’ and search with ‘Patient Name’.
+        Down the page in the grid, user can see selected Patient’s list of encounters.
+        Select the check box, patient encounter number/s in the grid to generate CCDA.
+        Click on ‘Save’ button and close the window navigates to Records EHI-Export window.
+
+
+
+
+   Select the MR No check box from the grid after verifying the request date.
+
+                                                                                                4
+ If user selects only ‘single encounter’ click on ‘Downlaod’ icon in the grid. Downloaded zip file includes all scanned clinical and
+administrative documents for the patient in C-CDA, PDF, and XML formats.
+
+
+
+
+                                                                                                                                        5
+          If ‘all encouters’ data of a single patient is needed, click on ‘Export’ button in grid. Downloaded zip file includes all scanned
+           clinical and administrative documents for the patient in C-CDA, PDF, and XML formats.
+
+
+
+
+C-CDA Format
+
+
+
+
+                                                                                                                                               6
+7
+Bulk PatientsExport:
+        Home page  Records Tab  ‘EHI-Export’
+        Clicking on ‘Add Request’ button navigates to ‘EHI-Export-Request’ window
+        Select ‘Multiple Patients’and a ‘Date range (From & To)’
+        Select ‘Resource’ and ‘Physicians’ from the drop down list
+        Click on ‘Search’ button
+        Select Patient Demographics and also All POS documents check boxes
+        Down the page, in the grid user you can see list of multiple patient encounters
+
+
+
+
+                                                                                           8
+   Check the check box in All Encounters in grid view
+   Click on ‘Save’ button and close, the window navigates to Records  EHI-Export window.
+
+
+
+
+                                                                                             9
+   In EHI-Export window, select ‘All Patients’ radio button
+   Select ‘Request from Dates & To’
+   Click Search button
+   Selecting the checkbox beside ‘MR No.’ column in the grid will select all patients
+   Click on ‘Export’ button
+   Downloaded eachzip file contains all the charts, scanned clinical and administrative documents for the patient in C-CDA, PDF,
+    and XML formats.
+
+
+
+
+                                                                                                                                    10
+11
+    CCD OutputFormat
+
+    Standard Referenced:
+        §      170.205(a)(4)   HL7®     Implementation     Guide     for    CDA®    Release     2:    Consolidated   CDA
+           TemplatesforClinicalNotes(USRealm),DraftStandardforTrialUseRelease2.1,August 2015
+        https://www.healthit.gov/isa/sites/isa/files/2020-10/USCDI-Version-1-July-2020-Errata-Final_0.pdf
+
+    Sections in the CCD output
+
+        Data Elements              XPATH / Entry                Code System          Code System Name
+Patient Demographics/Information
+Patient Name                   patient/name                                         -
+Sex                            patient/administrativeG     2.16.840.1.113883.5.1    AdministrativeGender
+                               enderCode
+Date of Birth                  patient/birthTime
+Race                           patient/raceCode            2.16.840.1.113883.6.23   Race & Ethnicity -
+                                                           8                        CDC
+Ethnicity                      patient/ethnicGroupCo       2.16.840.1.113883.6.23   Race & Ethnicity -
+                               de                          8                        CDC
+Preferred Language             patient/languageCommuni
+                               cation/languageCode
+Provider's name and office contact information
+Performer                       documentationOf/serviceE
+                                vent/performer
+                                /assignedEntity/assignedP
+                                erson/name
+Performer                       documentationOf/serviceE
+                                vent/performer/assig
+                                nedEntity/telecom
+Performer                       documentationOf/serviceE
+                                vent/performer/assig
+                                nedEntity/addr
+Date and Location of visit [2.16.840.1.113883.10.20.22.2.22.1 : 2015-08-01]
+
+
+                                                                                                                            12
+Encounter   entry/encounter/effectiv
+            eTime/@value
+Encounter   entry/encounter/partici
+            pant/participantRole/ad
+            dr
+
+
+
+
+                                       13
+Chief Complaint and Reason for visit [2.16.840.1.113883.10.20.22.2.13 : 2014-06-09]
+
+Patient visit
+details/complaints
+Encounters [2.16.840.1.113883.10.20.22.2.22.1 : 2015-08-01]
+Encounter Code and            2.16.840.1.113883.10. 2.16.840.1.113883.6.12            CPT
+Code Description              2
+                              0.22.4.49: 2015-08-01
+Performer
+
+          Data Elements            XPATH / Entry           Code System           Code System
+                                                                                 Name
+Diagnosis                                             2.16.840.1.113883.6.96    SNOMED and ICD10
+                                                      and
+                                                      2.16.840.1.113883.6.3
+                                                      (translation code)
+  Location
+  Date
+Immunizations [2.16.840.1.113883.10.20.22.2.2.1 : 2015-08-01]
+
+Vaccine                       2.16.840.1.113883.10. 2.16.840.1.113883.12.2      CVX and CPT-4
+                              2                     92 and
+                              0.22.4.52: 2015-08-01 2.16.840.1.113883.6.12
+                                                    (translation code)
+Date
+Status
+Route                                                 2.16.840.1.113883.3.26. National
+                                                      1.1                     Cancer
+                                                                              Institute
+                                                                              (NCI)
+                                                                              Thesaurus
+Site                                                  2.16.840.1.113883.6.96 SNOMED
+Manufacturer
+Dose
+Lot Number
+Notes
+Instructions [2.16.840.1.113883.10.20.22.2.45 : 2014-06-09]
+
+                                                                                                   14
+Patient Instructions/Followup 2.16.840.1.113883.10. 2.16.840.1.113883.6.96       SNOMED
+Reasons                       2
+                              0.22.4.20: 2014-06-09
+Treatment Plan [2.16.840.1.113883.10.20.22.2.10 : 2014-06-09]
+
+(Diagnostic tests pending, Future appointments, Referrals to other providers, Future scheduled
+tests,
+ Recommended patient decision aids)
+Planned Observation             2.16.840.1.113883.10. 2.16.840.1.113883.6.1       LOINC
+                                2
+                                0.22.4.44: 2014-06-09
+Planned Date                    2.16.840.1.113883.10.
+                                2
+                                0.22.4.40: 2014-06-09
+                                2.16.840.1.113883.10.
+                                2
+                                0.22.4.39: 2014-06-09
+                                2.16.840.1.113883.10.
+                                2
+                                0.22.4.121
+Social History [2.16.840.1.113883.10.20.22.2.17 : 2015-08-01]
+
+Social History Observation 2.16.840.1.113883.10. 2.16.840.1.113883.6.1                    LOI
+                           2                                                              NC
+                           0.22.4.78: 2014-06-09
+Description                                       2.16.840.1.113883.6.96                  SNOMED
+Dates Observed                                          -                             -
+Problems [2.16.840.1.113883.10.20.22.2.5.1 : 2015-08-01]
+
+
+       Data Elements               XPATH / Entry            Code System           Code System
+                                                                                  Name
+Problem                        2.16.840.1.113883.10. 2.16.840.1.113883.6.96      SNOMED and ICD10
+                               2                     and
+                               0.22.4.3: 2015-08-01  2.16.840.1.113883.6.3
+                                                     (translation code)
+ Status
+ Active date
+Medications [2.16.840.1.113883.10.20.22.2.1.1 : 2014-06-09]
+
+                                                                                                    15
+Medication                   2.16.840.1.113883.10. 2.16.840.1.113883.6.88   RxNorm and NDC
+                             2                     and
+                             0.22.4.16: 2014-06-09 2.16.840.1.113883.6.69
+                                                   (translation code)
+Directions
+Start Date
+End Date
+Status
+Medication Allergies [2.16.840.1.113883.10.20.22.2.6.1 : 2015-08-01]
+
+Substance                    2.16.840.1.113883.10. 2.16.840.1.113883.6.88   RxNorm
+                             2
+                             0.22.4.30: 2015-08-01
+Reaction                                           2.16.840.1.113883.6.96   SNOMED
+Severity                                           2.16.840.1.113883.6.96   SNOMED
+Status                                             2.16.840.1.113883.6.96   SNOMED
+Laboratory Tests
+
+Test Code
+Code System                                        2.16.840.1.113883.6.1    LOINC
+Name
+Date
+Laboratory Information
+
+Lab Name
+Lab Address
+Test Report Date
+Test Performed
+Specimen Source
+Laboratory value(s)/result(s) [2.16.840.1.113883.10.20.22.2.3.1 : 2015-08-01]
+
+Result Type                  2.16.840.1.113883.10. 2.16.840.1.113883.6.1    LOINC
+                             2
+                             0.22.4.1: 2015-08-01
+Result Value
+Relevant Reference Range
+Interpretation
+Date
+                                                                                             16
+Vitals [2.16.840.1.113883.10.20.22.2.4.1 : 2015-08-01]
+
+
+       Data Elements            XPATH / Entry            Code System        Code System
+                                                                            Name
+Observation                 2.16.840.1.113883.10. 2.16.840.1.113883.6.1    LOINC
+                            2
+                            0.22.4.26: 2015-08-01
+Observation Date/Time
+Goal [2.16.840.1.113883.10.20.22.2.60]
+
+Goal                        2.16.840.1.113883.10.                              -
+                            2
+                            0.22.4.121
+Value
+Date
+Procedures [2.16.840.1.113883.10.20.22.2.7.1 : 2014-06-09
+
+Procedure                   2.16.840.1.113883.10. 2.16.840.1.113883.6.12   CPT-4 or
+                            2                     or                       SNOMED or
+                            0.22.4.14: 2014-06-09 2.16.840.1.113883.6.96   HCPCS
+                                                  or
+                                                  2.16.840.1.113883.6.13
+Date
+Care team member(s) [2.16.840.1.113883.10.20.22.2.500 : 2019-07-01]
+
+Care Giver Name             2.16.840.1.113883.10.
+                            2
+                            0.22.4.500:2019-07-01
+Specialty
+Date
+
+
+
+
+                                                                                          17
+Reason for Referral [1.3.6.1.4.1.19376.1.5.3.1.3.1 : 2014-06-09]
+
+Reason for visit             2.16.840.1.113883.10. 2.16.840.1.113883.6.9 SNOMED
+                             2                     6
+                             0.22.4.140
+
+Medical Equipment [2.16.840.1.113883.10.20.22.2.23 : 2014-06-09]
+
+Implanted Device             2.16.840.1.113883.10. 2.16.840.1.113883.6.9 SNOMED
+                             2                     6
+                             0.22.4.14: 2014-06-09
+GMDN PT Description
+Mental Status [2.16.840.1.113883.10.20.22.2.56 : 2015-08-01]
+
+Assessment                   2.16.840.1.113883.10.
+                             2
+                             0.22.4.74: 2015-08-01
+Assessment Date
+Results                                              2.16.840.1.113883.6.9   SNOMED
+                                                     6
+Comments
+Functional Status [2.16.840.1.113883.10.20.22.2.14 : 2014-06-09]
+
+Assessment                   2.16.840.1.113883.10.
+                             2
+                             0.22.4.67: 2014-06-09
+Assessment Date
+Results                                              2.16.840.1.113883.6.9   SNOMED
+                                                     6
+Comments
+Health Concern [2.16.840.1.113883.10.20.22.2.58 : 2015-08-01]
+
+
+       Data Elements             XPATH / Entry         Code System           Code System Name
+Concern / Observation        2.16.840.1.113883.10. 2.16.840.1.113883.6.       SNOMED
+                             2                              96
+                             0.22.4.132:2015-08-01
+Status
+Date
+
+
+                                                                                                18
+URL: www.mdcare.com/EHIexport
+Email: info@vinfonet.com
+Phone: 6307999399
+
+
+
+
+                                19
+

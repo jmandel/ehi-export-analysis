@@ -249,13 +249,15 @@ async function parseEprescribeEntities(): Promise<Entity[]> {
   const text = await readFile(join(import.meta.dir, "eprescribe-export-text.txt"), "utf-8");
   const entities: Entity[] = [];
 
-  const sections = text.split(/(?=Filename:\s+\S+\.tsv)/);
+  const sections = text.split(/(?=Filename:\s+.+?\.tsv\b)/);
   
   for (const section of sections) {
-    const filenameMatch = section.match(/Filename:\s+(\S+\.tsv)/);
+    const filenameMatch = section.match(/Filename:\s+(.+?\.tsv)\b/);
     if (!filenameMatch) continue;
+    // Skip TOC entries (they have page numbers like "...9")
+    if (filenameMatch[1].includes("...") || filenameMatch[1].includes("..")) continue;
     
-    const filename = filenameMatch[1];
+    const filename = filenameMatch[1].trim();
     const descMatch = section.match(/Description:\s*(.+?)(?:\n|$)/);
     const desc = descMatch ? descMatch[1].trim() : "";
     const dbMatch = section.match(/EHR internal database table name:\s*(.+?)(?:\n|$)/);
@@ -294,6 +296,9 @@ async function parseEprescribeEntities(): Promise<Entity[]> {
       }
     }
 
+    // Skip TOC entries (0 fields means it was a table-of-contents reference)
+    if (fields.length === 0) continue;
+    
     entities.push({
       product: "Veradigm ePrescribe",
       category: filename.replace(".tsv", ""),
@@ -315,19 +320,20 @@ async function parseEprescribeEntities(): Promise<Entity[]> {
 async function parsePmEntities(): Promise<Entity[]> {
   const text = await readFile(join(import.meta.dir, "pm-export-text.txt"), "utf-8");
   
-  // The PM export is a single JSON structure, not multiple tables
-  // Parse the field definitions from the text
-  const fields: Field[] = [];
+  // Main voucher/claims structure (lines between FIELD NAME...DESCRIPTION and Appendix)
+  const mainFields: Field[] = [];
   const lines = text.split("\n");
   let inFieldDefs = false;
+  let reachedAppendix = false;
   
   for (const line of lines) {
-    if (line.match(/FIELD NAME\s+DESCRIPTION/i)) {
+    if (line.match(/^Chapter 3$/) || line.match(/^\f?Appendix$/)) { reachedAppendix = true; break; }
+    if (line.match(/FIELD NAME\s+DESCRIPTION/i) && !reachedAppendix) {
       inFieldDefs = true;
       continue;
     }
     if (!inFieldDefs) continue;
-    if (line.match(/^(May|Copyright|EHI Data|This page|Chapter)/)) continue;
+    if (line.match(/^(May|Copyright|EHI Data|This page)/)) continue;
     
     const trimmed = line.trim();
     if (!trimmed || trimmed.length < 3) continue;
@@ -337,15 +343,14 @@ async function parsePmEntities(): Promise<Entity[]> {
       const name = parts[0].trim();
       if (name === "FIELD NAME" || name.match(/^(May|Copyright)/)) continue;
       const description = parts.slice(1).join(" ").trim();
-      
       if (name) {
-        fields.push({ name, dataType: "JSON", description });
+        mainFields.push({ name, dataType: "JSON", description });
       }
     }
   }
 
-  // Also parse appendix fields
-  const appendixSections = text.split(/(?=Claim information fields|Ailment information fields|Ambulance information fields|Drug information fields|Anesthesia information fields|Dental information fields)/);
+  // Appendix sections
+  const appendixSections = text.substring(text.indexOf("Appendix")).split(/(?=Claim information fields|Ailment information fields|Ambulance information fields|Drug information fields|Anesthesia information fields|Dental information fields)/);
   const appendixEntities: Entity[] = [];
   
   for (const section of appendixSections) {
@@ -362,6 +367,8 @@ async function parsePmEntities(): Promise<Entity[]> {
         continue;
       }
       if (!inTable) continue;
+      // Stop at next section header
+      if (line.match(/^(Claim information|Ailment information|Ambulance information|Drug information|Anesthesia information|Dental information) fields/)) break;
       
       const trimmed = line.trim();
       if (!trimmed || trimmed.length < 3) continue;
@@ -398,7 +405,7 @@ async function parsePmEntities(): Promise<Entity[]> {
     description: "Patient financial data including vouchers, charges, payments, claims, services, and related billing information",
     sourceFile: "EHIDataExportFile_ReferenceGuide_VeradigmPM_V2.pdf",
     format: "JSON",
-    fields,
+    fields: mainFields,
   }, ...appendixEntities];
 }
 
