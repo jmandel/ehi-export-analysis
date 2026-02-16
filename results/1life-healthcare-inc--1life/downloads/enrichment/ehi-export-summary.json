@@ -1,0 +1,175 @@
+{
+  "ehiExport": {
+    "description": "The EHI export contains the electronic health information available for a single patient or multiple patients in computable file formats. The export(s) can be downloaded as a zip file containing a .json and a .xml file.",
+    "formats": {
+      "json": {
+        "description": "FHIR bundle with all resources on record belonging to the patient",
+        "resourceTypes": [
+          "AllergyIntolerance",
+          "CareTeam",
+          "Communication",
+          "Condition",
+          "Consent",
+          "Device",
+          "Diagnostic Report",
+          "DocumentReference",
+          "Condition",
+          "Encounter",
+          "Goal",
+          "Immunization",
+          "MedicationRequest",
+          "Observation",
+          "Patient",
+          "Procedure",
+          "ServiceRequest"
+        ]
+      },
+      "xml": {
+        "description": "Patient Continuity of Care Document formatted in accordance with the C-CDA version 2.1 specification",
+        "ccdaSections": [
+          "Allergies",
+          "Assessment and Plan",
+          "Care Team",
+          "Encounters",
+          "Family History",
+          "Goals",
+          "Health Concerns",
+          "Immunizations",
+          "Medical Equipment",
+          "Medications",
+          "Notes",
+          "Patient",
+          "Plan of Treatment",
+          "Problems",
+          "Procedures",
+          "Results",
+          "Social History",
+          "Vital Signs"
+        ]
+      }
+    }
+  },
+  "ccda": {
+    "endpoint": "GET https://production.app.1life.com/api/ccda",
+    "authentication": "Basic Auth (registration required)",
+    "requestParameters": [
+      {
+        "parameter": "start_date",
+        "required": "false",
+        "type": "query parameter",
+        "description": "Format yyyy-mm-dd, when provided, all of the data associated with the patient created after this date should be included"
+      },
+      {
+        "parameter": "end_date",
+        "required": "false",
+        "type": "query parameter",
+        "description": "Format yyyy-mm-dd, when provided, all the data associated with the patient created before this date should be included"
+      }
+    ],
+    "sections": [
+      "Assessment and Plan (date_range_applies: yes)",
+      "Care Team (date_range_applies: no)",
+      "Encounters (date_range_applies: yes)",
+      "Goals (date_range_applies: no)",
+      "Health Concerns (date_range_applies: no)",
+      "Immunizations (date_range_applies: yes)",
+      "Medical Equipment (date_range_applies: no)",
+      "Medications (date_range_applies: no)",
+      "Notes (date_range_applies: no)",
+      "Patient (date_range_applies: no)",
+      "Problems (date_range_applies: yes)",
+      "Procedures (date_range_applies: no)",
+      "Results (date_range_applies: yes)",
+      "Social History (Smoking Status) (date_range_applies: yes)",
+      "Vital Signs (date_range_applies: yes)"
+    ]
+  },
+  "extensions": [
+    {
+      "name": "Race",
+      "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+      "usedIn": "Patient",
+      "description": "Currently used in: PatientURL: http://hl7.org/fhir/us/core/StructureDefinition/us-core-raceDocuments the patient's race, and is generally paired with the US Core Ethnicity extension.Example:{ \"url\": \"http://hl7.org/fhir/us/core/StructureDefinition/us-core-race\", \"extension\": [ { \"url\": \"ombCategory\", \"valueCoding\": { \"system\": \"urn:oid:2.16.840.1.113883.6.238\", \"code\": \"2106-3\", \"display\": \"White\" } }, { \"url\": \"ombCategory\","
+    },
+    {
+      "name": "Ethnicity",
+      "url": "http://hl7.org/fhir/us/core/StructureDefinition-us-core-ethnicity",
+      "usedIn": "Patient",
+      "description": "Currently used in: PatientURL: http://hl7.org/fhir/us/core/StructureDefinition-us-core-ethnicityDocuments the patient's ethnicity.Example:{ \"extension\": [ { \"url\": \"ombCategory\", \"valueCoding\": { \"system\": \"urn:oid:2.16.840.1.113883.6.238\", \"code\": \"2135-2\", \"display\": \"Hispanic or Latino\" } }, { \"url\": \"detailed\", \"valueCoding\": { \"system\": \"urn:oid:2.16.840.1.113883.6.238\", \"code\": \"2184-0\", \"display\":"
+    },
+    {
+      "name": "Machine learning",
+      "url": "https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/machine-learning-extension#h.8de3lwbummvs",
+      "usedIn": "Observation",
+      "description": "One Medical uses machine learning (ML) technology to automatically process certain health data and make predictions that can be verified by our healthcare professionals. Records that were generated automatically by our ML models are marked with several extensions to provide information about how the record was generated. Note that resources with these extensions should generally NOT be considered authoritative, and they are often marked explicitly with preliminary or draft status.Resources deriv"
+    },
+    {
+      "name": "Source type",
+      "url": "https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/machine-learning-extension#h.ch6rldivgco3",
+      "usedIn": "Procedure",
+      "description": "Currently used in: ProcedureURL: https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/machine-learning-extension#h.ch6rldivgco3Denotes the system that generated the resource; its value should generally be set to machine_learning.Example:{ \"url\": \"https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/machine-learning-extension#h.ch6rldivgco3\", \"valueStri"
+    },
+    {
+      "name": "Model name",
+      "url": "https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/machine-learning-extension#h.d0fma5ftdfk2",
+      "usedIn": "Procedure",
+      "description": "Currently used in: ProcedureURL: https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/machine-learning-extension#h.d0fma5ftdfk2Records the name of the machine learning model that generated the data represented by this resource.Example:{ \"url\": \"https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/machine-learning-extension#h.d0fma5ftdfk2\", \"valueString"
+    },
+    {
+      "name": "Model repository",
+      "url": "https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/machine-learning-extension#h.f74ls3p7ff2l",
+      "usedIn": "Procedure",
+      "description": "Currently used in: ProcedureURL: https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/machine-learning-extension#h.f74ls3p7ff2lLinks to the GitHub repository where the code for the machine learning model is stored. These URLs are not generally accessible by parties outside of One Medical.Example:{ \"url\": \"https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensi"
+    },
+    {
+      "name": "Model type",
+      "url": "https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/machine-learning-extension#h.78zuul5bqwhu",
+      "usedIn": null,
+      "description": "URL: https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/machine-learning-extension#h.78zuul5bqwhuDescribes the type of machine learning used to create the model.Example:{ \"url\": \"https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/machine-learning-extension#h.78zuul5bqwhu\", \"valueString\": \"lstm-crf model used to to identify spans of text for multi-l"
+    },
+    {
+      "name": "Model use case",
+      "url": "https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/machine-learning-extension#h.s3kdehba0il8",
+      "usedIn": "Procedure",
+      "description": "Currently used in: ProcedureURL: https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/machine-learning-extension#h.s3kdehba0il8Describes the use case for the machine learning model.Example:{ \"url\": \"https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/machine-learning-extension#h.s3kdehba0il8\", \"valueString\": \"Predict document type, patient, and proced"
+    },
+    {
+      "name": "Model performance",
+      "url": "https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/machine-learning-extension#h.bcbv0r98e1ut",
+      "usedIn": null,
+      "description": "URL: https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/machine-learning-extension#h.bcbv0r98e1utLinks to a report of the training for the model. These URLs are generally not accessible to parties outside of One Medical.Example:{ \"url\": \"https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/machine-learning-extension#h.bcbv0r98e1ut\", \"valueString\": \"{"
+    },
+    {
+      "name": "Prediction characteristics",
+      "url": "https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/machine-learning-extension#h.hwk2hfr6efmv",
+      "usedIn": null,
+      "description": "URL: https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/machine-learning-extension#h.hwk2hfr6efmvDescribes the detailed predictions made by the ML model.Example:{ \"url\": \"https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/machine-learning-extension#h.hwk2hfr6efmv\", \"valueString\": \"{\\\"annotations\\\":{\\\"confidence\\\":[0.99999285,0.99965036],\\\"text\\\":\\\""
+    },
+    {
+      "name": "First party data",
+      "url": "https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/first-party",
+      "usedIn": "Procedure",
+      "description": "Currently used in: ProcedureURL: https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/first-partyThe first party extension explicitly marks resources created to represent interactions at One Medical, in contrast with resources related to patient care at other sites.Example:{ \"url\": \"https://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/first-party\", \"va"
+    }
+  ],
+  "terminology": [
+    {
+      "resource": "Consent",
+      "code": "TOS",
+      "description": "This is a \"Terms of Service\" consent form. These are generally signed by new members when they first join One Medical.",
+      "system": "http://onemedical.com/terminology"
+    },
+    {
+      "resource": "Communication",
+      "code": "TMN",
+      "description": "Treat Me Now – identifies secure message threads that began as a result of the member using our Treat Me Now service.",
+      "system": "http://onemedical.com/terminology"
+    },
+    {
+      "resource": "Communication",
+      "code": "AVS",
+      "description": "After Visit Summary – these are created following an encounter and provides follow-up instructions to the member.",
+      "system": "http://onemedical.com/terminology"
+    }
+  ]
+}
