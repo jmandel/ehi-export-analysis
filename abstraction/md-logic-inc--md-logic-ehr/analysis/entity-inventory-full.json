@@ -1,0 +1,191 @@
+{
+  "product": "MD Logic EHR",
+  "export_type": "document-centric ZIP export with JSON manifests",
+  "export_format": "ZIP files containing documents (PDF, Word, CCDA, JPEG) + JSON manifest",
+  "documentation_source": "https://www.mdlogic.com/solutions/b10-export-documentation",
+  "total_entities": 2,
+  "total_fields": 15,
+  "fields_with_descriptions": 14,
+  "fields_with_examples": 15,
+  "schema_bugs": [
+    "per_patient_manifest: 'Descripton' field has typo (missing 'i')",
+    "bulk_export_manifest: 'required' array lists 'Address' but property is named 'Address1' (mismatch)",
+    "bulk_export_manifest: 'Gender' is listed as required but has no property definition in 'properties'",
+    "Both schemas use placeholder $id values (http://example.com/example.json)"
+  ],
+  "html_page_size_bytes": 66222,
+  "entities": [
+    {
+      "entity_name": "per_patient_manifest",
+      "vendor_category": "Export Manifest",
+      "description": "JSON manifest inside each patient's ZIP file listing all exported documents with metadata",
+      "source_file": "patient-manifest-schema.json",
+      "field_count": 4,
+      "fields": [
+        {
+          "name": "Descripton",
+          "type": "string",
+          "description": "The Descripton Schema",
+          "required": true,
+          "examples": [
+            "MRI Spine",
+            "MRI Hip",
+            "Registration Form",
+            "Progress Notes"
+          ]
+        },
+        {
+          "name": "FileName",
+          "type": "string",
+          "description": "The FileName Schema",
+          "required": true,
+          "examples": [
+            "testFile_51.pdf",
+            "testFile_3304.pdf",
+            "testFile_3305.doc",
+            "testFile_3305.xml",
+            "testFile_3305.jpg"
+          ]
+        },
+        {
+          "name": "FileType",
+          "type": "string",
+          "description": "The FileType Schema",
+          "required": true,
+          "examples": [
+            "Word",
+            "PDF",
+            "CCDA",
+            "JPEG"
+          ]
+        },
+        {
+          "name": "DateCreated",
+          "type": "string",
+          "description": "The DateCreated Schema",
+          "required": true,
+          "examples": [
+            "8/25/2020",
+            "8/24/2020",
+            "8/20/2020"
+          ]
+        }
+      ]
+    },
+    {
+      "entity_name": "bulk_export_manifest",
+      "vendor_category": "Export Manifest",
+      "description": "Top-level JSON manifest for bulk (all-patient) export, mapping patient demographics to ZIP files",
+      "source_file": "bulk-export-manifest-schema.json",
+      "field_count": 11,
+      "fields": [
+        {
+          "name": "FirstName",
+          "type": "string",
+          "description": "",
+          "required": true,
+          "examples": [
+            "John",
+            "Jane"
+          ]
+        },
+        {
+          "name": "LastName",
+          "type": "string",
+          "description": "The LastName Schema",
+          "required": true,
+          "examples": [
+            "Doe"
+          ]
+        },
+        {
+          "name": "MiddleName",
+          "type": "string",
+          "description": "The MiddleName Schema",
+          "required": true,
+          "examples": [
+            "Q",
+            "James"
+          ]
+        },
+        {
+          "name": "Suffix",
+          "type": "string",
+          "description": "The Suffix Schema",
+          "required": true,
+          "examples": [
+            "Jr",
+            "Sr",
+            "III"
+          ]
+        },
+        {
+          "name": "Address1",
+          "type": "string",
+          "description": "The Address1 Schema",
+          "required": false,
+          "examples": [
+            "143 Main Street"
+          ]
+        },
+        {
+          "name": "Address2",
+          "type": "string",
+          "description": "The Address2 Schema",
+          "required": true,
+          "examples": [
+            "Suite 100"
+          ]
+        },
+        {
+          "name": "City",
+          "type": "string",
+          "description": "The City Schema",
+          "required": true,
+          "examples": [
+            "Atlanta",
+            "Houston"
+          ]
+        },
+        {
+          "name": "State",
+          "type": "string",
+          "description": "The State Schema",
+          "required": true,
+          "examples": [
+            "GA",
+            "TX",
+            "NY"
+          ]
+        },
+        {
+          "name": "Zip",
+          "type": "string",
+          "description": "The Zip Schema",
+          "required": true,
+          "examples": [
+            "30097"
+          ]
+        },
+        {
+          "name": "DOB",
+          "type": "string",
+          "description": "The DOB Schema",
+          "required": true,
+          "examples": [
+            "01/01/1980"
+          ]
+        },
+        {
+          "name": "PatientFileName",
+          "type": "string",
+          "description": "The PatientFileName Schema",
+          "required": true,
+          "examples": [
+            "5125.zip"
+          ]
+        }
+      ]
+    }
+  ]
+}
