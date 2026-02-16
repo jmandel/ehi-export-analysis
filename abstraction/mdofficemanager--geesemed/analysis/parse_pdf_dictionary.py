@@ -57,7 +57,8 @@ for line in text.split("\n"):
     if any(skip in line_stripped for skip in [
         "Data Elements", "Description", "Copyrights", "material presented",
         "may not be reproduced", "Standard Referenced", "§ 170.205",
-        "Realm)", "Sections in CCD", "GeeseMed EHR", "MDOfficeManager"
+        "Realm)", "Sections in CCD", "GeeseMed EHR", "MDOfficeManager",
+        "§170.315(b)(10)", "Future Appointments"
     ]):
         continue
 
@@ -79,6 +80,14 @@ for line in text.split("\n"):
 
 if current_section:
     sections.append(current_section)
+
+# Fix Treatment Plan fields (description spans page break in PDF)
+for s in sections:
+    if s["section"] == "Treatment Plan":
+        s["fields"] = [
+            {"name": "Planned Observation", "description": "Future Appointments, lab orders, medication orders and diagnostic orders", "type": None, "values": None},
+            {"name": "Planned Date", "description": "Plan date", "type": None, "values": None}
+        ]
 
 # Build entity inventory
 entities = []

@@ -1,0 +1,557 @@
+{
+  "product": "HealUs EHR",
+  "version": "1.0",
+  "source_artifacts": [
+    "downloads/EHI.pdf",
+    "downloads/fhir-capability-statement.json"
+  ],
+  "data_dictionary_available": false,
+  "field_level_documentation": false,
+  "sample_data_available": false,
+  "schema_available": false,
+  "export_categories": [
+    {
+      "entity": "Patient Demographics",
+      "format": "CSV",
+      "source": "EHI.pdf p.4",
+      "description": "CSV format \u2013 comprehensive view of patient demographics, structured for clarity and ease of access.",
+      "fields": [],
+      "field_count": null,
+      "notes": "No column specification provided. Field names and types are undocumented."
+    },
+    {
+      "entity": "Appointments",
+      "format": "PDF, CSV",
+      "source": "EHI.pdf p.4",
+      "description": "Comprehensive view of appointments in both PDF and CSV formats.",
+      "fields": [],
+      "field_count": null,
+      "notes": "No column specification for CSV. No structure documented for PDF."
+    },
+    {
+      "entity": "Lab Results",
+      "format": "PDF",
+      "source": "EHI.pdf p.4",
+      "description": "Comprehensive view of laboratory results in PDF format.",
+      "fields": [],
+      "field_count": null,
+      "notes": "PDF only \u2014 not computable. No field-level documentation."
+    },
+    {
+      "entity": "Imaging Results",
+      "format": "PDF",
+      "source": "EHI.pdf p.4",
+      "description": "Comprehensive view of imaging results in PDF format.",
+      "fields": [],
+      "field_count": null,
+      "notes": "PDF only \u2014 not computable. No field-level documentation."
+    },
+    {
+      "entity": "Procedure Results",
+      "format": "PDF",
+      "source": "EHI.pdf p.4",
+      "description": "Comprehensive view of procedure results in PDF format.",
+      "fields": [],
+      "field_count": null,
+      "notes": "PDF only \u2014 not computable. No field-level documentation."
+    },
+    {
+      "entity": "Encounters",
+      "format": "PDF",
+      "source": "EHI.pdf p.5",
+      "description": "Comprehensive view of all data associated with patient encounters in PDF format.",
+      "fields": [],
+      "field_count": null,
+      "notes": "PDF only \u2014 not computable. No field-level documentation."
+    },
+    {
+      "entity": "Referrals",
+      "format": "PDF",
+      "source": "EHI.pdf p.5",
+      "description": "Comprehensive view of referrals in PDF format.",
+      "fields": [],
+      "field_count": null,
+      "notes": "PDF only \u2014 not computable. No field-level documentation."
+    },
+    {
+      "entity": "Advance Directives",
+      "format": "PDF",
+      "source": "EHI.pdf p.5",
+      "description": "Comprehensive view of advance directives in PDF format.",
+      "fields": [],
+      "field_count": null,
+      "notes": "PDF only \u2014 not computable. No field-level documentation."
+    },
+    {
+      "entity": "Documents",
+      "format": "PDF",
+      "source": "EHI.pdf p.5",
+      "description": "Lab results, imaging reports, and scanned/uploaded documents. Sorted into category subfolders (Lab Reports, Imaging Reports, Consents, etc.).",
+      "fields": [],
+      "field_count": null,
+      "notes": "PDF copies of original documents. No metadata schema documented."
+    },
+    {
+      "entity": "Clinical Data (C-CDA)",
+      "format": "C-CDA XML",
+      "source": "EHI.pdf p.3",
+      "description": "Clinical data exported via HL7 CDA R2 IHE Health Story Consolidation DSTU 1.1. Single and bulk patient export.",
+      "fields": [],
+      "field_count": null,
+      "notes": "Standard C-CDA \u2014 no vendor-specific extensions or customizations documented."
+    },
+    {
+      "entity": "Clinical Data (FHIR)",
+      "format": "FHIR R4 JSON",
+      "source": "EHI.pdf p.3, fhir-capability-statement.json",
+      "description": "Clinical data exported via HL7 FHIR US Core IG STU 4.0.0 and FHIR Bulk Data Access v1.0.1.",
+      "fields": [],
+      "field_count": null,
+      "notes": "Standard US Core resource set (27 types). No vendor-specific resources or extensions."
+    }
+  ],
+  "fhir_resources": [
+    {
+      "resource_type": "AllergyIntolerance",
+      "interactions": [
+        "search-type",
+        "read"
+      ],
+      "search_params": [
+        "clinical-status",
+        "patient"
+      ],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-allergyintolerance"
+      ]
+    },
+    {
+      "resource_type": "CarePlan",
+      "interactions": [
+        "search-type",
+        "read"
+      ],
+      "search_params": [
+        "category",
+        "date",
+        "patient",
+        "status"
+      ],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careplan"
+      ]
+    },
+    {
+      "resource_type": "CareTeam",
+      "interactions": [
+        "search-type",
+        "read"
+      ],
+      "search_params": [
+        "patient",
+        "status"
+      ],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careteam"
+      ]
+    },
+    {
+      "resource_type": "Condition",
+      "interactions": [
+        "search-type",
+        "read"
+      ],
+      "search_params": [
+        "category",
+        "clinical-status",
+        "patient",
+        "onset-date",
+        "code"
+      ],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition-encounter-diagnosis",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition-problems-health-concerns"
+      ]
+    },
+    {
+      "resource_type": "Device",
+      "interactions": [
+        "search-type",
+        "read"
+      ],
+      "search_params": [
+        "patient",
+        "type"
+      ],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-implantable-device"
+      ]
+    },
+    {
+      "resource_type": "DiagnosticReport",
+      "interactions": [
+        "create",
+        "search-type",
+        "read"
+      ],
+      "search_params": [
+        "status",
+        "patient",
+        "category",
+        "code",
+        "date"
+      ],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"
+      ]
+    },
+    {
+      "resource_type": "DocumentReference",
+      "interactions": [
+        "create",
+        "search-type",
+        "read"
+      ],
+      "search_params": [
+        "_id",
+        "status",
+        "patient",
+        "category",
+        "type",
+        "date",
+        "period"
+      ],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"
+      ]
+    },
+    {
+      "resource_type": "Encounter",
+      "interactions": [
+        "search-type",
+        "read"
+      ],
+      "search_params": [
+        "_id",
+        "class",
+        "date",
+        "identifier",
+        "patient",
+        "status",
+        "type"
+      ],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
+      ]
+    },
+    {
+      "resource_type": "Goal",
+      "interactions": [
+        "search-type",
+        "read"
+      ],
+      "search_params": [
+        "lifecycle-status",
+        "patient",
+        "target-date"
+      ],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-goal"
+      ]
+    },
+    {
+      "resource_type": "Group",
+      "interactions": [],
+      "search_params": [],
+      "profiles": []
+    },
+    {
+      "resource_type": "Immunization",
+      "interactions": [
+        "search-type",
+        "read"
+      ],
+      "search_params": [
+        "patient",
+        "status",
+        "date"
+      ],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization"
+      ]
+    },
+    {
+      "resource_type": "Location",
+      "interactions": [
+        "search-type",
+        "read"
+      ],
+      "search_params": [
+        "name",
+        "address",
+        "address-city",
+        "address-state",
+        "address-postalcode"
+      ],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-location"
+      ]
+    },
+    {
+      "resource_type": "Medication",
+      "interactions": [
+        "read"
+      ],
+      "search_params": [],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medication"
+      ]
+    },
+    {
+      "resource_type": "MedicationRequest",
+      "interactions": [
+        "search-type",
+        "read"
+      ],
+      "search_params": [
+        "status",
+        "intent",
+        "patient",
+        "encounter",
+        "authoredon"
+      ],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationrequest"
+      ]
+    },
+    {
+      "resource_type": "MedicationDispense",
+      "interactions": [
+        "search-type",
+        "read"
+      ],
+      "search_params": [
+        "status",
+        "intent",
+        "patient",
+        "encounter",
+        "authoredon"
+      ],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationdispense"
+      ]
+    },
+    {
+      "resource_type": "Observation",
+      "interactions": [
+        "search-type",
+        "read"
+      ],
+      "search_params": [
+        "status",
+        "category",
+        "code",
+        "date",
+        "patient"
+      ],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-smokingstatus",
+        "http://hl7.org/fhir/us/core/StructureDefinition/pediatric-weight-for-height",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab",
+        "http://hl7.org/fhir/us/core/StructureDefinition/pediatric-bmi-for-age",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-pulse-oximetry",
+        "http://hl7.org/fhir/us/core/StructureDefinition/head-occipital-frontal-circumference-percentile",
+        "http://hl7.org/fhir/StructureDefinition/bp",
+        "http://hl7.org/fhir/StructureDefinition/bodyheight",
+        "http://hl7.org/fhir/StructureDefinition/bodyweight",
+        "http://hl7.org/fhir/StructureDefinition/heartrate",
+        "http://hl7.org/fhir/StructureDefinition/resprate",
+        "http://hl7.org/fhir/StructureDefinition/bodytemp",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-vital-signs",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-blood-pressure",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-bmi",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-body-height",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-body-temperature",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-body-weight",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-head-circumference",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-heart-rate",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-respiratory-rate",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-imaging",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-survey",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-sexual-orientation",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-sdoh-assessment",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-clinical-test",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-social-history",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-pregnancystatus",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-pregnancyintent",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-occupation",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-simple-observation",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-screening-assessment",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-clinical-result"
+      ]
+    },
+    {
+      "resource_type": "Organization",
+      "interactions": [
+        "search-type",
+        "read"
+      ],
+      "search_params": [
+        "name",
+        "address"
+      ],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
+      ]
+    },
+    {
+      "resource_type": "Patient",
+      "interactions": [
+        "search-type",
+        "read"
+      ],
+      "search_params": [
+        "_id",
+        "birthdate",
+        "family",
+        "gender",
+        "given",
+        "identifier",
+        "name"
+      ],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+      ]
+    },
+    {
+      "resource_type": "Practitioner",
+      "interactions": [
+        "search-type",
+        "read"
+      ],
+      "search_params": [
+        "name",
+        "identifier"
+      ],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+      ]
+    },
+    {
+      "resource_type": "PractitionerRole",
+      "interactions": [
+        "search-type",
+        "read"
+      ],
+      "search_params": [
+        "specialty",
+        "practitioner"
+      ],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole"
+      ]
+    },
+    {
+      "resource_type": "Procedure",
+      "interactions": [
+        "search-type",
+        "read"
+      ],
+      "search_params": [
+        "status",
+        "patient",
+        "date",
+        "code"
+      ],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"
+      ]
+    },
+    {
+      "resource_type": "Coverage",
+      "interactions": [
+        "search-type",
+        "read"
+      ],
+      "search_params": [
+        "patient"
+      ],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-coverage"
+      ]
+    },
+    {
+      "resource_type": "Specimen",
+      "interactions": [
+        "search-type",
+        "read"
+      ],
+      "search_params": [
+        "identifier",
+        "patient"
+      ],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-specimen"
+      ]
+    },
+    {
+      "resource_type": "ServiceRequest",
+      "interactions": [
+        "search-type",
+        "read"
+      ],
+      "search_params": [
+        "identifier",
+        "patient",
+        "category",
+        "code",
+        "authoredon",
+        "status"
+      ],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-servicerequest"
+      ]
+    },
+    {
+      "resource_type": "RelatedPerson",
+      "interactions": [
+        "search-type",
+        "read"
+      ],
+      "search_params": [
+        "name",
+        "identifier",
+        "patient"
+      ],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-relatedperson"
+      ]
+    },
+    {
+      "resource_type": "Provenance",
+      "interactions": [
+        "read"
+      ],
+      "search_params": [],
+      "profiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+      ]
+    },
+    {
+      "resource_type": "Endpoint",
+      "interactions": [
+        "search-type",
+        "read"
+      ],
+      "search_params": [
+        "_id"
+      ],
+      "profiles": [
+        "http://hl7.org/fhir/StructureDefinition/Endpoint"
+      ]
+    }
+  ],
+  "fhir_resource_count": 27
+}
