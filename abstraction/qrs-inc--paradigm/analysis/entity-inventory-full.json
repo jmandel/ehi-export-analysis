@@ -1,0 +1,1574 @@
+{
+  "product": "PARADIGM\u00ae",
+  "vendor": "QRS, Inc.",
+  "ehi_export_documentation": {
+    "source": "PARADIGM_EHI_Export_Documentation.pdf",
+    "total_pages": 6,
+    "legal_boilerplate_pages": 4,
+    "technical_pages": 2,
+    "export_format": "ZIP containing C-CDA XML + supplemental JSON + attached files",
+    "components": [
+      {
+        "name": "C-CDA XML",
+        "description": "Standard C-CDA CCD document per patient, named by patient code (e.g., 10000.xml)",
+        "documented_fields": 0,
+        "has_data_dictionary": false
+      },
+      {
+        "name": "Supplemental JSON",
+        "description": "Additional information in JSON format, named by info type (e.g., 10000_invoice history.json)",
+        "documented_fields": 0,
+        "has_data_dictionary": false,
+        "example_mentioned": "invoice history"
+      },
+      {
+        "name": "Attached files",
+        "description": "Files imported into the EHR in original format (PDF/PNG/etc), in _addt_files directory",
+        "documented_fields": 0,
+        "has_data_dictionary": false
+      }
+    ],
+    "access_mechanism": {
+      "ui": "EHR System Reports > Data Portability module, checkbox for 'include all EHI'",
+      "api": "REST API at api.qrshs.com/v1/ for patient search and C-CDA retrieval (Basic auth)",
+      "api_endpoints": [
+        {
+          "endpoint": "GET https://api.qrshs.com/v1/patient/search",
+          "parameters": [
+            "first_name",
+            "mid_name",
+            "last_name",
+            "birthdate",
+            "ssn"
+          ],
+          "auth": "Basic"
+        },
+        {
+          "endpoint": "GET https://api.qrshs.com/v1/patient/ccda",
+          "parameters": [
+            "patient",
+            "date",
+            "start_date",
+            "end_date"
+          ],
+          "auth": "Basic"
+        }
+      ]
+    },
+    "data_dictionary": null,
+    "sample_data": null,
+    "schema": null
+  },
+  "fhir_api_documentation": {
+    "source": "PARADIGM_FHIR_API_Documentation.pdf",
+    "format": "FHIR R4 (US Core)",
+    "total_resources": 15,
+    "total_fields": 88,
+    "resources": [
+      {
+        "resource": "Patient",
+        "field_count": 3,
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "\u201c10006-111-20180823\u201d"
+          },
+          {
+            "name": "identifier",
+            "type": "array",
+            "description": "["
+          },
+          {
+            "name": "name",
+            "type": "array",
+            "description": "["
+          }
+        ],
+        "search_parameter_count": 5,
+        "search_parameters": [
+          {
+            "name": "id",
+            "type": "string",
+            "required": "conditional",
+            "description": "Resource ID"
+          },
+          {
+            "name": "identifier",
+            "type": "string",
+            "required": "conditional",
+            "description": "Unique MRN"
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "required": "optional",
+            "description": "Patient\u2019s name"
+          },
+          {
+            "name": "birthdate",
+            "type": "date",
+            "required": "option",
+            "description": "Patient\u2019s date of birth"
+          },
+          {
+            "name": "gender",
+            "type": "string",
+            "required": "optional",
+            "description": "Administrative gender"
+          }
+        ]
+      },
+      {
+        "resource": "AllergyIntolerance",
+        "field_count": 1,
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "\u201c12341256375679\u201d"
+          }
+        ],
+        "search_parameter_count": 2,
+        "search_parameters": [
+          {
+            "name": "id",
+            "type": "string",
+            "required": "conditional",
+            "description": "Resource ID"
+          },
+          {
+            "name": "patient",
+            "type": "string",
+            "required": "conditional",
+            "description": "Patient ID"
+          }
+        ]
+      },
+      {
+        "resource": "CarePlan",
+        "field_count": 5,
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "\u201c12341256375679\u201d"
+          },
+          {
+            "name": "text",
+            "type": "object",
+            "description": "{"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "description": "\u201cactive\u201d"
+          },
+          {
+            "name": "category",
+            "type": "object",
+            "description": "{"
+          },
+          {
+            "name": "subject",
+            "type": "object",
+            "description": "{"
+          }
+        ],
+        "search_parameter_count": 3,
+        "search_parameters": [
+          {
+            "name": "id",
+            "type": "string",
+            "required": "conditional",
+            "description": "Resource ID"
+          },
+          {
+            "name": "patient",
+            "type": "string",
+            "required": "conditional",
+            "description": "Patient ID"
+          },
+          {
+            "name": "category",
+            "type": "string",
+            "required": "optional",
+            "description": "Care plan category"
+          }
+        ]
+      },
+      {
+        "resource": "CareTeam",
+        "field_count": 3,
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "\u201c12341256375679\u201d"
+          },
+          {
+            "name": "participant",
+            "type": "array",
+            "description": "["
+          },
+          {
+            "name": "subject",
+            "type": "object",
+            "description": "{"
+          }
+        ],
+        "search_parameter_count": 3,
+        "search_parameters": [
+          {
+            "name": "id",
+            "type": "string",
+            "required": "conditional",
+            "description": "Resource ID"
+          },
+          {
+            "name": "patient",
+            "type": "string",
+            "required": "conditional",
+            "description": "Patient ID"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "required": "optional",
+            "description": "Team status"
+          }
+        ]
+      },
+      {
+        "resource": "Condition",
+        "field_count": 6,
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "\u201c12341256375679\u201d"
+          },
+          {
+            "name": "clinicalStatus",
+            "type": "object",
+            "description": "{"
+          },
+          {
+            "name": "verificationStatus",
+            "type": "object",
+            "description": "{"
+          },
+          {
+            "name": "category",
+            "type": "array",
+            "description": "["
+          },
+          {
+            "name": "code",
+            "type": "object",
+            "description": "{"
+          },
+          {
+            "name": "subject",
+            "type": "object",
+            "description": "{"
+          }
+        ],
+        "search_parameter_count": 2,
+        "search_parameters": [
+          {
+            "name": "id",
+            "type": "string",
+            "required": "conditional",
+            "description": "Resource ID"
+          },
+          {
+            "name": "patient",
+            "type": "string",
+            "required": "conditional",
+            "description": "Patient ID"
+          }
+        ]
+      },
+      {
+        "resource": "Device",
+        "field_count": 13,
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "\u201c10006-4602\u201d"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "description": "\u201cactive\u201d"
+          },
+          {
+            "name": "patient",
+            "type": "object",
+            "description": "{"
+          },
+          {
+            "name": "distinctIdentifier",
+            "type": "string",
+            "description": "\"(01)00643169007222(17)160128(21)BLC200461H\""
+          },
+          {
+            "name": "manufacturer",
+            "type": "string",
+            "description": "\"MEDTRONIC, INC.\""
+          },
+          {
+            "name": "manufactureDate",
+            "type": "datetime",
+            "description": "\"2014-09-23T00:00:00.000Z\""
+          },
+          {
+            "name": "modelNumber",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "udiCarrier",
+            "type": "array",
+            "description": "["
+          },
+          {
+            "name": "deviceName",
+            "type": "array",
+            "description": "["
+          },
+          {
+            "name": "serialNumber",
+            "type": "string",
+            "description": "\"BLC200461H\""
+          },
+          {
+            "name": "expirationDate",
+            "type": "date",
+            "description": "\"2016-01-28\""
+          },
+          {
+            "name": "lotNumber",
+            "type": "string",
+            "description": "\u201c28374698273649278\u201d"
+          },
+          {
+            "name": "type",
+            "type": "object",
+            "description": "{"
+          }
+        ],
+        "search_parameter_count": 2,
+        "search_parameters": [
+          {
+            "name": "id",
+            "type": "string",
+            "required": "conditional",
+            "description": "Resource ID"
+          },
+          {
+            "name": "patient",
+            "type": "string",
+            "required": "conditional",
+            "description": "Patient ID"
+          }
+        ]
+      },
+      {
+        "resource": "DiagnosticReport",
+        "field_count": 8,
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "\u201c10006-pat-14957-5-lab-2010-06-22\u201d"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "description": "\u201cfinal\u201d"
+          },
+          {
+            "name": "category",
+            "type": "array",
+            "description": "["
+          },
+          {
+            "name": "Code",
+            "type": "object",
+            "description": "{"
+          },
+          {
+            "name": "subject",
+            "type": "object",
+            "description": "{"
+          },
+          {
+            "name": "effectiveDateTime",
+            "type": "datetime",
+            "description": "\"2010-06-22T00:00:10-05:00\""
+          },
+          {
+            "name": "issued",
+            "type": "datetime",
+            "description": "\u201c2010-06-22T00:00:10-05:00\u201d"
+          },
+          {
+            "name": "performer",
+            "type": "array",
+            "description": "["
+          }
+        ],
+        "search_parameter_count": 4,
+        "search_parameters": [
+          {
+            "name": "id",
+            "type": "string",
+            "required": "conditional",
+            "description": "Resource ID"
+          },
+          {
+            "name": "patient",
+            "type": "string",
+            "required": "conditional",
+            "description": "Patient ID"
+          },
+          {
+            "name": "category",
+            "type": "string",
+            "required": "optional",
+            "description": "Report type"
+          },
+          {
+            "name": "date",
+            "type": "date",
+            "required": "optional",
+            "description": "Date report created"
+          }
+        ]
+      },
+      {
+        "resource": "DocumentReference",
+        "field_count": 2,
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "\u201c10006-pat-ccda-76299-objs-1397572221-0\u201d"
+          },
+          {
+            "name": "identifier",
+            "type": "array",
+            "description": "["
+          }
+        ],
+        "search_parameter_count": 5,
+        "search_parameters": [
+          {
+            "name": "id",
+            "type": "string",
+            "required": "conditional",
+            "description": "Resource ID"
+          },
+          {
+            "name": "patient",
+            "type": "string",
+            "required": "conditional",
+            "description": "Patient ID"
+          },
+          {
+            "name": "category",
+            "type": "string",
+            "required": "optional",
+            "description": "Document category"
+          },
+          {
+            "name": "type",
+            "type": "string",
+            "required": "optional",
+            "description": "Document type"
+          },
+          {
+            "name": "date",
+            "type": "date",
+            "required": "optional",
+            "description": "Date document created"
+          }
+        ]
+      },
+      {
+        "resource": "Goal",
+        "field_count": 5,
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "\u201c10006-20221111120912\u201d"
+          },
+          {
+            "name": "lifecycleStatus",
+            "type": "string",
+            "description": "\u201ccompleted\u201d"
+          },
+          {
+            "name": "subject",
+            "type": "array",
+            "description": "{"
+          },
+          {
+            "name": "description",
+            "type": "object",
+            "description": "{"
+          },
+          {
+            "name": "target",
+            "type": "array",
+            "description": "["
+          }
+        ],
+        "search_parameter_count": 2,
+        "search_parameters": [
+          {
+            "name": "id",
+            "type": "string",
+            "required": "conditional",
+            "description": "Resource ID"
+          },
+          {
+            "name": "patient",
+            "type": "string",
+            "required": "conditional",
+            "description": "Patient ID"
+          }
+        ]
+      },
+      {
+        "resource": "Immunization",
+        "field_count": 7,
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "\u201c10006-111-20180823\u201d"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "description": "\u201cnot-done\u201d"
+          },
+          {
+            "name": "statusReason",
+            "type": "object",
+            "description": "{"
+          },
+          {
+            "name": "patient",
+            "type": "object",
+            "description": "{"
+          },
+          {
+            "name": "vaccineCode",
+            "type": "object",
+            "description": "{"
+          },
+          {
+            "name": "occurrenceDateTime",
+            "type": "datetime",
+            "description": "\"2018-08-23T00:00:10-05:00\""
+          },
+          {
+            "name": "primarySource",
+            "type": "Boolean",
+            "description": "true"
+          }
+        ],
+        "search_parameter_count": 2,
+        "search_parameters": [
+          {
+            "name": "id",
+            "type": "string",
+            "required": "conditional",
+            "description": "Resource ID"
+          },
+          {
+            "name": "patient",
+            "type": "string",
+            "required": "conditional",
+            "description": "Patient ID"
+          }
+        ]
+      },
+      {
+        "resource": "MedicationRequest",
+        "field_count": 11,
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "\u201c96629a50-9ca3-41ff-aa10-62d052dedee\u201d"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "description": "\u201cactive\u201d"
+          },
+          {
+            "name": "category",
+            "type": "array",
+            "description": "["
+          },
+          {
+            "name": "intent",
+            "type": "string",
+            "description": "\u201cproposal\u201d"
+          },
+          {
+            "name": "reportedReference",
+            "type": "object",
+            "description": "{"
+          },
+          {
+            "name": "medicationCodeableConcept",
+            "type": "object",
+            "description": "{"
+          },
+          {
+            "name": "subject",
+            "type": "object",
+            "description": "{"
+          },
+          {
+            "name": "encounter",
+            "type": "object",
+            "description": "{"
+          },
+          {
+            "name": "authoredOn",
+            "type": "date",
+            "description": "\u201c2011-12-19\u201d"
+          },
+          {
+            "name": "requester",
+            "type": "object",
+            "description": "{"
+          },
+          {
+            "name": "dosageInstruction",
+            "type": "array",
+            "description": "["
+          }
+        ],
+        "search_parameter_count": 4,
+        "search_parameters": [
+          {
+            "name": "id",
+            "type": "string",
+            "required": "conditional",
+            "description": "Resource ID"
+          },
+          {
+            "name": "patient",
+            "type": "string",
+            "required": "conditional",
+            "description": "Patient ID"
+          },
+          {
+            "name": "intent",
+            "type": "string",
+            "required": "optional",
+            "description": "Request type"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "required": "optional",
+            "description": "Request status"
+          }
+        ]
+      },
+      {
+        "resource": "Observation",
+        "field_count": 7,
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "\u201c10006-111-20180823\u201d"
+          },
+          {
+            "name": "subject",
+            "type": "object",
+            "description": "{"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "description": "\u201cfinal\u201d"
+          },
+          {
+            "name": "category",
+            "type": "array",
+            "description": "["
+          },
+          {
+            "name": "effectiveDateTime",
+            "type": "datetime",
+            "description": "\"2009-07-06T00:00:10-05:00\""
+          },
+          {
+            "name": "code",
+            "type": "object",
+            "description": "{"
+          },
+          {
+            "name": "valueQuantity",
+            "type": "object",
+            "description": "{"
+          }
+        ],
+        "search_parameter_count": 5,
+        "search_parameters": [
+          {
+            "name": "id",
+            "type": "string",
+            "required": "conditional",
+            "description": "Resource ID"
+          },
+          {
+            "name": "patient",
+            "type": "string",
+            "required": "conditional",
+            "description": "Patient ID"
+          },
+          {
+            "name": "category",
+            "type": "string",
+            "required": "optional",
+            "description": "Observation category"
+          },
+          {
+            "name": "date",
+            "type": "date",
+            "required": "optional",
+            "description": "Date of observation"
+          },
+          {
+            "name": "code",
+            "type": "string",
+            "required": "optional",
+            "description": "LOINC code"
+          }
+        ]
+      },
+      {
+        "resource": "Procedure",
+        "field_count": 5,
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "\u201c10006-111-20180823\u201d"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "description": "\u201ccompleted\u201d"
+          },
+          {
+            "name": "code",
+            "type": "object",
+            "description": "{"
+          },
+          {
+            "name": "subject",
+            "type": "object",
+            "description": "{"
+          },
+          {
+            "name": "performedDateTime",
+            "type": "datetime",
+            "description": "\"2007-05-23T00:00:10-05:00\""
+          }
+        ],
+        "search_parameter_count": 3,
+        "search_parameters": [
+          {
+            "name": "id",
+            "type": "string",
+            "required": "conditional",
+            "description": "Resource ID"
+          },
+          {
+            "name": "patient",
+            "type": "string",
+            "required": "conditional",
+            "description": "Patient ID"
+          },
+          {
+            "name": "date",
+            "type": "date",
+            "required": "optional",
+            "description": "Date of procedure"
+          }
+        ]
+      },
+      {
+        "resource": "Encounter",
+        "field_count": 9,
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "\u201c10006-111-20180823\u201d"
+          },
+          {
+            "name": "identifier",
+            "type": "array",
+            "description": "["
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "description": "\u201cfinished\u201d"
+          },
+          {
+            "name": "class",
+            "type": "object",
+            "description": "{"
+          },
+          {
+            "name": "type",
+            "type": "array",
+            "description": "["
+          },
+          {
+            "name": "subject",
+            "type": "object",
+            "description": "{"
+          },
+          {
+            "name": "period",
+            "type": "object",
+            "description": "{"
+          },
+          {
+            "name": "location",
+            "type": "array",
+            "description": "["
+          },
+          {
+            "name": "participant",
+            "type": "array",
+            "description": "["
+          }
+        ],
+        "search_parameter_count": 2,
+        "search_parameters": [
+          {
+            "name": "id",
+            "type": "string",
+            "required": "conditional",
+            "description": "Resource ID"
+          },
+          {
+            "name": "patient",
+            "type": "string",
+            "required": "conditional",
+            "description": "Patient ID"
+          }
+        ]
+      },
+      {
+        "resource": "Provenance",
+        "field_count": 3,
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "\u201c10006-111-20180823\u201d"
+          },
+          {
+            "name": "target",
+            "type": "array",
+            "description": "["
+          },
+          {
+            "name": "agent",
+            "type": "array",
+            "description": "["
+          }
+        ],
+        "search_parameter_count": 1,
+        "search_parameters": [
+          {
+            "name": "id",
+            "type": "string",
+            "required": "required",
+            "description": "Resource ID"
+          }
+        ]
+      }
+    ],
+    "supporting_resources_in_scopes": [
+      "Medication",
+      "Location",
+      "Organization",
+      "Practitioner",
+      "PractitionerRole"
+    ],
+    "notes": [
+      "This is the (g)(10) FHIR API documentation, NOT the (b)(10) EHI export",
+      "The EHI export uses C-CDA + supplemental JSON, documented separately",
+      "No data dictionary provided for the EHI export content"
+    ]
+  },
+  "entities": [
+    {
+      "entity": "C-CDA CCD Document",
+      "source": "EHI Export (b)(10)",
+      "category": "Clinical Summary",
+      "fields": [],
+      "field_count": 0,
+      "description": "Standard C-CDA Continuity of Care Document containing clinical summary data. No product-specific field documentation provided.",
+      "has_descriptions": false,
+      "has_types": false
+    },
+    {
+      "entity": "Supplemental JSON (invoice history)",
+      "source": "EHI Export (b)(10)",
+      "category": "Billing/Additional",
+      "fields": [],
+      "field_count": 0,
+      "description": "JSON file with additional information such as invoice history. Only mentioned by example name; no schema or field documentation provided.",
+      "has_descriptions": false,
+      "has_types": false
+    },
+    {
+      "entity": "Attached Files",
+      "source": "EHI Export (b)(10)",
+      "category": "Documents",
+      "fields": [],
+      "field_count": 0,
+      "description": "Files imported into the EHR (PDF, PNG, etc.) included in original format. No documentation of file types or metadata.",
+      "has_descriptions": false,
+      "has_types": false
+    },
+    {
+      "entity": "FHIR Patient",
+      "source": "FHIR API (g)(10) - NOT EHI export",
+      "category": "FHIR US Core",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "\u201c10006-111-20180823\u201d"
+        },
+        {
+          "name": "identifier",
+          "type": "array",
+          "description": "["
+        },
+        {
+          "name": "name",
+          "type": "array",
+          "description": "["
+        }
+      ],
+      "field_count": 3,
+      "description": "US Core FHIR resource with 3 documented response fields",
+      "has_descriptions": true,
+      "has_types": true
+    },
+    {
+      "entity": "FHIR AllergyIntolerance",
+      "source": "FHIR API (g)(10) - NOT EHI export",
+      "category": "FHIR US Core",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "\u201c12341256375679\u201d"
+        }
+      ],
+      "field_count": 1,
+      "description": "US Core FHIR resource with 1 documented response fields",
+      "has_descriptions": true,
+      "has_types": true
+    },
+    {
+      "entity": "FHIR CarePlan",
+      "source": "FHIR API (g)(10) - NOT EHI export",
+      "category": "FHIR US Core",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "\u201c12341256375679\u201d"
+        },
+        {
+          "name": "text",
+          "type": "object",
+          "description": "{"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "description": "\u201cactive\u201d"
+        },
+        {
+          "name": "category",
+          "type": "object",
+          "description": "{"
+        },
+        {
+          "name": "subject",
+          "type": "object",
+          "description": "{"
+        }
+      ],
+      "field_count": 5,
+      "description": "US Core FHIR resource with 5 documented response fields",
+      "has_descriptions": true,
+      "has_types": true
+    },
+    {
+      "entity": "FHIR CareTeam",
+      "source": "FHIR API (g)(10) - NOT EHI export",
+      "category": "FHIR US Core",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "\u201c12341256375679\u201d"
+        },
+        {
+          "name": "participant",
+          "type": "array",
+          "description": "["
+        },
+        {
+          "name": "subject",
+          "type": "object",
+          "description": "{"
+        }
+      ],
+      "field_count": 3,
+      "description": "US Core FHIR resource with 3 documented response fields",
+      "has_descriptions": true,
+      "has_types": true
+    },
+    {
+      "entity": "FHIR Condition",
+      "source": "FHIR API (g)(10) - NOT EHI export",
+      "category": "FHIR US Core",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "\u201c12341256375679\u201d"
+        },
+        {
+          "name": "clinicalStatus",
+          "type": "object",
+          "description": "{"
+        },
+        {
+          "name": "verificationStatus",
+          "type": "object",
+          "description": "{"
+        },
+        {
+          "name": "category",
+          "type": "array",
+          "description": "["
+        },
+        {
+          "name": "code",
+          "type": "object",
+          "description": "{"
+        },
+        {
+          "name": "subject",
+          "type": "object",
+          "description": "{"
+        }
+      ],
+      "field_count": 6,
+      "description": "US Core FHIR resource with 6 documented response fields",
+      "has_descriptions": true,
+      "has_types": true
+    },
+    {
+      "entity": "FHIR Device",
+      "source": "FHIR API (g)(10) - NOT EHI export",
+      "category": "FHIR US Core",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "\u201c10006-4602\u201d"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "description": "\u201cactive\u201d"
+        },
+        {
+          "name": "patient",
+          "type": "object",
+          "description": "{"
+        },
+        {
+          "name": "distinctIdentifier",
+          "type": "string",
+          "description": "\"(01)00643169007222(17)160128(21)BLC200461H\""
+        },
+        {
+          "name": "manufacturer",
+          "type": "string",
+          "description": "\"MEDTRONIC, INC.\""
+        },
+        {
+          "name": "manufactureDate",
+          "type": "datetime",
+          "description": "\"2014-09-23T00:00:00.000Z\""
+        },
+        {
+          "name": "modelNumber",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "udiCarrier",
+          "type": "array",
+          "description": "["
+        },
+        {
+          "name": "deviceName",
+          "type": "array",
+          "description": "["
+        },
+        {
+          "name": "serialNumber",
+          "type": "string",
+          "description": "\"BLC200461H\""
+        },
+        {
+          "name": "expirationDate",
+          "type": "date",
+          "description": "\"2016-01-28\""
+        },
+        {
+          "name": "lotNumber",
+          "type": "string",
+          "description": "\u201c28374698273649278\u201d"
+        },
+        {
+          "name": "type",
+          "type": "object",
+          "description": "{"
+        }
+      ],
+      "field_count": 13,
+      "description": "US Core FHIR resource with 13 documented response fields",
+      "has_descriptions": true,
+      "has_types": true
+    },
+    {
+      "entity": "FHIR DiagnosticReport",
+      "source": "FHIR API (g)(10) - NOT EHI export",
+      "category": "FHIR US Core",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "\u201c10006-pat-14957-5-lab-2010-06-22\u201d"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "description": "\u201cfinal\u201d"
+        },
+        {
+          "name": "category",
+          "type": "array",
+          "description": "["
+        },
+        {
+          "name": "Code",
+          "type": "object",
+          "description": "{"
+        },
+        {
+          "name": "subject",
+          "type": "object",
+          "description": "{"
+        },
+        {
+          "name": "effectiveDateTime",
+          "type": "datetime",
+          "description": "\"2010-06-22T00:00:10-05:00\""
+        },
+        {
+          "name": "issued",
+          "type": "datetime",
+          "description": "\u201c2010-06-22T00:00:10-05:00\u201d"
+        },
+        {
+          "name": "performer",
+          "type": "array",
+          "description": "["
+        }
+      ],
+      "field_count": 8,
+      "description": "US Core FHIR resource with 8 documented response fields",
+      "has_descriptions": true,
+      "has_types": true
+    },
+    {
+      "entity": "FHIR DocumentReference",
+      "source": "FHIR API (g)(10) - NOT EHI export",
+      "category": "FHIR US Core",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "\u201c10006-pat-ccda-76299-objs-1397572221-0\u201d"
+        },
+        {
+          "name": "identifier",
+          "type": "array",
+          "description": "["
+        }
+      ],
+      "field_count": 2,
+      "description": "US Core FHIR resource with 2 documented response fields",
+      "has_descriptions": true,
+      "has_types": true
+    },
+    {
+      "entity": "FHIR Goal",
+      "source": "FHIR API (g)(10) - NOT EHI export",
+      "category": "FHIR US Core",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "\u201c10006-20221111120912\u201d"
+        },
+        {
+          "name": "lifecycleStatus",
+          "type": "string",
+          "description": "\u201ccompleted\u201d"
+        },
+        {
+          "name": "subject",
+          "type": "array",
+          "description": "{"
+        },
+        {
+          "name": "description",
+          "type": "object",
+          "description": "{"
+        },
+        {
+          "name": "target",
+          "type": "array",
+          "description": "["
+        }
+      ],
+      "field_count": 5,
+      "description": "US Core FHIR resource with 5 documented response fields",
+      "has_descriptions": true,
+      "has_types": true
+    },
+    {
+      "entity": "FHIR Immunization",
+      "source": "FHIR API (g)(10) - NOT EHI export",
+      "category": "FHIR US Core",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "\u201c10006-111-20180823\u201d"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "description": "\u201cnot-done\u201d"
+        },
+        {
+          "name": "statusReason",
+          "type": "object",
+          "description": "{"
+        },
+        {
+          "name": "patient",
+          "type": "object",
+          "description": "{"
+        },
+        {
+          "name": "vaccineCode",
+          "type": "object",
+          "description": "{"
+        },
+        {
+          "name": "occurrenceDateTime",
+          "type": "datetime",
+          "description": "\"2018-08-23T00:00:10-05:00\""
+        },
+        {
+          "name": "primarySource",
+          "type": "Boolean",
+          "description": "true"
+        }
+      ],
+      "field_count": 7,
+      "description": "US Core FHIR resource with 7 documented response fields",
+      "has_descriptions": true,
+      "has_types": true
+    },
+    {
+      "entity": "FHIR MedicationRequest",
+      "source": "FHIR API (g)(10) - NOT EHI export",
+      "category": "FHIR US Core",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "\u201c96629a50-9ca3-41ff-aa10-62d052dedee\u201d"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "description": "\u201cactive\u201d"
+        },
+        {
+          "name": "category",
+          "type": "array",
+          "description": "["
+        },
+        {
+          "name": "intent",
+          "type": "string",
+          "description": "\u201cproposal\u201d"
+        },
+        {
+          "name": "reportedReference",
+          "type": "object",
+          "description": "{"
+        },
+        {
+          "name": "medicationCodeableConcept",
+          "type": "object",
+          "description": "{"
+        },
+        {
+          "name": "subject",
+          "type": "object",
+          "description": "{"
+        },
+        {
+          "name": "encounter",
+          "type": "object",
+          "description": "{"
+        },
+        {
+          "name": "authoredOn",
+          "type": "date",
+          "description": "\u201c2011-12-19\u201d"
+        },
+        {
+          "name": "requester",
+          "type": "object",
+          "description": "{"
+        },
+        {
+          "name": "dosageInstruction",
+          "type": "array",
+          "description": "["
+        }
+      ],
+      "field_count": 11,
+      "description": "US Core FHIR resource with 11 documented response fields",
+      "has_descriptions": true,
+      "has_types": true
+    },
+    {
+      "entity": "FHIR Observation",
+      "source": "FHIR API (g)(10) - NOT EHI export",
+      "category": "FHIR US Core",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "\u201c10006-111-20180823\u201d"
+        },
+        {
+          "name": "subject",
+          "type": "object",
+          "description": "{"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "description": "\u201cfinal\u201d"
+        },
+        {
+          "name": "category",
+          "type": "array",
+          "description": "["
+        },
+        {
+          "name": "effectiveDateTime",
+          "type": "datetime",
+          "description": "\"2009-07-06T00:00:10-05:00\""
+        },
+        {
+          "name": "code",
+          "type": "object",
+          "description": "{"
+        },
+        {
+          "name": "valueQuantity",
+          "type": "object",
+          "description": "{"
+        }
+      ],
+      "field_count": 7,
+      "description": "US Core FHIR resource with 7 documented response fields",
+      "has_descriptions": true,
+      "has_types": true
+    },
+    {
+      "entity": "FHIR Procedure",
+      "source": "FHIR API (g)(10) - NOT EHI export",
+      "category": "FHIR US Core",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "\u201c10006-111-20180823\u201d"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "description": "\u201ccompleted\u201d"
+        },
+        {
+          "name": "code",
+          "type": "object",
+          "description": "{"
+        },
+        {
+          "name": "subject",
+          "type": "object",
+          "description": "{"
+        },
+        {
+          "name": "performedDateTime",
+          "type": "datetime",
+          "description": "\"2007-05-23T00:00:10-05:00\""
+        }
+      ],
+      "field_count": 5,
+      "description": "US Core FHIR resource with 5 documented response fields",
+      "has_descriptions": true,
+      "has_types": true
+    },
+    {
+      "entity": "FHIR Encounter",
+      "source": "FHIR API (g)(10) - NOT EHI export",
+      "category": "FHIR US Core",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "\u201c10006-111-20180823\u201d"
+        },
+        {
+          "name": "identifier",
+          "type": "array",
+          "description": "["
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "description": "\u201cfinished\u201d"
+        },
+        {
+          "name": "class",
+          "type": "object",
+          "description": "{"
+        },
+        {
+          "name": "type",
+          "type": "array",
+          "description": "["
+        },
+        {
+          "name": "subject",
+          "type": "object",
+          "description": "{"
+        },
+        {
+          "name": "period",
+          "type": "object",
+          "description": "{"
+        },
+        {
+          "name": "location",
+          "type": "array",
+          "description": "["
+        },
+        {
+          "name": "participant",
+          "type": "array",
+          "description": "["
+        }
+      ],
+      "field_count": 9,
+      "description": "US Core FHIR resource with 9 documented response fields",
+      "has_descriptions": true,
+      "has_types": true
+    },
+    {
+      "entity": "FHIR Provenance",
+      "source": "FHIR API (g)(10) - NOT EHI export",
+      "category": "FHIR US Core",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "\u201c10006-111-20180823\u201d"
+        },
+        {
+          "name": "target",
+          "type": "array",
+          "description": "["
+        },
+        {
+          "name": "agent",
+          "type": "array",
+          "description": "["
+        }
+      ],
+      "field_count": 3,
+      "description": "US Core FHIR resource with 3 documented response fields",
+      "has_descriptions": true,
+      "has_types": true
+    }
+  ],
+  "summary": {
+    "ehi_export_entities": 3,
+    "ehi_export_documented_fields": 0,
+    "fhir_api_resources": 15,
+    "fhir_api_total_fields": 88,
+    "total_entities": 18,
+    "has_data_dictionary": false,
+    "has_sample_data": false,
+    "has_schema": false
+  }
+}
