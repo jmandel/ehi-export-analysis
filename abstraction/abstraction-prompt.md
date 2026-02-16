@@ -70,6 +70,47 @@ from a vendor pointing at their existing (g)(10) FHIR API. Similarly, a
 native database dump that only exports clinical tables is not comprehensive
 just because it uses a proprietary format.
 
+## All EHI vs USCDI
+
+USCDI v3 defines the data classes and elements that (g)(10) FHIR APIs and C-CDA
+documents are required to support. In FHIR terms (US Core 6.1.0), this maps to
+roughly 20 resource types: Patient, AllergyIntolerance, CarePlan, CareTeam,
+Condition, Coverage, DiagnosticReport, DocumentReference, Encounter, Goal,
+Immunization, Location, MedicationRequest, Observation, Practitioner,
+PractitionerRole, Procedure, Provenance, RelatedPerson, ServiceRequest, and
+Specimen. Clinical Notes includes 8 note types (Consultation, Discharge Summary,
+H&P, Imaging Narrative, Procedure Note, Progress Note, Operative Note, ED Note).
+A (b)(10) export that covers only these USCDI-scope resources is the vendor's
+existing clinical exchange surface rebranded — it represents the regulatory
+floor, not the designated record set.
+
+The designated record set exceeds USCDI in two ways. First, **depth within USCDI
+domains**: US Core profiles define a small number of Must Support elements per
+resource, but EHRs typically store far more data elements internally — a
+Condition resource might have 5 Must Support fields in US Core, but the EHR's
+problem list table may have 30+ columns tracking onset context, severity history,
+verification workflows, linked orders, and audit metadata, all of which are part
+of the patient record and must be in a (b)(10) export. Second, **breadth beyond
+USCDI domains**: most EHRs store entire categories of patient data that USCDI
+doesn't address at all. Examples include: patient-specific billing and revenue
+cycle records (charges, claims, superbills, payments, adjustments, EOBs),
+insurance and coverage details beyond basic membership, prior authorizations and
+eligibility responses, referral workflows and tracking, patient communications
+(portal messages, secure messaging threads, phone call logs), scanned/uploaded
+documents and media not captured as clinical notes, custom forms and
+questionnaires (intake forms, consent forms, specialty-specific assessments),
+detailed medication administration records (MAR), detailed surgical/operative
+records beyond the procedure note, order sets and order details with linked
+results, behavioral health and substance use treatment records, oncology-specific
+data (staging, regimens, tumor registries), OB/GYN records (prenatal visits,
+labor/delivery, birth records), dental charts and periodontal data, wound care
+assessments and healing trajectories, correctional/institutional health records,
+durable medical equipment orders, patient-reported outcomes, and
+demographic/social history details beyond USCDI fields. The more of these
+non-USCDI designated-record-set domains an export includes — and the more
+completely it exports fields within USCDI domains — the more seriously the vendor
+has engaged with (b)(10).
+
 ## How to work
 
 ### Phase 1: Orient yourself
