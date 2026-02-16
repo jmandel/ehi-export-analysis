@@ -7,7 +7,7 @@ export function Shell({ children }: { children: ReactNode }) {
       <header className="site-header">
         <div className="site-header-inner">
           <a href="#" className="site-title">
-            <img src="favicon.svg" alt="" className="site-logo" />
+            <img src="favicon.png" alt="" className="site-logo" />
             EHI Export Quality Dashboard
           </a>
           <nav className="site-nav">
