@@ -1,0 +1,3430 @@
+iCare.com Application Programming Interface Guide
+
+
+
+
+                                                    iCare.com
+
+              Application Programming Interface
+
+    Intended Audience                                            2
+    Terms of Use                                                 3
+    General Comments                                             4
+    Login                                                        5
+    Patient Search                                               6
+    Encounters                                                   8
+    Criteria Data Request                                       11
+        patient                                                 14
+            Input Examples                                      14
+            Output                                              14
+        smokingStatus                                           17
+            Input Examples                                      17
+            Output                                              17
+        problem                                                 19
+            Input Examples                                      19
+            Output                                              19
+        medication                                              24
+            Input Examples                                      24
+            Output                                              24
+        medAllergy                                              34
+            Input Examples                                      34
+            Output                                              34
+        labTest                                                 36
+            Input Examples                                      36
+            Output                                              37
+        labResult                                               38
+            Input Examples                                      38
+            Output                                              38
+        vital                                                   42
+            Input Examples                                      42
+            Output                                              42
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.             1
+iCare.com Application Programming Interface Guide
+
+
+
+
+        procedure                                          44
+            Input Examples                                 44
+            Output                                         45
+        careTeam                                           49
+            Input Examples                                 49
+            Output                                         49
+        immunization                                       50
+            Input Examples                                 50
+            Output                                         50
+        device                                             53
+            Input Examples                                 53
+            Output                                         53
+        planOfTreatment                                    55
+            Input Examples                                 55
+            Output                                         55
+        assessment                                         57
+            Input Examples                                 57
+            Output                                         57
+        assessment,planOfTreatment                         58
+            Input Examples                                 58
+            Output                                         58
+        goal                                               61
+            Input Examples                                 61
+            Output                                         61
+        healthConcern                                      62
+            Input Examples                                 62
+            Output                                         62
+    All Criteria Data Request                              65
+
+Logout                                                     66
+
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.        2
+iCare.com Application Programming Interface Guide
+
+
+
+
+Intended Audience
+This document is intended to be used by software developers, solution architects and business
+analysts who would like to integrate their product with the iCare EHR.
+
+
+Terms of Use
+This API is made available to You by agreeing to these terms of use. Apps and services
+developed using our API will be granted a limited license to connect to the iCare.com Enterprise
+Cloud EHR.
+
+Access to our API does not grant access to the iCare.com service and does not confer
+any rights to use, copy, or distribute iCare.com software. Access to the production
+iCare.com service is not required to develop or test apps. Testing can be performed by
+connecting to the iCare.com development environment. Your registration of an app and receipt of
+documentation does not give you permission to access any iCare.com customer’s system or any
+information stored in such systems.
+
+An app may be blocked temporarily or permanently for abuse or misuse of the API or
+information obtained from the API. An app may be blocked for failure to follow reasonable
+security practices if so detected or reported to iCare.com or an iCare.com customer. Apps that
+make excessive or inefficient use of API resources may be limited in rate or duration of requests
+or blocked. An iCare.com customer may block an app for any reason.
+
+You agree to comply with app and service guidelines. These guidelines can be expected to
+change as needed to comply with regulations; protect private health information; safeguard
+customer information and the iCare.com service; and provide a reliable, high-quality experience
+for iCare.com customers.
+
+You are responsible for compliance with all applicable laws, regulations and certification
+requirements for the specific use of your app. Access through our API does not relieve you of
+any obligations under the 21st Century Cures Act (Cures Act), the Health Information
+Technology for Economic and Clinical Health (HITECH) Act, the Health Insurance Portability and
+Accountability Act (HIPAA), or any other relevant federal or state laws.
+
+You must display your service’s privacy policy to people before they are permitted to
+download, install, or sign up to your app or service. It must disclose at least the following
+information:
+
+    ●    The information that you collect from people who use your service
+    ●    How you use and share that information (including with iCare.com)
+    ●    How people can contact you with inquiries and requests regarding their information
+
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                            3
+iCare.com Application Programming Interface Guide
+
+
+
+
+You must keep all API keys or other access credentials private. You may not use, and may
+not encourage or facilitate others to use, API keys or other access credentials owned by others.
+
+Your license agreement with iCare.com limits your use of our API. You may not exceed or
+circumvent rate limits, or any other limitations or restrictions described in this Policy or your
+agreement with iCare.com, listed in the iCare.com API Guide, or communicated to you by
+iCare.com.
+
+You may not remove or alter any proprietary notices or marks on iCare.com Content
+received via our API. You may not display or transmit any information received from the
+iCare.com service which has been changed or modified from its original form.
+
+For data integrity and platform health reasons, you may not interfere with, intercept,
+disrupt, or disable any features of the iCare.com API or the iCare.com service. In other
+words, use the APIs as intended and documented. Refer to the iCare.com API Guide for more
+details about acceptable use.
+
+You agree to indemnify, hold harmless and defend iCare.com, its affiliates, subsidiaries,
+and customers and their affiliates, and all of their employees, officers, directors,
+contractors and other personnel from and against any claim arising out of or relating,
+directly or indirectly, to you, your service, any of your apps, or any use of any of your
+apps or service.
+
+iCare.com may grant or deny API access to information at any time for any reason. We
+may implement control functions including but not limited to tracking and auditing access,
+disabling or blocking specific apps.
+
+
+General Comments
+An application program must utilize a valid username and password to obtain a temporary
+security credential from iCare via the login operation. Afterwards, with the temporary security
+credential, patient search and patient data requests can be performed.
+
+The response format for the patient search and individual criteria data requests are based on
+FHIR release 4 JSON. The response for the all criteria data request is a CCDA compliant XML
+document.
+
+The API is accessible in test and production environments. Throughout this document, the
+<URL> variable corresponds to the protocol and domain name of the corresponding
+environment. For the test environment, <URL> is https://ehr.icare.com. For production, please
+contact iCare administrator.
+
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                            4
+iCare.com Application Programming Interface Guide
+
+
+
+
+Login
+
+    ●    URI: /rest/appTokenRequest?username=<userid>&password=<password>
+
+         Example (curl):
+
+         curl -X POST -v \
+         "<URL>/iCareEHRWeb/rest/appTokenRequest?username=XXX&password=XXX"
+
+    ●    Method: POST
+
+    ●    Request Parameters: username, password
+
+    ●    Body: None
+
+    ●    Headers: None
+
+    ●    Output:
+
+               ○    Success: HTTP 200 status is returned along with a security token that can be
+                    used for subsequent calls (corresponds to JSESSIONID cookie for session
+                    management)
+
+                    Example (curl):
+
+                    < HTTP/1.1 200 OK
+                    < Server: nginx
+                    < Date: Wed, 08 Jan 2020 16:50:47 GMT
+                    < Content-Length: 40
+                    < Connection: keep-alive
+                    < Set-Cookie: route=fdf0addbbb1695096a6a309db1f6edcc; Path=/
+                    < X-Powered-By: Undertow/1
+                    < Set-Cookie: JSESSIONID=tZ-
+                    kE6VZjgbDeZuzi_vtw9fRbxK5vvhEkzAANgTI.c1:wildfly-server-one;
+                    path=/iCareEHRWeb; HttpOnly
+                    <
+                    * Connection #0 to host dev.icare.com left intact
+                    tZ-kE6VZjgbDeZuzi_vtw9fRbxK5vvhEkzAANgTI
+
+               ○    Error: HTTP 402 status is returned.
+
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                           5
+iCare.com Application Programming Interface Guide
+
+
+
+
+Patient Search
+    ●    URI:
+         /rest/extApp/Patient?given=<firstName>&family=<lastName>&gender=<gender>&dob=<d
+         ob>
+
+    ●    Method: GET
+
+    ●    Request Parameters: given, first name of patient, family, last name of patient, gender,
+         gender of patient as one of F, M, U, dob, patient’s date of birth in one of the following
+         formats: MM/dd/yyyy HH:mm or MM/dd/yyyy. At least one of gender, dob, family must be
+         supplied. If given is supplied, family must also be supplied. Any patient in the output will
+         match all the request parameters, i.e. adding more parameters will narrow down the
+         response.
+
+         If a user is a patient, the output will return only data that pertains to the particular user.
+
+         Examples:
+
+         <URL>/iCareEHRWeb/rest/extApp/Patient?family=larson&gender=F&dob=05/01/1970
+
+         <URL>/iCareEHRWeb/rest/extApp/Patient?dob=05/01/1990&gender=M
+
+    ●    Headers:
+
+               ○    Cookie set to JSESSIONID=<security token> where <security token> is from
+                    response of /rest/appTokenRequest.
+
+                    Example:
+
+                    JSESSIONID=tZ-kE6VZjgbDeZuzi_vtw9fRbxK5vvhEkzAANgTI
+
+    ●    Output:
+            ○ Success: HTTP status 202 is returned along with a FHIR Bundle resource where
+                each entry corresponds to a matching patient, described as a FHIR Patient
+                resource with the following attributes: id, name, gender, birthDate.
+
+                    Example:
+
+                    {
+                        "resourceType": "Bundle",
+                        "type": "searchset",
+                        "entry": [
+                          {
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                                  6
+iCare.com Application Programming Interface Guide
+
+
+
+
+                            "resource": {
+                              "resourceType": "Patient",
+                              "id": "R83536",
+                              "name": [
+                                {
+                                  "text": "LARSON,REBECCA JR"
+                                }
+                              ],
+                              "gender": "female",
+                              "birthDate": "1970-05-01"
+                            }
+                          },
+                          {
+                            "resource": {
+                              "resourceType": "Patient",
+                              "id": "R83537",
+                              "name": [
+                                {
+                                  "text": "LARSON,REBECCA JR"
+                                }
+                              ],
+                              "gender": "unknown",
+                              "birthDate": "1970-05-01"
+                            }
+                          },
+                    …
+                      ]
+                    }
+
+                    If no matching patients are found, the bundle will be empty, i.e.:
+
+                    {
+                        "resourceType": "Bundle",
+                        "type": "searchset"
+                    }
+
+
+               ○    Error:
+
+                           ■   HTTP 403 error status is returned if the security token is incorrect.
+
+
+                               Example:
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                               7
+iCare.com Application Programming Interface Guide
+
+
+
+
+                               {
+                                 "error": {
+                                   "errorDescription": "Unknown error.",
+                                   "errorDetail": "<URL>/auth/realms/awsdev/protocol/openid-
+                               connect/logout?redirect_uri=<URL>/iCareEHRWeb/login",
+                                   "errorNumber": "403"
+                                 }
+                               }
+
+                         ■     HTTP 500 error status is returned if any of the input parameters is missing.
+
+                               Example:
+                               {
+                                 "error": {
+                                   "errorDescription": "External application error.",
+                                   "errorDetail": "Provide search criteria as
+                               family=<lastname>&given=<given name>",
+                                   "errorNumber": "180"
+                                 }
+                               }
+
+
+
+
+Encounters
+
+    ●    URI: /rest/extApp/Encounter?id=<id>
+
+    ●    Method: GET
+
+    ●    Request Parameters: id must be set to id of the patient from response of
+         /rest/extApp/Patient. If the user is a patient or designee, id must belong to the particular
+         patient or a patient the designee is associated with. Otherwise, an error is returned.
+
+         Example:
+
+         <URL>/iCareEHRWeb/rest/extApp/Encounter?id=R83688
+
+    ●    Headers:
+            ○ Cookie must be set to JSESSIONID=<security token> where <security token> is
+               from response of /rest/appTokenRequest.
+
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                                      8
+iCare.com Application Programming Interface Guide
+
+
+
+
+                    Example:
+
+                    JSESSIONID=tZ-kE6VZjgbDeZuzi_vtw9fRbxK5vvhEkzAANgTI
+
+    ●    Output:
+            ○ Success: HTTP status 202 is returned along with a FHIR Bundle resource where
+                each entry corresponds to an encounter, described as a FHIR Encounter resource
+                where the period.start attribute gives start date/time of the encounter in yyyy-MM-
+                dd'T'HH:mm:ss.XXX format.
+
+                    Example:
+
+                    {
+                     "resourceType": "Bundle",
+                     "type": "searchset",
+                     "entry": [
+                       {
+                         "resource": {
+                           "resourceType": "Encounter",
+                           "period": {
+                             "start": "2019-07-20T00:00:00-04:00"
+                           }
+                         }
+                       },
+                       {
+                         "resource": {
+                           "resourceType": "Encounter",
+                           "period": {
+                             "start": "2019-09-18T10:00:00-04:00"
+                           }
+                         }
+                       },
+                       {
+                         "resource": {
+                           "resourceType": "Encounter",
+                           "period": {
+                             "start": "2019-11-12T00:00:00-05:00"
+                           }
+                         }
+                       },
+                    …
+                       {
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                              9
+iCare.com Application Programming Interface Guide
+
+
+
+
+                                "resource": {
+                                  "resourceType": "Encounter",
+                                  "period": {
+                                    "start": "2019-12-01T16:00:00-05:00"
+                                  }
+                                }
+                            }
+                        ]
+                    }
+
+                    If the patient does not have any encounters, the bundle will be empty, i.e.:
+
+                    {
+                        "resourceType": "Bundle",
+                        "type": "searchset"
+                    }
+
+
+               ○    Error:
+                        ■ HTTP 403 error status is returned if the security token is incorrect or the
+                           user is a patient and search is performed for an id that does not belong to
+                           the particular patient.
+
+                                    Example:
+
+                                    {
+                                        "error": {
+                                          "errorDescription": "External application error.",
+                                          "errorDetail": "Unauthorized request.",
+                                          "errorNumber": "180"
+                                        }
+                                    }
+
+                                ■   HTTP 500 error status is returned for other errors. For example, the
+                                    following error is returned if id parameter is missing:
+
+                                    {
+                                        "error": {
+                                          "errorDescription": "External application error.",
+                                          "errorDetail": "Please provide an id parameter.",
+                                          "errorNumber": "180"
+                                        }
+                                    }
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                                   10
+iCare.com Application Programming Interface Guide
+
+
+
+
+Criteria Data Request
+
+    ●    URI: One of
+            ○ /rest/extApp/Clinical?id=<id>&category=<category>
+            ○ /rest/extApp/Clinical?id=<id>&category=<category>&date=<encounter date>
+            ○ /rest/extApp/Clinical?id=<id>&category=<category>&startDate=<start>&endDate=
+               <end>
+
+         Examples:
+
+         <URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=problem
+
+         <URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=patient&date=12/02/20
+         19
+
+         <URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=patient&startDate=12/0
+         2/2019 00:00&endDate=12/03/2019 23:59
+
+    ●    Method: GET
+
+    ●    Request Parameters:
+            ○ id must be set to the id of the patient from the response of /rest/extApp/Patient. If
+               the user is a patient or designee, id must belong to the particular patient or a
+               patient the designee is associated with. Otherwise, an error is returned.
+
+
+               ○    category must be set to one or more of the following (if more than one is
+                    supplied, they should be separated by comma):
+                       ■ patient
+                       ■ careTeam
+                       ■ smokingStatus
+                       ■ problem
+                       ■ medication
+                       ■ medAllergy
+                       ■ labTest
+                       ■ labResult
+                       ■ vital
+                       ■ procedure
+                       ■ immunization
+                       ■ device
+                       ■ planOfTreatment
+                       ■ assessment
+                       ■ goal
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                              11
+iCare.com Application Programming Interface Guide
+
+
+
+
+                         ■     healthConcern
+
+
+                       Category                            Description
+
+                       patient                             Patient name, sex, date of birth, race, ethnicity, preferred
+                                                           language
+
+                       careTeam                            Care team members
+
+                       smokingStatus                       Smoking status
+
+                       problem                             Problems
+
+                       medication                          Medications
+
+                       medAllergy                          Medication allergies
+
+                       labTest                             Planned lab tests
+
+                       labResult                           Lab test results
+
+                       vital                               Vital measurements
+
+                       procedure                           Procedures
+
+                       immunization                        Immunizations
+
+                       device                              Implanted devices
+
+                       planOfTreatment                     Care plan
+
+                       assessment                          Assessment
+
+                       goal                                Discharge goals
+
+                       healthConcern                       Health concerns (complaints and observations)
+
+
+
+               ○    startDate, endDate must be in MM/dd/yyyy HH:mm format, e.g.
+                    startDate=11/14/2019 00:00, endDate=11/24/2019 23:59. Response will return
+                    data associated with any encounter whose start date/time falls into the date/time
+                    range specified with startDate, endDate.
+
+               ○    date is MM/dd/yyyy format, e.g. 11/14/2019. Response will return data associated
+                    with any encounters that occured in the specified date. That is equivalent to
+                    passing startDate as 00:00 hours and endDate as 23:59 hours for the particular
+                    date. For example, passing the date as 11/14/2019 is equivalent to passing
+                    startDate as 11/14/2019 00:00 and endDate as 11/14/2019 23:59.
+
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                                           12
+iCare.com Application Programming Interface Guide
+
+
+
+
+                    If none of startDate, endDate, date is supplied the response will return data
+                    associated with all encounters.
+
+    ●    Headers:
+            ○ Cookie must be set to JSESSIONID=<security token> where <security token> is
+               from response of /rest/appTokenRequest.
+
+                    Example:
+
+                    JSESSIONID=tZ-kE6VZjgbDeZuzi_vtw9fRbxK5vvhEkzAANgTI
+
+    ●    Output: Successful output will return 202 HTTP response header where the structure will
+         depend on the category in request. Those are explained in the following sections.
+
+         Error will return 500 HTTP response header.
+
+         Incorrect id that does not correspond to an actual patient:
+
+         {
+             "error": {
+               "errorDescription": "External application error.",
+               "errorDetail": "Cannot find patient",
+               "errorNumber": "180"
+             }
+         }
+
+         Missing id parameter:
+
+         {
+             "error": {
+               "errorDescription": "External application error.",
+               "errorDetail": "Please provide an id parameter",
+               "errorNumber": "180"
+             }
+         }
+
+         The date is missing and at least one of startDate, endDate is missing:
+
+         {
+             "error": {
+              "errorDescription": "External application error.",
+
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                            13
+iCare.com Application Programming Interface Guide
+
+
+
+
+                "errorDetail": "Please provide either the date parameter or both startDate and endDate
+            parameters.",
+                "errorNumber": "180"
+              }
+            }
+
+            The date is present and at least one of startDate, endDate is also supplied:
+
+            {
+              "error": {
+                "errorDescription": "External application error.",
+                "errorDetail": "If the date parameter is present, neither startDate nor endDate can be
+            supplied.",
+                "errorNumber": "180"
+              }
+            }
+
+
+
+
+patient
+
+Input Examples
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=patient&date=12/02/2019
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=patient&startDate=12/02/2019
+00:00&endDate=12/03/2019 23:59
+
+
+Output
+A FHIR Bundle resource is returned that contains a Patient resource, which has individual
+attributes name, gender, date of birth, preferred language, ethnicity, race and granular race,
+address and phone numbers listed.
+
+The patient category call is the only one across all categories where data is not listed under an
+encounter date. (See below sections for an explanation of how data for other categories are
+grouped under encounter dates.)
+
+{
+    "resourceType": "Bundle",
+    "type": "searchset",
+    "entry": [
+      {
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.                                              14
+iCare.com Application Programming Interface Guide
+
+
+
+
+    "resource": {
+      "resourceType": "Patient",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "code": "2106-3"
+              }
+            ],
+            "text": "White"
+          }
+        },
+        {
+          "url": "urn:oid:2.16.840.1.113883.6.238",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "code": "2108-9"
+              }
+            ],
+            "text": "European"
+          }
+        },
+        {
+          "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+          "valueString": "NOT HISPANIC OR LATINO"
+        }
+      ],
+      "name": [
+        {
+          "text": "Previous Name: ROBIN",
+          "family": "LARSON",
+          "given": [
+            "REBECCA ",
+            "JONES "
+          ]
+        }
+      ],
+      "gender": "female",
+      "birthDate": "1970-05-01",
+      "address": [
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                15
+iCare.com Application Programming Interface Guide
+
+
+
+
+                 {
+                     "line": [
+                       "1357 Amber Dr "
+                     ],
+                     "city": "Beaverton",
+                     "state": "97006-9700",
+                     "postalCode": "OREGON"
+                  }
+                ],
+                "contact": [
+                  {
+                    "telecom": [
+                      {
+                        "system": "phone",
+                        "value": "555-723-1544",
+                        "use": "home"
+                      },
+                      {
+                        "system": "phone",
+                        "value": "555-777-1234",
+                        "use": "mobile"
+                      }
+                    ]
+                  }
+                ],
+                "communication": [
+                  {
+                    "language": {
+                      "coding": [
+                        {
+                          "system": "http://hl7.org/fhir/ValueSet/languages",
+                          "code": "en-US"
+                        }
+                      ]
+                    }
+                  }
+                ]
+            }
+        }
+    ]
+}
+
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.                     16
+iCare.com Application Programming Interface Guide
+
+
+
+
+Note that the name attribute will list the first and middle names inside the given attribute. In
+addition, if a previous name exists, it will be listed inside a text attribute. The below example
+corresponds to a patient with the following attributes:
+    ● First Name: Rebecca
+    ● Last Name: Larson
+    ● Middle Name: Jones
+    ● Previous Name: Robin
+    ● Suffix: JR
+
+"name": [
+      {
+        "text": "Previous Name: ROBIN",
+        "family": "LARSON",
+        "given": [
+          "REBECCA",
+          "JONES"
+        ],
+        "suffix": [
+          "JR"
+        ]
+      }
+    ]
+
+smokingStatus
+
+Input Examples
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=smokingStatus&date=12/02/2
+019
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=smokingStatus&startDate=12/
+02/2019 00:00&endDate=12/03/2019 23:59
+
+
+Output
+A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter
+that has its start date occurring in the range specified by startDate, endDate parameters, or start
+date occurring on the date specified by date parameter. Inside each Bundle corresponding to an
+encounter, a Composition resource consists of a section named Social History, that lists smoking
+status. The onset date of the status is given inside the section.text.div attribute and the particular
+code is given inside section.coding attribute.
+
+{
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.                                              17
+iCare.com Application Programming Interface Guide
+
+
+
+
+  "resourceType": "Bundle",
+  "type": "searchset",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Bundle",
+        "type": "searchset",
+        "timestamp": "2019-07-20T00:00:00.000-04:00",
+        "entry": [
+          {
+            "resource": {
+              "resourceType": "Composition",
+              "section": [
+                {
+                  "title": "Social History",
+                  "section": [
+                    {
+                      "title": "Current every day smoker",
+                      "code": {
+                        "coding": [
+                          {
+                            "system": "http://snomed.info/sct",
+                            "code": "449868002",
+                            "display": "Current every day smoker"
+                          }
+                        ]
+                      },
+                      "text": {
+                        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Onset Date: 06/22/2015
+00:00</div>"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
+
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                             18
+iCare.com Application Programming Interface Guide
+
+
+
+
+problem
+
+Input Examples
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=problem&date=12/02/2019
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=problem&startDate=12/02/201
+9 00:00&endDate=12/03/2019 23:59
+
+
+Output
+A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter
+that has its start date occurring in the range specified by startDate, endDate parameters, or start
+date occurring on the date specified by date parameter. Inside each Bundle corresponding to an
+encounter, a Composition resource consists of Condition resources, where each Condition
+corresponds to a problem. Status and onset date/time of the problem are given in clinicalStatus
+and onsetDateTime attributes, respectively, and the problem description and its SNOMED CT
+code are listed in coding attribute. Note that if the problem is completed, i.e. resolved status,
+clinicalStatus.coding.code attribute will read resolved and abatementString attribute will give the
+problem resolution date, if available.
+
+
+{
+    "resourceType": "Bundle",
+    "type": "searchset",
+    "entry": [
+      {
+        "resource": {
+          "resourceType": "Bundle",
+          "type": "searchset",
+          "timestamp": "2020-01-01T00:00:00.000-05:00",
+          "entry": [
+            {
+              "resource": {
+                "resourceType": "Composition",
+                "contained": [
+                  {
+                    "resourceType": "Condition",
+                    "id": "1",
+                    "clinicalStatus": {
+                      "coding": [
+                       {
+                         "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.                                           19
+iCare.com Application Programming Interface Guide
+
+
+
+
+                       "code": "active"
+                   }
+                 ]
+               },
+               "code": {
+                 "coding": [
+                   {
+                     "system": "http://snomed.info/sct",
+                     "code": "59621000",
+                     "display": "Essential (primary) hypertension"
+                   }
+                 ]
+               },
+                "onsetDateTime": "2006-12-31T00:00:00-05:00"
+             },
+             {
+               "resourceType": "Condition",
+               "id": "2",
+               "clinicalStatus": {
+                 "coding": [
+                   {
+                     "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                     "code": "active"
+                   }
+                 ]
+               },
+               "code": {
+                 "coding": [
+                   {
+                     "system": "http://snomed.info/sct",
+                     "code": "83986005",
+                     "display": "Severe hypothyroidism"
+                   }
+                 ]
+               },
+                "onsetDateTime": "2006-12-31T00:00:00-05:00"
+             },
+             {
+               "resourceType": "Condition",
+               "id": "3",
+               "clinicalStatus": {
+                 "coding": [
+                   {
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                     20
+iCare.com Application Programming Interface Guide
+
+
+
+
+                     "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                     "code": "active"
+                   }
+                 ]
+               },
+               "code": {
+                 "coding": [
+                   {
+                     "system": "http://snomed.info/sct",
+                     "code": "236578006",
+                     "display": "Chronic rejection of renal transplant"
+                   }
+                 ]
+               },
+                "onsetDateTime": "2006-12-31T00:00:00-05:00"
+             },
+             {
+               "resourceType": "Condition",
+               "id": "4",
+               "clinicalStatus": {
+                 "coding": [
+                   {
+                     "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                     "code": "active"
+                   }
+                 ]
+               },
+               "code": {
+                 "coding": [
+                   {
+                     "system": "http://snomed.info/sct",
+                     "code": "87522002",
+                     "display": "Chronic iron deficiency anemia"
+                   }
+                 ]
+               },
+                "onsetDateTime": "2006-12-31T00:00:00-05:00"
+             },
+             {
+               "resourceType": "Condition",
+               "id": "5",
+               "clinicalStatus": {
+                 "coding": [
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                     21
+iCare.com Application Programming Interface Guide
+
+
+
+
+                   {
+                       "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                       "code": "active"
+                   }
+                 ]
+               },
+               "code": {
+                 "coding": [
+                   {
+                     "system": "http://snomed.info/sct",
+                     "code": "64667001",
+                     "display": "Interstitial pneumonitis"
+                   }
+                 ]
+               },
+                "onsetDateTime": "2006-12-31T00:00:00-05:00"
+             },
+             {
+               "resourceType": "Condition",
+               "id": "6",
+               "clinicalStatus": {
+                 "coding": [
+                   {
+                     "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                     "code": "resolved"
+                   }
+                 ]
+               },
+               "code": {
+                 "coding": [
+                   {
+                     "system": "http://snomed.info/sct",
+                     "code": "238131007",
+                     "display": "Overweight"
+                   }
+                 ]
+               },
+                "onsetDateTime": "2006-12-31T00:00:00-05:00",
+               "abatementString": "06/01/2007 00:00"
+             }
+           ],
+           "title": "Problem",
+           "section": [
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                       22
+iCare.com Application Programming Interface Guide
+
+
+
+
+               {
+                 "entry": [
+                   {
+                     "reference": "#1"
+                   }
+                 ]
+               },
+               {
+                 "entry": [
+                   {
+                     "reference": "#2"
+                   }
+                 ]
+               },
+               {
+                 "entry": [
+                   {
+                     "reference": "#3"
+                   }
+                 ]
+               },
+               {
+                 "entry": [
+                   {
+                     "reference": "#4"
+                   }
+                 ]
+               },
+               {
+                 "entry": [
+                   {
+                     "reference": "#5"
+                   }
+                 ]
+               },
+               {
+                 "entry": [
+                   {
+                     "reference": "#6"
+                   }
+                 ]
+               }
+           ]
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.   23
+iCare.com Application Programming Interface Guide
+
+
+
+
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+
+
+
+
+medication
+
+Input Examples
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=medication&date=12/02/2019
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=medication&startDate=12/02/2
+019 00:00&endDate=12/03/2019 23:59
+
+
+Output
+A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter
+that has its start date occurring in the range specified by startDate, endDate parameters, or start
+date occurring on the date specified by date parameter. Inside each Bundle corresponding to an
+encounter, a Composition resource consists of MedicationStatement resources, where each
+MedicationStatement corresponds to an ordered medication. The display name and RXNORM
+code of a medication is given via the MedicationStatement.medicationCodeableConcept.coding
+attribute. The start date of the medication is given by MedicationStatement.effectiveDateTime
+attribute and the end date of the medication is given via a MedicationStatement.note attribute.
+Particular instructions associated with the medication including frequency and route are also
+given via a MedicationStatement.note attribute. The dosage of the medication is described via
+the MedicationStatement.dosage attribute.
+
+{
+    "resourceType": "Bundle",
+    "type": "searchset",
+    "entry": [
+      {
+        "resource": {
+          "resourceType": "Bundle",
+          "type": "searchset",
+          "timestamp": "2020-01-01T00:00:00.000-05:00",
+          "entry": [
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.                                           24
+iCare.com Application Programming Interface Guide
+
+
+
+
+        {
+            "resource": {
+              "resourceType": "Composition",
+              "contained": [
+                {
+                  "resourceType": "MedicationStatement",
+                  "id": "1",
+                  "medicationCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                        "code": "977434",
+                        "display": "EVEROLIMUS TAB "
+                      }
+                    ]
+                  },
+                  "effectiveDateTime": "2020-02-02T21:00:00-05:00",
+                  "note": [
+                    {
+                      "text": "Direction: Give: 0.5 MG PO BID"
+                    },
+                    {
+                      "text": "End Date: 02/16/2020 20:59"
+                    }
+                  ],
+                  "dosage": [
+                    {
+                      "text": "one unit"
+                    }
+                  ]
+                },
+                {
+                  "resourceType": "MedicationStatement",
+                  "id": "2",
+                  "medicationCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                        "code": "977434",
+                        "display": "EVEROLIMUS TAB "
+                      }
+                    ]
+                  },
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                           25
+iCare.com Application Programming Interface Guide
+
+
+
+
+               "effectiveDateTime": "2020-01-30T09:00:00-05:00",
+               "note": [
+                 {
+                   "text": "Direction: Give: 0.5 MG PO BID"
+                 },
+                 {
+                   "text": "End Date: 02/13/2020 08:59"
+                 }
+               ],
+               "dosage": [
+                 {
+                   "text": "one unit"
+                 }
+               ]
+             },
+             {
+               "resourceType": "MedicationStatement",
+               "id": "3",
+               "medicationCodeableConcept": {
+                 "coding": [
+                   {
+                     "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                     "code": "485023",
+                     "display": "MYCOPHENOLIC ACID TAB,EC "
+                   }
+                 ]
+               },
+               "effectiveDateTime": "2020-01-30T09:00:00-05:00",
+               "note": [
+                 {
+                   "text": "Direction: Give: 360 MG PO BID"
+                 },
+                 {
+                   "text": "End Date: 02/13/2020 08:59"
+                 }
+               ],
+               "dosage": [
+                 {
+                   "text": "one unit"
+                 }
+               ]
+             },
+             {
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                        26
+iCare.com Application Programming Interface Guide
+
+
+
+
+               "resourceType": "MedicationStatement",
+               "id": "4",
+               "medicationCodeableConcept": {
+                 "coding": [
+                   {
+                     "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                     "code": "966201",
+                     "display": "LEVOTHYROXINE TAB "
+                   }
+                 ]
+               },
+               "effectiveDateTime": "2020-01-30T09:00:00-05:00",
+               "note": [
+                 {
+                   "text": "Direction: Give: 0.15 MG PO DAILY"
+                 },
+                 {
+                   "text": "End Date: 02/13/2020 08:59"
+                 }
+               ],
+               "dosage": [
+                 {
+                   "text": "one unit"
+                 }
+               ]
+             },
+             {
+               "resourceType": "MedicationStatement",
+               "id": "5",
+               "medicationCodeableConcept": {
+                 "coding": [
+                   {
+                     "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                     "code": "198371",
+                     "display": "TORSEMIDE TAB "
+                   }
+                 ]
+               },
+               "effectiveDateTime": "2020-01-30T09:00:00-05:00",
+               "note": [
+                 {
+                   "text": "Direction: Give: 20 MG PO DAILY"
+                 },
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                        27
+iCare.com Application Programming Interface Guide
+
+
+
+
+                 {
+                     "text": "End Date: 02/13/2020 08:59"
+                 }
+               ],
+               "dosage": [
+                 {
+                   "text": "one unit"
+                 }
+               ]
+             },
+             {
+               "resourceType": "MedicationStatement",
+               "id": "6",
+               "medicationCodeableConcept": {
+                 "coding": [
+                   {
+                     "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                     "code": "209459",
+                     "display": "TYLENOL TAB "
+                   }
+                 ]
+               },
+               "effectiveDateTime": "2020-01-30T09:00:00-05:00",
+               "note": [
+                 {
+                   "text": "Direction: Give: 500 MG PO QD"
+                 },
+                 {
+                   "text": "End Date: 02/13/2020 08:59"
+                 }
+               ],
+               "dosage": [
+                 {
+                   "text": "one unit"
+                 }
+               ]
+             },
+             {
+               "resourceType": "MedicationStatement",
+               "id": "7",
+               "medicationCodeableConcept": {
+                 "coding": [
+                   {
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                        28
+iCare.com Application Programming Interface Guide
+
+
+
+
+                       "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                       "code": "309090",
+                       "display": "CEFTRIAXONE 100MG/ML INJ,SOLN "
+                   }
+                 ]
+               },
+               "effectiveDateTime": "2020-01-30T09:00:00-05:00",
+               "note": [
+                 {
+                   "text": "Direction: Give: 10 GM/1 VIAL IM BID"
+                 },
+                 {
+                   "text": "End Date: 02/13/2020 08:59"
+                 }
+               ],
+               "dosage": [
+                 {
+                   "text": "one unit"
+                 }
+               ]
+             },
+             {
+               "resourceType": "MedicationStatement",
+               "id": "8",
+               "medicationCodeableConcept": {
+                 "coding": [
+                   {
+                     "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                     "code": "309090",
+                     "display": "CEFTRIAXONE 100MG/ML INJ,SOLN "
+                   }
+                 ]
+               },
+               "effectiveDateTime": "2020-01-30T09:00:00-05:00",
+               "note": [
+                 {
+                   "text": "Direction: Give: 10 GM/1 VIAL IM BID"
+                 },
+                 {
+                   "text": "End Date: 02/13/2020 08:59"
+                 }
+               ],
+               "dosage": [
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                          29
+iCare.com Application Programming Interface Guide
+
+
+
+
+                 {
+                     "text": "one unit"
+                 }
+               ]
+             },
+             {
+               "resourceType": "MedicationStatement",
+               "id": "9",
+               "medicationCodeableConcept": {
+                 "coding": [
+                   {
+                     "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                     "code": "197511",
+                     "display": "CIPROFLOXACIN TAB "
+                   }
+                 ]
+               },
+               "effectiveDateTime": "2020-01-30T14:00:00-05:00",
+               "note": [
+                 {
+                   "text": "Direction: Give: 250 MG PO TID"
+                 },
+                 {
+                   "text": "End Date: 02/13/2020 13:59"
+                 }
+               ],
+               "dosage": [
+                 {
+                   "text": "one unit"
+                 }
+               ]
+             },
+             {
+               "resourceType": "MedicationStatement",
+               "id": "10",
+               "medicationCodeableConcept": {
+                 "coding": [
+                   {
+                     "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                     "code": "284215",
+                     "display": "CLINDAMYCIN CAP,ORAL"
+                   }
+                 ]
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                        30
+iCare.com Application Programming Interface Guide
+
+
+
+
+               },
+               "effectiveDateTime": "2020-01-30T14:00:00-05:00",
+               "note": [
+                 {
+                   "text": "Direction: Give: 300 MG PO TID"
+                 },
+                 {
+                   "text": "End Date: 02/13/2020 13:59"
+                 }
+               ],
+               "dosage": [
+                 {
+                   "text": "one unit"
+                 }
+               ]
+             },
+             {
+               "resourceType": "MedicationStatement",
+               "id": "11",
+               "medicationCodeableConcept": {
+                 "coding": [
+                   {
+                     "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                     "code": "860886",
+                     "display": "FENOFIBRIC ACID TAB "
+                   }
+                 ]
+               },
+               "effectiveDateTime": "2020-01-30T21:00:00-05:00",
+               "note": [
+                 {
+                   "text": "Direction: Give: 35 MG PO HS"
+                 },
+                 {
+                   "text": "End Date: 02/13/2020 20:59"
+                 }
+               ],
+               "dosage": [
+                 {
+                   "text": "one unit"
+                 }
+               ]
+             }
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                        31
+iCare.com Application Programming Interface Guide
+
+
+
+
+           ],
+           "title": "Medication",
+           "section": [
+             {
+               "entry": [
+                 {
+                   "reference": "#1"
+                 }
+               ]
+             },
+             {
+               "entry": [
+                 {
+                   "reference": "#2"
+                 }
+               ]
+             },
+             {
+               "entry": [
+                 {
+                   "reference": "#3"
+                 }
+               ]
+             },
+             {
+               "entry": [
+                 {
+                   "reference": "#4"
+                 }
+               ]
+             },
+             {
+               "entry": [
+                 {
+                   "reference": "#5"
+                 }
+               ]
+             },
+             {
+               "entry": [
+                 {
+                   "reference": "#6"
+                 }
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.   32
+iCare.com Application Programming Interface Guide
+
+
+
+
+                            ]
+                          },
+                          {
+                            "entry": [
+                              {
+                                "reference": "#7"
+                              }
+                            ]
+                          },
+                          {
+                            "entry": [
+                              {
+                                "reference": "#8"
+                              }
+                            ]
+                          },
+                          {
+                            "entry": [
+                              {
+                                "reference": "#9"
+                              }
+                            ]
+                          },
+                          {
+                            "entry": [
+                              {
+                                "reference": "#10"
+                              }
+                            ]
+                          },
+                          {
+                            "entry": [
+                              {
+                                "reference": "#11"
+                              }
+                            ]
+                          }
+                      ]
+                  }
+              }
+          ]
+      }
+  }
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.   33
+iCare.com Application Programming Interface Guide
+
+
+
+
+    ]
+}
+
+
+
+
+medAllergy
+
+Input Examples
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=medAllergy&date=12/02/2019
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=medAllergy&startDate=12/02/
+2019 00:00&endDate=12/03/2019 23:59
+
+
+Output
+A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter
+that has its start date occurring in the range specified by startDate, endDate parameters, or start
+date occurring on the date specified by date parameter. Inside each Bundle corresponding to an
+encounter, a Composition resource consists of AllergyIntolerance resources, where each
+AllergyIntolerance corresponds to an allergy. The status of an allergy is given by the
+AllergyIntolerance.status attribute, display name and RXNORM code of the allergy is given by
+the AllergyIntolerance.code attribute, the onset date of the allergy is given by the
+AllergyIntolerance.onsetDateTime attribute and the display name and SNOMED CT code of the
+corresponding reaction is given by the AllergyIntolerance.reaction attribute.
+
+{
+    "resourceType": "Bundle",
+    "type": "searchset",
+    "entry": [
+      {
+        "resource": {
+          "resourceType": "Bundle",
+          "type": "searchset",
+          "timestamp": "2019-12-02T00:00:00.000-05:00",
+          "entry": [
+            {
+              "resource": {
+                "resourceType": "Composition",
+                "contained": [
+                  {
+                    "resourceType": "AllergyIntolerance",
+                    "id": "1",
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.                                           34
+iCare.com Application Programming Interface Guide
+
+
+
+
+               "clinicalStatus": {
+                 "coding": [
+                   {
+                     "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+                     "code": "active",
+                     "display": "Active"
+                   }
+                 ]
+               },
+               "code": {
+                 "coding": [
+                   {
+                     "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                     "code": "7980",
+                     "display": "PENICILLIN [PENICILLIN G]"
+                   }
+                 ]
+               },
+               "onsetDateTime": "2019-12-06T01:18:00-05:00",
+               "reaction": [
+                 {
+                   "description": "HIVES (SNOMED CT: 247472004)",
+                   "severity": "moderate"
+                 }
+               ]
+             },
+             {
+               "resourceType": "AllergyIntolerance",
+               "id": "2",
+               "clinicalStatus": {
+                 "coding": [
+                   {
+                     "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+                     "code": "active",
+                     "display": "Active"
+                   }
+                 ]
+               },
+               "code": {
+                 "coding": [
+                   {
+                     "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                     "code": "733",
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                              35
+iCare.com Application Programming Interface Guide
+
+
+
+
+                                     "display": "AMPICILLIN"
+                                 }
+                                ]
+                              },
+                              "onsetDateTime": "2019-12-06T01:18:00-05:00",
+                              "reaction": [
+                                {
+                                  "description": "HIVES (SNOMED CT: 247472004)",
+                                  "severity": "moderate"
+                                }
+                              ]
+                              }
+                            ],
+                            "title": "Allergy",
+                            "section": [
+                              {
+                                "entry": [
+                                  {
+                                    "reference": "#1"
+                                  }
+                                ]
+                              },
+                              {
+                                "entry": [
+                                  {
+                                    "reference": "#2"
+                                  }
+                                ]
+                              }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+
+
+labTest
+
+Input Examples
+
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.                        36
+iCare.com Application Programming Interface Guide
+
+
+
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=labTest&date=12/02/2019
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=labTest&startDate=12/02/2019
+00:00&endDate=12/03/2019 23:59
+
+
+Output
+A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter
+that has its start date occurring in the range specified by startDate, endDate parameters, or start
+date occurring on the date specified by date parameter. Inside each Bundle corresponding to an
+encounter, a CarePlan resource describes the planned lab tests. Each entry in the
+CarePlan.activity array corresponds to a planned test. The activity.detail.code.coding attribute
+further describes the test with a SNOMED CT code and description. The
+activity.detail.scheduledString attribute describes when the test was scheduled.
+
+{
+    "resourceType": "Bundle",
+    "type": "searchset",
+    "entry": [
+      {
+        "resource": {
+          "resourceType": "Bundle",
+          "type": "searchset",
+          "timestamp": "2019-07-20T00:00:00.000-04:00",
+          "entry": [
+            {
+              "resource": {
+                "resourceType": "CarePlan",
+                "activity": [
+                  {
+                    "detail": {
+                     "kind": "ServiceRequest",
+                     "code": {
+                       "coding": [
+                         {
+                           "system": "http://loinc.org",
+                           "code": "24357-6",
+                           "display": "URINALYSIS URINE LC ONCE LB #3945"
+                         }
+                       ]
+                     },
+                     "scheduledString": "07/24/2019 02:00",
+                     "description": "Laboratory Test"
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.                                           37
+iCare.com Application Programming Interface Guide
+
+
+
+
+                                  }
+                                },
+                                {
+                                  "detail": {
+                                    "kind": "ServiceRequest",
+                                    "code": {
+                                      "coding": [
+                                        {
+                                          "system": "http://loinc.org",
+                                          "code": "24357-6",
+                                          "display": "URINALYSIS URINE LC ONCE LB #3944"
+                                        }
+                                      ]
+                                    },
+                                    "scheduledString": "07/24/2019 02:00",
+                                    "description": "Laboratory Test"
+                                  }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+
+
+labResult
+
+Input Examples
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=labResult&date=12/02/2019
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=labResult&startDate=12/02/20
+19 00:00&endDate=12/03/2019 23:59
+
+
+Output
+A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter
+that has its start date occurring in the range specified by startDate, endDate parameters, or start
+date occurring on the date specified by date parameter. Inside each Bundle corresponding to an
+
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.                                           38
+iCare.com Application Programming Interface Guide
+
+
+
+
+encounter, a Composition resource consists of DiagnosticReport, Observation and Organization
+resources.
+   ● There are an equal number of DiagnosticReport and Observation resources as each
+       distinct DiagnosticReport references a unique Observation resource. Each of such pairs
+       corresponds to a lab test result. The DiagnosticReport.code attribute gives the lab test
+       name and its LOINC code. The DiagnosticReport.effectiveDateTime describes when the
+       test was performed. The Observation.note attribute describes the results of the test.
+   ● The Organization resource describes the laboratory that performed the tests.
+
+{
+    "resourceType": "Bundle",
+    "type": "searchset",
+    "entry": [
+      {
+        "resource": {
+          "resourceType": "Bundle",
+          "type": "searchset",
+          "timestamp": "2019-12-02T00:00:00.000-05:00",
+          "entry": [
+            {
+              "resource": {
+                "resourceType": "Composition",
+                "contained": [
+                  {
+                    "resourceType": "DiagnosticReport",
+                    "id": "1",
+                    "category": [
+                      {
+                        "coding": [
+                          {
+                            "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                            "code": "LAB",
+                            "display": "Laboratory"
+                          }
+                        ]
+                      }
+                    ],
+                    "code": {
+                      "coding": [
+                        {
+                          "system": "http://loinc.org",
+                          "code": "33765-9",
+                          "display": "WBC"
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.                                       39
+iCare.com Application Programming Interface Guide
+
+
+
+
+                   }
+                 ]
+               },
+               "effectiveDateTime": "2019-12-03T00:00:00-05:00",
+               "result": [
+                 {
+                   "reference": "#2"
+                 }
+               ]
+             },
+             {
+               "resourceType": "Observation",
+               "id": "2",
+               "note": [
+                 {
+                   "text": "Value: 12.3, Unit: 10*3/uL"
+                 }
+               ]
+             },
+             {
+               "resourceType": "DiagnosticReport",
+               "id": "3",
+               "category": [
+                 {
+                   "coding": [
+                     {
+                       "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                       "code": "LAB",
+                       "display": "Laboratory"
+                     }
+                   ]
+                 }
+               ],
+               "code": {
+                 "coding": [
+                   {
+                     "system": "http://loinc.org",
+                     "code": "5803-2",
+                     "display": "URINE PH"
+                   }
+                 ]
+               },
+               "effectiveDateTime": "2019-12-03T00:00:00-05:00",
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                            40
+iCare.com Application Programming Interface Guide
+
+
+
+
+               "result": [
+                 {
+                   "reference": "#4"
+                 }
+               ]
+             },
+             {
+               "resourceType": "Observation",
+               "id": "4",
+               "note": [
+                 {
+                   "text": "Value: 5.0, Unit: [PH]"
+                 }
+               ]
+             },
+             {
+               "resourceType": "Organization",
+               "id": "5",
+               "name": "ICARE HEALTH SYSTEM",
+               "address": [
+                 {
+                   "line": [
+                     "33301 4TH Street"
+                   ],
+                   "city": "Sunrise",
+                   "state": "FL",
+                   "postalCode": "33073"
+                 }
+               ]
+             }
+           ],
+           "title": "Test Result",
+           "section": [
+             {
+               "title": "Laboratory",
+               "entry": [
+                 {
+                   "reference": "#1"
+                 },
+                 {
+                   "reference": "#3"
+                 }
+               ]
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.   41
+iCare.com Application Programming Interface Guide
+
+
+
+
+                                },
+                                {
+                                  "title": "Reporting Laboratory",
+                                  "entry": [
+                                    {
+                                      "reference": "#5"
+                                    }
+                                  ]
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+
+
+vital
+
+Input Examples
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=vital&date=12/02/2019
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=vital&startDate=12/02/2019
+00:00&endDate=12/03/2019 23:59
+
+
+Output
+A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter
+that has its start date occurring in the range specified by startDate, endDate parameters, or start
+date occurring on the date specified by date parameter. Inside each Bundle corresponding to an
+encounter, a Composition resource consists of Observation resources. The Observation.code
+attribute gives name and LOINC code of the vital, the Observation.issued attribute states when
+observation was made, and Observation.note.text attribute gives the measured value and unit of
+the vital.
+
+{
+    "resourceType": "Bundle",
+    "type": "searchset",
+    "entry": [
+      {
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.                                           42
+iCare.com Application Programming Interface Guide
+
+
+
+
+    "resource": {
+      "resourceType": "Bundle",
+      "type": "searchset",
+      "timestamp": "2019-12-02T00:00:00.000-05:00",
+      "entry": [
+        {
+          "resource": {
+            "resourceType": "Composition",
+            "contained": [
+              {
+                "resourceType": "Observation",
+                "id": "1",
+                "code": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "3150-0",
+                      "display": "FIO2"
+                    }
+                  ]
+                },
+                "issued": "2019-12-05T07:22:00.000-05:00",
+                "note": [
+                  {
+                    "text": "Value: 45, Unit: %"
+                  }
+                ]
+              },
+              {
+                "resourceType": "Observation",
+                "id": "2",
+                "code": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "59408-5",
+                      "display": "Pulse Oximetry"
+                    }
+                  ]
+                },
+                "issued": "2019-12-03T03:00:00.000-05:00",
+                "note": [
+                  {
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.     43
+iCare.com Application Programming Interface Guide
+
+
+
+
+                                    "text": "Value: 95, Unit: %"
+                                }
+                                 ]
+                              },
+                             ...
+                            ],
+                            "title": "Vital Sign",
+                            "section": [
+                              {
+                                 "entry": [
+                                   {
+                                     "reference": "#1"
+                                   }
+                                 ]
+                              },
+                              {
+                                 "entry": [
+                                   {
+                                     "reference": "#2"
+                                   }
+                                 ]
+                              },
+                             ...
+                                 ]
+                              }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+
+
+procedure
+
+Input Examples
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=procedure&date=12/02/2019
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=procedure&startDate=12/02/2
+019 00:00&endDate=12/03/2019 23:59
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.                             44
+iCare.com Application Programming Interface Guide
+
+
+
+
+Output
+A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter
+that has its start date occurring in the range specified by startDate, endDate parameters, or start
+date occurring on the date specified by date parameter. Inside each Bundle corresponding to an
+encounter, a Composition resource consists of Procedure resources. The Procedure.coding
+attribute describes the procedure. The Procedure.status attribute gives the procedure status and
+Procedure.performedDateTime gives when procedure was performed. The Procedure.performer
+describes the provider who performed the procedure. If available, the Procedure.bodySite
+attribute describes the body site where the procedure was performed.
+
+{
+    "resourceType": "Bundle",
+    "type": "searchset",
+    "entry": [
+      {
+        "resource": {
+          "resourceType": "Bundle",
+          "type": "searchset",
+          "timestamp": "2020-01-01T00:00:00.000-05:00",
+          "entry": [
+            {
+              "resource": {
+                "resourceType": "Composition",
+                "contained": [
+                  {
+                    "resourceType": "Procedure",
+                    "id": "1",
+                    "status": "completed",
+                    "code": {
+                      "coding": [
+                        {
+                          "system": "http://snomed.info/sct",
+                          "code": "168731009",
+                          "display": "Standard chest X-ray"
+                        }
+                      ]
+                    },
+                    "performedDateTime": "2020-02-03T00:00:00-05:00",
+                    "performer": [
+                      {
+                        "actor": {
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.                                           45
+iCare.com Application Programming Interface Guide
+
+
+
+
+                        "display": "GEORGE,ROSILY 1002 Healthcare Dr PORTLAND OREGON 97266
+"
+               }
+             }
+           ],
+           "bodySite": [
+             {
+               "coding": [
+                 {
+                   "system": "http://snomed.info/sct",
+                   "code": "82094008",
+                   "display": "Lower respiratory tract structure (body structure)"
+                 }
+               ]
+             }
+           ],
+           "note": [
+             {
+               "text": "Provider Organization: DEV_LOCAL_INSTITUTION 123 New Brand Store
+Miami FL 33301 "
+             }
+           ]
+         },
+         {
+           "resourceType": "Procedure",
+           "id": "2",
+           "status": "completed",
+           "code": {
+             "coding": [
+               {
+                 "system": "http://snomed.info/sct",
+                 "code": "175135009",
+                 "display": "Transvenous implantation of cardiac pacemaker system"
+               }
+             ]
+           },
+           "performedDateTime": "2020-01-30T00:00:00-05:00",
+           "performer": [
+             {
+               "actor": {
+                 "display": "SHIYAL,ARTI        "
+               }
+             }
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.                                  46
+iCare.com Application Programming Interface Guide
+
+
+
+
+           ],
+           "bodySite": [
+             {
+               "coding": [
+                 {
+                   "system": "http://snomed.info/sct",
+                   "code": "9454009",
+                   "display": "Structure of subclavian vein (body structure)"
+                 }
+               ]
+             }
+           ],
+           "note": [
+             {
+               "text": "Provider Organization: DEV_LOCAL_INSTITUTION 123 New Brand Store
+Miami FL 33301 "
+             }
+           ]
+         },
+         {
+           "resourceType": "Procedure",
+           "id": "3",
+           "status": "completed",
+           "code": {
+             "coding": [
+               {
+                 "system": "http://snomed.info/sct",
+                 "code": "10847001",
+                 "display": "BRONCHOSCOPY"
+               }
+             ]
+           },
+           "performedDateTime": "2020-01-30T00:00:00-05:00",
+           "performer": [
+             {
+               "actor": {
+                 "display": "SHIYAL,ARTI        "
+               }
+             }
+           ],
+           "bodySite": [
+             {
+               "coding": [
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                   47
+iCare.com Application Programming Interface Guide
+
+
+
+
+                       {
+                           "system": "http://snomed.info/sct",
+                           "code": "91724006",
+                           "display": "Tracheobronchial structure (body structure)"
+                       }
+                   ]
+                }
+              ],
+              "note": [
+                {
+                  "text": "Provider Organization: DEV_LOCAL_INSTITUTION 123 New Brand Store
+Miami FL 33301 "
+                }
+              ]
+            }
+          ],
+          "title": "Procedure",
+          "section": [
+            {
+              "entry": [
+                {
+                  "reference": "#1"
+                }
+              ]
+            },
+            {
+              "entry": [
+                {
+                  "reference": "#2"
+                }
+              ]
+            },
+            {
+              "entry": [
+                {
+                  "reference": "#3"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                      48
+iCare.com Application Programming Interface Guide
+
+
+
+
+            }
+        }
+    ]
+}
+
+
+careTeam
+
+Input Examples
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=careTeam&date=12/02/2019
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=careTeam&startDate=12/02/2
+019 00:00&endDate=12/03/2019 23:59
+
+
+Output
+A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter
+that has its start date occurring in the range specified by startDate, endDate parameters, or start
+date occurring on the date specified by date parameter. Inside each Bundle corresponding to an
+encounter, a CareTeam resource describes care team members. Each member is described as
+a member attribute inside CareTeam.participant array. The member.display attribute details the
+member as:
+<first name> <last name> <addr1> <addr2> <addr3> <city> <state> <zip> Phone 1: <phone1>
+Phone 2: <phone2>
+
+{
+    "resourceType": "Bundle",
+    "type": "searchset",
+    "entry": [
+      {
+        "resource": {
+          "resourceType": "Bundle",
+          "type": "searchset",
+          "timestamp": "2020-01-01T00:00:00.000-05:00",
+          "entry": [
+            {
+              "resource": {
+                "resourceType": "CareTeam",
+                "participant": [
+                  {
+                    "member": {
+
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.                                           49
+iCare.com Application Programming Interface Guide
+
+
+
+
+                    "display": "Mary Mcdonald, 1002 Healthcare Dr, Portland, Oregon 97266-0000,
+Phone 1: 5557568768"
+                  }
+                },
+                {
+                  "member": {
+                    "display": "Henry Seven, 4456 Uphills Road, Fountain Hills, Chicago, Illinois 63068-
+0000, Phone 1: (781)271-3000"
+                  }
+                }
+              ],
+              "note": [
+                {
+                  "text": "Care Team"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
+
+
+
+
+immunization
+
+Input Examples
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=immunization&date=12/02/201
+9
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=immunization&startDate=12/0
+2/2019 00:00&endDate=12/03/2019 23:59
+
+
+Output
+A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter
+that has its start date occurring in the range specified by startDate, endDate parameters, or start
+date occurring on the date specified by date parameter. Inside each Bundle corresponding to an
+encounter, a Composition resource consists of Immunization resources. The Immunization.status
+
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                                   50
+iCare.com Application Programming Interface Guide
+
+
+
+
+attribute gives status of the immunization and the Immunization.vaccineCode attribute gives the
+vaccine CVX code and description.
+
+If Immunization.status equals completed, the Immunization.occurrenceDateTime describes when
+immunization was performed. If immunization was not completed, e.g. because the patient
+refused it, the Immunization.occurrenceDateTime describes when the unsuccessful attempt was
+made.
+
+{
+    "resourceType": "Bundle",
+    "type": "searchset",
+    "entry": [
+      {
+        "resource": {
+          "resourceType": "Bundle",
+          "type": "searchset",
+          "timestamp": "2020-01-01T00:00:00.000-05:00",
+          "entry": [
+            {
+              "resource": {
+                "resourceType": "Composition",
+                "contained": [
+                  {
+                    "resourceType": "Immunization",
+                    "id": "1",
+                    "status": "completed",
+                    "vaccineCode": {
+                      "coding": [
+                        {
+                          "system": "CVX",
+                          "code": "88",
+                          "display": "INFLUENZA VIRUS VACCINE"
+                        }
+                      ]
+                    },
+                    "occurrenceDateTime": "2014-05-10T00:00:00-04:00"
+                  },
+                  {
+                    "resourceType": "Immunization",
+                    "id": "2",
+                    "status": "completed",
+                    "vaccineCode": {
+                      "coding": [
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.                                       51
+iCare.com Application Programming Interface Guide
+
+
+
+
+                   {
+                       "system": "CVX",
+                       "code": "106",
+                       "display": "TETANUS AND DIPHTHERIA TOXOIDS"
+                   }
+                 ]
+               },
+               "occurrenceDateTime": "2012-01-04T00:00:00-05:00"
+             },
+             {
+               "resourceType": "Immunization",
+               "id": "3",
+               "status": "not-done",
+               "vaccineCode": {
+                 "coding": [
+                   {
+                     "system": "CVX",
+                     "code": "166",
+                     "display": "INFLUENZA, INTRADERMAL, QUADRIVALENT, PRESERVATIVE
+FREE"
+                   }
+                 ]
+               },
+               "occurrenceDateTime": "2015-06-22T00:00:00-04:00",
+               "note": [
+                 {
+                   "text": "Immunization was not given - Patient rejected immunization "
+                 }
+               ]
+             }
+           ],
+           "title": "Immunization",
+           "section": [
+             {
+               "entry": [
+                 {
+                   "reference": "#1"
+                 }
+               ]
+             },
+             {
+               "entry": [
+                 {
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                   52
+iCare.com Application Programming Interface Guide
+
+
+
+
+                                      "reference": "#2"
+                                  }
+                                  ]
+                                },
+                                {
+                                  "entry": [
+                                    {
+                                      "reference": "#3"
+                                    }
+                                  ]
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+
+
+
+
+device
+
+Input Examples
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=device&date=12/02/2019
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=device&startDate=12/02/2019
+00:00&endDate=12/03/2019 23:59
+
+
+Output
+A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter
+that has its start date occurring in the range specified by startDate, endDate parameters, or start
+date occurring on the date specified by date parameter. Inside each Bundle corresponding to an
+encounter, a Composition resource consists of Device resources. The
+Device.udiCarrier.deviceIdentifier attribute gives UDI of the device and the
+Device.udiCarrier.issuer attribute gives the name of the assigning authority.
+
+    "resourceType": "Bundle",
+    "type": "searchset",
+    "entry": [
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.                                           53
+iCare.com Application Programming Interface Guide
+
+
+
+
+        {
+            "resource": {
+              "resourceType": "Bundle",
+              "type": "searchset",
+              "timestamp": "2020-01-01T00:00:00.000-05:00",
+              "entry": [
+                {
+                  "resource": {
+                    "resourceType": "Composition",
+                    "contained": [
+                      {
+                        "resourceType": "Device",
+                        "id": "1",
+                        "udiCarrier": [
+                          {
+                            "deviceIdentifier": "(01)00643169007222(17)160128(21)BLC200461H",
+                            "issuer": "FDA"
+                          }
+                        ]
+                      }
+                    ],
+                    "title": "Medical Device",
+                    "section": [
+                      {
+                        "entry": [
+                          {
+                            "reference": "#1"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+        }
+    ]
+}
+
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.                                     54
+iCare.com Application Programming Interface Guide
+
+
+
+
+planOfTreatment
+
+Input Examples
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=planOfTreatment&date=12/02/
+2019
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=planOfTreatment&startDate=1
+2/02/2019 00:00&endDate=12/03/2019 23:59
+
+
+Output
+A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter
+that has its start date occurring in the range specified by startDate, endDate parameters, or start
+date occurring on the date specified by date parameter. Inside each Bundle corresponding to an
+encounter, a CarePlan resource describes the care plan. The CarePlan.activity array consists of
+specific activities planned. A planned activity could be a medication, lab test, procedure or a
+general task. If the planned activity is one of medication, lab test or procedure the
+activity.detail.kind attribute is set to ServiceRequest. If the planned activity is a general task, the
+activity.detail.kind attribute is set to Task.
+
+If activity.detail.kind equals ServiceRequest, activity.detail.code.coding further describes the
+activity with a SNOMED CT code and description. The activity.detail.description is also set to one
+of Medication, Laboratory Test or Procedure depending on type of the planned activity. The
+activity.detail.scheduledString attribute describes when the planned activity was scheduled.
+
+If activity.detail.kind equals Task, activity.detail.description gives a textual description of the task.
+
+{
+    "resourceType": "Bundle",
+    "type": "searchset",
+    "entry": [
+      {
+        "resource": {
+          "resourceType": "Bundle",
+          "type": "searchset",
+          "timestamp": "2019-11-29T00:00:00.000-05:00",
+          "entry": [
+            {
+              "resource": {
+                "resourceType": "CarePlan",
+                "activity": [
+                  {
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.                                                 55
+iCare.com Application Programming Interface Guide
+
+
+
+
+               "detail": {
+                 "kind": "ServiceRequest",
+                 "code": {
+                   "coding": [
+                     {
+                       "system": "http://snomed.info/sct",
+                       "code": "173830003",
+                       "display": "STOMACH IRRIGATION"
+                     }
+                   ]
+                 },
+                 "scheduledString": "12/02/2019 05:48",
+                 "description": "Procedure"
+               }
+             },
+             {
+               "detail": {
+                 "kind": "ServiceRequest",
+                 "code": {
+                   "coding": [
+                     {
+                       "system": "http://snomed.info/sct",
+                       "code": "168731009",
+                       "display": "Standard chest X-ray"
+                     }
+                   ]
+                 },
+                 "scheduledString": "12/03/2019 07:49",
+                 "description": "Procedure"
+               }
+             },
+             {
+               "detail": {
+                 "kind": "ServiceRequest",
+                 "code": {
+                   "coding": [
+                     {
+                       "system": "http://snomed.info/sct",
+                       "code": "363248001",
+                       "display": "Extraction of Right Pleura, Open Approach"
+                     }
+                   ]
+                 },
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                        56
+iCare.com Application Programming Interface Guide
+
+
+
+
+                                  "scheduledString": "12/03/2019 00:06",
+                                  "description": "Procedure"
+                                  }
+                                },
+                                {
+                                  "detail": {
+                                    "kind": "Task",
+                                    "description": "Plan of Treatment for the month"
+                                  }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+
+
+assessment
+
+Input Examples
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=assessment&date=12/02/2019
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=assessment&startDate=12/02/
+2019 00:00&endDate=12/03/2019 23:59
+
+
+Output
+A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter
+that has its start date occurring in the range specified by startDate, endDate parameters, or start
+date occurring on the date specified by date parameter. Inside each Bundle corresponding to an
+encounter, a RiskAssessment resource provides the assessment in note.text attribute.
+
+{
+    "resourceType": "Bundle",
+    "type": "searchset",
+    "entry": [
+      {
+        "resource": {
+          "resourceType": "Bundle",
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.                                           57
+iCare.com Application Programming Interface Guide
+
+
+
+
+        "type": "searchset",
+        "timestamp": "2020-01-01T00:00:00.000-05:00",
+        "entry": [
+          {
+            "resource": {
+              "resourceType": "RiskAssessment",
+              "note": [
+                {
+                  "text": "i. The patient was found to have Anemia and Dr Seven and his staff
+diagnosed the condition and treated Ms Rebecca for Anemia during the 2 day stay at Community
+Health Hospitals. Ms Rebecca recovered from Anemia during the stay and is being discharged in
+a stable condition. If there is fever greater than 101.5 F or onset of chest pain/breathlessness the
+patient is advised to contact emergency."
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
+
+
+assessment,planOfTreatment
+
+Input Examples
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=assessment,planOfTreatment
+&date=12/02/2019
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=assessment,planOfTreatment
+&startDate=12/02/2019 00:00&endDate=12/03/2019 23:59
+
+
+Output
+Assessment and plan of treatment can be obtained together by setting
+category=assessment,planOfTreatment. A FHIR Bundle resource is returned that contains a
+distinct Bundle resource for each encounter that has its start date occurring in the range
+specified by startDate, endDate parameters, or start date occurring on the date specified by date
+parameter. Inside each Bundle corresponding to an encounter, a CarePlan resource describes
+the care plan and a RiskAssessment resource provides the assessment in note.text attribute.
+
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                               58
+iCare.com Application Programming Interface Guide
+
+
+
+
+{
+    "resourceType": "Bundle",
+    "type": "searchset",
+    "entry": [
+      {
+        "resource": {
+          "resourceType": "Bundle",
+          "type": "searchset",
+          "timestamp": "2019-11-29T00:00:00.000-05:00",
+          "entry": [
+            {
+              "resource": {
+                "resourceType": "CarePlan",
+                "activity": [
+                  {
+                    "detail": {
+                      "kind": "ServiceRequest",
+                      "code": {
+                        "coding": [
+                          {
+                            "system": "http://snomed.info/sct",
+                            "code": "173830003",
+                            "display": "STOMACH IRRIGATION"
+                          }
+                        ]
+                      },
+                      "scheduledString": "12/02/2019 05:48",
+                      "description": "Procedure"
+                    }
+                  },
+                  {
+                    "detail": {
+                      "kind": "ServiceRequest",
+                      "code": {
+                        "coding": [
+                          {
+                            "system": "http://snomed.info/sct",
+                            "code": "168731009",
+                            "display": "Standard chest X-ray"
+                          }
+                        ]
+                      },
+                      "scheduledString": "12/03/2019 07:49",
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.       59
+iCare.com Application Programming Interface Guide
+
+
+
+
+                 "description": "Procedure"
+                 }
+               },
+               {
+                 "detail": {
+                   "kind": "ServiceRequest",
+                   "code": {
+                     "coding": [
+                       {
+                         "system": "http://snomed.info/sct",
+                         "code": "363248001",
+                         "display": "Extraction of Right Pleura, Open Approach"
+                       }
+                     ]
+                   },
+                   "scheduledString": "12/03/2019 00:06",
+                   "description": "Procedure"
+                 }
+               },
+               {
+                 "detail": {
+                   "kind": "Task",
+                   "description": "Plan of Treatment for the month"
+                 }
+               }
+           ]
+         }
+       },
+       {
+         "resource": {
+           "resourceType": "RiskAssessment",
+           "note": [
+             {
+               "text": "i. The patient was found to have Anemia and Dr Seven and his staff
+diagnosed the condition and treated Ms Rebecca for Anemia during the 2 day stay at Community
+Health Hospitals. Ms Rebecca recovered from Anemia during the stay and is being discharged in
+a stable condition. If there is fever greater than 101.5 F or onset of chest pain/breathlessness the
+patient is advised to contact emergency."
+             }
+           ]
+         }
+       }
+     ]
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                               60
+iCare.com Application Programming Interface Guide
+
+
+
+
+            }
+        }
+    ]
+}
+
+
+goal
+
+Input Examples
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=goal&date=12/02/2019
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=goal&startDate=12/02/2019
+00:00&endDate=12/03/2019 23:59
+
+
+Output
+A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter
+that has its start date occurring in the range specified by startDate, endDate parameters, or start
+date occurring on the date specified by date parameter. Inside each Bundle corresponding to an
+encounter, a Goal resource provides goals set for the patient. In particular,
+Goal.description.coding.display attribute gives goals as free form text.
+
+{
+ "resourceType": "Bundle",
+ "type": "searchset",
+ "entry": [
+   {
+     "resource": {
+       "resourceType": "Bundle",
+       "type": "searchset",
+       "timestamp": "2019-12-02T00:00:00.000-05:00",
+       "entry": [
+         {
+           "resource": {
+             "resourceType": "Goal",
+             "lifecycleStatus": "planned",
+             "description": {
+               "coding": [
+                 {
+                   "display": "a. Need to gain more energy to do regular activities.\nb. Negotiated Goal
+to keep Body Temperature at 98-99 degrees Fahrenheit with regular monitoring."
+                 }
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.                                                61
+iCare.com Application Programming Interface Guide
+
+
+
+
+                              ]
+                            },
+                            "note": [
+                              {
+                                "text": "Discharge Goals"
+                              }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+
+healthConcern
+
+Input Examples
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=healthConcern&date=12/02/20
+19
+
+<URL>/iCareEHRWeb/rest/extApp/Clinical?id=R83688&category=healthConcern&startDate=12/
+02/2019 00:00&endDate=12/03/2019 23:59
+
+
+Output
+A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter
+that has its start date occurring in the range specified by startDate, endDate parameters, or start
+date occurring on the date specified by date parameter. Inside each Bundle corresponding to an
+encounter, a Composition resource lists health concerns. For that purpose, a section is created
+inside the Composition resource, entitled "Health Concern". Each health concern could be a
+‘complaint’ or ‘observation’.
+
+For health concerns of type ‘complaint’, a HealthConcern.Complaints section is created that
+consists of individual complaints each entitled Complaint. Each such section has Status,
+Description, Start Date and Comment sections, describing status of the complaint (one of active,
+inactive, resolved), description of the complaint, start date of the complaint, and any comments,
+respectively.
+
+Similarly, for health concerns of type ‘observation’, a HealthConcern.Observations section is
+created that consists of individual observations in separate sections, each entitled Observation.
+Each such section has Status, Description, Start Date and Comment sections, describing status
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.                                           62
+iCare.com Application Programming Interface Guide
+
+
+
+
+of the observation (one of active, inactive, resolved), description of the observation, start date of
+the observation, and any comments, respectively.
+
+{
+ "resourceType": "Bundle",
+ "type": "searchset",
+ "entry": [
+   {
+     "resource": {
+       "resourceType": "Bundle",
+       "type": "searchset",
+       "timestamp": "2019-12-02T00:00:00.000-05:00",
+       "entry": [
+         {
+           "resource": {
+             "resourceType": "Composition",
+             "section": [
+               {
+                 "title": "Health Concern",
+                 "section": [
+                   {
+                     "title": "Complaints",
+                     "section": [
+                       {
+                         "title": "Complaint",
+                         "section": [
+                           {
+                             "title": "Status",
+                             "text": {
+                               "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">active</div>"
+                             }
+                           },
+                           {
+                             "title": "Comment",
+                             "text": {
+                               "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">i. Documented
+Hypertension problem ii. Documented Hypothyroidism problem iii. Watch Weight of patient iv.
+Documented Anemia problem</div>"
+                             }
+                           },
+                           {
+                             "title": "Description",
+                             "text": {
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.                                             63
+iCare.com Application Programming Interface Guide
+
+
+
+
+                                  "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Chronically
+unwell</div>"
+                            }
+                          },
+                          {
+                            "title": "Start Date",
+                            "text": {
+                              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">12/02/2019
+00:00</div>"
+                              }
+                          }
+                      ]
+                }
+              ]
+            },
+            {
+              "title": "Observations",
+              "section": [
+                {
+                  "title": "Observation",
+                  "section": [
+                    {
+                      "title": "Status",
+                      "text": {
+                        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">active</div>"
+                      }
+                    },
+                    {
+                      "title": "Comment"
+                    },
+                    {
+                      "title": "Description",
+                      "text": {
+                        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Chronic malaise</div>"
+                      }
+                    },
+                    {
+                      "title": "Start Date",
+                      "text": {
+                        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">12/03/2019
+00:00</div>"
+                      }
+                    }
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                             64
+iCare.com Application Programming Interface Guide
+
+
+
+
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+
+
+
+All Criteria Data Request
+Users can choose to return results for all criteria instead of filtering them individually. Response
+is CCDA compliant XML document.
+
+            ●           URI: One of
+                           ○ /rest/extApp/ClinicalCCDA?id=<id>
+                           ○ /rest/extApp/ClinicalCCDA?id=<id>&date=<encounter date>
+                           ○ /rest/extApp/ClinicalCCDA?id=<id>&startDate=<start>&endDate=<end>
+
+                        Examples:
+
+                        <URL>/iCareEHRWeb/rest/extApp/ClinicalCCDA?id=R83688
+
+                        <URL>/iCareEHRWeb/rest/extApp/ClinicalCCDA?id=R83688&date=12/02/2019
+
+                        <URL>/iCareEHRWeb/rest/extApp/ClinicalCCDA?id=R83688&startDate=12/02/2019
+                        00:00&endDate=12/03/2019 23:59
+
+            ●           Method: GET
+
+            ●           Request Parameters:
+                           ○ id must be set to the id of the patient from the response of /rest/extApp/Patient. If
+                              the user is a patient or designee, id must belong to the particular patient or a
+                              patient the designee is associated with. Otherwise, an error is returned.
+
+
+
+
+    © Copyright 2020, iCare.com, Inc., All rights reserved.                                                          65
+iCare.com Application Programming Interface Guide
+
+
+
+
+               ○    startDate, endDate must be in MM/dd/yyyy HH:mm format, e.g.
+                    startDate=11/14/2019 00:00, endDate=11/24/2019 23:59. Response will return
+                    data associated with the most recent encounter with start date/time in the
+                    date/time range specified with startDate, endDate.
+
+               ○    date is MM/dd/yyyy format, e.g. 11/14/2019. Response will return data associated
+                    with the most recent encounter that occured in the specified date. That is
+                    equivalent to passing startDate as 00:00 hours and endDate as 23:59 hours for
+                    the particular date. For example, passing the date as 11/14/2019 is equivalent to
+                    passing startDate as 11/14/2019 00:00 and endDate as 11/14/2019 23:59.
+
+                    If none of startDate, endDate, date is supplied the response will return data
+                    associated with the most recent encounter.
+
+    ●    Headers:
+            ○ Cookie set to JSESSIONID=<security token> where <security token> is from
+               response of /rest/appTokenRequest.
+
+                    Example:
+
+                    JSESSIONID=tZ-kE6VZjgbDeZuzi_vtw9fRbxK5vvhEkzAANgTI
+
+    ●    Output: Successful output will return 202 HTTP response header. Error will return 500
+         HTTP response header. Successful output is a CCDA compliant XML document.
+
+
+
+
+Logout
+    ●    URI: /rest/logout
+
+         Example (curl):
+
+         curl -X POST -v "<URL>/iCareEHRWeb/rest/logout"
+
+    ●    Method: POST
+
+    ●    Request Parameters: none
+
+    ●    Body: {"dfn":"general"}
+
+    ●    Headers:
+
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                                66
+iCare.com Application Programming Interface Guide
+
+
+
+
+               ○    Cookie set to JSESSIONID=<security token> where <security token> is from
+                    response of /rest/appTokenRequest.
+
+                    Example:
+
+                    JSESSIONID=tZ-kE6VZjgbDeZuzi_vtw9fRbxK5vvhEkzAANgTI
+
+               ○    Content-Type set to application/json
+
+    ●    Output: Successful logout will return HTTP 202 response code.
+
+
+
+
+ © Copyright 2020, iCare.com, Inc., All rights reserved.                                       67
+

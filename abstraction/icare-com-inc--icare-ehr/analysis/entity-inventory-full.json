@@ -1,0 +1,445 @@
+{
+  "product": "iCare EHR",
+  "version": "Version 2",
+  "export_methods": [
+    {
+      "method": "CCD/HIM Export",
+      "type": "single_patient",
+      "format": "C-CDA",
+      "description": "Generate CCD from patient chart or export via HIM Request"
+    },
+    {
+      "method": "CSC Request",
+      "type": "population",
+      "format": "unknown (data files with data dictionary)",
+      "description": "Full data export via SFTP with data dictionary"
+    },
+    {
+      "method": "FHIR REST API",
+      "type": "single_patient, population, group",
+      "format": "FHIR R4 JSON (Bulk Data)",
+      "description": "FHIR Bulk Data Export via EMR Direct Interoperability Engine"
+    }
+  ],
+  "fhir_capability": {
+    "fhir_version": "4.0.1",
+    "software": "EMR Direct Interoperability Engine",
+    "software_version": "2026",
+    "instantiates": [
+      "http://hl7.org/fhir/us/core/CapabilityStatement/us-core-server",
+      "http://hl7.org/fhir/uv/bulkdata/CapabilityStatement/bulk-data"
+    ],
+    "resources": [
+      {
+        "type": "Group",
+        "operations": [
+          "export"
+        ],
+        "interactions": []
+      },
+      {
+        "type": "SearchParameter",
+        "operations": [],
+        "interactions": [
+          "read",
+          "search-type"
+        ]
+      }
+    ]
+  },
+  "psychotherapy_exclusion": true,
+  "entities": [
+    {
+      "entity_name": "patient",
+      "fhir_resource_type": "Patient",
+      "source": "iCare-API-Guide.pdf + EHI Export page",
+      "category": "Demographics",
+      "field_count": 6,
+      "fields": [
+        {
+          "name": "birthDate",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "gender",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "id",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "name",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "name.text",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "resourceType",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        }
+      ],
+      "description": "A FHIR Bundle resource is returned that contains a Patient resource, which has individual",
+      "response_format": "FHIR R4 JSON"
+    },
+    {
+      "entity_name": "smokingStatus",
+      "fhir_resource_type": "Observation (Social History)",
+      "source": "iCare-API-Guide.pdf + EHI Export page",
+      "category": "Social History",
+      "field_count": 4,
+      "fields": [
+        {
+          "name": "id",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "note",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "note.text",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "resourceType",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        }
+      ],
+      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
+      "response_format": "FHIR R4 JSON"
+    },
+    {
+      "entity_name": "problem",
+      "fhir_resource_type": "Condition",
+      "source": "iCare-API-Guide.pdf + EHI Export page",
+      "category": "Problems / Conditions",
+      "field_count": 0,
+      "fields": [],
+      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
+      "response_format": "FHIR R4 JSON"
+    },
+    {
+      "entity_name": "medication",
+      "fhir_resource_type": "MedicationRequest",
+      "source": "iCare-API-Guide.pdf + EHI Export page",
+      "category": "Medications",
+      "field_count": 0,
+      "fields": [],
+      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
+      "response_format": "FHIR R4 JSON"
+    },
+    {
+      "entity_name": "medAllergy",
+      "fhir_resource_type": "AllergyIntolerance",
+      "source": "iCare-API-Guide.pdf + EHI Export page",
+      "category": "Allergies",
+      "field_count": 0,
+      "fields": [],
+      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
+      "response_format": "FHIR R4 JSON"
+    },
+    {
+      "entity_name": "labTest",
+      "fhir_resource_type": "DiagnosticReport",
+      "source": "iCare-API-Guide.pdf + EHI Export page",
+      "category": "Laboratory",
+      "field_count": 0,
+      "fields": [],
+      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
+      "response_format": "FHIR R4 JSON"
+    },
+    {
+      "entity_name": "labResult",
+      "fhir_resource_type": "Observation (Laboratory)",
+      "source": "iCare-API-Guide.pdf + EHI Export page",
+      "category": "Laboratory",
+      "field_count": 4,
+      "fields": [
+        {
+          "name": "id",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "note",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "note.text",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "resourceType",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        }
+      ],
+      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
+      "response_format": "FHIR R4 JSON"
+    },
+    {
+      "entity_name": "vital",
+      "fhir_resource_type": "Observation (Vital Signs)",
+      "source": "iCare-API-Guide.pdf + EHI Export page",
+      "category": "Vitals",
+      "field_count": 4,
+      "fields": [
+        {
+          "name": "id",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "note",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "note.text",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "resourceType",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        }
+      ],
+      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
+      "response_format": "FHIR R4 JSON"
+    },
+    {
+      "entity_name": "procedure",
+      "fhir_resource_type": "Procedure",
+      "source": "iCare-API-Guide.pdf + EHI Export page",
+      "category": "Procedures",
+      "field_count": 0,
+      "fields": [],
+      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
+      "response_format": "FHIR R4 JSON"
+    },
+    {
+      "entity_name": "careTeam",
+      "fhir_resource_type": "CareTeam",
+      "source": "iCare-API-Guide.pdf + EHI Export page",
+      "category": "Care Team",
+      "field_count": 0,
+      "fields": [],
+      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
+      "response_format": "FHIR R4 JSON"
+    },
+    {
+      "entity_name": "immunization",
+      "fhir_resource_type": "Immunization",
+      "source": "iCare-API-Guide.pdf + EHI Export page",
+      "category": "Immunizations",
+      "field_count": 0,
+      "fields": [],
+      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
+      "response_format": "FHIR R4 JSON"
+    },
+    {
+      "entity_name": "device",
+      "fhir_resource_type": "Device",
+      "source": "iCare-API-Guide.pdf + EHI Export page",
+      "category": "Devices",
+      "field_count": 5,
+      "fields": [
+        {
+          "name": "id",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "resourceType",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "udiCarrier",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "udiCarrier.deviceIdentifier",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "udiCarrier.issuer",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        }
+      ],
+      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
+      "response_format": "FHIR R4 JSON"
+    },
+    {
+      "entity_name": "planOfTreatment",
+      "fhir_resource_type": "CarePlan",
+      "source": "iCare-API-Guide.pdf + EHI Export page",
+      "category": "Care Plans",
+      "field_count": 0,
+      "fields": [],
+      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
+      "response_format": "FHIR R4 JSON"
+    },
+    {
+      "entity_name": "assessment",
+      "fhir_resource_type": "DocumentReference / Assessment",
+      "source": "iCare-API-Guide.pdf + EHI Export page",
+      "category": "Clinical Notes / Documents",
+      "field_count": 0,
+      "fields": [],
+      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
+      "response_format": "FHIR R4 JSON"
+    },
+    {
+      "entity_name": "goal",
+      "fhir_resource_type": "Goal",
+      "source": "iCare-API-Guide.pdf + EHI Export page",
+      "category": "Goals",
+      "field_count": 0,
+      "fields": [],
+      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
+      "response_format": "FHIR R4 JSON"
+    },
+    {
+      "entity_name": "healthConcern",
+      "fhir_resource_type": "Condition (Health Concern)",
+      "source": "iCare-API-Guide.pdf + EHI Export page",
+      "category": "Health Concerns",
+      "field_count": 0,
+      "fields": [],
+      "description": "A FHIR Bundle resource is returned that contains a distinct Bundle resource for each encounter",
+      "response_format": "FHIR R4 JSON"
+    },
+    {
+      "entity_name": "allCriteria",
+      "fhir_resource_type": "C-CDA Document (all above)",
+      "source": "iCare-API-Guide.pdf + EHI Export page",
+      "category": "All Clinical (C-CDA)",
+      "field_count": 0,
+      "fields": [],
+      "description": "Returns all clinical data as a C-CDA XML document",
+      "response_format": "C-CDA XML"
+    },
+    {
+      "entity_name": "Encounter",
+      "fhir_resource_type": "Encounter",
+      "source": "EHI Export page",
+      "category": "Encounters",
+      "field_count": 3,
+      "fields": [
+        {
+          "name": "period",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "period.start",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "resourceType",
+          "type": "varies (FHIR)",
+          "description": "",
+          "has_description": false
+        }
+      ],
+      "description": "FHIR Encounter resource accessible via REST API",
+      "response_format": "FHIR R4 JSON"
+    }
+  ],
+  "total_entities": 18,
+  "total_fields": 26,
+  "fields_with_descriptions": 0,
+  "example_fields_by_resource": {
+    "Patient": [
+      "birthDate",
+      "gender",
+      "id",
+      "name",
+      "name.text",
+      "resourceType"
+    ],
+    "Bundle": [
+      "resourceType",
+      "type"
+    ],
+    "Encounter": [
+      "period",
+      "period.start",
+      "resourceType"
+    ],
+    "Observation": [
+      "id",
+      "note",
+      "note.text",
+      "resourceType"
+    ],
+    "Organization": [
+      "address",
+      "address.city",
+      "address.line",
+      "address.postalCode",
+      "address.state",
+      "id",
+      "name",
+      "resourceType"
+    ],
+    "Device": [
+      "id",
+      "resourceType",
+      "udiCarrier",
+      "udiCarrier.deviceIdentifier",
+      "udiCarrier.issuer"
+    ],
+    "RiskAssessment": [
+      "note",
+      "note.text",
+      "resourceType"
+    ]
+  }
+}
