@@ -1,0 +1,143 @@
+{
+  "product": "EHNOTE",
+  "vendor": "EHNOTE, INC",
+  "source": "downloads/ehi-export-page.html",
+  "source_url": "https://ehnote.com/certification/ehi-export",
+  "has_data_dictionary": false,
+  "has_schema": false,
+  "has_sample_data": false,
+  "export_format": "PDF and image files (PNG/JPEG)",
+  "export_file_types": [
+    {
+      "file_type": "PDF Case Sheets",
+      "format": "PDF",
+      "naming_convention": "CaseSheet_{BranchId}P{PatientId}_A{AppointmentDate}.pdf",
+      "example": "CaseSheet_731P518612_A2023-12-08.pdf",
+      "described_content": [
+        "Name of the clinic",
+        "Patient demographics",
+        "Chief complaints",
+        "Review of systems",
+        "Assessments",
+        "Medications",
+        "Other clinical data part of the appointment"
+      ],
+      "notes": "One PDF per appointment per patient. Contains rendered clinical history."
+    },
+    {
+      "file_type": "Image Files",
+      "format": "PNG/JPEG",
+      "naming_convention": "{PatientName}_P{PatientId}_{Date}.{ext}",
+      "example": "Alice_P2546_2023-01-08.PNG",
+      "categories": [
+        "Investigations",
+        "Surgery consents",
+        "Referrals",
+        "Billings and Authorization files"
+      ],
+      "notes": "Native image files. Categories identified by special identification in the file."
+    }
+  ],
+  "entities": [
+    {
+      "entity_name": "CaseSheet (PDF)",
+      "category": "Clinical",
+      "format": "PDF",
+      "fields": [
+        {
+          "name": "Clinic name",
+          "type": "text",
+          "description": "Name of the clinic"
+        },
+        {
+          "name": "Patient demographics",
+          "type": "text",
+          "description": "Patient demographic information (unspecified fields)"
+        },
+        {
+          "name": "Chief complaints",
+          "type": "text",
+          "description": "Patient's chief complaints for the visit"
+        },
+        {
+          "name": "Review of systems",
+          "type": "text",
+          "description": "Review of systems findings"
+        },
+        {
+          "name": "Assessments",
+          "type": "text",
+          "description": "Clinical assessments/diagnoses"
+        },
+        {
+          "name": "Medications",
+          "type": "text",
+          "description": "Medication information"
+        },
+        {
+          "name": "Other clinical data",
+          "type": "text",
+          "description": "Other clinical data part of the appointment (unspecified)"
+        }
+      ],
+      "notes": "Fields are described only at category level, not at individual field level. All rendered as unstructured PDF text."
+    },
+    {
+      "entity_name": "Investigations (Image)",
+      "category": "Clinical",
+      "format": "PNG/JPEG",
+      "fields": [
+        {
+          "name": "Image content",
+          "type": "image",
+          "description": "Investigation-related image file"
+        }
+      ],
+      "notes": "Image files with no structured metadata beyond filename identifiers."
+    },
+    {
+      "entity_name": "Surgery Consents (Image)",
+      "category": "Clinical",
+      "format": "PNG/JPEG",
+      "fields": [
+        {
+          "name": "Image content",
+          "type": "image",
+          "description": "Surgery consent document as image"
+        }
+      ],
+      "notes": "Image files with no structured metadata beyond filename identifiers."
+    },
+    {
+      "entity_name": "Referrals (Image)",
+      "category": "Clinical",
+      "format": "PNG/JPEG",
+      "fields": [
+        {
+          "name": "Image content",
+          "type": "image",
+          "description": "Referral document as image"
+        }
+      ],
+      "notes": "Image files with no structured metadata beyond filename identifiers."
+    },
+    {
+      "entity_name": "Billings and Authorization (Image)",
+      "category": "Billing",
+      "format": "PNG/JPEG",
+      "fields": [
+        {
+          "name": "Image content",
+          "type": "image",
+          "description": "Billing or authorization document as image"
+        }
+      ],
+      "notes": "Image files with no structured metadata. Unclear what billing data this actually contains."
+    }
+  ],
+  "total_entities": 5,
+  "total_fields": 11,
+  "fields_with_descriptions": 11,
+  "fields_with_types": 11,
+  "notes": "EHNOTE provides NO data dictionary, NO schema, and NO structured export format. The 'entities' listed here are reconstructed from the documentation's description of exported file categories. The 7 'fields' for CaseSheet PDFs are broad content categories (e.g., 'Patient demographics', 'Medications'), NOT individual database fields. The documentation explicitly states: 'There is no one size fits all set of fields in the software because of the extensive customization that is possible.'"
+}
