@@ -1,0 +1,706 @@
+{
+  "vendor": "Keiser Computers, Inc.",
+  "product": "Drs Enterprise",
+  "document_date": "2023-11-07",
+  "export_format": "C-CDA XML + proprietary XML sidecar files + raw document files",
+  "export_standard": "HL7 C-CDA 2.1 (USCDv1)",
+  "directory_structure": {
+    "description": "Patient data exported in folders named by Account ID converted to hexadecimal, organized in 4 levels of 2-hex-digit folders (00-FF).",
+    "path_pattern": "C:\\<data_export_folder_name>\\XX\\XX\\XX\\XX\\",
+    "example": "Account ID 9999 → hex 270F → path 00\\00\\27\\0F"
+  },
+  "exported_files": [
+    {
+      "file_name": "account_ccda.xml",
+      "description": "C-CDA XML containing the patient's EHI data (demographics, problems, medications, allergies, etc.) in compliance with USCDv1."
+    },
+    {
+      "file_name": "account_tasks.xml",
+      "description": "XML file containing task information linked to the patient account."
+    },
+    {
+      "file_name": "Account_U.img",
+      "description": "Patient's picture/photo if stored in the EHR."
+    },
+    {
+      "file_name": "<Document_ID>.<ext>",
+      "description": "Exported documents listed by Document ID. File types can be PDF, XML, TIF, RTF, or other formats depending on the source."
+    },
+    {
+      "file_name": "<Document_ID>_info.xml",
+      "description": "XML metadata file for each exported document, matching the Document ID."
+    },
+    {
+      "file_name": "Readme.txt",
+      "description": "Contains the publicly accessible hyperlink to the export documentation."
+    },
+    {
+      "file_name": "errors_<Session_ID>.xml",
+      "description": "Error log XML created in export_xml folder if errors occur during export."
+    }
+  ],
+  "xml_entities": [
+    {
+      "entity_name": "Document",
+      "context": "<Document_ID>_info.xml",
+      "fields": [
+        {
+          "name": "Document_id",
+          "type": "uint64",
+          "description": "Document ID",
+          "optional": false
+        },
+        {
+          "name": "file_name",
+          "type": "Text",
+          "description": "Filename",
+          "optional": false
+        },
+        {
+          "name": "file_name_raw",
+          "type": "Text",
+          "description": "Filename for raw data. Example hl7",
+          "optional": true
+        },
+        {
+          "name": "Secured",
+          "type": "Text",
+          "description": "Secured information",
+          "optional": true
+        },
+        {
+          "name": "doc_name",
+          "type": "Text",
+          "description": "Preferred Document description",
+          "optional": false
+        },
+        {
+          "name": "last_modified_date",
+          "type": "Date time",
+          "description": "Last Modified Time",
+          "optional": false
+        },
+        {
+          "name": "last_modified_by",
+          "type": "Text",
+          "description": "Last Modified User",
+          "optional": false
+        },
+        {
+          "name": "document_folder_desc",
+          "type": "Text",
+          "description": "Folder Document Located",
+          "optional": false
+        },
+        {
+          "name": "created_by",
+          "type": "Text",
+          "description": "Created User",
+          "optional": false
+        },
+        {
+          "name": "created_date",
+          "type": "Date",
+          "description": "Created Date",
+          "optional": false
+        },
+        {
+          "name": "user_string",
+          "type": "Text",
+          "description": "User Defined Description",
+          "optional": true
+        },
+        {
+          "name": "user_date",
+          "type": "Date",
+          "description": "User Defined Date",
+          "optional": true
+        },
+        {
+          "name": "user_long",
+          "type": "Int32",
+          "description": "User Defined Number",
+          "optional": true
+        },
+        {
+          "name": "description",
+          "type": "Text",
+          "description": "Description",
+          "optional": true
+        },
+        {
+          "name": "description_long",
+          "type": "Text",
+          "description": "Long Description",
+          "optional": true
+        }
+      ],
+      "examples": [
+        {
+          "context": "Document metadata example",
+          "xml": "<Document>\n  <Document_id>939</Document_id>\n  <file_name>939.pdf</file_name>\n  <doc_name>Vitals</doc_name>\n  <last_modified_date>2022-04-21 11:35:14</last_modified_date>\n  <last_modified_by>1-USER</last_modified_by>\n  <document_folder_desc>Progress Notes</document_folder_desc>\n  <created_by>1-USER</created_by>\n  <created_date>2022-04-21</created_date>\n  <user_date>2022-04-21</user_date>\n  <description>Vitals</description>\n</Document>"
+        }
+      ]
+    },
+    {
+      "entity_name": "office_notes",
+      "context": "<Document_ID>_info.xml (if document has office notes linked)",
+      "fields": [
+        {
+          "name": "note_id",
+          "type": "uint64",
+          "description": "Note ID",
+          "optional": false
+        },
+        {
+          "name": "account_id",
+          "type": "uint64",
+          "description": "Account ID",
+          "optional": false
+        },
+        {
+          "name": "doc_id",
+          "type": "uint64",
+          "description": "Document ID",
+          "optional": false
+        },
+        {
+          "name": "notes",
+          "type": "Text",
+          "description": "Office note",
+          "optional": false
+        },
+        {
+          "name": "type_id",
+          "type": "Int32",
+          "description": "Type ID",
+          "optional": false
+        },
+        {
+          "name": "type_name",
+          "type": "Text",
+          "description": "Type Name",
+          "optional": false
+        },
+        {
+          "name": "created_date",
+          "type": "Date Time",
+          "description": "Created Date",
+          "optional": false
+        },
+        {
+          "name": "created_by",
+          "type": "Text",
+          "description": "Created By",
+          "optional": false
+        },
+        {
+          "name": "last_modified_date",
+          "type": "Date Time",
+          "description": "Last Modified Date",
+          "optional": false
+        },
+        {
+          "name": "last_modified_by",
+          "type": "Text",
+          "description": "Last Modified By",
+          "optional": false
+        },
+        {
+          "name": "deleted",
+          "type": "Boolean",
+          "description": "If deleted is equal to True",
+          "optional": false
+        },
+        {
+          "name": "uniq",
+          "type": "Boolean",
+          "description": "If a unique note per document is equal to True",
+          "optional": false
+        },
+        {
+          "name": "priority",
+          "type": "Int32",
+          "description": "0-10",
+          "optional": false
+        }
+      ],
+      "examples": [
+        {
+          "context": "Office note example",
+          "xml": "<office_notes>\n  <office_note>\n    <note_id>55</note_id>\n    <account_id>999</account_id>\n    <doc_id>481</doc_id>\n    <notes>This is an internal office note</notes>\n    <type_id>1</type_id>\n    <type_name>INTERNAL OFFICE NOTE</type_name>\n    <created_date>2022-10-24 18:12:36</created_date>\n    <created_by>1-USER</created_by>\n    <last_modified_date>2022-10-24 18:12:36</last_modified_date>\n    <last_modified_by>1-USER</last_modified_by>\n    <deleted>False</deleted>\n    <uniq>False</uniq>\n    <priority>1</priority>\n  </office_note>\n</office_notes>"
+        }
+      ]
+    },
+    {
+      "entity_name": "tasks",
+      "context": "account_tasks.xml and <Document_ID>_info.xml (if document has tasks linked)",
+      "fields": [
+        {
+          "name": "task_id",
+          "type": "uInt64",
+          "description": "Task ID",
+          "optional": false
+        },
+        {
+          "name": "task_priority_desc",
+          "type": "Text",
+          "description": "Task Priority",
+          "optional": false
+        },
+        {
+          "name": "task_type_desc",
+          "type": "Text",
+          "description": "Task Type: Account or Document",
+          "optional": false
+        },
+        {
+          "name": "task_desc",
+          "type": "Text",
+          "description": "Task Description",
+          "optional": false
+        },
+        {
+          "name": "doc_id",
+          "type": "uInt64",
+          "description": "Document ID. 0 = account task",
+          "optional": false
+        },
+        {
+          "name": "pageno",
+          "type": "uint32",
+          "description": "Number of pages if provided",
+          "optional": false
+        },
+        {
+          "name": "account_id",
+          "type": "uInt64",
+          "description": "Account ID",
+          "optional": false
+        },
+        {
+          "name": "trview",
+          "type": "Date Time",
+          "description": "When the task was viewed",
+          "optional": false
+        },
+        {
+          "name": "tfinished",
+          "type": "Date Time",
+          "description": "When the task was finished",
+          "optional": false
+        },
+        {
+          "name": "user_tasked",
+          "type": "uint32",
+          "description": "User ID for the tasked User",
+          "optional": false
+        },
+        {
+          "name": "ttasked",
+          "type": "Date Time",
+          "description": "When the task was sent/tasked",
+          "optional": false
+        },
+        {
+          "name": "user_id",
+          "type": "uint32",
+          "description": "User ID",
+          "optional": false
+        },
+        {
+          "name": "from_user",
+          "type": "Text",
+          "description": "User Name from",
+          "optional": false
+        },
+        {
+          "name": "to_user",
+          "type": "Text",
+          "description": "User Name to",
+          "optional": false
+        }
+      ],
+      "examples": [
+        {
+          "context": "Account task example",
+          "xml": "<Account>\n  <tasks>\n    <task>\n      <task_id>29</task_id>\n      <task_priority_desc>Normal</task_priority_desc>\n      <task_type_desc>Account</task_type_desc>\n      <task_desc>New appointment</task_desc>\n      <doc_id>0</doc_id>\n      <pageno>0</pageno>\n      <account_id>999</account_id>\n      <trview>1899-12-30 00:00:00</trview>\n      <tfinished>1899-12-30 00:00:00</tfinished>\n      <user_tasked>4</user_tasked>\n      <ttasked>2022-10-24 18:02:41</ttasked>\n      <user_id>1</user_id>\n      <from_user>user</from_user>\n      <to_user>Doctor</to_user>\n    </task>\n  </tasks>\n</Account>"
+        }
+      ]
+    },
+    {
+      "entity_name": "doc_data",
+      "context": "<Document_ID>_info.xml (if document contains Drs Data Lookup)",
+      "fields": [
+        {
+          "name": "drs_data_lookup_id",
+          "type": "uInt64",
+          "description": "Internal ID for the Drs Data Lookup",
+          "optional": false
+        },
+        {
+          "name": "field_name",
+          "type": "Text",
+          "description": "Field Name",
+          "optional": false
+        },
+        {
+          "name": "convert_type",
+          "type": "Enum (convert_type)",
+          "description": "Convert Type",
+          "optional": false
+        },
+        {
+          "name": "TFieldType",
+          "type": "Enum (TFieldType)",
+          "description": "Field Type",
+          "optional": false
+        },
+        {
+          "name": "field_value",
+          "type": "Text",
+          "description": "Field Value",
+          "optional": false
+        },
+        {
+          "name": "convert_value",
+          "type": "Text",
+          "description": "Convert Value",
+          "optional": false
+        },
+        {
+          "name": "user_defined",
+          "type": "Boolean",
+          "description": "User Defined",
+          "optional": false
+        },
+        {
+          "name": "loinc_code",
+          "type": "Text",
+          "description": "LOINC Code",
+          "optional": true
+        }
+      ],
+      "examples": [
+        {
+          "context": "Drs Data Lookup example (BMI)",
+          "xml": "<doc_datas>\n  <doc_data>\n    <drs_data_lookup_id>106</drs_data_lookup_id>\n    <field_name>Body mass index (BMI) [Ratio]</field_name>\n    <convert_type>cv_none</convert_type>\n    <TFieldType>ftFMTBcd</TFieldType>\n    <field_value>32.11</field_value>\n    <convert_value>32.11</convert_value>\n    <user_defined>False</user_defined>\n    <loinc_code>39156-5\n      <loinc_description>Body mass index (BMI) [Ratio]</loinc_description>\n    </loinc_code>\n  </doc_data>\n</doc_datas>"
+        }
+      ]
+    },
+    {
+      "entity_name": "loinc_code",
+      "context": "Nested element within doc_data",
+      "fields": [
+        {
+          "name": "loinc_description",
+          "type": "Text",
+          "description": "Description of the LOINC code",
+          "optional": true
+        }
+      ],
+      "examples": [
+        {
+          "context": "LOINC code example",
+          "xml": "<loinc_code>39156-5\n  <loinc_description>Body mass index (BMI) [Ratio]</loinc_description>\n</loinc_code>"
+        }
+      ]
+    },
+    {
+      "entity_name": "fax_inbox",
+      "context": "Fax_inbox.xml",
+      "fields": [
+        {
+          "name": "fax_inbox_id",
+          "type": "uint64",
+          "description": "Unique ID for the fax in the inbox",
+          "optional": true
+        },
+        {
+          "name": "file_name",
+          "type": "Text",
+          "description": "File name",
+          "optional": true
+        },
+        {
+          "name": "access_id",
+          "type": "Int32",
+          "description": "Fax Account ID for the organization",
+          "optional": true
+        },
+        {
+          "name": "faxdetailsid",
+          "type": "uint64",
+          "description": "Fax Details ID",
+          "optional": true
+        },
+        {
+          "name": "receive_status",
+          "type": "Text",
+          "description": "Receive status",
+          "optional": true
+        },
+        {
+          "name": "pages",
+          "type": "Int32",
+          "description": "Number of pages",
+          "optional": true
+        },
+        {
+          "name": "fax_date",
+          "type": "Date Time",
+          "description": "Fax Date",
+          "optional": true
+        },
+        {
+          "name": "epochtime",
+          "type": "int64",
+          "description": "Unix time",
+          "optional": true
+        },
+        {
+          "name": "callerid",
+          "type": "Text",
+          "description": "Caller ID",
+          "optional": true
+        },
+        {
+          "name": "remoteid",
+          "type": "Text",
+          "description": "Remote ID",
+          "optional": true
+        }
+      ],
+      "examples": []
+    },
+    {
+      "entity_name": "fax_outbox",
+      "context": "Fax_outbox.xml",
+      "fields": [
+        {
+          "name": "fax_outbox_id",
+          "type": "uint64",
+          "description": "Unique ID for the fax in the outbox",
+          "optional": true
+        },
+        {
+          "name": "file_name",
+          "type": "Text",
+          "description": "File name",
+          "optional": true
+        },
+        {
+          "name": "access_id",
+          "type": "Int32",
+          "description": "Fax Account ID for the organization",
+          "optional": true
+        },
+        {
+          "name": "faxdetailsid",
+          "type": "uint64",
+          "description": "Fax Details ID",
+          "optional": true
+        },
+        {
+          "name": "faxnumber",
+          "type": "Text",
+          "description": "Fax number",
+          "optional": true
+        },
+        {
+          "name": "subject",
+          "type": "Text",
+          "description": "Subject",
+          "optional": true
+        },
+        {
+          "name": "sent_status",
+          "type": "Text",
+          "description": "Sent status",
+          "optional": true
+        },
+        {
+          "name": "pages",
+          "type": "Int32",
+          "description": "Number of pages",
+          "optional": true
+        },
+        {
+          "name": "fax_date",
+          "type": "Date Time",
+          "description": "Fax Date",
+          "optional": true
+        },
+        {
+          "name": "epochtime",
+          "type": "int64",
+          "description": "Unix time",
+          "optional": true
+        }
+      ],
+      "examples": []
+    }
+  ],
+  "enumerators": [
+    {
+      "name": "convert_type",
+      "values": [
+        {
+          "type": "cv_none",
+          "description": "No conversion"
+        },
+        {
+          "type": "cv_inches",
+          "description": "Inches"
+        },
+        {
+          "type": "cv_pounds",
+          "description": "Pounds"
+        },
+        {
+          "type": "cv_Centimeters",
+          "description": "Centimeters"
+        },
+        {
+          "type": "cv_Celsius",
+          "description": "Celsius"
+        },
+        {
+          "type": "cv_Fahrenheit",
+          "description": "Fahrenheit"
+        },
+        {
+          "type": "cv_Celsius_Fahrenheit",
+          "description": "Celsius_Fahrenheit"
+        },
+        {
+          "type": "cv_snomed_enum",
+          "description": "N/A"
+        },
+        {
+          "type": "cv_Milimeters",
+          "description": "Millimeters"
+        },
+        {
+          "type": "cv_microns",
+          "description": "Microns"
+        },
+        {
+          "type": "cv_question_enum",
+          "description": "N/A"
+        },
+        {
+          "type": "cv_Kilogram",
+          "description": "Kilogram"
+        }
+      ]
+    },
+    {
+      "name": "TFieldType",
+      "values": [
+        {
+          "type": "ftUnknown",
+          "description": "Unknown"
+        },
+        {
+          "type": "ftString",
+          "description": "String"
+        },
+        {
+          "type": "ftSmallint",
+          "description": "Small Integer"
+        },
+        {
+          "type": "ftInteger",
+          "description": "Integer"
+        },
+        {
+          "type": "ftWord",
+          "description": "Word"
+        },
+        {
+          "type": "ftBoolean",
+          "description": "Boolean"
+        },
+        {
+          "type": "ftFloat",
+          "description": "Float"
+        },
+        {
+          "type": "ftWideMemo",
+          "description": "WideMemo"
+        },
+        {
+          "type": "ftFMTBcd",
+          "description": "FMTBcd"
+        },
+        {
+          "type": "ftDate",
+          "description": "Date"
+        },
+        {
+          "type": "ftTime",
+          "description": "Time"
+        },
+        {
+          "type": "ftDateTime",
+          "description": "DateTime"
+        },
+        {
+          "type": "ftBytes",
+          "description": "Bytes"
+        },
+        {
+          "type": "ftWideString",
+          "description": "WideString"
+        },
+        {
+          "type": "ftLargeint",
+          "description": "Large Integer"
+        },
+        {
+          "type": "ftFixedWideChar",
+          "description": "FixedWideChar"
+        },
+        {
+          "type": "ftLongWord",
+          "description": "LongWord"
+        },
+        {
+          "type": "ftShortint",
+          "description": "Short Integer"
+        },
+        {
+          "type": "ftByte",
+          "description": "Byte"
+        },
+        {
+          "type": "ftExtended",
+          "description": "Extended"
+        }
+      ]
+    }
+  ],
+  "fax_export": {
+    "directory_structure": "Faxes sorted into Year/Month directories (e.g., faxes\\2023\\July)",
+    "files": [
+      {
+        "file_name": "Fax_inbox.xml",
+        "description": "XML information for inbox faxes"
+      },
+      {
+        "file_name": "Fax_outbox.xml",
+        "description": "XML information for outbox faxes"
+      },
+      {
+        "file_name": "<fax_id>_Fax_Inbox.tif",
+        "description": "Inbox fax file in TIF format"
+      },
+      {
+        "file_name": "<fax_id>_Fax_Outbox.tif",
+        "description": "Outbox fax file in TIF format"
+      }
+    ]
+  },
+  "source_file": "Export_data.pdf"
+}
