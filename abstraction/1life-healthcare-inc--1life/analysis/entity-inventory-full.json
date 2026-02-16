@@ -1,0 +1,4646 @@
+{
+  "product": "1Life (One Medical)",
+  "export_format": "FHIR R4 JSON + C-CDA 2.1 XML",
+  "ehi_export_fhir_resources": [
+    "AllergyIntolerance",
+    "CareTeam",
+    "Communication",
+    "Condition",
+    "Consent",
+    "Device",
+    "Diagnostic Report",
+    "DocumentReference",
+    "Condition",
+    "Encounter",
+    "Goal",
+    "Immunization",
+    "MedicationRequest",
+    "Observation",
+    "Patient",
+    "Procedure",
+    "ServiceRequest"
+  ],
+  "ehi_export_ccda_sections": [
+    "Allergies",
+    "Assessment and Plan",
+    "Care Team",
+    "Encounters",
+    "Family History",
+    "Goals",
+    "Health Concerns",
+    "Immunizations",
+    "Medical Equipment",
+    "Medications",
+    "Notes",
+    "Patient",
+    "Plan of Treatment",
+    "Problems",
+    "Procedures",
+    "Results",
+    "Social History",
+    "Vital Signs"
+  ],
+  "documented_fhir_resources": [
+    "allergyintolerance",
+    "careplan",
+    "careteam",
+    "condition",
+    "coverage",
+    "device",
+    "diagnosticreport",
+    "documentreference",
+    "encounter",
+    "immunization",
+    "location",
+    "medication",
+    "medicationrequest",
+    "observation",
+    "organization",
+    "patient",
+    "practitioner",
+    "procedure",
+    "provenance",
+    "questionnaire",
+    "questionnaireresponse",
+    "servicerequest"
+  ],
+  "total_entities": 22,
+  "total_fields": 629,
+  "total_fields_with_descriptions": 628,
+  "description_coverage_pct": 99.8,
+  "entities": [
+    {
+      "entity": "allergyintolerance",
+      "source_file": "downloads/fhir/resources/allergyintolerance.html",
+      "field_count": 27,
+      "fields": [
+        {
+          "name": "resourceType",
+          "type": "",
+          "cardinality": "1..1",
+          "description": "Identifies the type of FHIR resource. The value will be \u201cAllergyIntolerance\u201d",
+          "has_description": true
+        },
+        {
+          "name": "id",
+          "type": "Text",
+          "cardinality": "1..1",
+          "description": "A globally unique identifier which identifies an allergy across One Medical\u2019s FHIR services.",
+          "has_description": true
+        },
+        {
+          "name": "meta",
+          "type": "",
+          "cardinality": "",
+          "description": "Metadata providing technical information about the resource",
+          "has_description": true
+        },
+        {
+          "name": ".lastUpdated",
+          "type": "instant",
+          "cardinality": "0..1",
+          "description": "Date and timestamp of most recent change to this resource",
+          "has_description": true
+        },
+        {
+          "name": ".profile",
+          "type": "canonical (StructureDefinition)",
+          "cardinality": "0..*",
+          "description": "Profiles this resource claims to conform to. One Medical AllergyIntolerance resources will generally at least conform to US Core: http://hl7.org/fhir/us/core/StructureDefinition/us-core-allergyintolerance",
+          "has_description": true
+        },
+        {
+          "name": ".source",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The system device that created or updated the record",
+          "has_description": true
+        },
+        {
+          "name": ".versionID",
+          "type": "id",
+          "cardinality": "0..1",
+          "description": "System-generated version ID for the FHIR resource",
+          "has_description": true
+        },
+        {
+          "name": "clinicalStatus",
+          "type": "CodeableConcept",
+          "cardinality": "0..1",
+          "description": "Identifies whether this allergy is currently an active issue.",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "0..*",
+          "description": "Contains the system, code and display from a terminology system in the subfields",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The uri of the allergy intolerance clinical status valueset: \u201chttp://terminology.hl7.org/CodeSystem/allergyintolerance-clinical\"",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "The actual code number from the coding system. Currently supported values: active | inactive",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text from the official code system: Active | Inactive",
+          "has_description": true
+        },
+        {
+          "name": "code",
+          "type": "CodeableConcept",
+          "cardinality": "1..1",
+          "description": "Contains the coding for the allergy. Binding: US Core Allergy Substance (extensible). Note: For general allergies we may only provide the text field, while for drug allergies we will generally provide RXNorm or SnomedCT codings to identify the drug.",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "0..*",
+          "description": "Contains the system, code and display from a terminology system in the subfields",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The uri of the coding system. Will be blank for free-text allergies. For coded allergies, this may be RxNorm \u201chttp://www.nlm.nih.gov/research/umls/rxnorm\" or SNOMED \u201chttp://snomed.info/sct\"",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "The actual code number from the coding system. Will be blank for free-text allergies, but will contain and RxNorm or SNOMED CT code for coded allergies",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text for the code for this allergy \u2013 from the official code system. Will be blank for free-text allergies.",
+          "has_description": true
+        },
+        {
+          "name": ".text",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "One Medical\u2019s display text for the allergy (may differ or be identical to the code system\u2019s display text)",
+          "has_description": true
+        },
+        {
+          "name": "patient",
+          "type": "Reference(US Core Patient Profile)",
+          "cardinality": "1\u20261",
+          "description": "Contains the reference to the member this pertains to",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the member\u2019s FHIR ID. Will be formatted as \u201cPatient/324ft342g-823e-11e9-bd76-0234kd538ce\u201d",
+          "has_description": true
+        },
+        {
+          "name": "reaction",
+          "type": "BackboneElement",
+          "cardinality": "0..*",
+          "description": "Describes the adverse reaction events in each of the manifestation fields below.",
+          "has_description": true
+        },
+        {
+          "name": ".manifestation",
+          "type": "CodeableConcept",
+          "cardinality": "1..*",
+          "description": "Contains the system, code and display from a terminology system. At least one manifestation is required, and multiple manifestations can exist. Binding: SNOMEDCTClinicalFindings (extensible)",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "0..*",
+          "description": "Contains the system, code and display from a terminology system in the subfields",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The uri of the coding system. Typically this will be the SNOMED uri: \u201chttp://snomed.info/sct\"",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "The code number from the coding system",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text for the code for this reaction \u2013 from the official code system",
+          "has_description": true
+        },
+        {
+          "name": ".text",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "One Medical\u2019s display text for the allergy (may differ or be identical to the code system\u2019s display text",
+          "has_description": true
+        }
+      ]
+    },
+    {
+      "entity": "careplan",
+      "source_file": "downloads/fhir/resources/careplan.html",
+      "field_count": 24,
+      "fields": [
+        {
+          "name": "resourceType",
+          "type": "",
+          "cardinality": "1..1",
+          "description": "Identifies the type of FHIR resource. The value will be \u201cCarePlan\u201d",
+          "has_description": true
+        },
+        {
+          "name": "id",
+          "type": "Text",
+          "cardinality": "1..1",
+          "description": "A globally unique identifier which identifies an encounter across One Medical\u2019s FHIR services.",
+          "has_description": true
+        },
+        {
+          "name": "meta",
+          "type": "",
+          "cardinality": "",
+          "description": "Metadata providing technical information about the resource",
+          "has_description": true
+        },
+        {
+          "name": ".lastUpdated",
+          "type": "instant",
+          "cardinality": "0..1",
+          "description": "Date and timestamp of most recent change to this resource",
+          "has_description": true
+        },
+        {
+          "name": ".source",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The system device that created or updated the record",
+          "has_description": true
+        },
+        {
+          "name": ".versionID",
+          "type": "id",
+          "cardinality": "0..1",
+          "description": "System-generated version ID for the FHIR resource",
+          "has_description": true
+        },
+        {
+          "name": "status",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "Provides the current state of the care plan. completed | revoked",
+          "has_description": true
+        },
+        {
+          "name": "intent",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "\u201corder\u201d is the only value currently used at One Medical.",
+          "has_description": true
+        },
+        {
+          "name": "subject",
+          "type": "Reference(US Core Patient Profile)",
+          "cardinality": "1\u20261",
+          "description": "Contains the reference to the member that this encounter pertains to",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the member\u2019s FHIR ID. Will be formatted as \u201cPatient/324ft342g-823e-11e9-bd76-0234kd538ce\u201d",
+          "has_description": true
+        },
+        {
+          "name": "period",
+          "type": "Period",
+          "cardinality": "0..1",
+          "description": "Identifies the start time of the care plan, and the date by which the care plan should be completed.",
+          "has_description": true
+        },
+        {
+          "name": ".start",
+          "type": "dateTime",
+          "cardinality": "0..1",
+          "description": "Contains the date/timestamp that the care plan started. For example \u201c2023-03-28T08:30:00-07:00\u201d.",
+          "has_description": true
+        },
+        {
+          "name": ".end",
+          "type": "dateTime",
+          "cardinality": "0..1",
+          "description": "Contains the date/timestamp that we hope to complete the care plan. For example \u201c2023-04-28T09:00:00-07:00\u201d.",
+          "has_description": true
+        },
+        {
+          "name": "created",
+          "type": "dateTime",
+          "cardinality": "0..1",
+          "description": "Contains the date/timestamp that the care plan was created. For example \u201c2023-03-28T08:30:00-07:00\u201d.",
+          "has_description": true
+        },
+        {
+          "name": "author",
+          "type": "Reference(US Core Practitioner Profile)",
+          "cardinality": "0\u20261",
+          "description": "Contains the reference to the practitioner who created this care plan and/or is responsible for it",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the practitioner\u2019s FHIR ID. Will be formatted as \u201cPractitioner/9145c19l-ckfa-12db-2341-b644j45218c3\u201d",
+          "has_description": true
+        },
+        {
+          "name": "contributor",
+          "type": "Reference(US Core Practitioner Profile)",
+          "cardinality": "1\u20261",
+          "description": "Contains the reference to other care team members who contributed content to the care plan.",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the practitioner\u2019s FHIR ID. Will be formatted as \u201cPractitioner/9145c19l-ckfa-12db-2341-b644j45218c3\u201d",
+          "has_description": true
+        },
+        {
+          "name": "supportingInfo",
+          "type": "Annotation",
+          "cardinality": "0..1",
+          "description": "One Medical uses this field for the details of the care plan.",
+          "has_description": true
+        },
+        {
+          "name": "display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Provides the details of the care plan and / or instructions for the patient.",
+          "has_description": true
+        },
+        {
+          "name": "note",
+          "type": "Annotation",
+          "cardinality": "0..1",
+          "description": "One Medical includes our information about our internal appointment types in this field.",
+          "has_description": true
+        },
+        {
+          "name": "text",
+          "type": "markdown",
+          "cardinality": "1..1",
+          "description": "One Medical populates this field with our internal appointment type identifiers.",
+          "has_description": true
+        },
+        {
+          "name": "extension",
+          "type": "Extension",
+          "cardinality": "0..1",
+          "description": "Contains extensions used by One Medical, which generally indicates that the resource was auto-created.",
+          "has_description": true
+        },
+        {
+          "name": "url",
+          "type": "uri",
+          "cardinality": "1..1",
+          "description": "Will generally be our auto-create flags, such as \u201chttps://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/autocreated-automated\".",
+          "has_description": true
+        }
+      ]
+    },
+    {
+      "entity": "careteam",
+      "source_file": "downloads/fhir/resources/careteam.html",
+      "field_count": 26,
+      "fields": [
+        {
+          "name": "resourceType",
+          "type": "",
+          "cardinality": "1..1",
+          "description": "Identifies the type of FHIR resource. The value will be \u201cCareTeam,\u201d",
+          "has_description": true
+        },
+        {
+          "name": "id",
+          "type": "Text",
+          "cardinality": "1..1",
+          "description": "A globally unique identifier which identifies an allergy across One Medical\u2019s FHIR services.",
+          "has_description": true
+        },
+        {
+          "name": "meta",
+          "type": "",
+          "cardinality": "",
+          "description": "Metadata providing technical information about the resource",
+          "has_description": true
+        },
+        {
+          "name": ".lastUpdated",
+          "type": "instant",
+          "cardinality": "0..1",
+          "description": "Date and timestamp of most recent change to this resource",
+          "has_description": true
+        },
+        {
+          "name": ".profile",
+          "type": "canonical (StructureDefinition)",
+          "cardinality": "0..*",
+          "description": "Profiles this resource claims to conform to. One Medical CareTeam resources will generally at least conform to US Core: http://hl7.org/fhir/us/core/StructureDefinition/us-core-careteam",
+          "has_description": true
+        },
+        {
+          "name": ".source",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The system device that created or updated the record",
+          "has_description": true
+        },
+        {
+          "name": ".versionID",
+          "type": "id",
+          "cardinality": "0..1",
+          "description": "System-generated version ID for the FHIR resource",
+          "has_description": true
+        },
+        {
+          "name": "status",
+          "type": "code",
+          "cardinality": "0\u20261",
+          "description": "Indicates current status of the care team. Supported values are active | inactive | (null)",
+          "has_description": true
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "A text name or label used to describe this team.",
+          "has_description": true
+        },
+        {
+          "name": "subject",
+          "type": "Reference(US Core Patient Profile)",
+          "cardinality": "1\u20261",
+          "description": "Contains the reference to the patient that this CareTeam pertains to",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the patient\u2019s FHIR ID. Will be formatted as \u201cPatient/324ft342g-823e-11e9-bd76-0234kd538ce\u201d",
+          "has_description": true
+        },
+        {
+          "name": "participant",
+          "type": "BackBone Element",
+          "cardinality": "1..*",
+          "description": "Contains the members of this care team \u2013 these are generally the clinicians caring for the patient.",
+          "has_description": true
+        },
+        {
+          "name": ".role",
+          "type": "CodeableConcept",
+          "cardinality": "1..1",
+          "description": "Indicates the type of involvement for each care team member. Binding: US Core CareTeam Provider Roles (extensible)",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "0..*",
+          "description": "Contains the system, code and display from a terminology system in the subfields",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The uri of the coding system. Will generally be: \u201chttp://snomed.info/sct\"",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "The actual code number from the coding system. Will generally be \u201c223366009\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text from the official code system. Will generally be \u201cHealthcare Professional\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".text",
+          "type": "String",
+          "cardinality": "0..*",
+          "description": "One Medical\u2019s display text for the role. This may or may not be identical to the official description from the coding system. Will generally be \u201cHealthcare Professional\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".member",
+          "type": "Reference(US Core Practitioner Profile)",
+          "cardinality": "1..1",
+          "description": "Contains the reference information for the care team member.",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the clincian\u2019s FHIR ID. Will be formatted as \u201cPractitioner/9145c19l-ckfa-12db-2341-b644j45218c3\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".onBehalfOf",
+          "type": "Reference(US Core Organization Profile)",
+          "cardinality": "0..1",
+          "description": "Contains the reference information for the Organization the care team member belongs to.",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the FHIR ID of the organization that this care team member works for. Will generally be a reference to the One Medical organization ID. Will be formatted as \u201cOrganization/9234d232-dfxz-98pi-9382-k234a923418c3\u201d",
+          "has_description": true
+        },
+        {
+          "name": "telecom",
+          "type": "ContactPoint",
+          "cardinality": "0..*",
+          "description": "A contact point for the care team that applies to all members of the care team.",
+          "has_description": true
+        },
+        {
+          "name": ".rank",
+          "type": "positiveInt",
+          "cardinality": "1..1",
+          "description": "Preferred order of use, 1 = highest.",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "Binding: ContactPointSystem. Currently supported: phone",
+          "has_description": true
+        },
+        {
+          "name": ".value",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Telephone number for contacting this care team.",
+          "has_description": true
+        }
+      ]
+    },
+    {
+      "entity": "condition",
+      "source_file": "downloads/fhir/resources/condition.html",
+      "field_count": 23,
+      "fields": [
+        {
+          "name": "resourceType",
+          "type": "",
+          "cardinality": "1..1",
+          "description": "Identifies the type of FHIR resource. The value will be \u201cCondition\u201d",
+          "has_description": true
+        },
+        {
+          "name": "id",
+          "type": "Text",
+          "cardinality": "1..1",
+          "description": "A globally unique identifier which identifies this FHIR resource.",
+          "has_description": true
+        },
+        {
+          "name": "meta",
+          "type": "",
+          "cardinality": "",
+          "description": "Metadata providing technical information about the resource",
+          "has_description": true
+        },
+        {
+          "name": ".lastUpdated",
+          "type": "instant",
+          "cardinality": "0..1",
+          "description": "Date and timestamp of most recent change to this resource",
+          "has_description": true
+        },
+        {
+          "name": ".profile",
+          "type": "canonical(StructureDefinition)",
+          "cardinality": "0..*",
+          "description": "Profiles this resource claims to conform to. One Medical Condition resources will generally at least conform to US Core: https://hl7.org/fhir/us/core/StructureDefinition/us-core-condition",
+          "has_description": true
+        },
+        {
+          "name": ".source",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The system device that created or updated the record",
+          "has_description": true
+        },
+        {
+          "name": ".versionId",
+          "type": "id",
+          "cardinality": "0..1",
+          "description": "System-generated version ID for the FHIR resource.",
+          "has_description": true
+        },
+        {
+          "name": ".security",
+          "type": "coding",
+          "cardinality": "0..*",
+          "description": "Currently supported: UNCERTREL. This code, if present, indicates that the resource was received from a 3rd party and One Medical cannot attest to the data\u2019s reliability.",
+          "has_description": true
+        },
+        {
+          "name": "subject",
+          "type": "Reference(Patient)",
+          "cardinality": "1..1",
+          "description": "Reference to the patient to whom this condition is assigned",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the member\u2019s FHIR ID. Will be formatted as \u201cPatient/324ft342g-823e-11e9-bd76-0234kd538ce\u201d",
+          "has_description": true
+        },
+        {
+          "name": "clinicalStatus",
+          "type": "CodeableConcept",
+          "cardinality": "0..1",
+          "description": "Binding: ConditionClinicalStatusCodes. Currently supported: active | inactive | resolved. If no clinicalStatus value is present, verificationStatus and meta.security values should be evaluated.",
+          "has_description": true
+        },
+        {
+          "name": "verificationStatus",
+          "type": "CodeableConcept",
+          "cardinality": "1..1",
+          "description": "Binding: ConditionVerificationStatus. Currently supported: confirmed | entered-in-error | provisional | refuted | unconfirmed",
+          "has_description": true
+        },
+        {
+          "name": "category",
+          "type": "CodeableConcept",
+          "cardinality": "0..*",
+          "description": "Binding: US Core Condition Category Codes. Currently supported: problem-list-item | encounter-diagnosis",
+          "has_description": true
+        },
+        {
+          "name": "code",
+          "type": "CodeableConcept",
+          "cardinality": "1..1",
+          "description": "Binding: US Core Condition Code. Note: the .coding array will generally contain 1 element from code system SNOMED CT plus 1 or more elements from code system ICD-10-CM.",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "0..*",
+          "description": "Contains the system, code and display from a terminology system in the subfields",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The uri of the coding system. We generally use either ICD-10-CM (http://hl7.org/fhir/sid/icd-10-cm) or SNOMED CT (http://snomed.info/sct )",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "The code number from the coding system.",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text from the official coding system.",
+          "has_description": true
+        },
+        {
+          "name": ".text",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "One Medical\u2019s display text for the condition (may differ or be identical to the code system\u2019s display text)",
+          "has_description": true
+        },
+        {
+          "name": "recordedDate",
+          "type": "dateTime",
+          "cardinality": "0..1",
+          "description": "Date the condition was first recorded in the patient record.",
+          "has_description": true
+        },
+        {
+          "name": "recorder",
+          "type": "Reference(Practitioner)",
+          "cardinality": "0..1",
+          "description": "Reference to the practitioner who recorded the condition on the patient chart",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the practitioner\u2019s FHIR ID. Will be formatted as \u201cPractitioiner/123ab456g-232e-11f2-cd21-4321kd530df\u201d",
+          "has_description": true
+        },
+        {
+          "name": "abatementString",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "If clinicalStatus = resolved, will contain a date string formatted as \u201cYYYY-MM-DD\u201d",
+          "has_description": true
+        }
+      ]
+    },
+    {
+      "entity": "coverage",
+      "source_file": "downloads/fhir/resources/coverage.html",
+      "field_count": 31,
+      "fields": [
+        {
+          "name": "resourceType",
+          "type": "",
+          "cardinality": "1..1",
+          "description": "Identifies the type of FHIR resource. The value will be \u201cCoverage\u201d",
+          "has_description": true
+        },
+        {
+          "name": "id",
+          "type": "Text",
+          "cardinality": "1..1",
+          "description": "A globally unique identifier which identifies a resource across One Medical\u2019s FHIR services.",
+          "has_description": true
+        },
+        {
+          "name": "meta",
+          "type": "",
+          "cardinality": "",
+          "description": "Metadata providing technical information about the resource",
+          "has_description": true
+        },
+        {
+          "name": ".lastUpdated",
+          "type": "instant",
+          "cardinality": "0..1",
+          "description": "Date and timestamp of most recent change to this resource",
+          "has_description": true
+        },
+        {
+          "name": ".profile",
+          "type": "canonical (StructureDefinition)",
+          "cardinality": "0..*",
+          "description": "Profiles this resource claims to conform to.",
+          "has_description": true
+        },
+        {
+          "name": ".source",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The system device that created or updated the record",
+          "has_description": true
+        },
+        {
+          "name": ".versionID",
+          "type": "id",
+          "cardinality": "0..1",
+          "description": "System-generated version ID for the FHIR resource",
+          "has_description": true
+        },
+        {
+          "name": "status",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "Indicates current status of the insurance policy and whether or not it is active. Currently supported values: active | cancelled",
+          "has_description": true
+        },
+        {
+          "name": "type",
+          "type": "CodeableConcept",
+          "cardinality": "0..1",
+          "description": "Indicates the type of insurance. At One Medical, the policies will likely be healthcare insurance plans.",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "0..*",
+          "description": "Contains the code, system, and display text for the insurance type",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The uri of Coverage Class valueset: \u201chttps://terminology.hl7.org/3.1.0/ValueSet-v3-ActCoverageTypeCode.html\"",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "The actual code number from the value set. Will likely be \u201cHIP\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text from the value set. Will likely be \u201chealth insurance plan policy\u201d",
+          "has_description": true
+        },
+        {
+          "name": "policyHolder",
+          "type": "Reference(US Core Patient Profile, RelatedPerson)",
+          "cardinality": "0..1",
+          "description": "Owner of the policy \u2013 this is akin to the \u201cprimary subscriber\u201d on the policy.",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Provides the subscriber\u2019s FHIR ID in One Medical\u2019s systems. Will be formatted as \u201cPatient/324ft342g-823e-11e9-bd76-0234kd538ce\u201d if the subscriber and beneficiary are the same, or will be formatted as \u201cRelatedPerson/526ft342g-823e-11e9-bd76-0234kd538ce\u201d if the beneficiary is under another person\u2019s insurance plan, such as the case with spouses and children.",
+          "has_description": true
+        },
+        {
+          "name": ".type",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "Indicates the type of resource that will be referenced. This will generally be \u201cFHIR::Patient\u201d",
+          "has_description": true
+        },
+        {
+          "name": "subscriberId",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Primary subscriber ID on the insurance policy",
+          "has_description": true
+        },
+        {
+          "name": "beneficiary",
+          "type": "Reference(US Core Patient Profile)",
+          "cardinality": "1..*",
+          "description": "Contains reference to the person who is the beneficiary of the policy. This may be the same as the subscriber in many cases.",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Provides the beneficiary\u2019s FHIR ID in One Medical\u2019s systems. Will be formatted as \u201cOrganization/252ss342g-823e-11e9-bd76-0234kd538ce\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".type",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "Indicates the type of resource that will be referenced. This will generally be \u201cFHIR::Patient\u201d",
+          "has_description": true
+        },
+        {
+          "name": "relationship",
+          "type": "CodeableConcept",
+          "cardinality": "0..1",
+          "description": "Identifies the relationship of the beneficiary to the primary subscriber.",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "0..*",
+          "description": "Contains the code, system, and display text for the insurance type",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The uri of the [SubscriberPolicyholder Relationship Codes][link-subscriber-relationship] valueset: \u201chttp://terminology.hl7.org/CodeSystem/subscriber-relationship\"",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "The actual code number from the value set. The values One Medical uses are: self | spouse | child | other",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text from the value set. Will be one of these four display values: Self | Spouse | Child | Other",
+          "has_description": true
+        },
+        {
+          "name": "period",
+          "type": "Period",
+          "cardinality": "0..1",
+          "description": "Contains start and end date/times of the policy. For active policies there will only be a start date.",
+          "has_description": true
+        },
+        {
+          "name": ".start",
+          "type": "dateTime",
+          "cardinality": "0..1",
+          "description": "Provides the date/time that the policy went into effect and was active. Example: \u201c2021-07-01T00:00:00-07:00\u201d",
+          "has_description": true
+        },
+        {
+          "name": "payor",
+          "type": "Reference(Organization)",
+          "cardinality": "1..*",
+          "description": "Contains reference to the Organization FHIR ID representing the insurance company / payor",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Provides the insurer\u2019s FHIR ID in One Medical\u2019s systems. Will be formatted as \u201cOrganization/252ss342g-823e-11e9-bd76-0234kd538ce\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".type",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "Indicates the type of resource that will be referenced. This will generally be \u201cFHIR::Organization\u201d",
+          "has_description": true
+        },
+        {
+          "name": "order",
+          "type": "postiveInt",
+          "cardinality": "0..1",
+          "description": "Identifies whether this policy is primary, secondary, tertiary coverage, etc. A value of \u201c1\u201d indicates this is the member\u2019s primary insurance policy, a \u201c2\u201d indicates secondary coverage, a \u201c3\u201d indicates tertiary coverage, etc",
+          "has_description": true
+        }
+      ]
+    },
+    {
+      "entity": "device",
+      "source_file": "downloads/fhir/resources/device.html",
+      "field_count": 12,
+      "fields": [
+        {
+          "name": "resourceType",
+          "type": "",
+          "cardinality": "1..1",
+          "description": "Identifies the type of FHIR resource. The value will be \u201cDevice\u201d",
+          "has_description": true
+        },
+        {
+          "name": "id",
+          "type": "Text",
+          "cardinality": "1..1",
+          "description": "A globally unique identifier which identifies a Device across One Medical\u2019s FHIR services.",
+          "has_description": true
+        },
+        {
+          "name": "meta",
+          "type": "",
+          "cardinality": "",
+          "description": "Metadata providing technical information about the resource",
+          "has_description": true
+        },
+        {
+          "name": ".lastUpdated",
+          "type": "instant",
+          "cardinality": "0..1",
+          "description": "Date and timestamp of most recent change to this resource",
+          "has_description": true
+        },
+        {
+          "name": ".profile",
+          "type": "canonical (StructureDefinition)",
+          "cardinality": "0..*",
+          "description": "Profiles this resource claims to conform to. If the resource is used for an implantable device, the profile will likely be \u201chttp://hl7.org/fhir/us/core/StructureDefinition/us-core-implantable-device\"",
+          "has_description": true
+        },
+        {
+          "name": ".source",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The system device that created or updated the record",
+          "has_description": true
+        },
+        {
+          "name": ".versionID",
+          "type": "id",
+          "cardinality": "0..1",
+          "description": "System-generated version ID for the FHIR resource",
+          "has_description": true
+        },
+        {
+          "name": "status",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "Provides the current status of this device resource. Supported values: active | inactive | entered-in-error | (null)",
+          "has_description": true
+        },
+        {
+          "name": "type",
+          "type": "CodeableConcept",
+          "cardinality": "0..*",
+          "description": "Indicates the type of device. Although this is a CodeableConcept field, One Medical generally relies on the text field to describe the device, rather than using coded data",
+          "has_description": true
+        },
+        {
+          "name": ".text",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Free text description of the device type. Examples include \u201cpacemaker\u201d, \u201cAICD\u201d, \u201chip replacement\u201d",
+          "has_description": true
+        },
+        {
+          "name": "patient",
+          "type": "Reference(Patient)",
+          "cardinality": "1..1",
+          "description": "Reference to the patient to whom this device relates to.",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the member\u2019s FHIR ID. Will be formatted as \u201cPatient/324ft342g-823e-11e9-bd76-0234kd538ce\u201d",
+          "has_description": true
+        }
+      ]
+    },
+    {
+      "entity": "diagnosticreport",
+      "source_file": "downloads/fhir/resources/diagnosticreport.html",
+      "field_count": 35,
+      "fields": [
+        {
+          "name": "resourceType",
+          "type": "",
+          "cardinality": "1..1",
+          "description": "Identifies the resource type. The value will be \u201cDiagnosticReport\u201d",
+          "has_description": true
+        },
+        {
+          "name": "id",
+          "type": "Text",
+          "cardinality": "1..1",
+          "description": "A globally unique identifier which identifies this record across One Medical\u2019s FHIR services.",
+          "has_description": true
+        },
+        {
+          "name": "meta",
+          "type": "",
+          "cardinality": "",
+          "description": "Metadata providing technical information about the resource",
+          "has_description": true
+        },
+        {
+          "name": ".lastUpdated",
+          "type": "instant",
+          "cardinality": "0..1",
+          "description": "Date and timestamp of most recent change to this resource",
+          "has_description": true
+        },
+        {
+          "name": ".source",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The system device that created or updated the record",
+          "has_description": true
+        },
+        {
+          "name": ".versionID",
+          "type": "id",
+          "cardinality": "0..1",
+          "description": "System-generated version ID for the FHIR resource",
+          "has_description": true
+        },
+        {
+          "name": ".profile",
+          "type": "canonical(StructureDefinition)",
+          "cardinality": "0..*",
+          "description": "Profiles this resource claims to conform to. One Medical DocumentReference resources will generally conform to US Core: http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab | http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note",
+          "has_description": true
+        },
+        {
+          "name": "status",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "Provides the current status of this report. Supported values: partial | final | corrected | entered-in-error",
+          "has_description": true
+        },
+        {
+          "name": "category",
+          "type": "CodeableConcept",
+          "cardinality": "1..*",
+          "description": "A categorization for the report. Common examples include labs and imaging.",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "1..1",
+          "description": "Contains the system, code and display from a terminology system in the subfields",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "1..1",
+          "description": "The system uri for the code \u2013 typically this will be \u201chttp://terminology.hl7.org/CodeSystem/v2-0074\"",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "The code for the category \u2013 common examples include LAB, CT, CUS, RX, EC, CTH, OTH",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Display text for the category",
+          "has_description": true
+        },
+        {
+          "name": "code",
+          "type": "CodeableConcept",
+          "cardinality": "1..1",
+          "description": "A code describing the content of the lab, imaging, etc that is in the report.",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "1..1",
+          "description": "Contains the system, code and display from a terminology system in the subfields",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "1..1",
+          "description": "The system uri for the code \u2013 typically this will be \u201chttp://loinc.org\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "The code for the lab, imaging, etc",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Display text for the lab, imaging, etc.",
+          "has_description": true
+        },
+        {
+          "name": "subject",
+          "type": "Reference(US Core Patient Profile)",
+          "cardinality": "1\u20261",
+          "description": "Contains the reference to the member this pertains to",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the member\u2019s FHIR ID. Will be formatted as \u201cPatient/324ft342g-823e-11e9-bd76-0234kd538ce\u201d",
+          "has_description": true
+        },
+        {
+          "name": "effectiveDateTime",
+          "type": "dateTime",
+          "cardinality": "1..1",
+          "description": "Specimen collection date/time",
+          "has_description": true
+        },
+        {
+          "name": "issued",
+          "type": "instant",
+          "cardinality": "1..1",
+          "description": "The date/time this report was made available to providers",
+          "has_description": true
+        },
+        {
+          "name": "performer",
+          "type": "Reference(US Core Organization Profile, US Core Practitioner Profile)",
+          "cardinality": "0\u2026*",
+          "description": "Contains the reference to the clinician or the company who performed the diagnostic",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Provides the FHIR ID. Will be formatted as \u201cPractitioner/280ly342g-823e-11e9-bd76-0234kd538ce\u201d or \u201cOrganization/984ft342g-823e-11e9-bd76-0234kd538ce\u201d",
+          "has_description": true
+        },
+        {
+          "name": "result",
+          "type": "Reference(US Core Laboratory Result Observation Profile)",
+          "cardinality": "0\u2026*",
+          "description": "Contains references to Observations used in this report. Several observations can be included here.",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Provides the FHIR ID. Will be formatted as \u201cObservation/525ft342g-823e-11e9-bd76-0234kd538ce\u201d",
+          "has_description": true
+        },
+        {
+          "name": "encounter",
+          "type": "Reference(Encounter)",
+          "cardinality": "0..1",
+          "description": "Contains the reference to the encounter that this pertains to. Will likely be blank if the report was created outside of One Medical, as in the case for most lab reports. In contrast some imaging is done within One Medical and will therefore have an encounter.",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Provides the encounter\u2019s FHIR ID. Will be formatted as \u201cEncounter/818wxx42g-823e-11e9-bd76-0234kd538ce\u201d",
+          "has_description": true
+        },
+        {
+          "name": "presentedForm",
+          "type": "attachment",
+          "cardinality": "0..*",
+          "description": "If there are any attachments, such as notes and PDFs, they will be included here. An individual report can have multiple attachments. If the attachment is text-only, it will be plain-text of base64 encoded in the data field. If it is a PDF or image, the file location will be in the url field",
+          "has_description": true
+        },
+        {
+          "name": ".contentType",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "For base 64 or plain text items, the value will be \u201ctext/html\u201d. For images, the value will be \u201cimage/tiff\u201d. For PDF\u2019s, the value will be \u201capplication/pdf\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".data",
+          "type": "base64binary",
+          "cardinality": "0..1",
+          "description": "The contents of the document, in either base64 encoded data or plain text.",
+          "has_description": true
+        },
+        {
+          "name": ".creation",
+          "type": "dateTime",
+          "cardinality": "0..1",
+          "description": "The date and time stamp that this resource was created",
+          "has_description": true
+        },
+        {
+          "name": ".hash",
+          "type": "base64Binary",
+          "cardinality": "0..1",
+          "description": "The calculated hash of the data using SHA-1. Represented using base64.",
+          "has_description": true
+        },
+        {
+          "name": ".size",
+          "type": "unsignedInt",
+          "cardinality": "0..1",
+          "description": "The file size of the attachment in bytes. This field is used if and only if there is a file URL",
+          "has_description": true
+        },
+        {
+          "name": ".url",
+          "type": "url",
+          "cardinality": "0..1",
+          "description": "The One Medical internal URL for the file location",
+          "has_description": true
+        }
+      ]
+    },
+    {
+      "entity": "documentreference",
+      "source_file": "downloads/fhir/resources/documentreference.html",
+      "field_count": 42,
+      "fields": [
+        {
+          "name": "resourceType",
+          "type": "",
+          "cardinality": "1..1",
+          "description": "Identifies the resource type. The value will be \u201cDocumentReference\u201d",
+          "has_description": true
+        },
+        {
+          "name": "id",
+          "type": "Text",
+          "cardinality": "1..1",
+          "description": "A globally unique identifier which identifies this record across One Medical\u2019s FHIR services.",
+          "has_description": true
+        },
+        {
+          "name": "meta",
+          "type": "",
+          "cardinality": "",
+          "description": "Metadata providing technical information about the resource",
+          "has_description": true
+        },
+        {
+          "name": ".lastUpdated",
+          "type": "instant",
+          "cardinality": "0..1",
+          "description": "Date and timestamp of most recent change to this resource",
+          "has_description": true
+        },
+        {
+          "name": ".source",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The system device that created or updated the record",
+          "has_description": true
+        },
+        {
+          "name": ".versionID",
+          "type": "id",
+          "cardinality": "0..1",
+          "description": "System-generated version ID for the FHIR resource",
+          "has_description": true
+        },
+        {
+          "name": ".profile",
+          "type": "canonical(StructureDefinition)",
+          "cardinality": "0..*",
+          "description": "Profiles this resource claims to conform to. One Medical DocumentReference resources will generally conform to US Core: http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference",
+          "has_description": true
+        },
+        {
+          "name": "status",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "Provides the current status of this DocumentReference resource. Supported values: current",
+          "has_description": true
+        },
+        {
+          "name": "docStatus",
+          "type": "code",
+          "cardinality": "1..*",
+          "description": "The status of the underlying document. Supported values: final | entered-in-error | amended",
+          "has_description": true
+        },
+        {
+          "name": "type",
+          "type": "CodeableConcept",
+          "cardinality": "0..1",
+          "description": "Identifies the kind of document. Allows identification of primary care notes, consult notes, referral notes, and more. Binding is US Core Document Reference Type",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "1..1",
+          "description": "Contains the system, code and display from a terminology system in the subfields",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "1..1",
+          "description": "The uri of the coding system. Typically this will be \u201chttp://loinc.org\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "The actual code number from the coding system",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Display text for the code for this document type",
+          "has_description": true
+        },
+        {
+          "name": "category",
+          "type": "CodeableConcept",
+          "cardinality": "0..1",
+          "description": "A categorization for the document. The most common include clinical notes and evaluation and management notes. However, due to referrals and other providers seen by our patients, we also have consult notes, referral notes, discharge summary, and more. Please note that you may see overlap between the type and the category field. Binding is US Core DocumentReference Category",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "1..1",
+          "description": "Contains the system, code and display from a terminology system in the subfields",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "1..1",
+          "description": "The system uri for the code \u2013 typically this will be \u201chttp://loinc.org\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "The code number for the category",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Display text for the category",
+          "has_description": true
+        },
+        {
+          "name": "subject",
+          "type": "Reference(US Core Patient Profile)",
+          "cardinality": "1\u20261",
+          "description": "Contains the reference to the member this pertains to",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the member\u2019s FHIR ID. Will be formatted as \u201cPatient/324ft342g-823e-11e9-bd76-0234kd538ce\u201d",
+          "has_description": true
+        },
+        {
+          "name": "date",
+          "type": "instant",
+          "cardinality": "1\u20261",
+          "description": "The date this document was created",
+          "has_description": true
+        },
+        {
+          "name": "author",
+          "type": "Reference(US Core Practitioner Profile",
+          "cardinality": "1\u20261",
+          "description": "Contains the reference to the clinician who authored this document",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the clinician\u2019s FHIR ID. Will be formatted as \u201cPractitioner/12345678-aa32-11ff-beff-2338c78dd9dw\u201d",
+          "has_description": true
+        },
+        {
+          "name": "authenticator",
+          "type": "Reference(US Core Practitioner Profile)",
+          "cardinality": "0\u20261",
+          "description": "Contains the practitioner who is attesting that this is a valid document. May be the same practitioner as in author field.",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the practitioner\u2019s FHIR ID. Will be formatted as \u201cPractitioner/12345678-aa32-11ff-beff-2338c78dd9dw\u201d",
+          "has_description": true
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "cardinality": "0\u20261",
+          "description": "Plain-English description of the contents of this document or note",
+          "has_description": true
+        },
+        {
+          "name": "content",
+          "type": "BackboneElement",
+          "cardinality": "1\u2026*",
+          "description": "Subfields below contain the content of the document or the location of the document. Note that there can be multiple attachments \u2013 below is an example of a base 64 encoded item and a PDF location",
+          "has_description": true
+        },
+        {
+          "name": ".attachment",
+          "type": "attachment",
+          "cardinality": "1..1",
+          "description": "Each attachment will contain subfields with details on the document or location of the document. This is an example of a base 64 encoded item \u2013 the contents of the clinical note are contained in the data field",
+          "has_description": true
+        },
+        {
+          "name": ".contentType",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "For base 64 or plain text items, the value will be \u201ctext/html\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".data",
+          "type": "base64binary",
+          "cardinality": "0..1",
+          "description": "The contents of the document, in either base64 encoded data or plain text.",
+          "has_description": true
+        },
+        {
+          "name": ".creation",
+          "type": "dateTime",
+          "cardinality": "0..1",
+          "description": "The date and time stamp that this resource was created",
+          "has_description": true
+        },
+        {
+          "name": ".hash",
+          "type": "base64Binary",
+          "cardinality": "0..1",
+          "description": "The calculated hash of the data using SHA-1. Represented using base64.",
+          "has_description": true
+        },
+        {
+          "name": "\u2014\u2013",
+          "type": "\u2014\u2013",
+          "cardinality": "\u2014\u2013",
+          "description": "\u2014\u2013",
+          "has_description": true
+        },
+        {
+          "name": ".attachment",
+          "type": "attachment",
+          "cardinality": "1..1",
+          "description": "Each attachment will contain subfields with details on the document or location of the document. This is an example of the location of a PDF file. At present, One Medical is unable to provide external access to these PDFs",
+          "has_description": true
+        },
+        {
+          "name": ".contentType",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "For attachments, this value will be \u201capplication/pdf\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".creation",
+          "type": "dateTime",
+          "cardinality": "0..1",
+          "description": "The date and time stamp that this resource was created",
+          "has_description": true
+        },
+        {
+          "name": ".size",
+          "type": "unsignedInt",
+          "cardinality": "0..1",
+          "description": "The file size of the attachment in bytes",
+          "has_description": true
+        },
+        {
+          "name": ".url",
+          "type": "url",
+          "cardinality": "0..1",
+          "description": "The One Medical internal URL for the file location",
+          "has_description": true
+        },
+        {
+          "name": "context",
+          "type": "BackboneElement",
+          "cardinality": "0..1",
+          "description": "Context for the creation of this document \u2013 if filled out this will be an encounter",
+          "has_description": true
+        },
+        {
+          "name": "encounter",
+          "type": "Reference(US Core Encounter Profile)",
+          "cardinality": "0..1",
+          "description": "Contains the encounter information",
+          "has_description": true
+        },
+        {
+          "name": "reference",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Contains the encounter FHIR ID. Example: \u201cEncounter/39dsjfosjf-8adf-11eb-jdsa-0ac10a386adb\u201d",
+          "has_description": true
+        }
+      ]
+    },
+    {
+      "entity": "encounter",
+      "source_file": "downloads/fhir/resources/encounter.html",
+      "field_count": 33,
+      "fields": [
+        {
+          "name": "resourceType",
+          "type": "",
+          "cardinality": "1..1",
+          "description": "Identifies the type of FHIR resource. The value will be \u201cEncounter\u201d",
+          "has_description": true
+        },
+        {
+          "name": "id",
+          "type": "Text",
+          "cardinality": "1..1",
+          "description": "A globally unique identifier which identifies an encounter across One Medical\u2019s FHIR services.",
+          "has_description": true
+        },
+        {
+          "name": "meta",
+          "type": "",
+          "cardinality": "",
+          "description": "Metadata providing technical information about the resource",
+          "has_description": true
+        },
+        {
+          "name": ".lastUpdated",
+          "type": "instant",
+          "cardinality": "0..1",
+          "description": "Date and timestamp of most recent change to this resource",
+          "has_description": true
+        },
+        {
+          "name": ".profile",
+          "type": "canonical (StructureDefinition)",
+          "cardinality": "0..*",
+          "description": "Profiles this resource claims to conform to. One Medical Encounter resources will generally at least conform to US Core: http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter",
+          "has_description": true
+        },
+        {
+          "name": ".source",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The system device that created or updated the record",
+          "has_description": true
+        },
+        {
+          "name": ".versionID",
+          "type": "id",
+          "cardinality": "0..1",
+          "description": "System-generated version ID for the FHIR resource",
+          "has_description": true
+        },
+        {
+          "name": "status",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "Provides the current state of the encounter. planned | arrived | in-progress | finished | cancelled",
+          "has_description": true
+        },
+        {
+          "name": "class",
+          "type": "Coding",
+          "cardinality": "1..1",
+          "description": "Provides the classification of the encounter, such as inpatient or outpatient. Here at One Medical all of our visits are outpatient. This field is used to identify in-person (AMB) versus remote appointments (VR). Supported values are AMB | VR",
+          "has_description": true
+        },
+        {
+          "name": "type",
+          "type": "CodeableConcept",
+          "cardinality": "1..*",
+          "description": "Provides the specific type of encounter (e.g. e-mail consultation, surgical day-care, skilled nursing, rehabilitation). Binding: US Core Encounter Type(extensible)",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "0..*",
+          "description": "Contains the system, code and display from a terminology system in the subfields",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The uri of the coding system. Will generally be SNOMED \u201chttp://snomed.info/sct\" or CPT \u201chttp://www.ama-assn.org/go/cpt\"",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "The actual code number from the coding system.",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text from the coding system.",
+          "has_description": true
+        },
+        {
+          "name": ".text",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "One Medical\u2019s display text for the encounter type (may differ or be identical to the code system\u2019s display text)",
+          "has_description": true
+        },
+        {
+          "name": "subject",
+          "type": "Reference(US Core Patient Profile)",
+          "cardinality": "1\u20261",
+          "description": "Contains the reference to the member that this encounter pertains to",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the member\u2019s FHIR ID. Will be formatted as \u201cPatient/324ft342g-823e-11e9-bd76-0234kd538ce\u201d",
+          "has_description": true
+        },
+        {
+          "name": "participant",
+          "type": "BackboneElement",
+          "cardinality": "0..*",
+          "description": "Provides the clinicians who were involved in the encounter with the patient. At One Medical this will generally be the PCP or another M.D., D.O., P.A., or N.P. who saw the patient. Note: We do not currently include this in our FHIR data, but will be adding as a future enhancement.",
+          "has_description": true
+        },
+        {
+          "name": ".individual",
+          "type": "Reference(US Core Practitioner Profile)",
+          "cardinality": "1..1",
+          "description": "Contains the system, code and display from a terminology system.",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Contains the reference to the provider\u2019s FHIR ID. An example is \u201cPractitioner/12345-12345-12345-12345-12345\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Provides the provider\u2019s first and last name in a display text field, as a quick lookup option without having to review the practitioner\u2019s FHIR record.",
+          "has_description": true
+        },
+        {
+          "name": "period",
+          "type": "Period",
+          "cardinality": "0..1",
+          "description": "Provides the start and end date/time of the encounter.",
+          "has_description": true
+        },
+        {
+          "name": ".start",
+          "type": "dateTime",
+          "cardinality": "0..1",
+          "description": "Contains the date/timestamp that the appointment started. For example \u201c2023-03-28T08:30:00-07:00\u201d.",
+          "has_description": true
+        },
+        {
+          "name": ".end",
+          "type": "dateTime",
+          "cardinality": "0..1",
+          "description": "Contains the date/timestamp that the appointment ended. For example \u201c2023-03-28T09:00:00-07:00\u201d.",
+          "has_description": true
+        },
+        {
+          "name": "location",
+          "type": "Backbone Element",
+          "cardinality": "0..1",
+          "description": "Provides the clinic where the encounter occurred.",
+          "has_description": true
+        },
+        {
+          "name": ".location",
+          "type": "Reference (Location)",
+          "cardinality": "1..1",
+          "description": "Provides the reference to the FHIR ID of the location, such as \u201cLocation/fg2ascs-jsja-44sa-ssaa-3223d32cZ987\u201d.",
+          "has_description": true
+        },
+        {
+          "name": "diagnosis",
+          "type": "Backbone Element",
+          "cardinality": "0..*",
+          "description": "Provides the list of diagnoses relevant to this encounter.",
+          "has_description": true
+        },
+        {
+          "name": ".condition",
+          "type": "Reference (Condition)",
+          "cardinality": "1..1",
+          "description": "Provides the reference to the FHIR ID of the Condition, such as \u201cCondition/jsadf12-j00a-44sa-ssaa-3223d32ddasd2\u201d.",
+          "has_description": true
+        },
+        {
+          "name": ".use",
+          "type": "CodeableConcept",
+          "cardinality": "0..1",
+          "description": "The FHIR spec uses the binding DiagnosisRole (preferred). At One Medical this identifies the chief complaint / primary diagnosis for the encounter. In contrast, the secondary diagnoses, tertiary diagnoses, etc will lack the .use field.",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "0..*",
+          "description": "Contains the system, code and display from a terminology system in the subfields",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The uri of the coding system. For chief complaint: \u201chttp://terminology.hl7.org/CodeSystem/diagnosis-role\"",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "The actual code number from the coding system. For chief complaint: \u201cCC\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text from the coding system. For chief complaint: \u201cChief complaint\u201d",
+          "has_description": true
+        }
+      ]
+    },
+    {
+      "entity": "immunization",
+      "source_file": "downloads/fhir/resources/immunization.html",
+      "field_count": 36,
+      "fields": [
+        {
+          "name": "resourceType",
+          "type": "",
+          "cardinality": "1..1",
+          "description": "Identifies the type of FHIR resource. The value will be \u201cImmunization\u201d",
+          "has_description": true
+        },
+        {
+          "name": "id",
+          "type": "Text",
+          "cardinality": "1..1",
+          "description": "A globally unique identifier which identifies an immunization across One Medical\u2019s FHIR services.",
+          "has_description": true
+        },
+        {
+          "name": "meta",
+          "type": "",
+          "cardinality": "",
+          "description": "Metadata providing technical information about the resource",
+          "has_description": true
+        },
+        {
+          "name": ".lastUpdated",
+          "type": "instant",
+          "cardinality": "0..1",
+          "description": "Date and timestamp of most recent change to this resource",
+          "has_description": true
+        },
+        {
+          "name": ".profile",
+          "type": "canonical (StructureDefinition)",
+          "cardinality": "0..*",
+          "description": "Profiles this resource claims to conform to. One Medical Immunization resources will generally at least conform to US Core: http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization",
+          "has_description": true
+        },
+        {
+          "name": ".source",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The system device that created or updated the record",
+          "has_description": true
+        },
+        {
+          "name": ".versionID",
+          "type": "id",
+          "cardinality": "0..1",
+          "description": "System-generated version ID for the FHIR resource",
+          "has_description": true
+        },
+        {
+          "name": "status",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "Indicates the current status of the immunization event. At One Medical we only record immunizations that are \u201ccompleted\u201d",
+          "has_description": true
+        },
+        {
+          "name": "vaccineCode",
+          "type": "CodeableConcept",
+          "cardinality": "1..1",
+          "description": "Contains the CVX coding for the immunization. Binding: US Core Vaccine Administered Value Set (CVX) (extensible).",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "0..*",
+          "description": "Contains the system, code and display from a terminology system in the subfields",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The uri of the coding system. Will generally be the CVX system, which is \u201chttp://hl7.org/fhir/sid/cvx\"",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "The code number from the CVX coding system.",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text for the code from the CVX system \u2013 from the official code system.",
+          "has_description": true
+        },
+        {
+          "name": ".text",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "One Medical\u2019s display text for the immunization (may differ or be identical to the code system\u2019s display text)",
+          "has_description": true
+        },
+        {
+          "name": "patient",
+          "type": "Reference(US Core Patient Profile)",
+          "cardinality": "1\u20261",
+          "description": "Contains the reference to the member this pertains to",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the member\u2019s FHIR ID. Will be formatted as \u201cPatient/324ft342g-823e-11e9-bd76-0234kd538ce\u201d",
+          "has_description": true
+        },
+        {
+          "name": "occurrenceDateTime",
+          "type": "dateTime",
+          "cardinality": "1..1",
+          "description": "Vaccine administration date in YYYY-MM-DD format",
+          "has_description": true
+        },
+        {
+          "name": "primarySource",
+          "type": "boolean",
+          "cardinality": "1..1",
+          "description": "\u201ctrue\u201d indicates this One Medical administered the vaccine, \u201cfalse\u201d indicates that this vaccine record came from an external source and was administered by another provider. Currently supported values: true | false",
+          "has_description": true
+        },
+        {
+          "name": "encounter",
+          "type": "Reference(US Core Encounter Profile)",
+          "cardinality": "0\u20261",
+          "description": "Contains the reference to the encounter where the vaccine was administered. Will be blank for vaccines that were administered outside of One Medical.",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the encounter\u2019s FHIR ID. Will be formatted as \u201cEncounter/8aec123434-d21s-33fr-eg91-0a58a9gasd21\u201d. Will be blank if the vaccine was administered by another provider outside of One Medical",
+          "has_description": true
+        },
+        {
+          "name": "manufacturer",
+          "type": "Reference(US Core Organization Profile)",
+          "cardinality": "0\u20261",
+          "description": "Contains the reference to the company that produced the vaccine",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the manufactuter\u2019s FHIR Organization ID from One Medical\u2019s FHIR server. Will be formatted as \u201cOrganization/0a1gf923a-f27e-11fg-a23a-0a8164e0ff51\u201d",
+          "has_description": true
+        },
+        {
+          "name": "expirationDate",
+          "type": "dateTime",
+          "cardinality": "0..1",
+          "description": "Expiration date of the vaccine in YYYY-MM-DD format. May be blank if vaccine was administered outside of One Medical",
+          "has_description": true
+        },
+        {
+          "name": "lotNumber",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Vaccine lot number, from the manufacturer",
+          "has_description": true
+        },
+        {
+          "name": "site",
+          "type": "CodeableConcept",
+          "cardinality": "0..1",
+          "description": "The body site for where the vaccine was administered. At One Medical we only use the text sub-field in Codeable Concept for this field.",
+          "has_description": true
+        },
+        {
+          "name": ".text",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "One Medical\u2019s display text for the site",
+          "has_description": true
+        },
+        {
+          "name": "route",
+          "type": "CodeableConcept",
+          "cardinality": "0..1",
+          "description": "The route by which the vaccine was administered",
+          "has_description": true
+        },
+        {
+          "name": ".text",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "One Medical\u2019s display text for the route. At One Medical we only use the text sub-field in Codeable Concept for this field.",
+          "has_description": true
+        },
+        {
+          "name": "performer",
+          "type": "BackboneElement",
+          "cardinality": "0..1",
+          "description": "Who ordered and/or administered the vaccine. At One Medical we often provide two performers in this field: the ordering provider and the care team member who administered the vaccine.",
+          "has_description": true
+        },
+        {
+          "name": ".actor",
+          "type": "reference (US Core Practitioner Profile)",
+          "cardinality": "0..1",
+          "description": "Contains the reference to the provider and what their involvement was in this immunization event.",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the provider\u2019s FHIR ID. Will be formatted as \u201cPractitioner/erw893-hjk234-asd3223-asfdjk-sdjklf2\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".function",
+          "type": "CodeableConcept",
+          "cardinality": "0..1",
+          "description": "Indicates the provider\u2019s involvement \u2013 will be ordering provider or administering provider",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "0..*",
+          "description": "Contains the system, code and display from a terminology system in the subfields. Binding: ImmunizationFunctionCodes (extensible)",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The uri of the coding system, which is \u201chttp://terminology.hl7.org/CodeSystem/v2-0443\"",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "The code number from the coding system. OP == Ordering Provider. AP == Administering Provider. Currently supported values: OP | AP",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text for the code from the official code system. Will be \u201cOrdering Provider\u201d or \u201cAdministering Provider\u201d",
+          "has_description": true
+        }
+      ]
+    },
+    {
+      "entity": "location",
+      "source_file": "downloads/fhir/resources/location.html",
+      "field_count": 26,
+      "fields": [
+        {
+          "name": "resourceType",
+          "type": "",
+          "cardinality": "1..1",
+          "description": "Identifies the type of FHIR resource. The value will be \u201cLocation\u201d",
+          "has_description": true
+        },
+        {
+          "name": "id",
+          "type": "Text",
+          "cardinality": "1..1",
+          "description": "A globally unique identifier which identifies an allergy across One Medical\u2019s FHIR services.",
+          "has_description": true
+        },
+        {
+          "name": "meta",
+          "type": "",
+          "cardinality": "",
+          "description": "Metadata providing technical information about the resource",
+          "has_description": true
+        },
+        {
+          "name": ".lastUpdated",
+          "type": "instant",
+          "cardinality": "0..1",
+          "description": "Date and timestamp of most recent change to this resource",
+          "has_description": true
+        },
+        {
+          "name": ".profile",
+          "type": "canonical (StructureDefinition)",
+          "cardinality": "0..*",
+          "description": "Profiles this resource claims to conform to. One Medical CareTeam resources will generally conform to US Core: http://hl7.org/fhir/us/core/StructureDefinition/us-core-location",
+          "has_description": true
+        },
+        {
+          "name": ".source",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The system device that created or updated the record",
+          "has_description": true
+        },
+        {
+          "name": ".versionID",
+          "type": "id",
+          "cardinality": "0..1",
+          "description": "System-generated version ID for the FHIR resource",
+          "has_description": true
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "A text name or label used to describe this clinic location.",
+          "has_description": true
+        },
+        {
+          "name": "position",
+          "type": "Backbone Element",
+          "cardinality": "0..1",
+          "description": "Provides the geographic location.",
+          "has_description": true
+        },
+        {
+          "name": ".latitude",
+          "type": "decimal",
+          "cardinality": "1..1",
+          "description": "Provides the latitude coordinates.",
+          "has_description": true
+        },
+        {
+          "name": ".longitude",
+          "type": "decimal",
+          "cardinality": "1..1",
+          "description": "Provides the longitude coordinates.",
+          "has_description": true
+        },
+        {
+          "name": "managingOrganization",
+          "type": "Reference (US Core Location)",
+          "cardinality": "0..1",
+          "description": "The organization that owns the clinic.",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Will generally be \u201cOne Medical\u201d for clinics owned by One Medical.",
+          "has_description": true
+        },
+        {
+          "name": "address",
+          "type": "Address",
+          "cardinality": "0..1",
+          "description": "The address for the clinic.",
+          "has_description": true
+        },
+        {
+          "name": ".text",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text for the address. This is the concatenated text for street number and name, city, state, ZIP code",
+          "has_description": true
+        },
+        {
+          "name": ".line",
+          "type": "string",
+          "cardinality": "0..*",
+          "description": "The street number and name",
+          "has_description": true
+        },
+        {
+          "name": ".city",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "The city",
+          "has_description": true
+        },
+        {
+          "name": ".state",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "The state",
+          "has_description": true
+        },
+        {
+          "name": ".postalCode",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "The ZIP code",
+          "has_description": true
+        },
+        {
+          "name": "telecom",
+          "type": "ContactPoint",
+          "cardinality": "0..*",
+          "description": "Contact information for the clinic location",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "Currently supported: phone | fax",
+          "has_description": true
+        },
+        {
+          "name": ".value",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Phone or Fax number for this location.",
+          "has_description": true
+        },
+        {
+          "name": "hoursOfOperation",
+          "type": "BackboneElement",
+          "cardinality": "0..*",
+          "description": "Provides the days and hours the clinic is open",
+          "has_description": true
+        },
+        {
+          "name": ".daysOfWeek",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Day of week, using first three letters of the day",
+          "has_description": true
+        },
+        {
+          "name": ".openingTime",
+          "type": "time",
+          "cardinality": "0..1",
+          "description": "Opening time for the clinic.",
+          "has_description": true
+        },
+        {
+          "name": ".closingTime",
+          "type": "time",
+          "cardinality": "0..1",
+          "description": "Closing time for the clinic.",
+          "has_description": true
+        }
+      ]
+    },
+    {
+      "entity": "medication",
+      "source_file": "downloads/fhir/resources/medication.html",
+      "field_count": 13,
+      "fields": [
+        {
+          "name": "resourceType",
+          "type": "",
+          "cardinality": "1..1",
+          "description": "Identifies the type of FHIR resource. The value will be \u201cMedication\u201d",
+          "has_description": true
+        },
+        {
+          "name": "id",
+          "type": "Text",
+          "cardinality": "1..1",
+          "description": "A globally unique identifier which identifies a Medication across One Medical\u2019s FHIR services.",
+          "has_description": true
+        },
+        {
+          "name": "meta",
+          "type": "",
+          "cardinality": "",
+          "description": "Metadata providing technical information about the resource",
+          "has_description": true
+        },
+        {
+          "name": ".lastUpdated",
+          "type": "instant",
+          "cardinality": "0..1",
+          "description": "Date and timestamp of most recent change to this resource",
+          "has_description": true
+        },
+        {
+          "name": ".profile",
+          "type": "canonical (StructureDefinition)",
+          "cardinality": "0..*",
+          "description": "Profiles this resource claims to conform to. One Medical\u2019s Medication resources will generally at least conform to US Core: http://hl7.org/fhir/us/core/StructureDefinition/us-core-medication",
+          "has_description": true
+        },
+        {
+          "name": ".source",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The system device that created or updated the record",
+          "has_description": true
+        },
+        {
+          "name": ".versionID",
+          "type": "id",
+          "cardinality": "0..1",
+          "description": "System-generated version ID for the FHIR resource",
+          "has_description": true
+        },
+        {
+          "name": "code",
+          "type": "CodeableConcept",
+          "cardinality": "1..1",
+          "description": "Contains the coding for the medication. At One Medical we typically include both NDC and RxNorm for coded medications. However, we also have free text medications that will not have a code. Binding: US Core Medication Codes (RxNorm) (extensible).",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "0..*",
+          "description": "Contains the system, code and display from a terminology system in the subfields",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The uri of the coding system. Will be blank for free-text medications. For coded medications, this may be RxNorm \u201chttp://www.nlm.nih.gov/research/umls/rxnorm\" or NDC \u201chttp://hl7.org/fhir/sid/ndc\".",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "The actual code number from the coding system. Will be blank for free-text medications, but will contain and RxNorm or NDC code for coded meds. Note: the NDC code provided is a \u201crepresentative\u201d code and may not indicate the exact brand/packaging ultimately dispensed by the pharmacy.",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text for the code for this medication \u2013 from the official code system. Will be blank for free-text medications.",
+          "has_description": true
+        },
+        {
+          "name": ".text",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "One Medical\u2019s display text for the medication (may differ or be identical to the code system\u2019s display text)",
+          "has_description": true
+        }
+      ]
+    },
+    {
+      "entity": "medicationrequest",
+      "source_file": "downloads/fhir/resources/medicationrequest.html",
+      "field_count": 21,
+      "fields": [
+        {
+          "name": "resourceType",
+          "type": "",
+          "cardinality": "1..1",
+          "description": "Identifies the type of FHIR resource. The value will be \u201cMedicationRequest\u201d",
+          "has_description": true
+        },
+        {
+          "name": "id",
+          "type": "Text",
+          "cardinality": "1..1",
+          "description": "A globally unique identifier which identifies a MedicationRequest across One Medical\u2019s FHIR services.",
+          "has_description": true
+        },
+        {
+          "name": "meta",
+          "type": "",
+          "cardinality": "",
+          "description": "Metadata providing technical information about the resource",
+          "has_description": true
+        },
+        {
+          "name": ".lastUpdated",
+          "type": "instant",
+          "cardinality": "0..1",
+          "description": "Date and timestamp of most recent change to this resource",
+          "has_description": true
+        },
+        {
+          "name": ".profile",
+          "type": "canonical (StructureDefinition)",
+          "cardinality": "0..*",
+          "description": "Profiles this resource claims to conform to. One Medical patient resources will generally at least conform to US Core: http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationrequest",
+          "has_description": true
+        },
+        {
+          "name": ".source",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The system device that created or updated the record",
+          "has_description": true
+        },
+        {
+          "name": ".versionID",
+          "type": "id",
+          "cardinality": "0..1",
+          "description": "System-generated version ID for the FHIR resource",
+          "has_description": true
+        },
+        {
+          "name": "status",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "The current state of the order. \u201cactive\u201d \u2013 the medication is currently in use. \u201ccompleted\u201d means that the medication has been discontinued or removed from the patient\u2019s chart. Currently supported: active | completed",
+          "has_description": true
+        },
+        {
+          "name": "intent",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "Patient-reported medications are flagged as \u201cplan\u201d. Medications prescribed by One Medical are flagged as \u201corder\u201d. Currently supported: plan | order",
+          "has_description": true
+        },
+        {
+          "name": "category",
+          "type": "CodeableConcept",
+          "cardinality": "0..*",
+          "description": "Indicates where the medication is expected to be consumed. Other providers may use this to indicate inpatient vs outpatient. Binding: medicationRequest Category Codes",
+          "has_description": true
+        },
+        {
+          "name": ".text",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Supported value: \u201ccommunity\u201d. This indicates that the medication will be taken in the patient\u2019s home.",
+          "has_description": true
+        },
+        {
+          "name": "medicationReference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "The reference field underneath will contain the FHIR ID for the Medication used in the MedicationReference resource. You will need to resolve the reference to the underlying Medication FHIR record in order to identify the medication",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the medication\u2019s FHIR ID. Will be formatted as \u201cMedication/251f72491-8225-55fg-a95a-9o12334e5gh35\u201d",
+          "has_description": true
+        },
+        {
+          "name": "subject",
+          "type": "Reference(US Core Patient Profile)",
+          "cardinality": "1\u20261",
+          "description": "Contains the reference to the member that this medication pertains to",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the member\u2019s FHIR ID. Will be formatted as \u201cPatient/324ft342g-823e-11e9-bd76-0234kd538ce\u201d",
+          "has_description": true
+        },
+        {
+          "name": "authoredOn",
+          "type": "dateTime",
+          "cardinality": "1\u20261",
+          "description": "The date/timestamp when the prescription was ordered or when the medication was added to the patient\u2019s chart",
+          "has_description": true
+        },
+        {
+          "name": "requestor",
+          "type": "Reference(US Core Practitioner Profile)",
+          "cardinality": "1\u20261",
+          "description": "The clinician who ordered the prescription or added the medication to the patient\u2019s chart",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the clincian\u2019s FHIR ID. Will be formatted as \u201cPractitioner/9145c19l-ckfa-12db-2341-b644j45218c3\u201d",
+          "has_description": true
+        },
+        {
+          "name": "dosageInstruction",
+          "type": "Dosage",
+          "cardinality": "0\u2026*",
+          "description": "Contains the instructions for how to administer the medication",
+          "has_description": true
+        },
+        {
+          "name": ".text",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Contains the free text dosage insructions",
+          "has_description": true
+        },
+        {
+          "name": "reportedBoolean",
+          "type": "boolean",
+          "cardinality": "0\u20261",
+          "description": "\u201ctrue\u201d indicates patient-reported medication, or reported by another party. \u201cfalse\u201d indicates that One Medical prescribed the medication. Supported values: true | false",
+          "has_description": true
+        }
+      ]
+    },
+    {
+      "entity": "observation",
+      "source_file": "downloads/fhir/resources/observation.html",
+      "field_count": 48,
+      "fields": [
+        {
+          "name": "resourceType",
+          "type": "",
+          "cardinality": "1..1",
+          "description": "Identifies the type of FHIR resource. The value will be \u201cObservation\u201d",
+          "has_description": true
+        },
+        {
+          "name": "id",
+          "type": "Text",
+          "cardinality": "1..1",
+          "description": "A globally unique identifier which identifies an observation across One Medical\u2019s FHIR services.",
+          "has_description": true
+        },
+        {
+          "name": "meta",
+          "type": "",
+          "cardinality": "",
+          "description": "Metadata providing technical information about the resource",
+          "has_description": true
+        },
+        {
+          "name": ".lastUpdated",
+          "type": "instant",
+          "cardinality": "0..1",
+          "description": "Date and timestamp of most recent change to this resource",
+          "has_description": true
+        },
+        {
+          "name": ".profile",
+          "type": "canonical (StructureDefinition)",
+          "cardinality": "0..*",
+          "description": "Profiles this resource claims to conform to. Currently in use: http://hl7.org/fhir/StructureDefinition/vitalsigns | http://hl7.org/fhir/us/core/StructureDefinition/us-core-vital-signs | http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab | http://hl7.org/fhir/us/core/StructureDefinition/us-core-smokingstatus",
+          "has_description": true
+        },
+        {
+          "name": ".source",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The system device that created or updated the record",
+          "has_description": true
+        },
+        {
+          "name": ".versionID",
+          "type": "id",
+          "cardinality": "0..1",
+          "description": "System-generated version ID for the FHIR resource",
+          "has_description": true
+        },
+        {
+          "name": "status",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "Identifies the status of the observation. Supported values: preliminary | final | corrected | unknown | entered-in-error",
+          "has_description": true
+        },
+        {
+          "name": "category",
+          "type": "CodeableConcept",
+          "cardinality": "1..1",
+          "description": "Contains the classification for the observation. Allows clients to differentiate among vitals, labs, smoking status, etc.",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "0..*",
+          "description": "Contains the system, code and display from a terminology system in the subfields",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The uri of the system. \u201chttp://terminology.hl7.org/CodeSystem/observation-category\"",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "The actual code number from the coding system. Currently supported values: vital-signs | laboratory | social-history | (null)",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text from the official code system. Vital Signs | Laboratory | Social History",
+          "has_description": true
+        },
+        {
+          "name": "code",
+          "type": "CodeableConcept",
+          "cardinality": "1..1",
+          "description": "Contains the coding for the observation. Binding: [depends][depends] (extensible).",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "0..*",
+          "description": "Contains the system, code and display from a terminology system in the subfields",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The uri of the coding system. Generally we use LOINC and SNOMED CT: http://loinc.org | http://snomed.info/sct",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "The actual code number from the coding system.",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text for the code for this observation.",
+          "has_description": true
+        },
+        {
+          "name": ".text",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "One Medical\u2019s display text for the observation. This may differ from the official display value.",
+          "has_description": true
+        },
+        {
+          "name": "patient",
+          "type": "Reference(US Core Patient Profile)",
+          "cardinality": "1\u20261",
+          "description": "Contains the reference to the member this pertains to",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the member\u2019s FHIR ID. Will be formatted as \u201cPatient/324ft342g-823e-11e9-bd76-0234kd538ce\u201d",
+          "has_description": true
+        },
+        {
+          "name": "effectiveDateTime",
+          "type": "dateTime",
+          "cardinality": "0\u20261",
+          "description": "Provides a date and timestamp for the observation, such as when the observation was recorded.",
+          "has_description": true
+        },
+        {
+          "name": "performer",
+          "type": "Reference(US Core Practitioner Profile) | Reference(US Core Organization Profile)",
+          "cardinality": "0\u20261",
+          "description": "Contains the reference to the practitioner or organization who recorded the observation, performed the lab test, etc.",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the Practitioner\u2019s or Organization\u2019s FHIR ID. Will be formatted as \u201cPractitioner/123ls9234ag-213k-11e9-bd76-5678gf538ce\u201d or \u201cOrganization/3421d87934sd-422g-11f1-de66-5890gf591ce\u201d",
+          "has_description": true
+        },
+        {
+          "name": "",
+          "type": "",
+          "cardinality": "",
+          "description": "",
+          "has_description": false
+        },
+        {
+          "name": "Value field note",
+          "type": "",
+          "cardinality": "",
+          "description": "Note: FHIR has multiple ways of expressing values. Observations will generally contain ONLY ONE of the following value fields.",
+          "has_description": true
+        },
+        {
+          "name": "valueString",
+          "type": "string",
+          "cardinality": "0\u20261",
+          "description": "Provides the value for the observation, such as the results of a lab test. Examples of lab test results are \u201cPositive\u201d and \u201cNegative\u201d.",
+          "has_description": true
+        },
+        {
+          "name": "valueQuantity",
+          "type": "Quantity",
+          "cardinality": "0\u20261",
+          "description": "Sub-fields contain the numerical value for the observation, such as heart rate, respirations, or other vitals, along with the units of measurement.",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..*",
+          "description": "A system uri for the coded unit. We generally use \u201chttp://unitsofmeasure.org\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".value",
+          "type": "decimal",
+          "cardinality": "0..*",
+          "description": "The numerical quantity for the observation, such as \u201c22\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".unit",
+          "type": "string",
+          "cardinality": "0..*",
+          "description": "The units of measurement, such as \u201c/min\u201d",
+          "has_description": true
+        },
+        {
+          "name": "valueCodeableConcept",
+          "type": "CodeableConcept",
+          "cardinality": "0..*",
+          "description": "Contains the coding for a value. This is typically used for Smoking Status",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "0..*",
+          "description": "Contains the system, code and display from a terminology system in the subfields",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The uri of the coding system. For smoking status we use \u201chttp://snomed.info/sct\"",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "The actual code number from the coding system.",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text for the code for this observation.",
+          "has_description": true
+        },
+        {
+          "name": ".text",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "One Medical\u2019s display text for the observation. This may differ from the official display value.",
+          "has_description": true
+        },
+        {
+          "name": "component",
+          "type": "",
+          "cardinality": "0..*",
+          "description": "This is used for observations with multiple components, such as blood pressure, which has a systolic and diastolic component. Contains the coding for the component and the result.",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "CodeableConcept",
+          "cardinality": "0..*",
+          "description": "Contains the system, code and display from a terminology/result system in the subfields",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "0..*",
+          "description": "Contains the system, code and display from a terminology system in the subfields",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The uri of the system.",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "The actual code number from the coding system.",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text from the official code system.",
+          "has_description": true
+        },
+        {
+          "name": ".text",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "One Medical\u2019s display text for the component. This may differ from the official display value.",
+          "has_description": true
+        },
+        {
+          "name": "valueQuantity",
+          "type": "Quantity",
+          "cardinality": "0\u20261",
+          "description": "Sub-fields contain the numerical value for the component, along with the units of measurement.",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..*",
+          "description": "A system uri for the coded unit. We generally use \u201chttp://unitsofmeasure.org\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".value",
+          "type": "decimal",
+          "cardinality": "0..*",
+          "description": "The numerical quantity for the observation, such as \u201c68\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".unit",
+          "type": "string",
+          "cardinality": "0..*",
+          "description": "The units of measurement, such as \u201cmmHG\u201d",
+          "has_description": true
+        }
+      ]
+    },
+    {
+      "entity": "organization",
+      "source_file": "downloads/fhir/resources/organization.html",
+      "field_count": 18,
+      "fields": [
+        {
+          "name": "resourceType",
+          "type": "",
+          "cardinality": "1..1",
+          "description": "Identifies the type of FHIR resource. The value will be \u201cOrganization\u201d",
+          "has_description": true
+        },
+        {
+          "name": "id",
+          "type": "Text",
+          "cardinality": "1..1",
+          "description": "A globally unique identifier which identifies a resource across One Medical\u2019s FHIR services.",
+          "has_description": true
+        },
+        {
+          "name": "meta",
+          "type": "",
+          "cardinality": "",
+          "description": "Metadata providing technical information about the resource",
+          "has_description": true
+        },
+        {
+          "name": ".lastUpdated",
+          "type": "instant",
+          "cardinality": "0..1",
+          "description": "Date and timestamp of most recent change to this resource",
+          "has_description": true
+        },
+        {
+          "name": ".profile",
+          "type": "canonical (StructureDefinition)",
+          "cardinality": "0..*",
+          "description": "Profiles this resource claims to conform to.",
+          "has_description": true
+        },
+        {
+          "name": ".source",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The system device that created or updated the record",
+          "has_description": true
+        },
+        {
+          "name": ".versionID",
+          "type": "id",
+          "cardinality": "0..1",
+          "description": "System-generated version ID for the FHIR resource",
+          "has_description": true
+        },
+        {
+          "name": "identifier",
+          "type": "identifier",
+          "cardinality": "1..1",
+          "description": "One Medical\u2019s unique internal identifier for the organization.",
+          "has_description": true
+        },
+        {
+          "name": ".use",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "Currently supported values: official | secondary | (null)",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "1..1",
+          "description": "Provides One Medical\u2019s internal system number",
+          "has_description": true
+        },
+        {
+          "name": ".value",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the One Medical identifier value for the organization",
+          "has_description": true
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the name of the organization",
+          "has_description": true
+        },
+        {
+          "name": "address",
+          "type": "Address",
+          "cardinality": "0\u2026*",
+          "description": "An address for the organization \u2013 in general we use United States Postal Service (USPS) formats",
+          "has_description": true
+        },
+        {
+          "name": ".use",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "Currently supported: home | work | (null)",
+          "has_description": true
+        },
+        {
+          "name": ".line",
+          "type": "string",
+          "cardinality": "0..4",
+          "description": "The street number and name",
+          "has_description": true
+        },
+        {
+          "name": ".city",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "The city",
+          "has_description": true
+        },
+        {
+          "name": ".state",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "The state",
+          "has_description": true
+        },
+        {
+          "name": ".postalCode",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "The ZIP code",
+          "has_description": true
+        }
+      ]
+    },
+    {
+      "entity": "patient",
+      "source_file": "downloads/fhir/resources/patient.html",
+      "field_count": 60,
+      "fields": [
+        {
+          "name": "resourceType",
+          "type": "",
+          "cardinality": "1..1",
+          "description": "Identifies this as a patient FHIR resource. The value will be \u201cPatient\u201d",
+          "has_description": true
+        },
+        {
+          "name": "id",
+          "type": "Text",
+          "cardinality": "1..1",
+          "description": "A globally unique identifier which identifies a Patient (member) across One Medical\u2019s FHIR services.",
+          "has_description": true
+        },
+        {
+          "name": "meta",
+          "type": "",
+          "cardinality": "",
+          "description": "Metadata providing technical information about the resource",
+          "has_description": true
+        },
+        {
+          "name": ".lastUpdated",
+          "type": "instant",
+          "cardinality": "0..1",
+          "description": "Date and timestamp of most recent change to this resource",
+          "has_description": true
+        },
+        {
+          "name": ".profile",
+          "type": "canonical (StructureDefinition)",
+          "cardinality": "0..*",
+          "description": "Profiles this resource claims to conform to. One Medical patient resources will generally at least conform to US Core: http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient",
+          "has_description": true
+        },
+        {
+          "name": ".source",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The system device that created or updated the record",
+          "has_description": true
+        },
+        {
+          "name": ".versionID",
+          "type": "id",
+          "cardinality": "0..1",
+          "description": "System-generated version ID for the FHIR resource",
+          "has_description": true
+        },
+        {
+          "name": "identifier",
+          "type": "identifier",
+          "cardinality": "1..1",
+          "description": "One Medical\u2019s unique internal identifier for the member, the equivalent of a medical record number.",
+          "has_description": true
+        },
+        {
+          "name": ".use",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "\u201cusual\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".type",
+          "type": "CodeableConcept",
+          "cardinality": "1..1",
+          "description": "Binding: IdentifierTypeCodes (HL7 V2 table 0203)",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "1..1",
+          "description": "urn:oid:2.16.840.1.113883.3.6399.1.3",
+          "has_description": true
+        },
+        {
+          "name": ".value",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "The One Medical internal patient identifier value (MRN)",
+          "has_description": true
+        },
+        {
+          "name": ".assigner",
+          "type": "Reference(Organization)",
+          "cardinality": "1..1",
+          "description": "Organization that issued id: (.display:\u201dOne Medical\u201d)",
+          "has_description": true
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "cardinality": "1..1",
+          "description": "This identifies the individual\u2019s membership status with One Medical. \u201ctrue\u201d represents an active membership. \u201cfalse\u201d means the member is not currently a member at One Medical.",
+          "has_description": true
+        },
+        {
+          "name": "name",
+          "type": "HumanName",
+          "cardinality": "1..*",
+          "description": "Name(s) associated with the patient",
+          "has_description": true
+        },
+        {
+          "name": ".use",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "Binding: NameUse Currently supported: official | nickname | old | usual | maiden",
+          "has_description": true
+        },
+        {
+          "name": ".family",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Family name (surname)",
+          "has_description": true
+        },
+        {
+          "name": ".given",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Given name(s), may include first and middle names",
+          "has_description": true
+        },
+        {
+          "name": ".suffix",
+          "type": "string",
+          "cardinality": "0..*",
+          "description": "Parts that come after the name, if any. If more than one, they appear in the order expected for presentation.",
+          "has_description": true
+        },
+        {
+          "name": "telecom",
+          "type": "ContactPoint",
+          "cardinality": "0..*",
+          "description": "Contact details for the member",
+          "has_description": true
+        },
+        {
+          "name": ".rank",
+          "type": "positiveInt",
+          "cardinality": "1..1",
+          "description": "Preferred order of use, 1 = highest. Multiple telecom entries for a patient may have same rank.",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "Binding: ContactPointSystem. Currently supported: phone | email",
+          "has_description": true
+        },
+        {
+          "name": ".value",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Telephone number or email address.",
+          "has_description": true
+        },
+        {
+          "name": "gender",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "Binding: AdministrativeGender. The gender that the patient is considered to have for administration and record keeping purposes. Currently supported: male | female | other | unknown",
+          "has_description": true
+        },
+        {
+          "name": "birthDate",
+          "type": "date",
+          "cardinality": "1..1",
+          "description": "The date of birth for the member.",
+          "has_description": true
+        },
+        {
+          "name": "deceasedBoolean",
+          "type": "boolean",
+          "cardinality": "0..1",
+          "description": "Indicates if the individual is deceased or not. Currently supported: true, false",
+          "has_description": true
+        },
+        {
+          "name": "address",
+          "type": "Address",
+          "cardinality": "0\u2026*",
+          "description": "An address for the member \u2013 in general we use United States Postal Service (USPS) formats",
+          "has_description": true
+        },
+        {
+          "name": ".use",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "Binding: ContactPointSystem. The type of address for the member. Currently supported: home | work | old",
+          "has_description": true
+        },
+        {
+          "name": ".text",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text for the address. This is the concatenated text for street number and name, city, state, ZIP code",
+          "has_description": true
+        },
+        {
+          "name": ".line",
+          "type": "string",
+          "cardinality": "0..*",
+          "description": "The street number and name",
+          "has_description": true
+        },
+        {
+          "name": ".city",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "The city",
+          "has_description": true
+        },
+        {
+          "name": ".state",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "The state",
+          "has_description": true
+        },
+        {
+          "name": ".postalCode",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "The ZIP code",
+          "has_description": true
+        },
+        {
+          "name": ".period",
+          "type": "Period",
+          "cardinality": "0..1",
+          "description": "Period of time this address was used by the member",
+          "has_description": true
+        },
+        {
+          "name": ".start",
+          "type": "DateTime",
+          "cardinality": "0..1",
+          "description": "Effective start date of the member using this address",
+          "has_description": true
+        },
+        {
+          "name": "generalPractitioner",
+          "type": "Reference(Practitioner)",
+          "cardinality": "0..*",
+          "description": "Identifies the member\u2019s primary care provider",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Reference to the practitioner resource",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Provides display text with the name of the practitioner (future enhancement). This will be a future enhancement as we do not currently include this.",
+          "has_description": true
+        },
+        {
+          "name": "extension:us-core-race",
+          "type": "Extension (USCoreRaceExtension)",
+          "cardinality": "0..1",
+          "description": "US Core Race Extension",
+          "has_description": true
+        },
+        {
+          "name": ".extension:ombCategory",
+          "type": "Extension",
+          "cardinality": "0..5",
+          "description": "Up to five self-identified OMB race categories for the patient.",
+          "has_description": true
+        },
+        {
+          "name": ".url",
+          "type": "uri",
+          "cardinality": "1..1",
+          "description": "\u201combCategory\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".valueCoding",
+          "type": "Coding",
+          "cardinality": "1..1",
+          "description": "Binding: OmbRaceCategories",
+          "has_description": true
+        },
+        {
+          "name": ".extension:text",
+          "type": "Extension",
+          "cardinality": "1..1",
+          "description": "Race Text",
+          "has_description": true
+        },
+        {
+          "name": ".url",
+          "type": "uri",
+          "cardinality": "1..1",
+          "description": "\u201ctext\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".valueString",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Text description of patient\u2019s race",
+          "has_description": true
+        },
+        {
+          "name": ".url",
+          "type": "uri",
+          "cardinality": "1..1",
+          "description": "\u201chttp://hl7.org/fhir/us/core/StructureDefinition/us-core-race\"",
+          "has_description": true
+        },
+        {
+          "name": "extension:us-core-ethnicity",
+          "type": "Extension (USCoreEthnicityExtension)",
+          "cardinality": "0..1",
+          "description": "US Core Ethnicity Extension",
+          "has_description": true
+        },
+        {
+          "name": ".extension:ombCategory",
+          "type": "Extension",
+          "cardinality": "0..5",
+          "description": "Self-identified OMB ethnicity category",
+          "has_description": true
+        },
+        {
+          "name": ".url",
+          "type": "uri",
+          "cardinality": "1..1",
+          "description": "\u201combCategory\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".valueCoding",
+          "type": "Coding",
+          "cardinality": "1..1",
+          "description": "Binding: OmbEthnicityCategories",
+          "has_description": true
+        },
+        {
+          "name": ".extension:detailed",
+          "type": "Extension",
+          "cardinality": "0..*",
+          "description": "Self-identified extended ethnicity codes",
+          "has_description": true
+        },
+        {
+          "name": ".url",
+          "type": "uri",
+          "cardinality": "1..1",
+          "description": "\u201cdetailed\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".valueCoding",
+          "type": "Coding",
+          "cardinality": "1..1",
+          "description": "Binding: DetailedEthnicity",
+          "has_description": true
+        },
+        {
+          "name": ".extension:text",
+          "type": "Extension",
+          "cardinality": "1..1",
+          "description": "Ethnicity Text",
+          "has_description": true
+        },
+        {
+          "name": ".url",
+          "type": "uri",
+          "cardinality": "1..1",
+          "description": "\u201ctext\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".valueString",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Text description of patient\u2019s ethnicity",
+          "has_description": true
+        },
+        {
+          "name": ".url",
+          "type": "uri",
+          "cardinality": "1..1",
+          "description": "\u201chttp://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity\u201d",
+          "has_description": true
+        },
+        {
+          "name": "extension:us-core-birthsex",
+          "type": "Extension (USCoreBirthSexExtension)",
+          "cardinality": "0..1",
+          "description": "US Core Birth Sex Extension",
+          "has_description": true
+        },
+        {
+          "name": ".url",
+          "type": "uri",
+          "cardinality": "1..1",
+          "description": "\u201chttp://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex\"",
+          "has_description": true
+        },
+        {
+          "name": ".valueCoding",
+          "type": "Coding",
+          "cardinality": "1..1",
+          "description": "Binding: BirthSex, Currently supported: F | M | UNK",
+          "has_description": true
+        }
+      ]
+    },
+    {
+      "entity": "practitioner",
+      "source_file": "downloads/fhir/resources/practitioner.html",
+      "field_count": 19,
+      "fields": [
+        {
+          "name": "resourceType",
+          "type": "",
+          "cardinality": "1..1",
+          "description": "Identifies the type of FHIR resource. The value will be \u201cPractitioner\u201d",
+          "has_description": true
+        },
+        {
+          "name": "id",
+          "type": "Text",
+          "cardinality": "1..1",
+          "description": "A globally unique identifier which identifies an allergy across One Medical\u2019s FHIR services.",
+          "has_description": true
+        },
+        {
+          "name": "meta",
+          "type": "",
+          "cardinality": "",
+          "description": "Metadata providing technical information about the resource",
+          "has_description": true
+        },
+        {
+          "name": ".lastUpdated",
+          "type": "instant",
+          "cardinality": "0..1",
+          "description": "Date and timestamp of most recent change to this resource",
+          "has_description": true
+        },
+        {
+          "name": ".profile",
+          "type": "canonical (StructureDefinition)",
+          "cardinality": "0..*",
+          "description": "Profiles this resource claims to conform to. One Medical Practitioner resources will generally conform to US Core: http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
+          "has_description": true
+        },
+        {
+          "name": ".source",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The system device that created or updated the record",
+          "has_description": true
+        },
+        {
+          "name": ".versionID",
+          "type": "id",
+          "cardinality": "0..1",
+          "description": "System-generated version ID for the FHIR resource",
+          "has_description": true
+        },
+        {
+          "name": "identifier",
+          "type": "Identifier",
+          "cardinality": "0..*",
+          "description": "Providers internal identifying information related to this practitioner",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "Provides a uri for One Medical\u2019s identifier system",
+          "has_description": true
+        },
+        {
+          "name": ".value",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Providers an identifier for this resource using One Medical\u2019s internal system",
+          "has_description": true
+        },
+        {
+          "name": "active",
+          "type": "Boolean",
+          "cardinality": "0..1",
+          "description": "Indicates whether the practitioner is still active with One Medical. Values are true and false",
+          "has_description": true
+        },
+        {
+          "name": "name",
+          "type": "HumanName",
+          "cardinality": "1..*",
+          "description": "Name(s) associated with the provider",
+          "has_description": true
+        },
+        {
+          "name": ".use",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "Binding: [NameUse][NameUseLink] Currently supported: official",
+          "has_description": true
+        },
+        {
+          "name": ".family",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Family name (surname)",
+          "has_description": true
+        },
+        {
+          "name": ".given",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Given name(s), may include first and middle names",
+          "has_description": true
+        },
+        {
+          "name": ".suffix",
+          "type": "string",
+          "cardinality": "0..*",
+          "description": "Indicates the practitioner\u2019s licensing, such as MD, DO, NP, PA, etc.",
+          "has_description": true
+        },
+        {
+          "name": "telecom",
+          "type": "ContactPoint",
+          "cardinality": "0..*",
+          "description": "Contact details for the practitioner",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "Binding: [ContactPointSystem][ContactPointBindingLink]. Currently supported: email",
+          "has_description": true
+        },
+        {
+          "name": ".value",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Email address for the practitioner",
+          "has_description": true
+        }
+      ]
+    },
+    {
+      "entity": "procedure",
+      "source_file": "downloads/fhir/resources/procedure.html",
+      "field_count": 34,
+      "fields": [
+        {
+          "name": "resourceType",
+          "type": "",
+          "cardinality": "1..1",
+          "description": "Identifies the type of FHIR resource. The value will be \u201cProcedure\u201d",
+          "has_description": true
+        },
+        {
+          "name": "id",
+          "type": "Text",
+          "cardinality": "1..1",
+          "description": "A globally unique identifier which identifies this FHIR resource.",
+          "has_description": true
+        },
+        {
+          "name": "meta",
+          "type": "",
+          "cardinality": "",
+          "description": "Metadata providing technical information about the resource",
+          "has_description": true
+        },
+        {
+          "name": ".lastUpdated",
+          "type": "instant",
+          "cardinality": "0..1",
+          "description": "Date and timestamp of most recent change to this resource",
+          "has_description": true
+        },
+        {
+          "name": ".profile",
+          "type": "canonical(StructureDefinition)",
+          "cardinality": "0..*",
+          "description": "Profiles this resource claims to conform to. One Medical Procedure resources will generally at least conform to US Core: http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure",
+          "has_description": true
+        },
+        {
+          "name": ".source",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The system device that created or updated the record",
+          "has_description": true
+        },
+        {
+          "name": ".versionId",
+          "type": "id",
+          "cardinality": "0..1",
+          "description": "System-generated version ID for the FHIR resource.",
+          "has_description": true
+        },
+        {
+          "name": ".security",
+          "type": "coding",
+          "cardinality": "0..*",
+          "description": "We use the code UNCERTREL to indicate that the resource was received from a 3rd party and One Medical cannot attest to the data\u2019s reliability. Currently supported values: (null) | UNCERTREL",
+          "has_description": true
+        },
+        {
+          "name": "status",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "Identifies the status of the procedure. Supported values: in-progress | completed | unknown",
+          "has_description": true
+        },
+        {
+          "name": "subject",
+          "type": "Reference(Patient)",
+          "cardinality": "1..1",
+          "description": "Reference to the patient to whom this condition is assigned",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the member\u2019s FHIR ID. Will be formatted as \u201cPatient/324ft342g-823e-11e9-bd76-0234kd538ce\u201d",
+          "has_description": true
+        },
+        {
+          "name": "performedDateTime",
+          "type": "dateTime",
+          "cardinality": "1..1",
+          "description": "Date the procedure was performed.",
+          "has_description": true
+        },
+        {
+          "name": "code",
+          "type": "CodeableConcept",
+          "cardinality": "1..1",
+          "description": "Binding: US Core Procedure Codes (extensible). These will generally be codes from SNOMED CT and CPT",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "0..*",
+          "description": "Contains the system, code and display from a terminology system in the subfields",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The uri of the coding system. We generally use either SNOMED CT (http://snomed.info/sct) or CPT (http://www.ama-assn.org/go/cpt)",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "The code number from the coding system.",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text from the official coding system.",
+          "has_description": true
+        },
+        {
+          "name": ".text",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "One Medical\u2019s display text for the condition (may differ or be identical to the code system\u2019s display text)",
+          "has_description": true
+        },
+        {
+          "name": "note",
+          "type": "Annotation",
+          "cardinality": "0..*",
+          "description": "Additional information about the procedure",
+          "has_description": true
+        },
+        {
+          "name": ".authorReference",
+          "type": "Reference (US Core Practitioner Profile)",
+          "cardinality": "0..1",
+          "description": "Contains reference to the author of the note",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Provides reference to the Practitioner\u2019s FHIR ID, similar to \u201cPractitioner/9145c19l-ckfa-12db-2341-b644j45218c3\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Provides display text for the name of the practitioner",
+          "has_description": true
+        },
+        {
+          "name": ".text",
+          "type": "markdown",
+          "cardinality": "1..1",
+          "description": "Contains the text contents of the note/annotation",
+          "has_description": true
+        },
+        {
+          "name": ".time",
+          "type": "dateTime",
+          "cardinality": "0..1",
+          "description": "Contains the date/time stamp that the note was created",
+          "has_description": true
+        },
+        {
+          "name": "recorder",
+          "type": "Reference (US Core Practitioner Profile)",
+          "cardinality": "0..1",
+          "description": "Identities who recorded the procedure",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Contains reference to the Practitioner\u2019s FHIR ID, similar to \u201cPractitioner/9145c19l-ckfa-12db-2341-b644j45218c3\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Provides display text for the name of the practitioner",
+          "has_description": true
+        },
+        {
+          "name": "performer",
+          "type": "BackboneElement",
+          "cardinality": "0..*",
+          "description": "The people who performed the procedure",
+          "has_description": true
+        },
+        {
+          "name": ".authorReference",
+          "type": "Reference (US Core Practitioner Profile)",
+          "cardinality": "0..1",
+          "description": "Contains reference to the author of the note",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Contains reference to the Practitioner\u2019s FHIR ID, similar to \u201cPractitioner/9145c19l-ckfa-12db-2341-b644j45218c3\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".type",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "Indicates the type of practitioner. Will generally be \u201cFHIR::Practitioner\u201d",
+          "has_description": true
+        },
+        {
+          "name": "report",
+          "type": "Reference (US Core DocumentReference Profile)",
+          "cardinality": "0..*",
+          "description": "Contains the link to any reports(s) resulting from the procedure \u2013 these will generally be DocumentReference resources.",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Contains reference to the report\u2019s FHIR ID, similar to \u201cDocumentReference/12345g29l-ckfa-12db-2341-b644j45218c3\u201d",
+          "has_description": true
+        },
+        {
+          "name": ".type",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "Provides the resource type of the linked report. Will generally be \u201cFHIR::DocumentReference\u201d or null",
+          "has_description": true
+        }
+      ]
+    },
+    {
+      "entity": "provenance",
+      "source_file": "downloads/fhir/resources/provenance.html",
+      "field_count": 17,
+      "fields": [
+        {
+          "name": "resourceType",
+          "type": "",
+          "cardinality": "1..1",
+          "description": "Identifies the type of FHIR resource. The value will be \u201cProvenance\u201d",
+          "has_description": true
+        },
+        {
+          "name": "id",
+          "type": "Text",
+          "cardinality": "1..1",
+          "description": "A globally unique identifier which identifies a record across One Medical\u2019s FHIR services.",
+          "has_description": true
+        },
+        {
+          "name": "meta",
+          "type": "",
+          "cardinality": "",
+          "description": "Metadata providing technical information about the resource",
+          "has_description": true
+        },
+        {
+          "name": ".lastUpdated",
+          "type": "instant",
+          "cardinality": "0..1",
+          "description": "Date and timestamp of most recent change to this resource",
+          "has_description": true
+        },
+        {
+          "name": ".profile",
+          "type": "canonical (StructureDefinition)",
+          "cardinality": "0..*",
+          "description": "Profiles this resource claims to conform to. One Medical Provenance resources will generally conform to US Core: http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance",
+          "has_description": true
+        },
+        {
+          "name": ".source",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The system device that created or updated the record",
+          "has_description": true
+        },
+        {
+          "name": ".versionID",
+          "type": "id",
+          "cardinality": "0..1",
+          "description": "System-generated version ID for the FHIR resource",
+          "has_description": true
+        },
+        {
+          "name": "target",
+          "type": "Reference(Resource)",
+          "cardinality": "1\u20261",
+          "description": "Contains the FHIR resource that this Provenance record supports",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the FHIR Resource type and the FHIR ID. Example is \u201cDocumentReference/8asdj2123jk3-1d36-11ea-a256-732421sdc9bf\u201d",
+          "has_description": true
+        },
+        {
+          "name": "recorded",
+          "type": "instant",
+          "cardinality": "1\u20261",
+          "description": "Date/time stamp when the Provenance record was created. This will generally be One Medical as the organization.",
+          "has_description": true
+        },
+        {
+          "name": "agent",
+          "type": "(Slice Definition)",
+          "cardinality": "1\u2026*",
+          "description": "Contains information on the organization that created the FHIR record that this Provenance supports",
+          "has_description": true
+        },
+        {
+          "name": ".type",
+          "type": "CodeableConcept",
+          "cardinality": "0..1",
+          "description": "Indicates how the agent participated in the creation or updating of the FHIR resource targeted by this Provenance record.",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "0..*",
+          "description": "Contains the system, code and display from a terminology system in the subfields",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The uri of the system: \u201chttp://terminology.hl7.org/CodeSystem/provenance-participant-type\"",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "The actual code number from the coding system. One Medical will be the author if the data originated from us. Otherwise, other sources such as CareQuality may be listed as the author, while One Medical may be the transmitter. Currently supported values: author | transmitter",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text from the official code system: Author | Transmitter",
+          "has_description": true
+        },
+        {
+          "name": ".who",
+          "type": "Reference (US Core Organization)",
+          "cardinality": "1..1",
+          "description": "Indicates the organization that was involved in the creation or changes to the targeted FHIR resource. This will generally be \u201cOrganization/42d1942d-0851-11eb-bedd-0669c78cc9bf\u201d, which is the FHIR ID for One Medical in our FHIR server. However, if the data came from an HIE such as CareQuality, you may see \u201cOrganization/6b3282fe-be6b-11eb-baea-0ac10a386adb\u201d, which is One Medical\u2019s FHIR server ID for Carequality.",
+          "has_description": true
+        }
+      ]
+    },
+    {
+      "entity": "questionnaire",
+      "source_file": "downloads/fhir/resources/questionnaire.html",
+      "field_count": 31,
+      "fields": [
+        {
+          "name": "resourceType",
+          "type": "",
+          "cardinality": "1..1",
+          "description": "Identifies the type of FHIR resource. The value will be \u201cQuestionnaire\u201d",
+          "has_description": true
+        },
+        {
+          "name": "id",
+          "type": "Text",
+          "cardinality": "1..1",
+          "description": "A globally unique identifier which identifies this FHIR resource.",
+          "has_description": true
+        },
+        {
+          "name": "meta",
+          "type": "",
+          "cardinality": "",
+          "description": "Metadata providing technical information about the resource",
+          "has_description": true
+        },
+        {
+          "name": ".lastUpdated",
+          "type": "instant",
+          "cardinality": "0..1",
+          "description": "Date and timestamp of most recent change to this resource",
+          "has_description": true
+        },
+        {
+          "name": ".profile",
+          "type": "canonical(StructureDefinition)",
+          "cardinality": "0..*",
+          "description": "Profiles this resource claims to conform to.",
+          "has_description": true
+        },
+        {
+          "name": ".source",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The system device that created or updated the record",
+          "has_description": true
+        },
+        {
+          "name": ".versionId",
+          "type": "id",
+          "cardinality": "0..1",
+          "description": "System-generated version ID for the FHIR resource.",
+          "has_description": true
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "A name for this Questionnaire, intended to be computer-friendly or may use clinical vocabulary",
+          "has_description": true
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "A name for this Questionnaire, intended to be human-friendly",
+          "has_description": true
+        },
+        {
+          "name": "status",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "Identifies whether the survey is active or not. Currently supported values: active | unknown | retired",
+          "has_description": true
+        },
+        {
+          "name": "date",
+          "type": "dateTime",
+          "cardinality": "0..1",
+          "description": "The date that this Questionnaire was last changed",
+          "has_description": true
+        },
+        {
+          "name": "description",
+          "type": "markdown",
+          "cardinality": "0..1",
+          "description": "A description of the Questionnaire. At One Medical we use this field to provide our members with more context about the questionnaire.",
+          "has_description": true
+        },
+        {
+          "name": "purpose",
+          "type": "markdown",
+          "cardinality": "0..1",
+          "description": "The general FHIR spec uses this to explain why the questionnare is needed. Here at One Medical we also fill this field with text intended to lead into the actual questions.",
+          "has_description": true
+        },
+        {
+          "name": "code",
+          "type": "CodeableConcept",
+          "cardinality": "1..1",
+          "description": "Binding: Questionnaire Question Codes (Example). While many of the Questionnaires will be coded using LOINC, we may have other code systems. Values that we currently use include \u201cstring\u201d, \u201cchoice\u201d, and \u201cdisplay\u201d, though we may use others from the question codes link in the future.",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "0..*",
+          "description": "Contains the system, code and display from a terminology system in the subfields",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The uri of the coding system. We generally use LOINC (http://loinc.org)",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "The code number from the coding system.",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text from the official coding system.",
+          "has_description": true
+        },
+        {
+          "name": ".text",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "If filled out, this is One Medical\u2019s display text for the condition (may differ or be identical to the code system\u2019s display text)",
+          "has_description": true
+        },
+        {
+          "name": "item",
+          "type": "BackboneElement",
+          "cardinality": "0..*",
+          "description": "The questions and answers will be contained in the fields in this section. Multiple items with the fields listed below can exist within one Questionnaire.",
+          "has_description": true
+        },
+        {
+          "name": ".linkId",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Unique ID for the question within the Questionnaire. This linkId will also exist in the QuestionnareResponse for the patient, and will be used to link the answers from the patient back to the questions in the Questionnaire",
+          "has_description": true
+        },
+        {
+          "name": ".prefix",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "This will generally be a number and identifies the ordering of the questions within the Questionnaire",
+          "has_description": true
+        },
+        {
+          "name": ".required",
+          "type": "boolean",
+          "cardinality": "0..1",
+          "description": "Whether the question must be answered by the member",
+          "has_description": true
+        },
+        {
+          "name": ".text",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "The text of the question as presented to the member, or the text of a generated summary or generated score.",
+          "has_description": true
+        },
+        {
+          "name": ".type",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "Indicates the type of answer allowed, such as free-text, single-select choice, multi-select choice, etc. Or indicates the type of data in a summay score or a calculated score. Binding: QuestionnaireItemType",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "Coding",
+          "cardinality": "0..*",
+          "description": "If applicable, provides a code for the item. Most items/questions will not have a code - however we do use a code when calculating scores, such as a PHQ-9 score based on the answers from the survey.",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The uri of the coding system. We generally use LOINC (http://loinc.org)",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "The code number from the coding system.",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text from the official coding system.",
+          "has_description": true
+        },
+        {
+          "name": ".answerOption",
+          "type": "BackboneElement",
+          "cardinality": "0..*",
+          "description": "If applicable, contains the answers that the member is allowed to choose from. Will generally apply to select-select and multi-select answers",
+          "has_description": true
+        },
+        {
+          "name": ".valueString",
+          "type": "string",
+          "cardinality": "",
+          "description": "Provides the text that the member can choose from. Each selectable answer will be represented by a different valueString. Note: FHIR allows for a value[x] field with many other options. However, at One Medical, we primarily see the valueString option.",
+          "has_description": true
+        }
+      ]
+    },
+    {
+      "entity": "questionnaireresponse",
+      "source_file": "downloads/fhir/resources/questionnaireresponse.html",
+      "field_count": 23,
+      "fields": [
+        {
+          "name": "resourceType",
+          "type": "",
+          "cardinality": "1..1",
+          "description": "Identifies the type of FHIR resource. The value will be \u201cQuestionnaireResponse\u201d",
+          "has_description": true
+        },
+        {
+          "name": "id",
+          "type": "Text",
+          "cardinality": "1..1",
+          "description": "A globally unique identifier which identifies this FHIR resource.",
+          "has_description": true
+        },
+        {
+          "name": "meta",
+          "type": "",
+          "cardinality": "",
+          "description": "Metadata providing technical information about the resource",
+          "has_description": true
+        },
+        {
+          "name": ".lastUpdated",
+          "type": "instant",
+          "cardinality": "0..1",
+          "description": "Date and timestamp of most recent change to this resource",
+          "has_description": true
+        },
+        {
+          "name": ".profile",
+          "type": "canonical(StructureDefinition)",
+          "cardinality": "0..*",
+          "description": "Profiles this resource claims to conform to.",
+          "has_description": true
+        },
+        {
+          "name": ".source",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The system device that created or updated the record",
+          "has_description": true
+        },
+        {
+          "name": ".versionId",
+          "type": "id",
+          "cardinality": "0..1",
+          "description": "System-generated version ID for the FHIR resource.",
+          "has_description": true
+        },
+        {
+          "name": "questionnaire",
+          "type": "canonical(Questionniare)",
+          "cardinality": "0..1",
+          "description": "Contains the reference to the Questionnaire ID.",
+          "has_description": true
+        },
+        {
+          "name": "status",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "Indicates whether the survey is completed. Currently supported values: completed | stopped",
+          "has_description": true
+        },
+        {
+          "name": "subject",
+          "type": "Reference(US Core Patient Profile)",
+          "cardinality": "1\u20261",
+          "description": "Contains the reference to the member this pertains to",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the member\u2019s FHIR ID. Will be formatted as \u201cPatient/324ft342g-823e-11e9-bd76-0234kd538ce\u201d",
+          "has_description": true
+        },
+        {
+          "name": "authored",
+          "type": "dateTime",
+          "cardinality": "0..1",
+          "description": "The date/timestamp that the questionnaire was filled out",
+          "has_description": true
+        },
+        {
+          "name": "source",
+          "type": "Reference(US Core Patient Profile)",
+          "cardinality": "0\u20261",
+          "description": "Identifies the person who answered the questions \u2013 generally this will be the member.",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the person\u2019s FHIR ID. Will be formatted as \u201cPatient/324ft342g-823e-11e9-bd76-0234kd538ce\u201d",
+          "has_description": true
+        },
+        {
+          "name": "item",
+          "type": "BackboneElement",
+          "cardinality": "0..*",
+          "description": "The member\u2019s answers to the survey will be contained in the fields in this section. Multiple items with the fields listed below can exist within one QuestionnaireResponse, as you will see one item (and its sub-fields) for each question from the survey.",
+          "has_description": true
+        },
+        {
+          "name": ".linkId",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "This is the pointer to the specific question from the Questionnaire. This field value is used to link the answers from the patient\u2019s QuestionnareResponse back to the questions in the Questionnaire. Note: for calculated fields, the linkId will be text describing the score. This text will be identical between the Questionnaire and the QuestionnareResponse.",
+          "has_description": true
+        },
+        {
+          "name": ".text",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "The text of the question as presented to the member, or the text of a generated summary or generated score.",
+          "has_description": true
+        },
+        {
+          "name": ".answer",
+          "type": "BackboneElement",
+          "cardinality": "0..*",
+          "description": "The nested fields below will contain the member\u2019s answers, along with other data related to the answer.",
+          "has_description": true
+        },
+        {
+          "name": ".valueString",
+          "type": "string",
+          "cardinality": "",
+          "description": "Provides the member\u2019s answer to the survey question. Note: FHIR allows for a value[x] field with many other options. However, at One Medical, we primarily see the valueString option for member\u2019s answers.",
+          "has_description": true
+        },
+        {
+          "name": ".valueInteger",
+          "type": "integer",
+          "cardinality": "",
+          "description": "For calculated scores (such as the calculated PHQ-9 score) we use the valueInteger field. Note: FHIR allows for a value[x] field with many other options. However, at One Medical, we primarily see the valueInteger option for calculated scores.",
+          "has_description": true
+        },
+        {
+          "name": ".extension",
+          "type": "string",
+          "cardinality": "",
+          "description": "One Medical utilizes an extension here to provide additional information related to the source question from the survey",
+          "has_description": true
+        },
+        {
+          "name": ".url",
+          "type": "string",
+          "cardinality": "",
+          "description": "This indicates that this came from One Medical\u2019s survey system, and will generally be \u201chttps://sites.google.com/onemedical.com/technology-knowledge-base/home/product-teams/clinical-data-platform-team/extensions/patient-survey-score?authuser=0\"",
+          "has_description": true
+        },
+        {
+          "name": ".valueInteger",
+          "type": "integer",
+          "cardinality": "",
+          "description": "This provides the ordering of the question from the original survey.",
+          "has_description": true
+        }
+      ]
+    },
+    {
+      "entity": "servicerequest",
+      "source_file": "downloads/fhir/resources/servicerequest.html",
+      "field_count": 30,
+      "fields": [
+        {
+          "name": "resourceType",
+          "type": "",
+          "cardinality": "1..1",
+          "description": "Identifies the type of FHIR resource. The value will be \u201cServiceRequest\u201d",
+          "has_description": true
+        },
+        {
+          "name": "id",
+          "type": "Text",
+          "cardinality": "1..1",
+          "description": "A globally unique identifier which identifies a MedicationRequest across One Medical\u2019s FHIR services.",
+          "has_description": true
+        },
+        {
+          "name": "meta",
+          "type": "",
+          "cardinality": "",
+          "description": "Metadata providing technical information about the resource",
+          "has_description": true
+        },
+        {
+          "name": ".lastUpdated",
+          "type": "instant",
+          "cardinality": "0..1",
+          "description": "Date and timestamp of most recent change to this resource",
+          "has_description": true
+        },
+        {
+          "name": ".profile",
+          "type": "canonical (StructureDefinition)",
+          "cardinality": "0..*",
+          "description": "Profiles this resource claims to conform to. One Medical patient resources will generally conform to US Core: http://hl7.org/fhir/us/core/StructureDefinition/us-core-servicerequest",
+          "has_description": true
+        },
+        {
+          "name": ".source",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The system device that created or updated the record",
+          "has_description": true
+        },
+        {
+          "name": ".versionID",
+          "type": "id",
+          "cardinality": "0..1",
+          "description": "System-generated version ID for the FHIR resource",
+          "has_description": true
+        },
+        {
+          "name": "status",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "The current state of the order. Currently supported: active | completed",
+          "has_description": true
+        },
+        {
+          "name": "intent",
+          "type": "code",
+          "cardinality": "1..1",
+          "description": "Currently supported: order",
+          "has_description": true
+        },
+        {
+          "name": "category",
+          "type": "CodeableConcept",
+          "cardinality": "0..*",
+          "description": "Classification for the request",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The uri of the coding system. We often use SNOMED CT (http://snomed.info/sct )",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "The code number from the coding system.",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text from the official coding system.",
+          "has_description": true
+        },
+        {
+          "name": "code",
+          "type": "CodeableConcept",
+          "cardinality": "1..1",
+          "description": "Contains the coding for what is being ordered.",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "0..*",
+          "description": "Contains the system, code and display from a terminology system in the subfields",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The uri of the coding system. We often use SNOMED CT (http://snomed.info/sct )",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "The code number from the coding system.",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text from the official coding system.",
+          "has_description": true
+        },
+        {
+          "name": "reasonCode",
+          "type": "CodeableConcept",
+          "cardinality": "0..1",
+          "description": "Explanation / justification for the order, using coding, such as a diagnosis",
+          "has_description": true
+        },
+        {
+          "name": ".coding",
+          "type": "Coding",
+          "cardinality": "0..*",
+          "description": "Contains the system, code and display from a terminology system in the subfields",
+          "has_description": true
+        },
+        {
+          "name": ".system",
+          "type": "uri",
+          "cardinality": "0..1",
+          "description": "The uri of the coding system. We often use SNOMED CT (http://snomed.info/sct )",
+          "has_description": true
+        },
+        {
+          "name": ".code",
+          "type": "code",
+          "cardinality": "0..1",
+          "description": "The code number from the coding system.",
+          "has_description": true
+        },
+        {
+          "name": ".display",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Display text from the official coding system.",
+          "has_description": true
+        },
+        {
+          "name": "subject",
+          "type": "Reference(US Core Patient Profile)",
+          "cardinality": "1\u20261",
+          "description": "Contains the reference to the member that this medication pertains to",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides the member\u2019s FHIR ID. Will be formatted as \u201cPatient/324ft342g-823e-11e9-bd76-0234kd538ce\u201d",
+          "has_description": true
+        },
+        {
+          "name": "authoredOn",
+          "type": "dateTime",
+          "cardinality": "0\u20261",
+          "description": "The date/timestamp when the ordered was added to the patient\u2019s chart",
+          "has_description": true
+        },
+        {
+          "name": "requestor",
+          "type": "Reference(US Core Practitioner Profile)",
+          "cardinality": "1\u20261",
+          "description": "The clinician who signed the order",
+          "has_description": true
+        },
+        {
+          "name": ".reference",
+          "type": "string",
+          "cardinality": "0..1",
+          "description": "Provides the clincian\u2019s FHIR ID. Will be formatted as \u201cPractitioner/9145c19l-ckfa-12db-2341-b644j45218c3\u201d",
+          "has_description": true
+        },
+        {
+          "name": "note",
+          "type": "Annotation",
+          "cardinality": "0\u2026*",
+          "description": "Contains additional details about the request",
+          "has_description": true
+        },
+        {
+          "name": ".text",
+          "type": "string",
+          "cardinality": "1..1",
+          "description": "Provides details, such as a description of the patient.",
+          "has_description": true
+        }
+      ]
+    }
+  ],
+  "in_ehi_export_but_no_doc_page": [
+    "Communication",
+    "Consent",
+    "Goal"
+  ],
+  "in_doc_but_not_ehi_export": [
+    "careplan",
+    "coverage",
+    "location",
+    "medication",
+    "organization",
+    "practitioner",
+    "provenance",
+    "questionnaire",
+    "questionnaireresponse"
+  ]
+}
