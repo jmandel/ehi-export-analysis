@@ -1,0 +1,173 @@
+{
+  "product": "Patient Chart Manager",
+  "vendor": "Prime Clinical Systems, Inc.",
+  "version": "7.1.1877",
+  "document_date": "12/23/2025",
+  "document_title": "Export Format & Naming Conventions",
+  "document_pages": 3,
+  "source_file": "EHI_Export_170.315_b10.pdf",
+  "has_data_dictionary": false,
+  "has_field_definitions": false,
+  "has_sample_data": false,
+  "has_value_sets": false,
+  "has_relationship_documentation": false,
+  "export_format": "Microsoft ADO XML recordsets (VB6 adPersistXML) + C-CDA R2.1",
+  "export_components": [
+    {
+      "name": "XMLDATAExport",
+      "format": "ZIP containing ADO XML recordset files",
+      "description": "Core data export with database tables as XML",
+      "always_included": true,
+      "tables_visible": [
+        "CHART_DOCS",
+        "CHART_STORE",
+        "PATIENT",
+        "PT_ALLERGIES",
+        "PT_COMPLAINTS"
+      ]
+    },
+    {
+      "name": "CDAXMLExport",
+      "format": "ZIP containing C-CDA XML files",
+      "description": "C-CDA documents, included only with Bulk CCDA Export",
+      "always_included": false,
+      "condition": "Bulk CCDA Export checkbox selected"
+    },
+    {
+      "name": "CDAXMLDOC",
+      "format": "ZIP containing chart document XML files with embedded PDFs in C-CDA format",
+      "description": "Chart documents exported as embedded PDFs in CCDA format",
+      "always_included": true,
+      "notes": "Multiple XML files per patient, one for each chart document"
+    },
+    {
+      "name": "CDASUMDATA",
+      "format": "ZIP containing CDA summary XML",
+      "description": "CDA full summary data (visible in page 2 screenshot)",
+      "always_included": null,
+      "notes": "Visible in screenshot but not described in text"
+    }
+  ],
+  "entities": [
+    {
+      "name": "CHART_DOCS",
+      "source": "XMLDATAExport ZIP, page 1 text and screenshot",
+      "description_from_pdf": "contains all chart docs details for the exported date and Medical Record Number (MR) range",
+      "file_format": "ADO XML recordset",
+      "file_name": "CHART_DOCS;DataTable.xml",
+      "compressed_size": "2 KB",
+      "uncompressed_size": "10 KB",
+      "fields": [],
+      "field_count": 0,
+      "fields_documented": false,
+      "notes": "Chart document metadata"
+    },
+    {
+      "name": "CHART_STORE",
+      "source": "XMLDATAExport ZIP, page 1 text and screenshot",
+      "description_from_pdf": "contains all chart store details for the exported date and MR number range",
+      "file_format": "ADO XML recordset",
+      "file_name": "CHART_STORE;DataTable.xml",
+      "compressed_size": "1 KB",
+      "uncompressed_size": "7 KB",
+      "fields": [],
+      "field_count": 0,
+      "fields_documented": false,
+      "notes": "Chart storage details. Fields cs_mr_num and cs_cl_key referenced in naming conventions."
+    },
+    {
+      "name": "PATIENT",
+      "source": "XMLDATAExport ZIP, page 1 text and screenshot",
+      "description_from_pdf": "contains all patient data table details for the exported date and MR number range. All patient data tables included (except those hidden via HIDE option)",
+      "file_format": "ADO XML recordset",
+      "file_name": "PATIENT;DataTable.xml",
+      "compressed_size": "4 KB",
+      "uncompressed_size": "39 KB",
+      "fields": [],
+      "field_count": 0,
+      "fields_documented": false,
+      "notes": "Patient demographics. Fields pa_clinic and pa_account referenced in naming conventions."
+    },
+    {
+      "name": "PT_ALLERGIES",
+      "source": "XMLDATAExport ZIP, page 1 screenshot and page 2 example",
+      "description_from_pdf": null,
+      "file_format": "ADO XML recordset",
+      "file_name": "PT_ALLERGIES;DataTable.xml",
+      "compressed_size": "2 KB",
+      "uncompressed_size": "11 KB",
+      "fields": [],
+      "field_count": 0,
+      "fields_documented": false,
+      "notes": "Patient allergies data"
+    },
+    {
+      "name": "PT_COMPLAINTS",
+      "source": "XMLDATAExport ZIP, page 1 screenshot",
+      "description_from_pdf": null,
+      "file_format": "ADO XML recordset",
+      "file_name": "PT_COMPLAINTS;DataTable.xml",
+      "compressed_size": "1 KB",
+      "uncompressed_size": "6 KB",
+      "fields": [],
+      "field_count": 0,
+      "fields_documented": false,
+      "notes": "Patient complaints/chief complaints"
+    },
+    {
+      "name": "CDAFULSUM",
+      "source": "Page 2 screenshot showing CDASUMDATA.Zip contents",
+      "description_from_pdf": null,
+      "file_format": "ADO XML recordset",
+      "file_name": "303735,9,9,129,CDAFULSUM.xml",
+      "compressed_size": "6 KB",
+      "uncompressed_size": null,
+      "fields": [],
+      "field_count": 0,
+      "fields_documented": false,
+      "notes": "CDA full summary data, visible in screenshot of CDASUMDATA.Zip"
+    }
+  ],
+  "entity_count": 6,
+  "total_fields_documented": 0,
+  "fields_with_descriptions": 0,
+  "referenced_fields": [
+    {
+      "table": "PATIENT",
+      "field": "pa_clinic",
+      "context": "naming convention for chart documents"
+    },
+    {
+      "table": "PATIENT",
+      "field": "pa_account",
+      "context": "naming convention for chart documents"
+    },
+    {
+      "table": "CHART_STORE",
+      "field": "cs_mr_num",
+      "context": "naming convention for chart documents"
+    },
+    {
+      "table": "CHART_STORE",
+      "field": "cs_cl_key",
+      "context": "naming convention for chart documents"
+    },
+    {
+      "table": "PT_CHART_DOCS",
+      "field": "cd_doc_id",
+      "context": "naming convention, from cdview_cddocid field"
+    }
+  ],
+  "referenced_field_count": 5,
+  "notes": [
+    "The PDF contains NO data dictionary \u2014 no listing of fields, types, or value sets for any table.",
+    "Only 5 table names are visible in the XMLDATAExport screenshot (CHART_DOCS, CHART_STORE, PATIENT, PT_ALLERGIES, PT_COMPLAINTS).",
+    "A 6th entity (CDAFULSUM) is visible in a separate screenshot showing CDASUMDATA.Zip contents.",
+    "The text states 'All patient data tables included (except those hidden via HIDE option)' but does not enumerate what those tables are.",
+    "5 field names are referenced in naming convention examples but no field definitions are provided.",
+    "PT_CHART_DOCS is referenced as a data table in the naming convention section but is not visible in the export screenshot.",
+    "The document references 'Including and Excluding Data' companion documentation that was not found online.",
+    "No billing, medication, lab, immunization, vital signs, or procedure tables are mentioned anywhere.",
+    "The ADO XML format is self-describing (embeds schema in each file), so field names/types would be discoverable from actual export files \u2014 but none are provided as samples."
+  ]
+}

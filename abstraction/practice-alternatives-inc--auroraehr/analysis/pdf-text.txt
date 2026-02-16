@@ -1,0 +1,1543 @@
+                     AURORAEHR
+                       VERSION 2.1
+
+
+§170.315(B)(10) ELECTRONIC HEALTH INFORMATION EXPORT –
+                   DOCUMENTATION
+
+
+
+
+                        Page 1 of 39
+§170.315(b)(10) Electronic Health Information export
+
+Overview
+AuroraEHR's EHI Export feature allows privileged users to export a single patient's EHI data. This
+functionality simplifies the retrieval of clinical and demographic data housed within the system.
+This document serves as a guide for users, providing instructions on performing the export
+features and detailing the file structure and formats of the extracted files.
+
+
+Intended Users
+Users who are members of the following User Groups can utilize the EHI Data Export feature:
+ Administrator
+ Billing Manager
+ Clinical Manager
+ Front Office Manager
+
+
+Single Patient Data Export
+Data Export creates a zip file containing data for the selected patients and the selected
+categories of data. Data will either be in PDF format (for categories with (report) in the title) or
+CSV format. The zip file is placed onto the user's desktop.
+
+Access the Data Export screen through AuroraEHR > Data Export.
+
+
+
+
+Data Export screen
+
+
+
+
+                                             Page 2 of 39
+Account#: Enter an account that you want to limit the export to or leave blank. Note that
+suspended accounts are excluded from the filter. If this filter is used, all other filters are ignored.
+
+Provider: Enter a provider code to limit which patients are shown to those having had an
+appointment with that provider. You can leave this blank to include patients seen by any provider
+in your practice. This filter is ignored if the Account# filter is used.
+
+Location: Enter a location code to limit which patients are shown to those having had an
+appointment at that location. You can leave this blank to include patients seen at any location in
+your practice. This filter is ignored if the Account# filter is used.
+
+Seen From and To: Enter a date range to limit which patients are shown to those having an
+appointment within the date range. If the Account# filter is not used, then a date range must be
+provided. This filter is ignored if the Account# filter is used.
+
+Only Patients With a Closed Encounter: Select this box to limit which patients are shown to
+those with at least one closed encounter. This filter is ignored if the Account# filter is used.
+
+Click the              button to populate the browse with a list of accounts that can be
+exported. Pressing the CTRL key on the keyboard while clicking can be used to select multiple
+accounts. Pressing the SHIFT while clicking can be used to select contiguous accounts.
+NOTE: At most, 10 accounts can be exported at once. Multiple, separate, exports can be
+run if more than 10 accounts need to be exported. For large exports contact Client
+Services.
+
+Click the               button, and a zip file will be created that contains files for each selected
+category to export for each patient. This may take a long time to run. When the export is
+complete, a message is displayed showing the destination and export file name, along with the
+number of patients whose records were successfully exported:
+
+
+
+
+Note: The export is audited separately for each patient selected. This includes who
+requested the exported, when, and what categories were selected.
+
+
+
+
+                                              Page 3 of 39
+Patient Population Data Export
+AuroraEHR offers the capability to export all data for a patient population. The exported data will
+be delivered in a .zip folder, adhering to the same format outlined below. To initiate a patient
+population export, please submit a request to gvti@practice-alt.com.
+
+
+Export Format
+Each export results in a single zip file. The name of the zip file is formatted as [user
+id]-dataExport-[practice code]-[current date/time formatted as MMddyyyyHHmmss].zip. For
+example, an export zip file could be called gvtsstag-dataExport-DEV-11272023114100.zip. The
+zip file is organized into sub-folders for each patient account included in the export and that
+sub-folder containing the exported data for that patient account. If the Documents/Scans/Reports
+export category is chosen, then three additional sub-folders are created for each exported patient
+account: Documents, Scans, and Reports. These sub-folders contain the actual document, scan,
+or report files. The categories as outlined in the below Supported Categories for Export detail the
+specific names of the files/folders created when an export is started. An example export may look
+like the following
+
+[add screenshot of windows explorer showing directories and files of an export]
+
+
+
+
+                                            Page 4 of 39
+Page 5 of 39
+Supported Categories for Export
+Each category lists a table showing each column in the CSV or searchable field in the PDF. As
+well, the table shows a brief description for each column or searchable field.
+
+
+
+Account Data (report)
+   The Account Data report produces a PDF document called AccountData.pdf that comprises
+   all information pertaining to the patient's account.
+
+    Field                               Explanation
+                                        Full name, DOB, SS#, Address, contact information,
+    Account Information
+                                        ethnicity, language, and employment status
+    Services                            Practice-specific classifications attributed to the patient
+    Associated Providers/Lawyers        The list of associated providers and lawyers
+    Billing information                 Account balances and personal statements
+
+
+
+
+                                           Page 6 of 39
+Clinical Information   Diagnoses, history of accident/injury, dates of illness,
+                       admission, discharge, disability status, and/or return to
+                       work
+                       Information that "overrides" default handling of this
+Overrides              patient in AuroraEHR. Additionally, contains patient's
+                       location, pharmacy, and rounds/census information.
+Audit Details          History of information changes
+Emergency Contact      Information about the contact designated as an
+                       emergency contact
+Account Contacts       Contact information about the people who are important
+                       factors in a patient's care.
+All Account Payors     The list of payors attached to the patient's account
+Account Employers      The list of patient's employers
+Charges/Payments       All charges and payments of an account
+
+
+
+
+                          Page 7 of 39
+Charges/Payments
+The export of charges and payments information is dissected to three spreadsheets containing:
+charges, payments, and charge transactions.
+
+   The Charges.csv spreadsheet contains charges for the exported account.
+
+   Field                   Explanation
+   PRACTICE                Practice name
+   ACCOUNT NO              Unique ID of the patient in AuroraEHR
+   FIRST NAME              Patient's first name
+   LAST NAME               Patient's last name
+   SERVICE DT              Date of service
+
+   PROVIDER                Provider code in AuroraEHR and name
+   LOCATION                Location code in AuroraEHR and name
+   DIAG 1
+   DIAG 2
+                           Diagnosis codes (ICD10)
+   DIAG 3
+   DIAG 4
+   PROCEDURE               Procedure code for billing (usually CPT)
+   QUANTITY                The number of times this procedure was billed for this service date.
+   CHARGE AMT              Amount charged
+   REF PROVIDER            Referring provider's code in AuroraEHR and name
+   FIRST PAYOR             Primary payor name
+   RELATIVE VALUE          Number of RVUs
+   REF PROVIDER 2          Second referring provider's code in AuroraEHR and name
+   OTHER PROVIDER          Other provider's code in AuroraEHR and name
+   MODIFIERS               The list of procedure modifiers
+   CLAIM                   Claim number
+   AGE                     Age of the patient as of the charge's service date as a whole
+                           number.
+                           Format is:
+                               In days if the patient's age is between 1 and 13 days old
+                                   For example: 8 days
+                               In weeks if the patient's age is between 14 and 60 days old
+                                   For example: 3 weeks
+                               In months if the patient's age is between 61 and 729 days old
+                                   For example: 15 mos
+                               In years if the patient's age is more older than 729 days
+                                   For example: 35 yrs
+   STATUS                  Status of the charge. Possible values are:
+                               A - Active
+
+
+
+
+                                             Page 8 of 39
+                           I - Inactive
+                           J - On hold when due from personal
+                           H - On hold
+DOCUMENT NBR          Document number in the system
+ZIP CODE              The patient's zip code
+CASH                  The total amount paid thus far: includes payments and refunds
+CREDITS               The total amount of non-cash payments such as contractual
+                      allowances and courtesies
+INTEREST              The total amount of interest accumulated
+BALANCE               The remaining balance on the charge
+AUTH                  The reference or authorization number on the charge
+
+
+
+The Payments.csv spreadsheet contains payments for the exported account.
+
+Field               Explanation
+
+ACCOUNT NO          Unique ID of the patient in AuroraEHR
+                    Claim number against which the payment was
+CLAIM
+                    made
+SERVICE DATE        Date of service of the charge
+PROCEDURE           Procedure code for billing (usually CPT) of the
+                    charge
+DESCRIPTION         Procedure description of the charge
+DIVISION            Division code from the charge
+LOCATION            Location's code in AuroraEHR and name, from the
+                    charge
+PROVIDER            Provider's code in AuroraEHR and name, from the
+                    charge
+DEPOSIT DT          Date of deposit
+FIN CLASS           Financial class of the payment's payor
+REPT GRP            Report group of the payment's payor
+PAYOR GRP           Report group of the payment's payor
+PAYOR               Payor code of the payment's payor
+REMIT TYPE          Code and explanation of the remit type
+REMIT               Explanation of the remit type
+PAY AMOUNT          Amount of the payment, including cash and non-
+                    cash payments. Will be $0.00 if the payment was
+                    interest, and thus doesn't affect the charge
+                    balance.
+INT AMOUNT          Amount of interest
+DOCUMENT            Document number, often the check number
+
+
+
+
+                                      Page 9 of 39
+NOTE                Note text, if any
+ENTRY DT            Date of entry
+USER ID             ID of the user who created the entry
+STATUS              Payment status, possible values are:
+                        A - Active
+                        I - Inactive
+                        H - On hold
+
+
+The ChargeTransactions.csv spreadsheet contains audit information for charges/payments
+for the exported account.
+
+Field              Explanation
+
+ACCOUNT NO         Unique ID of the patient in AuroraEHR
+CLAIM              Claim number
+TRANS DT           Date of the transaction. Formatted as MM/dd/yyyy
+TRANS TM           Time of the transaction. Formatted as HH:mm:ss:mmm
+PAYOR              Payor's code in AuroraEHR and name
+
+DESCRIPTION        Description of the transaction
+PAYOR FROM         For billing transactions, the name of the payor involved
+REASON             The description or reason that the transaction was created
+FORM               For billing transactions, the billing form used
+RUN NO             For billing transactions, the run number
+ENTRY DT           Date of entry. Formatted as MM/dd/yyyy
+STATUS             The status of the charge as of the transaction's date/time.
+                   Status of the charge. Possible values are:
+                       A - Active
+                       I - Inactive
+                       J - hold when due from personal
+                       H - hold
+
+
+
+
+                                        Page 10 of 39
+Notes/Instructions
+The export of notes and instructions is split into three spreadsheets containing: account notes,
+clinical instructions, and progress notes.
+
+   The AccountNotes.csv spreadsheet contains patient notes. The content of the note is
+   dependent on the type of note.
+
+    Field                         Explanation
+
+    Account#                      Unique ID of the patient in AuroraEHR
+                                  The note's type or category.
+                                  For example, could be:
+                                       Billing
+    Note Type                          Family Display
+                                       Medical
+                                       Surgery
+                                       Important
+    Priority                      Whether the note is marked as important
+    Text                          Text of the note
+    Date Record was Created The date the record was created. Formatted MM/dd/yyyy.
+
+
+
+   The ClinicalInstructions.csv spreadsheet contains clinically relevant instructions that are
+   used during a patient's appointment.
+
+    Field                         Explanation
+
+    Account#                      Unique ID of the patient in AuroraEHR
+                                  The unique ID of the appointment for which these instructions
+    Accession#
+                                  are to be used.
+    For Phase                     The phase of the appointment where the instructions should
+                                  be used.
+    Instruction text              Text of the instruction
+    Date Record was Created The date the record was created. Formatted MM/dd/yyyy.
+
+
+
+   The ClinicalProgressNotes.csv spreadsheet contains notes entered at the time of the
+   appointment by the provider or other staff members. These notes can range from progress
+   notes, orders, clinically relevant information, or other details that should be noted at the time
+   of the appointment.
+   Note: Order notes are included only if both the RN and provider signatures are
+   present, other notes require only provider's signature. Staff Notes (those where the
+   description begins **staff note) are omitted regardless of whether they are signed.
+   Amended notes are also only included if they are properly signed for.
+
+
+    Field                              Explanation
+
+    Account#                           Unique ID of the patient in AuroraEHR
+
+
+
+
+                                            Page 11 of 39
+                            The unique ID of the appointment for which these notes
+Accession#
+                            were entered.
+Is an Amendment?            Indicates whether this note is an amendment for a note
+                            entered earlier
+Amendment Source            Source of the new information, if not AuroraEHR
+Primary Signature           Signature of the user, stating that this note is complete.
+                            Typically will be of the appointment provider.
+Primary Signature Signed    Date of the signature. Formatted MM/dd/yyyy
+Date
+Primary Signature Signed    Time of the signature. Formatted hh:mm:ss am
+Time
+2nd Signature               Secondary signature. Needed for certain note types.
+                            Typically will be of someone other than the provider, who
+                            is able to sign off on notes like a supervising nurse, an
+                            RN, etc.
+2nd Signature Signed Date   Date of the second signature. Formatted MM/dd/yyyy
+2nd Signature Signed Time   Time of the second signature. Formatted hh:mm:ss am
+Description                 A brief description of the note type or purpose.
+Progress Note               The note text itself
+
+
+
+
+                                Page 12 of 39
+Appointments
+The Appointments.csv spreadsheet contains the exported patient's appointments.
+
+   Field              Explanation
+   ACCOUNT NO         Unique ID of the patient in AuroraEHR
+   APPT_DATE          Date of the appointment. Formatted MM/dd/yyyy
+   APPT_TIME          Time of the appointment. Formatted hh:mm am
+   APPT_MINUTES       Length of the appointment in minutes
+   REASON             Purpose of the appointment
+
+   PROVIDER           The appointment provider's code in AuroraEHR and name
+   LOCATION           The code in AuroraEHR and name of the location of the
+                      appointment.
+   REMARK             Any notes on the appointment. Typically used to indicate if the
+                      patient was contacted, if the appointment had to be
+                      rescheduled, or reason why the patient couldn't make it.
+   KEPT/FAIL          Status of the appointment. A value of FAIL means that the
+                      patient didn't show up, and didn't give prior warning.
+
+
+
+
+                                        Page 13 of 39
+Documents/Scans/Reports
+The export of documents, scans, and reports contains account and clinical level files that have
+been generated in AuroraEHR or have been imported or otherwise transferred into AuroraEHR.
+These could be insurance documents, clinical summaries, lab reports, etc.
+
+   The Documents.csv spreadsheet contains the exported account level documents. A separate
+   Documents folder contains the actual files in a PDF format. The Exported File Path field
+   can be used to relate a row in the spreadsheet to a file in the Documents folder.
+
+
+    Field                                              Explanation
+
+    Account#                                           Unique ID of the patient in AuroraEHR
+                                                       The unique ID of the appointment for which
+    Accession#
+                                                       this document is associated.
+    Document#                                          The document's unique ID. Is a number.
+    Document Type                                      Type of the document in Rexpert. Possible
+                                                       values include:
+                                                            Medical Report
+                                                            Referral Document
+                                                            Patient Instructions
+    Description                                        Description of the document
+
+    Exported File Path                                 The path to the document within this export
+    Date & Time Document was Dictated                  The date and time this document was
+                                                       originally dictated, typically filled in by a
+                                                       transcription service.
+    Date & Time Patient was Seen                       The date and time of the patient's
+                                                       appointment, or when actually seen.
+    Date & Time Document was Transcribed               The date and time this document was
+                                                       originally transcribed, typically filled in by a
+                                                       transcription service
+    Provider                                           The code in AuroraEHR and name of the
+                                                       provider responsible for the document's
+                                                       contents
+    Status                                             The status of the document. Will always be
+                                                       Signed/Completed Document
+    Date Record was Created                            The date that record was first started
+
+
+
+
+                                           Page 14 of 39
+The Scans.csv spreadsheet contains the exported images, scans, or other account level files
+that have been imported into AuroraEHR. A separate Scans folder contains the actual files in
+their original format. The Exported File Path field can be used to relate a row in the
+spreadsheet to a file in the Scans folder.
+
+Field                              Explanation
+Account#                           Unique ID of the patient in AuroraEHR.
+Scan#                              The image/scan's unique numeric ID
+Type                               The file type such as .pdf, .jpg, etc.
+Description                        Description of the image/scan
+Exported File Path                 Path to the actual image/scan within this export
+Date Record was Created            The date that the record of the image/scan was
+                                   first started. This isn't necesarily the same as the
+                                   date that the contents of the image/scan were
+                                   created.
+
+
+The Reports.csv spreadsheet contains the exported clinical files that have been received
+from outside AuroraEHR: other practices, referring providers, etc. A separate Reports folder
+contains the actual files in their original format. The Exported File Path field can be used to
+relate a row in the spreadsheet to a file in the Reports folder.
+
+
+Field                         Explanation
+
+Account#                      Unique ID of the patient in AuroraEHR
+Report#                       The report's unique numeric ID
+Date Report was Written       Date of the report. Formatted MM/dd/yyyy.
+Summary of Care Date          If this report is a Summary of Care, indicates the date the care
+                              was given. Formatted MM/dd/yyyy.
+Description                   Description of the outside report
+Report Sent By                The code in AuroraEHR and name of the referring provider who
+                              sent the report.
+Note                          Any further information noted about the outside report
+Exported File Path            The path to the actual report within this export.
+
+Needs Review?                 Indicates whether this incoming report still needs to be reviewed
+Reviewed By                   The user in AuroraEHR who reviewed the report, if any.
+Reviewed on Date              The date the report was reviewed. Formatted MM/dd/yyyy.
+Reviewed at Time              The time the report was reviewed. Formatted hh:mm:ss am.
+Report Hyperlink              A URL for either the report or other supplemental information
+                              such as an image. In either case, the report is not stored within
+                              AuroraEHR. Credentials may be required to access the URL.
+Date Record was Created The date that this record of the outside report was created.
+
+
+
+
+                                        Page 15 of 39
+Clinical Alerts
+The ClinicalAlerts.csv spreadsheet contains information that the staff should know about the
+patient. This could be medically significant such as the patient has an infectious disease, has
+trouble walking, has trouble remembering, dialysis status, etc. It could also contain preferences
+of the provider for this patient or appointment. It could also contain non-medically significant
+information about the patient such as the patient is difficult to deal with, prefers to have family
+present, etc.
+
+    Field                               Explanation
+
+    Account#                            Unique ID of the patient in AuroraEHR
+                                        The unique ID of the appointment for which these alerts
+                                        are associated. If blank, the alert always pertains to the
+    Accession#
+                                        patient and is used as a default for new/subsequent
+                                        appointments.
+    Alert Code                          Code for this type of alert in AuroraEHR
+    Description                         The description of the alert.
+    Comment                             Any additional information beyond the description.
+    Date Record was Created             Date of the record's entry. Formatted MM/dd/yyyy.
+    Date Record was last Updated Date of the record's last update. Formatted MM/dd/yyyy.
+
+
+
+
+                                            Page 16 of 39
+Allergies
+The Allergies.csv spreadsheet contains the allergies the patient has. This list is not unique to
+allergies the patient reports, or is otherwise discovered, during the appointment. It's an historical
+list that is updated with each appointment and saved as a complete list for each appointment.
+
+
+    Field                               Explanation
+
+    Account#                            Unique ID of the patient in AuroraEHR
+                                        The unique ID of the appointment for which the allergies
+                                        are associated. If blank, the allergy is part of the list stored
+    Accession#
+                                        at the patient level, containing the newest information and
+                                        action as a default for new/subsequent appointments.
+    Allergen Name                       The substance or medication to which the patient has an
+                                        allergy.
+    Onset Date                          Date when allergy was reported to have started. Formatted
+                                        MM/dd/yyyy
+    Reaction                            Description of the patient's allergic reaction
+                                        SNOMED code of the allergic reaction. May be blank if not
+    Reaction SNOMED
+                                        known.
+    Severity Level                      The severity of the patient's reaction to the allergen.
+                                        Possible values are:
+                                            Mild
+                                            Moderate
+                                            Severe
+                                            Unknown
+    RXNORM Code                         If the allergen is a medication, this column contains
+                                        medication's RXNORM code. May be blank if not known.
+    Status                              The status of the allergy. Possible values are:
+                                            Active
+                                            Inactive
+    Date Record was Created             Date of the record's entry. Formatted MM/dd/yyyy
+    Date Record was last Updated Date of the record's last update. Formatted MM/dd/yyyy.
+
+
+
+
+                                            Page 17 of 39
+Immunizations
+The Immunizations.csv spreadsheet contains the vaccinations the patient has been given or
+reasons why they did not. As well, this spreadsheet contains the patient's recorded presumed
+immunities. This list is not unique to immunizations the patient reports or is given during the
+appointment. It's an historical list that is updated each appointment.
+
+
+    Field                             Explanation
+
+    Account#                          Unique ID of the patient in AuroraEHR
+                                      The unique ID of the appointment with which the
+    Accession#                        immunizations are associated. If blank, the immunization is
+                                      used as a default for new/subsequent appointments.
+    Immunization                      The name and code of the vaccine or presumed immunity
+    Status                            The administration status. Used to indicate whether the
+                                      vaccine was administered, not administered, is historical
+                                      information, etc.
+                                      Possible values are:
+                                           Complete
+                                           Refused
+                                           not administered (presumed immunity)
+                                           partially administered
+                                           new immunization record
+                                           ERROR: entered on this charge in error
+                                           historical information - patient
+                                           historical information - source unspecified
+                                           historical information - from other provider
+                                           historical information - from parent's written record
+                                           historical information - from parent's recall
+                                           historical information - from other registry
+                                           historical information - from birth certificate
+                                           historical information - from school record
+                                           historical information - from public agency
+    Lot Number                        Manufacturer's lot number for a vaccine
+                                      The manufacturer of the vaccine, if known. In the case of
+    Manufacturer                      vaccines recorded from a patient's verbal report, this might
+                                      not be available.
+    Route                             How the vaccine was administered. Possible values are:
+                                          intramuscular
+                                          subcutaneous
+                                          nasal
+                                          intradermal
+                                          intravenous
+                                          oral
+                                          transdermal
+                                          other/miscellaneous
+                                          N/A
+    Site                              Administration site. Possible values are:
+                                          left arm
+                                          right arm
+                                          left thigh
+
+
+
+
+                                           Page 18 of 39
+                                   right thigh
+                                   left deltoid
+                                   right deltoid
+                                   left gluteous medius
+                                   right gluteous medius
+                                   left vastus lateralis
+                                   right vastus lateralis
+                                   left lower forearm
+                                   right lower forearm
+                                   N/A
+Units                          The amount of the vaccine administered (numeric)
+Administered By                The name of the person who administered the vaccine.
+Administered Date              The date the vaccine was administered.
+                               Formatted MM/dd/yyyy.
+Administered Time              The time the vaccine was administered.
+                               Formatted hh:mm:ss am.
+Refusal Reason                 If the vaccine was refused, reason for refusal. Possible
+                               values are:
+                                    parental decision
+                                    religious exemption
+                                    patient decision
+                                    other
+                                    N/A
+Refusal Note                   Any additional information for vaccine refusal.
+Note                           General, overall, notes.
+Date Record was Created        Date of the record entry. Formatted MM/dd/yyyy.
+Date Record was last Updated Date of the record last update. Formatted MM/dd/yyyy.
+
+
+
+
+                                    Page 19 of 39
+Medications (report)
+The Medications.pdf report contains all medications listed in AuroraEHR.
+
+
+   Field              Explanation
+
+   Medication         Name of the medication, along with dose and unit information.
+                      Describes then length of time during which the medication should be
+   Duration
+                      taken.
+   Start Date         Start date of taking the medication. Formatted MM/dd/yyyy.
+   Stop Date          Stop date of taking the medication. Formatted MM/dd/yyyy.
+   Number of          Number of refills allowed for the medications
+   Refills
+   Last Fill Date     Date of the last refill. Formatted MM/dd/yyyy.
+
+
+
+
+                                          Page 20 of 39
+Problems/Diagnoses
+The Problems.csv spreadsheet contains the problems the patient has been diagnosed as having.
+This list is not unique to problems the patient reports or is diagnosed with during the
+appointment. It's an historical list that is updated each appointment. Within an accession#, the
+problems are ordered to match the user-determined order of the problems in the encounter's
+problem list.
+
+
+   Field                              Explanation
+
+   Account#                           Unique ID of the patient in AuroraEHR
+                                      The unique ID of the appointment for which the problem is
+   Accession#                         associated. If blank, the problem is used as a default for
+                                      new/subsequent appointments.
+   Problem Code (SNOMED)              The SNOMED code of the problem.
+   Problem Code (ICD10)               The ICD10 code of the problem.
+   Description                        Description of the problem. The default value comes from
+                                      the code above, but the user who entered the problem may
+                                      have modified the description as needed.
+   Onset Date                         Onset date of the problem. Formatted MM/dd/yyyy.
+   Resolved Date                      If valued, the date the problem was resolved. Formatted
+                                      MM/dd/yyyy.
+   Note                               Any useful information reported by the staff and/or patient.
+   Status                             The status of the problem. Possible values are:
+                                          Active
+                                          Inactive
+                                          Resolved
+                                          Chronic
+   Date Record was Created            Date of the record entry. Formatted MM/dd/yyyy.
+   Date Record was last Updated Date of the record last update. Formatted MM/dd/yyyy.
+
+
+
+
+                                          Page 21 of 39
+Review of Systems
+The ReviewOfSystems.csv spreadsheet contains basic review of systems.
+
+
+   Field                           Explanation
+
+   Account#                        Unique ID of the patient in AuroraEHR
+                                   The unique ID of the appointment for which this section's
+   Accession#
+                                   clinical data is associated.
+   ROS                             The review of systems text.
+   Date Record was Created         Date of the record entry
+   Date Record was Last Updated Date of record last change
+
+
+
+
+                                       Page 22 of 39
+Social/Family/Surgical History
+This export contains three files for social, family, and surgical history respectively.
+
+
+   Social history in SocialHistory.csv:
+
+
+    Field                                                    Explanation
+
+    Account#                                                 Unique ID of the patient in AuroraEHR
+                                                             The unique ID of the appointment with
+    Accession#
+                                                             which the Social History is associated.
+    Chance of Pregnancy?                                     Might the patient be pregnant? Yes or no.
+    Last Menstrual Period Date                               If applicable, the date of the patient's last
+                                                             menstrual period. Formatted MM/dd/yyyy.
+    IVDA?                                                    Does the patient have a history of
+                                                             intravenous drug abuse? Yes or no.
+                                                             Does the patient consume alcohol? Yes or
+    Alcohol Use?                                             no. Any additional notes may be recorded
+                                                             in the comments field.
+    Victim of Abuse?                                         Is the patient is a victim of physical or
+                                                             emotional abuse? Possible values are:
+                                                                  Patient responded yes
+                                                                  Patient responded no
+                                                                  Patient wasn't asked or didn't
+                                                                   respond
+    Smoking Status                                           Patient's reported smoking status followed
+                                                             by the appropriate SNOMED code. Possible
+                                                             values are:
+                                                                  Current daily smoker
+                                                                  Current some day smoker
+                                                                  Former smoker
+                                                                  Never smoker
+                                                                  Smoker; current status unknown
+                                                                  Unknown if ever smoked
+                                                                  Heavy tobacco smoker (10+
+                                                                   cigarettes a day)
+                                                                  Light tobacco smoker (<10
+                                                                   cigarettes a day)
+                                                                  Screening not indicated (situation)
+    Smoking Status Comment                                   Smoking status explanation
+    Family History of Anesthesia Complications?              Does the patient or the patient's family
+                                                             have a history of anesthesia
+                                                             complications? Yes or no.
+    Comment                                                  Additional remarks or general social
+                                                             history notes.
+    Date Record was Created                                  Date of the record entry. Formatted
+                                                             MM/dd/yyyy
+    Date Record was Last Updated                             Date of record last change. Formatted
+                                                             MM/dd/yyyy
+
+
+
+
+                                             Page 23 of 39
+Family history in FamilyHistory.csv:
+
+
+Field                             Explanation
+
+Account#                          Unique ID of the patient in AuroraEHR
+                                  The unique ID of the appointment for which the family
+Accession#
+                                  history is associated.
+Condition                         Name of the condition
+Code                              Code of the condition
+Code System                       Code system of the condition code
+
+Affected Family Member            Relationship of person with the condition
+Onset Date                        Date of onset, if known
+Note                              Comments or notes pertaining to this family history
+                                  record.
+Date Record was Created           Date of the record entry. Formatted MM/dd/yyyy.
+Date Record was Last Updated Date of record last change. Formatted MM/dd/yyyy.
+
+
+
+Surgical History in SurgicalHistory.csv:
+
+
+Field                             Explanation
+
+Account#                          Unique ID of the patient in AuroraEHR
+                                  The unique ID of the appointment for which the
+Accession#
+                                  surgical history was recorded.
+Code                              Procedure code
+Code System                       Coding system used, such as SNOMED, CPT, etc.
+Description                       Description of the procedure
+                                  Free form field for when the procedure took place. The
+Date
+                                  date is the best the user can recall.
+Note                              Any additional notes or comments about this
+                                  procedure.
+Date Record was Created           Date of the record entry. Formatted MM/dd/yyyy.
+Date Record was Last Updated Date of record last change. Formatted MM/dd/yyyy.
+
+
+
+
+                                       Page 24 of 39
+Orders: Test and Results (report)
+  This export produces four separate PDF files ImagingOrders.pdf, LabOrders.pdf,
+  PathologyOrders.pdf, and TherapyOrders.pdf for imaging, lab, pathology, and therapy
+  orders respectively.
+
+  The following fields can be searched on. The number of search results will depend on the
+  number of orders.
+
+
+  Field                 Explanation
+
+  Order#                The unique ID of a lab, imaging, pathology, therapy order.
+  Order Instructions Any specific instructions
+  Ordered               The date, formatted MM/dd/yy, and time, formatted hh:mm am, for
+                        when the order was placed.
+  Test                  The specific tests in an order.
+  Code                  For labs, the LOINC code of the ordered test. For imaging, the CPT
+                        code of the ordered test. For pathology, the LOINC code of the
+                        ordered test.
+
+
+
+
+                                          Page 25 of 39
+Vital Signs
+The VitalSigns.csv spreadsheet contains documentation of a patient's vital signs.
+
+
+   Field                              Explanation
+
+   Account#                           Unique ID of the patient in AuroraEHR
+                                      The unique ID of the appointment for which the vital
+   Accession#
+                                      signs are associated.
+   Capture Date                       Date when the vital signs were captured. Formatted
+                                      MM/dd/yyyy.
+   Capture Time                       Time when the vital signs were captured. Formatted
+                                      hh:mm:ss am.
+   Systolic Blood Pressure            Numeric value of the patient's systolic blood pressure.
+
+   Diastolic Blood Pressure           Numeric value of the patient's diastolic blood pressure.
+   Blood Pressure Site                Location of blood pressure measurement. Is a free
+                                      form text field.
+   Blood Pressure Side                Side of the blood pressure measurement site. Possible
+                                      values are:
+                                           Left
+                                           Right
+                                           N/A
+   Blood Sugar                        Numeric value of the patient's blood sugar.
+   Heart Rate                         Numeric value of the patient's heart rate in bpm.
+   Height                             The numeric value of the patient's height.
+   Height Scale                       Scale (cm/in) used for height
+   Weight                             The numeric value of the patient's weight.
+   Weight Scale                       Scale (lbs/kg) used for weight
+   BMI                                Numeric value of the patient's body mass index.
+   Oxygen Level                       spO2 reading of the patient's O2 saturation.
+   Supplemental O2?                   Is the patient using supplemental oxygen? Yes or no.
+   Inhaled O2 Concentration %         If the patient is taking supplemental oxygen, the
+                                      percentage of oxygen given. A numeric value from zero
+                                      to 100.
+   Pain Scale                         The reported level of pain the patient is in. A numeric
+                                      value from zero to 10, including N/A.
+   Respiratory Rate                   The patient's respiratory rate in the number of breaths
+                                      per minute.
+   Temperature                        Numeric value of the patient's temperature.
+   Temperature Scale                  Scale (C/F) used for temperature
+   Shoe Size                          For podiatry practices, the numeric value of the size of
+                                      shoe the patient wears.
+   Screening Not Done                 If vitals were not captured, the reason why they were
+                                      not captured. Possible values are:
+
+
+
+
+                                          Page 26 of 39
+              Patient refused screening
+              Procedure contraindicated (situation)
+              Medical contraindication
+Comment   Any additional comments that should be noted.
+
+
+
+
+             Page 27 of 39
+Additional Clinical Data
+This export produces various CSV spreadsheets that weren't included in other export categories.
+
+
+   The ImplantedDevices.csv spreadsheet contains information of the patient's implants.
+
+
+   Field                                Explanation
+
+   Account#                             Unique ID of the patient in AuroraEHR
+                                        The unique ID of the appointment with
+   Accession#                           which the implanted devices is
+                                        associated.
+   Device Type (SNOMED Code)            The SNOMED code of the device's type.
+   Description                          Text description of the device
+   Company Name                         Manufacturer of the device
+
+   Brand Name                           Device brand name
+   Lot Number                           Manufacturer's lot number for the device
+   Catalog Number                       Catalog number of the device
+   Model Number                         Model number of the device
+   Serial Number                        Serial number of the device
+   Unique Device ID                     ID of the implanted device
+   Expiration Date                      Date of implant expiration
+   Manufactured Date                    Date of implant creation
+   Placement Date                       Date of implantation
+   Placement Site                       Location of the implant
+   Placement Laterality                 Indication of location side, if relevant
+   Placement Provider                   Provider who performed the implantation
+   Placement Note                       Any further notes regarding placement
+   MRI Safety                           Possible values are
+                                         MRI Safe
+                                         MRI Conditional
+                                         MRI Unsafe
+   Device ID                            A number or identifier that denotes a
+                                        specific kind of device.
+   Status                               A device has either an active or inactive
+                                        status.
+   Date Record was Created              Date of the record entry
+
+
+   The PatientEducation.csv spreadsheet lists the educational material given to the patient.
+
+
+
+
+                                          Page 28 of 39
+Field                             Explanation
+
+Account#                          Unique ID of the patient in AuroraEHR
+                                  The unique ID of the appointment for
+Accession#                        which the education material given to the
+                                  patient is associated.
+Type                              What the educational material is in
+                                  reference to. The possible values are:
+                                       general
+                                       patient medication
+                                       patient problem
+                                       patient lab
+Description                       Description of the educational material
+URL                               Link to the material
+                                  Date and time the educational material
+Date/Time Given                   was given to the patient.
+                                  Formatted MM/dd/yyyy hh:mm:ss am
+Given By                          Name of the user who gave the
+                                  educational material to the patient.
+Date Record was Created           The date the record was created.
+                                  Formatted MM/dd/yyyy.
+Date Record was Last Updated The date the record was last updated.
+                             Formatted MM/dd/yyyy.
+
+
+The PostAppointment.csv spreadsheet lists the post-encounter data for the patient. This is
+usually collected by a staff member the next day. The record stores information received
+from the patient regarding nausea, fever, swelling, bleeding, and anything else deemed
+relevant.
+
+
+Field                        Explanation
+
+Account#                     Unique ID of the patient in AuroraEHR
+                             The unique ID of the appointment for which this section's
+Accession#
+                             clinical data is associated.
+Bleeding                     Patient's response when questioned regarding bleeding
+Drainage                     Patient's response when questioned regarding drainage
+Drinking Water               Patient's response when questioned regarding drinking
+                             water
+                             Notes regarding any changes the patient has experienced
+Eating/Drinking Changes
+                             in fluid or food intake.
+Fever                        Patient's response when questioned regarding fever
+Nausea                       Patient's response when questioned regarding nausea
+Needlepoint Redness          Patient's response when questioned regarding needlepoint
+                             redness
+Pain Medications             Patient's response when questioned regarding pain
+                             medications used
+
+
+
+
+                                      Page 29 of 39
+Sore Throat                  Patient's response when questioned regarding a sore
+                             throat
+Swelling                     Patient's response when questioned regarding swelling
+Unusual/Excessive Pain       Patient's response when questioned regarding any unusual
+                             or excessive pain.
+Follow-Up Phone Call         Comments regarding the follow-up call with the patient,
+Comment                      from the person who contacted the patient.
+Post-Discharge Comment       Comments regarding any details or events that occurred
+                             after discharge.
+Date Record Entered          Date of the record entry.
+                             Formatted MM/dd/yyyy.
+Date Record Last Changed Date of record last change.
+                         Formatted MM/dd/yyyy.
+
+
+The PostOp.csv spreadsheet lists all post-op measures for comparison to pre-op values:
+
+
+Field                                       Explanation
+
+Account#                                    Unique ID of the patient in AuroraEHR
+                                            The unique ID of the appointment with
+Accession#                                  which this section's clinical data is
+                                            associated.
+Anesthesia Given?                           Was anesthesia was given to the
+                                            patient? Yes or no.
+Anesthesia Type                             If given, the type of anesthesia given.
+Activity Arrival                            Patient's ability to move their
+                                            extremities upon arrival for the
+                                            appointment. Possible values are:
+                                                 Able to move 4 extremities:
+                                                  voluntarily or on command
+                                                 Able to move 2 extremities:
+                                                  voluntarily or on command
+                                                 Able to move 0 extremities:
+                                                  voluntarily or on command
+                                                 N/A
+                                            Patient's ability to move their
+                                            extremities upon discharge from the
+                                            appointment. Possible values are:
+                                                 Able to move 4 extremities:
+                                                  voluntarily or on command
+Activity Discharge
+                                                 Able to move 2 extremities:
+                                                  voluntarily or on command
+                                                 Able to move 0 extremities:
+                                                  voluntarily or on command
+                                                 N/A
+Respiration Arrival                         Patient's ability to breathe upon arrival
+                                            for the appointment.
+                                            Possible values are:
+                                                 Able to cough and breathe deeply
+
+
+
+
+                                      Page 30 of 39
+                                     Dyspnea or limited breathing
+                                     Apnea
+                                     N/A
+Respiration Discharge           Patient's ability to breathe upon
+                                discharge from the appointment.
+                                Possible values are:
+                                     Able to cough and breathe deeply
+                                     Dyspnea or limited breathing
+                                     Apnea
+                                     N/A
+Circulation Discharge           The patient's systolic blood pressure
+                                relative to their pre-anesthetic BP.
+                                Possible values are:
+                                     systolic BP +/- 20 mm/hg of pre-
+                                      anesthetic BP
+                                     systolic BP +/- 21-49 mm/hg of
+                                      pre-anesthetic BP
+                                     systolic BP +/- 50 mm/hg of pre-
+                                      anesthetic BP
+                                     N/A
+Consciousness Arrival           The patient's level of consciousness
+                                upon arriving for the appointment.
+                                Possible values are:
+                                    Fully awake
+                                    Arousable on calling
+                                    Not responding
+                                    N/A
+Consciousness Discharge         The patient's level of consciousness
+                                upon discharge from the appointment.
+                                Possible values are:
+                                    Fully awake
+                                    Arousable on calling
+                                    Not responding
+                                    N/A
+O2 Saturation Arrival           The patient's oxygen saturation level
+                                upon arrival for the appointment.
+                                Possible values are:
+                                    Able to maintain SpO2 above 92%
+                                     on RA
+                                    Needs supplemental O2 to
+                                     maintain SpO2 > 90%
+                                    SpO2 < than 90% with O2
+                                     supplementation
+                                    N/A
+O2 Saturation Discharge         The patient's oxygen saturation level
+                                upon discharge from the appointment.
+                                Possible values are:
+                                    Able to maintain SpO2 above 92%
+                                     on RA
+                                    Needs supplemental O2 to
+                                     maintain SpO2 > 90%
+                                    SpO2 < than 90% with O2
+                                     supplementation
+
+
+
+
+                          Page 31 of 39
+                                               N/A
+Left Hand Grip                            Vascular assessment of the patient's
+                                          left hand grip.
+Right Hand Grip                           Vascular assessment of the patient's
+                                          right hand grip.
+Left Brachial Pulse                       Vascular assessment of the patient's
+                                          brachial pulse on their left arm.
+Right Brachial Pulse                      Vascular assessment of the patient's
+                                          brachial pulse on their right arm.
+Left Radial Pulse                         Vascular assessment of the patient's
+                                          radial pulse on their left wrist.
+Right Radial Pulse                        Vascular assessment of the patient's
+                                          radial pulse on their right wrist.
+Left Dorsalis Pulse                       Vascular assessment of the patient's
+                                          dorsalis pulse on their left foot.
+Right Dorsalis Pulse                      Vascular assessment of the patient's
+                                          dorsalis pulse on their right foot.
+Left Posterior Pulse                      Vascular assessment of the patient's
+                                          posterior pulse on their left ankle.
+Right Posterior Pulse                     Vascular assessment of the patient's
+                                          posterior pulse on their right ankle.
+Color & Temp of Left Hand                 The color and temperature of the
+                                          patient's left hand.
+Color & Temp of Right Hand                The color and temperature of the
+                                          patient's right hand.
+Color & Temp of Left Foot                 The color and temperature of the
+                                          patient's left foot.
+Color & Temp of Right Foot                The color and temperature of the
+                                          patient's right foot.
+Number of Sutures                         Number of sutures the patient received
+Oriented X3 (Person, Place, and Time) Is the patient alert and oriented to who
+                                      they are, where they are, and the
+                                      current date?
+Discharge Date                            Date of patient's discharge.
+                                          Formatted MM/dd/yyyy.
+Discharge Time                            Time of patient's discharge.
+                                          Formatted hh:mm:ss am.
+Dressing On Discharge                     Describes any dressings which were
+                                          present at the time of patient
+                                          discharge.
+Transport to Recovery By                  The method by which the patient was
+                                          transported to recovery. Possible values
+                                          are:
+                                               Independent Ambulation
+                                               Wheel Chair
+                                               Stretcher
+                                               Walker
+                                               Cane
+
+
+
+
+                                    Page 32 of 39
+Time Arrived in Recovery                     The time the patient arrived in
+                                             recovery. Formatted hh:mm:ss am.
+Initial Fluid Intake - Intra Procedure -
+                                             comment format
+D5W
+Initial Fluid Intake - Recovery - D5W        comment format
+Initial Fluid Intake - Intra Procedure -
+                                             comment format
+NS
+Initial Fluid Intake - Recovery - NS         comment format
+Initial Fluid Intake - Intra Procedure -
+                                             comment format
+Contrast
+Initial Fluid Intake - Recovery -
+                                             comment format
+Contrast
+Initial Fluid Intake - Intra Procedure -
+                                             comment format
+Oral
+Initial Fluid Intake - Recovery - Oral       comment format
+Initial Fluid Intake Comment                 comment format
+Comment                                      Any additional notes regarding the
+                                             patient's post-op or the values
+                                             recorded.
+Date Record Entered                          Date of the record entry.
+                                             Formatted MM/dd/yyyy.
+Date Record Last Changed                     Date of record last change.
+                                             Formatted MM/dd/yyyy.
+
+
+Pre Op in PreOp.csv lists all pre-op measures for comparison to post-op values:
+
+
+Field                                       Explanation
+
+Account#                                    Unique ID of the patient in AuroraEHR
+                                            The unique ID of the appointment for
+Accession#                                  which this section's clinical data is
+                                            associated.
+Activity                                    Patient's ability to move their
+                                            extremities upon arrival for the
+                                            appointment. Possible values are:
+                                                 Able to move 4 extremities:
+                                                  voluntarily or on command
+                                                 Able to move 2 extremities:
+                                                  voluntarily or on command
+                                                 Able to move 0 extremities:
+                                                  voluntarily or on command
+                                                 N/A
+Respiration                                 Patient's ability to breathe upon arrival
+                                            for the appointment.
+                                            Possible values are:
+                                                 Able to cough and breathe deeply
+                                                 Dyspnea or limited breathing
+                                                 Apnea
+
+
+
+
+                                       Page 33 of 39
+                                       N/A
+Consciousness                     The patient's level of consciousness upon
+                                  arriving for the appointment.
+                                  Possible values are:
+                                       Fully awake
+                                       Arousable on calling
+                                       Not responding
+                                       N/A
+O2 Saturation                     The patient's oxygen saturation level
+                                  upon arrival for the appointment.
+                                  Possible values are:
+                                      Able to maintain SpO2 above 92%
+                                       on RA
+                                      Needs supplemental O2 to
+                                       maintain SpO2 > 90%
+                                      SpO2 < than 90% with O2
+                                       supplementation
+                                      N/A
+Dressing On Arrival               Describes any dressings which were
+                                  present at the time of patient arrival.
+Left Hand Grip                    Vascular assessment of the patient's left
+                                  hand grip.
+Right Hand Grip                   Vascular assessment of the patient's
+                                  right hand grip.
+NPO?                              This question will have a yes/no answer.
+Last PO
+Left Brachial Pulse               Vascular assessment of the patient's
+                                  brachial pulse on their left arm.
+Right Brachial Pulse              Vascular assessment of the patient's
+                                  brachial pulse on their right arm.
+Left Radial Pulse                 Vascular assessment of the patient's
+                                  radial pulse on their left wrist.
+Right Radial Pulse                Vascular assessment of the patient's
+                                  radial pulse on their right wrist.
+Left Dorsalis Pulse               Vascular assessment of the patient's
+                                  dorsalis pulse on their left foot.
+Right Dorsalis Pulse              Vascular assessment of the patient's
+                                  dorsalis pulse on their right foot.
+Left Posterior Pulse              Vascular assessment of the patient's
+                                  posterior pulse on their left ankle.
+Right Posterior Pulse             Vascular assessment of the patient's
+                                  posterior pulse on their right ankle.
+Color & Temp of Left Hand         The color and temperature of the
+                                  patient's left hand.
+Color & Temp of Right Hand        The color and temperature of the
+                                  patient's right hand.
+Color & Temp of Left Foot         The color and temperature of the
+                                  patient's left foot.
+
+
+
+
+                             Page 34 of 39
+Color & Temp of Right Foot               The color and temperature of the
+                                         patient's right foot.
+Transportation To Procedure Room By The method by which the patient was
+                                    transported to the procedure room.
+                                    Possible values are:
+                                         Independent Ambulation
+                                         Wheel Chair
+                                         Stretcher
+                                         Walker
+                                         Cane
+Patient Arrived By                       Method of patient's delivery
+Comment                                  Text of the comment for the entry
+Date Record Entered                      Date of the record entry
+Date Record Last Changed                 Date of record last change
+
+
+Preop Procedure Notes in PreopProcedureNotes.csv lists additional measures performed
+before surgeries:
+
+
+Field                             Explanation
+
+Account#                          Unique ID of the patient in AuroraEHR
+                                  The unique ID of the appointment for which this
+Accession#
+                                  section's clinical data is associated.
+Translations Provided By          Name of the translator, if any
+Verbal Consent Obtained From      Name of the person who gave consent
+Access Fistula?
+
+Access Graft?                     Each of these questions will have a yes/no
+Access Left Arm?                  answer.
+
+Access Right Arm?
+Access Other?                     Place of the other access
+Catheter Left Subclavian?
+Catheter Right Subclavian?        Each of these questions will have a yes/no
+Catheter Left Thigh?              answer.
+
+Catheter Right Thigh?
+Catheter Order Given?
+Catheter Provider Vital Signs
+Aware?
+Anxiety Reduction Explained
+Procedure?                        Each of these questions will have a yes/no
+                                  answer.
+Anxiety Reduction Attained?
+Anxiety Reduction Allowed
+Time for Patient Questions?
+
+
+
+
+                                    Page 35 of 39
+Anxiety Reduction Encouraged
+to Verbalize Concerns?
+Anxiety Reduction RN Signature Stamp of electronic signature with RN name
+Is a Declot Procedure?              This question will have a yes/no answer.
+Declot Procedure Performed By ID of the provider
+Declot Procedure Sterility
+                                    This question will have a yes/no answer.
+Monitored/Maintained?
+Declot Procedure No Breaks in
+                                    This question will have a yes/no answer.
+Sterility?
+Declot Alteplase Heparin Given
+                                    Time of the injection
+Time
+Declot Procedure No
+                                    This question will have a yes/no answer.
+Thrombolytics?
+Declot Procedure RN Signature       Stamp of electronic signature with RN name
+Antibiotics Ancef Given?
+Antibiotics Clindamycin Given?      Each of these questions will have a yes/no
+Antibiotics Vancomycin Given?       answer.
+
+Antibiotics Levaquin Given?
+Antibiotics Administered Via        Place of administering the antibiotics used
+Antibiotics Administered Time       Time of administering the antibiotics used
+Antibiotics RN Signature            Stamp of electronic signature with RN name
+Date Record Entered                 Date of the record entry
+Date Record Last Changed            Date of record last change
+
+
+Provider Orders in ProviderOrders.csv lists all orders that the provider has given to be
+performed during the appointment. This info includes medications to give the patient, if/when
+to remove sutures, some discharge instructions, if heparin should be given to the patient, and
+if so, how much and how to give it. As well, if the provider needs to be more specific, they
+can fill out a free text order. The provider can also record the patient's functional and
+cognitive status and whether the patient should be referred to another provider.
+
+
+Field                               Explanation
+
+Account#                            Unique ID of the patient in AuroraEHR
+                                    The unique ID of the appointment for which this
+Accession#
+                                    section's clinical data is associated.
+Puncture Left Arm?
+Puncture Right Arm?
+Puncture Left Groin?                Each of these questions will have a yes/no
+                                    answer.
+Puncture Right Groin?
+Puncture Left Jugular?
+
+
+
+
+                                       Page 36 of 39
+Puncture Right Jugular?
+Puncture Other                    A description of where the puncture was placed
+                                  if not on the patient's arm, groin, or jugular
+Catheter Left Subclavian?
+Catheter Right Subclavian?        Location of catheter placement; each of these
+Catheter Left Thigh?              questions will have a yes/no answer.
+
+Catheter Right Thigh?
+Discharge Disposition             Patient's disposition at the time of discharge
+Discharge Diagnoses
+                                  Diagnoses with their SNOMED codes
+(SNOMEDCT)
+Refer To                          Referring provider name
+Refer To Date                     Date of the referral
+Referral Reason                   Reason for the referral
+Functional Status                 The SNOMED code and description of the
+                                  patient's functional status.
+Functional Status Effective
+                                  Date for functional status check
+Date
+Functional Status Note            Note on functional status
+Cognitive Status Status           The SNOMED code and description of the
+                                  patient's cognitive status.
+Cognitive Status Effective Date Date for cognitive status check
+Cognitive Status Note             Note on cognitive status
+Free Text Order                   Order of free text
+Free Text Order Provider          Stamp of electronic signature with provider
+Signature                         name
+Free Text Order RN Signature      Stamp of electronic signature with RN name
+Ancef Medication Given?           Was 1g of Ancef, in 10ml of sterile water, IV
+                                  STAT given to the patient? yes/no
+Clindamycin Medication Given      Was 600mg of Clindamycin, in 20ml of normal
+                                  saline, IV STAT, given to the patient? yes/no
+Vancomycin Medication Given       Was 1g of Vancomycin, in 200ml of normal
+                                  saline, IV over 1 hr, given to the patient? yes/no
+Tylenol Medication Given          Was 500mg of Tylenol Extra Strength, as 2
+                                  caplets, PO STAT, given to the patient? yes/no
+Antibiotic Provider Signature     Stamp of electronic signature with provider
+                                  name
+Antibiotic RN Signature           Stamp of electronic signature with RN name
+Heparin Quantity Given 1000       The quantity of 1000 Units/ml of Heparin given
+Units via Arterial Port           to the patient via their arterial port, post-
+                                  procedure
+Heparin Quantity Given 5000       The quantity of 5000 Units/ml of Heparin given
+Units via Arterial Port           to the patient via their arterial port, post-
+                                  procedure
+
+
+
+
+                                     Page 37 of 39
+Heparin Quantity Given 1000          The quantity of 1000 Units/ml of Heparin given
+Units via Venous Port                to the patient via their venous port, post-
+                                     procedure
+Heparin Quantity Given 5000          The quantity of 5000 Units/ml of Heparin given
+Units via Venous Port                to the patient via their venous port, post-
+                                     procedure
+Heparin Provider Signature           Stamp of electronic signature with provider
+                                     name
+Heparin RN Signature                 Stamp of electronic signature with RN name
+Suture Remove In Minutes             Suture removal time in minutes
+Discharge When Stable and
+Provide Instructions?
+Exempt From Being Discharged
+                             Each of these questions will have a yes/no
+into the Company of a
+                             answer.
+Responsible Adult?
+Patient Transferred to Another
+Facility?
+Discharge Provider Signature         Stamp of electronic signature with provider
+                                     name
+Discharge RN Signature               Stamp of electronic signature with RN name
+Date Record Entered                  Date of the record entry
+Date Record Last Changed             Date of record last change
+
+
+Surgical Checklist in SurgicalChecklist.csv is a checklist of vital actions taken before and
+after a surgical procedure:
+
+
+Field                          Explanation
+
+Account#                       Unique ID of the patient in AuroraEHR
+                               The unique ID of the appointment for which
+Accession#
+                               this section's clinical data is associated.
+Patient Preop
+                               This question will have a yes/no answer.
+Confirmation?
+RN Preop Signature             Stamp of electronic signature with RN name
+Patient Procedure
+                               This question will have a yes/no answer.
+Confirmation?
+RN Procedure Signature         Stamp of electronic signature with RN name
+RN Postop Signature            Stamp of electronic signature with RN name
+Signature                      Stamp of electronic signature with surgeon
+                               name
+Patient Recovery               A text field containing remarks on recovery
+Management Concerns            management
+Prophylaxis Given Within
+60 Minutes?                    Each of these questions will have a yes/no
+RN History Physical            answer.
+
+
+
+
+                                        Page 38 of 39
+Confirmation?
+RN Instrument Counts
+Completed?
+RN Preanesthesia
+Assessment
+Confirmation?
+Equipment Problems
+Addressed?
+Site Marked And Visible?
+Team Members
+Introduced?
+Date Record was Created       Date of the record entry
+Date Record was Last
+                              Date of record last change
+Updated
+
+
+Suture Info in SutureInfo.csv provides records of a patient's suture at the time of the
+appointment:
+
+
+Field                         Explanation
+
+Account#                      Unique ID of the patient in AuroraEHR
+                              The unique ID of the appointment for
+Accession#                    which the suture info is associated. If
+                              blank then the
+Comment                       Text of the comment for the entry
+Date Captured                 Date of the suture
+Time Captured                 Time of the suture
+                              Stamp of electronic signature with surgeon
+Signature
+                              name
+Dry Intact Dressing?
+Pain or Active Bleeding?      Each of these questions will have a yes/no
+Redness or Swelling?          answer.
+
+Remove Sutures?
+Date Record was Created       Date of the record entry
+Date Record was Last
+                              Date of record last change
+Updated
+
+
+
+
+                                       Page 39 of 39
+
