@@ -1,0 +1,5646 @@
+{
+  "document_title": "GlaceEMR Data Export Data Dictionary",
+  "version": "1.0",
+  "release_date": "2023-11-27",
+  "author": "Adnan Shariq",
+  "export_structure": {
+    "top_level_folders": [
+      "EMR",
+      "PMS",
+      "Documents",
+      "Photos",
+      "Reference"
+    ],
+    "emr_files": [
+      "Encounters.csv",
+      "Vitals.csv",
+      "Past_Medical_History.csv",
+      "Surgical_History.csv",
+      "Family_History.csv",
+      "Family_Relations_History.csv",
+      "Social_History.csv",
+      "Substance_Abuse_History.csv",
+      "Contraception_Sexual_History.csv",
+      "Pregnancy_History.csv",
+      "Birthing_History.csv",
+      "Menstrual_History.csv",
+      "Occupational_History.csv",
+      "Obstetric_History.csv",
+      "Exposure_History.csv",
+      "Allergies.csv",
+      "Assesments.csv",
+      "Problem_List.csv",
+      "Medications.csv",
+      "InactiveMedications.csv",
+      "Investigation.csv",
+      "Preventive_Screenings.csv",
+      "Coumadin.csv",
+      "Vaccines.csv",
+      "Messages.csv",
+      "Reminders.csv",
+      "Patient_Photo_Index_File.csv",
+      "Clinical_Document_Index_File.csv",
+      "Phone_Messages_Index_File.csv",
+      "Scan_And_Attachments_Index_File.csv",
+      "CDA_Document_Index_File.csv"
+    ],
+    "pms_files": [
+      "Patient_Demographics.csv",
+      "Patient_Insurance.csv",
+      "Patient_Account_Balance.csv",
+      "Transactions.csv",
+      "Payment_Receipts.csv",
+      "Payment_Posting.csv",
+      "Appointments.csv",
+      "Master_Insurance_List.csv",
+      "Master_POS_List.csv",
+      "Master_Provider_List.csv",
+      "Master_Referring_Provider_List.csv"
+    ],
+    "other_folders": [
+      {
+        "name": "Documents",
+        "description": "Contains patient-related documents in HTML, PDF, and XML format. Organized per-patient in folders named LastName,FirstName-(DOB MM-DD-YYYY)-(Account#)-[PatientID]. Includes clinical templates (HTML+PDF), scanned documents/attachments (PNG/JPEG/original format), and C-CDA v2 XML files."
+      },
+      {
+        "name": "Photos",
+        "description": "Patient photos in JPG format, named LastName,FirstName-(DOB MM-DD-YYYY)-(Account#)-[PatientID].jpg"
+      },
+      {
+        "name": "Reference",
+        "description": "Contains the schema of the exported file content."
+      }
+    ]
+  },
+  "file_schemas": [
+    {
+      "filename": "EMR/Encounters.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' encounter information. This information is documented in GlaceEMR Encounters section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Primary key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_primary_key": true
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Encounter Type",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Chief Complaints",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Status",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Open",
+            "Canceled",
+            "Closed"
+          ]
+        },
+        {
+          "name": "Referring Doctor",
+          "data_type": "String",
+          "description": "",
+          "comments": "Master information found in PMS/Master_Referring_Provider_List.csv",
+          "foreign_key_ref": "PMS/Master_Referring_Provider_List.csv"
+        },
+        {
+          "name": "Service Doctor",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Place Of Service",
+          "data_type": "String",
+          "description": "",
+          "comments": "Master information found in PMS/Master_POS_List.csv",
+          "foreign_key_ref": "PMS/Master_POS_List.csv"
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Vitals.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' vitals information. This information is documented in GlaceEMR Clinical Note Templates under vitals section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "EMR/Encounters.csv"
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Vitals ID",
+          "data_type": "Integer (Primary key)",
+          "description": "",
+          "comments": "",
+          "is_primary_key": true
+        },
+        {
+          "name": "Vital Allergies",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Weight Lbs",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Height Feet",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "B.P.",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Pulse",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Temp",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Systolic BP",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Diastolic BP",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Resp",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Pulse ox",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "BMI",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Past_Medical_History.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' past medical history information. This information is documented in GlaceEMR Clinical Note Templates under history section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "EMR/Encounters.csv"
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Value",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Surgical_History.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' surgical history information. This information is documented in GlaceEMR Clinical Note Templates under history section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "EMR/Encounters.csv"
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Value",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Underwent",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Underwent",
+            "Underwent Left",
+            "Underwent Right"
+          ]
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Family_History.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' family medical history information. This information is documented in GlaceEMR Clinical Note Templates under history section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "EMR/Encounters.csv"
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Value",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Disease Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Relationship",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Family_Relations_History.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' family relations medical history information. This information is documented in GlaceEMR Clinical Note Templates under history section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "EMR/Encounters.csv"
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Value",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Social_History.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' social history information. This information is documented in GlaceEMR Clinical Note Templates under history section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "EMR/Encounters.csv"
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Value",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Substance_Abuse_History.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' substance abuse history information. This information is documented in GlaceEMR Clinical Note Templates under history section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "EMR/Encounters.csv"
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Value",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Contraception_Sexual_History.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' contraception history information. This information is documented in GlaceEMR Clinical Note Templates under history section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "EMR/Encounters.csv"
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Value",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Pregnancy_History.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' pregnancy history information. This information is documented in GlaceEMR Clinical Note Templates under history section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "EMR/Encounters.csv"
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Value",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Episode Attribute ID",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Birthing_History.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' birthing history information. This information is documented in GlaceEMR Clinical Note Templates under history section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "EMR/Encounters.csv"
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Value",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Menstrual_History.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' menstrual history information. This information is documented in GlaceEMR Clinical Note Templates under history section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "EMR/Encounters.csv"
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Value",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Occupational_History.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' occupational history information. This information is documented in GlaceEMR Clinical Note Templates under history section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "EMR/Encounters.csv"
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Value",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Obstetric_History.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' obstetric history information. This information is documented in GlaceEMR Clinical Note Templates under history section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "EMR/Encounters.csv"
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Value",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Exposure_History.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' exposure to allergens/pollutants information. This information is documented in GlaceEMR Clinical Note Templates under history section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "EMR/Encounters.csv"
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Value",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Allergies.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' allergy information. This information is documented in GlaceEMR Clinical Note Templates under Allergy section. This file contains the industry standard code NDC for Drug Allergies.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Allergy ID",
+          "data_type": "Integer (Primary key)",
+          "description": "",
+          "comments": "",
+          "is_primary_key": true
+        },
+        {
+          "name": "Allergy Type",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Latex Allergy",
+            "Drug Allergy",
+            "Food Allergy",
+            "NKA",
+            "NDA"
+          ]
+        },
+        {
+          "name": "Allergen",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Allergen Code",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "NDC"
+          ]
+        },
+        {
+          "name": "Allergen Code System",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Adverse Reaction",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Drug Category",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Active Allergy",
+          "data_type": "Boolean",
+          "description": "True if the Allergy is currently Active",
+          "comments": ""
+        },
+        {
+          "name": "Resolved On",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Assesments.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' assessment information. This information is documented in GlaceEMR Clinical Note Templates under assessment section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "EMR/Encounters.csv"
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Assessment ID",
+          "data_type": "Integer (Primary key)",
+          "description": "",
+          "comments": "",
+          "is_primary_key": true
+        },
+        {
+          "name": "Dx Code",
+          "data_type": "String",
+          "description": "Diagnosis Code",
+          "comments": ""
+        },
+        {
+          "name": "Dx Description",
+          "data_type": "String",
+          "description": "Diagnosis Description",
+          "comments": ""
+        },
+        {
+          "name": "Dx Coding System",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "ICD 9",
+            "ICD 10",
+            "SNOMED",
+            "ConfidentialityCode",
+            "RXNORM",
+            "CPT4",
+            "NDC",
+            "LOINC"
+          ]
+        },
+        {
+          "name": "Comment",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Status",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Open",
+            "Canceled",
+            "Closed"
+          ]
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Problem_List.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' problem list. This information is documented in GlaceEMR Clinical Note Templates under assessment section. ICD 10 and SNOMED codes are used.",
+      "columns": [
+        {
+          "name": "Problem List ID",
+          "data_type": "Integer (Primary key)",
+          "description": "",
+          "comments": "",
+          "is_primary_key": true
+        },
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "EMR/Encounters.csv"
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Diagnosis Code",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Diagnosis Description",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Coding System Name",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "ICD 9",
+            "ICD 10",
+            "SNOMED",
+            "ConfidentialityCode",
+            "RXNORM",
+            "CPT4",
+            "NDC",
+            "LOINC"
+          ]
+        },
+        {
+          "name": "Onset Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Resolved By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Resolved On",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Chronicity",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Chronic",
+            "Acute"
+          ]
+        },
+        {
+          "name": "Status",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Active",
+            "Resolved",
+            "Inactive"
+          ]
+        },
+        {
+          "name": "Comment",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Medications.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' medications. This information is documented in GlaceEMR Clinical Note Templates under prescription section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "EMR/Encounters.csv"
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Medication ID",
+          "data_type": "Integer (Primary key)",
+          "description": "",
+          "comments": "",
+          "is_primary_key": true
+        },
+        {
+          "name": "Drug Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "NDC",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Strength",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Form",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Syrup",
+            "Gel",
+            "Tablet",
+            "Liquid",
+            "Injection",
+            "Powder"
+          ]
+        },
+        {
+          "name": "Route",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Schedule",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Days",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Refills",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Quantity",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Status",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "New",
+            "Refill",
+            "Continue",
+            "Discontinue",
+            "Active",
+            "Inactive"
+          ]
+        },
+        {
+          "name": "Notes",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Start Date",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Substitution",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/InactiveMedications.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' inactive medications. This information is documented in GlaceEMR Clinical Note Templates under prescription section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "EMR/Encounters.csv"
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Medication ID",
+          "data_type": "Integer (Primary key)",
+          "description": "",
+          "comments": "",
+          "is_primary_key": true
+        },
+        {
+          "name": "Drug Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "NDC",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Strength",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Form",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Syrup",
+            "Gel",
+            "Tablet",
+            "Liquid",
+            "Injection",
+            "Powder"
+          ]
+        },
+        {
+          "name": "Route",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Schedule",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Days",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Refills",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Quantity",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Status",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "New",
+            "Refill",
+            "Continue",
+            "Discontinue",
+            "Active",
+            "Inactive"
+          ]
+        },
+        {
+          "name": "Substitution",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Notes",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Start Date",
+          "data_type": "Date",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Stop Date",
+          "data_type": "Date",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Stopped By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Investigation.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' investigations. This information is documented in GlaceEMR Clinical Note Templates under investigations section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "EMR/Encounters.csv"
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Test ID",
+          "data_type": "Integer (Primary key)",
+          "description": "Test Identifier",
+          "comments": "",
+          "is_primary_key": true
+        },
+        {
+          "name": "Test Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Test Status",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Ordered",
+            "Cancelled",
+            "Performed",
+            "Results review",
+            "Completed"
+          ]
+        },
+        {
+          "name": "Test Type",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Internal test",
+            "External test"
+          ]
+        },
+        {
+          "name": "Billable",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Ordered By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Ordered Date",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Performed By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Performed Date",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Reviewed By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Reviewed Date",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Units",
+          "data_type": "Integer",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Prelimstatus",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Confirmstatus",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Dx1code",
+          "data_type": "String",
+          "description": "Diagnosis code",
+          "comments": ""
+        },
+        {
+          "name": "Dx1 Description",
+          "data_type": "String",
+          "description": "Diagnosis description",
+          "comments": ""
+        },
+        {
+          "name": "Dx1 Coding System Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Dx2 code",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Dx2 Description",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Dx2 Coding System Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "CPT Code",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Result Notes",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Short Notes",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Short Order Notes",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Group Name",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Vaccination",
+            "Radiology",
+            "Injections",
+            "X Ray",
+            "ECG",
+            "Therapy",
+            "Biochemistry"
+          ]
+        },
+        {
+          "name": "Vaccination Lot Number",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Vaccination Route",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Vaccination Site",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Dosage Value",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Dosage Units",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Result Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Results Units",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Result Value",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Range",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Preventive_Screenings.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' preventive screening information. This information is documented in GlaceEMR Clinical Note Templates under flow sheet section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "EMR/Encounters.csv"
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "History Element Value",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Coumadin.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' coumadin drug dosage information. This information is documented in GlaceEMR Clinical Note Templates under flowsheet section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Episode ID",
+          "data_type": "Integer",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Episode Start Date",
+          "data_type": "Date",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Episode End Date",
+          "data_type": "Date",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Entry Date",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "INR Goal Range",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Status",
+          "data_type": "Integer",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Problem list DX Code",
+          "data_type": "String",
+          "description": "Diagnosis code",
+          "comments": ""
+        },
+        {
+          "name": "DX description",
+          "data_type": "String",
+          "description": "Diagnosis description",
+          "comments": ""
+        },
+        {
+          "name": "Coding System ID",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "ICD 9",
+            "ICD 10",
+            "SNOMED",
+            "ConfidentialityCode",
+            "RXNORM",
+            "CPT4",
+            "NDC",
+            "LOINC"
+          ]
+        },
+        {
+          "name": "Coding System Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "PT",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "INR",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Episode Attribute ID",
+          "data_type": "Integer",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Total Weekly Dose",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Sunday Dose",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Monday Dose",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Tuesday Dose",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Wednesday Dose",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Thursday Dose",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Friday Dose",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Saturday Dose",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Next INR",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Comments",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Signed By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Signed On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Vaccines.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' vaccination information. This information is documented in GlaceEMR Clinical Note Templates under immunization section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Order ID",
+          "data_type": "Integer (Primary key)",
+          "description": "Order Identifier",
+          "comments": "",
+          "is_primary_key": true
+        },
+        {
+          "name": "Vaccine ID",
+          "data_type": "String (Foreign key)",
+          "description": "Vaccine Identifier",
+          "comments": "",
+          "is_foreign_key": true
+        },
+        {
+          "name": "Vaccine Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Vaccine Code",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Order Date",
+          "data_type": "Date",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Dosage Value",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Dosage Type",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Lot No",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Expiry Date",
+          "data_type": "Date",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Vaccination Site",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Vaccination Route",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Performed By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Manufacturer Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Manufacturer Address",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Manufacturer City",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Manufacturer State",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Manufacturer Zip",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Manufacturer Phone",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Manufacturer Fax",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Messages.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' messages. This information is documented in GlaceEMR Ph/Ext. Consult under New Phone Messages section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "EMR/Encounters.csv"
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Chief Complaints",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Status",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Open",
+            "Cancelled",
+            "Closed",
+            "Callback",
+            "Answered"
+          ]
+        },
+        {
+          "name": "Reason",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Referring Doctor",
+          "data_type": "String",
+          "description": "",
+          "comments": "Master information found in PMS/Master_Referring_Provider_List.csv"
+        },
+        {
+          "name": "Service Doctor",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Place Of Service",
+          "data_type": "String",
+          "description": "",
+          "comments": "Master information found in PMS/Master_POS_List.csv"
+        },
+        {
+          "name": "Patient Comments",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Doctor Response",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Type",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Internal Messages",
+            "Phone Messages"
+          ]
+        },
+        {
+          "name": "Severity",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Reminders.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the patients' reminder details. This information is documented in GlaceEMR Scheduler section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Reminder Subject",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Reminder Description",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Reminder Due Date",
+          "data_type": "Date",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Patient_Photo_Index_File.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains index of photos. The records are keyed with Patient ID.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Parent Folder Name",
+          "data_type": "String",
+          "description": "Folder of each patient",
+          "comments": ""
+        },
+        {
+          "name": "File Name",
+          "data_type": "String",
+          "description": "Image files",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Clinical_Document_Index_File.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the name of the exported Clinical Notes (E.g. Progress Notes) for each note.",
+      "columns": [
+        {
+          "name": "Note ID",
+          "data_type": "Integer (Primary key)",
+          "description": "",
+          "comments": "",
+          "is_primary_key": true
+        },
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "EMR/Encounters.csv"
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Clinical Notes Name",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Nurse notes",
+            "IM Progress Notes",
+            "General note",
+            "Cardiology Nurse Notes",
+            "Annual wellness visit"
+          ]
+        },
+        {
+          "name": "Parent Folder Name",
+          "data_type": "String",
+          "description": "Folder of each patient",
+          "comments": ""
+        },
+        {
+          "name": "HTML File name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "PDF File name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Signed By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Signed On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Phone_Messages_Index_File.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains index of phone messages for each patient.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "EMR/Encounters.csv"
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Parent Folder Name",
+          "data_type": "String",
+          "description": "Folder of each patient",
+          "comments": ""
+        },
+        {
+          "name": "HTML File name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "PDF File name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/Scan_And_Attachments_Index_File.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains index of scans and attachment files.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Document ID",
+          "data_type": "Integer (Primary key)",
+          "description": "",
+          "comments": "",
+          "is_primary_key": true
+        },
+        {
+          "name": "Category Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Group ID",
+          "data_type": "Integer",
+          "description": "Group Identifier",
+          "comments": ""
+        },
+        {
+          "name": "Display Order",
+          "data_type": "Integer",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Description",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Comments",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Parent Folder Name",
+          "data_type": "String",
+          "description": "Folder of each patient",
+          "comments": ""
+        },
+        {
+          "name": "File name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "EMR/CDA_Document_Index_File.csv",
+      "folder": "EMR",
+      "contents_description": "This file contains the name of exported CDA file for each patient.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Parent Folder Name",
+          "data_type": "String",
+          "description": "Folder of each patient",
+          "comments": ""
+        },
+        {
+          "name": "File Name",
+          "data_type": "String",
+          "description": "CCDA XML File Name",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "PMS/Patient_Demographics.csv",
+      "folder": "PMS",
+      "contents_description": "This file contains patient demographic details. This information is documented in GlaceEMR Patient registration section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Primary key)",
+          "description": "Patient Identifier",
+          "comments": "",
+          "is_primary_key": true
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Patient Prefix",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Suffix",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Gender",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Male",
+            "Female"
+          ]
+        },
+        {
+          "name": "Patient Marital Status",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Married",
+            "Divorced",
+            "Separated",
+            "Single",
+            "Widowed"
+          ]
+        },
+        {
+          "name": "Patient Address",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient City",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient State",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Zip",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Home Phone",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Work Phone",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Cell Phone",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Email",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Maiden Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Relation to Guarantor",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Child",
+            "Daughter",
+            "Father",
+            "Guardian",
+            "Self",
+            "Son",
+            "Spouse"
+          ]
+        },
+        {
+          "name": "Guarantor Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Guarantor First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Guarantor DOB",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Guarantor Gender",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Male",
+            "Female"
+          ]
+        },
+        {
+          "name": "Guarantor Address",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Guarantor City",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Guarantor State",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Guarantor Zip",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Guarantor Home Phone",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Guarantor Work Phone",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Guarantor Cell Phone",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Guarantor Email",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Race",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Ethnicity",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Preferred Language",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Default Pharmacy Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Default Pharmacy NCPDP ID",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Principal Doctor",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Notes",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Emergency Contact Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Emergency Contact Address",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Emergency Contact City",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Emergency Contact State",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Emergency Contact Zip",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Emergency Contact Phone",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Emergency Contact Relation",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Child",
+            "Daughter",
+            "Father",
+            "Guardian",
+            "Self",
+            "Son",
+            "Spouse"
+          ]
+        },
+        {
+          "name": "Employer Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Deceased Status",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Deceased Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Active Status",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Chart Patient Notes",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "PMS/Patient_Insurance.csv",
+      "folder": "PMS",
+      "contents_description": "This file contains patient insurance details. This information is documented in GlaceEMR Patient demographics section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Primary Insurance Policy Number",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Primary Insurance Group Number",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Primary Insurance Id",
+          "data_type": "Integer (Foreign key)",
+          "description": "Insurance Identifier",
+          "comments": "Master information found in PMS/Master_Insurance_List.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Master_Insurance_List.csv"
+        },
+        {
+          "name": "Primary Insurance",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Primary Insurance Address",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Primary Insurance City",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Primary Insurance State",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Primary Insurance Zip",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Primary Insurance Subscriber Full Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Primary Insurance Subscriber Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Primary Insurance Subscriber First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Primary Insurance Subscriber Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Primary Insurance Subscriber DOB",
+          "data_type": "Date",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Primary Insurance Subscriber Relation",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Self",
+            "Spouse",
+            "Child",
+            "Son"
+          ]
+        },
+        {
+          "name": "Primary Insurance Copay",
+          "data_type": "Currency",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Secondary Insurance Policy Number",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Secondary Insurance Group Number",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Secondary Insurance Id",
+          "data_type": "Integer (Foreign key)",
+          "description": "Insurance Identifier",
+          "comments": "",
+          "is_foreign_key": true
+        },
+        {
+          "name": "Secondary Insurance",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Secondary Insurance Address",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Secondary Insurance City",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Secondary Insurance State",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Secondary Insurance Zip",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Secondary Insurance Subscriber Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Secondary Insurance Subscriber Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Secondary Insurance Subscriber First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Secondary Insurance Subscriber Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Secondary Insurance Subscriber DOB",
+          "data_type": "Date",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Secondary Insurance Subscriber Relation",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Self",
+            "Spouse",
+            "Child",
+            "Son"
+          ]
+        },
+        {
+          "name": "Secondary Insurance Copay",
+          "data_type": "Currency",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Tertiary Insurance Policy Number",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Tertiary Insurance Group Number",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Tertiary Insurance Id",
+          "data_type": "Integer (Foreign key)",
+          "description": "Insurance Identifier",
+          "comments": "",
+          "is_foreign_key": true
+        },
+        {
+          "name": "Tertiary Insurance",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Tertiary Insurance Address",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Tertiary Insurance City",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Tertiary Insurance State",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Tertiary Insurance Zip",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Tertiary Insurance Subscriber Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Tertiary Insurance Subscriber Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Tertiary Insurance Subscriber First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Tertiary Insurance Subscriber Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Tertiary Insurance Subscriber DOB",
+          "data_type": "Date",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Tertiary Insurance Subscriber Relation",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Tertiary Insurance Copay",
+          "data_type": "Currency",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "PMS/Patient_Account_Balance.csv",
+      "folder": "PMS",
+      "contents_description": "This file contains the patients' account balance details. This information is documented in GlaceEMR Accounts section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Patient Balance",
+          "data_type": "Currency",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Insurance Balance",
+          "data_type": "Currency",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Credit Balance",
+          "data_type": "Currency",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "PMS/Transactions.csv",
+      "folder": "PMS",
+      "contents_description": "This file contains payments transaction details. This information is documented in GlaceEMR Transactions section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Encounter ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Encounter Identifier",
+          "comments": "Master information found in EMR/Encounters.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "EMR/Encounters.csv"
+        },
+        {
+          "name": "Encounter Date",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Service ID",
+          "data_type": "Integer (Primary key)",
+          "description": "Service Identifier",
+          "comments": "",
+          "is_primary_key": true
+        },
+        {
+          "name": "Procedure Code",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Charges",
+          "data_type": "Currency",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Diagnosis 1",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Diagnosis 2",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Diagnosis 3",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Diagnosis 4",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Submit Status",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Service Doctor",
+          "data_type": "String",
+          "description": "",
+          "comments": "Master information found in PMS/Master_Provider_List.csv"
+        },
+        {
+          "name": "Billing Doctor",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Referring Doctor",
+          "data_type": "String",
+          "description": "",
+          "comments": "Master information found in PMS/Master_Referring_Provider_List.csv"
+        },
+        {
+          "name": "Authorization Number",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Primary Insurance Name",
+          "data_type": "String",
+          "description": "",
+          "comments": "Master information found in PMS/Master_Insurance_List.csv"
+        },
+        {
+          "name": "Secondary Insurance Name",
+          "data_type": "String",
+          "description": "",
+          "comments": "Master information found in PMS/Master_Insurance_List.csv"
+        },
+        {
+          "name": "Allowed Amount",
+          "data_type": "Numeric/Decimal",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Payment",
+          "data_type": "Numeric/Decimal",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Insurance Payment",
+          "data_type": "Numeric/Decimal",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Payments",
+          "data_type": "Numeric/Decimal",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Adjustment",
+          "data_type": "Numeric/Decimal",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Balance",
+          "data_type": "Numeric/Decimal",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Balance",
+          "data_type": "Numeric/Decimal",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Insurance Balance",
+          "data_type": "Numeric/Decimal",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Units",
+          "data_type": "Integer",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Place of Service",
+          "data_type": "String",
+          "description": "",
+          "comments": "Master information found in PMS/Master_POS_List.csv"
+        },
+        {
+          "name": "Estimate Balance",
+          "data_type": "Numeric/Decimal",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "PMS/Payment_Receipts.csv",
+      "folder": "PMS",
+      "contents_description": "This file contains payment receipt details. This information is documented in GlaceEMR Payments section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Receipt ID",
+          "data_type": "Integer (Primary key)",
+          "description": "Receipt Identifier",
+          "comments": "",
+          "is_primary_key": true
+        },
+        {
+          "name": "Receipt Date",
+          "data_type": "Date",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Payment Type",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Cash",
+            "Check",
+            "Card",
+            "Insurance"
+          ]
+        },
+        {
+          "name": "Amount",
+          "data_type": "Currency",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Comment",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Payment Code",
+          "data_type": "Integer",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Adjustment Code",
+          "data_type": "Integer",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Withhold Code",
+          "data_type": "Integer",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Deductible Code",
+          "data_type": "Integer",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Refund Code",
+          "data_type": "Integer",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Denial Code",
+          "data_type": "Integer",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Payee Type",
+          "data_type": "Integer",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "PMS/Payment_Posting.csv",
+      "folder": "PMS",
+      "contents_description": "This file contains patient's payment details. This information is documented in GlaceEMR Payments section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Receipt Id",
+          "data_type": "Integer (Foreign key)",
+          "description": "Receipt Identifier",
+          "comments": "Master information found in PMS/Payment_Receipts.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Payment_Receipts.csv"
+        },
+        {
+          "name": "Service ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "",
+          "comments": "Master information found in PMS/Transactions.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Transactions.csv"
+        },
+        {
+          "name": "Procedure Code",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Procedure Code Description",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Amount",
+          "data_type": "Numeric/Decimal",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Comments",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "PMS/Appointments.csv",
+      "folder": "PMS",
+      "contents_description": "This file contains the patients' appointments details. This information is documented in GlaceEMR Scheduler section.",
+      "columns": [
+        {
+          "name": "Patient ID",
+          "data_type": "Integer (Foreign key)",
+          "description": "Patient Identifier",
+          "comments": "Master information found in PMS/Patient_Demographics.csv",
+          "is_foreign_key": true,
+          "foreign_key_ref": "PMS/Patient_Demographics.csv"
+        },
+        {
+          "name": "Patient Account#",
+          "data_type": "String",
+          "description": "Patient Account#",
+          "comments": "Unique Identifier"
+        },
+        {
+          "name": "Patient Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Patient DOB",
+          "data_type": "Date",
+          "description": "Date Of Birth",
+          "comments": ""
+        },
+        {
+          "name": "Appointment ID",
+          "data_type": "Integer (Primary key)",
+          "description": "",
+          "comments": "",
+          "is_primary_key": true
+        },
+        {
+          "name": "Date",
+          "data_type": "Date",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Start Time",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "End Time",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Duration",
+          "data_type": "Integer",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Scheduler Resource Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Associated Provider Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Location Name",
+          "data_type": "String",
+          "description": "",
+          "comments": "Master information found in PMS/Master_POS_List.csv"
+        },
+        {
+          "name": "Appointment Status",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Confirmed",
+            "Cancelled",
+            "Check In",
+            "Online Consult"
+          ]
+        },
+        {
+          "name": "Appointment Type",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Appointment Reason",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Appointment Notes",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Created On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified By",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Modified On",
+          "data_type": "Date & Time",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "PMS/Master_Insurance_List.csv",
+      "folder": "PMS",
+      "contents_description": "This file contains the insurance company details. This information is documented in GlaceEMR Insurance picker section.",
+      "columns": [
+        {
+          "name": "Insurance ID",
+          "data_type": "Integer (Primary key)",
+          "description": "Insurance Carrier Identifier",
+          "comments": "",
+          "is_primary_key": true
+        },
+        {
+          "name": "Insurance Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Insurance Address",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Insurance City",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Insurance State",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Insurance Zip Code",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "PMS/Master_POS_List.csv",
+      "folder": "PMS",
+      "contents_description": "This file contains Place Of Service information. This information is documented in GlaceEMR Configuration section.",
+      "columns": [
+        {
+          "name": "Practice Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Place of Service",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Facility Comments",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Status",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Active",
+            "Inactive"
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "PMS/Master_Provider_List.csv",
+      "folder": "PMS",
+      "contents_description": "This file contains care provider details. This information is documented in GlaceEMR Employee section.",
+      "columns": [
+        {
+          "name": "Provider Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Provider Middle Initial",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Provider First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Provider Full Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Provider Address",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Provider City",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Provider State",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Provider Zip",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Provider Phone",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Provider Email",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Provider Status",
+          "data_type": "String",
+          "description": "",
+          "comments": "",
+          "possible_values": [
+            "Active",
+            "Inactive"
+          ]
+        },
+        {
+          "name": "NPI",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "DEA",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "License",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "License State",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Type",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "filename": "PMS/Master_Referring_Provider_List.csv",
+      "folder": "PMS",
+      "contents_description": "This file contains referring doctor details. This information is documented in GlaceEMR Referring details section.",
+      "columns": [
+        {
+          "name": "Referring Doctor ID",
+          "data_type": "Integer (Primary key)",
+          "description": "",
+          "comments": "",
+          "is_primary_key": true
+        },
+        {
+          "name": "Full Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Last Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Middle Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "First Name",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Address",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "City",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "State",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Zip",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Phone",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Fax",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Direct Messaging Address",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "NPI",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        },
+        {
+          "name": "Active",
+          "data_type": "String",
+          "description": "",
+          "comments": ""
+        }
+      ]
+    }
+  ],
+  "extraction_stats": {
+    "total_files_documented": 42,
+    "total_columns_documented": 820,
+    "files_with_primary_keys": 17,
+    "files_with_foreign_keys": 37
+  }
+}
