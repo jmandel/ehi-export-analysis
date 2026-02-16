@@ -25,7 +25,7 @@ export interface EhiExportSummary {
    * Capture what makes this vendor's export distinctive — both good and bad.
    *
    * Focus on the most striking/notable aspects:
-   * - What kind of export is it? (native DB dump, FHIR repackaging, PDF bundle, stub)
+   * - What kind of export is it? (native DB dump, deep FHIR mapping, C-CDA stub)
    * - What's the single biggest strength or gap?
    * - Any notable quirks, ironies, or red flags?
    *
@@ -35,86 +35,155 @@ export interface EhiExportSummary {
   summary: string;
 
   /**
-   * Holistic quality score from 0 to 10 (integer or half-point, e.g. 7.5).
+   * Letter grade for overall (b)(10) EHI export quality.
    *
-   * This is a single comprehensive rating of how well the vendor has met the
-   * §170.315(b)(10) EHI export requirement. It should reflect a balanced
-   * assessment across ALL of the following dimensions:
+   * This is an absolute grade (not curved) reflecting how well the vendor
+   * meets the §170.315(b)(10) requirement. Use +/- modifiers for precision.
    *
-   * **Coverage (weight ~40%)**:
-   * - What fraction of the product's known data domains are represented in the
-   *   export? Check Section 5b's domain coverage table.
-   * - Are there certified capabilities (e.g., care plans under (b)(11),
-   *   implantable devices under (a)(14)) with NO export representation?
-   * - Does the export cover clinical, billing, administrative, and specialty data?
-   * - Does the export cover the full Designated Record Set, or just clinical
-   *   summaries?
+   * The grade should reflect a balanced assessment across:
+   * - **Coverage** (~40%): What fraction of the product's data domains are
+   *   in the export? Must go beyond USCDI to score well — USCDI is a floor
+   *   for clinical exchange, not EHI completeness. Check Section 5b.
+   * - **Documentation quality** (~25%): Field descriptions, value sets,
+   *   relationships, format specs, sample data. Check Section 6.
+   * - **Data structure quality** (~20%): Structured/coded data vs free-text
+   *   blobs? Normalized or packed? Machine-parseable?
+   * - **Usability** (~15%): Could a developer build an import from the docs
+   *   alone? Machine-readable schemas? Self-service export?
    *
-   * **Documentation quality (weight ~25%)**:
-   * - What percentage of fields have descriptions? (Section 7 Summary Stats)
-   * - Are value sets / code systems documented?
-   * - Are relationships / foreign keys documented?
-   * - Is the export file format clearly specified?
-   * - Is there sample data?
+   * **Grading rubric**:
+   * - **A/A-**: Purpose-built export, comprehensive coverage of product's
+   *   data domains (clinical + billing + specialty + administrative as
+   *   applicable), well-documented with field descriptions, machine-readable.
+   *   A = exceptional (sample data, relationships, value sets). A- = strong
+   *   but minor gaps.
+   * - **B+/B/B-**: Genuine effort with notable limitations. Might have broad
+   *   coverage but thin documentation, or excellent documentation but missing
+   *   domains. B+ = close to A-. B- = clear gaps but real substance.
+   * - **C+/C/C-**: Partial effort. Some domains covered, some documentation
+   *   exists, but significant gaps in coverage or quality. Not just a stub,
+   *   but not thorough. C+ = leans toward adequate. C- = barely above D.
+   * - **D+/D/D-**: Minimal effort. Very thin documentation, very limited
+   *   coverage, or export that barely goes beyond a clinical summary.
+   *   D+ = some evidence of trying. D- = essentially a stub with a veneer.
+   * - **F**: No meaningful export. Empty docs, a paragraph saying "we comply,"
+   *   or documentation so thin that you cannot determine what's exported.
    *
-   * **Data structure quality (weight ~20%)**:
-   * - Is the data structured and coded, or are clinical fields free-text blobs?
-   * - Are multi-valued fields properly normalized (separate rows) or packed into
-   *   single delimited strings?
-   * - Is the export a native database model (good) or a C-CDA/FHIR repackaging
-   *   that only covers ~20% of the product's data?
-   *
-   * **Usability / developer experience (weight ~15%)**:
-   * - Could a developer build an import from the documentation alone?
-   * - Are there machine-readable schemas (JSON Schema, DDL, XSD)?
-   * - Is the export self-service or does it require vendor assistance?
-   *
-   * **Scoring guide**:
-   * - 0–1: No meaningful export (empty docs, just a paragraph saying "we comply")
-   * - 2–3: Minimal stub (a few pages, covers <20% of data, no usable detail)
-   * - 4–5: Partial effort (some documentation exists but major gaps in coverage
-   *   or quality — e.g., fields without descriptions, free-text blobs, missing
-   *   domains)
-   * - 6–7: Solid but incomplete (good coverage of core domains, reasonable docs,
-   *   but notable gaps — missing specialty data, no sample data, thin billing)
-   * - 8–9: Comprehensive (native database export, high field coverage, good
-   *   descriptions, most domains covered, minor gaps only)
-   * - 10: Exceptional (exhaustive native export, 100% described fields, sample
-   *   data, machine-readable schemas, relationships documented, all domains)
-   *
-   * Derive this score from the analysis.md's Section 7 (Overall Assessment),
-   * Section 5b (coverage table), Section 6 (documentation quality), and the
-   * Summary Stats block. Cross-reference the classification:
-   * - "minimal_stub" → typically 0–2
-   * - "standard_projection" → typically 2–4
-   * - "partial_native" → typically 3–6
-   * - "comprehensive_native" → typically 7–10
+   * Derive from analysis.md Sections 5b, 6, and 7. The grade must be
+   * independently defensible from the evidence.
    */
-  holistic_score: number;
+  grade: "A" | "A-" | "B+" | "B" | "B-" | "C+" | "C" | "C-" | "D+" | "D" | "D-" | "F";
 
   /**
-   * Whether the export faithfully represents the product's internal data model,
-   * or launders it through a standardized clinical summary format that drops
-   * unmapped fields.
+   * How much of the product's stored data the export covers.
    *
-   * Derive this by comparing the export format (Sections 3-4) against what the
-   * product actually stores (Section 1 product context + product-research.md).
-   * A product that manages 50 entity types internally but exports only a C-CDA
-   * bundle is hiding data. A product that genuinely stores FHIR resources
-   * natively and exports them fully is not.
+   * Coverage is about BREADTH — what fraction of the product's data domains
+   * appear in the export. This is independent of format or approach: a FHIR
+   * export mapping 50+ resource types across clinical, billing, and specialty
+   * domains is "comprehensive" even though it uses a standard format. A native
+   * database dump that only exports clinical tables is "partial" even though
+   * it uses the vendor's own schema.
    *
-   * - "native" — Export uses the product's own data structures (proprietary
-   *   tables, entities, database dumps). Also applies if the product genuinely
-   *   stores data as FHIR resources internally and exports those resources fully.
-   * - "summary_with_supplements" — Core clinical data mapped to C-CDA/FHIR,
-   *   with some native-format supplements covering domains the summary format
-   *   can't represent (billing, custom/specialty data, etc.). Supplements may
-   *   range from substantial to thin or token.
-   * - "summary_only" — Export is entirely a C-CDA/FHIR clinical summary
-   *   with no native data whatsoever. Vendor equates "clinical summary"
-   *   with "all EHI."
+   * Coverage is relative to the product's capabilities (a simple charting
+   * tool has fewer domains than a full hospital EHR). Must go meaningfully
+   * beyond USCDI — USCDI is a floor for clinical exchange, not EHI
+   * completeness.
+   *
+   * - "comprehensive" — Export covers most/all applicable data domains
+   * - "partial" — Some domains covered well, but significant gaps relative
+   *   to what the product stores
+   * - "minimal_stub_unclear" — Too thin to assess, or clearly covers only
+   *   a tiny fraction of what the product stores
+   *
+   * Derive from Section 5b (domain coverage table) cross-referenced with
+   * Section 1 (product context).
    */
-  export_fidelity: "native" | "summary_with_supplements" | "summary_only";
+  coverage: "comprehensive" | "partial" | "minimal_stub_unclear";
+
+  /**
+   * What data model the export uses.
+   *
+   * This describes the structural approach — whose schema is the data in?
+   * This is INDEPENDENT of quality or coverage. A native export can be thin;
+   * a standards-based export can be comprehensive. The format does NOT
+   * determine whether an export is genuine (b)(10).
+   *
+   * Key example: A vendor that maps 50+ EHR-specific concepts to FHIR
+   * resources (including billing, custom forms, specialty data) is
+   * "standards_based" AND likely "comprehensive" — this is fundamentally
+   * different from a vendor pointing at their existing (g)(10) FHIR API,
+   * which is also "standards_based" but "partial" or "minimal_stub_unclear."
+   * The coverage axis distinguishes those cases, not this one.
+   *
+   * - "native" — Export uses the product's own data structures: proprietary
+   *   tables, internal entity models, database dumps, vendor-defined schemas.
+   * - "standards_based" — Export uses established health data standards as the
+   *   data model: FHIR resources, C-CDA sections, HL7v2, etc. This includes
+   *   both lazy g(10) relabels AND deep purpose-built FHIR/CDA mappings.
+   * - "hybrid" — Mix of native and standards-based formats (e.g., FHIR bundle
+   *   for clinical data + CSV/TSV for billing, or C-CDA + native database
+   *   supplements).
+   * - "unclear" — Cannot determine from documentation.
+   *
+   * Derive from Sections 3-4 (export mechanics and content).
+   */
+  approach: "native" | "standards_based" | "hybrid" | "unclear";
+
+  /**
+   * Export file format(s) used.
+   *
+   * List all formats present in the export. Use short canonical names.
+   * Order from most prominent to least.
+   *
+   * Common values: "CSV", "TSV", "FHIR NDJSON", "FHIR JSON", "C-CDA",
+   * "JSON", "XML", "PDF", "SQL", "XLSX", "HTML"
+   *
+   * Derive from Section 3 (export mechanics).
+   */
+  export_formats: string[];
+
+  /**
+   * Number of entities (tables, resources, sections) documented in the export.
+   * null if no data dictionary or structured documentation exists.
+   * Derive from Section 7 Summary Stats or Section 4.
+   */
+  entity_count: number | null;
+
+  /**
+   * Total fields/columns documented across all entities.
+   * null if no field-level documentation exists.
+   * Derive from Section 7 Summary Stats or Section 4.
+   */
+  field_count: number | null;
+
+  /**
+   * Whether the vendor provides a data dictionary — a structured listing
+   * of entities and fields with at least field names and types.
+   * Derive from Section 6 (documentation quality).
+   */
+  has_data_dictionary: boolean;
+
+  /**
+   * Whether sample/example export files are provided in the documentation.
+   * Derive from Section 6 or artifacts in downloads/.
+   */
+  has_sample_data: boolean;
+
+  /**
+   * Whether billing/financial data (claims, charges, payments, insurance,
+   * revenue cycle) is included in the export.
+   *
+   * This is a critical signal for (b)(10) seriousness — most EHRs store
+   * billing data, and its absence from the export is a major gap.
+   *
+   * - true — Billing entities/fields are present in the export
+   * - false — Product does billing but export omits it
+   * - null — Cannot determine, or product does not do billing
+   *
+   * Derive from Section 5b (domain coverage table) for billing/claims domains,
+   * cross-referenced with Section 1 (does the product do billing?).
+   */
+  billing_included: boolean | null;
 
   /**
    * Whether patient-provider communications that the product manages are
@@ -124,22 +193,15 @@ export interface EhiExportSummary {
    * logging, or other communication tools. These communications are part of
    * the designated record set (used for care decisions) and should be in the
    * export. Derive this by comparing what communication features the product
-   * offers (Section 1 product context + product-research.md) against what
-   * appears in the export (Sections 4-5).
+   * offers (Section 1 product context) against what appears in the export
+   * (Sections 4-5).
    *
    * - "not_applicable" — Product has no patient communication features
-   *   (no portal, no secure messaging, no phone/call logging)
    * - "included" — Communications are present in the export with meaningful
-   *   structure (e.g., message bodies, timestamps, sender/recipient,
-   *   thread hierarchies, read status — whatever is relevant)
-   * - "partial" — Some communication data appears in the export but is
-   *   incomplete or poorly structured (e.g., message bodies without
-   *   timestamps, flat lists with no threading, missing replies, or
-   *   only a subset of communication types covered)
-   * - "excluded" — Product supports patient communications but they are
-   *   absent from the documented export
-   * - "unclear" — Cannot determine from available documentation whether
-   *   communications are covered
+   *   structure
+   * - "partial" — Some communication data appears but is incomplete
+   * - "excluded" — Product supports communications but they are absent
+   * - "unclear" — Cannot determine from available documentation
    */
   patient_communications: "not_applicable" | "included" | "partial" | "excluded" | "unclear";
 }

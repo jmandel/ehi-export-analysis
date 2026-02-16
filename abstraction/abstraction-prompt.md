@@ -30,13 +30,15 @@ claims about file contents may be wrong, page counts or field counts may be off.
 When a prior report makes a factual claim (e.g., "site returns 403," "PDF has 8
 pages," "data dictionary has 50 fields"), verify it yourself before repeating it
 in your analysis. If you find a discrepancy, note it. Your analysis should be
-independently defensible, not a summary of the prior agent's work.
+independently defensible, not a summary of the prior agent's work. But you don't
+have to go back out to the web unless something is missing / failed; you should
+generally just rely on what's in downloads if it has what you need and expect.
 
 **Don't surface claims you can't substantiate.** If a prior report says a website
 is down or a file was inaccessible, don't repeat that unless you've checked
 yourself. Your analysis should only contain claims you can back up with evidence
-from the artifacts in `downloads/` or from your own verification. Omit rather
-than speculate.
+from the artifacts in `downloads/` or from your own verification. If you wind up
+doing your own browsing or research, save anything you find / use. Don't speculate.
 
 ## What you're trying to understand
 
@@ -45,19 +47,28 @@ export of **all electronic health information** the product stores — not a cli
 summary, not just the FHIR API data, but everything in the designated record set.
 
 Many vendors do a poor job. Common failure modes:
-1. **C-CDA/FHIR repackaging**: vendor points to their existing C-CDA or FHIR Bulk
-   Data export and calls it "(b)(10)." This covers maybe 20% of what the product
-   stores — clinical summaries but no billing, no specialty data, no custom forms.
+1. **Repackaged existing export**: vendor points to their existing C-CDA or FHIR
+   Bulk Data (g)(10) export and calls it "(b)(10)." This covers USCDI — maybe 20%
+   of what the product stores — clinical summaries but no billing, no specialty
+   data, no custom forms. The telltale sign: documentation that says "C-CDA" or
+   "FHIR Bulk Data" and links to the generic standard spec with no product-specific
+   data dictionary.
 2. **Empty documentation**: a few sentences saying "we support EHI export" with
    no data dictionary, no schema, no detail about what's actually exported.
 3. **Documentation exists but is thin**: field names and types but no descriptions,
    no relationships, no value sets, no sample data.
-4. **Good but incomplete**: solid native data model export but missing entire
-   domains (e.g., exports clinical data but not billing).
+4. **Good but incomplete**: solid export but missing entire domains (e.g., exports
+   clinical data but not billing).
 
-The best vendors export their native database model — dozens or hundreds of
-tables with field-level documentation, relationships, sample data, and coverage
-across clinical, billing, and specialty domains.
+**Important distinction:** the format (FHIR, C-CDA, CSV, TSV, etc.) does NOT
+determine whether an export is genuine (b)(10). What matters is whether the
+vendor built a purpose-specific EHI export that covers the breadth of what
+the product stores, or just relabeled an existing clinical exchange export.
+A FHIR-based export that maps 50+ EHR-specific concepts to FHIR resources
+(including billing, custom forms, specialty data) is fundamentally different
+from a vendor pointing at their existing (g)(10) FHIR API. Similarly, a
+native database dump that only exports clinical tables is not comprehensive
+just because it uses a proprietary format.
 
 ## How to work
 
@@ -146,7 +157,7 @@ With the evidence in hand, assess the export along these dimensions:
 - Is this a genuine "all EHI" export or a clinical summary repackaged?
 
 **What are the red flags?**
-- Is the export just C-CDA or FHIR being called "(b)(10)"?
+- Is the export just summary C-CDA or USCDI summary FHIR being called "(b)(10)"?
 - Are entire categories of data (billing, specialty) absent?
 - Is documentation so thin that you can't even tell what's exported?
 - Are there signs this was a compliance checkbox rather than a real effort?
@@ -223,7 +234,7 @@ This table should reflect exactly what the vendor provides, in their terms:
 
 **For large exports (100+ entities):** Don't list every entity in the markdown.
 Instead, write a script that produces a complete inventory and saves it to
-`analysis/` (e.g., `analysis/full-entity-inventory.json`). In the analysis.md,
+`analysis/` (`analysis/entity-inventory-full.json`). In the analysis.md,
 show:
 - Summary statistics (total entities, total fields, fields with descriptions)
 - A breakdown by the vendor's own categories (table count + field count per category)
@@ -308,16 +319,43 @@ Assess the quality of the export documentation itself:
 
 ### Classification
 
-Classify the export into one of these categories:
+Classify the export along two independent axes, with comments and notes about
+why / how you can tell and calling out any specific details or surprising
+aspects of what you saw.
 
-- **Comprehensive native export**: Broad native data model export with solid
-  documentation. Covers most/all data domains the product stores.
-- **Partial native export**: Native data model but with significant coverage
-  gaps or thin documentation.
-- **Standard-based projection**: Export is primarily FHIR, C-CDA, or another
-  standard. May cover clinical data but likely misses vendor-specific data.
-- **Minimal/stub**: Documentation is too thin to assess, or export clearly
-  covers only a tiny fraction of what the product stores.
+**Axis 1 — Coverage breadth** (relative to what the product stores):
+
+- **Comprehensive**: Export demonstrably covers the breadth of data domains
+  the product stores — not just clinical summaries but billing, specialty,
+  administrative, and operational data as applicable. "Comprehensive" is
+  relative to the product: a simple ambulatory charting tool has fewer
+  domains to cover than a full hospital EHR. Assess against the product's
+  known capabilities from Section 1, not against an abstract ideal.
+  Coverage must go meaningfully beyond USCDI — USCDI is a minimum floor
+  for clinical exchange, not a measure of EHI completeness.
+- **Partial**: Export covers some domains well but has significant gaps
+  relative to what the product stores (e.g., clinical data exported but
+  billing omitted despite the product having billing capabilities).
+- **Minimal/stub/unclear**: Documentation is too thin to assess, or export
+  clearly covers only a tiny fraction of what the product stores.
+
+**Axis 2 — Export approach**:
+
+- **Purpose-built EHI export**: Vendor built an export specifically for
+  (b)(10) that goes beyond their existing clinical exchange capabilities.
+  This could be a native database dump (Epic's TSV tables, Oracle's SQL
+  model) OR a deep standards-based mapping (e.g., FHIR resources mapped
+  to 50+ EHR concepts including billing, specialty data, custom forms).
+  The key signal is that the export covers data domains not present in the
+  vendor's existing (g)(10) or C-CDA exchange.
+- **Repackaged existing export**: Vendor points to their existing C-CDA,
+  FHIR Bulk Data (g)(10), or other clinical exchange export and relabels
+  it as (b)(10). The telltale sign: documentation references USCDI, US Core,
+  or the generic C-CDA/FHIR spec with no product-specific data dictionary,
+  no mapping beyond standard templates, and no coverage of billing or
+  operational data.
+- **Unclear/undetermined**: Documentation is too thin to distinguish
+  between purpose-built and repackaged.
 
 ### Key Findings
 
@@ -328,9 +366,9 @@ Bullet the 3-5 most important findings. Lead with the strongest signal
 
 A quick-reference block for cross-vendor comparison:
 
-    Classification:  (one of the four categories above)
+    Coverage:        (Comprehensive / Partial / Minimal-stub-unclear)
+    Approach:        (Purpose-built EHI export / Repackaged existing export / Unclear)
     Export format:   (e.g., TSV, JSON, C-CDA, FHIR R4, mixed)
-    Model type:      (native database, standard projection, hybrid)
     Entities:        (count, or "N/A" if no data dictionary)
     Fields:          (count, or "N/A")
     Descriptions:    (% of fields with descriptions, or "N/A")
@@ -348,7 +386,10 @@ their data from this export? What's the single biggest gap or strength?
 
 Save scripts you wrote and their outputs to `{{OUTPUT_DIR}}/analysis/`. Include:
 - Scripts used to parse artifacts (with comments explaining what they do)
+  These should rely on results/:slug/downloads content, but not directly
+  rely on /enrichment content (read and re-implement where helpful)
 - Extracted data (e.g., parsed data dictionary as JSON, field counts as text)
+  * includes `entity-inventory-full.json` and `summary-entity-inventory.json`
 - Any other intermediate artifacts that make the analysis reproducible
 
 Every hard number in the analysis.md should be traceable to a file in `analysis/`.
@@ -364,19 +405,24 @@ structured artifact in `downloads/`. The workflow is:
    JSON representation of its full content. This is your intermediate
    representation — everything downstream derives from it.
 
-2. **`full-entity-inventory.json`** (required whenever there's a parseable
-   data dictionary or schema): A complete machine-readable extraction of
+2. **`entity-inventory-full.json`** (required whenever there's a parseable
+   data dictionary or schema or any content we can turn into one, e.g. via PDF, csv, html, etc):
+   A complete machine-readable extraction of
    every entity/table and every field. For each field, capture everything
    the source provides: name, type, description, nullability, max length,
    foreign keys, value sets, coded values, default values, example data.
    Don't summarize or truncate — if the source has 715 fields, the JSON
-   has 715 field objects. This file IS the parse.
+   has 715 field objects. This file IS the parse. You many see similar
+   files in the existing download/enrichments but you should build your
+   script from raw sources, not enrichments (but read/use code in the
+   enrichments to inform your choices, when helpful).
 
 3. **Derive aggregates from the parse.** Summary statistics, category
    breakdowns, coverage tables in analysis.md — all computed from the
    full inventory JSON, not counted separately. If your script counts
    "164 fields with descriptions," there should be exactly 164 field
-   objects in the JSON where `description` is non-empty.
+   objects in the JSON where `description` is non-empty. These should
+   all land in `entity-inventory-summary.json`
 
 4. **Parse aggressively.** If a PDF has tabular data, extract the table
    rows — don't just count them. If an HTML page has field definitions
@@ -384,7 +430,7 @@ structured artifact in `downloads/`. The workflow is:
    nested properties, flatten and enumerate them all. Err on the side
    of extracting too much rather than too little. A messy-but-complete
    parse is better than a tidy summary with the underlying data thrown
-   away.
+   away. Iterate until you are perfect or cannot make progress.
 
 5. **Handle parse failures explicitly.** If `pdftotext` garbles some rows,
    include them with a `"parse_error": true` flag and the raw text. Report
@@ -407,10 +453,13 @@ in analysis.md should be reproducible by querying it.
 - **Use the EHI scope reference.** Don't flag missing audit logs or system
   config as gaps — those aren't EHI. Do flag missing billing, specialty
   clinical data, or custom forms if the product stores them.
-- **The classification matters.** Getting the overall category right is the
-  single most important output. A vendor whose "(b)(10) export" is just their
-  FHIR API repackaged should be classified as "standard-based projection,"
-  not "comprehensive native export."
+- **The classification matters.** Getting the two axes right is the single
+  most important output. A vendor whose "(b)(10) export" is just their
+  FHIR API repackaged should be classified as "Repackaged existing export,"
+  even if it uses a lot of FHIR resources. A vendor who built a deep
+  FHIR mapping covering billing, specialty data, and custom forms beyond
+  (g)(10) should be classified as "Purpose-built EHI export" — the format
+  being FHIR doesn't make it repackaged.
 
 ## EHI Scope Reference
 
