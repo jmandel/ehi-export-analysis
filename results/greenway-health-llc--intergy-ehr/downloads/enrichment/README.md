@@ -1,4 +1,4 @@
-# Intergy EHI Export — Enrichment
+# Intergy EHI Data Dictionary Enrichment
 
 ## Run Command
 
@@ -9,25 +9,26 @@ bun run extract-tables.ts
 
 ## Input Boundary
 
-Parses all `.htm` files in `../viewer/Contracts/` (excluding `DBTOC.htm`).
-These are the individual table definition pages from the Intergy EHI Export
-data dictionary at `https://ehi.greenwayhealth.com/Intergy/EHI/Viewer/`.
+Parses all `.htm` files in `../viewer/Contracts/` (261 table definition pages)
+plus `../viewer/Contracts/include/DBDescriptions.js` for supplemental table
+descriptions.
 
 ## Output Files
 
-- **`intergy-data-dictionary.json`** — Array of 261 table definitions, each with:
-  - `name`, `description`, `last_updated`, `intergy_version`
-  - `fields[]` — field name, datatype, default, null option, comment
-  - `parent_tables[]` / `child_tables[]` — foreign key relationships
-  - `source_file` — path to source HTML
-
-- **`extraction-coverage.json`** — Parsing statistics:
-  - Files discovered/parsed, total fields, relationships
-  - Parse failures with file paths and error reasons
-  - Per-table summary (field count, relationship counts)
+- **tables.json** — Full structured data dictionary with all tables, fields
+  (name, datatype, default, null option, comment), parent table relationships,
+  and child table relationships.
+- **tables-summary.json** — Compact summary with table names, descriptions,
+  field counts, relationship counts, and field name lists.
+- **coverage-report.json** — Accounting: files discovered, files parsed,
+  parse failures, and field count distribution.
 
 ## Known Parsing Limitations
 
-- HTML entity decoding is basic (handles `&nbsp;`, `&amp;`, `&lt;`, `&gt;` only)
-- Default values that are just "?" are normalized to null
-- Relationship extraction depends on consistent HTML structure across all pages
+- HTML parsing uses regex rather than a DOM parser. This works well for the
+  uniform structure of these generated pages but could break if page structure
+  varies significantly.
+- Default values containing HTML entities beyond the common set (&nbsp; &amp;
+  &lt; &gt; &quot;) may not be decoded correctly.
+- The "No_Value__N_" default value pattern (used for boolean fields) is
+  preserved as-is rather than decoded to "N".
