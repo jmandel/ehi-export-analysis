@@ -1,0 +1,304 @@
+
+
+
+
+● Read product research
+  $ cat /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr/pr
+  oduct-research.md 2>/dev/null | head -200
+  └ 149 lines...
+
+● Read CHPL metadata
+  $ cat /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr/ch
+  pl-metadata.json 2>/dev/null | head -100
+  └ 68 lines...
+
+● Probe target URL
+  $ curl -sI -L "https://www.alterahealth.com/legal/onc-reg-compliance/" -H 'User-Agent:
+  Mozilla/5.0' 2>&1 | head -50
+  └ 24 lines...
+
+● Fetch and examine page
+  $ curl -sL "https://www.alterahealth.com/legal/onc-reg-compliance/" -H 'User-Agent: Mozilla/5.0'
+  -o /tmp/altera-page.html && wc -c /tmp/altera-page.html && grep -oiE
+  'href="[^"]*\.(pdf|zip|xlsx|xls|csv|json|doc|docx|yaml|yml)[^"]*"' /tmp/altera-page.html | head
+  -30
+  └ 32 lines...
+
+● Search for EHI links
+  $ # Search for EHI/b(10) related content
+  grep -oiE 'href="[^"]*"' /tmp/altera-page.html | grep -iE
+  'ehi|export|b.10|bulk|data.dictionary|data-dictionary' | head -30
+  └ 23 lines...
+
+● Search page text for EHI
+  $ # Search for text content about EHI export
+  cat /tmp/altera-page.html | sed 's/<[^>]*>/ /g' | tr -s ' \n' | grep -iE
+  'ehi|b\(10\)|b\.10|electronic health information|export' | head -30
+  └ 31 lines...
+
+● Create downloads directory
+  $ mkdir -p /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-e
+  hr/downloads
+  └ 1 line...
+
+● Download CapabilityStatement
+  $ # Download CapabilityStatement.json
+  curl -sL -H 'User-Agent: Mozilla/5.0'
+  "https://www.alterahealth.com/download/204/ehi-documentation/11851/capabilitystatement.json" -o
+  /tmp/capabilitystatement.json && file /tmp/capabilitystatement.json && head -c 500
+  /tmp/capabilitystatement.json
+  └ 20 lines...
+
+● Download extension details
+  $ # Download extension-details.xlsx
+  curl -sL -H 'User-Agent: Mozilla/5.0'
+  "https://www.alterahealth.com/download/204/ehi-documentation/11954/extension-details.xlsx" -o
+  /tmp/extension-details.xlsx && file /tmp/extension-details.xlsx && ls -la
+  /tmp/extension-details.xlsx
+  └ 3 lines...
+
+● Download latest EHI export definition
+  $ # Download the latest TouchWorks EHI Export Definition (2026.1)
+  curl -sL -H 'User-Agent: Mozilla/5.0' "https://www.alterahealth.com/download/204/ehi-documentation
+  /16825/twehr-2026-1-touchworks-ehi-export-definition" -o /tmp/twehr-2026-1.zip && file
+  /tmp/twehr-2026-1.zip && ls -la /tmp/twehr-2026-1.zip
+  └ 3 lines...
+
+● Check 2026.1 content
+  $ # Check what the 2026.1 "zip" actually is
+  head -c 500 /tmp/twehr-2026-1.zip
+  └ 18 lines...
+
+● Download 2025.1 zip
+  $ # Try the 2025.1 which is explicitly .zip
+  curl -sL -H 'User-Agent: Mozilla/5.0' "https://www.alterahealth.com/download/204/ehi-documentation
+  /14131/touchworks-ehi-export-definition-twehr-2025-1.zip" -o /tmp/twehr-2025-1.zip && file
+  /tmp/twehr-2025-1.zip && ls -la /tmp/twehr-2025-1.zip
+  └ 3 lines...
+
+The 2026.1 URL returns HTML (it's a page, not a direct download). The 2025.1 is a proper ZIP. Let me use the browser for the 2026.1 and also check the other recent versions.
+
+● Check 2026.1 headers
+  $ # Check the content-disposition headers for newer URLs
+  curl -sI -L -H 'User-Agent: Mozilla/5.0' "https://www.alterahealth.com/download/204/ehi-documentat
+  ion/16825/twehr-2026-1-touchworks-ehi-export-definition" | head -20
+  └ 21 lines...
+
+● Check 2025.4 headers
+  $ # Try 2025.4
+  curl -sI -L -H 'User-Agent: Mozilla/5.0' "https://www.alterahealth.com/download/204/ehi-documentat
+  ion/16630/twehr-2025-4-touchworks-ehi-export-definition" | head -20
+  └ 21 lines...
+
+The servers do return the ZIP files — just my first attempt got cached HTML. Let me re-download with the right headers.
+
+● Download 2026.1 ZIP properly
+  $ DL=/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr/d
+  ownloads
+
+  # Download the latest TouchWorks EHI export definition (2026.1)
+  curl -sL -H 'User-Agent: Mozilla/5.0' -H 'Accept: ...
+  └ 6 lines...
+
+● Extract ZIPs
+  $ DL=/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr/d
+  ownloads
+
+  # Extract both ZIPs and check their contents
+  mkdir -p "$DL/twehr-2026.1" "$DL/twehr-2025.1"...
+  └ 11 lines...
+
+● List extracted files
+  $ DL=/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr/dow
+  nloads
+  echo "=== 2026.1 ===" && find "$DL/twehr-2026.1" -type f | head -20
+  echo "=== 2025.1 ===" && find "$DL/twehr-2025.1" -type f | head -20
+  └ 24 lines...
+
+● Examine 2026.1 structure
+  $ DL=/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr/d
+  ownloads
+
+  # 2026.1 has an HTML tree structure - check how many HTML files and what they contain
+  find "$DL/twehr-2026.1" -type f -name "*.html" | wc -l...
+  └ 15 lines...
+
+● Extract nested 2025.1 zip
+  $ DL=/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr/d
+  ownloads
+
+  # The 2025.1 has a nested zip - extract it
+  cd "$DL/twehr-2025.1" && find . -name "*.zip" -exec unzip -o {} \; 2>&1 | tail -5...
+  └ 12 lines...
+
+● Check tree links
+  $ DL=/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr/dow
+  nloads
+
+  # Check the tree structure of the 2026.1 version
+  head -200 "$DL/twehr-2026.1/tree.html" | grep -oP 'href="[^"]*"' | head -30
+  └ 3 lines...
+
+● Check main.html structure
+  $ DL=/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr/d
+  ownloads
+
+  # Check if 2025.1 has main.html and examine its structure
+  head -100 "$DL/twehr-2025.1/main.html" 2>/dev/null || head -100 "$DL/twehr-2025.1/index.html" ...
+  └ 9 lines...
+
+● List directory structure
+  $ DL=/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr/dow
+  nloads
+
+  # List the directory structure of the HTML docs (databases/tables)
+  find "$DL/twehr-2026.1" -type d | sort | head -40
+  └ 24 lines...
+
+● Check table HTML format
+  $ DL=/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr/dow
+  nloads
+
+  # Check one table HTML to understand the content format
+  find "$DL/twehr-2026.1" -name "*.html" -path "*/Tables/*" | head -1 | xargs head -100
+  └ 2 lines...
+
+Excellent! This is a comprehensive SQL database schema documentation. Each HTML page documents a table with columns, data types, and descriptions. Let me understand the scope and build the enrichment.
+
+● Count databases and tables
+  $ DL=/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr/d
+  ownloads
+
+  # Count databases and tables in 2026.1
+  echo "Databases:"...
+  └ 27 lines...
+
+● List sample table names
+  $ DL=/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr/d
+  ownloads
+
+  # Look at a few table names from the Works database to understand scope
+  find "$DL/twehr-2026.1/Touchworks/User_databases/Works/Tables/" -name "*.html" -not -name ...
+  └ 52 lines...
+
+● Check clinical/billing table names
+  $ DL=/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr/d
+  ownloads
+
+  # Continue listing table names to get a sense of scope
+  find "$DL/twehr-2026.1/Touchworks/User_databases/Works/Tables/" -name "*.html" -not -name ...
+  └ 44 lines...
+
+This is a comprehensive database schema documentation covering clinical, billing, and administrative data. Now let me clean up and focus on the deliverables. I'll keep the latest (2026.1) version, remove the 2025.1 to avoid bloat, and create the enrichment.
+
+● Clean up temp files
+  $ DL=/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr/d
+  ownloads
+
+  # Remove the 2025.1 extraction (keep only the latest 2026.1)
+  rm -rf "$DL/twehr-2025.1" /tmp/twehr-2025-1.zip...
+  └ 17 lines...
+
+The CapabilityStatement is a Paragon FHIR one — not relevant for TouchWorks EHI export. The extension-details.xlsx is also for FHIR extensions, not the (b)(10) export. Let me skip those and focus on the database schema documentation.
+
+● Verify downloads
+  $ # Clean up temp files
+  rm -f /tmp/capabilitystatement.json /tmp/extension-details.xlsx /tmp/altera-page.html
+  /tmp/twehr-2026-1.zip
+
+  DL=/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr/d...
+  └ 18 lines...
+
+Now let me create the enrichment script to extract the structured data from all the HTML table documentation pages.
+
+● Create enrichment directory
+  $ mkdir -p /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-e
+  hr/downloads/enrichment
+  └ 1 line...
+
+● Examine Patient table HTML
+  $ DL=/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr/dow
+  nloads
+  # Examine a couple more HTML files to understand the full structure
+  cat "$DL/twehr-2026.1/Touchworks/User_databases/Works/Tables/dbo_Patient.html" 2>/dev/null | head
+  -c 3000
+  └ 1 line...
+
+● Find patient tables and examine
+  $ DL=/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr/d
+  ownloads
+  # Find tables with "Patient" in the name
+  find "$DL/twehr-2026.1" -name "*atient*" -type f | head -10
+  # Also check a real table...
+  └ 13 lines...
+
+Good — the HTML pages contain structured data with columns, data types, foreign keys, indexes, and descriptions. Now let me create the enrichment script.
+
+● Create results/altera-digital-health-inc--touchworks-ehr/downloads/enrichment/extract-tables.ts
+  (+285)
+
+● Run enrichment script
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr/dow
+  nloads/enrichment && bun run extract-tables.ts
+  └ 22 lines...
+
+All 577 tables parsed with 0 failures. Let me verify the output quality.
+
+● Verify enrichment quality
+  $ cd /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr/d
+  ownloads/enrichment
+
+  # Check tables.json - look at a sample entry
+  cat tables.json | python3 -c "...
+  └ 67 lines...
+
+Excellent quality output. Now let me create the README and the final report.
+
+● Create results/altera-digital-health-inc--touchworks-ehr/downloads/enrichment/README.md (+34)
+
+Now let me get the file sizes and create the report and manifest.
+
+● Analyze data domains
+  $ DL=/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr/d
+  ownloads
+
+  # Get key data domain info from the tables
+  cd "$DL/enrichment" && cat tables.json | python3 -c "...
+  └ 159 lines...
+
+Now let me get file sizes and create the deliverables.
+
+● Get file sizes
+  $ DL=/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr/dow
+  nloads
+  ls -la "$DL/TWEHR-2026.1-Touchworks-EHI-Export-Definition.zip" "$DL/enrichment/tables.json"
+  "$DL/enrichment/coverage.json" "$DL/enrichment/extract-tables.ts" "$DL/enrichment/README.md" | awk
+   '{print $5, $NF}'
+  └ 6 lines...
+
+● Size of extracted docs
+  $ # Get the total size of the twehr-2026.1 extracted directory
+  du -sh /home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr/d
+  ownloads/twehr-2026.1
+  └ 2 lines...
+
+● Create results/altera-digital-health-inc--touchworks-ehr/ehi-export-report.md (+180)
+
+● Get file sizes for manifest
+  $ OUT=/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr
+
+  # Get file sizes for the manifest
+  wc -c "$OUT/downloads/TWEHR-2026.1-Touchworks-EHI-Export-Definition.zip"
+  wc -c "$OUT/downloads/enrichment/tables.json"...
+  └ 9 lines...
+
+● Create results/altera-digital-health-inc--touchworks-ehr/files.json (+51)
+
+● Final verification
+  $ # Verify deliverables
+  OUT=/home/jmandel/hobby/ehi-export-analysis/results/altera-digital-health-inc--touchworks-ehr
+  echo "=== Deliverables ==="
+  ls -la "$OUT/ehi-export-report.md" "$OUT/files.json"
+  echo "=== Downloads ==="...
+  └ 23 lines...
+
