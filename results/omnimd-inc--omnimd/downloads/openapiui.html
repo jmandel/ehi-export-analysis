@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <title>OmniXchange: Health information exchange</title>
+
+    <script src="/OpenApiUi/assets/js/jquery/jquery-3.2.1.js"></script>
+    <script src="/OpenApiUi/assets/js/jquery/jquery.validate.min.js"></script>
+    <script src="/OpenApiUi/Scripts/jquery.easy-autocomplete.js"></script>
+    <script src="/OpenApiUi/assets/js/Custom.js"></script>
+    <script src="/OpenApiUi/assets/js/Validation.js"></script>
+    <link href="/OpenApiUi/assets/css/style.css" rel="stylesheet" />
+    <script src="/OpenApiUi/assets/js/jquery.datetimepicker.js"></script>
+    <script src="/OpenApiUi/Scripts/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link href="/OpenApiUi/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/OpenApiUi/Content/easy-autocomplete.css" rel="stylesheet" />
+    <script src="/OpenApiUi/Scripts/jquery.validate.min.js"></script>
+    <script src="/OpenApiUi/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="/OpenApiUi/assets/js/inputmask.js"></script>
+    <script src="/OpenApiUi/assets/js/jquery.inputmask.js"></script>
+
+    
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+    
+
+    <script>
+        $(function () {
+            //$("#logout").click(function () {
+            //    $.ajax({
+            //        url: 'http://10.10.2.217/openAPI/api/Account/Logout',
+            //        success: function () {
+            //            window.location.href = "../../Login/Login";
+            //        },
+            //        error: function (xhr) {
+            //            window.location.href = "../../Login/Login";
+            //        }
+            //    });
+            //});
+        });
+    </script>
+
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header">
+        <table width="100" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td class="head">
+                    <table width="100" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td width="181">
+
+                                <cc1:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server" />
+                                <img src="/OpenApiUi/assets/images/logo.jpg" alt="OmniXchange" width="181" height="67" />
+                                <asp:Label ID="lblSessionTime" runat="server" Visible="false"></asp:Label>
+                            </td>
+                            <td>
+                                &nbsp;
+                            </td>
+                            <td width="360" style="padding-right: 20px;">
+                                <table width="100" border="0" cellspacing="0" cellpadding="3">
+                                    <tr>
+                                        <td colspan="3" width="70%" align="right" class="welcome">
+
+                                            <asp:Label Text="Welcome" ID="lblWelcome" runat="server"></asp:Label>
+                                        </td>
+
+                                        <td align="right">
+                                            <asp:ImageButton ID="imgBtnMyAccount" ImageUrl="/OpenApiUi/images/myaccount.png" ValidationGroup="OmniMyAccount"
+                                                             AlternateText="My Account" runat="server" OnClick="imgBtnMyAccount_Click" ToolTip="Click to view/edit Account Details" />
+                                        </td>
+                                        <td align="right">
+                                            <asp:ImageButton ID="imgBtnChangePassword" ImageUrl="/OpenApiUi/images/reset_password.png"
+                                                             ValidationGroup="OmniChangePassword" AlternateText="Change Password" runat="server"
+                                                             OnClick="imgBtnChangePassword_Click" ToolTip="Click to Change Password" />
+                                        </td>
+
+                                        <td align="right">
+                                            <asp:ImageButton ID="imgBtnLogout" ImageUrl="/OpenApiUi/images/logout.png" AlternateText="Logout"
+                                                             runat="server" OnClick="imgBtnLogout_Click" ValidationGroup="OmniLogout" ToolTip="Click to Logout" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+    <div id="footer">
+        <p>
+            2017 © Copyright Integrated System Management Inc. Inc. <a href="http://www.omnimd.com/"
+                                                                       target="_blank">www.OmniMD.com</a>. All rights reserved.
+        </p>
+    </div>
+    <div>
+        
+
+
+
+<link rel="stylesheet" type="text/css" href="/OpenApiUi/Documentation/fonts/font-awesome-4.3.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="/OpenApiUi/Documentation/css/stroke.css">
+<link rel="stylesheet" type="text/css" href="/OpenApiUi/Documentation/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/OpenApiUi/Documentation/css/animate.css">
+<link rel="stylesheet" type="text/css" href="/OpenApiUi/Documentation/css/prettyPhoto.css">
+<link rel="stylesheet" type="text/css" href="/OpenApiUi/Documentation/css/style.css">
+<link rel="stylesheet" type="text/css" href="/OpenApiUi/Documentation/js/syntax-highlighter/styles/shCore.css" media="all">
+<link rel="stylesheet" type="text/css" href="/OpenApiUi/Documentation/js/syntax-highlighter/styles/shThemeRDark.css" media="all">
+<link rel="stylesheet" type="text/css" href="/OpenApiUi/Documentation/css/custom.css">
+<script>
+    var token = "";
+    //var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('=');
+    //var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+
+    //var cliniccode = "";
+    //var patientid = "";
+    //var servername = "";
+    //if (url.length > 2) {
+    //    cliniccode = url[0].split('=');
+    //    patientid = url[1].split('=');
+    //    servername = url[2].split('=');
+    //}
+    //console.log(cliniccode);
+    //console.log(patientid);
+    //console.log(servername);
+    $(function () {
+        $('#btnlogin').click(function () {
+            var username = $("#uname").val();
+            var password = $("#upass").val();
+            //console.log(username);
+            //console.log(password);
+                $.ajax({
+                url: 'https://prod.omnixchange.com/openAPI/Token',
+                type: 'post',
+                data: {
+                    username: username,
+                    password: password,
+                    grant_type: 'password',
+                    //PatientID: patientid[1],
+                    //ClinicCode: cliniccode[1],
+                    //ServerName: servername[1]
+                },
+                dataType: 'json',
+                success: function (response) {
+                    token = response.access_token;
+                    vendoracc = response.vendorAccount;
+                    username = response.userName;
+                    localStorage.setItem("token", token);
+                    localStorage.setItem("vendoracc", vendoracc);
+                    localStorage.setItem("username", username);
+                    window.location.href = "../../openapiui/Dashboard/Dashboard";
+                },
+                error: function (xhr) {
+                    $("#alert").show().delay(2000).fadeOut(2500);
+                    //setTimeout(function () { $("#alert").hide(); }, 5000);
+                }
+                });
+        });
+
+        //$("#email").focusout(function () {
+        //    if (!ValidateEmail($("#vemail").val())) {
+        //        $("#msgemail").show();
+        //        $("#btnproceed").attr("disabled", "disabled");
+        //    }
+        //    else {
+        //        $("#msgvemail").hide();
+        //        $("#btnsubmit").removeAttr("disabled", "disabled");
+        //    }
+        //});
+    });
+</script>
+<div class="container-fluid">
+    <section id="top" class="section docs-heading">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="big-title text-center">
+                    <h1>OmniMD OpenAPI Version 1.0</h1>
+                    <p class="lead">OmniMD OpenAPI Version 1.0</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="row">
+        <div class="col-md-offset-1 col-md-3">
+            <nav class="docs-sidebar" data-offset-top="300" data-offset-bottom="200" role="navigation">
+                <ul class="nav">
+                    <li><a href="#line0">Introduction</a></li>
+                    <li><a href="#line1">Token</a></li>
+                    <li><a href="#line2">Registration</a></li>
+                    <li><a href="#line3">Patient Search</a></li>
+                    <li><a href="#line4">Get Patient Data</a></li>
+                </ul>
+                <div style="padding-top:30pt">
+<form action="/OpenApiUi/" class="col-md-8" enctype="multipart/form-data" id="form1" method="post">                        <h2 class="dark-text1">Secured Login</h2>
+                        <hr/>
+                        <div class="form-group">
+                            <label>User Name</label>
+                            <input type="text" id="uname" name="uname" class="form-control" placeholder="User Name" required maxlength="48" />
+                        </div>
+                        <div class="form-group">
+                            <label>Password : </label>
+                            <input type="password" id="upass" name="upass" class="form-control" placeholder="Password" required maxlength="48" />
+                            <div class="pull-right"><a data-toggle="modal" data-target="#myModal" style="cursor:pointer">forgot password?</a></div>
+                        </div>
+                        <div class="form-group" style="margin:5% 0 15% 10%;">
+                            <span hidden id="alert" class="alert alert-danger">
+                                <strong>Invalid Credentials</strong>
+                            </span>
+                        </div>
+                        <div class="form-group text-center">
+                            <div class="btn-group">
+                                <input type="button" id="btnlogin" class="btn btn-success" value="Login" />
+                                <input type="button" id="btnregister" class="btn btn-warning" value="Not User?" onclick=" window.location.href=&#39;/OpenApiUi/Register/RegisterVendor&#39; ;" />
+                            </div>
+                        </div>
+</form>                </div>
+            </nav>
+        </div>
+        <div class="col-md-7">
+            <section id="line0" class="welcome">
+                <div class="row">
+                    <div class="col-md-12 left-align">
+                        <span class="dark-text">Introduction</span>
+                        <div class="row">
+                            <div class="col-md-12 full">
+                                <div class="intro1">
+                                    <ul>
+                                        <li><strong>Web Address : </strong>of Practice Server containing the patient data to be accessed.</li>
+                                        <li><strong>Item Version : </strong> v 1.0</li>
+                                        <li><strong>Application Element : </strong> Practice Account Variable is used to validate access and log what practice is requesting data.</li>
+                                        <li><strong>Parameters Element : </strong> Various Parameters based on API.</li>
+                                        <li><strong>OpenApi URL : </strong><a href="https://prod.omnixchange.com/openapiui">https://prod.omnixchange.com/openapiui</a></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p>
+                                        <!-- This documentation provides access information for searching and fetching patient data from the Common Clinical Data Set utilizing OmniMD EMR OpenAPI's. Commented by Abhishek on 04May2023-->
+                                        This documentation provides access information for searching and fetching patient data from the USCDI utilizing OmniMD EMR OpenAPI's.
+                                    </p>
+                                    <!-- <p>The intended purpose satisfies the requirements of 2015 CEHRT Regulations § 170.315(g)(7), § 170.315(g)(8), and § 170.315(g)(9).</p> Commented by Abhishek on 04May2023-->
+                                    <!--<p>The intended purpose satisfies the requirements of 2015 CEHRT Regulations § 170.315(g)(7), and § 170.315(g)(9).</p> Commented by Abhishek on 14May2024-->
+                                    <p>The intended purpose satisfies the requirements of CEHRT Regulations § 170.315(g)(7), and § 170.315(g)(9).</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end row -->
+                    </div>
+                </div>
+            </section>
+            <section id="line1" class="section">
+                <div class="row">
+                    <div class="col-md-12 left-align">
+                        <span class="dark-text">Token<a href="#top">#back to top</a></span>
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end row -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="container">
+                            <div class="row">
+                                <h3>Example Call : </h3>
+                                <img src="/OpenApiUi/Documentation/Images/token.PNG" class="img-responsive"/>
+                            </div>
+                            <div class="row">
+                                <h3>Example Return : </h3>
+                                <img src="/OpenApiUi/Documentation/Images/exmplreturn.png" class="img-responsive" />
+                            </div>
+                            <div class="row">
+                                <h3>Json Format : </h3>
+                                <div class="intro2 clearfix">
+                                    <p>
+                                        {
+                                        <br />&nbsp;&nbsp;"access_token": "WWSisHnFTwhBlAVBg5j2KYYvPkdIshObhfYcB5QUPLBBy1OFNfFrkb0-1m_t_r80CmSt8YSWkCYKA9FmM2SrSt9ZLFuFWzEw7OQcQe4aE4NhjilNuX4tXvRW-f6pu2ezlj6B279ui-LBijC2oSc0ihf157SznAfc25YdJcFAN ",
+                                        <br />&nbsp;&nbsp;"token_type": "bearer",
+                                        <br />&nbsp;&nbsp;"expires_in": 86399,
+                                        <br />&nbsp;&nbsp;"userName": "Omnimd",
+                                        <br />&nbsp;&nbsp;"vendorAccount": "OmniMD",
+                                        <br />&nbsp;&nbsp;"vendorAccountName": "Omni",
+                                        <br />&nbsp;&nbsp;".issued": "Wed, 08 Nov 2017 16:28:04 GMT",<br />
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end col -->
+                    </div>
+                </div>
+
+            </section>
+            <!-- end section -->
+            <section id="line2" class="section">
+                <div class="row">
+                    <div class="col-md-12 left-align">
+                        <span class="dark-text">Registration<a href="#top">#back to top</a></span>
+                    </div>
+                    <div class="row">
+                        <h1>Vendor Registration : </h1>
+                        <h3>Parameters : </h3>
+                        <p>Note : sign * means required field. </p>
+                        <ol>
+                            <li>*Vendor Name: Enter vendor name</li>
+                            <li>*Email: Valid Email-ID of vendor</li>
+                            <li>*Phone: Valid vendor phone number.</li>
+                            <li>City: Vendor city</li>
+                            <li>*Address1: Vendor address</li>
+                            <li>Address2: Vendor address</li>
+                            <li>State: Vendor state</li>
+                            <li>Country: Vendor country</li>
+                            <li>*Zip: Vendor zip</li>
+                        </ol>
+                        <div class="intro2 clearfix">
+                            <p>
+                                <i class="fa fa-exclamation-triangle"></i>
+                                <strong> Returns:</strong>
+                                <br>-->success Attribute
+                                <br>-->--><strong>true</strong> - made it to the GetPatientDetails API
+                                <br>-->-->-->Patient Element
+                                <br>-->-->-->-->Found Attribute
+                                <br>-->-->-->-->--><strong>true</strong> - patient found
+                                <br>-->-->-->-->-->--><strong>UniqueIdentifier Variable</strong> - PatientID to pass back to other API for Patient data
+                                <br>-->-->-->-->--><strong>False</strong> - patient not found
+                                <br>-->-->-->-->False
+                                <br>-->-->-->-->-->error Attribute
+                                <br>-->-->-->-->-->--><strong>Action</strong> - Error with the Action Variable
+                                <br>--><strong>CatchAll</strong> - Catch All error
+
+                            </p>
+                        </div>
+                    </div><hr />
+                    <div class="row">
+                        <h1>User Registration : </h1>
+                        <h3>Parameters : </h3>
+                        <p>Note : sign * means required field. </p>
+                        <ol>
+                            <li>*Vendor Account: Enter vendor account id</li>
+                            <li>*First Name: First name of user</li>
+                            <li>Middle Name: Middle name of user</li>
+                            <li>Last Name: Last name of user</li>
+                            <li>*User Name : Unique User name</li>
+                            <li>*Password : User password</li>
+                            <li>*Email: Valid Email-ID of user</li>
+                            <li>*Phone: Valid user phone number.</li>
+                            <li>City: User city</li>
+                            <li>*Address1: User address</li>
+                            <li>Address2: User address</li>
+                            <li>State: User state</li>
+                            <li>Country: User country</li>
+                            <li>*Zip: User zip</li>
+                        </ol>
+                        <div class="intro2 clearfix">
+                            <p>
+                                <i class="fa fa-exclamation-triangle"></i>
+                                <strong> Returns:</strong>
+                                <br>-->success Attribute
+                                <br>-->--><strong>true</strong> - made it to the Login Screen
+                                <br>-->-->-->User Element
+                                <br>-->-->-->-->Found Attribute
+                                <br>-->-->-->-->--><strong>true</strong> - User created
+                                <br>-->-->-->-->--><strong>False</strong> - User not created
+                                <br>-->-->-->-->False
+                                <br>-->-->-->-->-->error Attribute
+                                <br>-->-->-->-->-->--><strong>Action</strong> - Error with the Action Variable
+                                <br>--><strong>CatchAll</strong> - Catch All error
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+               
+               
+                <hr />
+
+            </section>
+            <!-- end section -->
+            <section id="line3" class="section">
+                <div class="row">
+                    <div class="col-md-12 left-align">
+                        <span class="dark-text">Patient Search<a href="#top">#back to top</a></span>
+                    </div>
+                    <div class="row">
+                        <h1>Search By External Patient ID : </h1>
+                        <span>Parameters : </span>
+                        <ol><li>ExternalPatientID – ExternalPatientID returned from GetPatIdentifier API</li>
+                        <li>Token - for the authorized user</li></ol>
+                    </div>
+                    <div class="row">
+                        <h3>Example : </h3>
+                        <img src="/OpenApiUi/Documentation/Images/searchbyexternalid.PNG" class="img-responsive"/>
+                    </div><hr />
+                    <div class="row">
+                        <h1>Search By First Name, Last Name, DOB, Gender and Zip : </h1>
+                        <span>Parameters : </span>
+                        <ol>
+                            <li>Token - for the authorized user</li>
+                            <li>First Name - First name of patient</li>
+                            <li>Last Name - Last name of patient</li>
+                            <li>Gender - Gender of patient</li>
+                            <li>Zip - Zipcode</li>
+                            <li>DOB Name - Date of birth of patient</li>
+                        </ol>
+                    </div>
+                    <div class="row">
+                        <h3>Example : </h3>
+                        <img src="/OpenApiUi/Documentation/Images/searchbyothers.PNG" class="img-responsive"/>
+                    </div>
+                </div>
+                <h3><strong>Returns : </strong></h3>
+                <ol>
+                    <li>
+                        Return Element if present
+                    </li>
+                    <li>
+                        <ol>
+                            <li>
+                                Success Attribute
+                            </li>
+                            <li>
+                                <ol>
+                                    <li>False</li>
+                                    <li><ol><li>Error Element</li><li><ol><li>InvalidPatient - Incorrect Patient</li></ol></li></ol></li>
+                                </ol>
+                            </li>
+                        </ol>
+                    </li>
+                    <li><strong>Action</strong> - Error with the Action Variable</li>
+                    <li><strong>CatchAll</strong> - Catch All error</li>
+                    <li>CDA in XML format</li>
+                </ol>
+            </section>
+            <!-- end section -->
+            <section id="line4" class="section">
+                <div class="row">
+                    <div class="col-md-12 left-align">
+                        <span class="dark-text">Get Patient Data<a href="#top">#back to top</a></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <h1>Patient All Data: </h1>
+                    <span>Parameters : </span>
+                    <ol>
+                        <li>ExternalPatientID - ExternalPatientID returned from GetPatIdentifier API</li>
+                        <li>Token -for the authorized user</li>
+                        <li>ServerName - Name of the server</li>
+                        <li>ClinicCode - Clinic code of patient</li>
+                        <li>Sections - All(select all data)</li>
+                    </ol>
+                </div><hr />
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Example Call</h3>
+                        <img src="/OpenApiUi/Documentation/Images/AllData.PNG" class="img-responsive" />
+
+                    </div>
+                    <div class="col-md-12">
+                        <h3>Example Return</h3>
+                        <h3>Success : </h3>
+                        <img src="/OpenApiUi/Documentation/Images/xmldata.png" class="img-responsive" />
+                    </div>
+                    <div class="col-md-12">
+                        <h3>Error : </h3>
+                        <img src="/OpenApiUi/Documentation/Images/errormsg.png" class="img-responsive" />
+                    </div>
+                </div><hr />
+                <div class="row">
+                    <h1>Selected Data : </h1>
+                    <span>Parameters : </span>
+                    <ol>
+                        <li>ExternalPatientID- ExternalPatientID returned from GetPatIdentifier API</li>
+                        <li>ClinicCode: Clinic Code</li>
+                        <li>ServerName- Server Name</li>
+                        <li>Token -for the authorized user</li>
+                        <li>StartDate - date range of data to start with (default to 1900-01-01 if not supplied)</li>
+                        <li>EndDate - date range of data to end with (default to today if not supplied and StartDate not supplied, if not supplied and StartDate supplied then set to StartDate)</li>
+                        <li>Sections - AdvanceDirective|Allergy|Assessment|Encounter|FamilyHistory|FunctionalStatus|Immunization|Instruction|MedicalEquipment|<br />Medication|MedicationsAdministered|Payer|PlanOfCare|Problems|Procedure|ProgressNote|ReasonForVisit|Results|SocialHistory|Vital</li>
+                    </ol>
+                </div>
+                <div class="col-md-12">
+                    <h3>Example Call : </h3>
+                    <img src="/OpenApiUi/Documentation/Images/selecteddata.PNG" class="img-responsive"/>
+                </div><hr />
+                <h3>XML Response</h3>
+                <h3> * You get response as XML Format in. CDA version is 2.1</h3>
+            </section>
+        </div>
+        <!-- // end .col -->
+    </div>
+    <!-- // end .row -->
+</div>
+
+<!-- Modal -->
+
+<div class="modal fade" id="myModal" role="dialog" style="padding-top:15%;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Reset Password</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div>
+                        <input class="form-control" type="text" placeholder="Enter Email" id="vemail" />
+                        <span hidden id="msgvemail" style="color:#d84848;font-weight:bold">Please Enter valid email address</span>
+                    </div><br />
+                    <div>
+                        <input class="btn btn-danger pull-right" id="btnsubmit" type="button" value="Proceed" />
+                    </div>
+                </div>
+                <br />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/OpenApiUi/Documentation/js/jquery.min.js"></script>
+<script src="/OpenApiUi/Documentation/js/bootstrap.min.js"></script>
+<script src="/OpenApiUi/Documentation/js/wow.js"></script>
+<script src="/OpenApiUi/Documentation/js/jquery.prettyPhoto.js"></script>
+<!-- CUSTOM PLUGINS -->
+<script src="/OpenApiUi/Documentation/js/custom.js"></script>
+<script src="/OpenApiUi/Documentation/js/main.js"></script>
+<script src="/OpenApiUi/Documentation/js/syntax-highlighter/scripts/shCore.js"></script>
+<script src="/OpenApiUi/Documentation/js/syntax-highlighter/scripts/shBrushXml.js"></script>
+<script src="/OpenApiUi/Documentation/js/syntax-highlighter/scripts/shBrushCss.js"></script>
+<script src="/OpenApiUi/Documentation/js/syntax-highlighter/scripts/shBrushJScript.js"></script>
+    </div>
+
+</body>
+</html>
