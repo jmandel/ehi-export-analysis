@@ -1,41 +1,263 @@
 {
-  "product": "ezEMRx",
-  "vendor": "ezEMRx Inc",
-  "analysis_date": "2026-02-16",
-  "source": "https://www.ezemrx.com/ehi-export",
-  "extraction_notes": "No data dictionary, schema, sample data, or any structured export documentation exists. The page contains only regulatory text and an empty PDF viewer widget placeholder.",
-  "entities": [],
-  "total_entities": 0,
-  "total_fields": 0,
-  "fields_with_descriptions": 0,
-  "fields_with_types": 0,
-  "parse_errors": [],
-  "artifacts_examined": [
+  "extractionDate": "2026-02-16",
+  "sourceFile": "downloads/ehi-export-data-dictionary.pdf",
+  "extractionMethod": "pdftotext -layout, then regex parsing of table rows",
+  "documentMetadata": {
+    "title": "170.315(b)(10) Electronic Health Information (EHI) Export",
+    "chplProductNumber": "15.02.05.2886.EZEM.01.01.1.220105",
+    "productVersion": "ezEMRx Ver 10.01",
+    "documentControlId": "01US03P98C001",
+    "coverPageVersion": "1.0",
+    "footerVersion": "v2.0",
+    "date": "April 25, 2024",
+    "preparedBy": "ezEMRx Integration Team",
+    "pageCount": 9,
+    "versionDiscrepancy": "Cover page says 'Version: 1.0' but footer on all subsequent pages says 'v2.0 | April 25, 2024'"
+  },
+  "exportMechanics": {
+    "containerFormat": "ZIP file(s)",
+    "fileNamingPattern": "PID_INTERNALNUMBERING[_TYPE].EXT",
+    "singlePatientExport": true,
+    "populationExport": true,
+    "selfServiceAvailable": true,
+    "vendorAssistedAvailable": true,
+    "selfServiceFees": "No fees",
+    "vendorAssistedFees": "Fees may apply based on time and effort",
+    "supportContact": "support@ezemrx.com"
+  },
+  "entities": [
     {
-      "filename": "ehi-export-page-blank-area.png",
-      "size_bytes": 89506,
-      "extension": ".png",
-      "type": "screenshot"
+      "entityName": "Patient Demographics and Clinical Data",
+      "exportCategory": "Patient Demographics and Clinical Data",
+      "format": "HL7 C-CDA R2.1",
+      "fileExtension": "XML + HTML pair",
+      "fileTypeIndicator": null,
+      "description": "Demographics and clinical records in C-CDA R2.1 format. Always produces a pair of XML and HTML files. No TYPE value in filename. Vendor provides no field-level documentation; defers entirely to the HL7 C-CDA R2.1 specification.",
+      "standardReference": "https://www.hl7.org/implement/standards/product_brief.cfm?product_id=447",
+      "fieldLevelDocumentation": false,
+      "fields": [],
+      "fieldCount": 0,
+      "fieldsWithDescriptions": 0,
+      "notes": "C-CDA R2.1 can contain sections for demographics, problems, medications, allergies, immunizations, vital signs, lab results, procedures, encounters, care plans, goals, social history, and more. The vendor does not specify which sections are populated or what coded values are used."
     },
     {
-      "filename": "ehi-export-page-full.png",
-      "size_bytes": 820944,
-      "extension": ".png",
-      "type": "screenshot"
+      "entityName": "Patient Billing and Claims Data",
+      "exportCategory": "Patient Billing and Claims Data",
+      "format": "CSV",
+      "fileExtension": "CSV",
+      "fileTypeIndicator": "ClaimData",
+      "description": "Billing and claims data at the line-item level, including CPT, ICD, NDC codes, charges, multi-payor payments, adjustments, write-offs, and balances.",
+      "standardReference": null,
+      "fieldLevelDocumentation": true,
+      "fields": [
+        {
+          "columnNumber": 1,
+          "pdfColumnNumber": 1,
+          "columnName": "PID",
+          "description": "Patient IDs. These are unique",
+          "hasNumberingError": false
+        },
+        {
+          "columnNumber": 2,
+          "pdfColumnNumber": 2,
+          "columnName": "DOS",
+          "description": "The date of service being billed",
+          "hasNumberingError": false
+        },
+        {
+          "columnNumber": 3,
+          "pdfColumnNumber": 3,
+          "columnName": "Payor",
+          "description": "The insurance payor the for the data of service",
+          "hasNumberingError": false
+        },
+        {
+          "columnNumber": 4,
+          "pdfColumnNumber": 3,
+          "columnName": "Provider",
+          "description": "The rendering provider who performed the service",
+          "hasNumberingError": true
+        },
+        {
+          "columnNumber": 5,
+          "pdfColumnNumber": 4,
+          "columnName": "CPT",
+          "description": "The CPT code billed",
+          "hasNumberingError": true
+        },
+        {
+          "columnNumber": 6,
+          "pdfColumnNumber": 5,
+          "columnName": "ICD",
+          "description": "The ICD code being associated with the CPT code that is billed",
+          "hasNumberingError": true
+        },
+        {
+          "columnNumber": 7,
+          "pdfColumnNumber": 6,
+          "columnName": "NDC",
+          "description": "The NDC code for drugs billed that have been administered or rendered",
+          "hasNumberingError": true
+        },
+        {
+          "columnNumber": 8,
+          "pdfColumnNumber": 7,
+          "columnName": "Modifier",
+          "description": "The modifier code associated with the CPT code billed",
+          "hasNumberingError": true
+        },
+        {
+          "columnNumber": 9,
+          "pdfColumnNumber": 8,
+          "columnName": "Charge",
+          "description": "The amount billed",
+          "hasNumberingError": true
+        },
+        {
+          "columnNumber": 10,
+          "pdfColumnNumber": 9,
+          "columnName": "Pri Payment",
+          "description": "Payment received from the primary insurance plan/payor",
+          "hasNumberingError": true
+        },
+        {
+          "columnNumber": 11,
+          "pdfColumnNumber": 10,
+          "columnName": "Sec Payment",
+          "description": "Payment received from the secondary insurance plan/payor",
+          "hasNumberingError": true
+        },
+        {
+          "columnNumber": 12,
+          "pdfColumnNumber": 11,
+          "columnName": "TerPayment",
+          "description": "Payment received from the tertiary insurance plan/payor",
+          "hasNumberingError": true
+        },
+        {
+          "columnNumber": 13,
+          "pdfColumnNumber": 12,
+          "columnName": "Oth Payment",
+          "description": "Payment received from other sources",
+          "hasNumberingError": true
+        },
+        {
+          "columnNumber": 14,
+          "pdfColumnNumber": 13,
+          "columnName": "Pat Payment",
+          "description": "Payment received from the patient",
+          "hasNumberingError": true
+        },
+        {
+          "columnNumber": 15,
+          "pdfColumnNumber": 14,
+          "columnName": "Patient Resp",
+          "description": "Patient outstanding balances",
+          "hasNumberingError": true
+        },
+        {
+          "columnNumber": 16,
+          "pdfColumnNumber": 15,
+          "columnName": "Wri-Off/Adj",
+          "description": "Balances that have been adjusted or written off",
+          "hasNumberingError": true
+        },
+        {
+          "columnNumber": 17,
+          "pdfColumnNumber": 16,
+          "columnName": "Balance",
+          "description": "The patient account balances including pending claims",
+          "hasNumberingError": true
+        }
+      ],
+      "fieldCount": 17,
+      "fieldsWithDescriptions": 17,
+      "notes": "Column numbering in the PDF has an error: both 'Payor' and 'Provider' are listed as column 3, making subsequent numbers off by one. There are 17 distinct column names (rows) in the table, numbered 1-16 in the PDF with one duplicate."
     },
     {
-      "filename": "ehi-export-page-text.txt",
-      "size_bytes": 2144,
-      "extension": ".txt",
-      "line_count": 24,
-      "char_count": 2142,
-      "has_table_markers": true,
-      "has_format_markers": false
+      "entityName": "Adhoc Patient Notes",
+      "exportCategory": "Adhoc Patient Notes",
+      "format": "CSV",
+      "fileExtension": "CSV",
+      "fileTypeIndicator": "patNotes",
+      "description": "Telephone calls and adhoc notes documented via the Patient Notes feature. Includes authoring user, subject, category, date, and full note text.",
+      "standardReference": null,
+      "fieldLevelDocumentation": true,
+      "fields": [
+        {
+          "columnNumber": 1,
+          "pdfColumnNumber": 1,
+          "columnName": "PID",
+          "description": "Patient IDs. These are unique",
+          "hasNumberingError": false
+        },
+        {
+          "columnNumber": 2,
+          "pdfColumnNumber": 2,
+          "columnName": "Patient Notes ID",
+          "description": "Patient note IDs. These are unique",
+          "hasNumberingError": false
+        },
+        {
+          "columnNumber": 3,
+          "pdfColumnNumber": 3,
+          "columnName": "User Name",
+          "description": "The user who documented the note",
+          "hasNumberingError": false
+        },
+        {
+          "columnNumber": 4,
+          "pdfColumnNumber": 3,
+          "columnName": "Subject",
+          "description": "The subject of the note. This field maybe blank",
+          "hasNumberingError": true
+        },
+        {
+          "columnNumber": 5,
+          "pdfColumnNumber": 4,
+          "columnName": "Patient Notes Category",
+          "description": "The category associated with the note. These categories are user defined but available from a pick list for the user",
+          "hasNumberingError": true
+        },
+        {
+          "columnNumber": 6,
+          "pdfColumnNumber": 5,
+          "columnName": "Patient Notes Date",
+          "description": "The date the note was created",
+          "hasNumberingError": true
+        },
+        {
+          "columnNumber": 7,
+          "pdfColumnNumber": 6,
+          "columnName": "Patient Notes",
+          "description": "Documented details of the patient note",
+          "hasNumberingError": true
+        }
+      ],
+      "fieldCount": 7,
+      "fieldsWithDescriptions": 7,
+      "notes": "Column numbering in the PDF has an error: both 'User Name' and 'Subject' are listed as column 3. Actual sequential column numbers are 1-7. Categories are user-defined pick lists."
+    },
+    {
+      "entityName": "Scanned Records",
+      "exportCategory": "Scanned Records",
+      "format": "HL7 C-CDA R2.1 (Base64-encoded documents)",
+      "fileExtension": "XML",
+      "fileTypeIndicator": "Echart",
+      "description": "All patient scanned and uploaded documents, encoded using Base64 within CDA XML. May be large depending on volume of scanned data.",
+      "standardReference": "https://www.hl7.org/implement/standards/product_brief.cfm?product_id=447",
+      "fieldLevelDocumentation": false,
+      "fields": [],
+      "fieldCount": 0,
+      "fieldsWithDescriptions": 0,
+      "notes": "Contains scanned/uploaded documents as Base64-encoded attachments within a CDA wrapper. No field-level documentation provided."
     }
   ],
-  "documentation_keyword_scan": {
-    "field": 1,
-    "table": 2,
-    "entity": 1
+  "parseNotes": {
+    "columnNumberingErrors": "Both CSV tables in the PDF have column numbering errors where column 3 is listed twice. The actual columns are sequential; the vendor has a copy-paste error in the numbering.",
+    "ccdaCoverage": "The vendor provides zero field-level documentation for C-CDA content. We cannot determine which C-CDA sections are populated or what data elements are included without sample export files.",
+    "parseFailures": 0,
+    "totalFieldsParsed": 24,
+    "totalFieldsWithDescriptions": 24
   }
 }

@@ -1,30 +1,67 @@
-# MEDITECH EHI Export Data Dictionary Enrichment
+# MEDITECH EHI Export CSV Data Dictionary Enrichment
 
-## Run Commands
+## Run Command
 
 ```bash
-cd downloads/enrichment
 bun run extract-csv-data-dictionaries.ts
 ```
 
+Requires: `pdftotext` (from `poppler-utils`).
+
 ## Input Boundary
 
-Parses three PDF data dictionary files from MEDITECH's Configuration 2 EHI export documentation:
+Parses three PDF files from `../`:
 
-- `csacuteandambehiexportdrsolutionmerged.pdf` — Client/Server Acute & Ambulatory (30 pages)
-- `mgehiexportdrsolutionmerged.pdf` — MAGIC Acute & Ambulatory (48 pages)
-- `608ehiexportcsv.pdf` — MPM 6.08 Ambulatory (19 pages)
+| File | Platform |
+|------|----------|
+| `608ehiexportcsv.pdf` | MPM 6.08 Ambulatory |
+| `csacuteandambehiexportdrsolutionmerged.pdf` | Client/Server Acute & Ambulatory |
+| `mgehiexportdrsolutionmerged.pdf` | MAGIC Acute & Ambulatory |
 
-These PDFs document the CSV file tables and columns exported in EHI Configuration 2.
+These PDFs document the tables and columns included in MEDITECH's EHI Export
+Patient Data CSV files (Configuration 2 — legacy platforms using Medical Records/
+Data Repository).
 
 ## Output Files
 
-- `csv-data-dictionaries.json` — Full structured extraction: array of platform dictionaries, each containing table groups with field/table/column mappings
-- `extraction-stats.json` — Coverage accounting: files processed, tables/fields per platform, parse errors
+- `csv-data-dictionaries.json` — Complete extraction of all tables, fields, and
+  columns from all three PDFs, plus extraction statistics.
+
+## Structure
+
+```
+{
+  "extractionDate": "YYYY-MM-DD",
+  "stats": { totalFilesDiscovered, totalFilesParsed, parseFailures },
+  "dictionaries": [
+    {
+      "sourceFile": "filename.pdf",
+      "platform": "...",
+      "lastUpdated": "October 2023",
+      "tables": [
+        {
+          "tableName": "AdmVisits",
+          "fields": [
+            { "field": "Home Phone", "table": "AdmVisits", "column": "HomePhone" }
+          ]
+        }
+      ],
+      "totalFields": N,
+      "totalTables": N,
+      "parseErrors": []
+    }
+  ]
+}
+```
 
 ## Known Parsing Limitations
 
-- PDFs use a 3-column table layout (Field, Table, Column) extracted via `pdftotext -layout`. The parser splits on 2+ whitespace characters, which works well but may fail on fields with very long names that compress column spacing.
-- Table header rows (bold blue in PDF) appear as standalone lines with no column separators. The parser detects these as lines without multi-column spacing.
-- A small number of parse errors (~1-2 per file) occur where PDF layout extraction produces malformed rows, typically at table boundaries or where the PDF has unusual formatting.
-- Page numbers appearing as standalone integers are filtered out, which could theoretically remove a single-digit table name (none observed).
+- Uses `pdftotext -layout` which depends on PDF text layer positioning. Complex
+  table layouts with wrapped cells may occasionally misparse.
+- Table headers (section headers) are identified as single-segment lines in the
+  PDF. If a table name contains spaces matching the column separator width, it
+  could be misidentified.
+- Page numbers and repeated headers are filtered heuristically.
+- The PDFs only cover Configuration 2 platforms (legacy). Configuration 1
+  (Expanse, 6.x) does not have equivalent CSV data dictionaries — those
+  platforms use a different export format (electronic chart documents, FHIR, C-CDA).

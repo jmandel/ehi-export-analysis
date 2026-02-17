@@ -1,0 +1,410 @@
+170.315(b) (10) Electronic Health Information (EHI) Export
+
+Certification ID:
+Product Version:
+
+CHPL ID# 15.02.05.2886.EZEM.01.01.1.220105
+ezEMRx Ver 10.01
+
+Prepared By:
+
+ezEMRx Integration Team
+
+Document Control ID: 01US03P98C001
+Version:
+1.0
+Approved By:
+
+Technology Office
+- Siri Kumar
+Product Development - Balamurugan Jayaraj
+Product Management - Balaji Venkatesh
+
+Electronic Health Information (EHI) Export
+
+Copyright and Disclaimer
+© ezEMRx, Inc. All Rights Reserved.
+Notice to Users
+No part of this publication may be reproduced, or transmitted in any form or by any means, including photocopying,
+electronic, mechanical, recording or otherwise, without the prior written permission of the copyright holder.
+ezEMRx, Inc. provides this document as is without warranty or any kind either expressed or implied including but
+not limited to, the implied warranties of merchantability and fitness for a particular purpose. ezEMRx may make
+changes or improvements in the equipment, software, or specifications described in this document at any time
+without notice. These changes will be incorporated in new releases of this document.
+Computer Software Copyrights
+The ezEMRx products described in this document may include copyrighted ezEMRx computer programs stored in
+semiconductor memories or other media. Laws in the United States and other countries preserve for ezEMRx certain
+exclusive rights for copyrighted computer programs, including the exclusive right to copy or reproduce in any form
+the copyrighted computer program. Accordingly, any copyrighted ezEMRx computer programs contained in the
+ezEMRx products described in this instruction manual may not be copied (reverse engineered) or reproduced in any
+manner without the express written permission of ezEMRx. Furthermore, the purchase of ezEMRx products shall
+not be deemed to grant either directly or by implication, estoppels, or otherwise, any license under the copyrights,
+patents or patent applications of ezEMRx, except for the normal non-exclusive, royalty free license to use that arises
+by operation of law in the sale of product.
+Use and Disclosure Restrictions
+The software described in this document is the property of ezEMRx, Inc. It is furnished under an agreement and may
+be used and/or disclosed only in accordance with the terms of this agreement.
+Software and documentation are copyrighted materials. Making unauthorized copies is prohibited by law. No part
+of the software or documentation may be reproduced, transmitted, transcribed, stored in a retrieval system, or
+translated into any language or computer language, in any form or by any means, without prior written permission
+of ezEMRx, Inc.
+Trademarks
+The ezEMRx symbol are trademarks or registered trademarks of ezEMRx, Inc. in the United States and other
+countries. All other products or services mentioned in this document are identified by the trademarks or service
+marks of their respective companies or organizations, and ezEMRx, Inc. disclaims any responsibility for specifying
+their ownership. Any such marks are used in an editorial manner, to the benefit of the owner, with no intention of
+infringement.
+While reasonable efforts have been made to assure the accuracy of this document, this document may contain
+technical or typographical errors or omissions. ezEMRx, Inc. and its subsidiaries and affiliates disclaim responsibility
+for any labor, materials, or costs incurred by any person or party as a result of using this document5. ezEMRx, Inc.,
+any of its subsidiaries or affiliates shall not be liable for any damages (including, but not limited to, consequential,
+indirect, incidental, or special damages or loss of profits or data) even if they were foreseeable and ezEMRx, Inc. has
+been informed of their potential occurrence, arising out of or in connection with this document or its use. ezEMRx,
+Inc. reserves the right to make changes without notice to any products or services described herein and reserves the
+right to make changes from time to time in content of this document and substitute therefore, with no obligation to
+notify any person or party of such changes or substitutions.
+Specifications are subject to change without notice.
+Repository: https://ezcloud.ezemrx.com/owncloud/
+
+Confidential & Proprietary
+Document Control: 01US03P98C001 | v2.0 | April 25, 2024
+
+Page 2 of 9
+
+Electronic Health Information (EHI) Export
+
+Table of Contents
+Table of Contents .......................................................................................................................................... 3
+Introduction .................................................................................................................................................. 4
+Executive Summary ....................................................................................................................................... 5
+Understanding resulting EHI Export Files ..................................................................................................... 6
+Format of the resulting EHI Export Files ....................................................................................................... 6
+Patient Demographics and Clinical Data ................................................................................................... 6
+Patient Billing and Claims Data ................................................................................................................. 7
+Adhoc Patient Notes ................................................................................................................................. 8
+Scanned Records ....................................................................................................................................... 8
+Associated Fees ............................................................................................................................................. 9
+Limitation of Liability & Indemnification ...................................................................................................... 9
+Compliance Information ............................................................................................................................... 9
+Support and Contact ..................................................................................................................................... 9
+
+Confidential & Proprietary
+Document Control: 01US03P98C001 | v2.0 | April 25, 2024
+
+Page 3 of 9
+
+Electronic Health Information (EHI) Export
+
+Introduction
+ezEMRx Certified EHR (ezEMRx 10.01) meets the certification criteria. This Health IT Module is compliant
+with the ONC Certification Criteria for Health IT and has been certified by an ONC-ACB in accordance with
+the applicable certification criteria adopted by the Secretary of Health and Human Services. This
+certification does not represent an endorsement by the U.S. Department of Health and Human Services.
+ezEMRx is committed to complying with the updates to the Health IT Certification Program made by the
+ONC Cures Act Final Rule. As required by the Communications Condition of Certification requirements,
+ezEMRx does not prohibit or restrict the following communications about certain aspects of their health
+IT, unless otherwise permitted to do so under 45 C.F.R. § 170.403 –
+• The usability, interoperability, or security of the EHR
+• ezEMRx’ business practices related to exchanging electronic health information
+ezEMRx offers access to the application and files that allow users of export files to access export format
+documentation to process EHI after it has been exported from its certifies EHR. ezEMRx EHR (Electronic
+Health Record) systems provide means for exporting PHI (Protected Health Information) to allow
+healthcare providers to share information efficiently while maintaining the privacy and security of patient
+data.
+This documentation guide will provide the user an understanding of the resulting files from the PHI Export.
+It will explain how to read the files, understand the meaning behind fields and connections, and offer
+other insight to properly make use of this extensive amount of information. The document assumes the
+user has a technical understanding HL7 specifications such as C-CDA standards and formatting around CSV
+type files.
+
+Confidential & Proprietary
+Document Control: 01US03P98C001 | v2.0 | April 25, 2024
+
+Page 4 of 9
+
+Electronic Health Information (EHI) Export
+
+Executive Summary
+ezEMRx products are designed to include components of care and billing for nursing programs, home
+health programs, wellness programs, specialty-based programs, physician driven care, employee health
+programs, public health programs and mental health programs in ambulatory facilities.
+ezEMRx products are designed to comply with ONC standards and certifications, as well as Interoperability guidelines. In addition, ezEMRx has worked toward complying with the required state and
+federal requirements.
+The ezEMRx product portfolio and services include the following:
+Products
+Certified Health Information Technology – EHR
+Practice Management
+Inventory Management
+Patient Portal
+Health Information Exchange
+
+Services
+Revenue Cycle Management
+Professional Services
+
+ezEMRx comprises of healthcare technologists, who include clinicians, developers, testers, trainers,
+implementation engineers and support staff.
+ezEMRx is committed to establishing, documenting, implementing, maintaining and continuously meet
+the certification requirements.
+
+Confidential & Proprietary
+Document Control: 01US03P98C001 | v2.0 | April 25, 2024
+
+Page 5 of 9
+
+Electronic Health Information (EHI) Export
+
+Understanding resulting EHI Export Files
+The resulting export may contain one patient, or a full collection of patients. The result will be zip file/s.
+The zip file includes files containing the patient demographics, clinical records, billing records, scanned
+records, and more.
+The files upon extraction from the zip will adhere to the following structure:
+PID_INTERNALNUMBERING.EXT and/or
+PID_INTERNALNUMBERING_TYPE.EXT
+•
+•
+•
+•
+
+PID refers to the Patient ID. This will be a unique number.
+INTERNALNUMBERING refers to an internal control number for the export. This can be
+ignored.
+TYPE refers to further describing the content of the file. These can be ClaimData or Echart or
+patNotes.
+EXT refers to the file extension of the resulting exported data. Extensions are XML
+(accompanied by a HTML file) and CSV (comma separated values data).
+
+The files are further categorized as follows:
+1. Patient Demographics and Clinical Data – HL7 C-CDA formatted
+2. Patient Billing and Claims Data – CSV formatted
+3. Adhoc Patient Notes such as documented telephone calls – CSV formatted
+4. Scanned Records – HL7 CDA formatted
+
+Format of the resulting EHI Export Files
+In order to successfully use or import the exported EHI files, the user must understand the formatting of
+the resulting files.
+
+Patient Demographics and Clinical Data
+The resulting files follows the specification as set for HL7 C-CDA R2.1 specifications. These files
+will always result in a pair following an XML and HTML file extension. It must be noted there will NOT be
+a TYPE value in the filename. The format and specifications can be referenced at:
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1380194/
+https://www.hl7.org/implement/standards/product_brief.cfm?product_id=447
+
+Confidential & Proprietary
+Document Control: 01US03P98C001 | v2.0 | April 25, 2024
+
+Page 6 of 9
+
+Electronic Health Information (EHI) Export
+
+Patient Billing and Claims Data
+The resulting file is formatted using comma-separated values also known as CSV. This file will
+follow an CSV file extension. It must be noted there will be a TYPE value called ClaimData within the
+filename. The format and descriptors are described in the following table:
+Column Number
+1
+
+Column Name
+PID
+
+2
+
+DOS
+
+3
+
+Payor
+
+3
+
+Provider
+
+4
+5
+
+CPT
+ICD
+
+6
+
+NDC
+
+7
+
+Modifier
+
+8
+9
+
+Charge
+Pri Payment
+
+10
+
+Sec Payment
+
+11
+
+TerPayment
+
+12
+
+Oth Payment
+
+13
+
+Pat Payment
+
+14
+
+Patient Resp
+
+15
+
+Wri-Off/Adj
+
+16
+
+Balance
+
+Description
+Data reflected under this column are patient IDs. These are
+unique.
+Data reflected under this column refer to the date of service
+being billed.
+Data reflected under this column refer to the insurance payor
+the for the data of service
+Data reflected under this column refer to the rendering provider
+who performed the service.
+Data reflected under this column refer to the CPT code billed.
+Data reflected under this column refer to the ICD code being
+associated with the CPT code that is billed.
+Data reflected under this column refers to the NDC code for
+drugs billed that have been administered or rendered.
+Data reflected under this column refers to the modifier code
+associated with the CPT code billed.
+Data reflected under this column refer to the amount billed.
+Data reflected under this column refers to payment received
+from the primary insurance plan/payor.
+Data reflected under this column refers to payment received
+from the secondary insurance plan/payor.
+Data reflected under this column refers to payment received
+from the tertiary insurance plan/payor.
+Data reflected under this column refers to payment received
+from other sources.
+Data reflected under this column refers to payment received
+from the patient.
+Data reflected under this column refers to patient outstanding
+balances.
+Data reflected under this column refers to balances that have
+been adjusted or written off.
+Data reflected under this column refers to the patient account
+balances including pending claims.
+
+Confidential & Proprietary
+Document Control: 01US03P98C001 | v2.0 | April 25, 2024
+
+Page 7 of 9
+
+Electronic Health Information (EHI) Export
+
+Adhoc Patient Notes
+Users within ezEMRx do have the ability to document telephone calls, adhoc notes related to the
+patient via a feature called as Patient Notes. This data is categorized as PHI and is included within EHI. The
+resulting files are formatted using comma-separated values also known as CSV. This file will follow an CSV
+file extension. It must be noted there will be a TYPE value called patNotes within the filename. The format
+and descriptors are described in the following table:
+Column Number
+1
+
+Column Name
+PID
+
+2
+
+Patient Notes ID
+
+3
+
+User Name
+
+3
+
+Subject
+
+4
+
+Patient Notes Category
+
+5
+
+Patient Notes Date
+
+6
+
+Patient Notes
+
+Description
+Data reflected under this column are patient IDs. These
+are unique.
+Data reflected under this column are patient note IDs.
+These are unique.
+Data reflected under this column refer to the user who
+documented the note.
+Data reflected under this column refer to the subject of
+the note. This field maybe blank.
+Data reflected under this column refer to the category
+associated with the note. These categories are user
+defined but available from a pick list for the user.
+Data reflected under this column refer to the date the
+note was created.
+Data reflected under this column refers to documented
+details of the patient note.
+
+Scanned Records
+The resulting files follows the specification as set for HL7 C-CDA R2.1 specifications. This file will
+follow an XML file extension. It must be noted there will there will be a TYPE value called Echart within
+the filename. This file contains all patient scanned and uploaded documents and is coded using Base64
+encoding. It must be noted, this file could be large in size depending on the amount of scanned data. The
+format and specifications can be referenced at:
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1380194/
+https://www.hl7.org/implement/standards/product_brief.cfm?product_id=447
+
+Confidential & Proprietary
+Document Control: 01US03P98C001 | v2.0 | April 25, 2024
+
+Page 8 of 9
+
+Electronic Health Information (EHI) Export
+
+Associated Fees
+Usage of the EHI Export as listed above does not require any associated fees for export or setup or
+configuration, if performed by you as the user. This is included with the product capability. A valid user
+subscription is required for access.
+In the event, you require ezEMRx to perform the EHI export function, there may be associated fees based
+time and effort for the export request.
+
+Limitation of Liability & Indemnification
+ezEMRx will not be responsible for certain losses or damages as permitted by law. Our total liability for
+any claim under the terms is limited to $500.
+You will defend, indemnify, and hold harmless ezEMRx and our partners, directors, officers, employees,
+and users against certain liabilities, damages, losses, costs, fees, and expenses relating to third-party legal
+proceedings arising from your misuse of the APIs, violation of the terms, or content used with any
+function.
+
+Compliance Information
+The function meets the requirements of the Electronic Health Information export criterion
+§170.315(b)(10).
+
+Support and Contact
+In the event of developer related questions with regard to the EHI export only, please feel free to contact
+us at support@ezemrx.com (any questions about the data or its content should be directed towards the
+data originating clinic or facility. ezEMRx will not be able to assist in these queries).
+
+Confidential & Proprietary
+Document Control: 01US03P98C001 | v2.0 | April 25, 2024
+
+Page 9 of 9
+
+

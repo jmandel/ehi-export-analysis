@@ -35,17 +35,13 @@ Opened the page in Chrome. The page renders three visible sections:
 
 3. **Bottom section** — A paragraph stating: "The documentation listed on this page is intended to provide the user an understanding of the resulting files from the EHI Export. It will explain how to read the files, understand the meaning behind fields, and offer other insight to properly make use of this extensive amount of information."
 
-### 4. Empty PDF Viewer Pro widget — the critical finding
-Between sections 2 and 3, there is a **large blank area** approximately 1109 pixels tall. Investigation via JavaScript DOM inspection revealed:
-- An `<iframe>` element with `title="PDF Viewer Pro"` — a Wix third-party app widget (component ID `comp-lpim12rl`, type `TPAWidget`).
-- The iframe has **no `src` attribute** — it is completely empty.
-- No PDF URL is configured in any of the Wix page data payloads (checked `wix-warmup-data`, `wix-viewer-model`, `thunderbolt-features`, and `thunderbolt-platform` JSON responses).
-- No PDF download requests appear in the network waterfall.
-- No console errors indicate a failed PDF load — the widget simply has no document assigned.
+### 4. PDF Viewer Pro widget — embedded data dictionary
+Between sections 2 and 3, there is a **Wix PDF Viewer Pro widget** (component ID `comp-lpim12rl`, type `TPAWidget`). The widget loads a PDF via a Firebase cloud function (`us-central1-wix-pdf.cloudfunctions.net/getPdfUrl`) which returns a signed Google Cloud Storage URL:
+- `storage.googleapis.com/wix-pdf.appspot.com/8fb6d68d-98e9-4813-9688-18e764071753/comp-lpim12rl.pdf`
+- The PDF is 189 KB, 9 pages, titled "170.315(b)(10) Electronic Health Information (EHI) Export"
+- Document Control ID: 01US03P98C001, Version 2.0, dated April 25, 2024
 
-**Conclusion: The page has a placeholder PDF viewer widget where export documentation (presumably a data dictionary or format specification) was intended to be embedded, but no PDF was ever uploaded to it.**
-
-The bottom paragraph ("The documentation listed on this page is intended to provide the user an understanding of the resulting files...") appears to be introductory text for a document that was never published.
+**Note:** This widget requires full browser rendering — the iframe `src` is populated dynamically by the Wix TPA framework after page load. A previous collection attempt using DOM inspection found an empty iframe, but the PDF loads correctly when the page is fully rendered and the widget's Firebase integration completes. The PDF is not discoverable via curl or static HTML analysis.
 
 ### 5. Navigation menu exploration
 Expanded the "Health IT" navigation dropdown. Subpages are:
@@ -68,83 +64,101 @@ Checked "ONC Mandatory Cost Disclosure & Compliance" page (`/mu-compliance`) —
 
 ## What Was Found
 
-The page at `https://www.ezemrx.com/ehi-export` exists and loads successfully but contains **no substantive EHI export documentation**. Specifically:
+The page at `https://www.ezemrx.com/ehi-export` contains a 9-page EHI Export data dictionary PDF (Document Control: 01US03P98C001, v2.0, April 25, 2024) embedded in a Wix PDF Viewer Pro widget. The PDF is the vendor's primary and only b(10) export documentation.
 
-- **No data dictionary** — no table definitions, field listings, schemas, or database structure documentation.
-- **No export format specification** — no description of file formats, encoding, structure, or output.
-- **No sample data or examples** — no example export files or sample records.
-- **No schema files** — no XSD, JSON Schema, OpenAPI specs, DDL, or other machine-readable artifacts.
-- **No export instructions** — no user guide for performing the export.
-- **No API documentation** — no endpoint specifications.
+The document describes the EHI export as producing one or more ZIP files containing per-patient data in four categories:
 
-What IS present is:
-1. A regulatory definition of EHI (quoting 45 CFR)
-2. A list of (b)(10) requirements paraphrased from the ONC rule
-3. An empty PDF Viewer Pro widget — a placeholder for documentation that was never published
-4. Introductory text that promises documentation about "resulting files from the EHI Export" that does not exist on the page
+1. **Patient Demographics and Clinical Data** — HL7 C-CDA R2.1 format, always an XML+HTML pair. No TYPE indicator in filename.
+2. **Patient Billing and Claims Data** — CSV format, TYPE=`ClaimData`. 17 columns defined: PID, DOS, Payor, Provider, CPT, ICD, NDC, Modifier, Charge, plus payment columns for primary/secondary/tertiary/other/patient, patient responsibility, write-offs/adjustments, and balance.
+3. **Adhoc Patient Notes** — CSV format, TYPE=`patNotes`. 7 columns: PID, Patient Notes ID, User Name, Subject, Category, Date, Notes.
+4. **Scanned Records** — HL7 C-CDA R2.1 XML with Base64-encoded scanned documents, TYPE=`Echart`.
+
+File naming convention: `PID_INTERNALNUMBERING[_TYPE].EXT` where PID is patient ID, INTERNALNUMBERING is an internal control number, TYPE indicates content category, and EXT is XML, HTML, or CSV.
+
+The PDF also states: no fees for self-service export, potential fees if vendor performs the export. Support contact: support@ezemrx.com.
 
 ## Export Coverage Assessment
 
 ### Data Domain Coverage
 
-**Cannot be assessed.** The page provides no information whatsoever about what data the export includes. There is no data dictionary, no table listing, no field inventory, and no description of export contents. Based on the product research, ezEMRx stores extensive data across clinical, administrative, billing, inventory, and public health domains — but the export documentation does not address any of these.
+The export covers a meaningful but incomplete set of the data domains identified in product research:
 
-The page text mentions the export must "include all EHI" and be in "a computable format," but these are regulatory requirements being parroted back, not descriptions of actual implementation. There is no evidence on this page of what data domains are actually exported, what format is used, or how complete the export is.
+**Clearly covered:**
+- **Clinical data** — Demographics and clinical records via C-CDA R2.1. The C-CDA standard covers problems, medications, allergies, immunizations, vital signs, lab results, procedures, and encounters. However, the PDF provides no detail on which C-CDA sections are populated or what data is included beyond referencing the standard.
+- **Billing and financial data** — CSV export with 17 columns covering claims at the line-item level: CPT codes, ICD codes, NDC codes, modifiers, charges, multi-payor payments, adjustments, and balances. This is genuine b(10) content — billing data that would not be available through a FHIR g(10) API.
+- **Patient notes** — Ad-hoc clinical notes (telephone calls, etc.) exported as CSV with category, subject, and full note text.
+- **Scanned documents** — All patient-scanned and uploaded documents exported as Base64-encoded CDA XML.
+
+**Appears missing or not mentioned:**
+- **Inventory data** — Medication/supply inventory, vaccine batch records, and distribution logs are a significant ezEMRx feature (especially for public health sites managing vaccine distribution) but are not mentioned in the export.
+- **Scheduling/appointment data** — No mention of appointment history export.
+- **Patient engagement data** — Portal access records, appointment reminders, and self-registration data are not addressed.
+- **Interoperability records** — DIRECT messages, HIE exchange records, and FHIR API access logs are not mentioned.
+- **Public health reporting data** — Immunization registry submissions, syndromic surveillance data, and quality measure records are not covered.
+- **Audit logs** — No mention of system audit trail data.
+- **Staff/administrative data** — Time tracking, user activity records not mentioned.
+
+**Ambiguous:**
+- Clinical data completeness depends entirely on which C-CDA sections ezEMRx populates, which is not documented. The PDF simply says "follows HL7 C-CDA R2.1 specifications" without detailing section coverage. Behavioral health, substance abuse, and treatment plan data — all core ezEMRx features — may or may not be captured in the C-CDA output.
 
 ### Export Format & Standards
 
-**Unknown.** The documentation page does not specify:
-- What format the export uses (FHIR, C-CDA, CSV, SQL dump, PDF, etc.)
-- Whether it is a standardized or proprietary format
-- How the data is structured or organized
-- How relationships between data entities are expressed
+The export uses a hybrid approach:
+- **C-CDA R2.1** for clinical/demographic data and scanned records — a recognized HL7 standard
+- **CSV** for billing claims and patient notes — a simple vendor-defined format
 
-The introductory text promises to "explain how to read the files, understand the meaning behind fields" — suggesting there IS an export with files and fields — but this documentation was never published.
+This is a reasonable design. C-CDA is appropriate for clinical data (though the level of detail in each section matters), and CSV is pragmatic for tabular billing data that doesn't map well to C-CDA. The CSV schemas are vendor-specific but straightforward.
+
+The export is **not** FHIR-based and does not conflate b(10) with g(10) — this is genuine export documentation, not repackaged FHIR API docs. The inclusion of billing line items with CPT/ICD/NDC codes is a good signal that the vendor understands the b(10) requirement extends beyond clinical summaries.
+
+Relationships between entities are handled implicitly: all files for a patient share the same PID prefix in the filename. Within the billing CSV, each row is a claim line item linked to a patient by PID. There is no explicit relational key between clinical records and billing records beyond the patient ID.
 
 ### Documentation Quality
 
-**Effectively nonexistent.** The page functions as a compliance checkbox — it exists at a registered URL, contains regulatory language, but provides no technical content. A developer receiving an export from ezEMRx would have no public documentation to help them interpret the data.
+The documentation is a **minimal but functional** 9-page PDF. It provides:
+- ✅ Clear file naming convention with component explanation
+- ✅ Complete column-level definitions for both CSV schemas (24 total columns)
+- ✅ File category descriptions with format identification
+- ✅ Standard references for C-CDA content
 
-The presence of the empty PDF Viewer Pro widget suggests the vendor intended to publish a document (likely a PDF data dictionary or format guide) but never completed this step. This is not a case of missing a link — the widget placeholder was placed on the page, text introducing the documentation was written, but the actual document was never created or uploaded.
+However, it lacks:
+- ❌ No field-level documentation for C-CDA content (which sections are populated, what coded values are used)
+- ❌ No sample export files or worked examples
+- ❌ No data type specifications for CSV columns (date formats, string lengths, nullability)
+- ❌ No value set documentation (what Payor codes look like, what Patient Notes Categories exist)
+- ❌ No relationship documentation beyond shared PID
+- ❌ No versioning/changelog (document says v2.0 but no v1.0 differences noted)
+- ❌ No documentation of export size limits, performance characteristics, or error handling
+
+A developer could implement a basic CSV import from this documentation. Interpreting the C-CDA output would require independent knowledge of the C-CDA standard — the vendor provides no vendor-specific guidance.
 
 ### Structure & Completeness
 
-**No documentation structure to assess.** There are:
-- No table or entity definitions
-- No field-level documentation
-- No data types, value sets, or constraints
-- No relationship documentation
-- No versioning or change history
-- No worked examples
+The billing CSV is the most complete section — 17 columns with descriptions covering the full claims lifecycle from charge through payment and adjustment. The patient notes CSV is simpler but adequate (7 columns).
+
+The C-CDA sections (demographics/clinical and scanned records) have essentially zero field-level documentation. The vendor defers entirely to the HL7 C-CDA R2.1 specification, which is reasonable for standard clinical data but leaves open questions about what data is actually populated (e.g., does the C-CDA include social history? Advance directives? Goals?).
 
 ### (b)(10) vs (g)(10) Assessment
 
-Notably, the page does NOT attempt to pass off FHIR/g(10) documentation as b(10) export documentation — which is a common pattern among other vendors. The page simply has no technical documentation at all. This means we cannot assess whether the actual export (which presumably exists in the product, given it was certified) covers all EHI or just a USCDI subset.
+This is clearly b(10) documentation, not repurposed g(10)/FHIR content. The export is file-based (ZIP of CSV and XML files), not API-based. The inclusion of billing claims data, scanned documents, and ad-hoc notes demonstrates awareness that b(10) requires "all EHI" — not just the USCDI clinical subset. However, the absence of inventory, scheduling, public health reporting, and other administrative data means the export likely doesn't cover everything the product stores.
 
 ### Overall Assessment
 
-This is one of the weakest EHI export documentation pages encountered. The vendor has:
-1. Created a page at the registered URL ✓
-2. Written regulatory language about what EHI means ✓
-3. Listed the b(10) requirements they're supposed to meet ✓
-4. Placed a PDF viewer widget to display documentation ✓
-5. Written introductory text for the documentation ✓
-6. **Actually published the documentation** ✗
+ezEMRx provides a functional but sparse EHI export documentation package. The vendor has done genuine b(10) work — the export format is thoughtful (hybrid C-CDA + CSV), includes billing data that many vendors omit, and the documentation clearly explains the file naming convention and CSV schemas. This puts it ahead of vendors who simply point to their FHIR API.
 
-The page is a shell — structurally ready for documentation that was never delivered. Given that ezEMRx was certified in January 2022 (over 4 years ago), this is not a case of recent certification with pending documentation. The empty state appears to be long-standing.
+The main weaknesses are: (1) no field-level documentation for C-CDA content, making it impossible to assess clinical data completeness; (2) several data domains the product stores (inventory, scheduling, public health reporting, interoperability records) appear absent from the export; and (3) no sample data or worked examples to validate interpretation.
 
-For a product serving over 1,000 public health locations (via the CDP partnership), the absence of any public EHI export documentation is a significant compliance gap. Users and third parties have no way to understand the export format without contacting the vendor directly.
+For a small vendor (~50 employees) serving public health departments and ambulatory clinics, this represents a reasonable effort. The documentation was updated as recently as April 2024, suggesting active maintenance.
 
 ## Access Summary
 - Final URL (after redirects): https://www.ezemrx.com/ehi-export
-- Status: found (page loads, but documentation content is missing)
-- Required browser: yes (Wix SPA, client-side rendering)
-- Navigation complexity: direct_link
+- Status: found
+- Required browser: yes (Wix SPA, client-side rendering; PDF embedded in Wix PDF Viewer Pro widget requiring full JS execution)
+- Navigation complexity: direct_link (single page, no clicks needed — but PDF requires browser rendering to discover)
 - Anti-bot issues: none (standard Wix site)
 
 ## Obstacles & Dead Ends
 - **Wix client-side rendering**: Raw HTML fetch returns only JavaScript framework; browser required for content extraction.
+- **Wix PDF Viewer Pro widget**: The PDF is loaded dynamically via a Firebase cloud function (`getPdfUrl`) that returns a signed Google Cloud Storage URL. The iframe `src` is empty in the initial DOM — it gets populated after the TPA widget framework initializes. This caused a previous collection attempt to incorrectly report the widget as empty. The PDF URL is time-limited (signed URL with expiry) and cannot be fetched via a simple curl command.
 - **Wayback Machine**: Cannot capture Wix SPA content — archived pages are the same JS shell.
-- **Empty PDF viewer**: The Wix PDF Viewer Pro widget (`comp-lpim12rl`) on the page has no PDF configured — the `src` attribute is empty, no PDF URL exists in any Wix page data JSON, and no PDF-related network requests are made.
-- **No alternative documentation locations**: Checked CDP partner site, Wayback Machine, web searches — no EHI export documentation exists for ezEMRx anywhere publicly accessible.
-- **No downloadable files**: No PDFs, ZIPs, CSVs, JSONs, or any other downloadable files are linked from or embedded in the page.
+- **No alternative documentation locations**: The PDF embedded in the viewer widget is the only export documentation. No additional docs on other pages.

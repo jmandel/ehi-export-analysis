@@ -2,7 +2,7 @@
 # Run JSON summary extraction across all completed analyses.
 #
 # Finds every abstraction/<vendor>--<product>/ directory that has an
-# analysis.md and runs run-summary.sh to produce summary.json.
+# analysis.md and runs run-summary.ts to produce summary.json.
 # Skips directories that already have summary.json (default).
 #
 # Usage:
@@ -83,7 +83,7 @@ for analysis_dir in "$ROOT_DIR"/abstraction/*/; do
     fi
   fi
 
-  commands+=("./scripts/run-summary.sh --analysis-dir \"$analysis_dir\" $BACKEND_ARG $MODEL_ARG")
+  commands+=("bun run ./scripts/run-summary.ts --analysis-dir \"$analysis_dir\" $BACKEND_ARG $MODEL_ARG")
 done
 
 queued=${#commands[@]}

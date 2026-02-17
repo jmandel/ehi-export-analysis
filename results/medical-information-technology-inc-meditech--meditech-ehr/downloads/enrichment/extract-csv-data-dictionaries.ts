@@ -1,19 +1,27 @@
 #!/usr/bin/env bun
 /**
- * Extracts structured data from MEDITECH EHI Export CSV data dictionary PDFs.
- * These PDFs contain Field/Table/Column mappings for the CSV export format
- * used in Configuration 2 (Client/Server, MAGIC, and 6.08 platforms).
+ * Extracts CSV data dictionary tables from MEDITECH EHI Export PDF files.
+ *
+ * Prerequisites: pdftotext (from poppler-utils) must be installed.
  *
  * Usage: bun run extract-csv-data-dictionaries.ts
- * Input: ../csacuteandambehiexportdrsolutionmerged.pdf
- *        ../mgehiexportdrsolutionmerged.pdf
- *        ../608ehiexportcsv.pdf
- * Output: csv-data-dictionaries.json, extraction-stats.json
+ *
+ * Input: Three PDF files in ../
+ *   - 608ehiexportcsv.pdf (MPM 6.08 Ambulatory)
+ *   - csacuteandambehiexportdrsolutionmerged.pdf (Client/Server Acute & Ambulatory)
+ *   - mgehiexportdrsolutionmerged.pdf (MAGIC Acute & Ambulatory)
+ *
+ * Output: csv-data-dictionaries.json
  */
 
-import { $ } from "bun";
+import { execSync } from "child_process";
+import { resolve, dirname } from "path";
+import { writeFileSync } from "fs";
 
-interface FieldMapping {
+const scriptDir = dirname(new URL(import.meta.url).pathname);
+const downloadsDir = resolve(scriptDir, "..");
+
+interface FieldEntry {
   field: string;
   table: string;
   column: string;
@@ -21,177 +29,189 @@ interface FieldMapping {
 
 interface TableGroup {
   tableName: string;
-  fields: FieldMapping[];
+  fields: FieldEntry[];
 }
 
-interface PlatformDictionary {
-  platform: string;
+interface PdfResult {
   sourceFile: string;
+  platform: string;
   lastUpdated: string;
   tables: TableGroup[];
   totalFields: number;
   totalTables: number;
+  parseErrors: string[];
 }
 
-interface ExtractionStats {
-  extractionDate: string;
-  platforms: {
-    platform: string;
-    sourceFile: string;
-    totalTables: number;
-    totalFields: number;
-    parseErrors: string[];
-  }[];
-  totalFiles: number;
-  totalFilesParsed: number;
-  totalTablesAcrossAll: number;
-  totalFieldsAcrossAll: number;
+function extractTextFromPdf(pdfPath: string): string {
+  return execSync(`pdftotext -layout "${pdfPath}" -`, {
+    encoding: "utf-8",
+    maxBuffer: 10 * 1024 * 1024,
+  });
 }
 
-const pdfs = [
-  {
-    file: "../csacuteandambehiexportdrsolutionmerged.pdf",
-    platform: "Client/Server Acute & Ambulatory",
-  },
-  {
-    file: "../mgehiexportdrsolutionmerged.pdf",
-    platform: "MAGIC Acute & Ambulatory",
-  },
-  {
-    file: "../608ehiexportcsv.pdf",
-    platform: "MPM 6.08 Ambulatory",
-  },
-];
-
-async function extractPdf(pdfPath: string): Promise<string> {
-  const result = await $`pdftotext -layout ${pdfPath} -`.text();
-  return result;
-}
-
-function parseDictionary(text: string, platform: string): { tables: TableGroup[]; errors: string[] } {
+function parseCsvDataDictionary(text: string, sourceFile: string): PdfResult {
   const lines = text.split("\n");
-  const tables: TableGroup[] = [];
-  const errors: string[] = [];
-  let currentTable: TableGroup | null = null;
-  let headerSeen = false;
+  const parseErrors: string[] = [];
 
+  // Extract metadata from header
+  let platform = "";
+  let lastUpdated = "";
+  for (const line of lines.slice(0, 15)) {
+    const trimmed = line.trim();
+    if (trimmed.startsWith("Platform:")) {
+      platform = trimmed.replace("Platform:", "").trim();
+    }
+    if (trimmed.startsWith("Last Updated:")) {
+      lastUpdated = trimmed.replace("Last Updated:", "").trim();
+    }
+  }
+
+  // Find the header row "Field ... Table ... Column"
+  let dataStartIdx = -1;
   for (let i = 0; i < lines.length; i++) {
+    const trimmed = lines[i].trim();
+    if (/^Field\s+Table\s+Column\s*$/.test(trimmed)) {
+      dataStartIdx = i + 1;
+      break;
+    }
+  }
+
+  if (dataStartIdx === -1) {
+    parseErrors.push("Could not find 'Field Table Column' header row");
+    return {
+      sourceFile,
+      platform,
+      lastUpdated,
+      tables: [],
+      totalFields: 0,
+      totalTables: 0,
+      parseErrors,
+    };
+  }
+
+  const tables: TableGroup[] = [];
+  let currentTable: TableGroup | null = null;
+
+  for (let i = dataStartIdx; i < lines.length; i++) {
     const line = lines[i];
     const trimmed = line.trim();
 
-    // Skip empty lines, header lines, title lines
+    // Skip blank lines, page numbers, and repeated headers
     if (!trimmed) continue;
-    if (trimmed === "Field" || trimmed === "Field                          Table                     Column") continue;
-    if (trimmed.startsWith("Field") && trimmed.includes("Table") && trimmed.includes("Column")) {
-      headerSeen = true;
-      continue;
-    }
-    if (trimmed.startsWith("EHI Export Patient Data")) continue;
-    if (trimmed.startsWith("Platform:")) continue;
-    if (trimmed.startsWith("The tables/columns below")) continue;
-    if (trimmed === "MEDITECH") continue;
-    if (trimmed.includes("EHI Export Data in CSV File")) continue;
-    if (trimmed.startsWith("Last Updated:")) continue;
-    if (/^\d+$/.test(trimmed)) continue; // page numbers
+    if (/^\d+$/.test(trimmed)) continue; // page number
+    if (/^MEDITECH$/i.test(trimmed)) continue;
+    if (/EHI Export Data in CSV File/i.test(trimmed)) continue;
+    if (/Last Updated:/i.test(trimmed)) continue;
+    if (/^Field\s+Table\s+Column\s*$/.test(trimmed)) continue; // repeated header
 
-    // Detect table header: a line with a single word (no spaces in the core,
-    // starts at column 0, and no Tab/Table/Column structure)
-    // Table headers are lines that start at position 0 and have NO second/third column
-    const hasMultipleColumns = /\S\s{2,}\S/.test(line);
+    // Detect table header lines: a single word/phrase with no whitespace-separated columns
+    // Table headers appear alone on a line, left-aligned, with no other columns
+    // A data row has at least two whitespace-separated segments
+    const segments = trimmed.split(/\s{2,}/);
 
-    if (!hasMultipleColumns && trimmed.length > 0 && !trimmed.includes("  ")) {
-      // This is a table header
-      currentTable = { tableName: trimmed, fields: [] };
+    if (segments.length === 1) {
+      // This is a table header (or a continuation line — we'll treat single-segment as header)
+      // But check: could it be a data row where field, table, column happen to be the same word?
+      // In practice, table headers are PascalCase identifiers like "AdmEmployers"
+      const name = segments[0];
+      currentTable = { tableName: name, fields: [] };
       tables.push(currentTable);
-      continue;
-    }
-
-    // Parse field row: Field (col ~0-29), Table (col ~30-55), Column (col ~56+)
-    // Use regex to split by 2+ spaces
-    if (hasMultipleColumns && currentTable) {
-      const parts = trimmed.split(/\s{2,}/);
-      if (parts.length >= 3) {
+    } else if (segments.length === 2) {
+      // Two segments: could be table + column (field missing), or field + table (column missing)
+      // Looking at the data, this pattern is: Table, Column (field name is the same as table header)
+      if (currentTable) {
         currentTable.fields.push({
-          field: parts[0].trim(),
-          table: parts[1].trim(),
-          column: parts.slice(2).join(" ").trim(),
+          field: segments[0],
+          table: currentTable.tableName,
+          column: segments[1],
         });
-      } else if (parts.length === 2) {
-        // Sometimes column name runs into table name
-        currentTable.fields.push({
-          field: parts[0].trim(),
-          table: parts[1].trim(),
-          column: "",
-        });
-        errors.push(`Line ${i + 1}: Only 2 columns found: "${trimmed}"`);
+      } else {
+        parseErrors.push(`Line ${i + 1}: Two-segment line without active table: "${trimmed}"`);
       }
-    } else if (hasMultipleColumns && !currentTable) {
-      errors.push(`Line ${i + 1}: Field row found before any table header: "${trimmed}"`);
+    } else if (segments.length >= 3) {
+      // Standard row: Field, Table, Column
+      const field = segments[0];
+      const table = segments[1];
+      const column = segments.slice(2).join(" "); // column might have spaces
+      if (currentTable && table !== currentTable.tableName) {
+        // Table changed mid-section without a header — create new table
+        currentTable = { tableName: table, fields: [] };
+        tables.push(currentTable);
+      } else if (!currentTable) {
+        currentTable = { tableName: table, fields: [] };
+        tables.push(currentTable);
+      }
+      currentTable.fields.push({ field, table, column });
     }
   }
 
-  return { tables, errors };
-}
+  // Deduplicate tables by name (merge fields)
+  const tableMap = new Map<string, TableGroup>();
+  for (const t of tables) {
+    const existing = tableMap.get(t.tableName);
+    if (existing) {
+      existing.fields.push(...t.fields);
+    } else {
+      tableMap.set(t.tableName, { ...t });
+    }
+  }
+  const mergedTables = Array.from(tableMap.values());
 
-async function main() {
-  const results: PlatformDictionary[] = [];
-  const stats: ExtractionStats = {
-    extractionDate: new Date().toISOString(),
-    platforms: [],
-    totalFiles: pdfs.length,
-    totalFilesParsed: 0,
-    totalTablesAcrossAll: 0,
-    totalFieldsAcrossAll: 0,
+  const totalFields = mergedTables.reduce((sum, t) => sum + t.fields.length, 0);
+
+  return {
+    sourceFile,
+    platform,
+    lastUpdated,
+    tables: mergedTables,
+    totalFields,
+    totalTables: mergedTables.length,
+    parseErrors,
   };
-
-  for (const pdf of pdfs) {
-    try {
-      console.log(`Processing: ${pdf.file} (${pdf.platform})`);
-      const text = await extractPdf(pdf.file);
-      const { tables, errors } = parseDictionary(text, pdf.platform);
-
-      const totalFields = tables.reduce((sum, t) => sum + t.fields.length, 0);
-      const dict: PlatformDictionary = {
-        platform: pdf.platform,
-        sourceFile: pdf.file.replace("../", ""),
-        lastUpdated: "October 2023",
-        tables,
-        totalFields,
-        totalTables: tables.length,
-      };
-      results.push(dict);
-
-      stats.platforms.push({
-        platform: pdf.platform,
-        sourceFile: pdf.file.replace("../", ""),
-        totalTables: tables.length,
-        totalFields,
-        parseErrors: errors,
-      });
-      stats.totalFilesParsed++;
-      stats.totalTablesAcrossAll += tables.length;
-      stats.totalFieldsAcrossAll += totalFields;
-
-      console.log(`  Tables: ${tables.length}, Fields: ${totalFields}, Errors: ${errors.length}`);
-      if (errors.length > 0) {
-        errors.forEach((e) => console.log(`    ${e}`));
-      }
-    } catch (err) {
-      console.error(`Failed to process ${pdf.file}: ${err}`);
-      stats.platforms.push({
-        platform: pdf.platform,
-        sourceFile: pdf.file.replace("../", ""),
-        totalTables: 0,
-        totalFields: 0,
-        parseErrors: [`Fatal: ${err}`],
-      });
-    }
-  }
-
-  await Bun.write("csv-data-dictionaries.json", JSON.stringify(results, null, 2));
-  await Bun.write("extraction-stats.json", JSON.stringify(stats, null, 2));
-
-  console.log(`\nDone. Total: ${stats.totalFilesParsed}/${stats.totalFiles} files, ${stats.totalTablesAcrossAll} tables, ${stats.totalFieldsAcrossAll} fields`);
 }
 
-main();
+// Process all three PDFs
+const pdfs = [
+  { file: "608ehiexportcsv.pdf", label: "MPM 6.08 Ambulatory" },
+  { file: "csacuteandambehiexportdrsolutionmerged.pdf", label: "Client/Server Acute & Ambulatory" },
+  { file: "mgehiexportdrsolutionmerged.pdf", label: "MAGIC Acute & Ambulatory" },
+];
+
+const results: PdfResult[] = [];
+const stats = {
+  totalFilesDiscovered: pdfs.length,
+  totalFilesParsed: 0,
+  parseFailures: [] as { file: string; error: string }[],
+};
+
+for (const pdf of pdfs) {
+  const pdfPath = resolve(downloadsDir, pdf.file);
+  try {
+    console.log(`Processing ${pdf.file}...`);
+    const text = extractTextFromPdf(pdfPath);
+    const result = parseCsvDataDictionary(text, pdf.file);
+    results.push(result);
+    stats.totalFilesParsed++;
+    console.log(`  Platform: ${result.platform}`);
+    console.log(`  Tables: ${result.totalTables}, Fields: ${result.totalFields}`);
+    if (result.parseErrors.length > 0) {
+      console.log(`  Parse errors: ${result.parseErrors.length}`);
+    }
+  } catch (e: any) {
+    stats.parseFailures.push({ file: pdf.file, error: e.message });
+    console.error(`  FAILED: ${e.message}`);
+  }
+}
+
+const output = {
+  extractionDate: new Date().toISOString().split("T")[0],
+  description: "CSV data dictionaries extracted from MEDITECH EHI Export PDF files. Each entry documents the tables and columns included in the EHI Export Patient Data CSV files for a specific MEDITECH platform.",
+  stats,
+  dictionaries: results,
+};
+
+const outPath = resolve(scriptDir, "csv-data-dictionaries.json");
+writeFileSync(outPath, JSON.stringify(output, null, 2));
+console.log(`\nOutput written to ${outPath}`);
+console.log(`Total tables across all platforms: ${results.reduce((s, r) => s + r.totalTables, 0)}`);
+console.log(`Total fields across all platforms: ${results.reduce((s, r) => s + r.totalFields, 0)}`);

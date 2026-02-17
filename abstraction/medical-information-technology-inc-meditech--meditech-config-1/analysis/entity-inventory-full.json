@@ -1,0 +1,878 @@
+{
+  "export_configuration": "Configuration 1",
+  "description": "MEDITECH EHI Export Configuration 1 — for sites using Health Information Management (HIM) and Scanning/eChart (SCN) modules",
+  "source_file": "downloads/ehiexportconfig1.html",
+  "source_url": "https://home.meditech.com/en/d/restapiresources/pages/ehiexportconfig1.htm",
+  "applicable_platforms": [
+    {
+      "name": "Expanse 2.2",
+      "settings": "Acute & Ambulatory"
+    },
+    {
+      "name": "Expanse 2.1",
+      "settings": "Acute & Ambulatory"
+    },
+    {
+      "name": "6.15",
+      "settings": "Acute & Ambulatory"
+    },
+    {
+      "name": "6.08",
+      "settings": "Acute only"
+    },
+    {
+      "name": "Client/Server 5.67",
+      "settings": "Acute only"
+    },
+    {
+      "name": "MAGIC 5.67",
+      "settings": "Acute only"
+    },
+    {
+      "name": "HCA MAGIC 5.67",
+      "settings": "Acute only"
+    }
+  ],
+  "required_modules": [
+    "Health Information Management (HIM)",
+    "Scanning and Archiving with eChart (SCN)",
+    "Patient and Consumer Health Portal (PHM) [optional]"
+  ],
+  "export_format": "ZIP file containing multiple formats",
+  "zip_metadata_files": [
+    {
+      "name": "README.txt",
+      "description": "Contains a description of the export zip file, including Table of Contents for documents within various sub folders anything not in parentheses corresponds to a folder or file name found after extracting the zip file anything in parentheses is additional descriptive data"
+    },
+    {
+      "name": "EHIEXPORTSCHEMA.txt",
+      "description": "Contains Documentation URL (directs to this page) and Product Version"
+    },
+    {
+      "name": "ACCOUNTS_INDEX.html or ACCOUNTS_INDEX.xml",
+      "description": "Enables human readability of parts of the export package via a web browser"
+    },
+    {
+      "name": "Table of Contents.ndjson",
+      "description": "Contains metadata for every data file in the export zip to aid in machine readability Format is ndjson DocumentReference resources conform to the EHI Export API Implementation Guide (draft). More details below"
+    }
+  ],
+  "product_version_matrix": [
+    {
+      "name": "MEDITECH Expanse 2.2",
+      "sections": [
+        "Electronic Chart",
+        "Structured Clinical Documents",
+        "FHIR Resource Bundle",
+        "Ambulatory Results",
+        "Authorization & Referral Management Reports",
+        "Financial Reports",
+        "Immunization History",
+        "Population Health",
+        "Utilization Review",
+        "Historical Ambulatory Data"
+      ]
+    },
+    {
+      "name": "MEDITECH Expanse 2.1",
+      "sections": [
+        "Electronic Chart",
+        "Structured Clinical Documents",
+        "FHIR Resource Bundle",
+        "Ambulatory Results",
+        "Authorization & Referral Management Reports",
+        "Financial Reports",
+        "Immunization History",
+        "Population Health",
+        "Utilization Review",
+        "Historical Ambulatory Data"
+      ]
+    },
+    {
+      "name": "MEDITECH 6.15",
+      "sections": [
+        "Electronic Chart",
+        "Structured Clinical Documents",
+        "FHIR Resource Bundle",
+        "Ambulatory Results",
+        "Authorization & Referral Management Reports",
+        "Financial Reports",
+        "Immunization History",
+        "Utilization Review",
+        "Historical Ambulatory Data"
+      ]
+    },
+    {
+      "name": "MEDITECH 6.08 Acute",
+      "sections": [
+        "Electronic Chart",
+        "Structured Clinical Documents",
+        "FHIR Resource Bundle",
+        "Financial Reports",
+        "Immunization History",
+        "Ambulatory Order Summary",
+        "Patient Notices"
+      ]
+    },
+    {
+      "name": "MEDITECH Client/Server 5.67 Acute",
+      "sections": [
+        "Electronic Chart",
+        "Structured Clinical Documents",
+        "FHIR Resource Bundle",
+        "Financial Reports",
+        "Provider Messages",
+        "Implantable Devices",
+        "Immunizations"
+      ]
+    },
+    {
+      "name": "MEDITECH MAGIC 5.67 Acute",
+      "sections": [
+        "Electronic Chart",
+        "Structured Clinical Documents",
+        "FHIR Resource Bundle",
+        "Financial Reports",
+        "Provider Messages",
+        "Implantable Devices"
+      ]
+    },
+    {
+      "name": "MEDITECH HCA MAGIC 5.67 Acute",
+      "sections": [
+        "Electronic Chart",
+        "Structured Clinical Documents",
+        "FHIR Resource Bundle",
+        "Provider Messages",
+        "Implantable Devices"
+      ]
+    }
+  ],
+  "entities": [
+    {
+      "entity_name": "Electronic Chart",
+      "entity_type": "folder",
+      "category": "Clinical Documents",
+      "format": "PNG, JPG, TIF, BMP, PDF",
+      "description": "Scanned/electronic documents from the eChart system, organized by account, category, and subcategory. Includes account-specific documents, patient-level (Record_Documents) documents, and global documents.",
+      "fields": null,
+      "field_count": 0,
+      "fields_with_descriptions": 0,
+      "files_in_section": [
+        {
+          "name": "Account folders (AANNNNNNNNNN_Patient_Name)",
+          "format": "folder",
+          "description": "Documents organized by account number, category, and subcategory"
+        },
+        {
+          "name": "Record_Documents_Patient_Name",
+          "format": "folder",
+          "description": "Patient-level (not account-specific) documents"
+        },
+        {
+          "name": "Global_Documents_Patient_Name",
+          "format": "folder",
+          "description": "Global documents applying across all encounters"
+        }
+      ],
+      "applicable_versions": [
+        "MEDITECH Expanse 2.2",
+        "MEDITECH Expanse 2.1",
+        "MEDITECH 6.15",
+        "MEDITECH 6.08 Acute",
+        "MEDITECH Client/Server 5.67 Acute",
+        "MEDITECH MAGIC 5.67 Acute",
+        "MEDITECH HCA MAGIC 5.67 Acute"
+      ],
+      "version_notes": "",
+      "data_domain": "Clinical notes, scanned documents, images, reports",
+      "structured_data": false
+    },
+    {
+      "entity_name": "Structured Clinical Documents (CCDA)",
+      "entity_type": "folder",
+      "category": "Structured Clinical Documents",
+      "format": "C-CDA XML (R2.1 or R1.1)",
+      "description": "All structured Consolidated-CDA documents that have been created and possibly sent outside of the organization.",
+      "fields": null,
+      "field_count": 0,
+      "fields_with_descriptions": 0,
+      "files_in_section": [
+        {
+          "name": "C-CDA XML files",
+          "format": "XML",
+          "description": "Consolidated CDA documents per C-CDA R2.1 or R1.1 specifications"
+        }
+      ],
+      "applicable_versions": [
+        "MEDITECH Expanse 2.2",
+        "MEDITECH Expanse 2.1",
+        "MEDITECH 6.15",
+        "MEDITECH 6.08 Acute",
+        "MEDITECH Client/Server 5.67 Acute",
+        "MEDITECH MAGIC 5.67 Acute",
+        "MEDITECH HCA MAGIC 5.67 Acute"
+      ],
+      "version_notes": "",
+      "data_domain": "Clinical summaries, discharge summaries, H&P, consult notes",
+      "structured_data": true
+    },
+    {
+      "entity_name": "US Core FHIR Resources.json",
+      "entity_type": "file",
+      "category": "FHIR Clinical Data",
+      "format": "FHIR R4 JSON (US Core STU 3.1.1)",
+      "description": "Contains all available FHIR resources for the exported patient leveraging Patient $everything. Conforms to US Core STU 3.1.1.",
+      "fields": null,
+      "field_count": 0,
+      "fields_with_descriptions": 0,
+      "files_in_section": [
+        {
+          "name": "US Core FHIR Resources.json",
+          "format": "JSON",
+          "description": "FHIR R4 Patient $everything bundle per US Core STU 3.1.1"
+        }
+      ],
+      "applicable_versions": [
+        "MEDITECH Expanse 2.2",
+        "MEDITECH Expanse 2.1",
+        "MEDITECH 6.15",
+        "MEDITECH 6.08 Acute",
+        "MEDITECH Client/Server 5.67 Acute",
+        "MEDITECH MAGIC 5.67 Acute",
+        "MEDITECH HCA MAGIC 5.67 Acute"
+      ],
+      "version_notes": "",
+      "data_domain": "USCDI clinical data (demographics, conditions, medications, allergies, observations, encounters, etc.)",
+      "structured_data": true
+    },
+    {
+      "entity_name": "Ambulatory Results",
+      "entity_type": "folder",
+      "category": "Lab/Diagnostic Results",
+      "format": "PDF",
+      "description": "Contains ambulatory results: manually entered micro/lab results and outside vendor micro/lab results.",
+      "fields": null,
+      "field_count": 0,
+      "fields_with_descriptions": 0,
+      "files_in_section": [
+        {
+          "name": "Ambulatory (Manual Entry) Results.pdf",
+          "format": "PDF",
+          "description": "Ambulatory results entered manually for micro and lab"
+        },
+        {
+          "name": "Ambulatory OV Results.pdf",
+          "format": "PDF",
+          "description": "Ambulatory results from outside/other vendor for micro and lab"
+        }
+      ],
+      "applicable_versions": [
+        "MEDITECH Expanse 2.2",
+        "MEDITECH Expanse 2.1",
+        "MEDITECH 6.15"
+      ],
+      "version_notes": "",
+      "data_domain": "Laboratory results, microbiology results (ambulatory)",
+      "structured_data": false
+    },
+    {
+      "entity_name": "Authorization & Referral Management Reports",
+      "entity_type": "folder",
+      "category": "Administrative / Insurance",
+      "format": "PDF",
+      "description": "Contains authorization/referral data and insurance eligibility/deduction data for the patient.",
+      "fields": null,
+      "field_count": 0,
+      "fields_with_descriptions": 0,
+      "files_in_section": [
+        {
+          "name": "ARMEHI-ArmAuthData.pdf",
+          "format": "PDF",
+          "description": "Data of all authorizations and referrals for a particular patient"
+        },
+        {
+          "name": "ARMEHI-InsEligCopayDeductData.pdf",
+          "format": "PDF",
+          "description": "Insurance eligibility and deduction data"
+        }
+      ],
+      "applicable_versions": [
+        "MEDITECH Expanse 2.2",
+        "MEDITECH Expanse 2.1",
+        "MEDITECH 6.15"
+      ],
+      "version_notes": "",
+      "data_domain": "Authorization, referrals, insurance eligibility, copay, deductibles",
+      "structured_data": false
+    },
+    {
+      "entity_name": "Financial Reports",
+      "entity_type": "folder",
+      "category": "Financial / Billing",
+      "format": "TXT",
+      "description": "Contains patient accounting reports with financial transactions, resident trust, and cost estimation.",
+      "fields": null,
+      "field_count": 0,
+      "fields_with_descriptions": 0,
+      "files_in_section": [
+        {
+          "name": "FinancialEHI.txt",
+          "format": "TXT",
+          "description": "Patient Accounting report with financial transactions for the patient"
+        },
+        {
+          "name": "ResidentTrustEHI.txt",
+          "format": "TXT",
+          "description": "Resident Trust report with financial transactions (Expanse, 6.1x only)"
+        },
+        {
+          "name": "CostEstimation.txt",
+          "format": "TXT",
+          "description": "Cost estimates for the patient (Expanse only)"
+        }
+      ],
+      "applicable_versions": [
+        "MEDITECH Expanse 2.2",
+        "MEDITECH Expanse 2.1",
+        "MEDITECH 6.15",
+        "MEDITECH 6.08 Acute",
+        "MEDITECH Client/Server 5.67 Acute",
+        "MEDITECH MAGIC 5.67 Acute"
+      ],
+      "version_notes": "ResidentTrustEHI.txt: Expanse and 6.1x only; CostEstimation.txt: Expanse only",
+      "data_domain": "Patient billing, financial transactions, cost estimation",
+      "structured_data": false
+    },
+    {
+      "entity_name": "Patient Immunization History",
+      "entity_type": "folder",
+      "category": "Immunizations",
+      "format": "PDF",
+      "description": "Contains a list of the patient's immunization history.",
+      "fields": null,
+      "field_count": 0,
+      "fields_with_descriptions": 0,
+      "files_in_section": [
+        {
+          "name": "Patient Immunization History.pdf",
+          "format": "PDF",
+          "description": "List of patient's immunization history"
+        }
+      ],
+      "applicable_versions": [
+        "MEDITECH Expanse 2.2",
+        "MEDITECH Expanse 2.1",
+        "MEDITECH 6.15",
+        "MEDITECH 6.08 Acute"
+      ],
+      "version_notes": "",
+      "data_domain": "Immunizations",
+      "structured_data": false
+    },
+    {
+      "entity_name": "Immunization Record",
+      "entity_type": "folder",
+      "category": "Immunizations",
+      "format": "TXT",
+      "description": "Contains patient immunization data.",
+      "fields": null,
+      "field_count": 0,
+      "fields_with_descriptions": 0,
+      "files_in_section": [
+        {
+          "name": "Immunization Record.txt",
+          "format": "TXT",
+          "description": "Patient immunization data"
+        }
+      ],
+      "applicable_versions": [
+        "MEDITECH Client/Server 5.67 Acute"
+      ],
+      "version_notes": "Client/Server 5.67 Acute only",
+      "data_domain": "Immunizations",
+      "structured_data": false
+    },
+    {
+      "entity_name": "Implantable Devices Data",
+      "entity_type": "folder",
+      "category": "Medical Devices",
+      "format": "TXT",
+      "description": "Contains patient medical/implantable devices.",
+      "fields": null,
+      "field_count": 0,
+      "fields_with_descriptions": 0,
+      "files_in_section": [
+        {
+          "name": "Implantable Devices Data.txt",
+          "format": "TXT",
+          "description": "Patient medical/implantable devices"
+        }
+      ],
+      "applicable_versions": [
+        "MEDITECH Client/Server 5.67 Acute",
+        "MEDITECH MAGIC 5.67 Acute",
+        "MEDITECH HCA MAGIC 5.67 Acute"
+      ],
+      "version_notes": "Client/Server and MAGIC Acute only",
+      "data_domain": "Medical devices, implantable devices",
+      "structured_data": false
+    },
+    {
+      "entity_name": "Patient Notices",
+      "entity_type": "folder",
+      "category": "Patient Communications",
+      "format": "PDF",
+      "description": "Contains patient and physician interactive messages.",
+      "fields": null,
+      "field_count": 0,
+      "fields_with_descriptions": 0,
+      "files_in_section": [
+        {
+          "name": "Patient Notices.pdf",
+          "format": "PDF",
+          "description": "Patient and physician interactive messages"
+        }
+      ],
+      "applicable_versions": [
+        "MEDITECH 6.08 Acute"
+      ],
+      "version_notes": "6.08 Acute only",
+      "data_domain": "Patient-provider communications",
+      "structured_data": false
+    },
+    {
+      "entity_name": "Population Health",
+      "entity_type": "folder",
+      "category": "Population Health",
+      "format": "PDF",
+      "description": "Contains population health external data (aggregated data received from a vendor).",
+      "fields": null,
+      "field_count": 0,
+      "fields_with_descriptions": 0,
+      "files_in_section": [
+        {
+          "name": "Population Health.pdf",
+          "format": "PDF",
+          "description": "Population health external aggregated data received from a vendor"
+        }
+      ],
+      "applicable_versions": [
+        "MEDITECH Expanse 2.2",
+        "MEDITECH Expanse 2.1"
+      ],
+      "version_notes": "",
+      "data_domain": "Population health, external aggregated data",
+      "structured_data": false
+    },
+    {
+      "entity_name": "Provider Messages",
+      "entity_type": "folder",
+      "category": "Patient Communications",
+      "format": "TXT",
+      "description": "Contains patient and physician interactive messages.",
+      "fields": null,
+      "field_count": 0,
+      "fields_with_descriptions": 0,
+      "files_in_section": [
+        {
+          "name": "Provider Messages.txt",
+          "format": "TXT",
+          "description": "Patient and physician interactive messages"
+        }
+      ],
+      "applicable_versions": [
+        "MEDITECH Client/Server 5.67 Acute",
+        "MEDITECH MAGIC 5.67 Acute",
+        "MEDITECH HCA MAGIC 5.67 Acute"
+      ],
+      "version_notes": "Client/Server and MAGIC Acute only",
+      "data_domain": "Patient-provider communications",
+      "structured_data": false
+    },
+    {
+      "entity_name": "Utilization Review",
+      "entity_type": "folder",
+      "category": "Care Management",
+      "format": "PDF",
+      "description": "Contains case management utilization reviews.",
+      "fields": null,
+      "field_count": 0,
+      "fields_with_descriptions": 0,
+      "files_in_section": [
+        {
+          "name": "Utilization Review.pdf",
+          "format": "PDF",
+          "description": "Case management utilization reviews"
+        }
+      ],
+      "applicable_versions": [
+        "MEDITECH Expanse 2.2",
+        "MEDITECH Expanse 2.1",
+        "MEDITECH 6.15"
+      ],
+      "version_notes": "",
+      "data_domain": "Case management, utilization review",
+      "structured_data": false
+    },
+    {
+      "entity_name": "Historical Ambulatory Data",
+      "entity_type": "folder",
+      "category": "Historical Clinical Data",
+      "format": "PNG, JPG, TIF, BMP, TXT, PDF",
+      "description": "Contains historical ambulatory documentation migrated from a previous version of the software.",
+      "fields": null,
+      "field_count": 0,
+      "fields_with_descriptions": 0,
+      "files_in_section": [
+        {
+          "name": "Document files and folders",
+          "format": "mixed",
+          "description": "Historical ambulatory documentation migrated from previous software version"
+        }
+      ],
+      "applicable_versions": [
+        "MEDITECH Expanse 2.2",
+        "MEDITECH Expanse 2.1",
+        "MEDITECH 6.15"
+      ],
+      "version_notes": "Expanse 2.2, 2.1, and 6.15 only",
+      "data_domain": "Historical ambulatory records",
+      "structured_data": false
+    },
+    {
+      "entity_name": "Ambulatory Order Summary",
+      "entity_type": "folder",
+      "category": "Orders",
+      "format": "Unknown (not documented)",
+      "description": "Referenced in the 6.08 Acute product sections index but no section detail is provided in the documentation. Presumably contains ambulatory order data.",
+      "fields": null,
+      "field_count": 0,
+      "fields_with_descriptions": 0,
+      "files_in_section": [],
+      "applicable_versions": [
+        "MEDITECH 6.08 Acute"
+      ],
+      "version_notes": "6.08 Acute only; documentation gap - no section detail provided",
+      "data_domain": "Orders (ambulatory)",
+      "structured_data": false
+    },
+    {
+      "entity_name": "Table of Contents.ndjson",
+      "entity_type": "file",
+      "category": "Export Metadata",
+      "format": "NDJSON (FHIR DocumentReference)",
+      "description": "Machine-readable metadata file containing FHIR DocumentReference resources for all patient data files in the export zip. Conforms to Argonaut EHI Export API IG (draft).",
+      "fields": [
+        {
+          "path": "resourceType",
+          "description": "Always 'DocumentReference'",
+          "type": "string"
+        },
+        {
+          "path": "id",
+          "description": "Identifier of this DocumentReference",
+          "type": "string"
+        },
+        {
+          "path": "meta.id",
+          "description": "Identifier of this metadata",
+          "type": "string"
+        },
+        {
+          "path": "meta.versionId",
+          "description": "Identifier of this version",
+          "type": "string"
+        },
+        {
+          "path": "meta.lastUpdated",
+          "description": "When this was last updated",
+          "type": "dateTime"
+        },
+        {
+          "path": "meta.source",
+          "description": "Where the resource came from",
+          "type": "string"
+        },
+        {
+          "path": "meta.profile[]",
+          "description": "Profile URL (ehi-document-reference)",
+          "type": "uri"
+        },
+        {
+          "path": "meta.tag[].code",
+          "description": "Tag code (ehi-export)",
+          "type": "string"
+        },
+        {
+          "path": "meta.tag[].display",
+          "description": "Tag display text",
+          "type": "string"
+        },
+        {
+          "path": "implicitRules",
+          "description": "A set of rules under which this content was created",
+          "type": "uri"
+        },
+        {
+          "path": "language",
+          "description": "Language of the resource content",
+          "type": "code"
+        },
+        {
+          "path": "status",
+          "description": "Status (always 'current')",
+          "type": "code"
+        },
+        {
+          "path": "docStatus",
+          "description": "preliminary | final | amended | entered-in-error",
+          "type": "code"
+        },
+        {
+          "path": "type",
+          "description": "CodeableConcept indicating kind of document",
+          "type": "CodeableConcept"
+        },
+        {
+          "path": "subject.reference",
+          "description": "Patient Reference (resource in US Core FHIR Resources.json)",
+          "type": "reference"
+        },
+        {
+          "path": "date",
+          "description": "Date the file was created",
+          "type": "dateTime"
+        },
+        {
+          "path": "description",
+          "description": "File description",
+          "type": "string"
+        },
+        {
+          "path": "content[].attachment.id",
+          "description": "Identifier of this attachment",
+          "type": "string"
+        },
+        {
+          "path": "content[].attachment.contentType",
+          "description": "File type (MIME type)",
+          "type": "code"
+        },
+        {
+          "path": "content[].attachment.url",
+          "description": "Pathway to the location of the file",
+          "type": "url"
+        },
+        {
+          "path": "content[].attachment.size",
+          "description": "File size",
+          "type": "integer"
+        },
+        {
+          "path": "content[].attachment.title",
+          "description": "Title",
+          "type": "string"
+        },
+        {
+          "path": "content[].attachment.creation",
+          "description": "Date the file was created",
+          "type": "dateTime"
+        },
+        {
+          "path": "context.id",
+          "description": "Identifier of this context",
+          "type": "string"
+        },
+        {
+          "path": "context.encounter[].reference",
+          "description": "Encounter Reference (resource in US Core FHIR Resources.json)",
+          "type": "reference"
+        },
+        {
+          "path": "context.period.start",
+          "description": "Beginning of the context period",
+          "type": "dateTime"
+        },
+        {
+          "path": "context.period.end",
+          "description": "End of the context period",
+          "type": "dateTime"
+        }
+      ],
+      "field_count": 27,
+      "fields_with_descriptions": 27,
+      "files_in_section": [
+        {
+          "name": "Table of Contents.ndjson",
+          "format": "NDJSON",
+          "description": "FHIR DocumentReference resources indexing all export files"
+        }
+      ],
+      "applicable_versions": [
+        "MEDITECH Expanse 2.2",
+        "MEDITECH Expanse 2.1",
+        "MEDITECH 6.15",
+        "MEDITECH 6.08 Acute",
+        "MEDITECH Client/Server 5.67 Acute",
+        "MEDITECH MAGIC 5.67 Acute",
+        "MEDITECH HCA MAGIC 5.67 Acute"
+      ],
+      "version_notes": "Included in all product versions",
+      "data_domain": "Export file metadata/index",
+      "structured_data": true
+    }
+  ],
+  "ndjson_schema": {
+    "resource_type": "DocumentReference",
+    "profile": "http://fhir.org/argonaut/ehi-api/StructureDefinition/ehi-document-reference",
+    "fields": [
+      {
+        "path": "resourceType",
+        "description": "Always 'DocumentReference'",
+        "type": "string"
+      },
+      {
+        "path": "id",
+        "description": "Identifier of this DocumentReference",
+        "type": "string"
+      },
+      {
+        "path": "meta.id",
+        "description": "Identifier of this metadata",
+        "type": "string"
+      },
+      {
+        "path": "meta.versionId",
+        "description": "Identifier of this version",
+        "type": "string"
+      },
+      {
+        "path": "meta.lastUpdated",
+        "description": "When this was last updated",
+        "type": "dateTime"
+      },
+      {
+        "path": "meta.source",
+        "description": "Where the resource came from",
+        "type": "string"
+      },
+      {
+        "path": "meta.profile[]",
+        "description": "Profile URL (ehi-document-reference)",
+        "type": "uri"
+      },
+      {
+        "path": "meta.tag[].code",
+        "description": "Tag code (ehi-export)",
+        "type": "string"
+      },
+      {
+        "path": "meta.tag[].display",
+        "description": "Tag display text",
+        "type": "string"
+      },
+      {
+        "path": "implicitRules",
+        "description": "A set of rules under which this content was created",
+        "type": "uri"
+      },
+      {
+        "path": "language",
+        "description": "Language of the resource content",
+        "type": "code"
+      },
+      {
+        "path": "status",
+        "description": "Status (always 'current')",
+        "type": "code"
+      },
+      {
+        "path": "docStatus",
+        "description": "preliminary | final | amended | entered-in-error",
+        "type": "code"
+      },
+      {
+        "path": "type",
+        "description": "CodeableConcept indicating kind of document",
+        "type": "CodeableConcept"
+      },
+      {
+        "path": "subject.reference",
+        "description": "Patient Reference (resource in US Core FHIR Resources.json)",
+        "type": "reference"
+      },
+      {
+        "path": "date",
+        "description": "Date the file was created",
+        "type": "dateTime"
+      },
+      {
+        "path": "description",
+        "description": "File description",
+        "type": "string"
+      },
+      {
+        "path": "content[].attachment.id",
+        "description": "Identifier of this attachment",
+        "type": "string"
+      },
+      {
+        "path": "content[].attachment.contentType",
+        "description": "File type (MIME type)",
+        "type": "code"
+      },
+      {
+        "path": "content[].attachment.url",
+        "description": "Pathway to the location of the file",
+        "type": "url"
+      },
+      {
+        "path": "content[].attachment.size",
+        "description": "File size",
+        "type": "integer"
+      },
+      {
+        "path": "content[].attachment.title",
+        "description": "Title",
+        "type": "string"
+      },
+      {
+        "path": "content[].attachment.creation",
+        "description": "Date the file was created",
+        "type": "dateTime"
+      },
+      {
+        "path": "context.id",
+        "description": "Identifier of this context",
+        "type": "string"
+      },
+      {
+        "path": "context.encounter[].reference",
+        "description": "Encounter Reference (resource in US Core FHIR Resources.json)",
+        "type": "reference"
+      },
+      {
+        "path": "context.period.start",
+        "description": "Beginning of the context period",
+        "type": "dateTime"
+      },
+      {
+        "path": "context.period.end",
+        "description": "End of the context period",
+        "type": "dateTime"
+      }
+    ]
+  },
+  "statistics": {
+    "total_export_sections": 15,
+    "total_entities": 16,
+    "sections_with_structured_data": 3,
+    "sections_with_unstructured_data": 13,
+    "total_documented_files": 21,
+    "ndjson_schema_fields": 27,
+    "product_versions_covered": 7,
+    "max_sections_per_version": 10,
+    "min_sections_per_version": 5
+  }
+}

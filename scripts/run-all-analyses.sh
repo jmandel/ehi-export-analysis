@@ -2,7 +2,7 @@
 # Run EHI export analyses across all collected results.
 #
 # Enumerates every product across all results/<slug>/ directories and
-# runs run-analysis.sh for each. Supports parallelism, skip-done, and
+# runs run-analysis.ts for each. Supports parallelism, skip-done, and
 # force-clean recompute.
 #
 # Usage:
@@ -42,6 +42,20 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+# Build a map from results source_dir → split config file.
+# When a results dir has a split config, we replace that single entry
+# with one entry per split slug, each invoking run-analysis.ts with
+# --results-dir and --focus.
+declare -A split_config_for=()
+SPLITS_DIR="$ROOT_DIR/work/splits"
+if [[ -d "$SPLITS_DIR" ]]; then
+  for sc in "$SPLITS_DIR"/*.json; do
+    [[ -f "$sc" ]] || continue
+    src=$(jq -r '.source_dir' "$sc")
+    [[ -n "$src" && "$src" != "null" ]] && split_config_for["$src"]="$sc"
+  done
+fi
+
 # Build the list of commands
 commands=()
 total=0
@@ -60,28 +74,62 @@ for results_dir in "$ROOT_DIR"/results/*/; do
   # Skip if collection is still in progress (no ehi-export-report.md yet)
   [[ -f "$results_dir/ehi-export-report.md" ]] || continue
 
-  # Apply filter if set
-  if [[ -n "$FILTER" ]]; then
-    # shellcheck disable=SC2254
-    case "$slug" in $FILTER) ;; *) continue ;; esac
-  fi
+  if [[ -n "${split_config_for[$slug]+x}" ]]; then
+    # Expand this results dir into its split targets
+    sc="${split_config_for[$slug]}"
+    n_splits=$(jq '.splits | length' "$sc")
+    for ((si=0; si<n_splits; si++)); do
+      split_slug=$(jq -r ".splits[$si].slug" "$sc")
+      split_focus=$(jq -r ".splits[$si].focus" "$sc")
 
-  output_dir="$ROOT_DIR/abstraction/$slug"
-  total=$((total + 1))
-
-  if [[ -f "$output_dir/analysis.md" ]]; then
-    if [[ "$FORCE" == true ]]; then
-      forced=$((forced + 1))
-      if [[ "$DRY_RUN" == false ]]; then
-        rm -rf "$output_dir"
+      # Apply filter against the split slug
+      if [[ -n "$FILTER" ]]; then
+        # shellcheck disable=SC2254
+        case "$split_slug" in $FILTER) ;; *) continue ;; esac
       fi
-    else
-      skipped=$((skipped + 1))
-      continue
-    fi
-  fi
 
-  commands+=("./scripts/run-analysis.sh --dir \"$slug\" $BACKEND_ARG $MODEL_ARG")
+      output_dir="$ROOT_DIR/abstraction/$split_slug"
+      total=$((total + 1))
+
+      if [[ -f "$output_dir/analysis.md" ]]; then
+        if [[ "$FORCE" == true ]]; then
+          forced=$((forced + 1))
+          if [[ "$DRY_RUN" == false ]]; then
+            rm -rf "$output_dir"
+          fi
+        else
+          skipped=$((skipped + 1))
+          continue
+        fi
+      fi
+
+      commands+=("bun run ./scripts/run-analysis.ts --dir \"$split_slug\" --results-dir \"$results_dir\" --focus \"$split_focus\" $BACKEND_ARG $MODEL_ARG")
+    done
+  else
+    # Normal 1:1 target
+    # Apply filter if set
+    if [[ -n "$FILTER" ]]; then
+      # shellcheck disable=SC2254
+      case "$slug" in $FILTER) ;; *) continue ;; esac
+    fi
+
+    output_dir="$ROOT_DIR/abstraction/$slug"
+    total=$((total + 1))
+
+    if [[ -f "$output_dir/analysis.md" ]]; then
+      if [[ "$FORCE" == true ]]; then
+        forced=$((forced + 1))
+        if [[ "$DRY_RUN" == false ]]; then
+          rm -rf "$output_dir"
+        fi
+      else
+        skipped=$((skipped + 1))
+        continue
+      fi
+    fi
+
+    commands+=("bun run ./scripts/run-analysis.ts --dir \"$slug\" $BACKEND_ARG $MODEL_ARG")
+  fi
 done
 
 queued=${#commands[@]}

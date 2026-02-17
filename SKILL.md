@@ -32,7 +32,7 @@ abstraction/abstraction-prompt.md   # Prompt used to generate analysis.md
 
 chpl-data/                          # CHPL API data: listings, search results, developer maps
 dashboard/                          # React dashboard (builds to dashboard/dist/)
-scripts/                            # Pipeline scripts (run-analysis.sh, run-summary.sh, etc.)
+scripts/                            # Pipeline scripts (run-analysis.ts, run-summary.ts, etc.)
 wiggum/                             # Collection pipeline (browser automation, download agents)
 ```
 
@@ -342,9 +342,9 @@ The pipeline has three phases per vendor:
 
 1. **Collection** (`wiggum/`) — Browser automation visits the EHI documentation URL,
    researches the product, downloads artifacts
-2. **Analysis** (`scripts/run-analysis.sh`) — AI agent reads all collected data and
+2. **Analysis** (`scripts/run-analysis.ts`) — AI agent reads all collected data and
    produces `analysis.md` + intermediate artifacts
-3. **Summary** (`scripts/run-summary.sh`) — AI agent extracts structured `summary.json`
+3. **Summary** (`scripts/run-summary.ts`) — AI agent extracts structured `summary.json`
    from analysis.md using the TypeScript schema
 
 Batch scripts: `scripts/run-all-analyses.sh`, `scripts/run-all-summaries.sh`

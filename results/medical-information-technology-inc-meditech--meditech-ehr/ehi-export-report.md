@@ -1,10 +1,10 @@
 # Medical Information Technology, Inc. (MEDITECH) — EHI Export Documentation
 
-Collected: 2026-02-16
+Collected: 2026-02-17
 
 ## Source
 - Registered URL: https://home.meditech.com/en/d/restapiresources/pages/ehiexport.htm
-- CHPL IDs: 10930, 10925, 10979, 10973, 10931, 10984, 11742, 11743, 10935, 11018, 10927, 10926, 10929, 10982, 10972, 10981
+- CHPL IDs: 10925, 10926, 10927, 10929, 10930, 10931, 10935, 10972, 10973, 10979, 10981, 10982, 10984, 11018, 11742, 11743
 
 ## Navigation Journal
 
@@ -12,253 +12,237 @@ Collected: 2026-02-16
 
 ```bash
 curl -sI -L "https://home.meditech.com/en/d/restapiresources/pages/ehiexport.htm" \
-  -H 'User-Agent: Mozilla/5.0'
+  -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36'
 ```
 
-HTTP/2 200, Content-Type: text/html, 8,964 bytes. Direct static HTML page, no redirects.
+Result: HTTP 200, Content-Type: text/html, 8964 bytes. No redirects. The page loads directly as static HTML — no JavaScript rendering required.
 
-### Step 2: Fetch and examine main page
+### Step 2: Fetch and examine the main page
 
 ```bash
 curl -sL "https://home.meditech.com/en/d/restapiresources/pages/ehiexport.htm" \
   -H 'User-Agent: Mozilla/5.0' -o ehiexport-main.html
 ```
 
-The main page is a lightweight overview describing MEDITECH's EHI Export as a ZIP file containing machine-readable patient data per §170.315(b)(10). It explains that content varies by product version, implemented applications, and organization configuration. It links to two configuration pages:
+The main page is a MEDITECH "Web Utility" site with a clean HTML structure. It describes the EHI Export as producing a zip file containing machine-readable patient data. The page presents a table with two export configurations and links to detail pages.
 
-- **Configuration 1**: Expanse 2.2/2.1, 6.15, 6.08 Acute, C/S Acute, MAGIC Acute — uses HIM/SCN/PHM modules
-- **Configuration 2**: 6.08 Ambulatory, C/S Acute & Ambulatory, MAGIC Acute & Ambulatory — uses MRI/DR modules
-
-It also links to "Regulatory EHI Export Functionality Guides" on customer.meditech.com (login-required).
-
-### Step 3: Fetch Configuration 1 details
+### Step 3: Follow links to Configuration 1 and Configuration 2 detail pages
 
 ```bash
 curl -sL "https://home.meditech.com/en/d/restapiresources/pages/ehiexportconfig1.htm" \
   -H 'User-Agent: Mozilla/5.0' -o ehiexportconfig1.html
-```
 
-29,280 bytes. Detailed page documenting the export ZIP structure for Configuration 1 — lists files (README.txt, EHIEXPORTSCHEMA.txt, ACCOUNTS_INDEX.html/xml, Table of Contents.ndjson) and sections per product version (Electronic Chart, FHIR Resource Bundle, C-CDA documents, Financial Reports, etc.). Includes the NDJSON schema for the Table of Contents file (FHIR DocumentReference resources).
-
-### Step 4: Fetch Configuration 2 details
-
-```bash
 curl -sL "https://home.meditech.com/en/d/restapiresources/pages/ehiexportconfig2.htm" \
   -H 'User-Agent: Mozilla/5.0' -o ehiexportconfig2.html
 ```
 
-22,780 bytes. Documents the Configuration 2 export ZIP structure — contains CSV patient data files, FHIR bundle, C-CDA, clinical reports/documents, financial reports, provider messages, external documents, scanned documents. Critically, this page links to three PDF data dictionaries for the CSV tables.
+Both pages loaded successfully. Configuration 1 provides detailed section-by-section documentation of the export zip structure. Configuration 2 similarly documents its format and links to three PDF data dictionaries.
 
-### Step 5: Download CSV data dictionary PDFs
+### Step 4: Check the "Regulatory EHI Export Functionality Guides" link
 
-From Configuration 2 page, three PDF links for the CSV file specifications:
-
-```bash
-curl -sL "https://home.meditech.com/en/d/regulatoryresources/otherfiles/csacuteandambehiexportdrsolutionmerged.pdf" \
-  -H 'User-Agent: Mozilla/5.0' -o csacuteandambehiexportdrsolutionmerged.pdf
-
-curl -sL "https://home.meditech.com/en/d/regulatoryresources/otherfiles/mgehiexportdrsolutionmerged.pdf" \
-  -H 'User-Agent: Mozilla/5.0' -o mgehiexportdrsolutionmerged.pdf
-
-curl -sL "https://home.meditech.com/en/d/regulatoryresources/otherfiles/608ehiexportcsv.pdf" \
-  -H 'User-Agent: Mozilla/5.0' -o 608ehiexportcsv.pdf
-```
-
-All three verified as valid PDF documents:
-- Client/Server Acute & Ambulatory: 30 pages, 262,764 bytes, last updated October 2023
-- MAGIC Acute & Ambulatory: 48 pages, 363,475 bytes, last updated October 2023
-- MPM 6.08 Ambulatory: 19 pages, 251,431 bytes, last updated October 2023
-
-### Step 6: Check old EHI Export homepage
+The main page links to `https://customer.meditech.com/en/d/21stcenturycuresact/pages/ehiexport.htm`. This URL redirects to a SAML authentication endpoint (Keycloak at accounts.meditech.com), indicating it is a customer-only portal requiring login. The documentation is not publicly accessible.
 
 ```bash
-curl -sL "https://home.meditech.com/en/d/restapiresources/pages/ehiexportold.htm" \
-  -H 'User-Agent: Mozilla/5.0' -o ehiexportold.html
+curl -sI -L "https://customer.meditech.com/en/d/21stcenturycuresact/pages/ehiexport.htm"
+# Returns HTTP 302 -> Keycloak SAML login page
 ```
 
-27,779 bytes. This is an older version of the documentation page that contains similar content to Configuration 1. Both Config 1 and Config 2 pages link back to this "old" homepage.
+### Step 5: Download CSV data dictionary PDFs from Configuration 2
 
-### Step 7: Check customer portal (login-required)
+Configuration 2 links to three PDF data dictionaries:
 
 ```bash
-curl -sI "https://customer.meditech.com/en/d/21stcenturycuresact/pages/ehiexport.htm" \
-  -H 'User-Agent: Mozilla/5.0'
+curl -sL "https://home.meditech.com/en/d/regulatoryresources/otherfiles/608ehiexportcsv.pdf" -o 608ehiexportcsv.pdf
+curl -sL "https://home.meditech.com/en/d/regulatoryresources/otherfiles/csacuteandambehiexportdrsolutionmerged.pdf" -o csacuteandambehiexportdrsolutionmerged.pdf
+curl -sL "https://home.meditech.com/en/d/regulatoryresources/otherfiles/mgehiexportdrsolutionmerged.pdf" -o mgehiexportdrsolutionmerged.pdf
 ```
 
-HTTP/2 302 → redirects to SAML authentication at accounts.meditech.com. The "Regulatory EHI Export Functionality Guides" require customer login. This is not publicly accessible.
+All three downloaded as valid PDF documents:
+- `608ehiexportcsv.pdf`: 19 pages, 251 KB — MPM 6.08 Ambulatory CSV data dictionary
+- `csacuteandambehiexportdrsolutionmerged.pdf`: 20 pages, 263 KB — Client/Server Acute & Ambulatory CSV data dictionary
+- `mgehiexportdrsolutionmerged.pdf`: 20 pages, 364 KB — MAGIC Acute & Ambulatory CSV data dictionary
 
-### Step 8: Check FHIR documentation portal
+### Step 6: Fetch the "old" EHI Export page
 
-Navigated to https://fhir.meditech.com/explorer/topic/USCore-patient-health-data in browser. This is a JavaScript SPA ("API Reference Library") documenting MEDITECH's FHIR R4 APIs for US Core Patient Health Data. This is their (g)(10) FHIR API documentation — it covers US Core STU3, STU4, STU6, STU7 implementation guides. The EHI export documentation references this site for the FHIR Resource Bundle component (Patient $everything using US Core STU 3.1.1), but the FHIR portal itself contains no EHI-export-specific content. Not downloaded as it documents the general FHIR API, not the (b)(10) export.
+Config pages reference `/en/d/restapiresources/pages/ehiexportold.htm` as the original EHI Export homepage. Fetched and saved; it contains essentially the same information as the current Config 1 page (same section structure, same descriptions).
 
-### Step 9: Screenshots
+### Step 7: Take screenshots
 
-Full-page screenshots taken of main page, Config 1, and Config 2 pages.
+Navigated to each of the three main pages in Chrome and captured full-page screenshots.
 
 ## What Was Found
 
-MEDITECH provides substantive, well-organized EHI export documentation across a three-page HTML site with linked PDF data dictionaries. The documentation is notable for its honesty about the multi-format, multi-configuration nature of the export and for covering all five MEDITECH platform generations.
+MEDITECH's EHI export documentation is well-structured, covering **four generations of their platform** across **16 certified products** under a single registered URL. The documentation describes a zip-file-based export mechanism explicitly designed for §170.315(b)(10) compliance — this is clearly a purposeful (b)(10) implementation, not a repackaged FHIR API.
 
-### Export Format
+### Export Architecture
 
-The EHI export produces a **ZIP file** containing multiple types of content:
+MEDITECH uses **two export configurations** depending on the platform and which internal modules are deployed:
 
-**Configuration 1** (Expanse 2.2/2.1, 6.15, 6.08 Acute, C/S Acute, MAGIC Acute):
-- **Electronic Chart documents** — scanned/archived patient documents organized by account/category/subcategory in folder hierarchies. File formats include PNG, JPG, TIF, BMP, and PDF.
-- **FHIR Resource Bundle** — `US Core FHIR Resources.json` containing all available FHIR R4 resources using Patient $everything (US Core STU 3.1.1).
-- **C-CDA documents** — all structured Consolidated-CDA documents (R2.1 or R1.1) created for the patient.
-- **Financial Reports** — `FinancialEHI.txt` with patient accounting transactions; `ResidentTrustEHI.txt` for long-term care; `CostEstimation.txt` (Expanse only).
-- **Supplemental sections** — Ambulatory Results (PDF), Authorization & Referral Management Reports (PDF), Immunization History (PDF), Population Health (PDF), Utilization Review (PDF), Historical Ambulatory Data, Provider Messages, Implantable Devices, Patient Notices. Content varies by platform version.
-- **Machine-readable index** — `Table of Contents.ndjson` using FHIR DocumentReference resources conforming to the draft EHI Export API IG.
+**Configuration 1** (Expanse 2.2, Expanse 2.1, 6.15, 6.08 Acute, Client/Server Acute, MAGIC Acute):
+- Uses Health Information Management (HIM) and Scanning & Archiving with eChart (SCN)
+- Produces a zip containing:
+  - **Electronic Chart documents** — scanned/electronic documents organized by account, category, and subcategory (images: PNG, JPG, TIF, BMP; documents: PDF)
+  - **US Core FHIR Resources.json** — Patient $everything bundle (FHIR R4, US Core STU 3.1.1)
+  - **C-CDA documents** — Consolidated-CDA documents (R2.1 or R1.1)
+  - **Financial reports** — Patient accounting transactions (FinancialEHI.txt), resident trust (Expanse/6.1x), cost estimation (Expanse only)
+  - **Supplemental sections** varying by version: ambulatory results, authorization/referral management, immunization history, population health, utilization review, provider messages, implantable devices, patient notices, historical ambulatory data, ambulatory order summary
 
-**Configuration 2** (6.08 Ambulatory, C/S, MAGIC with MRI/DR):
-- **Patient Data CSV files** — structured tabular data organized by namespace, with one CSV per data domain. These are the most granular export artifacts and are documented by the three PDF data dictionaries.
-- **FHIR Resource Bundle** — same as Config 1.
-- **C-CDA documents** — same as Config 1.
-- **Clinical Reports/Documents** — physician documentation, radiology reports, pathology reports, nursing image documentation. Format varies by platform (PDF, DOC, TXT, PNG).
-- **Financial Reports** — `FinancialEHI.txt` with patient accounting transactions.
-- **Provider and Patient Messages** — messaging data (PDF or TXT + images).
-- **External Documents/Images** — scanned/imported ambulatory documents in various formats.
-- **Point of Contact Scanned Documents**.
-- **Machine-readable index** — `JSONTOC.txt` (ndjson format).
+**Configuration 2** (MPM 6.08 Ambulatory, Client/Server Acute & Ambulatory, MAGIC Acute & Ambulatory):
+- Uses Medical Records (MRI) and Data Repository (DR)
+- Produces a zip containing:
+  - **Patient Data CSV files** — structured tabular data with named columns, one file per namespace
+  - **FHIR Resources.json** — Patient $everything bundle
+  - **C-CDA documents**
+  - **Clinical Reports/Documents** — physician documentation, radiology, pathology, nursing images
+  - **Provider and Patient Messages**
+  - **Financial Reports** (FinancialEHI.txt)
+  - **External Documents/Images** — scanned/imported documents
+  - **Point of Contact Scanned Documents**
 
-### Data Dictionaries
+### Export Metadata
 
-The three PDF data dictionaries are the most valuable artifacts. They document the CSV tables and columns exported in Configuration 2:
+Both configurations include machine-readable metadata:
+- **README.txt** — Table of contents with folder/file descriptions
+- **EHIEXPORTSCHEMA.txt** (Config 1) / **SCHEMA.txt** (Config 2) — Documentation URL and product version
+- **Table of Contents.ndjson** (Config 1) / **JSONTOC.txt** (Config 2) — NDJSON file containing FHIR DocumentReference resources conforming to the Argonaut EHI Export API IG (draft). Each entry describes a file in the zip with its content type, path, size, creation date, encounter reference, and time period.
+- **ACCOUNTS_INDEX.html/xml** (Config 1) — Browser-viewable index for human readability
 
-| Platform | Tables | Fields | PDF Pages |
-|----------|--------|--------|-----------|
-| Client/Server Acute & Ambulatory | 331 | 1,231 | 30 |
-| MAGIC Acute & Ambulatory | 323 | 1,121 | 48 |
-| MPM 6.08 Ambulatory | 95 | 482 | 19 |
+### CSV Data Dictionaries (Configuration 2 only)
 
-Each PDF contains a three-column table mapping: **Field** (human-readable name) → **Table** (database table name) → **Column** (database column name). Table name prefixes reveal the data domains:
+Three PDF data dictionaries document the tables/columns exported as CSV:
 
-- **Adm** (Admissions/Registration): demographics, insurance, employers, guarantors, next of kin, diagnoses, clinical queries
-- **Apr** (Ambulatory Patient Record): encounters, vitals, health maintenance items, questionnaires, lab/micro results, family/social history, problems
-- **Arm** (Authorization/Referral Management): authorizations, referrals, services
-- **Bbk** (Blood Bank): transfusions, crossmatches, specimens, units
-- **Edm** (Emergency Department Management): call management, departure referrals, notes, reminders
-- **Hub** (Clinical Hub): patient problems, family histories, relative conditions
-- **Its** (Imaging/Transcription Services): orders, exams, findings, radiation dose data
-- **Lab** (Laboratory): specimens, test results, comments
-- **Mic** (Microbiology): specimens, organisms, sensitivities, procedures
-- **Mri** (Medical Records): allergies (coded/uncoded), patient demographics, immunizations, implantable devices, care team, insurances
-- **Nur** (Nursing): interventions, activities, vital signs, assessments, I&O, pain, wounds, restraints
-- **Oe** (Order Entry): orders, order details, questionnaires, medications, diagnoses
-- **Pbr** (Patient Billing/Revenue): account claims, insurance, statements, transactions, charges
-- **Pha** (Pharmacy): adverse drug reactions, medication administration, IV solutions, doses
-- **Pth** (Pathology): specimens, addenda, blocks, histology, pictures, tissues
-- **Rad** (Radiology): exams, ACR codes, findings, patient tracking, staff, queries
-- **Rxm** (Prescription Management): orders, prescriptions, medication reconciliation, prior authorizations
-- **Sch** (Scheduling/Surgical): appointments, OR cases, anesthesia, implants, vital signs, medications, IVs
+| Platform | Tables | Fields |
+|----------|--------|--------|
+| MPM 6.08 Ambulatory | 97 | 482 |
+| Client/Server Acute & Ambulatory | 333 | 1,231 |
+| MAGIC Acute & Ambulatory | 322 | 1,121 |
 
-### NDJSON Schema
-
-Both configurations include a machine-readable table of contents using FHIR DocumentReference resources. The schema is well-documented on the Config 1 page with a pseudo-JSON example showing all fields: resourceType, id, meta (with EHI Export API IG profile), status, docStatus, type, subject (Patient reference), date, description, content (attachment with contentType, url, size, title), and context (encounter reference, period).
+Key table name prefixes and the domains they represent:
+- **Adm** (Admissions): demographics, insurance, next of kin, diagnoses, employers, guarantors, clinical queries, discharge info
+- **Sch** (Scheduling/Care): vital signs, appointments, assessments, interventions
+- **Mri** (Medical Records): chart documents, medical records data
+- **Nur** (Nursing): nursing documentation, interventions, assessments
+- **Pha** (Pharmacy): pharmacy orders, dispensing, medication records
+- **Apr** (Ambulatory/Practice): encounters, messages, vitals, problem lists, tasks, health maintenance
+- **Rxm** (Prescriptions): prescriptions, medication orders, queries
+- **Arm** (Authorization/Referral Management): authorizations, referrals, insurance eligibility
+- **Its** (Interface Transaction Services): likely interoperability/exchange data
+- **Bbk** (Blood Bank): blood bank/transfusion data
+- **Pth** (Pathology): pathology reports, specimens
+- **Edm** (ED Management): emergency department data
+- **Lab** (Laboratory): lab results, tests
+- **Mic** (Microbiology): microbiology cultures, sensitivities
+- **Pbr** (Patient Billing/Records): billing records, financial data
+- **Oe** (Order Entry): orders
+- **Rad** (Radiology): radiology exams, reports (MAGIC)
+- **Eps** (E-Prescribing): electronic prescribing (MAGIC)
+- **Hub** (Hub): interoperability hub data (C/S)
 
 ## Export Coverage Assessment
 
 ### Data Domain Coverage
 
-**Clearly covered domains:**
+MEDITECH has taken the (b)(10) requirement seriously. The export is clearly distinct from their (g)(10) FHIR API — while it includes a US Core FHIR bundle, it goes well beyond that with supplemental data exports in multiple formats.
 
-MEDITECH's EHI export demonstrates genuine (b)(10) effort. The export goes significantly beyond USCDI/US Core by including:
-
-- **Demographics & Registration** (Adm* tables) — insurance, employers, guarantors, next of kin, clinical queries
-- **Clinical Documentation** — both structured (C-CDA, FHIR) and unstructured (scanned documents, images)
-- **Laboratory** (Lab*, Mic*) — specimen results, microbiology organisms, sensitivities
-- **Radiology/Imaging** (Its*, Rad*) — orders, exams, findings, radiation dose data, ACR codes
-- **Pathology** (Pth*) — specimens, histology, tissue, specimen pictures
-- **Blood Bank** (Bbk*) — transfusions, crossmatches, issued units
-- **Pharmacy/Medications** (Pha*, Rxm*) — adverse drug reactions, medication administration, prescriptions, prior authorizations, medication reconciliation
-- **Nursing** (Nur*) — interventions, assessments, vital signs, I&O, pain, wounds, restraints
-- **Order Entry** (Oe*) — CPOE orders, questionnaires, medication orders
-- **Billing/Revenue Cycle** (Pbr*) — claims, insurance, statements, transactions, charge details — this is a critical (b)(10) domain that many vendors miss
-- **Scheduling/Surgical** (Sch*) — OR cases with detailed surgical documentation including implants, anesthesia, IV solutions, vital signs during surgery
-- **Emergency Department** (Edm*) — call management, notes, reminders, departure referrals
-- **Ambulatory** (Apr*) — encounters, vitals, health maintenance, family/social history
-- **Authorization/Referral Management** (Arm*) — authorizations, referral notes
-- **Immunizations** — both in FHIR bundle and separate export sections
-- **Implantable Devices** — standalone section
-- **Care Team** — MriPatientCareTeamMembers
-- **Population Health** — aggregated external vendor data
-- **Utilization Review** — case management data
-- **Patient/Provider Messages** — communications
-- **Financial Data** — patient accounting transactions, resident trust, cost estimates
+**Domains clearly covered:**
+- **Demographics & patient data**: Extensive coverage via Adm tables (admissions, visits, insurance, employers, next of kin, guarantors) and FHIR Patient resource
+- **Clinical notes & documentation**: Electronic chart documents (Config 1), physician/nursing documentation (Config 2), radiology/pathology reports
+- **Diagnoses & problems**: AdmVisitDiagnoses, problem lists in FHIR bundle and ambulatory data
+- **Medications & prescriptions**: Rxm (prescription) tables, Pha (pharmacy) tables, FHIR MedicationRequest
+- **Lab results**: Lab tables, FHIR Observation/DiagnosticReport, ambulatory results PDFs
+- **Imaging/Radiology**: Rad tables (MAGIC), radiology reports in clinical documents
+- **Pathology**: Pth tables, pathology report documents
+- **Blood bank**: Bbk tables (C/S, MAGIC)
+- **Microbiology**: Mic tables
+- **Immunizations**: Dedicated section with immunization history
+- **Allergies**: Via FHIR AllergyIntolerance resource
+- **Vital signs**: Sch vital signs tables, FHIR Observation
+- **Financial/billing data**: FinancialEHI.txt with patient accounting transactions, ResidentTrustEHI.txt, CostEstimation.txt, insurance data
+- **Authorization & referral management**: ARM reports (Expanse/6.x), Arm tables (legacy)
+- **Provider/patient messages**: Provider Messages section (C/S, MAGIC), Patient Notices (6.08)
+- **C-CDA documents**: All structured clinical documents created by the system
+- **Implantable devices**: Dedicated section (C/S, MAGIC)
+- **Population health**: External aggregated data (Expanse/6.x)
+- **Utilization review**: Case management utilization reviews (Expanse/6.x)
+- **Care coordination**: Care Compass data via population health section
+- **Scanned/external documents**: AmbScans, Point of Contact scans, Electronic Chart document images
+- **ED-specific data**: Edm tables, encounter data
+- **Nursing documentation**: Nur tables (C/S, MAGIC)
+- **Order entry**: Oe tables
+- **Ambulatory-specific data**: AprEnc encounter data, AprPat patient data, ambulatory results, historical ambulatory data
 
 **Domains with potential gaps or ambiguity:**
+- **Specialty clinical data** (oncology, mental health, L&D, surgical services, critical care, dietary): The product research shows MEDITECH stores extensive specialty-specific data across many modules (Oncology, Mental Health, Labor & Delivery, Surgical Services, Critical Care, Dietary). The export documentation does not specifically mention these specialty modules. The Electronic Chart documents and FHIR bundle might capture some of this, but there is no explicit mention of specialty-specific data exports (e.g., oncology treatment protocols, mental health assessments, L&D records).
+- **Home health and hospice**: MEDITECH offers Home Health and Hospice modules, but the export documentation does not reference them.
+- **Telehealth visit records**: Not mentioned in the export documentation.
+- **Patient portal content** (beyond provider messages): MyHealth portal data beyond provider messages is not explicitly documented.
+- **Care plan data**: The FHIR bundle may include CarePlan resources via US Core, but there is no explicit mention of detailed care plan exports.
 
-- **Oncology** — MEDITECH has a separately certified Oncology module (chemotherapy regimens, cancer staging), but no oncology-specific tables appear in the CSV data dictionaries. Oncology data may be captured within the Electronic Chart documents or C-CDA, but this is not explicit.
-- **Mental Health/Behavioral Health** — no explicitly named behavioral health tables in the CSV exports. May be embedded in clinical documentation.
-- **Home Health & Hospice** — no dedicated home health or hospice tables visible. These are separate MEDITECH modules and their data may not be included.
-- **Long-Term Care** — the `ResidentTrustEHI.txt` file (Expanse/6.1 only) suggests some LTC coverage, but no dedicated LTC clinical tables are visible.
-- **Labor & Delivery** — no OB-specific tables visible in the CSV dictionaries.
-- **Dietary** — no nutrition/dietary tables.
-- **Critical Care/ICU** — no ICU-specific tables, though nursing data (Nur*) may cover bedside documentation.
-- **Genomics/Precision Medicine** — no genomics tables; this is a newer Expanse feature.
-- **Telehealth** — no telehealth-specific data.
-- **Care Plans** — no explicit care plan tables.
-- **Patient Portal Activity** — no MyHealth portal interaction data (beyond messages).
-
-**Important caveat:** The CSV data dictionaries only apply to **Configuration 2** platforms (older C/S, MAGIC, 6.08 Ambulatory). For **Configuration 1** platforms (Expanse, 6.15, 6.08 Acute, C/S Acute, MAGIC Acute), there is **no corresponding field-level data dictionary**. The export contents are described only at the section level (Electronic Chart documents, FHIR bundle, C-CDA, financial reports, etc.), with no field-level documentation for what's inside those sections beyond the FHIR US Core profile and C-CDA standards.
+**Not expected in export (correctly scoped):**
+- System configuration, audit logs, quality metrics, provider credentialing, staff scheduling, template definitions — these are correctly excluded as non-EHI.
 
 ### Export Format & Standards
 
-The export uses a **hybrid multi-format approach**:
-- FHIR R4 (US Core STU 3.1.1) for structured clinical data
-- C-CDA R2.1/R1.1 for clinical document exchange
-- CSV files for tabular database data (Config 2 only)
-- PDF/TXT for reports (financial, clinical, administrative)
-- Image files (PNG, JPG, TIF, BMP) for scanned documents
-- NDJSON (FHIR DocumentReference) for the table of contents/index
+MEDITECH uses a multi-format approach that is well-suited to the breadth of data:
 
-This is a thoughtful approach that combines standards-based formats (FHIR, C-CDA) with raw database exports (CSV) and document archives (images, PDFs). The FHIR component is explicitly US Core / USCDI-scoped via Patient $everything, while the supplemental sections (financial reports, CSV tables, scanned documents) extend coverage beyond USCDI.
+- **CSV files** (Config 2): Tabular data from the Data Repository. The format is well-documented with three PDF data dictionaries listing every table name, field label, and database column. However, the documentation does **not** include data types, value sets, cardinality, or relationships between tables.
+- **FHIR R4 JSON** (both configs): US Core STU 3.1.1 Patient $everything bundle. This covers standard clinical data (conditions, medications, allergies, observations, etc.). Documentation points to fhir.meditech.com for resource-level details.
+- **C-CDA XML** (both configs): Consolidated-CDA documents (R2.1 or R1.1). Standard clinical document format.
+- **PDF/TXT/image files** (both configs): Clinical reports, financial reports, immunization records, pathology reports, and scanned documents in various formats.
+- **NDJSON metadata** (both configs): FHIR DocumentReference resources indexing every file in the zip, conforming to the Argonaut EHI Export API IG draft.
 
-The NDJSON table of contents using FHIR DocumentReference resources is a notable design choice — it provides machine-readable metadata for navigating the export contents, conforming to the draft Argonaut EHI Export API IG.
+The multi-format approach is reasonable — MEDITECH is exporting each data type in the format most natural to it rather than forcing everything into a single standard. CSV for structured tabular data, FHIR for US Core clinical data, C-CDA for clinical documents, and native formats for reports/images.
 
-A third party could reasonably reconstruct a patient record from this export, though the mix of formats would require handling multiple parsers. The CSV tables (Config 2) provide the most granular, machine-processable data. The Config 1 export relies more heavily on documents (scanned charts, C-CDA, FHIR bundle) which, while comprehensive, may be harder to extract discrete data from.
+A third party could reconstruct a substantial portion of the patient record from this export, though the CSV data lacks relationship documentation — a consumer would need to infer foreign key relationships from naming conventions (e.g., column names ending in "ID").
 
 ### Documentation Quality
 
 **Strengths:**
-- Well-organized three-tier documentation (overview → configuration → data dictionary)
-- Clear differentiation by platform version — each product line's export contents are enumerated
-- Machine-readable NDJSON schema is documented with pseudo-JSON examples
-- CSV data dictionaries provide field-level mappings for 749 tables and 2,834 fields across three platforms
-- File naming conventions and folder structures are clearly documented
-- Last updated dates are provided (October 2023)
+- The HTML documentation is well-organized with separate pages for each configuration
+- The platform-specific section matrix clearly shows what each product version exports
+- The export zip structure is documented down to folder names and file naming conventions
+- The NDJSON table-of-contents schema is documented with field-level descriptions
+- The CSV data dictionaries are comprehensive — 752 tables, 2,834 fields across three platform PDFs
 
 **Weaknesses:**
-- **No data dictionary for Configuration 1** — the Expanse and 6.15 platforms (the modern, most-deployed versions) lack field-level documentation. A developer receiving an Expanse EHI export would know the folder structure and that it contains a FHIR bundle and C-CDA documents, but would not have MEDITECH-specific field documentation beyond the standard specs.
-- **No sample export files** — no example ZIP, sample CSV, sample FHIR bundle, or sample C-CDA provided
-- **No data type definitions** — the CSV data dictionaries list Field/Table/Column but not data types, constraints, cardinality, or value sets
-- **No relationship documentation** — no entity-relationship diagrams or foreign key documentation for the CSV tables
-- **Financial report format undocumented** — `FinancialEHI.txt`, `ResidentTrustEHI.txt`, and `CostEstimation.txt` are mentioned but their internal format/schema is not documented
-- **"Regulatory EHI Export Functionality Guides" are login-required** — the customer portal contains additional guides that are not publicly accessible, which is problematic for a (b)(10) requirement that should be publicly documented
+- CSV data dictionaries list only Field (human label), Table name, and Column name. There are **no data types, value sets, cardinality constraints, or field descriptions**. A consumer knows that `AdmVisits.RaceID` exists but not what values it can take or what its type is.
+- **No sample data or example export files** are provided. A developer has no concrete example of what the zip file looks like or what the CSV content looks like.
+- Relationships between tables are not documented. The CSV tables clearly have foreign-key relationships (columns ending in "ID"), but these are not described.
+- The Configuration 1 documentation describes sections at a high level (e.g., "Electronic Chart contains documents organized by category/subcategory") but has **no data dictionary** — it's entirely a folder/file format description. The actual clinical data content for Config 1 is largely described only as "US Core FHIR resources" and "C-CDA documents."
+- The "Regulatory EHI Export Functionality Guides" that would provide implementation guidance are behind a customer login wall.
 
 ### Structure & Completeness
 
-The documentation provides:
-- **Table-level granularity** for CSV exports (749 tables across platforms)
-- **Field-level granularity** limited to field name, source table, and column name — no data types, descriptions, or constraints
-- **No coded value sets** — fields ending in "ID" (e.g., DispositionID, RelationshipID, InsuranceID) are clearly coded values, but their allowed values are not documented
-- **No relationship mappings** — tables share naming conventions (e.g., AdmVisits/AdmVisitDiagnoses/AdmVisitNextOfKin) suggesting parent-child relationships, but these are not formally documented
-- **No versioning** beyond "Last Updated: October 2023" — no changelog or version history
+- **Config 2 CSV data dictionaries**: Granular at the field level (table + column), but lack data types, descriptions, value sets, and relationships. This is a data dictionary in name but effectively just a column listing.
+- **Config 1**: No comparable data dictionary at all. The export content beyond FHIR/C-CDA is described only in terms of folder structure and file types.
+- **FHIR bundle**: Documented by reference to US Core STU 3.1.1 and fhir.meditech.com — standard and well-understood.
+- **C-CDA documents**: Documented by reference to C-CDA R2.1/R1.1 — standard.
+- **No versioning or change history** on the documentation itself (PDFs note "Last Updated: October 2023").
+
+### The (b)(10) vs (g)(10) Assessment
+
+MEDITECH's approach clearly demonstrates awareness of the distinction between (b)(10) and (g)(10):
+
+1. The export is explicitly labeled as §170.315(b)(10) and described as producing a zip file (not an API endpoint)
+2. The export includes financial data, provider messages, scanned documents, pathology, blood bank, nursing documentation, and other data that goes well beyond US Core/USCDI
+3. The FHIR bundle is included as one component alongside other exports, not as the sole mechanism
+4. The CSV data dictionaries for legacy platforms document hundreds of database tables covering clinical, administrative, and financial domains
+
+This is **not** a repackaged (g)(10) FHIR API. MEDITECH has built a genuine (b)(10) bulk export that attempts to cover the designated record set.
+
+The primary concern is **completeness for Configuration 1 platforms** (Expanse, 6.x). For these newer platforms, the export relies heavily on the Electronic Chart (scanned/electronic documents) plus FHIR plus C-CDA. There are no CSV data dictionaries or structured tabular exports for Config 1. This may mean that data stored in structured database tables — beyond what US Core covers — is only exported as rendered documents (PDFs, images) rather than as structured data. A scanned lab result image is less useful than a structured lab result table.
+
+For Configuration 2 (legacy platforms), the CSV export with 300+ tables provides genuinely comprehensive structured data coverage.
 
 ## Access Summary
-- Final URL (after redirects): https://home.meditech.com/en/d/restapiresources/pages/ehiexport.htm
+- Final URL (after redirects): https://home.meditech.com/en/d/restapiresources/pages/ehiexport.htm (no redirects)
 - Status: found
-- Required browser: no (static HTML, but browser used for screenshots and FHIR portal check)
-- Navigation complexity: one_click (main page links to two configuration sub-pages)
+- Required browser: no (all content accessible via curl)
+- Navigation complexity: one_click (main page links to two config pages, config 2 links to PDFs)
 - Anti-bot issues: none
 
 ## Obstacles & Dead Ends
 
-1. **Customer portal login wall** — The "Regulatory EHI Export Functionality Guides" at `customer.meditech.com/en/d/21stcenturycuresact/pages/ehiexport.htm` redirect to SAML authentication. Additional EHI export documentation may exist behind this login that is not publicly accessible.
-
-2. **FHIR portal is SPA** — `fhir.meditech.com` is a JavaScript SPA that cannot be scraped with curl. However, inspection via browser confirmed it contains standard US Core FHIR API documentation, not EHI-export-specific content.
-
-3. **No downloadable export samples** — Despite thorough documentation of the export structure, no sample/example export files are provided anywhere on the public site.
-
-4. **Missing Configuration 1 data dictionary** — The most deployed platforms (Expanse 2.2, Expanse 2.1) lack the field-level CSV data dictionary that exists for the older Configuration 2 platforms. This is the most significant documentation gap. Configuration 1's export is document-based (Electronic Chart + FHIR + C-CDA + supplemental reports) rather than table-based (CSV), so a field-level dictionary would need to describe the FHIR resource contents and report formats rather than CSV columns.
+- **Customer portal**: The "Regulatory EHI Export Functionality Guides" at `customer.meditech.com/en/d/21stcenturycuresact/pages/ehiexport.htm` requires SAML authentication. This documentation is not publicly accessible, which may violate the public accessibility expectation for (b)(10) documentation. The guides likely contain implementation instructions for healthcare organizations performing the export.
+- **No data dictionary for Config 1**: The newer platforms (Expanse, 6.x) under Configuration 1 have no equivalent of the CSV data dictionaries. The documentation for these platforms is limited to describing the folder/file structure and referencing FHIR/C-CDA standards.
+- **PDF text extraction**: The data dictionary PDFs use layout-based table rendering. Text extraction with `pdftotext -layout` works well, but the column structure requires careful parsing.

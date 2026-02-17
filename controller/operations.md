@@ -100,7 +100,7 @@ Uses the prompt template at `abstraction/abstraction-prompt.md`.
 
 ```bash
 # Single family:
-./scripts/run-analysis.sh --dir <vendor>--<family>
+./scripts/run-analysis.ts --dir <vendor>--<family>
 
 # All families with collected results (skips done by default):
 ./scripts/run-all-analyses.sh -j 4
@@ -126,7 +126,7 @@ Options for `run-all-analyses.sh`:
 | `--model <m>` | Model override |
 | `--filter <glob>` | Only process dirs matching glob |
 
-Options for `run-analysis.sh`:
+Options for `run-analysis.ts`:
 
 | Flag | Description |
 |------|-------------|
@@ -144,7 +144,7 @@ explaining how to derive them, and the pipeline picks them up automatically.
 
 ```bash
 # Single family:
-./scripts/run-summary.sh --analysis-dir abstraction/<vendor>--<family>
+./scripts/run-summary.ts --analysis-dir abstraction/<vendor>--<family>
 
 # All families with completed analyses (skips done by default):
 ./scripts/run-all-summaries.sh -j 4
@@ -199,18 +199,18 @@ Key files:
 
 ```
 work/phases/phase-1-comprehensive-ehrs.json
-        ↓  wiggum/loop.ts  (or scripts/run-research.sh + run-download.sh)
+        ↓  wiggum/loop.ts  (or scripts/run-research.ts + run-download.ts)
 results/<vendor>--<family>/
   chpl-metadata.json       CHPL data filtered to this family
   product-research.md      Phase 1 output (+ sources.json marker)
   downloads/               Phase 2 downloads (+ files.json marker)
   ehi-export-report.md     Phase 2 coverage report
-        ↓  scripts/run-fixup.sh  (if issues found — patches results, cascades)
-        ↓  scripts/run-all-analyses.sh  (or run-split-analysis.sh for multi-product vendors)
+        ↓  scripts/run-fixup.ts  (if issues found — patches results, cascades)
+        ↓  scripts/run-all-analyses.sh  (expands splits from work/splits/ automatically)
 abstraction/<vendor>--<family>/
   analysis.md              Deep analysis document
   metadata.json            Traceability (developer, CHPL products, timestamps)
-  analysis/                Scripts and intermediate data
+  analysis/                Custom parsing scripts + extracted inventories (optional)
         ↓  scripts/run-all-summaries.sh
   summary.json             Structured JSON per ehi-summary-schema.ts
 ```
@@ -304,18 +304,19 @@ but work on a single vendor at a time.
 
 | Script | Stage | Inputs | Outputs |
 |--------|-------|--------|---------|
-| `scripts/run-research.sh` | Phase 1 (research) | `chpl-metadata.json` | `product-research.md`, `sources.json` |
-| `scripts/run-download.sh` | Phase 2 (download) | `chpl-metadata.json`, `product-research.md` | `downloads/`, `files.json`, `ehi-export-report.md` |
-| `scripts/run-analysis.sh` | Analysis | everything in `results/<slug>/` | `abstraction/<slug>/analysis.md`, `analysis/` |
-| `scripts/run-summary.sh` | Summary | `analysis.md` | `summary.json` |
-| `scripts/run-fixup.sh` | Fixup (autonomous) | `results/<slug>/` + issue/hint | patched results + cascaded downstream |
-| `scripts/run-split-analysis.sh` | Split analysis | shared `results/` + split config | per-split `abstraction/<slug>/analysis.md` |
+| `scripts/run-research.ts` | Phase 1 (research) | `chpl-metadata.json` | `product-research.md`, `sources.json` |
+| `scripts/run-download.ts` | Phase 2 (download) | `chpl-metadata.json`, `product-research.md` | `downloads/`, `files.json`, `ehi-export-report.md` |
+| `scripts/run-analysis.ts` | Analysis | everything in `results/<slug>/` | `abstraction/<slug>/analysis.md`, `analysis/` |
+| `scripts/run-summary.ts` | Summary | `analysis.md` | `summary.json` |
+| `scripts/run-fixup.ts` | Fixup (autonomous) | `results/<slug>/` + issue/hint | patched results + cascaded downstream |
 
 ### Common options (all standalone scripts)
 
 | Flag | Description |
 |------|-------------|
 | `--dir <slug>` | Directory name under `results/` (e.g. `vendor--product`) |
+| `--results-dir <path>` | Explicit results dir (default: `results/<slug>/`; used for splits) |
+| `--focus <text>` | Focusing prompt snippet appended to the analysis prompt |
 | `--backend <b>` | LLM backend: `copilot`, `codex` (default: copilot) |
 | `--model <m>` | Model override (default: `claude-opus-4.6-fast` for copilot) |
 | `--prompt <file>` | Custom prompt file (research + download only) |
@@ -325,17 +326,17 @@ but work on a single vendor at a time.
 
 ```bash
 # Redo research for one vendor
-./scripts/run-research.sh --dir ezemrx-inc--ezemrx
+./scripts/run-research.ts --dir ezemrx-inc--ezemrx
 
 # Redo download for one vendor
-./scripts/run-download.sh --dir ezemrx-inc--ezemrx
+./scripts/run-download.ts --dir ezemrx-inc--ezemrx
 
 # Redo analysis (remove old output first)
 rm -f abstraction/ezemrx-inc--ezemrx/analysis.md
-./scripts/run-analysis.sh --dir ezemrx-inc--ezemrx
+./scripts/run-analysis.ts --dir ezemrx-inc--ezemrx
 
 # Use a custom prompt for research/download
-./scripts/run-research.sh --dir vendor--product --prompt my-custom-prompt.md
+./scripts/run-research.ts --dir vendor--product --prompt my-custom-prompt.md
 ```
 
 ### Relationship to the loop
@@ -344,7 +345,7 @@ The loop (`wiggum/loop.ts`) handles batch iteration (target ordering, `--resume`
 `--reverse`, git commits, watchdog/timeout). The standalone scripts handle
 single-vendor execution. The loop uses its own built-in LLM dispatch (supports
 `claude`, `shelley`, `gemini`, `copilot` backends); the standalone scripts use
-`copilot` or `codex` backends and follow the same pattern as `run-analysis.sh`.
+`copilot` or `codex` backends and follow the same pattern as `run-analysis.ts`.
 
 Both use the same prompt templates (`wiggum/prompts/1-research.md`,
 `wiggum/prompts/2-download.md`) and template variable system.
@@ -366,10 +367,10 @@ downstream automatically.
 
 ```bash
 # From a GitHub issue (reads title + body as the fixup hint)
-./scripts/run-fixup.sh --dir ezemrx-inc--ezemrx --issue 1
+./scripts/run-fixup.ts --dir ezemrx-inc--ezemrx --issue 1
 
 # From an inline description
-./scripts/run-fixup.sh --dir ezemrx-inc--ezemrx \
+./scripts/run-fixup.ts --dir ezemrx-inc--ezemrx \
   --hint "The EHI page has a PDF embedded in an iframe viewer widget. The download agent noted an empty viewer but didn't extract the PDF URL. The PDF is the actual data dictionary."
 ```
 
@@ -382,8 +383,8 @@ The agent is fully autonomous. It:
 3. **Determines the root-cause stage** (research? download? analysis?)
 4. **Fixes at that stage** — e.g., fetches the missed PDF, updates `files.json`
 5. **Cascades downstream** by running the standalone scripts:
-   - If it fixed downloads → runs `run-analysis.sh` → `run-summary.sh`
-   - If it fixed research → runs `run-download.sh` → `run-analysis.sh` → `run-summary.sh`
+   - If it fixed downloads → runs `run-analysis.ts` → `run-summary.ts`
+   - If it fixed research → runs `run-download.ts` → `run-analysis.ts` → `run-summary.ts`
 6. **Writes `fixup-log.md`** documenting diagnosis, changes, and cascade results
 
 The prompt is at `wiggum/prompts/fixup.md`. Template variables include
@@ -418,27 +419,16 @@ MEDITECH has 16 CHPL-certified products sharing one URL. That page documents
   6.0 ambulatory
 
 A monolithic analysis covering all 16 products and both configs is confusing.
-Better to split into platform lines (Expanse, 6.x, CS/MAGIC) with focused
-analyses.
+Better to split by configuration, since each config has different export formats,
+different applicable platforms, and different documentation artifacts.
 
 ### How split analysis works
 
 Two things happen:
 
 **1. Merge rules split** — edit `work/url-group-merges.json` (hand-authored)
-to split one family into multiple:
-
-```json
-{
-  "families": [
-    { "name": "MEDITECH Expanse", "products": ["MEDITECH Expanse 2.2 Core HCIS", ...] },
-    { "name": "MEDITECH 6.x", "products": ["MEDITECH 6.1 Electronic Health Record Core HCIS", ...] },
-    { "name": "MEDITECH CS/MAGIC", "products": ["MEDITECH Client/Server ...", ...] }
-  ]
-}
-```
-
-Then regenerate targets: `bun run scripts/build-phase-families.ts`
+to split one family into multiple. Then regenerate targets:
+`bun run scripts/build-phase-families.ts`
 
 **2. Split config** — create `work/splits/<vendor>.json` defining how to run
 separate abstractions from shared downloads:
@@ -448,10 +438,18 @@ separate abstractions from shared downloads:
   "source_dir": "medical-information-technology-inc-meditech--meditech-ehr",
   "splits": [
     {
-      "slug": "medical-information-technology-inc-meditech--meditech-expanse",
-      "focus": "MEDITECH Expanse platform (Config 1: eChart/FHIR/C-CDA)",
+      "slug": "medical-information-technology-inc-meditech--meditech-config-1",
+      "focus": "MEDITECH EHI Export Configuration 1 — HIM/SCN/eChart-based ...",
       "products": ["MEDITECH Expanse 2.2 Core HCIS", ...],
-      "relevant_artifacts": ["ehiexportconfig1.html", "csacuteandambehiexportdrsolutionmerged.pdf"]
+      "relevant_artifacts": ["ehiexport-main.html", "ehiexportconfig1.html"]
+    },
+    {
+      "slug": "medical-information-technology-inc-meditech--meditech-config-2",
+      "focus": "MEDITECH EHI Export Configuration 2 — MRI/DR CSV-based ...",
+      "products": ["MEDITECH Client/Server Electronic Health Record Core HCIS", ...],
+      "relevant_artifacts": ["ehiexport-main.html", "ehiexportconfig2.html",
+        "csacuteandambehiexportdrsolutionmerged.pdf", "mgehiexportdrsolutionmerged.pdf",
+        "608ehiexportcsv.pdf"]
     }
   ]
 }
@@ -459,40 +457,44 @@ separate abstractions from shared downloads:
 
 ### Running split analysis
 
+Split targets are automatically expanded by `run-all-analyses.sh`. No separate
+script is needed:
+
 ```bash
-# Dry run — see what would execute
-./scripts/run-split-analysis.sh --split-config work/splits/meditech.json --dry-run
+# Normal batch run — splits are expanded automatically
+./scripts/run-all-analyses.sh -j 4
 
-# Run all splits
-./scripts/run-split-analysis.sh --split-config work/splits/meditech.json
+# Force redo just the meditech splits
+./scripts/run-all-analyses.sh --force --filter "medical-information-technology-inc-meditech--meditech-*"
 
-# Force redo existing splits
-./scripts/run-split-analysis.sh --split-config work/splits/meditech.json --force
+# Dry run to see expanded targets
+./scripts/run-all-analyses.sh --dry-run
 
-# Then run summaries for the new split dirs
+# Single split target manually
+bun run scripts/run-analysis.ts \
+  --dir medical-information-technology-inc-meditech--meditech-config-1 \
+  --results-dir results/medical-information-technology-inc-meditech--meditech-ehr \
+  --focus "MEDITECH EHI Export Configuration 1 — HIM/SCN/eChart-based ..."
+
+# Then run summaries for the split dirs
 ./scripts/run-all-summaries.sh --filter "medical-information-technology-inc-meditech--meditech-*" --force
 ```
 
-### What the script does for each split
+### How splits work
 
-1. Creates `abstraction/<split-slug>/`
-2. Symlinks `downloads/`, `*.md`, `*.json` from the shared source results dir
-3. Writes `metadata.json` with split-specific traceability
-4. Appends a **split context addendum** to the analysis prompt:
-   - Which products to focus on
-   - Which artifacts in `downloads/` are most relevant
-   - Instruction to evaluate coverage against these specific products
-5. Runs the analysis agent in the split output dir
+`run-all-analyses.sh` reads `work/splits/*.json` and builds a map from
+`source_dir` to split configs. When iterating `results/*/`, any directory
+that matches a split source is replaced by N targets — one per split — each
+invoking `run-analysis.ts` with:
 
-### Options for `run-split-analysis.sh`
+- `--dir <split-slug>` — the abstraction output slug
+- `--results-dir <source-results-dir>` — the shared results directory
+- `--focus <text>` — a focusing prompt snippet from the split config
 
-| Flag | Description |
-|------|-------------|
-| `--split-config <file>` | Split config JSON (required) |
-| `--backend <b>` | LLM backend (default: copilot) |
-| `--model <m>` | Model override |
-| `--force` | Remove existing `analysis.md` and re-run |
-| `--dry-run` | Print what would happen without executing |
+`run-analysis.ts` doesn't know about split files. It just receives a slug,
+a results dir (which may differ from the slug), and an optional focus snippet
+that gets appended to the analysis prompt.
+
 
 ### When to use splits
 
