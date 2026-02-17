@@ -60,46 +60,46 @@ Of the 190 products in this cohort that handle billing, **100 (53%) do not docum
 
 Billing often turns out to be the single largest domain in the entire export:
 
-- **Epic** exports 1,286 billing and revenue cycle tables with 12,367 columns. This single domain exceeds most vendors' *entire* exports.
-- **Altera Sunrise** dedicates 917 tables to billing, 33% of everything in the export.
-- **Greenway Prime Suite** includes 192 billing tables. Their `CFBClaimInfo` table has 435 fields, the single largest entity in the export.
-- **eClinicalWorks** exports 161 billing tables, including state-specific Medicaid claim forms: a NY Workers' Comp C-4.3 at 218 fields, a UB-04 institutional claim at 127 fields.
-- **Juno Health**: the three largest tables in the entire export are all billing. `RCMUB04CLAIM` (260 fields mapping every box on the UB-04 form), `RCM1500CLAIM` (116 fields), `BILLINGITEM` (115 fields).
+- **[Epic](https://joshuamandel.com/ehi-export-analysis#vendor/epic-systems-corporation--epic-ehr)** exports 1,286 billing and revenue cycle tables with 12,367 columns. This single domain exceeds most vendors' *entire* exports.
+- **[Altera Sunrise](https://joshuamandel.com/ehi-export-analysis#vendor/altera-digital-health-inc--altera-sunrise)** dedicates 917 tables to billing, 33% of everything in the export.
+- **[Greenway Prime Suite](https://joshuamandel.com/ehi-export-analysis#vendor/greenway-health-llc--greenway-prime-suite)** includes 192 billing tables. Their `CFBClaimInfo` table has 435 fields, the single largest entity in the export.
+- **[eClinicalWorks](https://joshuamandel.com/ehi-export-analysis#vendor/eclinicalworks-llc--eclinicalworks)** exports 161 billing tables, including state-specific Medicaid claim forms: a NY Workers' Comp C-4.3 at 218 fields, a UB-04 institutional claim at 127 fields.
+- **[Juno Health](https://joshuamandel.com/ehi-export-analysis#vendor/juno-health--juno-ehr)**: the three largest tables in the entire export are all billing. `RCMUB04CLAIM` (260 fields mapping every box on the UB-04 form), `RCM1500CLAIM` (116 fields), `BILLINGITEM` (115 fields).
 
-Smaller vendors get this right too. MDVita (24 entities total) is a claims-adjudication company turned EHR vendor; their `Claims` entity has 85 fields with granular EOB data. athenahealth defined 9 custom FHIR resource types specifically for billing (506 fields including charges, collections, eligibility, and payment plans), proving you can do this in FHIR if you actually do the mapping work.
+Smaller vendors get this right too. [MDVita](https://joshuamandel.com/ehi-export-analysis#vendor/health-care-2000-inc--mdvita) (24 entities total) is a claims-adjudication company turned EHR vendor; their `Claims` entity has 85 fields with granular EOB data. [athenahealth](https://joshuamandel.com/ehi-export-analysis#vendor/athenahealth-inc--athenaclinicals) defined 9 custom FHIR resource types specifically for billing (506 fields including charges, collections, eligibility, and payment plans), proving you can do this in FHIR if you actually do the mapping work.
 
 ### And when they don't
 
 Sometimes the irony is hard to miss:
 
-- **MaxRemind (Maximus EHR)**: a billing company's EHR. Export: repackaged (g)(10) FHIR plus two undocumented Excel files. Zero billing data.
-- **ClaimPower**: the company name says it. Export: C-CDA clinical summary, 502 words of screenshot walkthroughs. Zero claims or payment data.
-- **Radysans**: full eBilling module with 2,500+ payer connections. Export: one-page doc listing C-CDA sections.
-- **Vohra Wound Physicians**: the company name includes "Coding." Billing data entirely absent from the documentation.
+- **[MaxRemind (Maximus EHR)](https://joshuamandel.com/ehi-export-analysis#vendor/maxremind-inc--maximus)**: a billing company's EHR. Export: repackaged (g)(10) FHIR plus two undocumented Excel files. Zero billing data.
+- **[ClaimPower](https://joshuamandel.com/ehi-export-analysis#vendor/claimpower-inc--claimpower-mobile-emr)**: the company name says it. Export: C-CDA clinical summary, 502 words of screenshot walkthroughs. Zero claims or payment data.
+- **[Radysans](https://joshuamandel.com/ehi-export-analysis#vendor/radysans-inc--radysans-ehr)**: full eBilling module with 2,500+ payer connections. Export: one-page doc listing C-CDA sections.
+- **[Vohra Wound Physicians](https://joshuamandel.com/ehi-export-analysis#vendor/vohra-wound-physicians-management-llc--vhs-medical-documentation-coding)**: the company name includes "Coding." Billing data entirely absent from the documentation.
 
 ## Specialty EHRs and their specialty data
 
 Specialty EHRs are where the stakes are clearest. These products exist to capture domain-specific clinical data, and some vendors export it beautifully.
 
-**ModMed's gGastro** (GI/endoscopy) has a `Finding` table with 155 fields per endoscopic finding: polyp size, morphology, location, removal method, EUS staging, Barrett's esophagus measurements. The export also covers GI-specific quality registries (GIQuIC colonoscopy quality, AGA registry) and IBD disease tracking with Montreal Classification and HBI scoring.
+**[ModMed's gGastro](https://joshuamandel.com/ehi-export-analysis#vendor/modernizing-medicine-gastroenterology-llc--ggastro)** (GI/endoscopy) has a `Finding` table with 155 fields per endoscopic finding: polyp size, morphology, location, removal method, EUS staging, Barrett's esophagus measurements. The export also covers GI-specific quality registries (GIQuIC colonoscopy quality, AGA registry) and IBD disease tracking with Montreal Classification and HBI scoring.
 
-**ModMed's EMA** (ophthalmology) exports 25 pretesting tables with fields like `near_point_conv_blur`, `near_point_conv_break`, `near_point_conv_recover` (the full binocular vision workup), plus per-eye diagnostic drop tracking (`tropicamide_1_phenylephrine_2_5_od`), color vision plate-by-plate results, and cover test data across 9 gaze positions.
+**[ModMed's EMA](https://joshuamandel.com/ehi-export-analysis#vendor/modernizing-medicine-inc--ema)** (ophthalmology) exports 25 pretesting tables with fields like `near_point_conv_blur`, `near_point_conv_break`, `near_point_conv_recover` (the full binocular vision workup), plus per-eye diagnostic drop tracking (`tropicamide_1_phenylephrine_2_5_od`), color vision plate-by-plate results, and cover test data across 9 gaze positions.
 
-**nAbleMD** (fertility/IVF) exports 30 IVF-specific entities. A single `emrcycle` table tracks a treatment cycle in 231 fields from egg source through stimulation, retrieval, ICSI, culture, and transfer, down to catheter depth and whether there was mucus in the sheath. The embryology tables grade each oocyte on inner cell mass, zona pellucida, fragmentation, and multinucleation. There are fields for TMRW robotic cryostorage barcodes, SCSA sperm DNA fragmentation scores, and donor phenotyping (`RomanNose`, `dimples`, `CleftChin`).
+**[nAbleMD](https://joshuamandel.com/ehi-export-analysis#vendor/nth-technologies-inc--nablemd)** (fertility/IVF) exports 30 IVF-specific entities. A single `emrcycle` table tracks a treatment cycle in 231 fields from egg source through stimulation, retrieval, ICSI, culture, and transfer, down to catheter depth and whether there was mucus in the sheath. The embryology tables grade each oocyte on inner cell mass, zona pellucida, fragmentation, and multinucleation. There are fields for TMRW robotic cryostorage barcodes, SCSA sperm DNA fragmentation scores, and donor phenotyping (`RomanNose`, `dimples`, `CleftChin`).
 
-**Flatiron OncoEMR** has a `DoseCalculationHistory` table that models the full pharmacology pipeline: BSA calculation, AUC/carboplatin dosing from creatinine clearance, then the dose cascade from regimen value through adjustment percentage to final rounded dose. It tracks AJCC staging with clinical vs. pathologic differentiation, treatment pathway concordance against NCCN guidelines, and lifetime cumulative drug exposure for agents with toxicity limits.
+**[Flatiron OncoEMR](https://joshuamandel.com/ehi-export-analysis#vendor/flatiron-health--oncoemr)** has a `DoseCalculationHistory` table that models the full pharmacology pipeline: BSA calculation, AUC/carboplatin dosing from creatinine clearance, then the dose cascade from regimen value through adjustment percentage to final rounded dose. It tracks AJCC staging with clinical vs. pathologic differentiation, treatment pathway concordance against NCCN guidelines, and lifetime cumulative drug exposure for agents with toxicity limits.
 
 These vendors looked at what their products actually capture and built exports that cover it.
 
 Not every specialty vendor did the work.
 
-**EndoVault** (also endoscopy/GI): stores HD images, 4K video, bowel prep scores, polyp characteristics, scope tracking via RFID. The export: zero endoscopy data. The 138-page "EHI" documentation is the (g)(10) FHIR API spec relabeled; 18 standard FHIR resources, identical to any generic EHR.
+**[EndoVault](https://joshuamandel.com/ehi-export-analysis#vendor/endosoft-llc--endovault)** (also endoscopy/GI): stores HD images, 4K video, bowel prep scores, polyp characteristics, scope tracking via RFID. The export: zero endoscopy data. The 138-page "EHI" documentation is the (g)(10) FHIR API spec relabeled; 18 standard FHIR resources, identical to any generic EHR.
 
-**EyeMD** (also ophthalmology): 2024 Best in KLAS winner. Integrates Zeiss, Heidelberg, and Topcon imaging devices. Export: 25 standard FHIR resources, zero ophthalmology data. Their mandatory disclosures describe (b)(10) as "Ability to send CCDA information to other systems via secure transmission," literally conflating EHI export with transitions of care.
+**[EyeMD](https://joshuamandel.com/ehi-export-analysis#vendor/eyemd-emr-healthcare-systems-inc--eyemd-electronic-medical-records)** (also ophthalmology): 2024 Best in KLAS winner. Integrates Zeiss, Heidelberg, and Topcon imaging devices. Export: 25 standard FHIR resources, zero ophthalmology data. Their mandatory disclosures describe (b)(10) as "Ability to send CCDA information to other systems via secure transmission," literally conflating EHI export with transitions of care.
 
-**TheraOffice** (PT/OT/SLP, Netsmart): serves 900+ rehab practices. 16 of 19 export tables are named `PAT_PROFILE_USCDI_*`, suggesting this is USCDI relabeled as full EHI. Zero therapy evaluations, zero outcome measures, no LEFS, no DASH, no NDI, no Oswestry.
+**[TheraOffice](https://joshuamandel.com/ehi-export-analysis#vendor/netsmart-technologies--theraoffice)** (PT/OT/SLP, Netsmart): serves 900+ rehab practices. 16 of 19 export tables are named `PAT_PROFILE_USCDI_*`, suggesting this is USCDI relabeled as full EHI. Zero therapy evaluations, zero outcome measures, no LEFS, no DASH, no NDI, no Oswestry.
 
-**ARIA CORE** (radiation oncology, Varian/Siemens): the dominant US radiation oncology system. Registered EHI documentation URL returns 404. It has never been captured by the Wayback Machine.
+**[ARIA CORE](https://joshuamandel.com/ehi-export-analysis#vendor/varian-medical-systems--aria-core)** (radiation oncology, Varian/Siemens): the dominant US radiation oncology system. Registered EHI documentation URL returns 404. It has never been captured by the Wayback Machine.
 
 The specialty data exists in all of these systems; it's what they're built to capture. The difference is whether the vendor did the work.
 
@@ -109,27 +109,27 @@ Behavioral health deserves specific attention. These products handle some of the
 
 The pattern is consistent: a handful of behavioral health EHRs did it well, and the rest ship generic C-CDA with zero behavioral health content.
 
-Qualifacts' **CareLogic** (A-) shows what a serious BH export looks like. It has dedicated tables for clinical instruments: `MOD_CIWA_AR` with field-by-field alcohol withdrawal scoring (`NAUSEA`, `TREMOR`, `PAROXYSMAL_SWEATS`, `TACTILE_DISTURBANCES`), `MOD_CAGE_AID` for substance screening, `MOD_CAFAS` for child functional assessment with fields like `SELF_HARM_BEHAVIOR` and `FIRE_SETTING_BEHAVIOR_YN`. A 42-field risk-of-harm table tracks suicidal ideation (`SELF_PLAN`, `SELF_MEANS`, `SELF_CONTRACT` for safety contracting). There's multi-layered substance use tracking with per-substance detail down to route of administration, age of first use, and whether the patient used in the previous 48 hours. Twelve tables cover court-ordered treatment (`DOCKET_NUMBER`, `DEFENDANT_COOPERATE`, `BLOOD_ALCOHOL_LEVEL`). And roughly 50 tables handle state-specific BH program reporting (Ohio MACSIS, Colorado CCAR, Indiana HAP), the actual data feeds community mental health centers submit to state authorities. Qualifacts' **Credible** (also A-) exports similar depth. These products prove comprehensive BH exports are feasible.
+Qualifacts' **[CareLogic](https://joshuamandel.com/ehi-export-analysis#vendor/qualifacts-systems-llc--carelogic)** (A-) shows what a serious BH export looks like. It has dedicated tables for clinical instruments: `MOD_CIWA_AR` with field-by-field alcohol withdrawal scoring (`NAUSEA`, `TREMOR`, `PAROXYSMAL_SWEATS`, `TACTILE_DISTURBANCES`), `MOD_CAGE_AID` for substance screening, `MOD_CAFAS` for child functional assessment with fields like `SELF_HARM_BEHAVIOR` and `FIRE_SETTING_BEHAVIOR_YN`. A 42-field risk-of-harm table tracks suicidal ideation (`SELF_PLAN`, `SELF_MEANS`, `SELF_CONTRACT` for safety contracting). There's multi-layered substance use tracking with per-substance detail down to route of administration, age of first use, and whether the patient used in the previous 48 hours. Twelve tables cover court-ordered treatment (`DOCKET_NUMBER`, `DEFENDANT_COOPERATE`, `BLOOD_ALCOHOL_LEVEL`). And roughly 50 tables handle state-specific BH program reporting (Ohio MACSIS, Colorado CCAR, Indiana HAP), the actual data feeds community mental health centers submit to state authorities. Qualifacts' **[Credible](https://joshuamandel.com/ehi-export-analysis#vendor/qualifacts-systems-llc--credible-behavioral-health)** (also A-) exports similar depth. These products prove comprehensive BH exports are feasible.
 
-Then there's the rest. A pattern of under-documented exports repeats across vendors like **CarePaths** (D), **Core Solutions** (D), **Ehana** (D), **Foothold** (D). Each is a purpose-built behavioral health platform. Each exports a generic clinical summary.
+Then there's the rest. A pattern of under-documented exports repeats across vendors like **[CarePaths](https://joshuamandel.com/ehi-export-analysis#vendor/carepaths-inc--carepaths-ehr)** (D), **[Core Solutions](https://joshuamandel.com/ehi-export-analysis#vendor/core-solutions-inc--cx360)** (D), **[Ehana](https://joshuamandel.com/ehi-export-analysis#vendor/ehana--ehana-ehr)** (D), **[Foothold](https://joshuamandel.com/ehi-export-analysis#vendor/foothold-technology-inc--awards)** (D). Each is a purpose-built behavioral health platform. Each exports a generic clinical summary.
 
 ## Portal messages aren't in your record
 
 Of the 193 products that appear to include messaging functionality, 123 (64%) have no clear documentation of how patient communications are included in the export. Only 70 (36%) document their inclusion.
 
-This is data that patients generated: messages sent to their doctors, responses received, portal interactions. It's unambiguously part of the Designated Record Set. Even among otherwise strong exports, it's a common gap: **PointClickCare** (A-, 48 entities) lacks clear documentation of patient communications despite an otherwise substantial export.
+This is data that patients generated: messages sent to their doctors, responses received, portal interactions. It's unambiguously part of the Designated Record Set. Even among otherwise strong exports, it's a common gap: **[PointClickCare](https://joshuamandel.com/ehi-export-analysis#vendor/pointclickcare-technologies-inc--pointclickcare)** (A-, 48 entities) lacks clear documentation of patient communications despite an otherwise substantial export.
 
 ## What serious looks like
 
 Twenty-eight product families earned an A or A-. They span from the largest EHR vendors to solo developers. A few examples:
 
-- **Oracle Health (Millennium)**: 6,853 tables, 130,853 columns, 99.9% description coverage, three complementary export pathways. The gold standard for documentation depth.
-- **Epic**: 7,672 tables, 63,121 columns, 100% descriptions. The Clarity data model exported as TSV with full field documentation.
-- **eClinicalWorks**: 1,466 tables, 21,143 fields. Billing at 161 tables, clinical at 350+.
-- **Greenway Prime Suite**: 1,026 tables, 11,868 fields.
-- **athenahealth**: a purpose-built FHIR export with 9 custom financial resource types, proving you can do this in FHIR if you invest in the mapping.
-- **Crystal Practice Management** (ABEO, 80 entities): a small ENT vendor with a 921-page data dictionary. 58 tables covering clinical, billing, VSP insurance, and ophthalmology supply chain. Size doesn't determine effort.
-- **OpenEMR**: 322 entities, 4,941 fields. Community-maintained, open-source, and more thoroughly documented than most commercial vendors.
+- **[Oracle Health (Millennium)](https://joshuamandel.com/ehi-export-analysis#vendor/oracle-health--oracle-health-millennium-clinical)**: 6,853 tables, 130,853 columns, 99.9% description coverage, three complementary export pathways. The gold standard for documentation depth.
+- **[Epic](https://joshuamandel.com/ehi-export-analysis#vendor/epic-systems-corporation--epic-ehr)**: 7,672 tables, 63,121 columns, 100% descriptions. The Clarity data model exported as TSV with full field documentation.
+- **[eClinicalWorks](https://joshuamandel.com/ehi-export-analysis#vendor/eclinicalworks-llc--eclinicalworks)**: 1,466 tables, 21,143 fields. Billing at 161 tables, clinical at 350+.
+- **[Greenway Prime Suite](https://joshuamandel.com/ehi-export-analysis#vendor/greenway-health-llc--greenway-prime-suite)**: 1,026 tables, 11,868 fields.
+- **[athenahealth](https://joshuamandel.com/ehi-export-analysis#vendor/athenahealth-inc--athenaclinicals)**: a purpose-built FHIR export with 9 custom financial resource types, proving you can do this in FHIR if you invest in the mapping.
+- **[Crystal Practice Management](https://joshuamandel.com/ehi-export-analysis#vendor/abeo-solutions-inc--crystal-practice-management)** (ABEO, 80 entities): a small ENT vendor with a 921-page data dictionary. 58 tables covering clinical, billing, VSP insurance, and ophthalmology supply chain. Size doesn't determine effort.
+- **[OpenEMR](https://joshuamandel.com/ehi-export-analysis#vendor/openemr-foundation--openemr)**: 322 entities, 4,941 fields. Community-maintained, open-source, and more thoroughly documented than most commercial vendors.
 
 The point isn't that every product needs thousands of tables. The point is that if a product has fields driving its UI, its clinical decision support, and its specialty workflows, and the documented export offers only a fraction of them, that's not a comprehensive export. The vendors above looked at what their products actually store and built exports that cover it. That's what the regulation requires.
 
