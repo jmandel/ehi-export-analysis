@@ -234,10 +234,11 @@ fs.writeFileSync(outPath, tmpl);
   case "$BACKEND" in
     copilot)
       cd "$SPLIT_OUTPUT"
-      cat "$PROMPT_FILE" | "$CLI_BIN" \
+      "$CLI_BIN" \
         --yolo \
         --alt-screen off \
-        --model "$MODEL"
+        --model "$MODEL" \
+        -i "$(cat "$PROMPT_FILE")"
       ;;
     codex)
       cd "$SPLIT_OUTPUT"
