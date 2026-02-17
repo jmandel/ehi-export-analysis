@@ -147,7 +147,7 @@ The gap between what the regulation requires and what the industry delivers is l
 
 ## So now what
 
-A few observations, not prescriptions:
+Based on these findings, a few recommendations:
 
 **ONC could require a patient-facing EHI export API.** Even when vendors pack the box properly, there's no reliable delivery. Most (b)(10) exports require a manual request to the health system, often with weeks of turnaround — the equivalent of asking patients to drive to the warehouse and pick it up themselves. The (g)(10) standardized API already delivers USCDI data through SMART on FHIR. Extending that infrastructure with a full-EHI scope (same authorization, same app ecosystem, broader data) would create a delivery channel. That matters because automated delivery creates accountability: when any patient-authorized app can request a shipment and inspect what arrives, half-empty boxes can't hide.
 
