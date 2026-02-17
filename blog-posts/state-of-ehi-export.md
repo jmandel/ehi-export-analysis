@@ -2,7 +2,7 @@
 
 Under the [21st Century Cures Act](https://www.congress.gov/bill/114th-congress/house-bill/34/text/pl) and [its implementing regulations from HHS](https://www.healthit.gov/topic/laws-regulation-and-policy/health-it-legislation-and-regulations), every certified EHR must be able to export **all** of a patient's electronic health information — the full [§170.315(b)(10)](https://www.healthit.gov/test-method/electronic-health-information-export) requirement. Not a clinical summary. Not the USCDI floor. Everything, in a computable format, with published documentation describing what it contains.
 
-Over 600 certified health IT products attest to (b)(10). Many of those are narrow-scope modules — a standalone patient portal, a quality measure calculation engine, an API adapter. To focus on products that function as fairly complete EHRs, I filtered for those also certified for CPOE [(a)(1)–(a)(3)](https://www.healthit.gov/test-method/computerized-provider-order-entry-cpoe-medications) and the standardized FHIR API [(g)(10)](https://www.healthit.gov/test-method/standardized-api-patient-and-population-services) — a rough proxy for a typical clinical capability set. That leaves 217 product families. I downloaded whatever each vendor published at their CHPL-registered documentation URL, examined what it describes, and graded it.
+Over 600 certified health IT products attest to (b)(10). ONC maintains a public registry of these products — the [Certified Health IT Product List](https://chpl.healthit.gov/) (CHPL) — where each one posts a URL to its export format documentation. Many of those 600+ are narrow-scope modules — a standalone patient portal, a quality measure calculation engine, an API adapter. To focus on products that function as fairly complete EHRs, I filtered for those also certified for CPOE [(a)(1)–(a)(3)](https://www.healthit.gov/test-method/computerized-provider-order-entry-cpoe-medications) and the standardized FHIR API [(g)(10)](https://www.healthit.gov/test-method/standardized-api-patient-and-population-services) — a rough proxy for a typical clinical capability set. That leaves 217 product families. I downloaded whatever each vendor published at their CHPL-registered documentation URL, examined what it describes, and graded it.
 
 The results are not good.
 
@@ -18,7 +18,7 @@ So: does it?
 
 ## What we did
 
-Every product certified for (b)(10) registers a URL on the [CHPL](https://chpl.healthit.gov/) where its export format documentation lives. Starting from the CPOE + (g)(10) filter described above, we grouped the resulting 265 CHPL-certified products into 216 product families. (Products sharing an EHI documentation URL and developer are one family — MEDITECH Expanse 2.1 and 2.2 are a single family; MEDITECH Expanse and MEDITECH Client/Server are different families because they have different export architectures.)
+Starting from the CPOE + (g)(10) filter described above, we grouped the resulting 265 CHPL-certified products into 216 product families. (Products sharing an EHI documentation URL and developer are one family — MEDITECH Expanse 2.1 and 2.2 are a single family; MEDITECH Expanse and MEDITECH Client/Server are different families because they have different export architectures.)
 
 ![EHI Export Analysis Pipeline](pipeline-diagram.svg)
 *The full pipeline: CHPL registry → filter and deduplicate → phased collection → deep analysis → structured summary → public dashboard.*
