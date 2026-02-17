@@ -119,7 +119,7 @@ The same pattern repeats across **CarePaths** (D), **Core Solutions** (D), **Eha
 
 Of the 193 products that appear to include messaging functionality, 123 (64%) have no clear documentation of how patient communications are included in the export. Only 70 (36%) document their inclusion.
 
-This is data that patients generated: messages sent to their doctors, responses received, portal interactions. It's unambiguously part of the Designated Record Set. Even among otherwise strong exports, it's a common gap: **Netsmart myEvolv** (B+, 1,565 entities) and **PointClickCare** (A-, 48 entities) both lack clear documentation of patient communications despite otherwise substantial exports.
+This is data that patients generated: messages sent to their doctors, responses received, portal interactions. It's unambiguously part of the Designated Record Set. Even among otherwise strong exports, it's a common gap: **PointClickCare** (A-, 48 entities) lacks clear documentation of patient communications despite an otherwise substantial export.
 
 ## What serious looks like
 
