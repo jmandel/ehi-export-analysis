@@ -236,6 +236,7 @@ fs.writeFileSync(outPath, tmpl);
       cd "$SPLIT_OUTPUT"
       "$CLI_BIN" \
         --yolo \
+        --alt-screen off \
         --model "$MODEL" \
         -p "$(cat "$PROMPT_FILE")"
       ;;
