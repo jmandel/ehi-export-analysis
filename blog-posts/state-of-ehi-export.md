@@ -1,4 +1,4 @@
-# What 265 Certified EHRs Actually Export
+# I Graded Every EHR's Patient Data Export Documentation (The Median Is a D)
 
 *A caveat up front: evaluating EHI export documentation is hard. Vendors' published specs are often limited, cryptic, or use product-specific terminology that's unfamiliar even to domain experts. AI-assisted analysis of these documents facilitates best-effort understanding, not definitive results. If any assessment below is in error, I'd welcome the correction — [file an issue](https://github.com/jmandel/ehi-export-analysis/issues/new) or [message me on LinkedIn](https://www.linkedin.com/in/josh-mandel/).*
 
