@@ -1,8 +1,8 @@
-# What 217 Certified EHRs Actually Export
+# What 265 Certified EHRs Actually Export
 
 *A caveat up front: evaluating EHI export documentation is hard. Vendors' published specs are often cryptic, limited, or use product-specific terminology that's unfamiliar even to domain experts. AI-assisted analysis of these documents is a best-effort understanding, not a definitive audit. If any product assessment below is in error, I'd welcome the correction — [file an issue](https://github.com/jmandel-bot/ehi-export-analysis/issues/new) or [message me on LinkedIn](https://www.linkedin.com/in/joshuamandel/).*
 
-Under the [21st Century Cures Act](https://www.congress.gov/bill/114th-congress/house-bill/34/text/pl) and [its implementing regulations from HHS](https://www.healthit.gov/topic/laws-regulation-and-policy/health-it-legislation-and-regulations), every certified EHR must be able to export **all** of a patient's electronic health information (["(b)(10)"](https://www.healthit.gov/test-method/electronic-health-information-export) is the shorthand). Everything the system stores, in a computable format, with public documentation describing what the export contains. I examined the published (b)(10) documentation for 217 certified EHR product families. Over half describe nothing more than a relabeled clinical summary.
+Under the [21st Century Cures Act](https://www.congress.gov/bill/114th-congress/house-bill/34/text/pl) and [its implementing regulations from HHS](https://www.healthit.gov/topic/laws-regulation-and-policy/health-it-legislation-and-regulations), every certified EHR must be able to export **all** of a patient's electronic health information (["(b)(10)"](https://www.healthit.gov/test-method/electronic-health-information-export) is the shorthand). Everything the system stores, in a computable format, with public documentation describing what the export contains. I examined the published (b)(10) documentation for 265 certified EHR products, grouped into 216 product families. Over half describe nothing more than a relabeled clinical summary.
 
 ## Why this matters more than it used to
 
@@ -23,7 +23,7 @@ So: does it?
 
 Over 600 certified health IT products attest to (b)(10). ONC maintains a public registry of these products (the [Certified Health IT Product List](https://chpl.healthit.gov/), or CHPL) where each one posts a URL to its export format documentation. Many of those 600+ are narrow-scope modules: a standalone patient portal, a quality measure calculation engine, an API adapter. To focus on products that function as fairly complete EHRs, I filtered for those also certified for CPOE [(a)(1)–(a)(3)](https://www.healthit.gov/test-method/computerized-provider-order-entry-cpoe-medications) and the standardized FHIR API [(g)(10)](https://www.healthit.gov/test-method/standardized-api-patient-and-population-services), a rough proxy for a typical clinical capability set.
 
-That leaves 265 CHPL-certified products, which I grouped into 217 product families. (Products sharing an EHI documentation URL and developer are one family; MEDITECH Expanse 2.1 and 2.2 are a single family; MEDITECH Expanse and MEDITECH Client/Server are different families because they have different export architectures.)
+That leaves 265 CHPL-certified products, which I grouped into 216 product families. (Products sharing an EHI documentation URL and developer are one family; MEDITECH Expanse 2.1 and 2.2 are a single family; MEDITECH Expanse and MEDITECH Client/Server are different families because they have different export architectures.)
 
 ![EHI Export Analysis Pipeline](pipeline-diagram.svg)
 *The full pipeline: CHPL registry → filter and deduplicate → phased collection → deep analysis → structured summary → public dashboard.*
@@ -34,7 +34,7 @@ Everything is open source. The [dashboard](https://jmandel-bot.github.io/ehi-exp
 
 *A note on method: I evaluated documentation, not actual export files. Actually requesting and receiving a (b)(10) export remains difficult in practice — most require a manual request to the health system, often with weeks of turnaround — which is one reason this analysis is limited to what vendors publish. When this post says an export "includes" or "omits" something, it means the vendor's published documentation does or doesn't describe it. Some vendors may export more than they document, but the point of the (b)(10) documentation requirement is that patients and developers can assess an export's contents without running it. If it's not documented, it doesn't exist for accountability purposes.*
 
-## 217 products, graded
+## 216 product families, graded
 
 | Grade | Count | What it means |
 |-------|-------|---------------|
