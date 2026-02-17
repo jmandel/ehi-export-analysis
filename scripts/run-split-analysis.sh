@@ -234,12 +234,10 @@ fs.writeFileSync(outPath, tmpl);
   case "$BACKEND" in
     copilot)
       cd "$SPLIT_OUTPUT"
-      node -e "
-        const { execFileSync } = require('child_process');
-        const fs = require('fs');
-        const prompt = fs.readFileSync(process.argv[1], 'utf8');
-        execFileSync(process.argv[2], ['--yolo', '--alt-screen', 'off', '--model', process.argv[3], '-p', prompt], { stdio: 'inherit' });
-      " "$PROMPT_FILE" "$CLI_BIN" "$MODEL"
+      "$CLI_BIN" \
+        --yolo \
+        --model "$MODEL" \
+        -p "$(cat "$PROMPT_FILE")"
       ;;
     codex)
       cd "$SPLIT_OUTPUT"
