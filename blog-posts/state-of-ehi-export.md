@@ -1,6 +1,6 @@
 # What 265 Certified EHRs Actually Export
 
-*A caveat up front: evaluating EHI export documentation is hard. Vendors' published specs are often cryptic, limited, or use product-specific terminology that's unfamiliar even to domain experts. AI-assisted analysis of these documents is a best-effort understanding, not a definitive audit. If any product assessment below is in error, I'd welcome the correction — [file an issue](https://github.com/jmandel-bot/ehi-export-analysis/issues/new) or [message me on LinkedIn](https://www.linkedin.com/in/joshuamandel/).*
+*A caveat up front: evaluating EHI export documentation is hard. Vendors' published specs are often limited, cryptic, or use product-specific terminology that's unfamiliar even to domain experts. AI-assisted analysis of these documents facilitates best-effort understanding, not definitive results. If any assessment below is in error, I'd welcome the correction — [file an issue](https://github.com/jmandel-bot/ehi-export-analysis/issues/new) or [message me on LinkedIn](https://www.linkedin.com/in/joshuamandel/).*
 
 Under the [21st Century Cures Act](https://www.congress.gov/bill/114th-congress/house-bill/34/text/pl) and [its implementing regulations from HHS](https://www.healthit.gov/topic/laws-regulation-and-policy/health-it-legislation-and-regulations), every certified EHR must be able to export **all** of a patient's electronic health information (["(b)(10)"](https://www.healthit.gov/test-method/electronic-health-information-export) is the shorthand). Everything the system stores, in a computable format, with public documentation describing what the export contains. I examined the published (b)(10) documentation for 265 certified EHR products, grouped into 217 product families. Over half describe nothing more than a relabeled clinical summary.
 
@@ -97,7 +97,7 @@ Not every specialty vendor did the work.
 
 **EyeMD** (also ophthalmology): 2024 Best in KLAS winner. Integrates Zeiss, Heidelberg, and Topcon imaging devices. Export: 25 standard FHIR resources, zero ophthalmology data. Their mandatory disclosures describe (b)(10) as "Ability to send CCDA information to other systems via secure transmission," literally conflating EHI export with transitions of care.
 
-**TheraOffice** (PT/OT/SLP, Netsmart): serves 900+ rehab practices. 16 of 19 export tables are named `PAT_PROFILE_USCDI_*`, the clearest possible confession that this is USCDI relabeled as EHI. Zero therapy evaluations, zero outcome measures, no LEFS, no DASH, no NDI, no Oswestry.
+**TheraOffice** (PT/OT/SLP, Netsmart): serves 900+ rehab practices. 16 of 19 export tables are named `PAT_PROFILE_USCDI_*`, suggesting this is USCDI relabeled as full EHI. Zero therapy evaluations, zero outcome measures, no LEFS, no DASH, no NDI, no Oswestry.
 
 **ARIA CORE** (radiation oncology, Varian/Siemens): the dominant US radiation oncology system. Registered EHI documentation URL returns 404. It has never been captured by the Wayback Machine.
 
@@ -111,9 +111,7 @@ The pattern is consistent: a handful of behavioral health EHRs did it well, and 
 
 Qualifacts' **CareLogic** (A-) shows what a serious BH export looks like. It has dedicated tables for clinical instruments: `MOD_CIWA_AR` with field-by-field alcohol withdrawal scoring (`NAUSEA`, `TREMOR`, `PAROXYSMAL_SWEATS`, `TACTILE_DISTURBANCES`), `MOD_CAGE_AID` for substance screening, `MOD_CAFAS` for child functional assessment with fields like `SELF_HARM_BEHAVIOR` and `FIRE_SETTING_BEHAVIOR_YN`. A 42-field risk-of-harm table tracks suicidal ideation (`SELF_PLAN`, `SELF_MEANS`, `SELF_CONTRACT` for safety contracting). There's multi-layered substance use tracking with per-substance detail down to route of administration, age of first use, and whether the patient used in the previous 48 hours. Twelve tables cover court-ordered treatment (`DOCKET_NUMBER`, `DEFENDANT_COOPERATE`, `BLOOD_ALCOHOL_LEVEL`). And roughly 50 tables handle state-specific BH program reporting (Ohio MACSIS, Colorado CCAR, Indiana HAP), the actual data feeds community mental health centers submit to state authorities. Qualifacts' **Credible** (also A-) exports similar depth. These products prove comprehensive BH exports are feasible.
 
-Then there's the rest. **Streamline SmartCare** (Netsmart) is an EHR built specifically for community behavioral health and human services. Its export contains nothing behavioral-health-specific: no treatment plans with the "golden thread" linking diagnosis to interventions, no BH progress notes, no screening tools (PHQ-9, AUDIT, DAST), no substance use disorder treatment records, no case management. The export covers standard clinical domains only, roughly 10–15% of what the product stores.
-
-The same pattern repeats across **CarePaths** (D), **Core Solutions** (D), **Ehana** (D), **Foothold** (D). Each is a purpose-built behavioral health platform. Each exports a generic clinical summary.
+Then there's the rest. A pattern of under-documented exports repeats across vendors like **CarePaths** (D), **Core Solutions** (D), **Ehana** (D), **Foothold** (D). Each is a purpose-built behavioral health platform. Each exports a generic clinical summary.
 
 ## Portal messages aren't in your record
 
