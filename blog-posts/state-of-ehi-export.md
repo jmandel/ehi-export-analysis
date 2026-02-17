@@ -22,7 +22,7 @@ We started from ONC's [Certified Health IT Product List](https://chpl.healthit.g
 
 That gives us 216 product families covering 265 CHPL-certified products. (Products sharing an EHI documentation URL and developer were grouped into families — MEDITECH Expanse 2.1 and 2.2 are one family; MEDITECH Expanse and MEDITECH Client/Server are different families because they have different export architectures.)
 
-![EHI Export Analysis Pipeline](pipeline-diagram.png)
+![EHI Export Analysis Pipeline](pipeline-diagram.svg)
 *The full pipeline: CHPL registry → filter and deduplicate → phased collection → deep analysis → structured summary → public dashboard.*
 
 For each family, an AI agent researched the vendor and product, then navigated to the registered documentation URL and downloaded everything it found — PDFs, HTML pages, data dictionaries, schema files. A separate agent then performed a deep analysis: what does the export actually contain? How does it compare to what the product stores? Is this a genuine EHI export or a relabeled clinical summary?
