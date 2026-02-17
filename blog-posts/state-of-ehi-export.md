@@ -133,7 +133,7 @@ Twenty-eight product families earned an A or A-. They span from the largest EHR 
 - **Crystal Practice Management** (ABEO, 80 entities): a small ENT vendor with a 921-page data dictionary. 58 tables covering clinical, billing, VSP insurance, and ophthalmology supply chain. Size doesn't determine effort.
 - **OpenEMR**: 322 entities, 4,941 fields. Community-maintained, open-source, and more thoroughly documented than most commercial vendors.
 
-The point isn't that every product needs 7,000 tables. The point is that if a product has 10,000 fields in its data model (fields informing the UI, driving clinical decision support, populating specialty workflows) and the documented export offers 300 of them wrapped in a standard C-CDA, that's not a comprehensive export. The vendors above looked at what their products actually store and built exports that cover it. That's what the regulation requires.
+The point isn't that every product needs thousands of tables. The point is that if a product has fields driving its UI, its clinical decision support, and its specialty workflows, and the documented export offers a fraction of them wrapped in a standard C-CDA, that's not a comprehensive export. The vendors above looked at what their products actually store and built exports that cover it. That's what the regulation requires.
 
 ## Back to the pipe
 
