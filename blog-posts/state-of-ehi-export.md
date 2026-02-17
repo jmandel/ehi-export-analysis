@@ -103,22 +103,6 @@ Not every specialty vendor did the work.
 
 The specialty data exists in all of these systems; it's what they're built to capture. The difference is whether the vendor did the work.
 
-## Behavioral health
-
-Behavioral health deserves specific attention. These products handle some of the most sensitive clinical data: psychosocial assessments, suicide risk screenings, substance use treatment records, psychiatric treatment plans. Most of this data has no C-CDA representation. And behavioral health records carry additional privacy protections under [42 CFR Part 2](https://www.ecfr.gov/current/title-42/chapter-I/subchapter-A/part-2) that make portability *more* important, not less; patients need to be able to verify what their providers have on file.
-
-The pattern is consistent: a handful of behavioral health EHRs did it well, and the rest ship generic C-CDA with zero behavioral health content.
-
-Qualifacts' **[CareLogic](https://joshuamandel.com/ehi-export-analysis#vendor/qualifacts-systems-llc--carelogic)** (A-) shows what a serious BH export looks like. It has dedicated tables for clinical instruments: `MOD_CIWA_AR` with field-by-field alcohol withdrawal scoring (`NAUSEA`, `TREMOR`, `PAROXYSMAL_SWEATS`, `TACTILE_DISTURBANCES`), `MOD_CAGE_AID` for substance screening, `MOD_CAFAS` for child functional assessment with fields like `SELF_HARM_BEHAVIOR` and `FIRE_SETTING_BEHAVIOR_YN`. A 42-field risk-of-harm table tracks suicidal ideation (`SELF_PLAN`, `SELF_MEANS`, `SELF_CONTRACT` for safety contracting). There's multi-layered substance use tracking with per-substance detail down to route of administration, age of first use, and whether the patient used in the previous 48 hours. Twelve tables cover court-ordered treatment (`DOCKET_NUMBER`, `DEFENDANT_COOPERATE`, `BLOOD_ALCOHOL_LEVEL`). And roughly 50 tables handle state-specific BH program reporting (Ohio MACSIS, Colorado CCAR, Indiana HAP), the actual data feeds community mental health centers submit to state authorities. Qualifacts' **[Credible](https://joshuamandel.com/ehi-export-analysis#vendor/qualifacts-systems-llc--credible-behavioral-health)** (also A-) exports similar depth. These products prove comprehensive BH exports are feasible.
-
-Then there's the rest. A pattern of under-documented exports repeats across vendors like **[CarePaths](https://joshuamandel.com/ehi-export-analysis#vendor/carepaths-inc--carepaths-ehr)** (D), **[Core Solutions](https://joshuamandel.com/ehi-export-analysis#vendor/core-solutions-inc--cx360)** (D), **[Ehana](https://joshuamandel.com/ehi-export-analysis#vendor/ehana--ehana-ehr)** (D), **[Foothold](https://joshuamandel.com/ehi-export-analysis#vendor/foothold-technology-inc--awards)** (D). Each is a purpose-built behavioral health platform. Each exports a generic clinical summary.
-
-## Portal messages aren't in your record
-
-Of the 193 products that appear to include messaging functionality, 123 (64%) have no clear documentation of how patient communications are included in the export. Only 70 (36%) document their inclusion.
-
-This is data that patients generated: messages sent to their doctors, responses received, portal interactions. It's unambiguously part of the Designated Record Set. Even among otherwise strong exports, it's a common gap: **[PointClickCare](https://joshuamandel.com/ehi-export-analysis#vendor/pointclickcare-technologies-inc--pointclickcare)** (A-, 48 entities) lacks clear documentation of patient communications despite an otherwise substantial export.
-
 ## What serious looks like
 
 Twenty-eight product families earned an A or A-. They span from the largest EHR vendors to solo developers. A few examples:
