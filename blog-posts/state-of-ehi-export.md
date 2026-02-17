@@ -157,6 +157,8 @@ Based on these findings, a few recommendations:
   - **Set expectations for public sample data.** Schemas alone are often uninterpretable without examples. Understanding what a field actually contains — its format, its edge cases, its relationship to other fields — frequently requires going back and forth between schema and instance. Requiring vendors to publish de-identified sample exports alongside their data dictionaries would make documentation genuinely usable for patients, developers, and reviewers.
   - **Preserve Real World Testing requirements for (b)(10).** The proposed rollback in HTI-5 would eliminate one of the few mechanisms that provides any visibility into whether EHI exports are functioning in practice.
 
+**Vendors: check your own analysis.** The [per-product assessments](https://jmandel-bot.github.io/ehi-export-analysis/) are public. There are likely mistakes — please [report them](https://github.com/jmandel-bot/ehi-export-analysis/issues/new). But where the analysis misunderstood your documentation, that's also a signal: if an AI agent trained on health IT standards can't parse your export docs, patients and developers won't be able to either. Those are good opportunities to clarify the documentation itself.
+
 **Patients and advocates can ask informed questions.** The [dashboard](https://jmandel-bot.github.io/ehi-export-analysis/) is public. If your EHR is graded D and you're requesting your records, you now have specific language for what's missing.
 
 **Developers building on patient access rights should calibrate expectations.** The theoretical right to a complete computable export and the practical implementation diverge sharply. Plan accordingly.
