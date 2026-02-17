@@ -1,10 +1,10 @@
 {
-  "_description": "Split config for MEDITECH EHI export analysis. Two-way split along the real documentation boundary: Modern platforms (Expanse + 6.1) use ONLY Config 1 (HIM/SCN/PHM-based: eChart + FHIR + C-CDA). Legacy platforms (6.0 + CS + MAGIC) use Config 2 (MRI/DR-based: CSV + FHIR + C-CDA) with platform-specific data dictionaries. Some legacy platforms also support Config 1 for acute-only, but Config 2 is their distinctive path.",
+  "_description": "Split config for MEDITECH EHI export analysis. Two-way split based on export mechanism completeness. Config 1 (HIM/SCN/PHM eChart-based) covers ALL platforms for acute, but only Expanse+6.15 have full acute+ambulatory coverage via Config 1. Older platforms (6.08/CS/MAGIC) need Config 2 (MRI/DR CSV-based) to cover ambulatory (and CS/MAGIC use it for acute+ambulatory as an alternative). The split groups platforms by whether Config 1 alone is sufficient.",
   "source_dir": "medical-information-technology-inc-meditech--meditech-ehr",
   "splits": [
     {
       "slug": "medical-information-technology-inc-meditech--meditech-expanse-6-1",
-      "focus": "MEDITECH modern platforms: Expanse (2.2, 2.1) and 6.1/6.15. These use ONLY Config 1 (HIM/SCN/PHM-based): Electronic Chart documents + US Core FHIR R4 + C-CDA + supplemental clinical/admin/financial reports. Both acute and ambulatory settings use the same export approach. Evaluate Config 1 documentation for completeness and compliance.",
+      "focus": "MEDITECH platforms where Config 1 provides complete coverage: Expanse (2.2, 2.1) and 6.15/6.1. Config 1 (HIM/SCN/PHM-based) exports Electronic Chart documents + US Core FHIR R4 + C-CDA + supplemental reports for BOTH acute and ambulatory settings. These platforms do not need Config 2. Evaluate Config 1 documentation for completeness and compliance.",
       "products": [
         "MEDITECH Expanse 2.2 Core HCIS",
         "MEDITECH Expanse 2.2 Ambulatory",
@@ -22,8 +22,8 @@
       ]
     },
     {
-      "slug": "medical-information-technology-inc-meditech--meditech-legacy-cs-magic-6-0",
-      "focus": "MEDITECH legacy platforms: 6.0 (6.08), Client/Server, and MAGIC. These use Config 2 (MRI/DR-based): CSV data export + FHIR R4 + C-CDA + supplemental reports. Each platform has its own CSV data dictionary PDF: CS uses csacuteandambehiexportdrsolutionmerged.pdf, MAGIC uses mgehiexportdrsolutionmerged.pdf, 6.08 ambulatory uses 608ehiexportcsv.pdf. Some can also use Config 1 for acute-only deployments. Evaluate Config 2 documentation AND the platform-specific CSV data dictionaries for completeness.",
+      "slug": "medical-information-technology-inc-meditech--meditech-6-0-cs-magic",
+      "focus": "MEDITECH platforms requiring Config 2 for ambulatory coverage: 6.08/6.0, Client/Server, and MAGIC. Config 1 (eChart-based) covers acute-only for these platforms. Config 2 (MRI/DR-based) provides CSV data export + FHIR R4 + C-CDA for ambulatory settings; CS and MAGIC can also use Config 2 for acute+ambulatory as a single path. Each platform has its own CSV data dictionary PDF: CS uses csacuteandambehiexportdrsolutionmerged.pdf, MAGIC uses mgehiexportdrsolutionmerged.pdf, 6.08 ambulatory uses 608ehiexportcsv.pdf. Evaluate BOTH Config 1 (acute) AND Config 2 (ambulatory/combined) documentation plus platform-specific CSV data dictionaries.",
       "products": [
         "MEDITECH 6.0 Electronic Health Record Core HCIS",
         "MEDITECH 6.0 Emergency Department Management",
