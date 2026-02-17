@@ -292,3 +292,102 @@ bun run scripts/build-phase-families.ts
 
 The pipeline is additive: `--resume` skips any family that already has completion
 markers, so only new/changed families get processed.
+
+## Standalone Per-Vendor Scripts
+
+Each pipeline stage has a standalone script for one-off runs, reruns, and fixups.
+These mirror the loop's behavior but work on a single vendor at a time.
+
+| Script | Stage | Inputs | Outputs |
+|--------|-------|--------|---------|
+| `scripts/run-research.sh` | Phase 1 | `results/<slug>/chpl-metadata.json` | `product-research.md`, `sources.json` |
+| `scripts/run-download.sh` | Phase 2 | `results/<slug>/chpl-metadata.json` | `downloads/`, `files.json`, `ehi-export-report.md` |
+| `scripts/run-analysis.sh` | Analysis | `results/<slug>/` (all) | `abstraction/<slug>/analysis.md` |
+| `scripts/run-summary.sh` | Summary | `abstraction/<slug>/analysis.md` | `abstraction/<slug>/summary.json` |
+| `scripts/run-fixup.sh` | Fixup | `results/<slug>/` + issue/hint | Patched `results/<slug>/` |
+
+### One-off rerun of a single stage
+
+```bash
+# Redo research for one vendor
+./scripts/run-research.sh --dir ezemrx-inc--ezemrx
+
+# Redo download for one vendor
+./scripts/run-download.sh --dir ezemrx-inc--ezemrx
+
+# Redo analysis (remove old output first)
+rm -f abstraction/ezemrx-inc--ezemrx/analysis.md
+./scripts/run-analysis.sh --dir ezemrx-inc--ezemrx
+
+# Use a custom prompt for research/download
+./scripts/run-research.sh --dir vendor--product --prompt my-custom-prompt.md
+```
+
+### Fixup workflow (ad-hoc corrections)
+
+When a collection run missed something (e.g., a PDF embedded in a viewer widget):
+
+```bash
+# Fix using a GitHub issue
+./scripts/run-fixup.sh --dir ezemrx-inc--ezemrx --issue 1
+
+# Fix using an inline hint
+./scripts/run-fixup.sh --dir ezemrx-inc--ezemrx \
+  --hint "Missed PDF embedded in viewer widget at the EHI URL"
+
+# Fix + automatically cascade to rerun analysis and summary
+./scripts/run-fixup.sh --dir ezemrx-inc--ezemrx --issue 1 --cascade
+```
+
+The fixup agent:
+1. Reads the issue/hint to understand what's wrong
+2. Archives `downloads/` → `downloads.pre-fixup/` as a safety net
+3. Surgically patches the results dir (adds files, updates `files.json`)
+4. Writes `fixup-log.md` documenting changes
+5. With `--cascade`: reruns analysis + summary on patched data
+
+**Issue convention**: use a `fixup` label on GitHub issues. The issue body
+should mention the vendor slug or dashboard URL.
+
+## Split Analysis (multi-product-line vendors)
+
+For vendors like MEDITECH where one URL documents multiple product lines with
+different configurations, use split analysis to run separate abstractions from
+shared downloads.
+
+### Split config
+
+Create a JSON file in `work/splits/` defining the splits:
+
+```bash
+cat work/splits/meditech.json   # see existing example
+```
+
+### Running split analysis
+
+```bash
+# Dry run — see what would execute
+./scripts/run-split-analysis.sh --split-config work/splits/meditech.json --dry-run
+
+# Run all splits
+./scripts/run-split-analysis.sh --split-config work/splits/meditech.json
+
+# Force redo
+./scripts/run-split-analysis.sh --split-config work/splits/meditech.json --force
+```
+
+Each split gets its own `abstraction/<split-slug>/` directory with:
+- Symlinks to the shared `downloads/` dir
+- A product-line-specific prompt addendum
+- Its own `analysis.md` and `summary.json`
+
+### When to use splits
+
+Use splits when:
+- Multiple product lines share one EHI documentation URL
+- The documentation has configs/sections that apply to different products
+- One monolithic analysis would be confusing
+
+The merge rules in `url-group-merges.json` should reflect the split (multiple
+families instead of one). The split config in `work/splits/` maps each family
+to its relevant artifacts and focus description.
