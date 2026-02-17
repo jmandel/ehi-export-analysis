@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Run a fixup agent to repair collected EHI export results.
+# Run a fixup agent to diagnose, repair, and cascade EHI export pipeline results.
 #
-# The fixup agent sees the existing results + an issue description, and
-# surgically patches the results directory. After fixup, rerun downstream
-# stages (analysis, summary) with the normal scripts.
+# The fixup agent is autonomous: it reads the issue, determines which pipeline
+# stage to intervene at, makes the surgical fix, then runs the downstream
+# scripts to cascade the correction through the rest of the pipeline.
 #
 # Usage:
 #   ./scripts/run-fixup.sh --dir <slug> --issue <N>
@@ -22,13 +22,13 @@ Options:
   --hint "..." Inline fixup hint (alternative to --issue)
   --backend    LLM backend: copilot, codex (default: copilot)
   --model      Model override (default: claude-opus-4.6-fast for copilot)
-  --cascade    After fixup, automatically rerun analysis + summary
   -h, --help   Show this message
+
+The agent autonomously determines which stage to fix and cascades downstream.
 
 Examples:
   ./scripts/run-fixup.sh --dir ezemrx-inc--ezemrx --issue 1
   ./scripts/run-fixup.sh --dir ezemrx-inc--ezemrx --hint "Missed PDF embedded in viewer widget"
-  ./scripts/run-fixup.sh --dir ezemrx-inc--ezemrx --issue 1 --cascade
 EOF
 }
 
@@ -37,7 +37,6 @@ ISSUE_NUM=""
 HINT=""
 BACKEND="copilot"
 MODEL=""
-CASCADE=false
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -46,7 +45,6 @@ while [[ $# -gt 0 ]]; do
     --hint)       HINT="$2"; shift 2 ;;
     --backend)    BACKEND="$2"; shift 2 ;;
     --model)      MODEL="$2"; shift 2 ;;
-    --cascade)    CASCADE=true; shift ;;
     -h|--help)    usage; exit 0 ;;
     *)            echo "Unknown arg: $1"; usage; exit 1 ;;
   esac
@@ -122,12 +120,6 @@ case "$BACKEND" in
     ;;
 esac
 
-# Archive current downloads as safety net
-if [[ -d "$OUTPUT_DIR/downloads" && ! -d "$OUTPUT_DIR/downloads.pre-fixup" ]]; then
-  echo "Archiving current downloads to downloads.pre-fixup..."
-  cp -a "$OUTPUT_DIR/downloads" "$OUTPUT_DIR/downloads.pre-fixup"
-fi
-
 # Render the fixup prompt
 PROMPT_FILE=$(mktemp)
 trap 'rm -f "$PROMPT_FILE"' EXIT
@@ -135,7 +127,7 @@ trap 'rm -f "$PROMPT_FILE"' EXIT
 bun -e '
 const fs = require("fs");
 const path = require("path");
-const [tmplPath, outPath, url, developers, products, outputDir, fixupHint, promptsDir] = process.argv.slice(1);
+const [tmplPath, outPath, url, developers, products, outputDir, fixupHint, promptsDir, rootDir, dirSlug] = process.argv.slice(1);
 let tmpl = fs.readFileSync(tmplPath, "utf8");
 const vars = {
   URL: url,
@@ -143,6 +135,8 @@ const vars = {
   PRODUCTS: products,
   OUTPUT_DIR: outputDir,
   FIXUP_HINT: fixupHint,
+  ROOT_DIR: rootDir,
+  DIR_SLUG: dirSlug,
 };
 for (const [key, value] of Object.entries(vars)) {
   tmpl = tmpl.replaceAll("{{" + key + "}}", value);
@@ -161,7 +155,9 @@ fs.writeFileSync(outPath, tmpl);
   "$PRODUCTS" \
   "$OUTPUT_DIR" \
   "$FIXUP_HINT" \
-  "$ROOT_DIR/wiggum/prompts"
+  "$ROOT_DIR/wiggum/prompts" \
+  "$ROOT_DIR" \
+  "$TARGET_DIRNAME"
 
 echo "=== Fixup Agent ==="
 echo "Target:     $TARGET_DIRNAME"
@@ -170,6 +166,8 @@ echo "Issue:      ${ISSUE_NUM:-inline hint}"
 echo "Hint:       $(echo "$FIXUP_HINT" | head -1)"
 echo "Output:     $OUTPUT_DIR"
 echo "Backend:    $BACKEND ($MODEL)"
+echo ""
+echo "The agent will diagnose, fix, and cascade downstream stages autonomously."
 echo ""
 
 set +e
@@ -198,45 +196,8 @@ if [[ $cli_exit_code -ne 0 ]]; then
   exit "$cli_exit_code"
 fi
 
-# Verify required markers still exist
-if [[ ! -f "$OUTPUT_DIR/files.json" ]]; then
-  echo "WARNING: files.json missing after fixup — something went wrong."
-  exit 7
-fi
-
 echo ""
-echo "=== Fixup Complete ==="
+echo "=== Fixup Agent Complete ==="
 if [[ -f "$OUTPUT_DIR/fixup-log.md" ]]; then
   echo "Fixup log: $OUTPUT_DIR/fixup-log.md"
-fi
-echo ""
-
-# Cascade: rerun downstream stages
-if [[ "$CASCADE" == true ]]; then
-  echo "=== Cascading: rerun analysis + summary ==="
-  echo ""
-
-  ABSTRACTION_DIR="$ROOT_DIR/abstraction/$TARGET_DIRNAME"
-
-  # Remove old analysis to force rerun
-  if [[ -f "$ABSTRACTION_DIR/analysis.md" ]]; then
-    echo "Removing old analysis.md for rerun..."
-    rm -f "$ABSTRACTION_DIR/analysis.md"
-    rm -rf "$ABSTRACTION_DIR/analysis/"
-  fi
-
-  echo "Running analysis..."
-  "$ROOT_DIR/scripts/run-analysis.sh" --dir "$TARGET_DIRNAME" --backend "$BACKEND" --model "$MODEL"
-
-  # Remove old summary to force rerun
-  if [[ -f "$ABSTRACTION_DIR/summary.json" ]]; then
-    echo "Removing old summary.json for rerun..."
-    rm -f "$ABSTRACTION_DIR/summary.json"
-  fi
-
-  echo "Running summary..."
-  "$ROOT_DIR/scripts/run-summary.sh" --analysis-dir "$ABSTRACTION_DIR" --backend "$BACKEND" --model "$MODEL"
-
-  echo ""
-  echo "=== Cascade Complete ==="
 fi

@@ -334,17 +334,14 @@ When a collection run missed something (e.g., a PDF embedded in a viewer widget)
 # Fix using an inline hint
 ./scripts/run-fixup.sh --dir ezemrx-inc--ezemrx \
   --hint "Missed PDF embedded in viewer widget at the EHI URL"
-
-# Fix + automatically cascade to rerun analysis and summary
-./scripts/run-fixup.sh --dir ezemrx-inc--ezemrx --issue 1 --cascade
 ```
 
-The fixup agent:
-1. Reads the issue/hint to understand what's wrong
-2. Archives `downloads/` → `downloads.pre-fixup/` as a safety net
-3. Surgically patches the results dir (adds files, updates `files.json`)
-4. Writes `fixup-log.md` documenting changes
-5. With `--cascade`: reruns analysis + summary on patched data
+The fixup agent is autonomous:
+1. Reads the issue/hint and existing results to diagnose what's wrong
+2. Determines which pipeline stage is the root cause
+3. Makes the surgical fix at that stage
+4. Cascades by running all downstream scripts itself
+5. Writes `fixup-log.md` documenting diagnosis, changes, and cascade
 
 **Issue convention**: use a `fixup` label on GitHub issues. The issue body
 should mention the vendor slug or dashboard URL.

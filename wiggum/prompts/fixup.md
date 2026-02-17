@@ -1,9 +1,28 @@
-# Fixup: Repair EHI Export Collection Results
+# Fixup: Diagnose and Repair EHI Export Pipeline Results
 
-You are fixing a problem with previously collected EHI export documentation.
-A prior collection run missed something or got something wrong. Your job is
-to surgically patch the results directory so it's correct, then hand off to
-downstream pipeline stages (analysis, summary) that will run on the corrected data.
+You are an autonomous repair agent for the EHI export analysis pipeline.
+A problem has been reported — something was missed, collected incorrectly,
+or analyzed wrong. Your job is to:
+
+1. Read the issue and the existing results to understand what went wrong
+2. Determine which pipeline stage to intervene at
+3. Fix the problem at the earliest applicable stage
+4. Cascade: rerun all downstream stages so everything is consistent
+
+## Pipeline overview
+
+Read `{{ROOT_DIR}}/controller/operations.md` for full details. The pipeline has
+4 stages, each with a standalone script:
+
+| Stage | Script | Inputs → Outputs |
+|-------|--------|------------------|
+| 1. Research | `scripts/run-research.sh --dir <slug>` | → `product-research.md`, `sources.json` |
+| 2. Download | `scripts/run-download.sh --dir <slug>` | → `downloads/`, `files.json`, `ehi-export-report.md` |
+| 3. Analysis | `scripts/run-analysis.sh --dir <slug>` | → `abstraction/<slug>/analysis.md` |
+| 4. Summary | `scripts/run-summary.sh --analysis-dir abstraction/<slug>` | → `summary.json` |
+
+Each stage depends on the previous one's outputs. If you fix stage 2, you must
+rerun stages 3 and 4.
 
 ## Context
 
@@ -11,61 +30,100 @@ downstream pipeline stages (analysis, summary) that will run on the corrected da
 **Product(s)**: {{PRODUCTS}}
 **EHI Documentation URL**: {{URL}}
 **Results directory**: {{OUTPUT_DIR}}
+**Repository root**: {{ROOT_DIR}}
 
-## What went wrong
+## The reported problem
 
 {{FIXUP_HINT}}
 
-## What's already collected
+## How to work
 
-The results directory contains:
-- `downloads/` — previously downloaded artifacts
-- `files.json` — manifest of downloaded files
-- `product-research.md` — product research from Phase 1
-- `ehi-export-report.md` — download report from Phase 2
-- `sources.json` — URLs visited during research
-- `chpl-metadata.json` — CHPL certification data
+### Step 1: Diagnose
 
-Read these files to understand what was already collected and what the issue is.
+Read the issue/hint and the existing results to understand:
+- **What's wrong?** (missed file, incorrect analysis, bad data, etc.)
+- **Which stage is the root cause?** (research didn't find something? download
+  missed a file? analysis misinterpreted the data?)
+- **What's the earliest stage that needs fixing?**
 
-## Your job
+Read these files for context:
+- `{{OUTPUT_DIR}}/chpl-metadata.json` — vendor/product info
+- `{{OUTPUT_DIR}}/product-research.md` — Phase 1 output
+- `{{OUTPUT_DIR}}/files.json` — download manifest
+- `{{OUTPUT_DIR}}/ehi-export-report.md` — Phase 2 report
+- `{{OUTPUT_DIR}}/downloads/` — actual artifacts
 
-1. **Understand the problem** — read the issue description and the existing
-   results to understand exactly what's wrong or missing.
+### Step 2: Fix at the earliest applicable stage
 
-2. **Fix it surgically** — do the minimum necessary to correct the results:
-   - If a file was missed: download it into `downloads/`
-   - If `files.json` needs updating: add the new file entry
-   - If `ehi-export-report.md` needs updating: patch the relevant sections
-   - Don't redo work that's already correct
+Do the minimum surgical fix at the root-cause stage:
 
-3. **Document what you changed** — write `{{OUTPUT_DIR}}/fixup-log.md`:
-   ```markdown
-   # Fixup Log
+- **If research is wrong/incomplete**: update `product-research.md` and/or
+  `sources.json` directly, or rerun: `{{ROOT_DIR}}/scripts/run-research.sh --dir {{DIR_SLUG}}`
+- **If download missed something**: fetch the missing file into `downloads/`,
+  update `files.json`, and update `ehi-export-report.md`
+- **If analysis is wrong**: the fix is just to rerun it (stage 3) after
+  ensuring the inputs are correct
 
-   **Date**: {{date}}
-   **Issue**: {{brief description}}
+For download fixes, archive first:
+```bash
+cp -a {{OUTPUT_DIR}}/downloads {{OUTPUT_DIR}}/downloads.pre-fixup
+```
 
-   ## Changes Made
-   - Added: downloads/filename.pdf (source: URL)
-   - Updated: files.json (added entry for new file)
-   - Updated: ehi-export-report.md (added section on new artifact)
+### Step 3: Cascade downstream
 
-   ## Verification
-   - Confirmed file is valid: `file downloads/filename.pdf` → PDF document
-   - File size: X bytes
-   ```
+After fixing the root-cause stage, rerun every downstream stage:
 
-4. **Preserve the archive** — the script has already copied `downloads/` to
-   `downloads.pre-fixup/` before you started. Don't modify that backup.
+```bash
+# If you fixed research (stage 1), rerun download + analysis + summary:
+{{ROOT_DIR}}/scripts/run-download.sh --dir {{DIR_SLUG}}
+rm -f {{ROOT_DIR}}/abstraction/{{DIR_SLUG}}/analysis.md
+{{ROOT_DIR}}/scripts/run-analysis.sh --dir {{DIR_SLUG}}
+rm -f {{ROOT_DIR}}/abstraction/{{DIR_SLUG}}/summary.json
+{{ROOT_DIR}}/scripts/run-summary.sh --analysis-dir {{ROOT_DIR}}/abstraction/{{DIR_SLUG}}
+
+# If you fixed download (stage 2), rerun analysis + summary:
+rm -f {{ROOT_DIR}}/abstraction/{{DIR_SLUG}}/analysis.md
+{{ROOT_DIR}}/scripts/run-analysis.sh --dir {{DIR_SLUG}}
+rm -f {{ROOT_DIR}}/abstraction/{{DIR_SLUG}}/summary.json
+{{ROOT_DIR}}/scripts/run-summary.sh --analysis-dir {{ROOT_DIR}}/abstraction/{{DIR_SLUG}}
+
+# If you only need to rerun analysis (stage 3):
+rm -f {{ROOT_DIR}}/abstraction/{{DIR_SLUG}}/analysis.md
+{{ROOT_DIR}}/scripts/run-analysis.sh --dir {{DIR_SLUG}}
+rm -f {{ROOT_DIR}}/abstraction/{{DIR_SLUG}}/summary.json
+{{ROOT_DIR}}/scripts/run-summary.sh --analysis-dir {{ROOT_DIR}}/abstraction/{{DIR_SLUG}}
+```
+
+### Step 4: Document
+
+Write `{{OUTPUT_DIR}}/fixup-log.md`:
+```markdown
+# Fixup Log
+
+**Date**: {{date}}
+**Issue**: {{one-line summary}}
+
+## Diagnosis
+- Root cause stage: {{1/2/3/4}}
+- Problem: {{what was wrong}}
+
+## Changes Made
+- {{what you added/changed/fixed}}
+
+## Cascade
+- {{which downstream stages were rerun}}
+
+## Verification
+- {{how you confirmed the fix worked}}
+```
 
 ## Important
 
-- **Don't redo the full collection.** Only fix what's broken.
-- **Keep existing files intact** unless they need correction.
-- **Update `files.json`** if you add or modify any files in `downloads/`.
-- **Be specific in the fixup log** — someone should be able to verify your fix.
-- After you're done, downstream stages (analysis, summary) will rerun on
-  the corrected results using their normal prompts.
+- **Be autonomous.** Diagnose, fix, cascade, verify — don't stop halfway.
+- **Fix at the root.** If downloads are missing, fix downloads — don't try to
+  paper over it in the analysis prompt.
+- **Rerun downstream stages** using the scripts above. They're standalone and
+  handle their own prompt rendering.
+- **Don't redo work that's fine.** If research is correct, start at download.
 
 {{EHI_SCOPE_REFERENCE}}
