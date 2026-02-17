@@ -59,7 +59,6 @@ const absDirs = readdirSync(ABSTRACTION).filter((d) => {
 
 for (const slug of absDirs) {
   const absDir = join(ABSTRACTION, slug);
-  const resDir = join(RESULTS, slug);
 
   // Read summary
   const summary = await Bun.file(join(absDir, "summary.json")).json();
@@ -69,6 +68,7 @@ for (const slug of absDirs) {
   let family = "";
   let chplIds: number[] = [];
   let ehiDocUrl = "";
+  let resultsDir = join(RESULTS, slug);
   const metaPath = join(absDir, "metadata.json");
   if (existsSync(metaPath)) {
     const meta = await Bun.file(metaPath).json();
@@ -76,6 +76,9 @@ for (const slug of absDirs) {
     family = meta.product_name ?? slug.split("--")[1] ?? "";
     chplIds = (meta.certified_products ?? []).map((p: any) => p.chpl_id);
     ehiDocUrl = meta.ehi_documentation_url ?? "";
+    if (meta.results_dir) {
+      resultsDir = join(ROOT, meta.results_dir);
+    }
   } else {
     // Derive from slug
     const parts = slug.split("--");
@@ -85,8 +88,8 @@ for (const slug of absDirs) {
 
   // Check for files
   const hasAnalysis = existsSync(join(absDir, "analysis.md"));
-  const hasResearch = existsSync(join(resDir, "product-research.md"));
-  const hasReport = existsSync(join(resDir, "ehi-export-report.md"));
+  const hasResearch = existsSync(join(resultsDir, "product-research.md"));
+  const hasReport = existsSync(join(resultsDir, "ehi-export-report.md"));
 
   // Copy analysis.md
   if (hasAnalysis) {
@@ -96,7 +99,7 @@ for (const slug of absDirs) {
   // Copy product-research.md
   if (hasResearch) {
     cpSync(
-      join(resDir, "product-research.md"),
+      join(resultsDir, "product-research.md"),
       join(DATA, "research", `${slug}.md`),
     );
   }
@@ -104,14 +107,14 @@ for (const slug of absDirs) {
   // Copy ehi-export-report.md
   if (hasReport) {
     cpSync(
-      join(resDir, "ehi-export-report.md"),
+      join(resultsDir, "ehi-export-report.md"),
       join(DATA, "reports", `${slug}.md`),
     );
   }
 
   // Copy downloads
   let downloadFiles: string[] = [];
-  const dlDir = join(resDir, "downloads");
+  const dlDir = join(resultsDir, "downloads");
   if (existsSync(dlDir)) {
     const destDl = join(DATA, "downloads", slug);
     mkdirSync(destDl, { recursive: true });

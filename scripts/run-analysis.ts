@@ -20,6 +20,7 @@ Options:
   --results-dir  Results directory path (default: results/<dir>)
   --output-dir   Output directory (default: abstraction/<dir>)
   --focus        Focusing prompt snippet appended to the analysis prompt
+  --display-name Display name for the product (default: from chpl-metadata)
   --backend      LLM backend: claude, copilot, codex (default: copilot)
   --model        Model override
   -h, --help     Show this message
@@ -39,6 +40,7 @@ let targetDirname = "";
 let resultsDirArg = "";
 let outputDir = "";
 let focus = "";
+let displayName = "";
 let backend: Backend = "copilot";
 let model = "";
 
@@ -56,6 +58,9 @@ for (let i = 0; i < args.length; i++) {
       break;
     case "--focus":
       focus = args[++i];
+      break;
+    case "--display-name":
+      displayName = args[++i];
       break;
     case "--backend":
       backend = args[++i];
@@ -99,7 +104,7 @@ if (!existsSync(metadataPath)) {
 }
 
 const metadata = await Bun.file(metadataPath).json();
-const productName = metadata?.products?.[0]?.product_name || targetDirname;
+const productName = displayName || metadata?.products?.[0]?.product_name || targetDirname;
 
 mkdirSync(outputPath, { recursive: true });
 

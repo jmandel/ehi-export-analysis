@@ -81,6 +81,7 @@ for results_dir in "$ROOT_DIR"/results/*/; do
     for ((si=0; si<n_splits; si++)); do
       split_slug=$(jq -r ".splits[$si].slug" "$sc")
       split_focus=$(jq -r ".splits[$si].focus" "$sc")
+      split_display=$(jq -r ".splits[$si].display_name // empty" "$sc")
 
       # Apply filter against the split slug
       if [[ -n "$FILTER" ]]; then
@@ -103,7 +104,9 @@ for results_dir in "$ROOT_DIR"/results/*/; do
         fi
       fi
 
-      commands+=("bun run ./scripts/run-analysis.ts --dir \"$split_slug\" --results-dir \"$results_dir\" --focus \"$split_focus\" $BACKEND_ARG $MODEL_ARG")
+      DISPLAY_ARG=""
+      [[ -n "$split_display" ]] && DISPLAY_ARG="--display-name \"$split_display\""
+      commands+=("bun run ./scripts/run-analysis.ts --dir \"$split_slug\" --results-dir \"$results_dir\" --focus \"$split_focus\" $DISPLAY_ARG $BACKEND_ARG $MODEL_ARG")
     done
   else
     # Normal 1:1 target
