@@ -134,7 +134,7 @@ for (const slug of absDirs) {
   }
 
   // Check for entity inventory and stats in analysis dir
-  const hasEntityInventory = existsSync(join(absDir, "analysis", "full-entity-inventory.json"));
+  const hasEntityInventory = existsSync(join(absDir, "analysis", "entity-inventory-full.json"));
   const hasAnalysisStats = existsSync(join(absDir, "analysis", "analysis-stats.json"));
 
   vendors.push({

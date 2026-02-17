@@ -137,7 +137,7 @@ export function DetailView({
               <a href={`#doc/data/reports/${vendor.slug}.md`}>Download/Retrieval Report</a>
             )}
             {vendor.has_entity_inventory && (
-              <a href={`data/analysis-scripts/${vendor.slug}/full-entity-inventory.json`} target="_blank">
+              <a href={`data/analysis-scripts/${vendor.slug}/entity-inventory-full.json`} target="_blank">
                 Full Entity Inventory
               </a>
             )}
