@@ -124,15 +124,19 @@ for (const slug of absDirs) {
     );
   }
 
-  // Copy analysis scripts
+  // Copy analysis scripts (exclude build artifacts)
+  const ANALYSIS_EXCLUDE = new Set(["node_modules", "bun.lock", "package.json", "tsconfig.json", "CLAUDE.md"]);
   let analysisFiles: string[] = [];
   const scriptDir = join(absDir, "analysis");
   if (existsSync(scriptDir)) {
     const destScripts = join(DATA, "analysis-scripts", slug);
     mkdirSync(destScripts, { recursive: true });
-    cpSync(scriptDir, destScripts, { recursive: true });
+    cpSync(scriptDir, destScripts, {
+      recursive: true,
+      filter: (src) => !ANALYSIS_EXCLUDE.has(src.split("/").pop()!),
+    });
     analysisFiles = readdirSync(scriptDir).filter(
-      (f) => !f.startsWith("."),
+      (f) => !f.startsWith(".") && !ANALYSIS_EXCLUDE.has(f),
     );
   }
 

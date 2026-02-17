@@ -70,9 +70,13 @@ function ArchiveView({ slug, data }: { slug: string; data: FileIndex }) {
   if (!entry) return <p>No files found for this vendor.</p>;
 
   const { enrichment, rest: downloads } = extractEnrichment(entry.downloads);
-  const analysis = entry.analysis;
+  const analysisScripts = entry.analysis.filter(
+    (e) => e.type === "dir" || /\.(py|ts|js|sh|sql|md)$/i.test(e.name),
+  );
+  const analysisResults = entry.analysis.filter(
+    (e) => e.type === "file" && /\.(json|csv|tsv|txt)$/i.test(e.name),
+  );
   const hasDownloads = downloads.length > 0;
-  const hasAnalysis = analysis.length > 0;
 
   return (
     <div className="archive-paper">
@@ -94,11 +98,19 @@ function ArchiveView({ slug, data }: { slug: string; data: FileIndex }) {
           basePath={`data/downloads/${slug}/enrichment`}
         />
       )}
-      {hasAnalysis && (
+      {analysisResults.length > 0 && (
         <ArchiveSection
           icon="📊"
+          label="Analysis Results"
+          entries={analysisResults}
+          basePath={`data/analysis-scripts/${slug}`}
+        />
+      )}
+      {analysisScripts.length > 0 && (
+        <ArchiveSection
+          icon="🔧"
           label="Analysis Scripts"
-          entries={analysis}
+          entries={analysisScripts}
           basePath={`data/analysis-scripts/${slug}`}
         />
       )}
