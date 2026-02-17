@@ -12,10 +12,9 @@ Consider:
 
 - **Surprise billing.** A patient trying to understand a surprise medical bill needs the actual charge detail, claim submissions, and denial history — data that has no representation in any standard clinical exchange format.
 - **Cancer navigation.** An AI agent helping a patient navigate a complex cancer diagnosis needs the oncology staging data, the chemo regimen details, the radiation treatment plans, not just "Condition: malignant neoplasm of breast" on a problem list.
-- **Behavioral health research.** A researcher studying treatment-resistant depression needs structured data from behavioral health EHRs: which therapeutic modalities were attempted (CBT, DBT, EMDR) and for how many sessions, ECT or TMS treatment parameters if tried — none of which has a comprehensive USCDI representation.
 - **Longitudinal AI assistance.** An AI health assistant reviewing a patient's history needs the portal message threads where the patient reported worsening side effects and the doctor adjusted the treatment plan; those conversations are part of the clinical narrative but vanish from a standard summary.
 
-These use cases all build on the same legal foundation: the patient's right under HIPAA to access their [Designated Record Set](https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-C/part-164/subpart-E/section-164.501), which (b)(10) requires certified EHRs to export in computable form. The regulation was written before the current AI moment, but it defines what goes in the box that AI agents, personal health applications, and other downstream consumers need: a patient's *whole* record, not just the summary. This post examines what vendors are putting in the box. A separate question — how patients actually get it delivered — matters too, and I'll return to it.
+These use cases all build on the same legal foundation: the patient's right under HIPAA to access their [Designated Record Set](https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-C/part-164/subpart-E/section-164.501), which (b)(10) requires certified EHRs to export in computable form. The regulation was written before the current AI moment, but it defines what goes in the box that AI agents, personal health applications, and other downstream consumers need: a patient's *whole* record, not just the summary. This post examines what vendors are putting in the box. A separate question (how patients actually get it delivered!) matters too, and I'll return to it.
 
 So: does it?
 
@@ -119,21 +118,31 @@ Twenty-eight product families earned an A or A-. They span from the largest EHR 
 
 ## So now what
 
-Based on these findings, a few recommendations:
+Based on these findings, a few recommendations, organized by audience.
 
-**ONC should require a patient-facing EHI export API (a candidate for HTI-6 rulemaking).** Even when vendors pack the box properly, there's no reliable delivery. Most (b)(10) exports require a manual request to the health system, often with weeks of turnaround — the equivalent of asking patients to drive to the warehouse and pick it up themselves. The (g)(10) standardized API already delivers USCDI data through SMART on FHIR. Extending that infrastructure with a full-EHI scope (same authorization, same app ecosystem, broader data) would create a delivery channel. That matters because automated delivery creates accountability: when any patient-authorized app can request an export and inspect what arrives, it becomes visible whether the export is incomplete, undocumented, or disorganized beyond practical use.
+### ASTP / ONC
 
-**ONC already has oversight tools that could drive immediate change.** ONC-ACBs can conduct in-the-field surveillance of certified products and request documentation from developers as part of ongoing certification maintenance. ONC itself can directly review any certified product when there's reason to believe it isn't meeting certification requirements. None of these powers require new rulemaking. Today, the only real feedback loop is a patient requesting their records, waiting weeks, receiving an export, and having the technical sophistication to realize it's a relabeled clinical summary, then figuring out where to complain. That loop is too long, too rare, and too quiet to drive change. If ONC-ACBs started examining what vendors actually publish at their (b)(10) documentation URLs, and comparing it to what the product stores, problems would surface before patients have to discover them firsthand. Vendors whose entire (b)(10) spec is a link to the HL7 C-CDA spec would have to explain themselves. That alone could shift posture across the industry. Specifically:
+**Preserve Real World Testing requirements for (b)(10).** The proposed rollback in HTI-5 would eliminate one of the few mechanisms that provides any visibility into whether EHI exports are functioning in practice.
 
-  - **Require actual testing.** Today, (b)(10) conformance is attestation-based: vendors attest, ONC-ACBs review the attestation, but nobody runs a test export and checks what comes out. The extreme variability in what vendors publish at their documentation URLs suggests attestation alone isn't producing consistent outcomes.
-  - **Set expectations for public sample data.** Schemas alone are often uninterpretable without examples. Understanding what a field actually contains — its format, its edge cases, its relationship to other fields — frequently requires going back and forth between schema and instance. Requiring vendors to publish de-identified sample exports alongside their data dictionaries would make documentation genuinely usable for patients, developers, and reviewers.
-  - **Preserve Real World Testing requirements for (b)(10).** The proposed rollback in HTI-5 would eliminate one of the few mechanisms that provides any visibility into whether EHI exports are functioning in practice.
+**Require a patient-facing EHI export API in HTI-6.** Even when vendors pack the box properly, there's no reliable delivery system. Most (b)(10) exports require a manual request to the health system, often with weeks of turnaround — the equivalent of asking patients to drive to the warehouse and pick it up themselves. The (g)(10) standardized API already delivers USCDI data through SMART on FHIR. Extending that infrastructure with a full-EHI scope (same authorization, same app ecosystem, broader data, no deep standards/consensus required) would create a delivery channel. That matters because automated delivery creates accountability: when any patient-authorized app can request an export and inspect what arrives, it becomes visible whether the export is incomplete, undocumented, or disorganized beyond practical use.
 
-**Vendors: check your own analysis.** The [per-product assessments](https://joshuamandel.com/ehi-export-analysis/) are public. There are likely mistakes — please [report them](https://github.com/jmandel/ehi-export-analysis/issues/new). But where the analysis misunderstood your documentation, that's also a signal: if an AI agent trained on health IT standards can't parse your export docs, patients and developers won't be able to either. Those are good opportunities to clarify the documentation itself.
+**Leverage existing oversight tools to drive change.** ONC-ACBs can conduct in-the-field surveillance of certified products and request documentation from developers as part of ongoing certification maintenance. ONC itself can directly review any certified product when there's reason to believe it isn't meeting certification requirements. Today, the only real feedback loop is a patient requesting their records, waiting weeks, receiving an export, and having the technical sophistication to realize it's a relabeled clinical summary, then figuring out where to complain. That loop is too long, too rare, and too quiet to drive change.
 
-**Patients and advocates can ask informed questions.** The [dashboard](https://joshuamandel.com/ehi-export-analysis/) is public. If your EHR is graded D and you're requesting your records, you now have specific language for what's missing.
+**Require actual testing.** Today, (b)(10) conformance is attestation-based: vendors attest, ONC-ACBs review the attestation, but nobody runs a test export and checks what comes out. The extreme variability in what vendors publish at their documentation URLs suggests attestation alone isn't producing consistent outcomes.
 
-**Developers building on patient access rights should calibrate expectations.** The theoretical right to a complete computable export and the practical implementation diverge sharply. Plan accordingly.
+**Set expectations for public sample data.** Schemas alone are often uninterpretable without examples. Understanding what a field actually contains — its format, its edge cases, its relationship to other fields — frequently requires going back and forth between schema and instance. Requiring vendors to publish de-identified sample exports alongside their data dictionaries would make documentation genuinely usable for patients, developers, and reviewers.
+
+### Vendors
+
+**Check your own analysis.** The [per-product assessments](https://joshuamandel.com/ehi-export-analysis/) are public. There are likely mistakes; I would certainly appreciate [bug reports](https://github.com/jmandel/ehi-export-analysis/issues/new). But where the analysis misunderstood your documentation, that's also a signal: if an AI agent with strong understanding of health IT standards can't make sense of your export docs, patients and developers won't be able to either. There are good opportunities to clarify documentation.
+
+### Patients and advocates
+
+**Ask informed questions.** The [dashboard](https://joshuamandel.com/ehi-export-analysis/) is public. If your EHR is graded D and you're requesting your records, you now have specific language for what's missing.
+
+### Developers
+
+**Calibrate expectations.** The theoretical right to a complete computable export and the practical implementation diverge sharply. Plan accordingly.
 
 ---
 
