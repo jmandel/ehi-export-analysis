@@ -110,7 +110,7 @@ The same pattern repeats across **CarePaths** (D), **Core Solutions** (D), **Eha
 
 ## Portal messages aren't in your record
 
-123 of 217 products (57%) exclude patient communications from their EHI export. Only 37 (17%) include them.
+Of the 193 products where we could assess patient communications, 123 (64%) exclude them entirely. Only 70 (36%) include them fully or partially.
 
 This is data that patients generated — messages sent to their doctors, responses received, portal interactions. It's unambiguously part of the Designated Record Set. Even among well-graded products, it's a common gap: **Netsmart myEvolv** (A-, 1,565 entities) and **PointClickCare** (A-, 48 entities) both exclude patient communications despite otherwise strong exports.
 
