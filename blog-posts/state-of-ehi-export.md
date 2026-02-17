@@ -139,7 +139,7 @@ The point isn't that every product needs thousands of tables. The point is that 
 
 The (b)(10) requirement is the regulatory infrastructure for a patient's right to get their full record in computable form. As AI capabilities expand (cancer navigation, behavioral health transitions, billing dispute resolution, longitudinal health monitoring), the value of that full record grows with them. Clinical summaries are a fine starting point, but they are not the ceiling.
 
-For the 29% of products graded A or B, the box is full. These vendors looked at what their products store and packed accordingly — exports that could meaningfully support downstream AI applications, patient data portability, and independent analysis.
+For the 29% of products graded A or B, the box is packed well. These vendors looked at what their products store, included it, and documented what's inside — exports that could meaningfully support downstream AI applications, patient data portability, and independent analysis.
 
 For the 54% graded D or F, the box is mostly empty. The export describes a clinical summary, sometimes literally the same C-CDA used for transitions of care, relabeled as "all EHI." A patient at one of these systems can request an export and receive roughly the same data they'd get from the Blue Button download on their patient portal. The billing data, the specialty clinical data, the messages, the administrative records -- everything that makes the EHR *the EHR* -- isn't in the box.
 
