@@ -23,10 +23,10 @@ already-completed targets.
 
 | File | Description | Families |
 |------|-------------|----------|
-| `work/phases/phase-1-comprehensive-ehrs.json` | CPOE + FHIR API (g)(10) — full EHRs | 216 |
+| `work/phases/phase-1-comprehensive-ehrs.json` | CPOE + FHIR API (g)(10) — full EHRs | 218 |
 | `work/phases/phase-2-cpoe-no-fhir.json` | CPOE without FHIR API | 107 |
 | `work/phases/phase-3-other.json` | Everything else | 212 |
-| `work/family-targets.json` | All families combined | 535 |
+| `work/family-targets.json` | All families combined | 537 |
 
 ## Loop Flags
 
@@ -199,13 +199,14 @@ Key files:
 
 ```
 work/phases/phase-1-comprehensive-ehrs.json
-        ↓  wiggum/loop.ts
+        ↓  wiggum/loop.ts  (or scripts/run-research.sh + run-download.sh)
 results/<vendor>--<family>/
   chpl-metadata.json       CHPL data filtered to this family
   product-research.md      Phase 1 output (+ sources.json marker)
   downloads/               Phase 2 downloads (+ files.json marker)
   ehi-export-report.md     Phase 2 coverage report
-        ↓  scripts/run-all-analyses.sh
+        ↓  scripts/run-fixup.sh  (if issues found — patches results, cascades)
+        ↓  scripts/run-all-analyses.sh  (or run-split-analysis.sh for multi-product vendors)
 abstraction/<vendor>--<family>/
   analysis.md              Deep analysis document
   metadata.json            Traceability (developer, CHPL products, timestamps)
@@ -295,16 +296,30 @@ markers, so only new/changed families get processed.
 
 ## Standalone Per-Vendor Scripts
 
-Each pipeline stage has a standalone script for one-off runs, reruns, and fixups.
-These mirror the loop's behavior but work on a single vendor at a time.
+Each pipeline stage has a standalone script for one-off runs, reruns, and
+debugging. These use the same prompts and LLM backends as the batch tools
+but work on a single vendor at a time.
+
+### Script inventory
 
 | Script | Stage | Inputs | Outputs |
 |--------|-------|--------|---------|
-| `scripts/run-research.sh` | Phase 1 | `results/<slug>/chpl-metadata.json` | `product-research.md`, `sources.json` |
-| `scripts/run-download.sh` | Phase 2 | `results/<slug>/chpl-metadata.json` | `downloads/`, `files.json`, `ehi-export-report.md` |
-| `scripts/run-analysis.sh` | Analysis | `results/<slug>/` (all) | `abstraction/<slug>/analysis.md` |
-| `scripts/run-summary.sh` | Summary | `abstraction/<slug>/analysis.md` | `abstraction/<slug>/summary.json` |
-| `scripts/run-fixup.sh` | Fixup | `results/<slug>/` + issue/hint | Patched `results/<slug>/` |
+| `scripts/run-research.sh` | Phase 1 (research) | `chpl-metadata.json` | `product-research.md`, `sources.json` |
+| `scripts/run-download.sh` | Phase 2 (download) | `chpl-metadata.json`, `product-research.md` | `downloads/`, `files.json`, `ehi-export-report.md` |
+| `scripts/run-analysis.sh` | Analysis | everything in `results/<slug>/` | `abstraction/<slug>/analysis.md`, `analysis/` |
+| `scripts/run-summary.sh` | Summary | `analysis.md` | `summary.json` |
+| `scripts/run-fixup.sh` | Fixup (autonomous) | `results/<slug>/` + issue/hint | patched results + cascaded downstream |
+| `scripts/run-split-analysis.sh` | Split analysis | shared `results/` + split config | per-split `abstraction/<slug>/analysis.md` |
+
+### Common options (all standalone scripts)
+
+| Flag | Description |
+|------|-------------|
+| `--dir <slug>` | Directory name under `results/` (e.g. `vendor--product`) |
+| `--backend <b>` | LLM backend: `copilot`, `codex` (default: copilot) |
+| `--model <m>` | Model override (default: `claude-opus-4.6-fast` for copilot) |
+| `--prompt <file>` | Custom prompt file (research + download only) |
+| `-h, --help` | Show usage |
 
 ### One-off rerun of a single stage
 
@@ -323,41 +338,123 @@ rm -f abstraction/ezemrx-inc--ezemrx/analysis.md
 ./scripts/run-research.sh --dir vendor--product --prompt my-custom-prompt.md
 ```
 
-### Fixup workflow (ad-hoc corrections)
+### Relationship to the loop
 
-When a collection run missed something (e.g., a PDF embedded in a viewer widget):
+The loop (`wiggum/loop.ts`) handles batch iteration (target ordering, `--resume`,
+`--reverse`, git commits, watchdog/timeout). The standalone scripts handle
+single-vendor execution. The loop uses its own built-in LLM dispatch (supports
+`claude`, `shelley`, `gemini`, `copilot` backends); the standalone scripts use
+`copilot` or `codex` backends and follow the same pattern as `run-analysis.sh`.
+
+Both use the same prompt templates (`wiggum/prompts/1-research.md`,
+`wiggum/prompts/2-download.md`) and template variable system.
+
+## Fixup Workflow (Ad-Hoc Corrections)
+
+When a collection run missed something or got something wrong, the fixup agent
+diagnoses the problem, fixes it at the right pipeline stage, and cascades
+downstream automatically.
+
+### When to use fixup
+
+- Download agent missed an artifact (e.g., PDF embedded in a viewer widget)
+- Research is incomplete or wrong
+- Downloaded file is corrupt or wrong content
+- Any issue where the `results/` dir needs patching before re-analysis
+
+### Running a fixup
 
 ```bash
-# Fix using a GitHub issue
+# From a GitHub issue (reads title + body as the fixup hint)
 ./scripts/run-fixup.sh --dir ezemrx-inc--ezemrx --issue 1
 
-# Fix using an inline hint
+# From an inline description
 ./scripts/run-fixup.sh --dir ezemrx-inc--ezemrx \
-  --hint "Missed PDF embedded in viewer widget at the EHI URL"
+  --hint "The EHI page has a PDF embedded in an iframe viewer widget. The download agent noted an empty viewer but didn't extract the PDF URL. The PDF is the actual data dictionary."
 ```
 
-The fixup agent is autonomous:
-1. Reads the issue/hint and existing results to diagnose what's wrong
-2. Determines which pipeline stage is the root cause
-3. Makes the surgical fix at that stage
-4. Cascades by running all downstream scripts itself
-5. Writes `fixup-log.md` documenting diagnosis, changes, and cascade
+### What the fixup agent does
 
-**Issue convention**: use a `fixup` label on GitHub issues. The issue body
-should mention the vendor slug or dashboard URL.
+The agent is fully autonomous. It:
 
-## Split Analysis (multi-product-line vendors)
+1. **Reads** `controller/operations.md` to understand the pipeline
+2. **Reads** the issue/hint and all existing results to diagnose the problem
+3. **Determines the root-cause stage** (research? download? analysis?)
+4. **Fixes at that stage** — e.g., fetches the missed PDF, updates `files.json`
+5. **Cascades downstream** by running the standalone scripts:
+   - If it fixed downloads → runs `run-analysis.sh` → `run-summary.sh`
+   - If it fixed research → runs `run-download.sh` → `run-analysis.sh` → `run-summary.sh`
+6. **Writes `fixup-log.md`** documenting diagnosis, changes, and cascade results
 
-For vendors like MEDITECH where one URL documents multiple product lines with
-different configurations, use split analysis to run separate abstractions from
-shared downloads.
+The prompt is at `wiggum/prompts/fixup.md`. Template variables include
+`{{ROOT_DIR}}` and `{{DIR_SLUG}}` so the agent can invoke scripts by path.
 
-### Split config
+### GitHub issue convention
 
-Create a JSON file in `work/splits/` defining the splits:
+- Use a `fixup` label on issues that need automated repair
+- Issue body should mention the vendor slug or dashboard URL
+- The `--issue` flag reads the issue via `gh issue view`
 
-```bash
-cat work/splits/meditech.json   # see existing example
+### Safety
+
+The script archives `downloads/` to `downloads.pre-fixup/` before the agent
+starts (first fixup only — won't overwrite an existing archive). The agent
+is instructed not to modify the archive.
+
+## Split Analysis (Multi-Product-Line Vendors)
+
+Some vendors have one EHI documentation URL that covers multiple distinct
+product lines with different export configurations. The normal pipeline
+treats them as one family, but the analysis is better when split per
+product line.
+
+### The problem (MEDITECH example)
+
+MEDITECH has 16 CHPL-certified products sharing one URL. That page documents
+2 export "Configurations":
+- **Config 1** (HIM/SCN/PHM-based): eChart + FHIR + C-CDA — covers Expanse,
+  6.1x acute, older platforms in acute mode
+- **Config 2** (MRI/DR-based): CSV + FHIR + C-CDA — covers older platforms,
+  6.0 ambulatory
+
+A monolithic analysis covering all 16 products and both configs is confusing.
+Better to split into platform lines (Expanse, 6.x, CS/MAGIC) with focused
+analyses.
+
+### How split analysis works
+
+Two things happen:
+
+**1. Merge rules split** — edit `work/url-group-merges.json` (hand-authored)
+to split one family into multiple:
+
+```json
+{
+  "families": [
+    { "name": "MEDITECH Expanse", "products": ["MEDITECH Expanse 2.2 Core HCIS", ...] },
+    { "name": "MEDITECH 6.x", "products": ["MEDITECH 6.1 Electronic Health Record Core HCIS", ...] },
+    { "name": "MEDITECH CS/MAGIC", "products": ["MEDITECH Client/Server ...", ...] }
+  ]
+}
+```
+
+Then regenerate targets: `bun run scripts/build-phase-families.ts`
+
+**2. Split config** — create `work/splits/<vendor>.json` defining how to run
+separate abstractions from shared downloads:
+
+```json
+{
+  "source_dir": "medical-information-technology-inc-meditech--meditech-ehr",
+  "splits": [
+    {
+      "slug": "medical-information-technology-inc-meditech--meditech-expanse",
+      "focus": "MEDITECH Expanse platform (Config 1: eChart/FHIR/C-CDA)",
+      "products": ["MEDITECH Expanse 2.2 Core HCIS", ...],
+      "relevant_artifacts": ["ehiexportconfig1.html", "csacuteandambehiexportdrsolutionmerged.pdf"]
+    }
+  ]
+}
 ```
 
 ### Running split analysis
@@ -369,22 +466,51 @@ cat work/splits/meditech.json   # see existing example
 # Run all splits
 ./scripts/run-split-analysis.sh --split-config work/splits/meditech.json
 
-# Force redo
+# Force redo existing splits
 ./scripts/run-split-analysis.sh --split-config work/splits/meditech.json --force
+
+# Then run summaries for the new split dirs
+./scripts/run-all-summaries.sh --filter "medical-information-technology-inc-meditech--meditech-*" --force
 ```
 
-Each split gets its own `abstraction/<split-slug>/` directory with:
-- Symlinks to the shared `downloads/` dir
-- A product-line-specific prompt addendum
-- Its own `analysis.md` and `summary.json`
+### What the script does for each split
+
+1. Creates `abstraction/<split-slug>/`
+2. Symlinks `downloads/`, `*.md`, `*.json` from the shared source results dir
+3. Writes `metadata.json` with split-specific traceability
+4. Appends a **split context addendum** to the analysis prompt:
+   - Which products to focus on
+   - Which artifacts in `downloads/` are most relevant
+   - Instruction to evaluate coverage against these specific products
+5. Runs the analysis agent in the split output dir
+
+### Options for `run-split-analysis.sh`
+
+| Flag | Description |
+|------|-------------|
+| `--split-config <file>` | Split config JSON (required) |
+| `--backend <b>` | LLM backend (default: copilot) |
+| `--model <m>` | Model override |
+| `--force` | Remove existing `analysis.md` and re-run |
+| `--dry-run` | Print what would happen without executing |
 
 ### When to use splits
 
-Use splits when:
 - Multiple product lines share one EHI documentation URL
 - The documentation has configs/sections that apply to different products
-- One monolithic analysis would be confusing
+- One monolithic analysis would be confusing or unfair to individual products
 
-The merge rules in `url-group-merges.json` should reflect the split (multiple
-families instead of one). The split config in `work/splits/` maps each family
-to its relevant artifacts and focus description.
+### What's hand-authored vs generated
+
+| Artifact | Hand-authored? | Notes |
+|---|---|---|
+| `work/url-group-merges.json` | ✅ Yes | Merge/split rules with rationale |
+| `work/splits/*.json` | ✅ Yes | Split configs for multi-product analysis |
+| `work/family-targets.json` | ❌ Generated | From `build-phase-families.ts` |
+| `work/phases/*.json` | ❌ Generated | From `build-phase-families.ts` |
+| `results/*/` | ❌ Generated | From wiggum loop or standalone scripts |
+| `abstraction/*/` | ❌ Generated | From analysis/split-analysis scripts |
+
+Hand-authored files are fair game for manual editing. Generated files should
+be regenerated from their sources (don't hand-edit `family-targets.json` —
+edit `url-group-merges.json` and rerun `build-phase-families.ts`).
