@@ -8,6 +8,7 @@ import { existsSync, mkdirSync, readdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { runLLM, defaultModel, type Backend } from "../wiggum/llm-runner";
 import { renderTemplate } from "../wiggum/template";
+import { snapshotHtmlFiles } from "./singlefile";
 
 const ROOT_DIR = join(dirname(import.meta.path), "..");
 
@@ -20,6 +21,7 @@ Options:
   --backend    LLM backend: claude, copilot, codex (default: copilot)
   --model      Model override
   --prompt     Custom prompt file (default: wiggum/prompts/2-download.md)
+  --snapshot   After download, create SingleFile snapshots of HTML files
   -h, --help   Show this message
 
 Examples:
@@ -32,6 +34,7 @@ let targetDirname = "";
 let backend: Backend = "copilot";
 let model = "";
 let customPrompt = "";
+let snapshot = false;
 
 const args = process.argv.slice(2);
 for (let i = 0; i < args.length; i++) {
@@ -40,6 +43,7 @@ for (let i = 0; i < args.length; i++) {
     case "--backend":    backend = args[++i] as Backend; break;
     case "--model":      model = args[++i]; break;
     case "--prompt":     customPrompt = args[++i]; break;
+    case "--snapshot":   snapshot = true; break;
     case "-h": case "--help": usage();
     default: console.error(`Unknown arg: ${args[i]}`); usage();
   }
@@ -96,3 +100,9 @@ console.log("\n=== Done ===");
 console.log(`Files manifest: ${outputDir}/files.json`);
 console.log(`Downloads:      ${outputDir}/downloads/ (${countFiles(join(outputDir, "downloads"))} files)`);
 if (existsSync(join(outputDir, "ehi-export-report.md"))) console.log(`Report:         ${outputDir}/ehi-export-report.md`);
+
+if (snapshot) {
+  console.log("\n=== SingleFile Snapshots ===");
+  const snapResult = await snapshotHtmlFiles(outputDir);
+  console.log(`Snapshots: created=${snapResult.created} skipped=${snapResult.skipped} failed=${snapResult.failed}`);
+}
