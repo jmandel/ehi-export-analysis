@@ -123,7 +123,7 @@ This is data that patients generated: messages sent to their doctors, responses 
 
 ## What serious looks like
 
-Twenty-eight product families earned an A or A-. They span from the largest EHR vendors to solo developers:
+Twenty-eight product families earned an A or A-. They span from the largest EHR vendors to solo developers. A few examples:
 
 - **Oracle Health (Millennium)**: 6,853 tables, 130,853 columns, 99.9% description coverage, three complementary export pathways. The gold standard for documentation depth.
 - **Epic**: 7,672 tables, 63,121 columns, 100% descriptions. The Clarity data model exported as TSV with full field documentation.
