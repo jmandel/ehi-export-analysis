@@ -174,11 +174,10 @@ set +e
 case "$BACKEND" in
   copilot)
     cd "$ROOT_DIR"
-    "$CLI_BIN" \
+    cat "$PROMPT_FILE" | "$CLI_BIN" \
       --yolo \
       --alt-screen off \
-      --model "$MODEL" \
-      -p "$(cat "$PROMPT_FILE")"
+      --model "$MODEL"
     ;;
   codex)
     cd "$ROOT_DIR"
