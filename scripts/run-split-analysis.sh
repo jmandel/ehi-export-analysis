@@ -236,6 +236,9 @@ fs.writeFileSync(outPath, tmpl);
       cd "$SPLIT_OUTPUT"
       "$CLI_BIN" \
         --yolo \
+        --no-ask-user \
+        --no-color \
+        --no-auto-update \
         --model "$MODEL" \
         -p "$(cat "$PROMPT_FILE")"
       ;;

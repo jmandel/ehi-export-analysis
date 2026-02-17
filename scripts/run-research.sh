@@ -149,6 +149,9 @@ case "$BACKEND" in
     cd "$ROOT_DIR"
     "$CLI_BIN" \
       --yolo \
+      --no-ask-user \
+      --no-color \
+      --no-auto-update \
       --model "$MODEL" \
       -p "$(cat "$PROMPT_FILE")"
     ;;
