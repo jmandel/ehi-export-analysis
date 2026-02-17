@@ -72,15 +72,21 @@ Sometimes the irony is hard to miss:
 - **Radysans**: full eBilling module with 2,500+ payer connections. Export: one-page doc listing C-CDA sections.
 - **Vohra Wound Physicians**: the company name includes "Coding." Billing data entirely absent from the export.
 
-## Specialty EHRs that don't export their specialty
+## Specialty EHRs and their specialty data
 
-Specialty EHRs are where this gets particularly hard to look at. These are products whose entire value proposition is domain-specific clinical data — and whose exports contain none of it.
+Specialty EHRs are where the stakes are clearest. These products exist to capture domain-specific clinical data — and some vendors export it beautifully.
 
-**EndoVault** (endoscopy/GI): stores HD images, 4K video, bowel prep scores, polyp characteristics, scope tracking via RFID. The export: zero endoscopy data. The 138-page "EHI" documentation is the (g)(10) FHIR API spec relabeled — 18 standard FHIR resources, identical to any generic EHR.
+**ModMed's gGastro** (GI/endoscopy) exports 441 tables with 4,453 fields — including a `Finding` table with 155 fields per endoscopic finding (polyp size, morphology, location, removal method), 115 billing tables, and 1,166 value sets. **ModMed's EMA** (ophthalmology) exports 25 ophthalmology pretesting tables with 1,209 fields — visual acuity (93 fields), refraction (82), keratometry, IOP, pachymetry.
+
+**nAbleMD** (fertility/IVF) exports 31 IVF-specific entities with 1,317 fields, including `emrcycle` at 231 fields per treatment cycle. **Flatiron OncoEMR** exports chemo dose calculations, AJCC staging, treatment pathways, and lifetime cumulative doses. These vendors looked at what their products actually store and built exports that cover it.
+
+Then there are their competitors in the same specialties.
+
+**EndoVault** (also endoscopy/GI): stores HD images, 4K video, bowel prep scores, polyp characteristics, scope tracking via RFID. The export: zero endoscopy data. The 138-page "EHI" documentation is the (g)(10) FHIR API spec relabeled — 18 standard FHIR resources, identical to any generic EHR.
+
+**EyeMD** (also ophthalmology): 2024 Best in KLAS winner. Integrates Zeiss, Heidelberg, and Topcon imaging devices. Export: 25 standard FHIR resources, zero ophthalmology data. Their mandatory disclosures describe (b)(10) as "Ability to send CCDA information to other systems via secure transmission" — literally conflating EHI export with transitions of care.
 
 **OMS EHR** (cardiology): claims "6,000+ data points per patient" across 16 cardiovascular modules including echo, EKG, cath lab, and stress testing. The entire EHI documentation: a 9-row, 2-column table on a single page. Zero fields defined.
-
-**EyeMD** (ophthalmology): 2024 Best in KLAS winner. Integrates Zeiss, Heidelberg, and Topcon imaging devices. Export: 25 standard FHIR resources, zero ophthalmology data. Their mandatory disclosures describe (b)(10) as "Ability to send CCDA information to other systems via secure transmission" — literally conflating EHI export with transitions of care.
 
 **TheraOffice** (PT/OT/SLP, Netsmart): serves 900+ rehab practices. 16 of 19 export tables are named `PAT_PROFILE_USCDI_*` — the clearest possible confession that this is USCDI relabeled as EHI. Zero therapy evaluations, zero outcome measures, no LEFS, no DASH, no NDI, no Oswestry.
 
@@ -88,17 +94,7 @@ Specialty EHRs are where this gets particularly hard to look at. These are produ
 
 **InPracSys** (urology): "Built by urologists, for urologists." Export: 15 standard FHIR resources, 328 fields. Zero urology data.
 
-### Same specialty, opposite outcomes
-
-The gap isn't because specialty exports are inherently impossible. Other vendors prove they're not:
-
-Both **ModMed's gGastro** and **EndoSoft's EndoVault** are GI/endoscopy EHRs. gGastro exports 441 tables with 4,453 fields — including a `Finding` table with 155 fields per endoscopic finding (polyp size, morphology, location, removal method), 115 billing tables, and 1,166 value sets. EndoVault exports zero endoscopy data.
-
-Both **ModMed's EMA** and **EyeMD** are ophthalmology EHRs. EMA exports 25 ophthalmology pretesting tables with 1,209 fields — visual acuity (93 fields), refraction (82), keratometry, IOP, pachymetry. EyeMD exports zero ophthalmic data.
-
-**nAbleMD** (fertility/IVF) exports 31 IVF-specific entities with 1,317 fields, including `emrcycle` at 231 fields per treatment cycle. **Flatiron OncoEMR** exports chemo dose calculations, AJCC staging, treatment pathways, and lifetime cumulative doses.
-
-The specialty data exists in these systems. It's what the products are built to capture. Some vendors export it; others simply don't.
+The specialty data exists in all of these systems — it's what they're built to capture. The difference is whether the vendor did the work.
 
 ## Behavioral health
 
