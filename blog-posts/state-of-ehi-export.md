@@ -1,6 +1,6 @@
 # What 265 Certified EHRs Actually Export
 
-*A caveat up front: evaluating EHI export documentation is hard. Vendors' published specs are often limited, cryptic, or use product-specific terminology that's unfamiliar even to domain experts. AI-assisted analysis of these documents facilitates best-effort understanding, not definitive results. If any assessment below is in error, I'd welcome the correction — [file an issue](https://github.com/jmandel-bot/ehi-export-analysis/issues/new) or [message me on LinkedIn](https://www.linkedin.com/in/joshuamandel/).*
+*A caveat up front: evaluating EHI export documentation is hard. Vendors' published specs are often limited, cryptic, or use product-specific terminology that's unfamiliar even to domain experts. AI-assisted analysis of these documents facilitates best-effort understanding, not definitive results. If any assessment below is in error, I'd welcome the correction — [file an issue](https://github.com/jmandel/ehi-export-analysis/issues/new) or [message me on LinkedIn](https://www.linkedin.com/in/josh-mandel/).*
 
 Under the [21st Century Cures Act](https://www.congress.gov/bill/114th-congress/house-bill/34/text/pl) and [its implementing regulations from HHS](https://www.healthit.gov/topic/laws-regulation-and-policy/health-it-legislation-and-regulations), every certified EHR must be able to export **all** of a patient's electronic health information (["(b)(10)"](https://www.healthit.gov/test-method/electronic-health-information-export) is the shorthand). Everything the system stores, in a computable format, with public documentation describing what the export contains. I examined the published (b)(10) documentation for 265 certified EHR products, grouped into 217 product families. Over half describe nothing more than a relabeled clinical summary.
 
@@ -30,7 +30,7 @@ That leaves 265 CHPL-certified products, which I grouped into 217 product famili
 
 For each family, an AI agent researched the vendor and product, then navigated to the registered documentation URL and downloaded everything it found: PDFs, HTML pages, data dictionaries, schema files. A separate agent then performed a deep analysis: what does the export actually contain? How does it compare to what the product stores? Is this a genuine EHI export or a relabeled clinical summary?
 
-Everything is open source. The [dashboard](https://jmandel-bot.github.io/ehi-export-analysis/) has the full results; the [repository](https://github.com/jmandel-bot/ehi-export-analysis) has the methodology, prompts, and raw data.
+Everything is open source. The [dashboard](https://joshuamandel.com/ehi-export-analysis/) has the full results; the [repository](https://github.com/jmandel/ehi-export-analysis) has the methodology, prompts, and raw data.
 
 *A note on method: I evaluated documentation, not actual export files. Actually requesting and receiving a (b)(10) export remains difficult in practice — most require a manual request to the health system, often with weeks of turnaround — which is one reason this analysis is limited to what vendors publish. When this post says an export "includes" or "omits" something, it means the vendor's published documentation does or doesn't describe it. Some vendors may export more than they document, but the point of the (b)(10) documentation requirement is that patients and developers can assess an export's contents without running it. If it's not documented, it doesn't exist for accountability purposes.*
 
@@ -155,14 +155,14 @@ Based on these findings, a few recommendations:
   - **Set expectations for public sample data.** Schemas alone are often uninterpretable without examples. Understanding what a field actually contains — its format, its edge cases, its relationship to other fields — frequently requires going back and forth between schema and instance. Requiring vendors to publish de-identified sample exports alongside their data dictionaries would make documentation genuinely usable for patients, developers, and reviewers.
   - **Preserve Real World Testing requirements for (b)(10).** The proposed rollback in HTI-5 would eliminate one of the few mechanisms that provides any visibility into whether EHI exports are functioning in practice.
 
-**Vendors: check your own analysis.** The [per-product assessments](https://jmandel-bot.github.io/ehi-export-analysis/) are public. There are likely mistakes — please [report them](https://github.com/jmandel-bot/ehi-export-analysis/issues/new). But where the analysis misunderstood your documentation, that's also a signal: if an AI agent trained on health IT standards can't parse your export docs, patients and developers won't be able to either. Those are good opportunities to clarify the documentation itself.
+**Vendors: check your own analysis.** The [per-product assessments](https://joshuamandel.com/ehi-export-analysis/) are public. There are likely mistakes — please [report them](https://github.com/jmandel/ehi-export-analysis/issues/new). But where the analysis misunderstood your documentation, that's also a signal: if an AI agent trained on health IT standards can't parse your export docs, patients and developers won't be able to either. Those are good opportunities to clarify the documentation itself.
 
-**Patients and advocates can ask informed questions.** The [dashboard](https://jmandel-bot.github.io/ehi-export-analysis/) is public. If your EHR is graded D and you're requesting your records, you now have specific language for what's missing.
+**Patients and advocates can ask informed questions.** The [dashboard](https://joshuamandel.com/ehi-export-analysis/) is public. If your EHR is graded D and you're requesting your records, you now have specific language for what's missing.
 
 **Developers building on patient access rights should calibrate expectations.** The theoretical right to a complete computable export and the practical implementation diverge sharply. Plan accordingly.
 
 ---
 
-The [full results and per-vendor analyses](https://jmandel-bot.github.io/ehi-export-analysis/) are public and will continue to be updated as I complete Phase 2 (107 additional product families with CPOE but no FHIR API) and Phase 3 (remaining certified products). The [methodology, prompts, and source data](https://github.com/jmandel-bot/ehi-export-analysis) are open source.
+The [full results and per-vendor analyses](https://joshuamandel.com/ehi-export-analysis/) are public and will continue to be updated as I complete Phase 2 (107 additional product families with CPOE but no FHIR API) and Phase 3 (remaining certified products). The [methodology, prompts, and source data](https://github.com/jmandel/ehi-export-analysis) are open source.
 
-*Analysis by [Josh Mandel, MD](https://www.linkedin.com/in/joshuamandel/). Assessments are AI-assisted and may contain errors; [please report corrections](https://github.com/jmandel-bot/ehi-export-analysis/issues/new).*
+*Analysis by [Josh Mandel, MD](https://www.linkedin.com/in/josh-mandel/). Assessments are AI-assisted and may contain errors; [please report corrections](https://github.com/jmandel/ehi-export-analysis/issues/new).*
