@@ -93,11 +93,11 @@ These vendors looked at what their products actually capture and built exports t
 
 Not every specialty vendor did the work.
 
-**[EndoVault](https://joshuamandel.com/ehi-export-analysis#vendor/endosoft-llc--endovault)** (also endoscopy/GI): stores HD images, 4K video, bowel prep scores, polyp characteristics, scope tracking via RFID. The export: zero endoscopy data. The 138-page "EHI" documentation is the (g)(10) FHIR API spec relabeled; 18 standard FHIR resources, identical to any generic EHR.
+**[EndoVault](https://joshuamandel.com/ehi-export-analysis#vendor/endosoft-llc--endovault)** (also endoscopy/GI): stores HD images, 4K video, bowel prep scores, polyp characteristics, scope tracking via RFID. The export documentation mentions zero endoscopy-specific content.
 
-**[EyeMD](https://joshuamandel.com/ehi-export-analysis#vendor/eyemd-emr-healthcare-systems-inc--eyemd-electronic-medical-records)** (also ophthalmology): 2024 Best in KLAS winner. Integrates Zeiss, Heidelberg, and Topcon imaging devices. Export: 25 standard FHIR resources, zero ophthalmology data. Their mandatory disclosures describe (b)(10) as "Ability to send CCDA information to other systems via secure transmission," literally conflating EHI export with transitions of care.
+**[EyeMD](https://joshuamandel.com/ehi-export-analysis#vendor/eyemd-emr-healthcare-systems-inc--eyemd-electronic-medical-records)** (also ophthalmology): 2024 Best in KLAS winner. Integrates Zeiss, Heidelberg, and Topcon imaging devices. Export: 25 standard FHIR resources with no documentation of ophthalmology-specific data.
 
-**[TheraOffice](https://joshuamandel.com/ehi-export-analysis#vendor/netsmart-technologies--theraoffice)** (PT/OT/SLP, Netsmart): serves 900+ rehab practices. 16 of 19 export tables are named `PAT_PROFILE_USCDI_*`, suggesting this is USCDI relabeled as full EHI. Zero therapy evaluations, zero outcome measures, no LEFS, no DASH, no NDI, no Oswestry.
+**[TheraOffice](https://joshuamandel.com/ehi-export-analysis#vendor/netsmart-technologies--theraoffice)** (PT/OT/SLP): serves 900+ rehab practices. 16 of 19 export tables are named `PAT_PROFILE_USCDI_*`, suggesting this is USCDI relabeled as full EHI, with no documentation of PT/OT data.
 
 **[ARIA CORE](https://joshuamandel.com/ehi-export-analysis#vendor/varian-medical-systems--aria-core)** (radiation oncology, Varian/Siemens): the dominant US radiation oncology system. Registered EHI documentation URL returns 404. It has never been captured by the Wayback Machine.
 
@@ -105,7 +105,9 @@ The specialty data exists in all of these systems; it's what they're built to ca
 
 ## What serious looks like
 
-Twenty-eight product families earned an A or A-. They span from the largest EHR vendors to solo developers. A few examples:
+Simply put: if a product has thousands of fields driving its UI, its clinical decision support, and its specialty workflows, and the documented export offers only a fraction of them, that's not a comprehensive export.
+
+Twenty-eight product families earned an A or A-. They span from the largest EHR vendors to solo developers. These vendors looked at what their products actually store and built exports that cover it (as the regulation requires). A few examples:
 
 - **[Oracle Health (Millennium)](https://joshuamandel.com/ehi-export-analysis#vendor/oracle-health--oracle-health-millennium-clinical)**: 6,853 tables, 130,853 columns, 99.9% description coverage, three complementary export pathways. The gold standard for documentation depth.
 - **[Epic](https://joshuamandel.com/ehi-export-analysis#vendor/epic-systems-corporation--epic-ehr)**: 7,672 tables, 63,121 columns, 100% descriptions. The Clarity data model exported as TSV with full field documentation.
@@ -114,18 +116,6 @@ Twenty-eight product families earned an A or A-. They span from the largest EHR 
 - **[athenahealth](https://joshuamandel.com/ehi-export-analysis#vendor/athenahealth-inc--athenaclinicals)**: a purpose-built FHIR export with 9 custom financial resource types, proving you can do this in FHIR if you invest in the mapping.
 - **[Crystal Practice Management](https://joshuamandel.com/ehi-export-analysis#vendor/abeo-solutions-inc--crystal-practice-management)** (ABEO, 80 entities): a small ENT vendor with a 921-page data dictionary. 58 tables covering clinical, billing, VSP insurance, and ophthalmology supply chain. Size doesn't determine effort.
 - **[OpenEMR](https://joshuamandel.com/ehi-export-analysis#vendor/openemr-foundation--openemr)**: 322 entities, 4,941 fields. Community-maintained, open-source, and more thoroughly documented than most commercial vendors.
-
-The point isn't that every product needs thousands of tables. The point is that if a product has fields driving its UI, its clinical decision support, and its specialty workflows, and the documented export offers only a fraction of them, that's not a comprehensive export. The vendors above looked at what their products actually store and built exports that cover it. That's what the regulation requires.
-
-## What's in the box
-
-The (b)(10) requirement is the regulatory infrastructure for a patient's right to get their full record in computable form. As AI capabilities expand (cancer navigation, behavioral health transitions, billing dispute resolution, longitudinal health monitoring), the value of that full record grows with them. Clinical summaries are a fine starting point, but they are not the ceiling.
-
-For the 29% of products graded A or B, the box is packed well. These vendors looked at what their products store, included it, and documented what's inside — exports that could meaningfully support downstream AI applications, patient data portability, and independent analysis.
-
-For the 54% graded D or F, the box is mostly empty. The export describes a clinical summary, sometimes literally the same C-CDA used for transitions of care, relabeled as "all EHI." A patient at one of these systems can request an export and receive roughly the same data they'd get from the Blue Button download on their patient portal. The billing data, the specialty clinical data, the messages, the administrative records -- everything that makes the EHR *the EHR* -- isn't in the box.
-
-The gap between what the regulation requires and what the industry delivers is large, and it's measurable.
 
 ## So now what
 
