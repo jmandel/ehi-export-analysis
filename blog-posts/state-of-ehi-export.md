@@ -15,7 +15,7 @@ Consider:
 - **Behavioral health research.** A researcher studying treatment-resistant depression needs structured data from behavioral health EHRs: which therapeutic modalities were attempted (CBT, DBT, EMDR) and for how many sessions, ECT or TMS treatment parameters if tried — none of which has a comprehensive USCDI representation.
 - **Longitudinal AI assistance.** An AI health assistant reviewing a patient's history needs the portal message threads where the patient reported worsening side effects and the doctor adjusted the treatment plan; those conversations are part of the clinical narrative but vanish from a standard summary.
 
-These use cases all build on the same legal foundation: the patient's right under HIPAA to access their [Designated Record Set](https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-C/part-164/subpart-E/section-164.501), which (b)(10) requires certified EHRs to export in computable form. The regulation was written before the current AI moment, but it's exactly the foundation that AI agents, personal health applications, and other downstream consumers need: a patient's *whole* record, not just the summary.
+These use cases all build on the same legal foundation: the patient's right under HIPAA to access their [Designated Record Set](https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-C/part-164/subpart-E/section-164.501), which (b)(10) requires certified EHRs to export in computable form. The regulation was written before the current AI moment, but it defines what goes in the box that AI agents, personal health applications, and other downstream consumers need: a patient's *whole* record, not just the summary. This post examines what vendors are putting in the box. A separate question — how patients actually get it delivered — matters too, and I'll return to it.
 
 So: does it?
 
@@ -133,13 +133,13 @@ Twenty-eight product families earned an A or A-. They span from the largest EHR 
 - **Crystal Practice Management** (ABEO, 80 entities): a small ENT vendor with a 921-page data dictionary. 58 tables covering clinical, billing, VSP insurance, and ophthalmology supply chain. Size doesn't determine effort.
 - **OpenEMR**: 322 entities, 4,941 fields. Community-maintained, open-source, and more thoroughly documented than most commercial vendors.
 
-The point isn't that every product needs thousands of tables. The point is that if a product has fields driving its UI, its clinical decision support, and its specialty workflows, and the documented export offers a fraction of them wrapped in a standard C-CDA, that's not a comprehensive export. The vendors above looked at what their products actually store and built exports that cover it. That's what the regulation requires.
+The point isn't that every product needs thousands of tables. The point is that if a product has fields driving its UI, its clinical decision support, and its specialty workflows, and the documented export offers only a fraction of them, that's not a comprehensive export. The vendors above looked at what their products actually store and built exports that cover it. That's what the regulation requires.
 
-## What's actually in the box
+## What's in the box
 
 The (b)(10) requirement is the regulatory infrastructure for a patient's right to get their full record in computable form. As AI capabilities expand (cancer navigation, behavioral health transitions, billing dispute resolution, longitudinal health monitoring), the value of that full record grows with them. Clinical summaries are a fine starting point, but they are not the ceiling.
 
-For the 29% of products graded A or B, the promise holds. These vendors have built exports that could meaningfully support downstream AI applications, patient data portability, and independent analysis.
+For the 29% of products graded A or B, the box is full. These vendors looked at what their products store and packed accordingly — exports that could meaningfully support downstream AI applications, patient data portability, and independent analysis.
 
 For the 54% graded D or F, the box is mostly empty. The export describes a clinical summary, sometimes literally the same C-CDA used for transitions of care, relabeled as "all EHI." A patient at one of these systems can request an export and receive roughly the same data they'd get from the Blue Button download on their patient portal. The billing data, the specialty clinical data, the messages, the administrative records -- everything that makes the EHR *the EHR* -- isn't in the box.
 
@@ -149,7 +149,7 @@ The gap between what the regulation requires and what the industry delivers is l
 
 A few observations, not prescriptions:
 
-**ONC could require a patient-facing EHI export API.** The (g)(10) standardized API already gives patients authorized access to their USCDI data through SMART on FHIR. Extending that infrastructure with a full-EHI scope (same authorization, same app ecosystem, broader data) would make (b)(10) exports automatable. That matters because automatability creates accountability: when any patient-authorized app can pull an export and inspect it, stub exports can't hide. Right now, most (b)(10) exports require a manual request to the health system, which means almost nobody ever gets far enough to discover the export is incomplete. An API endpoint turns "request your records and hope for the best" into something apps can test, compare, and report on at scale.
+**ONC could require a patient-facing EHI export API.** Even when vendors pack the box properly, there's no reliable delivery. Most (b)(10) exports require a manual request to the health system, often with weeks of turnaround — the equivalent of asking patients to drive to the warehouse and pick it up themselves. The (g)(10) standardized API already delivers USCDI data through SMART on FHIR. Extending that infrastructure with a full-EHI scope (same authorization, same app ecosystem, broader data) would create a delivery channel. That matters because automated delivery creates accountability: when any patient-authorized app can request a shipment and inspect what arrives, half-empty boxes can't hide.
 
 **ONC could require actual testing.** Today, (b)(10) conformance is attestation-based: vendors attest, ONC-ACBs review the attestation, but nobody runs a test export and checks what comes out. The extreme variability in what vendors publish at their documentation URLs suggests attestation alone isn't producing consistent outcomes.
 
