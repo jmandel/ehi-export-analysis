@@ -397,16 +397,6 @@ def build_entity_inventory():
                     if desc and not entity.get("description"):
                         entity["description"] = desc
 
-        # Special annotation for Patient Cases
-        matching = [e for e in entities if e["name"] == "Patient Cases" and e["category"] == "ambulatory-clinical"]
-        if matching:
-            target = matching[0]
-            if not target.get("description") or "portal" not in target["description"].lower():
-                target["description"] = ("Patient Cases are used to document clinical phone calls, "
-                    "portal messages, and other patient interactions that get routed through "
-                    "the clinical inbox for provider resolution. Per athenahealth, portal "
-                    "messages surface as Patient Case records.")
-
     # Update field counts
     for e in entities:
         e["field_count"] = len(e["fields"])
