@@ -173,6 +173,24 @@ Write `{{OUTPUT_DIR}}/fixup-log.md`:
 - {{how you confirmed the fix worked}}
 ```
 
+### Step 5: Commit and close the issue
+
+Commit all changes with a message that auto-closes the GitHub issue:
+
+```bash
+git add -A
+git commit -m "fix(<product-slug>): <short description>
+
+<body explaining what changed and why>
+
+Fixes #<issue-number>"
+git push
+```
+
+The `Fixes #N` (or `Closes #N`, `Resolves #N`) keyword in the commit message
+automatically closes the GitHub issue when pushed to the default branch. Always
+include this when the fixup was triggered by `--issue`.
+
 ## Important
 
 - **Be autonomous.** Diagnose, fix, cascade, verify — don't stop halfway.
