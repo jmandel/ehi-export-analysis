@@ -4,7 +4,7 @@
 // Usage:
 //   bun run scripts/run-download.ts --dir <results-dir-name> [--backend <backend>] [--model <model>]
 
-import { existsSync, mkdirSync, readdirSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, rmSync, unlinkSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { runLLM, defaultModel, type Backend } from "../wiggum/llm-runner";
 import { renderTemplate } from "../wiggum/template";
@@ -22,6 +22,7 @@ Options:
   --backend    LLM backend: claude, copilot, codex (default: copilot)
   --model      Model override
   --prompt     Custom prompt file (default: wiggum/prompts/2-download.md)
+  --force      Remove existing downloads, files.json, and report before running
   --snapshot   After download, create SingleFile snapshots of HTML files
   -h, --help   Show this message
 
@@ -36,6 +37,7 @@ let backend: Backend = "copilot";
 let model = "";
 let customPrompt = "";
 let snapshot = false;
+let force = false;
 
 const args = process.argv.slice(2);
 for (let i = 0; i < args.length; i++) {
@@ -44,6 +46,7 @@ for (let i = 0; i < args.length; i++) {
     case "--backend":    backend = args[++i] as Backend; break;
     case "--model":      model = args[++i]; break;
     case "--prompt":     customPrompt = args[++i]; break;
+    case "--force":      force = true; break;
     case "--snapshot":   snapshot = true; break;
     case "-h": case "--help": usage();
     default: console.error(`Unknown arg: ${args[i]}`); usage();
@@ -58,6 +61,15 @@ if (!existsSync(outputDir)) { console.error(`Results folder not found: ${outputD
 const metadataPath = join(outputDir, "chpl-metadata.json");
 if (!existsSync(metadataPath)) { console.error(`chpl-metadata.json not found in ${outputDir}`); process.exit(2); }
 
+if (force) {
+  for (const f of ["downloads", "files.json", "ehi-export-report.md"]) {
+    const p = join(outputDir, f);
+    if (!existsSync(p)) continue;
+    if (f === "downloads") { rmSync(p, { recursive: true }); } else { unlinkSync(p); }
+    console.log(`--force: removed ${f}`);
+  }
+}
+
 mkdirSync(join(outputDir, "downloads"), { recursive: true });
 
 const metadata = await Bun.file(metadataPath).json();
@@ -70,7 +82,8 @@ let renderedPrompt = renderTemplate(
   { URL: metadata.url ?? "", DEVELOPERS: developers, PRODUCTS: products, CHPL_IDS: chplIds, OUTPUT_DIR: outputDir },
   join(ROOT_DIR, "wiggum/prompts"),
 );
-renderedPrompt += renderFeedbackSection(targetDirname, "download");
+const feedbackSection = renderFeedbackSection(targetDirname, "download");
+renderedPrompt += feedbackSection;
 
 console.log("=== Phase 2: Download EHI Documentation ===");
 console.log(`Target:     ${targetDirname}`);
@@ -80,6 +93,7 @@ console.log(`Products:   ${products}`);
 console.log(`Output:     ${outputDir}`);
 console.log(`Backend:    ${backend} (${model})`);
 console.log(`Prompt:     ${Buffer.byteLength(renderedPrompt)} bytes`);
+if (feedbackSection) console.log(`Feedback:   ${feedbackSection.split("\n- ").length - 1} entries injected`);
 console.log("");
 
 const exitCode = await runLLM(backend, {

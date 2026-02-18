@@ -147,8 +147,8 @@ bun run {{ROOT_DIR}}/scripts/run-summary.ts --analysis-dir {{ROOT_DIR}}/abstract
 ```
 
 The analysis and summary scripts use `bun run` and invoke an LLM agent
-internally. Pass `--backend claude --model opus` if the default backend
-is unavailable.
+internally. Use the default backend/model unless the user explicitly requests
+otherwise — don't override with `--backend` or `--model` flags unprompted.
 
 ### Step 4: Document
 
