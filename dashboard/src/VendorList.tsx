@@ -61,7 +61,11 @@ export function VendorList({
   hasFilters: boolean;
   onClearFilters: () => void;
 }) {
-  const sorted = [...vendors].sort((a, b) => gradeRank(a.grade) - gradeRank(b.grade));
+  const sorted = [...vendors].sort((a, b) => {
+    const g = gradeRank(a.grade) - gradeRank(b.grade);
+    if (g !== 0) return g;
+    return a.developer.localeCompare(b.developer);
+  });
 
   return (
     <section className="vendor-list">

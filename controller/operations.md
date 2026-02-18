@@ -306,11 +306,16 @@ but work on a single vendor at a time.
 |--------|-------|--------|---------|
 | `scripts/run-research.ts` | Phase 1 (research) | `chpl-metadata.json` | `product-research.md`, `sources.json` |
 | `scripts/run-download.ts` | Phase 2 (download) | `chpl-metadata.json`, `product-research.md` | `downloads/`, `files.json`, `ehi-export-report.md` |
+| `scripts/run-singlefile.ts` | HTML snapshots | `files.json` | `*.singlefile.html` files, updated `files.json` |
 | `scripts/run-analysis.ts` | Analysis | everything in `results/<slug>/` | `abstraction/<slug>/analysis.md`, `analysis/` |
 | `scripts/run-summary.ts` | Summary | `analysis.md` | `summary.json` |
 | `scripts/run-fixup.ts` | Fixup (autonomous) | `results/<slug>/` + issue/hint | patched results + cascaded downstream |
 
-### Common options (all standalone scripts)
+### Common options (most standalone scripts)
+
+> **Note:** `run-singlefile.ts` is an exception — it doesn't use an LLM backend
+> and only supports `--dir` and `--force` plus its own options (`--per-dir`,
+> `--all`, `--browser-server`). The flags below apply to all other scripts.
 
 | Flag | Description |
 |------|-------------|
@@ -338,6 +343,56 @@ rm -f abstraction/ezemrx-inc--ezemrx/analysis.md
 # Use a custom prompt for research/download
 ./scripts/run-research.ts --dir vendor--product --prompt my-custom-prompt.md
 ```
+
+### SingleFile HTML snapshots
+
+The download agent saves HTML pages via `curl`, which captures raw HTML without
+rendered CSS, images, or JS-loaded content. `run-singlefile.ts` creates
+self-contained `.singlefile.html` copies using [SingleFile](https://github.com/nicktheduke/single-file-cli),
+which renders each page in headless Chrome and inlines all resources.
+
+```bash
+# Snapshot HTML files in a single results dir
+bun run scripts/run-singlefile.ts --dir adaptamed-llc--ehr-your-way
+
+# Force re-snapshot (removes old singlefile entries from files.json, re-fetches all)
+bun run scripts/run-singlefile.ts --dir vendor--product --force
+
+# Reuse an already-running Chrome instance
+bun run scripts/run-singlefile.ts --dir vendor--product --browser-server http://localhost:9222
+
+# Auto-snapshot as part of download (optional flag)
+bun run scripts/run-download.ts --dir vendor--product --snapshot
+```
+
+The script reads `files.json`, finds HTML entries with a `source_url` (skipping
+`*.singlefile.*` entries and `n/a` URLs), and snapshots up to 3 per directory
+(prioritizing files named index/overview/export/main/etc). This keeps
+landing pages while avoiding bulk per-entity data dictionary pages. Use
+`--all` to snapshot everything, or `--per-dir N` to adjust the cap.
+Idempotent: existing snapshots are skipped unless `--force` is used.
+Requires `single-file-cli` (`npm i -g single-file-cli`) and Chrome.
+
+By default each snapshot invocation lets `single-file` launch its own headless
+Chrome (located via `CHROME_PATH`, default `/usr/bin/google-chrome-stable`).
+For large batches, start Chrome once and reuse it via `--browser-server`:
+
+```bash
+# Batch pattern: shared Chrome across many dirs
+CHROME_DATA=$(mktemp -d)
+google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 \
+  --user-data-dir="$CHROME_DATA" about:blank 2>/dev/null &
+CHROME_PID=$!; sleep 2
+
+for dir in vendor-a--product vendor-b--product; do
+  bun run scripts/run-singlefile.ts --dir "$dir" --browser-server http://127.0.0.1:9222
+done
+
+kill $CHROME_PID 2>/dev/null; rm -rf "$CHROME_DATA"
+```
+
+Core logic lives in `scripts/singlefile.ts` (shared by both `run-singlefile.ts`
+and the `--snapshot` flag in `run-download.ts`).
 
 ### Relationship to the loop
 
