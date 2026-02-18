@@ -173,6 +173,32 @@ Write `{{OUTPUT_DIR}}/fixup-log.md`:
 - {{how you confirmed the fix worked}}
 ```
 
+Also add entries to `{{ROOT_DIR}}/feedback.json` to persist any domain knowledge
+or technique that future pipeline reruns should know. This is a JSON array of
+objects:
+
+```json
+[
+  {
+    "results_dir": "<results-slug>",
+    "abstraction_dir": "<abstraction-slug>",
+    "phase": "download|research|analysis|summary",
+    "issue": 1,
+    "text": "Concise guidance for the LLM agent running this phase"
+  }
+]
+```
+
+The pipeline scripts automatically inject matching feedback entries into LLM
+prompts. Use this for knowledge that would be lost on cascade rerun — e.g.,
+domain mappings ("Patient Cases = portal messages"), API discovery techniques,
+or interpretation notes. Don't duplicate what's already in the downloaded
+artifacts themselves.
+
+Note: `results_dir` and `abstraction_dir` may differ for split analyses (e.g.,
+meditech has one results dir but multiple abstraction dirs). Set whichever is
+relevant; both are checked.
+
 ### Step 5: Commit and close the issue
 
 Commit all changes with a message that auto-closes the GitHub issue:

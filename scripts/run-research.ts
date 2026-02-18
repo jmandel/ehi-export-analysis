@@ -8,6 +8,7 @@ import { existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { runLLM, defaultModel, type Backend } from "../wiggum/llm-runner";
 import { renderTemplate } from "../wiggum/template";
+import { renderFeedbackSection } from "./feedback";
 
 const ROOT_DIR = join(dirname(import.meta.path), "..");
 
@@ -65,11 +66,12 @@ const developers = [metadata.developer?.name].filter(Boolean).join(", ");
 const products = (metadata.products ?? []).map((p: any) => p.product_name).filter(Boolean).join(", ");
 const chplIds = (metadata.products ?? []).map((p: any) => p.chpl_id).filter(Boolean).map(String).join(", ");
 
-const renderedPrompt = renderTemplate(
+let renderedPrompt = renderTemplate(
   customPrompt || join(ROOT_DIR, "wiggum/prompts/1-research.md"),
   { URL: metadata.url ?? "", DEVELOPERS: developers, PRODUCTS: products, CHPL_IDS: chplIds, OUTPUT_DIR: outputDir },
   join(ROOT_DIR, "wiggum/prompts"),
 );
+renderedPrompt += renderFeedbackSection(targetDirname, "research");
 
 // ── Run ──────────────────────────────────────────────────────────────────────
 

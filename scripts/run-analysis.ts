@@ -8,6 +8,7 @@ import { existsSync, lstatSync, mkdirSync, readdirSync, readFileSync, writeFileS
 import { join, dirname } from "node:path";
 import { defaultModel, runLLM, type Backend } from "../wiggum/llm-runner";
 import { renderTemplate } from "../wiggum/template";
+import { renderFeedbackSection } from "./feedback";
 
 const ROOT_DIR = join(dirname(import.meta.path), "..");
 
@@ -151,6 +152,7 @@ let renderedPrompt = renderTemplate(
 if (focus) {
   renderedPrompt += `\n\n## Analysis Focus\n\n${focus}`;
 }
+renderedPrompt += renderFeedbackSection(targetDirname, "analysis");
 
 console.log("=== EHI Export Analysis ===");
 console.log(`Target:  ${targetDirname}`);

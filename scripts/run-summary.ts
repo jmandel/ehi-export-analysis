@@ -11,6 +11,7 @@
 import { readFileSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { defaultModel, runLLM, type Backend } from "../wiggum/llm-runner";
+import { renderFeedbackSection } from "./feedback";
 
 const ROOT_DIR = join(dirname(import.meta.path), "..");
 
@@ -124,7 +125,7 @@ const prompt = [
   "5. If the analysis does not contain enough information to confidently score a field,",
   "   use your best judgment based on what IS available. Never leave a field null.",
   "",
-].join("\n");
+].join("\n") + renderFeedbackSection(vendorSlug, "summary");
 
 console.log("=== EHI Summary Extraction ===");
 console.log(`Analysis: ${resolvedAnalysisDir}`);
