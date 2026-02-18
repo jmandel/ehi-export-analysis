@@ -1,0 +1,507 @@
+[
+  {
+    "title": "Medical History",
+    "site": "api",
+    "subtitle": null,
+    "body": {
+      "data": {},
+      "content": [
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "marks": [],
+              "value": "The Medical History feature allows the user to retrieve or update information about the patient's medical conditions. The Medical History Reference will allow the user to retrieve the configured medical history question in the system.",
+              "nodeType": "text"
+            }
+          ],
+          "nodeType": "paragraph"
+        },
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "marks": [
+                {
+                  "type": "bold"
+                }
+              ],
+              "value": "MEDICAL",
+              "nodeType": "text"
+            }
+          ],
+          "nodeType": "paragraph"
+        },
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "marks": [],
+              "value": "The past medical history section is the simplest section type. It consists of a list of checkbox questions. ",
+              "nodeType": "text"
+            }
+          ],
+          "nodeType": "paragraph"
+        },
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "'DEFAULT' is the Y/N checkbox that indicates whether the patient had this condition before.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "list-item"
+            },
+            {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "'pastmedicalhistoryquestionid' ties it to the practice-specific medical history question and can be used to tie the same question across multiple forms.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "list-item"
+            },
+            {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "'text' is the patient-friendly name of the medical history question.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "list-item"
+            }
+          ],
+          "nodeType": "unordered-list"
+        },
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "marks": [],
+              "value": "",
+              "nodeType": "text"
+            }
+          ],
+          "nodeType": "paragraph"
+        }
+      ],
+      "nodeType": "document"
+    },
+    "urlAlias": "/api-ref/medical-history",
+    "primaryEndpoints": [
+      {
+        "endpointTitle": "Get patient's medical history data",
+        "endpointDescription": "Retrieves medical history of a specific patient",
+        "apiCatalog": "Chart.yaml",
+        "httpMethod": "GET",
+        "endpointUrl": "/v1/{practiceid}/chart/{patientid}/medicalhistory",
+        "operationId": "getPracticeidChartPatientidMedicalhistory",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "patientid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "patientid"
+          },
+          {
+            "in": "query",
+            "name": "departmentid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The athenaNet department ID."
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "notelastmodifiedby": {
+                      "description": "Username that last modified Medical History note.",
+                      "type": "string"
+                    },
+                    "notelastmodifieddatetime": {
+                      "description": "Date and time Medical History note was last modified.",
+                      "type": "string"
+                    },
+                    "questions": {
+                      "description": "List of questions corresponding to patient medical history",
+                      "items": {
+                        "properties": {
+                          "answer": {
+                            "description": "The answer given by the patient to the question",
+                            "type": "string"
+                          },
+                          "codeset": {
+                            "description": "Codeset the diagnosis code belongs to",
+                            "type": "string"
+                          },
+                          "createdby": {
+                            "description": "Username to create question.",
+                            "type": "string"
+                          },
+                          "createddatetime": {
+                            "description": "The date and time that the question was created.",
+                            "type": "string"
+                          },
+                          "description": {
+                            "description": "Description of the code",
+                            "type": "string"
+                          },
+                          "diagnosiscode": {
+                            "description": "Diagnosis code",
+                            "type": "string"
+                          },
+                          "lastmodifiedby": {
+                            "description": "Last username to modify question.",
+                            "type": "string"
+                          },
+                          "lastmodifieddatetime": {
+                            "description": "The date and time that the question was last modified.",
+                            "type": "string"
+                          },
+                          "note": {
+                            "description": "Any special notes",
+                            "type": "string"
+                          },
+                          "question": {
+                            "description": "Disease being inquired about",
+                            "type": "string"
+                          },
+                          "questionid": {
+                            "description": "Athena ID for the question",
+                            "type": "number"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "sectionnote": {
+                      "description": "Additional notes for the entire medical history section, if any",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": "curl -X GET \"https://api.preview.platform.athenahealth.com/v1/{contextId}/chart/{patientId}/medicalhistory?departmentid={departmentId}\" -H \"accept: application/json\" -H \"Authorization: Bearer {bearerToken}\"",
+        "tags": [
+          "Chart",
+          "Medical History"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      },
+      {
+        "endpointTitle": "Update patient's medical history data",
+        "endpointDescription": "Updates the medical history of a specific patient",
+        "apiCatalog": "Chart.yaml",
+        "httpMethod": "PUT",
+        "endpointUrl": "/v1/{practiceid}/chart/{patientid}/medicalhistory",
+        "operationId": "putPracticeidChartPatientidMedicalhistory",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "patientid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "patientid"
+          },
+          {
+            "in": "header",
+            "name": "Content-Type",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Content type of the payload"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "departmentid"
+                ],
+                "properties": {
+                  "questions": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "note": {
+                          "type": "string",
+                          "description": "Any additional notes"
+                        },
+                        "answer": {
+                          "type": "string",
+                          "description": "Answer to this question"
+                        },
+                        "delete": {
+                          "type": "boolean",
+                          "description": "Remove the answer to this question"
+                        },
+                        "questionid": {
+                          "type": "integer",
+                          "description": "The athenaNet question id."
+                        }
+                      }
+                    },
+                    "required": [
+                      "questionid"
+                    ],
+                    "description": "A complex JSON object containing the patient medical history. See the Chart documentation for more details."
+                  },
+                  "sectionnote": {
+                    "type": "string",
+                    "description": "Any additional section notes"
+                  },
+                  "departmentid": {
+                    "type": "integer",
+                    "description": "The athenaNet department ID."
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "errormessage": {
+                      "description": "If the operation failed, this will contain any error messages.",
+                      "type": "string"
+                    },
+                    "success": {
+                      "description": "Whether the operation was successful.",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": "curl -X PUT \"https://api.preview.platform.athenahealth.com/v1/{contextId}/chart/{patientId}/medicalhistory\" -H \"accept: application/json\" -H \"Authorization: Bearer {bearerToken}\" -H \"Content-Type: application/x-www-form-urlencoded\" -d \"departmentid={departmentId}&questions={JSON}&sectionnote={sectionNote}\"",
+        "tags": [
+          "Chart",
+          "Medical History"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      }
+    ],
+    "referenceEndpoints": [
+      {
+        "endpointTitle": "Get list of medical history questions used by this practice",
+        "endpointDescription": "Retrieves the list of medical history questions",
+        "apiCatalog": "Chart.yaml",
+        "httpMethod": "GET",
+        "endpointUrl": "/v1/{practiceid}/chart/configuration/medicalhistory",
+        "operationId": "getPracticeidChartConfigurationMedicalhistory",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "query",
+            "name": "specialty",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "Filter by specialty ID."
+          },
+          {
+            "in": "query",
+            "name": "patientfacing",
+            "schema": {
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Only show questions configured for patient self check in."
+          },
+          {
+            "in": "query",
+            "name": "showdeleted",
+            "schema": {
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Include deleted questions"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Number of entries to return (default 1000, max 10000)Please note that this endpoint has a different default and max than normal."
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Starting point of entries; 0-indexed"
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "deleted": {
+                      "description": "True if this question has been deleted",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    },
+                    "diagnosiscode": {
+                      "description": "Diagnosis code for the disease, if provided",
+                      "type": "string"
+                    },
+                    "ordering": {
+                      "description": "Used for re-ordering questions",
+                      "type": "number"
+                    },
+                    "question": {
+                      "description": "Disease being inquired about",
+                      "type": "string"
+                    },
+                    "questionid": {
+                      "description": "Athena ID for the question",
+                      "type": "number"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": "curl -X GET \"https://api.preview.platform.athenahealth.com/v1/{contextId}/chart/configuration/medicalhistory\" -H \"accept: application/json\" -H \"Authorization: Bearer {bearerToken}\"",
+        "tags": [
+          "Chart",
+          "Medical History"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      }
+    ],
+    "subscriptionEndpoints": [],
+    "drupalId": "eefd7d47-43d0-4f8b-9dc5-01e5c77a4f10",
+    "needsEditing": true,
+    "id": "api-access-api-ref_medical-history",
+    "description": null
+  }
+]

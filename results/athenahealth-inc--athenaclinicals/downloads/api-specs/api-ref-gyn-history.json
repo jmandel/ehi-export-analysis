@@ -1,0 +1,410 @@
+[
+  {
+    "title": "Gyn History",
+    "site": "api",
+    "subtitle": null,
+    "body": {
+      "data": {},
+      "content": [
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "marks": [],
+              "value": "The Gynecology History feature will allow the user to view the list of question and their responses to the patient GYN history. The user will also be able to update the responses to the questions. The Gynecology (GYN) History Reference features allows the user to view the configured questions, select options to answer the question, etc. The GYN history section also contains custom questions, where each question follows its own format. This section may contain global or local questions defined by the practice. ",
+              "nodeType": "text"
+            }
+          ],
+          "nodeType": "paragraph"
+        }
+      ],
+      "nodeType": "document"
+    },
+    "urlAlias": "/api-ref/gyn-history",
+    "primaryEndpoints": [
+      {
+        "endpointTitle": "Get patient's GYN history",
+        "endpointDescription": "Retrieves the list of questions and their responses captured in the GYN History",
+        "apiCatalog": "Chart.yaml",
+        "httpMethod": "GET",
+        "endpointUrl": "/v1/{practiceid}/chart/{patientid}/gynhistory",
+        "operationId": "getPracticeidChartPatientidGynhistory",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "patientid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "patientid"
+          },
+          {
+            "in": "query",
+            "name": "departmentid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The athenaNet department id."
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "questions": {
+                      "items": {
+                        "properties": {
+                          "answer": {
+                            "description": "The answer given by the patient to the question",
+                            "type": "string"
+                          },
+                          "answercreatedby": {
+                            "description": "The username of the provider who first created the answer.",
+                            "type": "string"
+                          },
+                          "answercreateddatetime": {
+                            "description": "The date and time the answer was first created.",
+                            "type": "string"
+                          },
+                          "answerlastmodifiedby": {
+                            "description": "The username of the provider who last modified the answer.",
+                            "type": "string"
+                          },
+                          "answerlastmodifieddatetime": {
+                            "description": "The date and time the answer was last modified.",
+                            "type": "string"
+                          },
+                          "note": {
+                            "description": "Any special notes",
+                            "type": "string"
+                          },
+                          "notelastmodifiedby": {
+                            "description": "The username of the provider who last modified the note.",
+                            "type": "string"
+                          },
+                          "notelastmodifieddatetime": {
+                            "description": "The date and time the note was last modified.",
+                            "type": "string"
+                          },
+                          "question": {
+                            "description": "Question being inquired about",
+                            "type": "string"
+                          },
+                          "questionid": {
+                            "description": "Athena ID for the question",
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "sectionnote": {
+                      "description": "Additional notes for the entire OB/GYN history section, if any",
+                      "type": "string"
+                    },
+                    "sectionnotelastmodifiedby": {
+                      "description": "The username of the provider who last modified the section note.",
+                      "type": "string"
+                    },
+                    "sectionnotelastmodifieddatetime": {
+                      "description": "The date and time the section note was last modified.",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": "curl -X GET \"https://api.preview.platform.athenahealth.com/v1/{contextId}/chart/{patientId}/gynhistory?departmentid={departmentId}\" -H \"accept: application/json\" -H \"Authorization: Bearer {bearerToken}\"",
+        "tags": [
+          "Chart",
+          "GYN History"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      },
+      {
+        "endpointTitle": "Update patient's GYN history",
+        "endpointDescription": "Modifies the list of questions and their responses captured in the GYN History",
+        "apiCatalog": "Chart.yaml",
+        "httpMethod": "PUT",
+        "endpointUrl": "/v1/{practiceid}/chart/{patientid}/gynhistory",
+        "operationId": "putPracticeidChartPatientidGynhistory",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "patientid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "patientid"
+          },
+          {
+            "in": "header",
+            "name": "Content-Type",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Content type of the payload"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "departmentid"
+                ],
+                "properties": {
+                  "questions": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "notes": {
+                          "type": "string",
+                          "description": "Any additional notes"
+                        },
+                        "answer": {
+                          "type": "string",
+                          "description": "Answer to this question"
+                        },
+                        "delete": {
+                          "type": "boolean",
+                          "description": "Remove the answer to this question"
+                        },
+                        "questionid": {
+                          "type": "string",
+                          "description": "The athenaNet question id."
+                        }
+                      }
+                    },
+                    "required": [
+                      "questionid"
+                    ],
+                    "description": "A JSON array of questions mimicking <a href=\"https://docs.athenahealth.com/api/api-ref/gyn-history\">the input</a> described in the PUT call."
+                  },
+                  "sectionnote": {
+                    "type": "string",
+                    "description": "Any additional section notes"
+                  },
+                  "departmentid": {
+                    "type": "integer",
+                    "description": "The athenaNet department id."
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "errormessage": {
+                      "description": "If the operation failed, this will contain any error messages.",
+                      "type": "string"
+                    },
+                    "success": {
+                      "description": "Whether the operation was successful.",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": null,
+        "tags": [
+          "Chart",
+          "GYN History"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      }
+    ],
+    "referenceEndpoints": [
+      {
+        "endpointTitle": "Get list of GYN history questions asked by this practice",
+        "endpointDescription": "Retrieve the configured list of questions and answers related to a patients GYN history.",
+        "apiCatalog": "Chart.yaml",
+        "httpMethod": "GET",
+        "endpointUrl": "/v1/{practiceid}/chart/configuration/gynhistory",
+        "operationId": "getPracticeidChartConfigurationGynhistory",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "query",
+            "name": "specialty",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "Filter by specialty ID."
+          },
+          {
+            "in": "query",
+            "name": "patientfacing",
+            "schema": {
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Only show questions configured for patient self check in."
+          },
+          {
+            "in": "query",
+            "name": "showdeleted",
+            "schema": {
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Include deleted questions"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Number of entries to return (default 1000, max 10000)Please note that this endpoint has a different default and max than normal."
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Starting point of entries; 0-indexed"
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "deleted": {
+                      "description": "True if this question has been deleted",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    },
+                    "inputtype": {
+                      "description": "Input type expected for the answer",
+                      "type": "string"
+                    },
+                    "ordering": {
+                      "description": "Used for re-ordering questions",
+                      "type": "number"
+                    },
+                    "question": {
+                      "description": "Question being inquired about",
+                      "type": "string"
+                    },
+                    "questionid": {
+                      "description": "Athena ID for the question",
+                      "type": "string"
+                    },
+                    "selectoptions": {
+                      "description": "Options available for the answer (empty list means that there are no restrictions)",
+                      "items": {
+                        "properties": null,
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": "curl -X GET \"https://api.preview.platform.athenahealth.com/v1/{contextId}/chart/configuration/gynhistory\" -H \"accept: application/json\" -H \"Authorization: Bearer {bearerToken}\"",
+        "tags": [
+          "Chart",
+          "GYN History"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      }
+    ],
+    "subscriptionEndpoints": [],
+    "drupalId": "29d8aaa7-3f44-4477-86e0-a9b0ea2f72f5",
+    "needsEditing": true,
+    "id": "api-access-api-ref_gyn-history",
+    "description": null
+  }
+]

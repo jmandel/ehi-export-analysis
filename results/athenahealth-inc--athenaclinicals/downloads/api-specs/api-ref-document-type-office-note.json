@@ -1,0 +1,356 @@
+[
+  {
+    "title": "Document Type - Office Note",
+    "site": "api",
+    "subtitle": null,
+    "body": {
+      "data": {},
+      "content": [
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "marks": [],
+              "value": "Document Type - Office Note feature allows the user to retrieve the office notes for a specific patient.",
+              "nodeType": "text"
+            }
+          ],
+          "nodeType": "paragraph"
+        }
+      ],
+      "nodeType": "document"
+    },
+    "urlAlias": "/api-ref/document-type-office-note",
+    "primaryEndpoints": [
+      {
+        "endpointTitle": "Get patient's office note document",
+        "endpointDescription": "Retrieves office notes of a specific patient",
+        "apiCatalog": "Forms_and_Documents.yaml",
+        "httpMethod": "GET",
+        "endpointUrl": "/v1/{practiceid}/patients/{patientid}/documents/officenote",
+        "operationId": "getPracticeidPatientsPatientidDocumentsOfficenote",
+        "inputParameters": [
+          {
+            "description": "practiceid",
+            "in": "path",
+            "name": "practiceid",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "patientid",
+            "in": "path",
+            "name": "patientid",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "The status of the task to filter document results.",
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "enum": [
+                "ADMINISTER",
+                "CLOSED",
+                "DATAENTRY",
+                "DELETED",
+                "DISPENSE",
+                "FOLLOWUP",
+                "HOLD",
+                "NOTIFY",
+                "PEND",
+                "PENDING",
+                "PENDINGLABEL",
+                "PERFORM",
+                "REVIEW",
+                "SCHEDULE",
+                "SCHEDULED",
+                "SUBMIT",
+                "SUBMITTED"
+              ],
+              "type": "string",
+              "x-enumDescriptions": [
+                "ADMINISTER",
+                "CLOSED",
+                "DATAENTRY",
+                "DELETED",
+                "DISPENSE",
+                "FOLLOWUP",
+                "HOLD",
+                "NOTIFY",
+                "PEND",
+                "PENDING",
+                "PENDINGLABEL",
+                "PERFORM",
+                "REVIEW",
+                "SCHEDULE",
+                "SCHEDULED",
+                "SUBMIT",
+                "SUBMITTED"
+              ]
+            }
+          },
+          {
+            "description": "The athenaNet department id.",
+            "in": "query",
+            "name": "departmentid",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "The document subclass to filter document results.",
+            "in": "query",
+            "name": "documentsubclass",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "By default, deleted documents are not listed.  Set to list these.",
+            "in": "query",
+            "name": "showdeleted",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Show only documents attached to this encounter.",
+            "in": "query",
+            "name": "encounterid",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Number of entries to return (default 1500, max 5000)",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Starting point of entries; 0-indexed",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "Status of the document"
+                    },
+                    "subject": {
+                      "type": "string",
+                      "description": "Subject of the document"
+                    },
+                    "priority": {
+                      "type": "number",
+                      "description": "Document priority, when available."
+                    },
+                    "patientid": {
+                      "type": "number",
+                      "description": "The athenaNet patient ID"
+                    },
+                    "assignedto": {
+                      "type": "string",
+                      "description": "Person the document is assigned to"
+                    },
+                    "providerid": {
+                      "type": "number",
+                      "description": "Provider ID for this document"
+                    },
+                    "createddate": {
+                      "type": "string",
+                      "description": "Date the document was created. Please use createddatetime instead."
+                    },
+                    "encounterid": {
+                      "type": "string",
+                      "description": "Encounter ID"
+                    },
+                    "departmentid": {
+                      "type": "string",
+                      "description": "Department for the document"
+                    },
+                    "documenttype": {
+                      "type": "string",
+                      "description": "The description for this document"
+                    },
+                    "externalnote": {
+                      "type": "string",
+                      "description": "External note for the patient"
+                    },
+                    "internalnote": {
+                      "type": "string",
+                      "description": "The 'Internal Note' attached to this document"
+                    },
+                    "officenoteid": {
+                      "type": "number",
+                      "description": "The primary key for officenote class of documents"
+                    },
+                    "receivernote": {
+                      "type": "string",
+                      "description": "External note sent to the receiving facility"
+                    },
+                    "tietoorderid": {
+                      "type": "number",
+                      "description": "Order ID of the order this document is tied to, if any"
+                    },
+                    "appointmentid": {
+                      "type": "number",
+                      "description": "The appointment ID for this document."
+                    },
+                    "documentclass": {
+                      "type": "string",
+                      "description": "Class of document"
+                    },
+                    "documentroute": {
+                      "type": "string",
+                      "description": "Explains method by which the document was entered into the AthenaNet (INTERFACE (digital), FAX, etc.)"
+                    },
+                    "declinedreason": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": {
+                            "type": "string",
+                            "description": "The code indicating why the order was not given."
+                          },
+                          "codeset": {
+                            "type": "string",
+                            "description": "The codeset that the code belongs to."
+                          },
+                          "description": {
+                            "type": "string",
+                            "description": "The plaintext description of the reason the order was not given."
+                          }
+                        }
+                      },
+                      "description": "List of codes indicating why the order was not given. If this field is not present, the order was not declined. If the array is empty, no reason has been chosen."
+                    },
+                    "documentsource": {
+                      "type": "string",
+                      "description": "Explains where this document originated (e.g. ENCOUNTER, PORTAL, etc.)"
+                    },
+                    "documenttypeid": {
+                      "type": "number",
+                      "description": "The ID of the description for this document"
+                    },
+                    "createddatetime": {
+                      "type": "string",
+                      "description": "Date/Time (ISO 8601) the document was created"
+                    },
+                    "deleteddatetime": {
+                      "type": "string",
+                      "description": "Date/time (ISO 8601) the document was deleted"
+                    },
+                    "documentsubclass": {
+                      "type": "string",
+                      "description": "Specific type of document"
+                    },
+                    "lastmodifieduser": {
+                      "type": "string",
+                      "description": "The user who last modified this document."
+                    },
+                    "clinicalproviderid": {
+                      "type": "number",
+                      "description": "The clinical provider ID of the performing provider"
+                    },
+                    "declinedreasontext": {
+                      "type": "string",
+                      "description": "The user-facing description of the reason the order was not given."
+                    },
+                    "documentdescription": {
+                      "type": "string",
+                      "description": "Description of the document type"
+                    },
+                    "externalaccessionid": {
+                      "type": "string",
+                      "description": "The external accession ID for this document. Format depends on the system the ID belongs to."
+                    },
+                    "internalaccessionid": {
+                      "type": "string",
+                      "description": "The internal accession ID for this document. Format depends on the system the ID belongs to."
+                    },
+                    "observationdatetime": {
+                      "type": "string",
+                      "description": "Date/time (ISO 8601) the observation was taken"
+                    },
+                    "lastmodifieddatetime": {
+                      "type": "string",
+                      "description": "Date/time (ISO 8601) the document was last modified"
+                    },
+                    "contraindicationreason": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": {
+                            "type": "string",
+                            "description": "The code indicating why the order was contraindicated."
+                          },
+                          "codeset": {
+                            "type": "string",
+                            "description": "The codeset that the code belongs to."
+                          },
+                          "description": {
+                            "type": "string",
+                            "description": "The plaintext description of the contraindication reason."
+                          }
+                        }
+                      },
+                      "description": "List of codes indicating why the order was contraindicated (for vaccines only). If this field is not present, the order does not contain a contraindication reason."
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": null,
+        "tags": [
+          "Forms and Documents",
+          "Document List By Class"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      }
+    ],
+    "referenceEndpoints": [],
+    "subscriptionEndpoints": [],
+    "drupalId": "f28e0577-f70c-4a6e-b3e8-a4af9a25d8be",
+    "needsEditing": true,
+    "id": "api-access-api-ref_document-type-office-note",
+    "description": null
+  }
+]

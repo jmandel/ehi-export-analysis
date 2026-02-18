@@ -1,0 +1,289 @@
+[
+  {
+    "title": "Prepayment Plan",
+    "site": "api",
+    "subtitle": null,
+    "body": {
+      "data": {},
+      "content": [
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "marks": [
+                {
+                  "type": "bold"
+                }
+              ],
+              "value": "If you are a patient looking to make a payment,\u00a0",
+              "nodeType": "text"
+            },
+            {
+              "data": {
+                "uri": "https://payment.patient.athenahealth.com/statement/"
+              },
+              "content": [
+                {
+                  "data": {},
+                  "marks": [
+                    {
+                      "type": "underline"
+                    },
+                    {
+                      "type": "bold"
+                    }
+                  ],
+                  "value": "please click here to\u00a0Make a Payment",
+                  "nodeType": "text"
+                }
+              ],
+              "nodeType": "hyperlink"
+            },
+            {
+              "data": {},
+              "marks": [
+                {
+                  "type": "bold"
+                }
+              ],
+              "value": "\u00a0or contact your provider.",
+              "nodeType": "text"
+            }
+          ],
+          "nodeType": "paragraph"
+        },
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "marks": [],
+              "value": "A prepayment plan allows a user to make a payment for a procedure in advance of the claim being generated. After the claim is created and adjudicated, prepayment money is moved from the plan to pay the claim.",
+              "nodeType": "text"
+            }
+          ],
+          "nodeType": "paragraph"
+        },
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "marks": [],
+              "value": "The\u00a0",
+              "nodeType": "text"
+            },
+            {
+              "data": {},
+              "marks": [
+                {
+                  "type": "bold"
+                }
+              ],
+              "value": "retrieve prepayment plans\u00a0",
+              "nodeType": "text"
+            },
+            {
+              "data": {},
+              "marks": [],
+              "value": "endpoint allows a user to retrieve all relevant details of a patient's prepayment plan(s).",
+              "nodeType": "text"
+            }
+          ],
+          "nodeType": "paragraph"
+        },
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "marks": [],
+              "value": "\n\n",
+              "nodeType": "text"
+            }
+          ],
+          "nodeType": "paragraph"
+        }
+      ],
+      "nodeType": "document"
+    },
+    "urlAlias": "/api-ref/prepayment-plan",
+    "primaryEndpoints": [
+      {
+        "endpointTitle": "Retrieve prepayment plans",
+        "endpointDescription": "This API returns the non-deleted, non-draft prepayment plans for the given patient, along with a list of linked claims for each.",
+        "apiCatalog": "Insurance_Financial.yaml",
+        "httpMethod": "GET",
+        "endpointUrl": "/v1/{practiceid}/patients/{patientid}/prepaymentplans",
+        "operationId": "getPracticeidPatientsPatientidPrepaymentplans",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "patientid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "patientid"
+          },
+          {
+            "in": "query",
+            "name": "prepaymentplanids",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "required": false,
+            "description": "array of plan IDs to retrieve"
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "patientid": {
+                      "description": "the patient ID",
+                      "type": "integer"
+                    },
+                    "prepaymentplans": {
+                      "description": "list of prepayment plan details",
+                      "items": {
+                        "properties": {
+                          "balancedueby": {
+                            "description": "balance due by date (MM/DD/YYYY)",
+                            "type": "string"
+                          },
+                          "claims": {
+                            "description": "list of claims linked to the plan",
+                            "items": {
+                              "properties": {
+                                "claimid": {
+                                  "description": "The ID of a claim linked to the plan.  Use the GET /v1/{practiceid}/claims/{claimid} API to retrieve further claim details.",
+                                  "type": "integer"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "created": {
+                            "description": "creation date of the plan (MM/DD/YYYY)",
+                            "type": "string"
+                          },
+                          "dateofservice": {
+                            "description": "expected date of service (MM/DD/YYYY)",
+                            "type": "string"
+                          },
+                          "deactivateyn": {
+                            "description": "whether or not the plan should be automatically deactivated (Y/N)",
+                            "type": "string"
+                          },
+                          "expecteddepartmentid": {
+                            "description": "ID of the \"Expected department\" associated with the plan",
+                            "type": "integer"
+                          },
+                          "lastmodified": {
+                            "description": "last modification date of the plan (MM/DD/YYYY), which can be the same as CREATED if the plan has not been subsequently modified",
+                            "type": "string"
+                          },
+                          "lastmodifiedby": {
+                            "description": "the username who last modified the plan, or who created the plan if it has not been subsequently modified",
+                            "type": "string"
+                          },
+                          "paidinfull": {
+                            "description": "Y/N",
+                            "type": "string"
+                          },
+                          "paymentamount": {
+                            "description": "amount of each payment",
+                            "type": "string"
+                          },
+                          "paymentperiod": {
+                            "description": "MONTHLY, WEEKLY, or nothing",
+                            "type": "string"
+                          },
+                          "planname": {
+                            "description": "name of the plan",
+                            "type": "string"
+                          },
+                          "prepaymentplanid": {
+                            "description": "ID of the plan",
+                            "type": "integer"
+                          },
+                          "prepaymenttype": {
+                            "description": "category of prepayment plan",
+                            "type": "string"
+                          },
+                          "procedurecode": {
+                            "description": "expected procedure code - deprecating in fall 2024 - removing in spring 2025",
+                            "type": "string"
+                          },
+                          "procedurecodes": {
+                            "description": "expected procedure codes - adding in fall 2024",
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "providername": {
+                            "description": "expected provider",
+                            "type": "string"
+                          },
+                          "totalamount": {
+                            "description": "total amount to be collected ($)",
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "status": {
+                      "description": "success or failure",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": null,
+        "tags": [
+          "Insurance/Financial",
+          "Prepayment Plans"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      }
+    ],
+    "referenceEndpoints": [],
+    "subscriptionEndpoints": [],
+    "drupalId": null,
+    "needsEditing": true,
+    "id": "prepayment-plan",
+    "description": null
+  }
+]

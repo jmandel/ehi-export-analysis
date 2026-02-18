@@ -1,0 +1,540 @@
+[
+  {
+    "title": "Encounter Reasons",
+    "site": "api",
+    "subtitle": null,
+    "body": {
+      "data": {},
+      "content": [
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "marks": [],
+              "value": "The Encounter Reason feature allows the user to view the present illness of the patient during the encounter visit. These include the list of encounter reasons for this encounter and the associated freetext note. These also correspond to the reasons checked off in the \"Encounter Reasons / Chief Complaint\" section of the encounter.  ",
+              "nodeType": "text"
+            }
+          ],
+          "nodeType": "paragraph"
+        },
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "marks": [],
+              "value": "Encounter reasons are limited to a set that is configured on an admin page. The Encounter Reason Configuration feature allows the user to get the list of possible encounter reasons with this endpoint. You will need the encounterreasonid to add an encounter reason using ",
+              "nodeType": "text"
+            },
+            {
+              "data": {},
+              "marks": [
+                {
+                  "type": "code"
+                }
+              ],
+              "value": "POST /chart/encounter/{encounterid}/encounterreasons",
+              "nodeType": "text"
+            },
+            {
+              "data": {},
+              "marks": [],
+              "value": ".",
+              "nodeType": "text"
+            }
+          ],
+          "nodeType": "paragraph"
+        }
+      ],
+      "nodeType": "document"
+    },
+    "urlAlias": "/api-ref/encounter-reasons",
+    "primaryEndpoints": [
+      {
+        "endpointTitle": "Get list of reasons for given encounter",
+        "endpointDescription": "Retrieves the list of reasons or present illness documented during the specific encounter visit",
+        "apiCatalog": "Encounter.yaml",
+        "httpMethod": "GET",
+        "endpointUrl": "/v1/{practiceid}/chart/encounter/{encounterid}/encounterreasons",
+        "operationId": "getPracticeidChartEncounterEncounteridEncounterreasons",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "encounterid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "encounterid"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Number of entries to return (default 1000, max 10000)Please note that this endpoint has a different default and max than normal."
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Starting point of entries; 0-indexed"
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "encounterreasonnote": {
+                      "description": "The reason for visit note associated with the encounter.",
+                      "type": "string"
+                    },
+                    "encounterreasons": {
+                      "description": "The text and ID of the encounter reason",
+                      "items": {
+                        "properties": {
+                          "encounterreasonid": {
+                            "description": "The ID of the encounter reason.",
+                            "type": "integer"
+                          },
+                          "encounterreasontext": {
+                            "description": "The text of the Encounter Reason / Chief Complaint section. Not all practices use this. Some use it extensively with HTML templates.",
+                            "type": "string"
+                          },
+                          "lastmodifieddatetime": {
+                            "description": "The date and time that the encounter reason was last modified.",
+                            "type": "string"
+                          },
+                          "lastmodifieduser": {
+                            "description": "The username of the user that last modified the encounter reason.",
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "notelastmodifieddatetime": {
+                      "description": "Date and time when encounter reason note was last modified.",
+                      "type": "string"
+                    },
+                    "notelastmodifieduser": {
+                      "description": "Username of the user who last modified encounter reason note.",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": "curl -X GET \"https://api.preview.platform.athenahealth.com/v1/{contextId}/chart/encounter/{encounterId}/encounterreasons\" -H \"accept: application/json\" -H \"Authorization: Bearer {bearerToken}\"",
+        "tags": [
+          "Encounter",
+          "Encounter Reasons"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      },
+      {
+        "endpointTitle": "Delete an encounter reason from the given encounter",
+        "endpointDescription": "Deletes an encounter reason from the encounter instance",
+        "apiCatalog": "Encounter.yaml",
+        "httpMethod": "DELETE",
+        "endpointUrl": "/v1/{practiceid}/chart/encounter/{encounterid}/encounterreasons",
+        "operationId": "deletePracticeidChartEncounterEncounteridEncounterreasons",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "encounterid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "encounterid"
+          },
+          {
+            "in": "query",
+            "name": "encounterreasonid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Encounter reason ID. Must be from the list returned by /configuration/encounterreason"
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "encounterreasonid": {
+                      "description": "The ID of the encounter reason",
+                      "type": "integer"
+                    },
+                    "errormessage": {
+                      "description": "If not successful, will contain an error message.",
+                      "type": "string"
+                    },
+                    "success": {
+                      "description": "Whether the operation succeeded.",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": null,
+        "tags": [
+          "Encounter",
+          "Encounter Reasons"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      },
+      {
+        "endpointTitle": "Add an encounter reason to the given encounter",
+        "endpointDescription": "Adds or updates an encounter reason in the specific encounter instance",
+        "apiCatalog": "Encounter.yaml",
+        "httpMethod": "POST",
+        "endpointUrl": "/v1/{practiceid}/chart/encounter/{encounterid}/encounterreasons",
+        "operationId": "postPracticeidChartEncounterEncounteridEncounterreasons",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "encounterid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "encounterid"
+          },
+          {
+            "in": "header",
+            "name": "Content-Type",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Content type of the payload"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "encounterreasonid"
+                ],
+                "properties": {
+                  "laterality": {
+                    "enum": [
+                      "",
+                      "LEFT",
+                      "RIGHT",
+                      "BILATERAL",
+                      "NONE"
+                    ],
+                    "type": "string",
+                    "description": "Optional laterality value (left or right)"
+                  },
+                  "encounterreasonid": {
+                    "type": "integer",
+                    "description": "Encounter reason ID. Must be from the list returned by /configuration/encounterreason"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "encounterreasonid": {
+                      "description": "The ID of the encounter reason",
+                      "type": "integer"
+                    },
+                    "errormessage": {
+                      "description": "If not successful, will contain an error message.",
+                      "type": "string"
+                    },
+                    "success": {
+                      "description": "Whether the operation succeeded.",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": null,
+        "tags": [
+          "Encounter",
+          "Encounter Reasons"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      },
+      {
+        "endpointTitle": "Set the freetext encounter reason note for the encounter",
+        "endpointDescription": "Sets the freetext encounter reason note for the specific encounter.",
+        "apiCatalog": "Encounter.yaml",
+        "httpMethod": "POST",
+        "endpointUrl": "/v1/{practiceid}/chart/encounter/{encounterid}/encounterreasonnote",
+        "operationId": "postPracticeidChartEncounterEncounteridEncounterreasonnote",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "encounterid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "encounterid"
+          },
+          {
+            "in": "header",
+            "name": "Content-Type",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Content type of the payload"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "notetext": {
+                    "type": "string",
+                    "description": "The text to set as or append to the note"
+                  },
+                  "appendtext": {
+                    "type": "boolean",
+                    "description": "If true, note text will be appended to the existing note.  If false (default), the existing note text will be completely replaced by the new note text."
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "errormessage": {
+                      "description": "If not successful, will contain an error message.",
+                      "type": "string"
+                    },
+                    "note": {
+                      "description": "The complete note that was saved.",
+                      "type": "string"
+                    },
+                    "success": {
+                      "description": "Whether the operation succeeded.",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": null,
+        "tags": [
+          "Encounter",
+          "Encounter Reasons"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      }
+    ],
+    "referenceEndpoints": [
+      {
+        "endpointTitle": "Get the list of configured encounter reasons",
+        "endpointDescription": "Encounter Reason",
+        "apiCatalog": "Encounter.yaml",
+        "httpMethod": "GET",
+        "endpointUrl": "/v1/{practiceid}/configuration/encounterreasons",
+        "operationId": "getPracticeidConfigurationEncounterreasons",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Number of entries to return (default 1000, max 10000)Please note that this endpoint has a different default and max than normal."
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Starting point of entries; 0-indexed"
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "encounterreasonid": {
+                      "description": "The ID of the encounter reason",
+                      "type": "integer"
+                    },
+                    "lateralityflag": {
+                      "description": "One of \"Y\" or \"N\": whether the reason has laterality",
+                      "type": "string"
+                    },
+                    "name": {
+                      "description": "The display name of the encounter reason",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": null,
+        "tags": [
+          "Encounter",
+          "Encounter Reason Configuration"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      }
+    ],
+    "subscriptionEndpoints": [],
+    "drupalId": "04b31ef5-7b03-4260-9470-287f7236f1c6",
+    "needsEditing": true,
+    "id": "api-access-api-ref_encounter-reasons",
+    "description": null
+  }
+]

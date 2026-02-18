@@ -1,0 +1,920 @@
+[
+  {
+    "title": "HPI Findings",
+    "site": "api",
+    "subtitle": null,
+    "body": {
+      "data": {},
+      "content": [
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "marks": [],
+              "value": "The HPI Findings feature allows the user to view the record and update the history of the patient's present illness. The HPI Findings Template are custom templates for the History of Present Illness encounter section. This is configured in Practice.",
+              "nodeType": "text"
+            }
+          ],
+          "nodeType": "paragraph"
+        }
+      ],
+      "nodeType": "document"
+    },
+    "urlAlias": "/api-ref/hpi-findings",
+    "primaryEndpoints": [
+      {
+        "endpointTitle": "Get HPI findings for given encounter",
+        "endpointDescription": "Retrieves the HPI summary for an encounter",
+        "apiCatalog": "Encounter.yaml",
+        "httpMethod": "GET",
+        "endpointUrl": "/v1/{practiceid}/chart/encounter/{encounterid}/hpi",
+        "operationId": "getPracticeidChartEncounterEncounteridHpi",
+        "inputParameters": [
+          {
+            "description": "practiceid",
+            "in": "path",
+            "name": "practiceid",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "encounterid",
+            "in": "path",
+            "name": "encounterid",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "If templateids is passed in, it will return only the template data for the array of ids passed in. The SHOWSTRUCTURED flag must be true to use this.",
+            "in": "query",
+            "name": "templateids",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "If true, returns history of present illness templates as structured data. If false, returns it via lightly-HTML marked up English text, as displayed in the athenanet encounter summary.",
+            "in": "query",
+            "name": "showstructured",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "hpi": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "sentences": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "findings": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "freetext": {
+                                        "type": "string",
+                                        "description": "The value of the text field sometimes associated with this finding."
+                                      },
+                                      "medcinid": {
+                                        "type": "integer",
+                                        "description": "Where available, the matching MEDCIN ID for this clinical finding."
+                                      },
+                                      "selected": {
+                                        "enum": [
+                                          "",
+                                          false,
+                                          true
+                                        ],
+                                        "type": "string",
+                                        "description": "Whether the finding is selected. If templateids are not passed in, this field will not be returned."
+                                      },
+                                      "findingid": {
+                                        "type": "integer",
+                                        "description": "ID of the finding you are updating. If you pass in an invalid ID we will simply ignore it."
+                                      },
+                                      "findingname": {
+                                        "type": "string",
+                                        "description": "The label for this finding. Note that this may contain specific answers for this finding (e.g. \"wakes up 2 hours after going to sleep\").  See GENERICFINDINGNAME for an example that does not contain specific answers."
+                                      },
+                                      "findingnote": {
+                                        "type": "string",
+                                        "description": "The note for this finding."
+                                      },
+                                      "findingtype": {
+                                        "type": "string",
+                                        "description": "Describes the finding -- either NORMAL, ABNORMAL, or NEUTRAL."
+                                      },
+                                      "optionlists": {
+                                        "type": "string",
+                                        "description": "An array of arrays.  Each inner array contains the possible options for a dropdown list. The order of the these arrays corresponds to the ordering of dropdowns from left to right within the finding."
+                                      },
+                                      "selectedoptions": {
+                                        "type": "string",
+                                        "description": "The options the user has chosen from any dropdowns for this finding.  The order of these selections corresponds to the order of the dropdowns from left to right in the finding name."
+                                      },
+                                      "contradictionids": {
+                                        "type": "string",
+                                        "description": "A string representing an array of finding IDs that contradict the current finding ID. What this means is that if this finding is selected, any findings in the CONTRADICTIONIDS should not be selected."
+                                      },
+                                      "genericfindingname": {
+                                        "type": "string",
+                                        "description": "The general label for this finding. It will not contain any specific answers for this finding (e.g. \"wakes up ___ {{minutes*|hours}} after going to sleep\")."
+                                      },
+                                      "findinglastmodifiedby": {
+                                        "type": "string",
+                                        "description": "The username of the provider that last modified the value for this finding."
+                                      },
+                                      "freetextlastmodifiedby": {
+                                        "type": "string",
+                                        "description": "The username of the provider that last modified the value of the text field sometimes associated with this finding."
+                                      },
+                                      "findingnotelastmodifiedby": {
+                                        "type": "string",
+                                        "description": "The username of the provider that last modified the note for this finding."
+                                      },
+                                      "findinglastmodifieddatetime": {
+                                        "type": "string",
+                                        "description": "The date and time that the value for this finding was last modified."
+                                      },
+                                      "freetextlastmodifieddatetime": {
+                                        "type": "string",
+                                        "description": "The date and time that the value of the text field sometimes associated with this finding was last modified."
+                                      },
+                                      "findingnotelastmodifieddatetime": {
+                                        "type": "string",
+                                        "description": "The date and time that the note for this finding was last modified."
+                                      }
+                                    }
+                                  },
+                                  "description": "The list of findings"
+                                },
+                                "sentenceid": {
+                                  "type": "integer",
+                                  "description": "ID of the sentence you are updating. If you pass in an invalid ID we will simply ignore it."
+                                },
+                                "sentencename": {
+                                  "type": "string",
+                                  "description": "The label for this sentence"
+                                },
+                                "sentencenote": {
+                                  "type": "string",
+                                  "description": "The note for this sentence"
+                                },
+                                "sentencenotelastmodifiedby": {
+                                  "type": "string",
+                                  "description": "The username of the provider that last modified the note for this sentence."
+                                },
+                                "sentencenotelastmodifieddatetime": {
+                                  "type": "string",
+                                  "description": "The date and time that the note for this sentence was last modified."
+                                }
+                              }
+                            }
+                          },
+                          "templateid": {
+                            "type": "string",
+                            "description": "The template ID this paragraph is associated with."
+                          },
+                          "paragraphid": {
+                            "type": "integer",
+                            "description": "ID of the paragraph you are updating. If you pass in an invalid ID we will simply ignore it."
+                          },
+                          "templatename": {
+                            "type": "string",
+                            "description": "The template name this paragraph is associated with."
+                          },
+                          "paragraphname": {
+                            "type": "string",
+                            "description": "The label for this paragraph"
+                          }
+                        }
+                      },
+                      "description": "The structured HPI data. It is structured as a list of paragraphs, each containing a list of sentences, each containing a list of findings."
+                    },
+                    "hpitoros": {
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string",
+                      "description": "Whether ROS is as noted in HPI."
+                    },
+                    "templates": {
+                      "type": "string",
+                      "description": "The comma separated list of selected HPI templates used"
+                    },
+                    "sectionnote": {
+                      "type": "string",
+                      "description": "The structured section-level note for the history of present illness section."
+                    },
+                    "summarytext": {
+                      "type": "string",
+                      "description": "The unstructured summary"
+                    },
+                    "templatedata": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "reportedby": {
+                            "enum": [
+                              "",
+                              "Patient",
+                              "Parent",
+                              "Caregiver",
+                              "Staff"
+                            ],
+                            "type": "string",
+                            "description": "\n\t\t\t\t\tThe type of person who reported information for the history of present illness template. One of Patient, Parent, Caregiver, or Staff.\n\t\t\t\t"
+                          },
+                          "templateid": {
+                            "type": "integer",
+                            "description": "ID of the template."
+                          },
+                          "templatename": {
+                            "type": "string",
+                            "description": "Name of the template."
+                          },
+                          "templatenote": {
+                            "type": "string",
+                            "description": "The note associated with this template."
+                          },
+                          "reportedbylastmodifiedby": {
+                            "type": "string",
+                            "description": "The username of the provider that last modified the Reported By field."
+                          },
+                          "templatenotelastmodifiedby": {
+                            "type": "string",
+                            "description": "The username of the provider that last modified the note associated with this template."
+                          },
+                          "reportedbylastmodifieddatetime": {
+                            "type": "string",
+                            "description": "The date and time that the Reported By field was last modified."
+                          },
+                          "templatenotelastmodifieddatetime": {
+                            "type": "string",
+                            "description": "The date and time that the note associated with this template was last modified."
+                          }
+                        }
+                      },
+                      "description": "An array of objects each containing the names, ids and notes for templates attached to the encounter."
+                    },
+                    "lastmodifiedby": {
+                      "type": "string",
+                      "description": "\n\t\t\t\tA string representing the username of the user who last modified the history of present illness section.\n\t\t\t"
+                    },
+                    "lastmodifieddatetime": {
+                      "type": "string",
+                      "description": "The last time any information in the history of present illness section was modified"
+                    },
+                    "hpitoroslastmodifiedby": {
+                      "type": "string",
+                      "description": "The username of the provider that last modified the hpitoros parameter."
+                    },
+                    "sectionnotelastmodifiedby": {
+                      "type": "string",
+                      "description": "\n\t\t\t\tA string representing the username of a the user who last modified the history of present illness section note.\n\t\t\t"
+                    },
+                    "hpitoroslastmodifieddatetime": {
+                      "type": "string",
+                      "description": "The date and time that the hpitoros field was last modified."
+                    },
+                    "sectionnotelastmodifieddatetime": {
+                      "type": "string",
+                      "description": "The last time the history of present illness section note was modified"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": "curl -X GET \"https://api.preview.platform.athenahealth.com/v1/{contextId}/chart/encounter/{encounterId}/hpi\" -H \"accept: application/json\" -H \"Authorization: Bearer {bearerToken}\"",
+        "tags": [
+          "Encounter",
+          "HPI"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      },
+      {
+        "endpointTitle": "Update HPI findings for given encounter",
+        "endpointDescription": "Modifies the HPI Summary for an encounter.",
+        "apiCatalog": "Encounter.yaml",
+        "httpMethod": "PUT",
+        "endpointUrl": "/v1/{practiceid}/chart/encounter/{encounterid}/hpi",
+        "operationId": "putPracticeidChartEncounterEncounteridHpi",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "encounterid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "encounterid"
+          },
+          {
+            "in": "header",
+            "name": "Content-Type",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Content type of the payload"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "hpi": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "sentences": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "findings": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "freetext": {
+                                      "type": "string",
+                                      "description": "Freetext that could be associated with this finding."
+                                    },
+                                    "findingid": {
+                                      "type": "string",
+                                      "description": "The ID of this finding. Like sentences, these are how specific findings are identified as part of the new HPI."
+                                    },
+                                    "findingnote": {
+                                      "type": "string",
+                                      "description": "A note left on this finding."
+                                    },
+                                    "selectedoptions": {
+                                      "type": "array",
+                                      "description": "The options the user has chosen from any dropdowns for this finding. The order of these selections should correspond to the order of the dropdowns from left to right in the finding name. Note: there must be some value specified for every dropdown in OPTIONLISTS. To indicate that no option is selected for a particular dropdown, set the corresponding value in SELECTEDOPTIONS to \"\" or null (e.g. SELECTEDOPTIONS: [\"\"] or SELECTEDOPTIONS: [null])."
+                                    }
+                                  }
+                                },
+                                "description": "A list of findings that are a part of this sentence."
+                              },
+                              "sentenceid": {
+                                "type": "string",
+                                "description": "ID of the sentence.  These are how sentences are identified as part of the new HPI."
+                              },
+                              "sentencenote": {
+                                "type": "string",
+                                "description": "A note to go along with this sentence."
+                              }
+                            }
+                          },
+                          "description": "An array of sentences that are part of this paragraph."
+                        },
+                        "templateid": {
+                          "type": "integer",
+                          "description": "ID of the template this paragraph is a part of."
+                        },
+                        "paragraphid": {
+                          "type": "string",
+                          "description": "ID of a paragraph that is part of the new HPI."
+                        }
+                      }
+                    },
+                    "description": "This is a JSON structure containing everything you want the HPI to now contain.  If you call the GET version of this call you can see some sample output.  It is extremely important to note that anything you pass in will become the new HPI. Even if you only wish to make an addition, you will need to pass in the whole output of the GET plus your addition, otherwise anything you don't pass in will be removed."
+                  },
+                  "hpitoros": {
+                    "type": "boolean",
+                    "description": "Whether ROS is as noted in HPI."
+                  },
+                  "sectionnote": {
+                    "type": "string",
+                    "description": "The text to be updated to the history of present illness section note for this encounter."
+                  },
+                  "templatedata": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "reportedby": {
+                          "enum": [
+                            "",
+                            "Patient",
+                            "Parent",
+                            "Caregiver",
+                            "Staff"
+                          ],
+                          "type": "string",
+                          "description": "\n\t\t\t\t\tThe type of person who reported information for the history of present illness template. One of Patient, Parent, Caregiver, or Staff.\n\t\t\t\t This will always be set to null if you do not pass any templateids even if you set this to a non null value in the API. This is because this field is only valid when there is an HPI template added to the encounter."
+                        },
+                        "templateid": {
+                          "type": "integer",
+                          "description": "ID of the template the templatenote is associated with."
+                        },
+                        "templatenote": {
+                          "type": "string",
+                          "description": "The note associated with this template. If defined, will replace the existing value for this note."
+                        }
+                      }
+                    },
+                    "description": "An array of objects, each containing the id and note for a template."
+                  },
+                  "replacesectionnote": {
+                    "type": "boolean",
+                    "description": "If true, will replace the existing section note with the new one. If false, will append to the existing note."
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "errormessage": {
+                      "description": "If the operation failed, this will contain any error messages.",
+                      "type": "string"
+                    },
+                    "success": {
+                      "description": "Whether the operation was successful.",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": null,
+        "tags": [
+          "Encounter",
+          "HPI"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      },
+      {
+        "endpointTitle": "Feedback from Elavon for HPI transaction",
+        "endpointDescription": "Returns SUCCESS/ERRORTEXT.",
+        "apiCatalog": "Insurance_Financial.yaml",
+        "httpMethod": "POST",
+        "endpointUrl": "/v1/{practiceid}/hpi/transactionid/{transactionid}",
+        "operationId": "postPracticeidHpiTransactionidTransactionid",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "transactionid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "transactionid"
+          },
+          {
+            "in": "header",
+            "name": "Content-Type",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Content type of the payload"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "type",
+                  "hpitransactionid"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "Type of the response"
+                  },
+                  "token": {
+                    "type": "string",
+                    "description": "Transaction Token. Required on CNP messages. Only on approved messages. "
+                  },
+                  "cardname": {
+                    "type": "string",
+                    "description": "Verbose card name defined in configuration"
+                  },
+                  "cardtype": {
+                    "type": "string",
+                    "description": "Two character card abbreviation defined in configuration"
+                  },
+                  "deviceid": {
+                    "type": "string",
+                    "description": "Unique HPI identifier for the paired device."
+                  },
+                  "itemlist": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "itemcode": {
+                          "type": "string"
+                        },
+                        "itemtext": {
+                          "type": "string"
+                        },
+                        "itemamount": {
+                          "type": "number"
+                        },
+                        "itemquantity": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  },
+                  "response": {
+                    "type": "object",
+                    "properties": {
+                      "responsecode": {
+                        "type": "string",
+                        "description": "ResponseCode"
+                      },
+                      "responsetext": {
+                        "type": "string",
+                        "description": "ResponseText"
+                      }
+                    }
+                  },
+                  "cashierid": {
+                    "type": "string",
+                    "description": "Can contain any code or name up to 8 uppercase characters to identify the person running the POS. "
+                  },
+                  "taxamount": {
+                    "type": "string",
+                    "description": "Total tax amount for the purchase."
+                  },
+                  "tendertype": {
+                    "type": "string",
+                    "description": "Determines type of tender/account used"
+                  },
+                  "devicestate": {
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string",
+                        "description": "The numeric code that represents the state of the device"
+                      },
+                      "text": {
+                        "type": "string",
+                        "description": "A short descriptive text field of the state of the device"
+                      }
+                    },
+                    "description": "Object containing code and text"
+                  },
+                  "fundinginfo": {
+                    "type": "object",
+                    "properties": {
+                      "chain": {
+                        "type": "string"
+                      },
+                      "location": {
+                        "type": "string"
+                      },
+                      "terminal": {
+                        "type": "string"
+                      }
+                    },
+                    "description": "Object containing the funding location information for the merchant."
+                  },
+                  "posdatacode": {
+                    "type": "string",
+                    "description": "Delimited with \";\" semi-colon between each POS DataCode value"
+                  },
+                  "totalamount": {
+                    "type": "string",
+                    "description": "Total amount of the transaction including tax, gratuity, etc."
+                  },
+                  "businessdate": {
+                    "type": "string",
+                    "description": "Used to control business date in Gateway - MMDDYY Format"
+                  },
+                  "customercode": {
+                    "type": "string",
+                    "description": "Merchant assigned code identifying this customer (i.e. customer Id or general ledger account number)"
+                  },
+                  "posentrymode": {
+                    "type": "string",
+                    "description": "ISO POS Entry Mode values"
+                  },
+                  "truncatedpan": {
+                    "type": "string",
+                    "description": "Masked Primary Account Number, XX.s replacing all digits except for the last 4. Only on approved messages."
+                  },
+                  "hpimerchantid": {
+                    "type": "string",
+                    "description": "Unique HPI merchant identifier used to identify the funding location of the merchant."
+                  },
+                  "invoicenumber": {
+                    "type": "string"
+                  },
+                  "accountbalance": {
+                    "type": "string",
+                    "description": "Account Balance"
+                  },
+                  "cashbackamount": {
+                    "type": "string",
+                    "description": "Amount of cashback the merchant provided back to the cardholder in the transaction."
+                  },
+                  "expirationdate": {
+                    "type": "string",
+                    "description": "MMYY - Represents the expiration date of the card. Required on CNP messages. Only on approved messages. "
+                  },
+                  "merchantnumber": {
+                    "type": "string",
+                    "description": "Acquiring MID for merchant "
+                  },
+                  "validationcode": {
+                    "type": "string",
+                    "description": "Computed value assigned by the card association and used to verify data integrity between authorization and settlement"
+                  },
+                  "transactiontype": {
+                    "type": "string",
+                    "description": "The type of the transaction."
+                  },
+                  "emvreceiptstring": {
+                    "type": "string",
+                    "description": "String of EMV receipt data to be inserted between header and normal receipt data and the signature and footer lines."
+                  },
+                  "hpitransactionid": {
+                    "type": "string",
+                    "description": "Unique identifier to indicate the transaction for HPI across all systems."
+                  },
+                  "authorizationcode": {
+                    "type": "string",
+                    "description": "Code returned from the card issuer or authorizing institution indicating an approved authorization request"
+                  },
+                  "posreferencenumber": {
+                    "type": "string",
+                    "description": "Uniquely generated number provided by the POS/integrator to identify the transaction with a batch/processing period."
+                  },
+                  "issuertransactionid": {
+                    "type": "string",
+                    "description": "Unique tracking number assigned by the credit card issuing bank"
+                  },
+                  "systemtraceauditnumber": {
+                    "type": "string",
+                    "description": "Fusebox will generate the STAN on the merchants. behalf"
+                  },
+                  "gatewayapiresponsestring": {
+                    "type": "string",
+                    "description": "The original string that is returned by Simplify (with no re-formatting performed by HPI)"
+                  },
+                  "retrievalreferencenumber": {
+                    "type": "string",
+                    "description": "Need to validate Fusebox returns. If not, then FB spec needs to be updated."
+                  },
+                  "authorizationcharacteristics": {
+                    "type": "string",
+                    "description": "Code that is used to track participation status of this transaction in interchange rate programs"
+                  },
+                  "authorizationtransactiondate": {
+                    "type": "string",
+                    "description": "MMDDYY - the date to be used for this transaction"
+                  },
+                  "authorizationtransactiontime": {
+                    "type": "string",
+                    "description": "HHMMSS - Used to override system time as the time to be used for this transaction"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "code": {
+                      "description": "Return the response code",
+                      "type": "string"
+                    },
+                    "errortext": {
+                      "description": "Describes the error on API Call",
+                      "type": "string"
+                    },
+                    "success": {
+                      "description": "Returns true or false depending on API call success criteria",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": null,
+        "tags": [
+          "Insurance/Financial",
+          "HPI POC Webhook"
+        ],
+        "endpointFlags": {
+          "x-internal-only": true,
+          "x-omit-from-docs": true,
+          "x-omit-from-try-it-now": true,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      }
+    ],
+    "referenceEndpoints": [
+      {
+        "endpointTitle": "Get reference template for HPI findings",
+        "endpointDescription": "BETA: Retrieves the configured HPI templates for this encounter",
+        "apiCatalog": "Encounter.yaml",
+        "httpMethod": "GET",
+        "endpointUrl": "/v1/{practiceid}/chart/encounter/{encounterid}/hpi/templates",
+        "operationId": "getPracticeidChartEncounterEncounteridHpiTemplates",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "encounterid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "encounterid"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Number of entries to return (default 1500, max 5000)"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Starting point of entries; 0-indexed"
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "ageunits": {
+                      "description": "The units for measuring age. (Y=years, M=months, W=weeks, D=days)",
+                      "type": "string"
+                    },
+                    "goals": {
+                      "description": "If true, this template contains findings that can be used as goals in the Assessment and Plan.",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    },
+                    "maxage": {
+                      "description": "The minimum age filtered by this template",
+                      "type": "integer"
+                    },
+                    "minage": {
+                      "description": "The minimum age filtered by this template",
+                      "type": "integer"
+                    },
+                    "name": {
+                      "description": "The name of the template",
+                      "type": "string"
+                    },
+                    "note": {
+                      "description": "The note attached to this template",
+                      "type": "string"
+                    },
+                    "sex": {
+                      "description": "The sex filtered by this template",
+                      "type": "string"
+                    },
+                    "templateid": {
+                      "description": "The template ID.",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": "curl -X GET \"https://api.preview.platform.athenahealth.com/v1/{contextId}/chart/encounter/{encounterId}/hpi/templates\" -H \"accept: application/json\" -H \"Authorization: Bearer {bearerToken}\"",
+        "tags": [
+          "Encounter",
+          "HPI"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      }
+    ],
+    "subscriptionEndpoints": [],
+    "drupalId": "33423cf7-d872-4f5d-9358-223003750587",
+    "needsEditing": true,
+    "id": "api-access-api-ref_hpi-findings",
+    "description": null
+  }
+]

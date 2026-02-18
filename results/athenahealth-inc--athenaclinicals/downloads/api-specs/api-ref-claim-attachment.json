@@ -1,0 +1,469 @@
+[
+  {
+    "title": "Claim Attachment",
+    "site": "api",
+    "subtitle": null,
+    "body": {
+      "data": {},
+      "content": [
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "marks": [],
+              "value": "The Claim attachment feature allows the user to have additional documented information attached to a specific claim. This feature allows the user to create, modify, or delete any claim documentation from the specific claim. Allows only PDF documents. The type of documents that can be attachment are configured for the provider.",
+              "nodeType": "text"
+            }
+          ],
+          "nodeType": "paragraph"
+        }
+      ],
+      "nodeType": "document"
+    },
+    "urlAlias": "/api-ref/claim-attachment",
+    "primaryEndpoints": [
+      {
+        "endpointTitle": "Upload new attachment",
+        "endpointDescription": "Upload new document for a specific claim",
+        "apiCatalog": "Insurance_Financial.yaml",
+        "httpMethod": "POST",
+        "endpointUrl": "/v1/{practiceid}/claims/{claimid}/attachments",
+        "operationId": "postPracticeidClaimsClaimidAttachments",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "claimid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "claimid"
+          },
+          {
+            "in": "header",
+            "name": "Content-Type",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Content type of the payload"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "attachmentcontents",
+                  "attachmenttype",
+                  "filename"
+                ],
+                "properties": {
+                  "note": {
+                    "type": "string",
+                    "description": "The claim attachment notes."
+                  },
+                  "filename": {
+                    "type": "string",
+                    "description": "The attachment file name."
+                  },
+                  "attachmenttype": {
+                    "type": "string",
+                    "description": "The claim attachment type class ID."
+                  },
+                  "attachmentcontents": {
+                    "type": "string",
+                    "description": "The claim attachment content. Currently only PDF files are supported."
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "claimattachmentid": {
+                      "description": "Attachment id.",
+                      "type": "integer"
+                    },
+                    "errormessage": {
+                      "description": "Error message to be returned in case of failure.",
+                      "type": "string"
+                    },
+                    "success": {
+                      "description": "The value will be set to true if content is attached successfully and false in case of failure.",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": null,
+        "tags": [
+          "Insurance/Financial",
+          "Claims"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      },
+      {
+        "endpointTitle": "Get list of all claim attachments",
+        "endpointDescription": "Retrieves a list of claim documents for a specific claim",
+        "apiCatalog": "Insurance_Financial.yaml",
+        "httpMethod": "GET",
+        "endpointUrl": "/v1/{practiceid}/claims/{claimid}/attachments",
+        "operationId": "getPracticeidClaimsClaimidAttachments",
+        "inputParameters": [
+          {
+            "description": "practiceid",
+            "in": "path",
+            "name": "practiceid",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "claimid",
+            "in": "path",
+            "name": "claimid",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Optional. Send \"true\" to receive a pre-signed URL to retrieve the file. Presigned URL will be available only when the toggle SECOLBW_12829_GET_PRESIGNED_URL is ON.",
+            "in": "query",
+            "name": "showpresignedurl",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "attachmenttype": {
+                      "description": "The claim attachment type. In most cases this matches the attachmenttypeclass.",
+                      "type": "string"
+                    },
+                    "attachmenttypeclassid": {
+                      "description": "This is the claim attachment type class.",
+                      "type": "string"
+                    },
+                    "claimattachmentid": {
+                      "description": "Unique id for the claim attachment.",
+                      "type": "integer"
+                    },
+                    "contenttype": {
+                      "description": "The claim attachment mime type.",
+                      "type": "string"
+                    },
+                    "fileaccesspath": {
+                      "description": "The claim attachment access path.",
+                      "type": "string"
+                    },
+                    "presignedurl": {
+                      "description": "The claim attachment presigned url. Presigned URL will be available only when the toggle SECOLBW_12829_GET_PRESIGNED_URL is ON.",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": null,
+        "tags": [
+          "Insurance/Financial",
+          "Claims"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      },
+      {
+        "endpointTitle": "Update existing claim attachment",
+        "endpointDescription": "Modifies an existing claim document for a specific claim",
+        "apiCatalog": "Insurance_Financial.yaml",
+        "httpMethod": "PUT",
+        "endpointUrl": "/v1/{practiceid}/claims/{claimid}/attachments",
+        "operationId": "putPracticeidClaimsClaimidAttachments",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "claimid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "claimid"
+          },
+          {
+            "in": "header",
+            "name": "Content-Type",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Content type of the payload"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "claimattachmentid"
+                ],
+                "properties": {
+                  "note": {
+                    "type": "string",
+                    "description": "The claim attachment notes, Either attachmentype or notes is required."
+                  },
+                  "attachmenttype": {
+                    "type": "string",
+                    "description": "The claim attachment type class ID. Either attachmentype or notes is required."
+                  },
+                  "claimattachmentid": {
+                    "type": "integer",
+                    "description": "The athena claim attachment ID."
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "errormessage": {
+                      "description": "Error message to be returned in case of failure.",
+                      "type": "string"
+                    },
+                    "success": {
+                      "description": "The value will be set to true if attachment updated successfully or false in case of failure.",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": null,
+        "tags": [
+          "Insurance/Financial",
+          "Claims"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      },
+      {
+        "endpointTitle": "Get list of attachment class-type(s)",
+        "endpointDescription": "Retrieves a list of attachment categories the user can submit for the claim",
+        "apiCatalog": "Insurance_Financial.yaml",
+        "httpMethod": "GET",
+        "endpointUrl": "/v1/{practiceid}/claims/attachmenttypeclass",
+        "operationId": "getPracticeidClaimsAttachmenttypeclass",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "attachmenttypeid": {
+                      "description": "The claim attachment class ID.",
+                      "type": "string"
+                    },
+                    "attachmenttypename": {
+                      "description": "The claim attachment class name.",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": null,
+        "tags": [
+          "Insurance/Financial",
+          "Claims"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      },
+      {
+        "endpointTitle": "Delete claim attachment",
+        "endpointDescription": "Removes the document record from the system for a specific claim",
+        "apiCatalog": "Insurance_Financial.yaml",
+        "httpMethod": "DELETE",
+        "endpointUrl": "/v1/{practiceid}/claims/{claimid}/attachments",
+        "operationId": "deletePracticeidClaimsClaimidAttachments",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "claimid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "claimid"
+          },
+          {
+            "in": "query",
+            "name": "claimattachmentid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The claim attachment type class ID."
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "errormessage": {
+                      "description": "Error message to be returned in case of failure.",
+                      "type": "string"
+                    },
+                    "success": {
+                      "description": "The value will be set to true if attachment is deleted successfully or false in case of failure.",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": null,
+        "tags": [
+          "Insurance/Financial",
+          "Claims"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      }
+    ],
+    "referenceEndpoints": [],
+    "subscriptionEndpoints": [],
+    "drupalId": "7ca7f656-b133-4788-b930-1add930d840f",
+    "needsEditing": true,
+    "id": "api-access-api-ref_claim-attachment",
+    "description": null
+  }
+]

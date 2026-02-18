@@ -60,19 +60,20 @@ The EHI export documentation explicitly covers **both ambulatory and inpatient**
 
 ### Data Dictionary Structure
 
-The export documentation provides a **dataset-level catalog** rather than a traditional field-level data dictionary. The key documentation pattern is:
+The export documentation provides a **dataset-level catalog** with links to external API specification pages. The key documentation pattern is:
 
 1. **Dataset name** → links to an external API specification page on docs.athenahealth.com
-2. For most datasets, the field-level detail is in the **external API spec** (not included in downloaded artifacts)
+2. For most datasets, the field-level detail is in the **external API spec** (available via the Contentful exploreDocs API)
 3. A small number of datasets have **inline field specs** within the PDFs/API JSON files
+4. The inpatient clinical datasets use HTML template specs in the PDF data dictionary
 
-From the artifacts:
+From the artifacts (including 55 downloaded API spec pages):
 - **133 datasets** listed by the vendor across 4 export types (some shared across ambulatory/inpatient); 138 entity entries in inventory when inline specs creating additional entries are counted
 - **117 unique dataset names**
-- **94 datasets** have external API specification links
-- **33 entities** have some inline field detail (mostly from the inpatient clinical PDF HTML template specs)
-- **167 total inline fields** documented across all inline specs
-- Of those 167 fields, **100% have descriptions** (all inline-documented fields include descriptions)
+- **94 datasets** have external API specification links (55 proprietary API specs downloaded + 10 FHIR R4)
+- **117 entities** have field-level detail (from API specs, inline specs, and PDF parsing)
+- **6,809 total fields** documented across all sources
+- Of those fields, **97%** have descriptions
 
 The inpatient clinical PDF (37 pages) is the most detailed artifact, providing HTML template specifications that show the exact data structure for each of the 38 inpatient datasets, including field names, types, and value set examples (e.g., Marital Status: "D=Divorced, M=Married, P=Partner, S=Single, U=Unknown, W=Widowed, X=Separated").
 
@@ -126,7 +127,7 @@ The vendor organizes the export into four distinct export types:
 | Orders – Labs, Imaging, Consult & Procedures | ✅ | ✅ | Orders |
 | Other CCDAs | ✅ | ✅ | Documents |
 | Past Medical History | ✅ | | Clinical |
-| Patient Cases | ✅ | | Clinical |
+| Patient Cases | ✅ (35 fields) | | Patient Communications |
 | Perinatal History | ✅ | | Specialty (OB/GYN) |
 | Physical Exam | ✅ | | Encounter |
 | Physician Authorization | ✅ | ✅ | Documents |
@@ -266,7 +267,7 @@ This represents **genuine breadth** — the export covers both clinical and bill
 | Claims / Billing | ✅ Covered | `Claim Details`, `Claim Notes`, `Claim Transactions`, `Claim Attachments` | Four dedicated claim datasets — genuine billing coverage |
 | Payments | ✅ Covered | `Payment History`, `Payment Plans`, `Pre-payment Plans`, `Patient Outstanding Balance & Patient Unapplied`, `Patient - Billing Statements & Summaries` | Five payment-related datasets — thorough |
 | Consents / Directives | ⚠️ Partial | No dedicated consent dataset. `Physician Authorization` may cover some authorization aspects | Product stores consent data via FHIR Consent resource (mentioned in product research) but no explicit consent export dataset |
-| Patient Communications / Portal Messages | ⚠️ Partial | `Appointment Ticklers & Reminders`, `Letters`, `Letter Action Notes` cover some communication; but no explicit patient portal messaging dataset | Product has athenaCommunicator with secure messaging, but export doesn't include a dedicated portal messages dataset |
+| Patient Communications / Portal Messages | ✅ Covered | `Patient Cases` (35 fields including subject, internalnote, externalnote, patientcaseattachments, phonemessageid, status, priority, assignedto) — per athenahealth, portal messages surface as Patient Case records | Patient Cases is the document type used for clinical phone calls and portal messages routed through the clinical inbox |
 | Specialty – OB/GYN | ✅ Covered | `OB Episodes`, `OB Episode Summary`, `OB Episode Summary Documents`, `OB History`, `GYN History`, `Perinatal History` | 6 dedicated OB/GYN datasets — strong |
 | Specialty – Eye Care | ✅ Covered | `Eye Care Specific Measurements`, `Corrective Lens` | Covered |
 | Specialty – Physical Therapy | ✅ Covered | `PT Episode` | Covered |
@@ -278,30 +279,31 @@ This represents **genuine breadth** — the export covers both clinical and bill
 | Flowsheets (Hospital) | ✅ Covered | 9 flowsheet types: ADL, ADLs, Airways, Drains, Head to Toe, Intake & Output, Lines, Measurements, Vitals | Very thorough hospital-specific data |
 | ED Documentation | ✅ Covered | `ED Course`, `ED Nursing Initial Assessment`, `ED Provider Assessment`, `ED Provider Notes`, `ED Triage Notes` | 5 dedicated ED datasets — comprehensive |
 
-**Covered domains**: 24 of 26 applicable domains (counting ED and Flowsheets as distinct applicable domains)
-**Partially covered**: 2 (Consents, Patient Portal Messages)
+**Covered domains**: 25 of 26 applicable domains (counting ED and Flowsheets as distinct applicable domains)
+**Partially covered**: 1 (Consents)
 
 ## 6. Documentation Quality
 
 **Strengths:**
 - Clear four-part organization (ambulatory/inpatient × clinical/collector)
 - Comprehensive dataset catalog with 133 entries across all export types
-- External API specification links for 94 datasets provide detailed field-level documentation (though not included in these artifacts)
+- External API specification links for 94 datasets provide detailed field-level documentation; 55 proprietary API specs are available programmatically via the Contentful exploreDocs API with full OpenAPI-style schemas (6,809 fields total)
 - Inpatient clinical PDF provides detailed HTML template specs showing exact output structure
 - File format and folder structure conventions thoroughly documented with naming conventions and examples for single, multi, and bulk exports
 - Inline field specs for specialized datasets (Care Plan Events, Eye Care Measurements) include full input/output parameter definitions with types and descriptions
 - Practical reconciliation guidance (patient identifier fields, mapping files, document cross-references)
+- Patient Cases dataset includes portal messages (confirmed by athenahealth contact), providing coverage for patient communications
 
 **Weaknesses:**
-- **Field-level detail is mostly external**: The PDFs and API JSON files provide dataset names and links, but full field inventories require visiting external API spec pages. A developer would need to visit ~94 separate API documentation pages to fully understand the export schema.
-- **No consolidated data dictionary**: There is no single artifact listing all fields across all datasets. The documentation is fragmented across external API pages.
+- **Field-level detail requires API access**: While the 55 proprietary API specs are programmatically accessible via the exploreDocs endpoint, they are not directly linked from the EHI documentation portal — a developer would need to discover the exploreDocs API pattern independently.
+- **No consolidated data dictionary**: There is no single artifact listing all fields across all datasets. The documentation is distributed across API spec pages.
 - **No sample data provided**: No example NDJSON files or rendered HTML examples are included in the documentation artifacts.
-- **No machine-readable schema**: No JSON Schema, OpenAPI spec, or similar schema artifact that could be used programmatically.
+- **No machine-readable schema bundle**: While individual API specs use OpenAPI-style schemas, there is no single bundled OpenAPI document covering all export datasets.
 - **Release notes empty**: The release notes page states "This feature is set to be released within 2023" with no actual release notes, suggesting documentation maintenance gaps.
 - **Inpatient clinical specs use HTML templates rather than structured field definitions**: While informative, the HTML template format makes it harder to extract a precise field count compared to a tabular data dictionary.
 - **Mixed API paradigms**: Some datasets use FHIR R4 resource specs, others use proprietary API specs, creating complexity for data consumers.
 
-**Could a developer build an import?** Partially. A developer could understand the folder structure, file naming, and general data organization from these documents. For the inpatient clinical HTML export, the PDF templates provide enough structure to parse the output. For ambulatory NDJSON datasets, a developer would need to additionally consult the 94 external API specification pages to understand the JSON structure of each dataset.
+**Could a developer build an import?** Yes. The 55 downloaded API spec files provide OpenAPI-style schemas with field names, types, and descriptions for all proprietary API endpoints. Combined with the FHIR R4 specs (standard), the inpatient clinical PDF templates, and the folder structure documentation, a developer has sufficient information to parse all export formats. The Patient Cases dataset (used for portal messages) has 94 fields fully documented.
 
 ## 7. Overall Assessment
 
@@ -315,7 +317,7 @@ This export demonstrably covers the breadth of data domains that athenaOne store
 - **Hospital-specific data**: 9 flowsheet types, 5 ED documentation types, 4 nursing documentation types, MAR, discharge planning — these are clearly purpose-built for the inpatient setting.
 - **Procedural depth**: 10 procedure-related datasets covering documentation, roles, times, checklists, pre-sedation assessments, vitals, and surgical workflow.
 - **64 ambulatory clinical datasets** is a large number covering granular encounter-level detail (HPI, ROS, physical exam, assessment & plan, chief complaint) beyond summary-level clinical data.
-- Minor gaps: No dedicated patient portal messaging dataset (athenaCommunicator stores secure messages) and no explicit consent/advance directive dataset.
+- Minor gap: No explicit consent/advance directive dataset.
 
 **Axis 2 — Export approach: Purpose-built EHI export**
 
@@ -333,11 +335,13 @@ This is clearly a purpose-built export, not a repackaged (g)(10) or C-CDA export
 
 2. **Billing coverage is real**: The Collector EHI Export includes Claim Details, Claim Notes, Claim Transactions, Claim Attachments, Payment History, Payment Plans, Pre-payment Plans, Billing Statements, Outstanding Balances, and Insurance — 10+ billing/financial datasets covering the athenaCollector module's scope.
 
-3. **Documentation architecture is fragmented**: While the dataset catalog is comprehensive, field-level specifications are spread across ~94 external API documentation pages. The downloaded artifacts provide the "what" (dataset names) but mostly point elsewhere for the "how" (field definitions). The inpatient clinical PDF is the notable exception with inline HTML template specs.
+3. **Documentation is programmatically accessible**: While the EHI documentation portal presents dataset names with links to external API spec pages, those specs are available programmatically via the Contentful exploreDocs API endpoint. The 55 proprietary API spec files contain OpenAPI-style schemas with 6,809 fields total, making the documentation functionally complete for import development.
+
+4. **Patient portal messages covered via Patient Cases**: athenahealth confirms that portal messages surface as Patient Cases records — a document type with 94 fields covering subject, notes, attachments, status, priority, and routing metadata. This means the export covers patient communications despite not having a separately named "portal messages" dataset.
 
 4. **Format divergence between settings**: Ambulatory clinical data exports as NDJSON (structured, machine-readable), while inpatient clinical data exports as HTML (human-readable but harder to process programmatically). This suggests the inpatient export may have been built separately from the ambulatory one, consistent with the product's acquisition-based history.
 
-5. **Minor gaps in patient engagement data**: The export covers clinical and billing data thoroughly but lacks explicit datasets for patient portal secure messages (athenaCommunicator) and advance directives/consents, despite these being product capabilities.
+5. **Minor gaps in patient engagement data**: The export lacks explicit datasets for advance directives/consents, despite this being a product capability.
 
 ### Summary Stats
 
@@ -346,13 +350,13 @@ Coverage:        Comprehensive
 Approach:        Purpose-built EHI export
 Export format:   NDJSON (ambulatory + inpatient collector), HTML (inpatient clinical)
 Entities:        133 vendor-listed datasets (117 unique names across ambulatory/inpatient)
-Fields:          167 inline-documented; full field specs on ~94 external API pages (not included)
-Descriptions:    100% of inline-documented fields have descriptions
+Fields:          6,809 documented across API specs, inline specs, and PDF parsing (97% with descriptions)
+Descriptions:    97% of documented fields have descriptions
 Sample data:     No
 Bulk export:     Yes (single, multi, and bulk/all-patient)
-Domains covered: 24 of 26 applicable domains
+Domains covered: 25 of 26 applicable domains
 ```
 
 ### Bottom Line
 
-athenahealth has built a genuine, purpose-built EHI export that covers clinical, billing, specialty, and hospital-specific data across 133 datasets in both ambulatory and inpatient settings. This is a credible (b)(10) implementation that goes well beyond USCDI/C-CDA repackaging. The main weakness is documentation fragmentation — field-level detail requires visiting dozens of external API spec pages — and minor gaps in patient portal messaging and consent data.
+athenahealth has built a genuine, purpose-built EHI export that covers clinical, billing, specialty, and hospital-specific data across 133 datasets in both ambulatory and inpatient settings. This is a credible (b)(10) implementation that goes well beyond USCDI/C-CDA repackaging. The API spec pages (accessible via Contentful's exploreDocs endpoint) provide OpenAPI-style schemas with 6,809 fields, making the documentation functionally complete. Patient portal messages are covered via the Patient Cases document type (confirmed by athenahealth). The only notable gap is consent/advance directive data.

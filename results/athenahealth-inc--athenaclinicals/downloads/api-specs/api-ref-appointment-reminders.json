@@ -1,0 +1,749 @@
+[
+  {
+    "title": "Appointment Reminders",
+    "site": "api",
+    "subtitle": null,
+    "body": {
+      "nodeType": "document",
+      "data": {},
+      "content": [
+        {
+          "nodeType": "paragraph",
+          "data": {},
+          "content": [
+            {
+              "nodeType": "text",
+              "value": "Appointment reminders are for prompting the practice to schedule future or follow-up appointments for its patients. API users can create, update, retrieve, and delete appointment reminders. Within athenaOne, appointment reminders are referenced as \"Appointment Ticklers.\"",
+              "marks": [],
+              "data": {}
+            }
+          ]
+        },
+        {
+          "nodeType": "heading-2",
+          "data": {},
+          "content": [
+            {
+              "nodeType": "text",
+              "value": "Retrieving and Creating Appointment Reminders",
+              "marks": [
+                {
+                  "type": "bold"
+                }
+              ],
+              "data": {}
+            }
+          ]
+        },
+        {
+          "nodeType": "paragraph",
+          "data": {},
+          "content": [
+            {
+              "nodeType": "text",
+              "value": "API users can retrieve all appointment reminders from specific departments within a practice, or a single patient.",
+              "marks": [],
+              "data": {}
+            }
+          ]
+        },
+        {
+          "nodeType": "paragraph",
+          "data": {},
+          "content": [
+            {
+              "nodeType": "text",
+              "value": "Only one appointment reminder can be created per call in athenaOne. API users are required to provide an approximate date to schedule the appointment and must include the department ID, and the patient\u2019s ID. Additional fields are also available to provide more information about the reminder.",
+              "marks": [],
+              "data": {}
+            }
+          ]
+        },
+        {
+          "nodeType": "paragraph",
+          "data": {},
+          "content": [
+            {
+              "nodeType": "text",
+              "value": "All appointment reminders that are created successfully will generate an API response that includes an appointmentreminderid along with the value \u201cSuccess: True.\u201d",
+              "marks": [],
+              "data": {}
+            }
+          ]
+        },
+        {
+          "nodeType": "paragraph",
+          "data": {},
+          "content": [
+            {
+              "nodeType": "text",
+              "value": "Before creating new appointment reminders for patients, API users should use the GET call to avoid duplicate appointment reminders.",
+              "marks": [],
+              "data": {}
+            }
+          ]
+        },
+        {
+          "nodeType": "heading-2",
+          "data": {},
+          "content": [
+            {
+              "nodeType": "text",
+              "value": "Updating and Deleting Appointment Reminders",
+              "marks": [
+                {
+                  "type": "bold"
+                }
+              ],
+              "data": {}
+            }
+          ]
+        },
+        {
+          "nodeType": "paragraph",
+          "data": {},
+          "content": [
+            {
+              "nodeType": "text",
+              "value": "In order to edit/delete a document, API users will need the appointmentreminderid of the document they want to edit/delete.",
+              "marks": [],
+              "data": {}
+            }
+          ]
+        },
+        {
+          "nodeType": "paragraph",
+          "data": {},
+          "content": [
+            {
+              "nodeType": "text",
+              "value": "All appointment reminders that are updated/deleted successfully will generate an API response that includes an appointmentreminderid along with the value \u201cSuccess: True.\u201d",
+              "marks": [],
+              "data": {}
+            }
+          ]
+        }
+      ]
+    },
+    "urlAlias": "/api-ref/appointment-reminders",
+    "primaryEndpoints": [
+      {
+        "endpointTitle": "Create appointment reminder",
+        "endpointDescription": "Creates an appointment reminder to indicate to the practice when a patient should be scheduled for a future appointment.",
+        "apiCatalog": "Appointments.yaml",
+        "httpMethod": "POST",
+        "endpointUrl": "/v1/{practiceid}/appointments/appointmentreminders",
+        "operationId": "postPracticeidAppointmentsAppointmentreminders",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "header",
+            "name": "Content-Type",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Content type of the payload"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "approximatedate",
+                  "departmentid",
+                  "patientid"
+                ],
+                "properties": {
+                  "note": {
+                    "type": "string",
+                    "description": "Miscellaneous notes for this reminder."
+                  },
+                  "patientid": {
+                    "type": "integer",
+                    "description": "An athenaNet patient ID."
+                  },
+                  "providerid": {
+                    "type": "integer",
+                    "description": "An athenaNet provider ID."
+                  },
+                  "departmentid": {
+                    "type": "integer",
+                    "description": "An athenaNet department ID."
+                  },
+                  "approximatedate": {
+                    "type": "string",
+                    "description": "The approximate date on which an appointment for this reminder should be scheduled."
+                  },
+                  "appointmenttypeid": {
+                    "type": "integer",
+                    "description": "An athenaNet appointment type ID."
+                  },
+                  "patientinstructions": {
+                    "type": "string",
+                    "description": "Patient instructions regarding this reminder."
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "appointmentreminderid": {
+                      "description": "An athenaNet appointment reminder ID.",
+                      "type": "integer"
+                    },
+                    "errormessage": {
+                      "description": "If operation was unsuccessful, detail as to why.",
+                      "type": "string"
+                    },
+                    "success": {
+                      "description": "Indicates whether creation of the appointment reminder was successful or not.",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": "curl -X POST \"https://api.preview.platform.athenahealth.com/v1/{contextId}/appointments/appointmentreminders\" -H \"accept: application/json\" -H \"Authorization: Bearer {bearerToken}\" -H \"Content-Type: application/x-www-form-urlencoded\" -d \"appointmenttypeid={appointmenttypeId}&approximatedate={mm%2Fdd%2Fyyyy}&departmentid={departmentId}&note={freeText}&patientid={patientId}&patientinstructions={freeText}&providerid={providerId}\"",
+        "tags": [
+          "Appointments",
+          "Appointment Reminders"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      },
+      {
+        "endpointTitle": "Get list of appointment reminders",
+        "endpointDescription": "Retrieves a list appointment reminders for a specific department",
+        "apiCatalog": "Appointments.yaml",
+        "httpMethod": "GET",
+        "endpointUrl": "/v1/{practiceid}/appointments/appointmentreminders",
+        "operationId": "getPracticeidAppointmentsAppointmentreminders",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "query",
+            "name": "appointmenttypeid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "description": "An athenaNet appointment type ID."
+          },
+          {
+            "in": "query",
+            "name": "departmentid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "An athenaNet department ID."
+          },
+          {
+            "in": "query",
+            "name": "providerid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "description": "An athenaNet provider ID."
+          },
+          {
+            "in": "query",
+            "name": "patientid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "description": "An athenaNet patient ID."
+          },
+          {
+            "in": "query",
+            "name": "enddate",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Find reminders for appointments whose approximate date is on or before this date."
+          },
+          {
+            "in": "query",
+            "name": "showdeleted",
+            "schema": {
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "By default, we do not return reminders that have been deleted. Setting this to true will show all reminders regardless of status."
+          },
+          {
+            "in": "query",
+            "name": "startdate",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Find reminders for appointments whose approximate date is on or after this date."
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Number of entries to return (default 100, max 5000)Please note that this endpoint has a different default than normal."
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Starting point of entries; 0-indexed"
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "appointmentreminderid": {
+                      "description": "The athenaNet appointment reminder ID.",
+                      "type": "integer"
+                    },
+                    "appointmenttype": {
+                      "description": "Type of appointment.",
+                      "type": "string"
+                    },
+                    "appointmenttypeid": {
+                      "description": "The athenaNet appointment type ID.",
+                      "type": "integer"
+                    },
+                    "approximatedate": {
+                      "description": "The approximate date on which an appointment for this reminder should be scheduled.",
+                      "type": "string"
+                    },
+                    "created": {
+                      "description": "The date when appointment reminder was created.",
+                      "type": "string"
+                    },
+                    "createdby": {
+                      "description": "The name of the person who created/updated the reminder.",
+                      "type": "string"
+                    },
+                    "deleted": {
+                      "description": "If set, the date on which this reminder was deleted.",
+                      "type": "string"
+                    },
+                    "departmentid": {
+                      "description": "The athenaNet department ID.",
+                      "type": "integer"
+                    },
+                    "encounterid": {
+                      "description": "Appointment encounter ID.",
+                      "type": "integer"
+                    },
+                    "note": {
+                      "description": "Free-text notes entered by the practice about this reminder.",
+                      "type": "string"
+                    },
+                    "patientid": {
+                      "description": "The athenaNet patient ID.",
+                      "type": "integer"
+                    },
+                    "patientinstructions": {
+                      "description": "Free-text instructions for the patient entered by the practice for this reminder.",
+                      "type": "string"
+                    },
+                    "providerbilledname": {
+                      "description": "The name of the provider .",
+                      "type": "string"
+                    },
+                    "providerid": {
+                      "description": "The athenaNet provider ID.",
+                      "type": "integer"
+                    },
+                    "staffinstructions": {
+                      "description": "Free-text instructions for the staff about the content of the next appointment.",
+                      "type": "string"
+                    },
+                    "status": {
+                      "description": "Status of the reminder.",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": "curl -X GET \"https://api.preview.platform.athenahealth.com/v1/{contextId}/appointments/appointmentreminders?enddate={MM%2FDD%2FYYYY}&departmentid={departmentId}&startdate={MM%2FDD%2FYYYY}\" -H \"accept: application/json\" -H \"Authorization: Bearer {bearerToken}\"",
+        "tags": [
+          "Appointments",
+          "Appointment Reminders"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      },
+      {
+        "endpointTitle": "Get details of an appointment reminder.",
+        "endpointDescription": "Retrieves details of an appointment reminder.",
+        "apiCatalog": "Appointments.yaml",
+        "httpMethod": "GET",
+        "endpointUrl": "/v1/{practiceid}/appointments/appointmentreminders/{appointmentreminderid}",
+        "operationId": "getPracticeidAppointmentsAppointmentremindersAppointmentreminderid",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "appointmentreminderid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "appointmentreminderid"
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "appointmentreminderid": {
+                      "description": "The athenaNet appointment reminder ID.",
+                      "type": "integer"
+                    },
+                    "appointmenttype": {
+                      "description": "Type of appointment.",
+                      "type": "string"
+                    },
+                    "appointmenttypeid": {
+                      "description": "The athenaNet appointment type ID.",
+                      "type": "integer"
+                    },
+                    "approximatedate": {
+                      "description": "The approximate date on which an appointment for this reminder should be scheduled.",
+                      "type": "string"
+                    },
+                    "created": {
+                      "description": "The date when appointment reminder was created.",
+                      "type": "string"
+                    },
+                    "createdby": {
+                      "description": "The name of the person who created/updated the reminder.",
+                      "type": "string"
+                    },
+                    "deleted": {
+                      "description": "If set, the date on which this reminder was deleted.",
+                      "type": "string"
+                    },
+                    "departmentid": {
+                      "description": "The athenaNet department ID.",
+                      "type": "integer"
+                    },
+                    "encounterid": {
+                      "description": "Appointment encounter ID.",
+                      "type": "integer"
+                    },
+                    "note": {
+                      "description": "Free-text notes entered by the practice about this reminder.",
+                      "type": "string"
+                    },
+                    "patientid": {
+                      "description": "The athenaNet patient ID.",
+                      "type": "integer"
+                    },
+                    "patientinstructions": {
+                      "description": "Free-text instructions for the patient entered by the practice for this reminder.",
+                      "type": "string"
+                    },
+                    "providerbilledname": {
+                      "description": "The name of the provider .",
+                      "type": "string"
+                    },
+                    "providerid": {
+                      "description": "The athenaNet provider ID.",
+                      "type": "integer"
+                    },
+                    "staffinstructions": {
+                      "description": "Free-text instructions for the staff about the content of the next appointment.",
+                      "type": "string"
+                    },
+                    "status": {
+                      "description": "Status of the reminder.",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": "curl -X GET \"https://api.preview.platform.athenahealth.com/v1/{contextId}/appointments/appointmentreminders/{appointmentreminderId}\" -H \"accept: application/json\" -H \"Authorization: Bearer {bearerToken}\"",
+        "tags": [
+          "Appointments",
+          "Appointment Reminders"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      },
+      {
+        "endpointTitle": "Update appointment reminder.",
+        "endpointDescription": "Updates an appointment reminder based on user inputs.",
+        "apiCatalog": "Appointments.yaml",
+        "httpMethod": "PUT",
+        "endpointUrl": "/v1/{practiceid}/appointments/appointmentreminders/{appointmentreminderid}",
+        "operationId": "putPracticeidAppointmentsAppointmentremindersAppointmentreminderid",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "appointmentreminderid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "appointmentreminderid"
+          },
+          {
+            "in": "header",
+            "name": "Content-Type",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Content type of the payload"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "note": {
+                    "type": "string",
+                    "description": "Miscellaneous notes for this reminder."
+                  },
+                  "status": {
+                    "enum": [
+                      "",
+                      "CONTACTED",
+                      "NOANSWER"
+                    ],
+                    "type": "string",
+                    "description": "Status of the reminder."
+                  },
+                  "providerid": {
+                    "type": "integer",
+                    "description": "An athenaNet provider ID."
+                  },
+                  "approximatedate": {
+                    "type": "string",
+                    "description": "The approximate date on which an appointment for this reminder should be scheduled."
+                  },
+                  "appointmenttypeid": {
+                    "type": "integer",
+                    "description": "An athenaNet appointment type ID."
+                  },
+                  "patientinstructions": {
+                    "type": "string",
+                    "description": "Patient instructions regarding this reminder."
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "errormessage": {
+                      "description": "If operation was unsuccessful, detail as to why.",
+                      "type": "string"
+                    },
+                    "success": {
+                      "description": "Indicates whether creation of the appointment reminder was successful or not.",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": "curl -X PUT \"https://api.preview.platform.athenahealth.com/v1/{contextId}/appointments/appointmentreminders/{appointmentreminderId}\" -H \"accept: application/json\" -H \"Authorization: Bearer {bearerToken}\" -H \"Content-Type: application/x-www-form-urlencoded\" -d \"appointmenttypeid={appointmenttypeId}&approximatedate={mm%2Fdd%2Fyyyy}&note={freeText}&patientinstructions={freeText}&providerid={providerId}&status={CONTACTED/NOANSWER}\"",
+        "tags": [
+          "Appointments",
+          "Appointment Reminders"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      },
+      {
+        "endpointTitle": "Delete an existing reminder.",
+        "endpointDescription": "Delete an existing reminder.",
+        "apiCatalog": "Appointments.yaml",
+        "httpMethod": "DELETE",
+        "endpointUrl": "/v1/{practiceid}/appointments/appointmentreminders/{appointmentreminderid}",
+        "operationId": "deletePracticeidAppointmentsAppointmentremindersAppointmentreminderid",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "appointmentreminderid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "appointmentreminderid"
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "errormessage": {
+                      "description": "If operation was unsuccessful, detail as to why.",
+                      "type": "string"
+                    },
+                    "success": {
+                      "description": "Indicates whether creation of the appointment reminder was successful or not.",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": "curl -X DELETE \"https://api.preview.platform.athenahealth.com/v1/{contextId}/appointments/appointmentreminders/{appointmentreminderId}\" -H \"accept: application/json\" -H \"Authorization: Bearer {bearerToken}\"",
+        "tags": [
+          "Appointments",
+          "Appointment Reminders"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      }
+    ],
+    "referenceEndpoints": [],
+    "subscriptionEndpoints": [],
+    "drupalId": "fba3d5c3-471f-464d-a331-c31223d46dde",
+    "needsEditing": true,
+    "id": "api-access-api-ref_appointment-reminders",
+    "description": null
+  }
+]

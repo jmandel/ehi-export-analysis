@@ -1,0 +1,255 @@
+[
+  {
+    "title": "Perinatal History",
+    "site": "api",
+    "subtitle": null,
+    "body": {
+      "data": {},
+      "content": [
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "marks": [],
+              "value": "The Perinatal History feature allows the user to view the prenatal history and birth history information.",
+              "nodeType": "text"
+            }
+          ],
+          "nodeType": "paragraph"
+        }
+      ],
+      "nodeType": "document"
+    },
+    "urlAlias": "/api-ref/perinatal-history",
+    "primaryEndpoints": [
+      {
+        "endpointTitle": "Get patient's perinatal history",
+        "endpointDescription": "BETA: Retrieves prenatal history and birth history information",
+        "apiCatalog": "Chart.yaml",
+        "httpMethod": "GET",
+        "endpointUrl": "/v1/{practiceid}/chart/{patientid}/perinatalhistory",
+        "operationId": "getPracticeidChartPatientidPerinatalhistory",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "patientid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "patientid"
+          },
+          {
+            "in": "query",
+            "name": "departmentid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The athenaNet department ID."
+          },
+          {
+            "in": "query",
+            "name": "showunansweredquestions",
+            "schema": {
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Include questions where there is no current answer."
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "birthhistory": {
+                      "description": "Birth history.",
+                      "properties": {
+                        "notelastmodifieddate": {
+                          "description": "Returns date and time of when the additional note was last modified by the provider.",
+                          "type": "string"
+                        },
+                        "notelastmodifieduser": {
+                          "description": "Returns username of the provider who last modified the additional note.",
+                          "type": "string"
+                        },
+                        "questions": {
+                          "description": "The birth history questions and answers for this patient.",
+                          "items": {
+                            "properties": {
+                              "answer": {
+                                "description": "True if the birth history problem checkbox is checked.",
+                                "enum": [
+                                  "",
+                                  false,
+                                  true
+                                ],
+                                "type": "string"
+                              },
+                              "deleted": {
+                                "description": "Returns true if the practice has deleted the problem from the configuration list after the problem was added to the birth history section.",
+                                "enum": [
+                                  "",
+                                  false,
+                                  true
+                                ],
+                                "type": "string"
+                              },
+                              "lastmodifieddatetime": {
+                                "description": "Returns date and time of when the birth history answer or note was last modified by the provider.",
+                                "type": "string"
+                              },
+                              "lastmodifieduser": {
+                                "description": "Returns username of the provider who last modified the answer or note for the given birth history.",
+                                "type": "string"
+                              },
+                              "note": {
+                                "description": "The note that corresponds to this birth history problem.",
+                                "type": "string"
+                              },
+                              "ordering": {
+                                "description": "Configured order for this birth history problem.",
+                                "type": "integer"
+                              },
+                              "question": {
+                                "description": "The name of the birth history problem.",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "sectionnote": {
+                          "description": "Additional notes for the birth history section, if any.",
+                          "type": "string"
+                        },
+                        "unremarkable": {
+                          "description": "True if the birth history unremarkable checkbox is checked.",
+                          "enum": [
+                            "",
+                            false,
+                            true
+                          ],
+                          "type": "string"
+                        },
+                        "unremarkablelastmodifieddate": {
+                          "description": "Returns date and time when provider last modified the checkbox which indicates whether the birth history is unremarkable.",
+                          "type": "string"
+                        },
+                        "unremarkablelastmodifieduser": {
+                          "description": "Returns the username of the provider that last modified the checkbox which indicates whether the birth history is unremarkable.",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "prenatalhistory": {
+                      "description": "Prenatal history.",
+                      "properties": {
+                        "questions": {
+                          "description": "The prenatal history questions and answers for this patient.",
+                          "items": {
+                            "properties": {
+                              "answer": {
+                                "description": "True if the prenatal problem checkbox is checked.",
+                                "enum": [
+                                  "",
+                                  false,
+                                  true
+                                ],
+                                "type": "string"
+                              },
+                              "deleted": {
+                                "description": "Returns true if the practice has deleted the problem from the configuration list after the problem was added to the prenatal section.",
+                                "enum": [
+                                  "",
+                                  false,
+                                  true
+                                ],
+                                "type": "string"
+                              },
+                              "lastmodifieddatetime": {
+                                "description": "Returns date and time of when the prenatal history answer or note was last modified by the provider.",
+                                "type": "string"
+                              },
+                              "lastmodifieduser": {
+                                "description": "Returns username of the provider who last modified the answer or note for the given prenatal history.",
+                                "type": "string"
+                              },
+                              "note": {
+                                "description": "The note that corresponds to this prenatal problem.",
+                                "type": "string"
+                              },
+                              "ordering": {
+                                "description": "Configured order for this prenatal problem.",
+                                "type": "integer"
+                              },
+                              "question": {
+                                "description": "The name of the prenatal problem.",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "sectionnote": {
+                          "description": "Additional notes for the prenatal history section, if any.",
+                          "type": "string"
+                        },
+                        "unremarkable": {
+                          "description": "True if the prenatal history unremarkable checkbox is checked.",
+                          "enum": [
+                            "",
+                            false,
+                            true
+                          ],
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": "curl -X GET \"https://api.preview.platform.athenahealth.com/v1/{contextId}/chart/{patientId}/perinatalhistory?departmentid={departmentId}&showunansweredquestions={true/false}\" -H \"accept: application/json\" -H \"Authorization: Bearer {bearerToken}\"",
+        "tags": [
+          "Chart",
+          "Perinatal History Problems"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      }
+    ],
+    "referenceEndpoints": [],
+    "subscriptionEndpoints": [],
+    "drupalId": "4e568ca8-07db-496f-826a-d2fd297e1de6",
+    "needsEditing": true,
+    "id": "api-access-api-ref_perinatal-history",
+    "description": null
+  }
+]

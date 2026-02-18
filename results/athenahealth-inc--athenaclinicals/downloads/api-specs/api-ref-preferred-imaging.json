@@ -1,0 +1,329 @@
+[
+  {
+    "title": "Preferred Imaging",
+    "site": "api",
+    "subtitle": null,
+    "body": {
+      "data": {},
+      "content": [
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "marks": [],
+              "value": "The Preferred Imaging feature allows the user to view, update or delete the preferred imaging facility associated with a patient.",
+              "nodeType": "text"
+            }
+          ],
+          "nodeType": "paragraph"
+        }
+      ],
+      "nodeType": "document"
+    },
+    "urlAlias": "/api-ref/preferred-imaging",
+    "primaryEndpoints": [
+      {
+        "endpointTitle": "Get patient's preferred imaging service",
+        "endpointDescription": "Retrieve preferred imaging facility for a specific patient chart",
+        "apiCatalog": "Chart.yaml",
+        "httpMethod": "GET",
+        "endpointUrl": "/v1/{practiceid}/chart/{patientid}/imaging/preferred",
+        "operationId": "getPracticeidChartPatientidImagingPreferred",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "patientid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "patientid"
+          },
+          {
+            "in": "query",
+            "name": "departmentid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The athenaNet department id."
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "acceptfax": {
+                      "description": "The flag representing if the imaging facility accepts faxes",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    },
+                    "address1": {
+                      "description": "The address line 1 of the imaging facility.",
+                      "type": "string"
+                    },
+                    "address2": {
+                      "description": "The address line 2 of the imaging facility.",
+                      "type": "string"
+                    },
+                    "city": {
+                      "description": "The city of the imaging facility.",
+                      "type": "string"
+                    },
+                    "clinicalproviderid": {
+                      "description": "The athenaNet clinical provider ID.",
+                      "type": "integer"
+                    },
+                    "clinicalprovidername": {
+                      "description": "The imaging facility name.",
+                      "type": "string"
+                    },
+                    "faxnumber": {
+                      "description": "The fax number of the imaging facility.",
+                      "type": "string"
+                    },
+                    "phonenumber": {
+                      "description": "The phone number of the imaging facility.",
+                      "type": "string"
+                    },
+                    "state": {
+                      "description": "The state of the imaging facility.",
+                      "type": "string"
+                    },
+                    "zip": {
+                      "description": "The zip code of the imaging facility.",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": "curl -X GET \"https://api.preview.platform.athenahealth.com/v1/{contextId}/chart/{patientId}/imaging/preferred?departmentid={departmentId}\" -H \"accept: application/json\" -H \"Authorization: Bearer {bearerToken}\"",
+        "tags": [
+          "Chart",
+          "Preferred Imaging"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      },
+      {
+        "endpointTitle": "Update patient's preferred imaging service",
+        "endpointDescription": "Modifies preferred imaging facility for a specific patient chart",
+        "apiCatalog": "Chart.yaml",
+        "httpMethod": "PUT",
+        "endpointUrl": "/v1/{practiceid}/chart/{patientid}/imaging/preferred",
+        "operationId": "putPracticeidChartPatientidImagingPreferred",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "patientid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "patientid"
+          },
+          {
+            "in": "header",
+            "name": "Content-Type",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Content type of the payload"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "clinicalproviderid",
+                  "departmentid"
+                ],
+                "properties": {
+                  "departmentid": {
+                    "type": "integer",
+                    "description": "The athenaNet department id."
+                  },
+                  "clinicalproviderid": {
+                    "type": "integer",
+                    "description": "The clinical provider ID that you wish to add."
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "errormessage": {
+                      "description": "If the operation failed, this will contain any error messages.",
+                      "type": "string"
+                    },
+                    "success": {
+                      "description": "Whether the operation was successful.",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": null,
+        "tags": [
+          "Chart",
+          "Preferred Imaging"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      },
+      {
+        "endpointTitle": "Delete patient's preferred imaging service",
+        "endpointDescription": "Deletes the preferred imaging facility for a specific patient chart",
+        "apiCatalog": "Chart.yaml",
+        "httpMethod": "DELETE",
+        "endpointUrl": "/v1/{practiceid}/chart/{patientid}/imaging/preferred",
+        "operationId": "deletePracticeidChartPatientidImagingPreferred",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "patientid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "patientid"
+          },
+          {
+            "in": "query",
+            "name": "clinicalproviderid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The clinical provider ID that you wish to add."
+          },
+          {
+            "in": "query",
+            "name": "departmentid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The athenaNet department id."
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "errormessage": {
+                      "description": "If the operation failed, this will contain any error messages.",
+                      "type": "string"
+                    },
+                    "success": {
+                      "description": "Whether the operation was successful.",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": null,
+        "tags": [
+          "Chart",
+          "Preferred Imaging"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      }
+    ],
+    "referenceEndpoints": [],
+    "subscriptionEndpoints": [],
+    "drupalId": "b74e3b9a-cf28-4931-8394-f007c25d8003",
+    "needsEditing": true,
+    "id": "api-access-api-ref_preferred-imaging",
+    "description": null
+  }
+]

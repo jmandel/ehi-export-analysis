@@ -150,6 +150,132 @@ def load_enrichment_datasets():
     return data
 
 
+def parse_api_spec_snapshot(filepath, endpoint_heading):
+    """Parse a browser a11y tree snapshot to extract output parameters for a specific endpoint."""
+    with open(filepath) as f:
+        lines = f.readlines()
+    
+    # Find the target endpoint heading, then its Output Parameters section
+    in_target = False
+    in_output = False
+    fields = []
+    field_triple = []  # collect name, type, description triples
+    
+    for line in lines:
+        text_match = re.search(r'StaticText "(.+?)"', line)
+        heading_match = re.search(r'heading "(.+?)"', line)
+        
+        if heading_match:
+            heading_text = heading_match.group(1)
+            if endpoint_heading in heading_text:
+                in_target = True
+                in_output = False
+                continue
+            if in_target and heading_text == "Output Parameters":
+                in_output = True
+                field_triple = []
+                continue
+            if in_target and in_output and heading_text not in ("Output Parameters",):
+                # Hit next section, stop collecting
+                break
+        
+        if in_output and text_match:
+            val = text_match.group(1)
+            # Skip table headers and UI elements
+            if val in ("Name", "Type", "Description", "Expand all", "❙", "required"):
+                continue
+            field_triple.append(val)
+            if len(field_triple) == 3:
+                fields.append({
+                    "name": field_triple[0],
+                    "type": field_triple[1],
+                    "description": field_triple[2],
+                    "source": "api_spec_browser"
+                })
+                field_triple = []
+    
+    return fields
+
+
+def extract_fields_from_openapi_schema(schema, prefix=''):
+    """Recursively extract field names, types, descriptions from OpenAPI schema."""
+    fields = []
+    if not isinstance(schema, dict):
+        return fields
+    
+    props = schema.get('properties', {})
+    for name, prop in props.items():
+        field = {
+            'name': f'{prefix}{name}' if prefix else name,
+            'type': prop.get('type', ''),
+            'description': prop.get('description', ''),
+            'source': 'api_spec_openapi'
+        }
+        fields.append(field)
+        
+        if prop.get('type') == 'object' and 'properties' in prop:
+            fields.extend(extract_fields_from_openapi_schema(prop, f'{name}.'))
+        elif prop.get('type') == 'array' and 'items' in prop:
+            items = prop['items']
+            if isinstance(items, dict) and 'properties' in items:
+                fields.extend(extract_fields_from_openapi_schema(items, f'{name}[].'))
+    
+    return fields
+
+
+def get_fields_from_api_spec(filepath):
+    """Get all output fields from GET endpoints in an exploreDocs API spec file."""
+    with open(filepath) as f:
+        data = json.load(f)
+    
+    if not isinstance(data, list) or not data:
+        return [], ''
+    
+    entry = data[0]
+    description = ''
+    
+    # Extract description from body rich text
+    body = entry.get('body', {})
+    if isinstance(body, dict):
+        def extract_text(node):
+            texts = []
+            if isinstance(node, dict):
+                if node.get('nodeType') == 'text':
+                    texts.append(node.get('value', ''))
+                for v in node.values():
+                    texts.extend(extract_text(v))
+            elif isinstance(node, list):
+                for item in node:
+                    texts.extend(extract_text(item))
+            return texts
+        description = ' '.join(extract_text(body)).strip()[:500]
+    
+    all_fields = []
+    for ep in entry.get('primaryEndpoints', []):
+        if ep.get('httpMethod') != 'GET':
+            continue
+        
+        output = ep.get('outputParameters', {})
+        if isinstance(output, dict):
+            for status_code, response in output.items():
+                content = response.get('content', {})
+                for content_type, ct_data in content.items():
+                    schema = ct_data.get('schema', {})
+                    fields = extract_fields_from_openapi_schema(schema)
+                    if fields:
+                        all_fields.extend(fields)
+    
+    # Deduplicate by name
+    seen = set()
+    unique = []
+    for f in all_fields:
+        if f['name'] not in seen:
+            seen.add(f['name'])
+            unique.append(f)
+    
+    return unique, description
+
+
 def build_entity_inventory():
     """Build the complete entity inventory from all sources."""
     enrichment = load_enrichment_datasets()
@@ -235,11 +361,52 @@ def build_entity_inventory():
         else:
             print(f"WARNING: PDF dataset '{pdf_ds['name']}' not found in enrichment data")
     
-    # Parse ambulatory clinical PDF for the dataset list
-    amb_text = extract_pdf_text(os.path.join(DOWNLOADS, "ambulatory-clinical-ehi-export.pdf"))
-    # Ambulatory clinical has 64 datasets but specs are via API links, not inline
-    # The PDF mainly lists dataset names and links to API specs
-    
+    # Enrich entities with fields from downloaded API specs (exploreDocs JSON files)
+    api_specs_dir = os.path.join(DOWNLOADS, "api-specs")
+    if os.path.isdir(api_specs_dir):
+        # Build a map from spec URL slug to spec file
+        slug_to_file = {}
+        for fn in os.listdir(api_specs_dir):
+            if fn.endswith('.json'):
+                # api-ref-allergy.json -> api-ref/allergy
+                # Split on first occurrence of 'api-ref-' or 'fhir-r4-'
+                base = fn.replace('.json', '')
+                if base.startswith('api-ref-'):
+                    slug = 'api-ref/' + base[len('api-ref-'):]
+                elif base.startswith('fhir-r4-'):
+                    slug = 'fhir-r4/' + base[len('fhir-r4-'):]
+                else:
+                    slug = base
+                slug_to_file[slug] = os.path.join(api_specs_dir, fn)
+
+        for entity in entities:
+            spec_url = entity.get("spec_url")
+            if not spec_url or entity["fields"]:
+                continue  # skip if no spec URL or already has fields
+
+            # Normalize: /api/api-ref/allergy#fragment -> api-ref/allergy
+            clean = spec_url.split('#')[0].lstrip('/')
+            if clean.startswith('api/'):
+                clean = clean[4:]
+
+            if clean in slug_to_file:
+                fields, desc = get_fields_from_api_spec(slug_to_file[clean])
+                if fields:
+                    entity["fields"] = fields
+                    entity["field_count"] = len(fields)
+                    if desc and not entity.get("description"):
+                        entity["description"] = desc
+
+        # Special annotation for Patient Cases
+        matching = [e for e in entities if e["name"] == "Patient Cases" and e["category"] == "ambulatory-clinical"]
+        if matching:
+            target = matching[0]
+            if not target.get("description") or "portal" not in target["description"].lower():
+                target["description"] = ("Patient Cases are used to document clinical phone calls, "
+                    "portal messages, and other patient interactions that get routed through "
+                    "the clinical inbox for provider resolution. Per athenahealth, portal "
+                    "messages surface as Patient Case records.")
+
     # Update field counts
     for e in entities:
         e["field_count"] = len(e["fields"])
@@ -295,7 +462,9 @@ def compute_summary(entities):
         "Physician Authorization": ["Physician Authorization"],
         "Letters / Communications": ["Letters", "Letter Action Notes", "Return to Office", "Appointment Ticklers & Reminders"],
         "Consents / Directives": [],
-        "Patient Portal Messages": [],
+        "Patient Portal Messages": ["Patient Cases"],
+        "Observations": ["Observations"],
+        "Prescriptions": ["Prescription Documents"],
     }
     
     # Check coverage

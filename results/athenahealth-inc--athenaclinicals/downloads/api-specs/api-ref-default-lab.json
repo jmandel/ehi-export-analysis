@@ -1,0 +1,329 @@
+[
+  {
+    "title": "Default Lab",
+    "site": "api",
+    "subtitle": null,
+    "body": {
+      "data": {},
+      "content": [
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "marks": [],
+              "value": "The Default Laboratory feature allows the user to view, update, or delete the preferred Lab associated with a patient.",
+              "nodeType": "text"
+            }
+          ],
+          "nodeType": "paragraph"
+        }
+      ],
+      "nodeType": "document"
+    },
+    "urlAlias": "/api-ref/default-lab",
+    "primaryEndpoints": [
+      {
+        "endpointTitle": "Get patient's default lab information",
+        "endpointDescription": "Retrieve preferred laboratory information for a specific patient chart",
+        "apiCatalog": "Chart.yaml",
+        "httpMethod": "GET",
+        "endpointUrl": "/v1/{practiceid}/chart/{patientid}/labs/default",
+        "operationId": "getPracticeidChartPatientidLabsDefault",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "patientid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "patientid"
+          },
+          {
+            "in": "query",
+            "name": "departmentid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The athenaNet department id."
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "acceptfax": {
+                      "description": "Flag representing if the lab accepts fax",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    },
+                    "address1": {
+                      "description": "Address line 1 of the lab",
+                      "type": "string"
+                    },
+                    "address2": {
+                      "description": "Address line 2 of the lab",
+                      "type": "string"
+                    },
+                    "city": {
+                      "description": "City of the lab",
+                      "type": "string"
+                    },
+                    "clinicalproviderid": {
+                      "description": "The athenaNet clinical provider ID.",
+                      "type": "integer"
+                    },
+                    "clinicalprovidername": {
+                      "description": "The lab name",
+                      "type": "string"
+                    },
+                    "faxnumber": {
+                      "description": "Fax number of the lab",
+                      "type": "string"
+                    },
+                    "phonenumber": {
+                      "description": "Phone number of the lab",
+                      "type": "string"
+                    },
+                    "state": {
+                      "description": "State of the lab",
+                      "type": "string"
+                    },
+                    "zip": {
+                      "description": "Zip code of the lab",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": "curl -X GET \"https://api.preview.platform.athenahealth.com/v1/{contextId}/chart/{patientId}/labs/default?departmentid={departmentId}\" -H \"accept: application/json\" -H \"Authorization: Bearer {bearerToken}\"",
+        "tags": [
+          "Chart",
+          "Default Labs"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      },
+      {
+        "endpointTitle": "Update patient's default lab information",
+        "endpointDescription": "Modifies preferred laboratory for a specific patient chart",
+        "apiCatalog": "Chart.yaml",
+        "httpMethod": "PUT",
+        "endpointUrl": "/v1/{practiceid}/chart/{patientid}/labs/default",
+        "operationId": "putPracticeidChartPatientidLabsDefault",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "patientid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "patientid"
+          },
+          {
+            "in": "header",
+            "name": "Content-Type",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Content type of the payload"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "clinicalproviderid",
+                  "departmentid"
+                ],
+                "properties": {
+                  "departmentid": {
+                    "type": "integer",
+                    "description": "The athenaNet department id."
+                  },
+                  "clinicalproviderid": {
+                    "type": "integer",
+                    "description": "The clinical provider ID that you wish to add."
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "errormessage": {
+                      "description": "If the operation failed, this will contain any error messages.",
+                      "type": "string"
+                    },
+                    "success": {
+                      "description": "Whether the operation was successful.",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": null,
+        "tags": [
+          "Chart",
+          "Default Labs"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      },
+      {
+        "endpointTitle": "Delete patient's default lab information",
+        "endpointDescription": "Deletes the preferred laboratory facility for a specific patient chart",
+        "apiCatalog": "Chart.yaml",
+        "httpMethod": "DELETE",
+        "endpointUrl": "/v1/{practiceid}/chart/{patientid}/labs/default",
+        "operationId": "deletePracticeidChartPatientidLabsDefault",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "patientid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "patientid"
+          },
+          {
+            "in": "query",
+            "name": "clinicalproviderid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The clinical provider ID that you wish to add."
+          },
+          {
+            "in": "query",
+            "name": "departmentid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The athenaNet department id."
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "errormessage": {
+                      "description": "If the operation failed, this will contain any error messages.",
+                      "type": "string"
+                    },
+                    "success": {
+                      "description": "Whether the operation was successful.",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": null,
+        "tags": [
+          "Chart",
+          "Default Labs"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      }
+    ],
+    "referenceEndpoints": [],
+    "subscriptionEndpoints": [],
+    "drupalId": "c690e2c2-e970-4527-a43b-66e68431e044",
+    "needsEditing": true,
+    "id": "api-access-api-ref_default-lab",
+    "description": null
+  }
+]

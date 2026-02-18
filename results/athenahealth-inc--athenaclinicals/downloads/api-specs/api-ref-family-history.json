@@ -1,0 +1,1046 @@
+[
+  {
+    "title": "Family History",
+    "site": "api",
+    "subtitle": null,
+    "body": {
+      "data": {},
+      "content": [
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "marks": [],
+              "value": "The Family History feature allows the user to record or update the patient's family history SNOMED-CT problems. The Family History Changed Subscription feature will allow the user to retrieve changes to the family history data (not including any deleted information). For more information about subscriptions, please refer to ",
+              "nodeType": "text"
+            },
+            {
+              "data": {
+                "uri": "/api/guides/changed-data-subscriptions"
+              },
+              "content": [
+                {
+                  "data": {},
+                  "marks": [],
+                  "value": "Changed Data Subscriptions.",
+                  "nodeType": "text"
+                }
+              ],
+              "nodeType": "hyperlink"
+            },
+            {
+              "data": {},
+              "marks": [],
+              "value": "",
+              "nodeType": "text"
+            }
+          ],
+          "nodeType": "paragraph"
+        },
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "marks": [
+                {
+                  "type": "bold"
+                }
+              ],
+              "value": "FAMILY",
+              "nodeType": "text"
+            }
+          ],
+          "nodeType": "paragraph"
+        },
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "marks": [],
+              "value": "The beta practice setting 'Family History Reconciliation Update' must be turned on. ",
+              "nodeType": "text"
+            }
+          ],
+          "nodeType": "paragraph"
+        },
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "marks": [],
+              "value": "Make sure you support multiple relations of the same type having the same issue (two brothers both having high blood pressure), and a single person having an issue more than once (the mother having two instances of cancer). The family history section is structured differently than other sections. Other sections have question fields that contain a list of single question/answer pairs with some metadata. For the family history section, each of those question/answer entries is itself an array of data, one sub-entry per relation or per occurence. The relations do not specify biological vs logical (step/adoptive/etc.) relations. Biological relations are assumed. In general, practices only track relations that have problems, although they can be configured to have an Alive and Well status. ",
+              "nodeType": "text"
+            }
+          ],
+          "nodeType": "paragraph"
+        },
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "'snomedfamilyhistoryproblemid' ties it to the practice-specific family history element and can be used to tie the same question across multiple forms.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "list-item"
+            },
+            {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "'snomedcode' is the SNOMED code value for this particular problem.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "list-item"
+            },
+            {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "'text' is the patient-friendly name of the problem.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "list-item"
+            },
+            {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "'origtext' is the SNOMED term for this problem, which almost always matches text. We recommend you use text and not origtext.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "list-item"
+            },
+            {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "'fields' contains a list of problem instances, each of which contains:",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "list-item"
+            },
+            {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "'default' is the Y/N checkbox that indicates whether this person has this problem.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "list-item"
+            },
+            {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "'relation' is the relation this person has with the patient (mother, sister, etc.).",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "list-item"
+            },
+            {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "'relationkeyid' is the ID of the particular relation.* Each relation type has its own keyspace. This means you can have a Brother 1, Brother 2, Sister 1, etc.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "list-item"
+            },
+            {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "'onsetage' is the age when the problem started.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "list-item"
+            },
+            {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "'diedofage' is the age when the relation died from this particular problem. ",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "list-item"
+            }
+          ],
+          "nodeType": "unordered-list"
+        },
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "marks": [
+                {
+                  "type": "bold"
+                }
+              ],
+              "value": "* 'relationkeyid' is a REQUIRED field.",
+              "nodeType": "text"
+            }
+          ],
+          "nodeType": "paragraph"
+        },
+        {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "marks": [],
+              "value": "If you add a new relation, specify the next available numerical value for relationkeyid. It\u2019s possible to receive a missing/null relationkeyid. This is always from the portal. Until that is fixed, assign the next available relationkeyid to that empty value. We do not cross check between entries. This means a particular relative could be specified to have died at two different ages from two different problems. We match on problem/relation/relationkeyid/onsetage. This means that a given person (e.g., Brother 2) can have two instances of the same problem (e.g., two instances of cancer).",
+              "nodeType": "text"
+            }
+          ],
+          "nodeType": "paragraph"
+        }
+      ],
+      "nodeType": "document"
+    },
+    "urlAlias": "/api-ref/family-history",
+    "primaryEndpoints": [
+      {
+        "endpointTitle": "Get patient's family history",
+        "endpointDescription": "Retrieves the family history for a specific patient",
+        "apiCatalog": "Chart.yaml",
+        "httpMethod": "GET",
+        "endpointUrl": "/v1/{practiceid}/chart/{patientid}/familyhistory",
+        "operationId": "getPracticeidChartPatientidFamilyhistory",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "patientid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "patientid"
+          },
+          {
+            "in": "query",
+            "name": "departmentid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The athenaNet department id."
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "historyunknown": {
+                      "description": "Whether or not the family history is unknown.",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    },
+                    "historyunknownlastmodifiedby": {
+                      "description": "Username of the user who last modified the unknown status.",
+                      "type": "string"
+                    },
+                    "historyunknownlastmodifieddatetime": {
+                      "description": "Date and time when the unknown status was last modified.",
+                      "type": "string"
+                    },
+                    "relatives": {
+                      "description": "List of relatives for this patient",
+                      "items": {
+                        "properties": {
+                          "problems": {
+                            "description": "Summary of problems for this family member",
+                            "items": {
+                              "properties": {
+                                "description": {
+                                  "description": "Brief description for this code/problem",
+                                  "type": "string"
+                                },
+                                "diedofage": {
+                                  "description": "Age when the patient died, if this problem was the cause",
+                                  "type": "number"
+                                },
+                                "lastmodifiedby": {
+                                  "description": "The username of the provider who last modified the problem.",
+                                  "type": "string"
+                                },
+                                "lastmodifieddatetime": {
+                                  "description": "The date and time the problem was last modified.",
+                                  "type": "string"
+                                },
+                                "note": {
+                                  "description": "Additional note for this problem",
+                                  "type": "string"
+                                },
+                                "onsetage": {
+                                  "description": "Age when this problem first occured",
+                                  "type": "number"
+                                },
+                                "problemid": {
+                                  "description": "Athena ID for this problem",
+                                  "type": "number"
+                                },
+                                "resolvedage": {
+                                  "description": "Age when the problem was resolved, if applicable",
+                                  "type": "number"
+                                },
+                                "snomedcode": {
+                                  "description": "SNOMED code for this diagnosis",
+                                  "type": "number"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "relation": {
+                            "description": "Relationship to the patient",
+                            "type": "string"
+                          },
+                          "relationkeyid": {
+                            "description": "ID of the relationship (for example, having 2 brothers, one would have ID of 1, another would have ID of 2)",
+                            "type": "number"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "sectionnote": {
+                      "description": "Additional note for the entire family history section, if any",
+                      "type": "string"
+                    },
+                    "sectionnotelastmodifiedby": {
+                      "description": "The username of the provider who last modified the note.",
+                      "type": "string"
+                    },
+                    "sectionnotelastmodifieddatetime": {
+                      "description": "The date and time the note was last modified.",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": "curl -X GET \"https://api.preview.platform.athenahealth.com/v1/{contextId}/chart/{patientId}/familyhistory?departmentid={departmentId}\" -H \"accept: application/json\" -H \"Authorization: Bearer {bearerToken}\"",
+        "tags": [
+          "Chart",
+          "Family History Problems"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      },
+      {
+        "endpointTitle": "Update patient's family history",
+        "endpointDescription": "Modifies the family history for a specific patient",
+        "apiCatalog": "Chart.yaml",
+        "httpMethod": "PUT",
+        "endpointUrl": "/v1/{practiceid}/chart/{patientid}/familyhistory",
+        "operationId": "putPracticeidChartPatientidFamilyhistory",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "path",
+            "name": "patientid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "patientid"
+          },
+          {
+            "in": "header",
+            "name": "Content-Type",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Content type of the payload"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "departmentid"
+                ],
+                "properties": {
+                  "relatives": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "delete": {
+                          "type": "boolean",
+                          "description": "Remove this family member"
+                        },
+                        "problems": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "note": {
+                                "type": "string",
+                                "description": "Additional notes for this problem"
+                              },
+                              "delete": {
+                                "type": "boolean",
+                                "description": "Remove this problem"
+                              },
+                              "onsetage": {
+                                "type": "number",
+                                "description": "Age when this problem first occured"
+                              },
+                              "diedofage": {
+                                "type": "number",
+                                "description": "If this problem caused patient death, age when the death occured (omit otherwise)"
+                              },
+                              "problemid": {
+                                "type": "number",
+                                "description": "Athena ID from this problem (if you omit the ID, a new problem will be added, \notherwise problem with that ID will be updated)\n"
+                              },
+                              "snomedcode": {
+                                "type": "integer",
+                                "description": "Code for this diagnosis"
+                              },
+                              "resolvedage": {
+                                "type": "number",
+                                "description": "If this problem was resolved, age when the resolution occured (omit otherwise)"
+                              }
+                            }
+                          }
+                        },
+                        "relation": {
+                          "type": "string",
+                          "description": "Relationship to the patient"
+                        },
+                        "relationkeyid": {
+                          "type": "number",
+                          "description": "ID of the relationship (for example, having 2 brothers, one would have ID of 1, another would have ID of 2)"
+                        }
+                      }
+                    },
+                    "required": [
+                      "relationkeyid",
+                      "relation"
+                    ],
+                    "description": "A JSON array of relatives, mimicking <a href=\"https://developer.athenahealth.com/docs/read/chart/Family_History\">the output format</a> of the GET call."
+                  },
+                  "sectionnote": {
+                    "type": "string",
+                    "description": "Any additional section notes"
+                  },
+                  "departmentid": {
+                    "type": "integer",
+                    "description": "The athenaNet department id."
+                  },
+                  "userelationkey": {
+                    "type": "boolean",
+                    "description": "Accept Relation key instead of label"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "errormessage": {
+                      "description": "If the operation failed, this will contain any error messages.",
+                      "type": "string"
+                    },
+                    "problemids": {
+                      "description": "List of existing family member problem IDs that map back to this patient's family history.",
+                      "type": "array"
+                    },
+                    "success": {
+                      "description": "Whether the operation was successful.",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": null,
+        "tags": [
+          "Chart",
+          "Family History Problems"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      }
+    ],
+    "referenceEndpoints": [],
+    "subscriptionEndpoints": [
+      {
+        "endpointTitle": "Get list of family history change events to which you can subscribe",
+        "endpointDescription": "Retrieve the list of events that can be input for this subscription",
+        "apiCatalog": "Chart.yaml",
+        "httpMethod": "GET",
+        "endpointUrl": "/v1/{practiceid}/chart/healthhistory/familyhistory/changed/subscription/events",
+        "operationId": "getPracticeidChartHealthhistoryFamilyhistoryChangedSubscriptionEvents",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "departmentids": {
+                      "description": "List of Departmentids subscribed",
+                      "items": {
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    },
+                    "status": {
+                      "description": "Will return one of following statuses: ACTIVE, INACTIVE, or PARTIAL. The PARTIAL status means that not all events are subscribed to. In the event of a problem, UNKNOWN may be returned.",
+                      "type": "string"
+                    },
+                    "subscriptions": {
+                      "description": "List of events you are subscribed to.",
+                      "items": {
+                        "properties": {
+                          "eventname": {
+                            "description": "Name of event",
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": "curl -X GET \"https://api.preview.platform.athenahealth.com/v1/{contextId}/chart/healthhistory/familyhistory/changed/subscription/events\" -H \"accept: application/json\" -H \"Authorization: Bearer {bearerToken}\"",
+        "tags": [
+          "Chart",
+          "Family History Subscription"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      },
+      {
+        "endpointTitle": "Subscribe to all/specific change events for family history",
+        "endpointDescription": "Subscribes for changed familyhistory events",
+        "apiCatalog": "Chart.yaml",
+        "httpMethod": "POST",
+        "endpointUrl": "/v1/{practiceid}/chart/healthhistory/familyhistory/changed/subscription",
+        "operationId": "postPracticeidChartHealthhistoryFamilyhistoryChangedSubscription",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "header",
+            "name": "Content-Type",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Content type of the payload"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "eventname": {
+                    "type": "string",
+                    "description": "By default, you are subscribed to all possible events.  If you only wish to subscribe to an individual event, pass the event name with this argument."
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "description": "Returns if the call to manipulate subscriptions for familyhistory was successful.",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": "curl -X POST \"https://api.preview.platform.athenahealth.com/v1/{contextId}/chart/healthhistory/familyhistory/changed/subscription\" -H \"accept: application/json\" -H \"Authorization: Bearer {bearerToken}\" -H \"Content-Type: application/x-www-form-urlencoded\" -d \"eventname=\"",
+        "tags": [
+          "Chart",
+          "Family History Subscription"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      },
+      {
+        "endpointTitle": "Get list of family history change subscription(s)",
+        "endpointDescription": "Retrieves list of events applicable for family history",
+        "apiCatalog": "Chart.yaml",
+        "httpMethod": "GET",
+        "endpointUrl": "/v1/{practiceid}/chart/healthhistory/familyhistory/changed/subscription",
+        "operationId": "getPracticeidChartHealthhistoryFamilyhistoryChangedSubscription",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "departmentids": {
+                      "description": "List of Departmentids subscribed",
+                      "items": {
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    },
+                    "status": {
+                      "description": "Will return one of following statuses: ACTIVE, INACTIVE, or PARTIAL. The PARTIAL status means that not all events are subscribed to. In the event of a problem, UNKNOWN may be returned.",
+                      "type": "string"
+                    },
+                    "subscriptions": {
+                      "description": "List of events you are subscribed to.",
+                      "items": {
+                        "properties": {
+                          "eventname": {
+                            "description": "Name of event",
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": "curl -X GET \"https://api.preview.platform.athenahealth.com/v1/{contextId}/chart/healthhistory/familyhistory/changed/subscription\" -H \"accept: application/json\" -H \"Authorization: Bearer {bearerToken}\"",
+        "tags": [
+          "Chart",
+          "Family History Subscription"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      },
+      {
+        "endpointTitle": "Get list of changes in family history based on subscribed events",
+        "endpointDescription": "Retrieves list of records of modified family history data",
+        "apiCatalog": "Chart.yaml",
+        "httpMethod": "GET",
+        "endpointUrl": "/v1/{practiceid}/chart/healthhistory/familyhistory/changed",
+        "operationId": "getPracticeidChartHealthhistoryFamilyhistoryChanged",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "query",
+            "name": "leaveunprocessed",
+            "schema": {
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "For testing purposes, do not mark records as processed"
+          },
+          {
+            "in": "query",
+            "name": "showprocessedstartdatetime",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "Show already processed changes.  This will show changes that you previously retrieved at some point after this datetime mm/dd/yyyy hh24:mi:ss (Eastern). Can be used to refetch data if there was an error, such as a timeout, and records are marked as already retrieved. This is intended to be used with showprocessedenddatetime and for a short period of time only. Also note that all messages will eventually be deleted."
+          },
+          {
+            "in": "query",
+            "name": "showprocessedenddatetime",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "See showprocessedstartdatetime"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Number of entries to return (default 1500, max 5000)"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Starting point of entries; 0-indexed"
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "description": {
+                      "description": "Brief description for this code/problem",
+                      "type": "string"
+                    },
+                    "diedofage": {
+                      "description": "Age when the patient died, if this problem was the cause",
+                      "type": "integer"
+                    },
+                    "note": {
+                      "description": "Additional note for this problem",
+                      "type": "string"
+                    },
+                    "onsetage": {
+                      "description": "Age when this problem first occured",
+                      "type": "integer"
+                    },
+                    "patientid": {
+                      "description": "The athenanet patient ID associated with this family problem.",
+                      "type": "integer"
+                    },
+                    "problemid": {
+                      "description": "Athena ID for this problem",
+                      "type": "integer"
+                    },
+                    "relation": {
+                      "description": "Relationship to the patient",
+                      "type": "string"
+                    },
+                    "relationkeyid": {
+                      "description": "ID of the relationship (for example, having 2 brothers, one would have ID of 1, another would have ID of 2)",
+                      "type": "integer"
+                    },
+                    "resolvedage": {
+                      "description": "Age when the problem was resolved, if applicable",
+                      "type": "integer"
+                    },
+                    "snomedcode": {
+                      "description": "SNOMED code for this diagnosis",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": "curl -X GET \"https://api.preview.platform.athenahealth.com/v1/{contextId}/chart/healthhistory/familyhistory/changed\" -H \"accept: application/json\" -H \"Authorization: Bearer {bearerToken}\"",
+        "tags": [
+          "Chart",
+          "Family History Subscription"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      },
+      {
+        "endpointTitle": "Unsubscribe to all/specific change events for family history",
+        "endpointDescription": "Delete an specific event which is no longer required",
+        "apiCatalog": "Chart.yaml",
+        "httpMethod": "DELETE",
+        "endpointUrl": "/v1/{practiceid}/chart/healthhistory/familyhistory/changed/subscription",
+        "operationId": "deletePracticeidChartHealthhistoryFamilyhistoryChangedSubscription",
+        "inputParameters": [
+          {
+            "in": "path",
+            "name": "practiceid",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "practiceid"
+          },
+          {
+            "in": "query",
+            "name": "eventname",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "By default, you are unsubscribed from all possible events.  If you only wish to unsubscribe from an individual event, pass the event name with this argument."
+          }
+        ],
+        "requestBody": null,
+        "outputParameters": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "description": "Returns if the call to manipulate subscriptions for familyhistory was successful.",
+                      "enum": [
+                        "",
+                        false,
+                        true
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        },
+        "exampleCode": "curl -X DELETE \"https://api.preview.platform.athenahealth.com/v1/{contextId}/chart/healthhistory/familyhistory/changed/subscription\" -H \"accept: application/json\" -H \"Authorization: Bearer {bearerToken}\"",
+        "tags": [
+          "Chart",
+          "Family History Subscription"
+        ],
+        "endpointFlags": {
+          "x-internal-only": false,
+          "x-omit-from-docs": false,
+          "x-omit-from-try-it-now": false,
+          "x-swagger-router-controller": "passthrough"
+        },
+        "certifiedApi": false
+      }
+    ],
+    "drupalId": "c2babe2c-21d5-488f-802a-5e6c44bedda0",
+    "needsEditing": false,
+    "id": "api-access-api-ref_family-history",
+    "description": null
+  }
+]
