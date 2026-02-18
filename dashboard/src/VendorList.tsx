@@ -37,8 +37,8 @@ function commsPill(value: string) {
   return <span className={`pill comms-${value}`}>{COMMS_LABELS[value] ?? value}</span>;
 }
 
-// Grade sort order: A, A-, B+, B, B-, C+, C, C-, D+, D, D-, F
-const GRADE_ORDER = ["A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"];
+// Grade sort order: A, B, C, D, F
+const GRADE_ORDER = ["A", "B", "C", "D", "F"];
 function gradeRank(grade: string): number {
   const idx = GRADE_ORDER.indexOf(grade);
   return idx >= 0 ? idx : GRADE_ORDER.length;
@@ -47,7 +47,7 @@ function gradeRank(grade: string): number {
 function scoreBadge(grade: string) {
   return (
     <span className="score-badge" style={{ backgroundColor: gradeColor(grade) }}>
-      {grade}
+      {gradeBucket(grade)}
     </span>
   );
 }

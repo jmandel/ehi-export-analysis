@@ -3,7 +3,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import type { Vendor } from "./types";
-import { gradeColor } from "./Histogram";
+import { gradeColor, gradeBucket } from "./Histogram";
 import { Footer } from "./App";
 
 const COVERAGE_LABELS: Record<string, string> = {
@@ -61,7 +61,7 @@ export function DetailView({
               className="score-badge large"
               style={{ backgroundColor: scoreColor }}
             >
-              {vendor.grade}
+              {gradeBucket(vendor.grade)}
             </span>
             {vendor.developer} — {vendor.family}
           </h1>

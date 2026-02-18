@@ -150,7 +150,7 @@ for (const slug of absDirs) {
     family,
     product_name: summary.product_name ?? "",
     summary: summary.summary ?? "",
-    grade: summary.grade ?? "F",
+    grade: (summary.grade ?? "F").charAt(0),
     coverage: summary.coverage ?? "",
     approach: summary.approach ?? "",
     export_formats: summary.export_formats ?? [],
@@ -173,7 +173,7 @@ for (const slug of absDirs) {
 }
 
 // Sort by grade (A first)
-const GRADE_ORDER = ["A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"];
+const GRADE_ORDER = ["A", "B", "C", "D", "F"];
 vendors.sort((a, b) => {
   const ai = GRADE_ORDER.indexOf(a.grade);
   const bi = GRADE_ORDER.indexOf(b.grade);

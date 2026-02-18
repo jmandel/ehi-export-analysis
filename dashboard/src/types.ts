@@ -4,7 +4,7 @@ export interface Vendor {
   family: string;         // product family name from metadata
   product_name: string;   // focus product from summary (e.g. "Crystal Practice Management v6.0")
   summary: string;        // zagat-style summary
-  grade: string;          // letter grade: "A" | "A-" | "B+" | ... | "F"
+  grade: string;          // letter grade: "A" | "B" | "C" | "D" | "F"
   coverage: string;       // "comprehensive" | "partial" | "minimal_stub_unclear"
   approach: string;       // "native" | "standards_based" | "hybrid" | "unclear"
   export_formats: string[];
