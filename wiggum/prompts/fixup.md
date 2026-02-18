@@ -190,4 +190,46 @@ Write `{{OUTPUT_DIR}}/fixup-log.md`:
   rendering to discover. If the original agent missed something, the fix often
   requires browser-based investigation — not just curl.
 
+## Key files to read for diagnosis
+
+Beyond the files listed in Step 1, always read these for context:
+
+- **`ehi-export-report.md`** — The download agent's navigation journal. Shows
+  how the site works (CMS platform, API endpoints discovered, SPA vs static,
+  navigation path taken). Often reveals API patterns you can reuse.
+- **`downloads/enrichment/`** — Structured extractions from downloaded artifacts.
+  Check what was already parsed and what's missing.
+- **Analysis scripts** (`abstraction/<slug>/analysis/parse-all-artifacts.py` or
+  similar) — Shows what data sources feed the entity inventory and where gaps
+  are. If entities have `"fields": []` but `"has_external_spec": true`, the
+  external specs weren't downloaded and parsed.
+- **Sibling products** — Check if the same vendor has other products in
+  `results/` (e.g., `athenahealth-inc--athenapractice-flow` alongside
+  `athenahealth-inc--athenaclinicals`). Read their `chpl-metadata.json` to see
+  if they share the same documentation URL. If they do, your fix may need to
+  apply to both. If they use different URLs, your fix is scoped to one product.
+
+## Techniques for finding hidden data
+
+Many documentation sites are SPAs backed by a CMS (Contentful, Drupal,
+WordPress, etc.) that expose structured APIs richer than what's rendered in the
+browser. When the download agent only captured the rendered content:
+
+1. **Check the download report** for any API endpoints the agent discovered
+   (e.g., Contentful `freeformPage` queries, REST API calls). These often have
+   sibling endpoints for other content types.
+2. **Inspect the site's network requests** (browser DevTools → Network tab) to
+   find the underlying API. Look for XHR/fetch calls to CMS APIs.
+3. **Try API variations.** If a site uses Contentful and you found
+   `entries/freeformPage`, try `entries/exploreDocs`, `entries/apiEndpoint`, etc.
+   The athenahealth API reference uses `exploreDocs` which returns full
+   OpenAPI-style schemas with field names, types, and descriptions — far richer
+   than scraping the rendered page.
+4. **Prefer structured APIs over browser scraping.** A Contentful/CMS API
+   response is machine-parseable and complete; a browser snapshot is fragile and
+   may miss expandable sections or lazy-loaded content.
+5. **Bulk download when possible.** If you find an API that works for one entity,
+   script it across all entities. Don't fix just the one entity mentioned in the
+   issue — fix the systemic gap.
+
 {{EHI_SCOPE_REFERENCE}}
